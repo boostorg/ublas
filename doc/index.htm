@@ -30,9 +30,7 @@ and triangular solver. The glue between containers, views and
 expression templated operations is a mostly <a href=
 "http://www.sgi.com/tech/stl">STL</a> conforming iterator
 interface.</p>
-<p>Dense, packed and sparse matrix classes are being tested with
-the <a href="http://www.netlib.org/clapack">CLAPACK</a> test
-suite.</p>
+
 <p>Known limitations:</p>
 <ul type="Disc">
 <li>The implementation assumes a linear memory address model.</li>
@@ -44,6 +42,7 @@ suite.</p>
 <ul>
 <li><a href="types_overview.htm">Overview of Matrix- and Vector-Types</a></li>
 <li><a href="operations_overview.htm">Overview of Matrix and Vector Operations</a></li>
+<li><a href="#further_information">Effective uBLAS and further information</a></li>
 </ul>
 </li>
 <li><a href="expression.htm">Expression Concepts</a>
@@ -208,21 +207,18 @@ Matrix Operations</a></li>
 </ul>
 <h2>Supported Platforms</h2>
 <p>The original development platform for uBLAS we used MSVC 6.0
-with Dinkumware STL. Other compilers known to accept the library
-are</p>
+with Dinkumware STL. Compilers known to accept the library
+are:</p>
 <ul>
-<li>MSVC 6.0 with STLPort-4.5.3, 7.0, 7.1</li>
+<li>MSVC 6.0, 7.0, 7.1</li>
 <li>GCC 2.95.x, 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x</li>
 <li>ICC 7.0, 7.1 8.0</li>
 <li>Comeau 4.2.x</li>
-<li>MWCW</li>
+<li>MWCW 8.3, 9.3</li>
 </ul>
-<p>For possible problems please consider to consult the Boost
+<p>For possible problems please consult the Boost
 regression tests.</p>
-<h2>Further Information</h2>
-<h3>Project Location and Download</h3>
-<p>The latest stable release of uBLAS is part of the <a href=
-"http://www.boost.org">Boost</a> libraries.</p>
+<h2><a name="further_information"></a>Further Information</h2>
 <h3>Documentation and Discussion</h3>
 <p>Visit the <a href=
 "http://www.crystalclearsoftware.com/cgi-bin/boost_wiki/wiki.pl?Effective_UBLAS">
@@ -232,18 +228,20 @@ contributions.</p>
 "http://groups.yahoo.com/group/ublas-dev">mailing list</a> where
 user and development questions are answered.</p>
 <h3>uBLAS and Boost Project</h3>
-<p>uBLAS development takes place via a two tier structure. Active
-development takes place at the Sourceforge <a href=
-"http://sourceforge.net/projects/ublas">uBLAS project</a>. This
-where the latest uBLAS code is kept and bugs are tracked.</p>
-<p>For wider testing purposes Boost project is occasionally updated
-from the latest uBLAS project code. You can <a href=
+<p>uBLAS development takes place on the Boost CVS on Sourceforge.
+You can <a href=
 "http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/boost">view</a> the
 Boost CVS archive directly. You will find the library <a href=
 "http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/boost/boost/boost/numeric/ublas/">
 here</a>. Documentation and test programs reside <a href=
 "http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/boost/boost/libs/numeric/ublas/">
 here</a>.</p>
+<p>Bugs are tracked via a seperate Sourcefourge 
+"http://sourceforge.net/projects/ublas">uBLAS project</a>.
+</p>
+<h3>Project Location and Download</h3>
+<p>The latest stable release of uBLAS is part of the <a href=
+"http://www.boost.org">Boost</a> libraries.</p>
 <h2>Authors and Credits</h2>
 <p>uBLAS initially was written by Joerg Walter and Mathias Koch. We
 would like to thank all, which supported and contributed to the
