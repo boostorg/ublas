@@ -55,7 +55,6 @@ test-suite numeric/uBLAS
             <define>$(UBLAS_TESTSET)
             <intel-linux><*><cxxflags>"-fpstkchk"    # Try and pick up runtime failures
             <vacpp><*><define>"BOOST_UBLAS_NO_ELEMENT_PROXIES"
-            [ cond [ is-subset Darwin : $(JAMUNAME) ] : <gcc><*><cxxflags>"-fabi-version=0" ] ]
       [ run test2/test2.cpp
             test2/test21.cpp
             test2/test22.cpp
