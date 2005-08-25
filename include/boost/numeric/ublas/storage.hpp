@@ -292,15 +292,13 @@ namespace boost { namespace numeric { namespace ublas {
         explicit BOOST_UBLAS_INLINE
         bounded_array (size_type size):
             size_ (size) /*, data_ ()*/ {
-            if (size_ > N)
-                bad_size ().raise ();
+            BOOST_UBLAS_CHECK (size_ <= N, bad_size ());
             // data_ (an array) elements are already default constructed
         }
         BOOST_UBLAS_INLINE
         bounded_array (size_type size, const value_type &init):
             size_ (size) /*, data_ ()*/ {
-            if (size_ > N)
-                bad_size ().raise ();
+            BOOST_UBLAS_CHECK (size_ <= N, bad_size ());
             // ISSUE elements should be value constructed here, but we must fill instead as already default constructed
             std::fill (begin(), end(), init) ;
         }
@@ -315,14 +313,12 @@ namespace boost { namespace numeric { namespace ublas {
         // Resizing
         BOOST_UBLAS_INLINE
         void resize (size_type size) {
-            if (size > N)
-                bad_size ().raise ();
+            BOOST_UBLAS_CHECK (size_ <= N, bad_size ());
             size_ = size;
         }
         BOOST_UBLAS_INLINE
         void resize (size_type size, value_type init) {
-            if (size > N)
-                bad_size ().raise ();
+            BOOST_UBLAS_CHECK (size_ <= N, bad_size ());
             if (size > size_)
                 std::fill (data_ + size_, data_ + size, init);
             size_ = size;
