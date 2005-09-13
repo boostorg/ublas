@@ -621,10 +621,10 @@ namespace boost { namespace numeric { namespace ublas {
 
         typedef shallow_array_adaptor<T> self_type;
 
-        template<class T>
+        template<class TT>
         struct leaker {
             typedef void result_type;
-            typedef T *argument_type;
+            typedef TT *argument_type;
 
             BOOST_UBLAS_INLINE
             result_type operator () (argument_type x) {}
