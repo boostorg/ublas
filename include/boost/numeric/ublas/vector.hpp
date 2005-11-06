@@ -702,6 +702,7 @@ namespace boost { namespace numeric { namespace ublas {
             BOOST_UBLAS_INLINE
             bool operator == (const const_iterator &it) const {
                 BOOST_UBLAS_CHECK (&(*this) () == &it (), external_logic ());
+                detail::ignore_unused_variable_warning(it);
                 return true;
             }
         };
