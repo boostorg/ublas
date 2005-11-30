@@ -30,10 +30,10 @@ namespace boost { namespace numeric { namespace ublas {
     class vector:
         public vector_container<vector<T, A> > {
 
-        typedef T *pointer;
-        typedef const T *const_pointer;
         typedef vector<T, A> self_type;
     public:
+        typedef T *pointer;
+        typedef const T *const_pointer;
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
         using vector_container<self_type>::operator ();
 #endif
