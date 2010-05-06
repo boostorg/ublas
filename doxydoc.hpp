@@ -19428,3 +19428,19177 @@
 /// \brief
 ///
 
+///
+/// \struct boost::numeric::ublas::__anon1::AdditiveAbelianGroupConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::__anon1::CommutativeRingWithIdentityConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::__anon1::FieldConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::__anon1::LinearOperatorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::__anon1::MultiplicativeAbelianGroupConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::__anon1::Prod_RingWithIdentityConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::__anon1::RingWithIdentityConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::__anon1::VectorSpaceConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::assign_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::bad_argument
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::bad_index
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::bad_size
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::basic_column_major
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::basic_full
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::basic_lower
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::basic_row_major
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::basic_strict_lower
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::basic_strict_upper
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::basic_unit_lower
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::basic_unit_upper
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::basic_upper
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::bidirectional_iterator_base
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::column_major_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::complex_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::computed_assign_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::const_iterator_type
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::const_iterator_type
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::const_iterator_type
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::container_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::container_view_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::dense_proxy_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::dense_random_access_iterator_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::dense_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::begin_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::begin_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::begin_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::begin_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::begin_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::const_iterator_type_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::const_iterator_type_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::const_iterator_type_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::const_iterator_type_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::element_reference
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::element_reference
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::element_reference
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::end_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::end_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::end_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::end_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::end_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::has_trivial_constructor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::has_trivial_constructor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::has_trivial_destructor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::has_trivial_destructor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::iterator_type_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::iterator_type_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::iterator_type_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::iterator_type_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::less_pair
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::less_triple
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::map_capacity_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::map_capacity_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::map_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::map_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::size_by_dim_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::size_by_dim_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::size_by_dim_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::size_by_tag_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::size_by_tag_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::size_by_tag_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::size_by_tag_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::size_by_tag_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::size_by_tag_impl
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::detail::transposed_structure
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::dimension::dimension_properties
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::dimension::dimension_properties
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::dimension::dimension_properties
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::divide_by_zero
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::error_cant_deduce_type
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::external_logic
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::forward_iterator_base
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Indexed1DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Indexed2DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::IndexedBidirectional1DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::IndexedBidirectional2DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::IndexedRandomAccess1DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::IndexedRandomAccess2DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::IndexSetConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::internal_logic
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator1_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator2_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits::iterator_base
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits::iterator_base
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits::iterator_base
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits::iterator_base
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits::iterator_base
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_base_traits::iterator_base
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_type
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_type
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::iterator_type
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::lower_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_binary_scalar1_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_binary_scalar2_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_binary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::MatrixConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::MatrixExpressionConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_matrix_binary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_matrix_binary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_matrix_prod
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_matrix_solve_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_norm_1
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_norm_frobenius
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_norm_inf
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_scalar_real_unary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_scalar_unary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_swap_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_swap_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_swap_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_unary1_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_unary2_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_vector_binary1_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_vector_binary2_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_vector_binary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_vector_prod1
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_vector_prod2
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_vector_solve_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_view_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::matrix_view_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::mutable_container_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_IndexedBidirectional1DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_IndexedBidirectional2DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_IndexedRandomAccess1DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_IndexedRandomAccess2DIteratorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_MatrixConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_MatrixExpressionConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::mutable_matrix_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::mutable_matrix_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_SparseMatrixConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_SparseVectorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_StorageArrayConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_StorageSparseConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_VectorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::Mutable_VectorExpressionConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::mutable_vector_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::mutable_vector_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::non_real
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::packed_proxy_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::packed_random_access_iterator_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::packed_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::promote_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::random_access_iterator_base
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::row_major_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_assign
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_assign::rebind
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_binary_assign_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_binary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_binary_swap_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_conj
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_divides
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_divides_assign
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_divides_assign::rebind
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::ScalarExpressionConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_identity
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_imag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_minus
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_minus_assign
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_minus_assign::rebind
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_multiplies
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_multiplies_assign
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_multiplies_assign::rebind
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_negate
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_plus
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_plus_assign
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_plus_assign::rebind
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_real
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_real_unary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_swap
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_swap::rebind
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::scalar_unary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::shallow_array_adaptor::leaker
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::singular
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::sparse_bidirectional_iterator_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::SparseMatrixConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::sparse_proxy_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::sparse_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::SparseVectorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::StorageArrayConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::storage_restrict_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::StorageSparseConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::strict_lower_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::strict_upper_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::tag::leading
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::tag::major
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::tag::minor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_deduction_detail::base_result_of
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_deduction_detail::is_basic
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::type_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::unit_lower_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::unit_upper_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::unknown_orientation_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::unknown_storage_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::upper_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_assign_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_binary_scalar1_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_binary_scalar2_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_binary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::VectorConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::VectorExpressionConcept
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_index_norm_inf
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_inner_prod
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_matrix_binary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_norm_1
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_norm_2
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_norm_inf
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_scalar_binary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_scalar_binary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_scalar_index_unary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_scalar_real_unary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_scalar_unary_functor
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_scalar_unary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_sum
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_swap_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_swap_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_swap_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_tag
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_temporary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_unary_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_view_traits
+/// \brief
+///
+
+///
+/// \struct boost::numeric::ublas::vector_view_traits
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::AdditiveAbelianGroupConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::CommutativeRingWithIdentityConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::FieldConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::LinearOperatorConcept::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::LinearOperatorConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::LinearOperatorConcept::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::MultiplicativeAbelianGroupConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::Prod_RingWithIdentityConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::RingWithIdentityConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::VectorSpaceConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::__anon1::VectorSpaceConcept::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::array_adaptor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::const_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_adaptor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::const_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::banded_matrix::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_column_major::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_column_major::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_column_major::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_column_major::transposed_layout
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_full::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_lower::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_lower::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_range::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_row_major::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_row_major::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_row_major::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_row_major::transposed_layout
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_slice::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_strict_lower::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_strict_lower::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_strict_upper::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_unit_lower::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_unit_lower::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_unit_upper::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::basic_upper::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bidirectional_iterator_base::derived_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bidirectional_iterator_base::derived_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_array::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_matrix::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::bounded_vector::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_array_view::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_matrix::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::column_major
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::complex_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::complex_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::complex_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::complex_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::complex_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::complex_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::array_size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::index_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::value_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::vector_const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::vector_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::array_size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::index_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::index_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::rowptr_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::value_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_matrix_view::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::index_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::value_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::compressed_vector::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::const_iterator_type::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::const_iterator_type::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::const_iterator_type::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::container_const_reference::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::container_reference::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::container_view_traits::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::container_view_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::container_view_traits::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::container_view_traits::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::container_view_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::container_view_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::array_size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::index_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::value_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::vector_const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::vector_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_matrix::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::index_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::value_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::coordinate_vector::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::c_vector::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::const_iterator_type_impl::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::const_iterator_type_impl::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::const_iterator_type_impl::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::const_iterator_type_impl::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::element_reference::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::element_reference::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::element_reference::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::iterator_type_impl::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::iterator_type_impl::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::iterator_type_impl::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::iterator_type_impl::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::map_capacity_traits::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::map_capacity_traits::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::map_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::map_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::detail::transposed_structure::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::diagonal_adaptor::adaptor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::diagonal_adaptor::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::diagonal_matrix::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::diagonal_matrix::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::diagonal_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::forward_iterator_base::derived_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::forward_iterator_base::derived_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::full
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::const_vectoriterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::vector_data_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::vectoriterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::generalized_vector_of_vector::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_adaptor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix_element::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix_element::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix_element::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix_element::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix_element::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix_element::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::hermitian_matrix::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::identity_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Indexed1DIteratorConcept::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Indexed2DIteratorConcept::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Indexed2DIteratorConcept::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Indexed2DIteratorConcept::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::IndexedBidirectional1DIteratorConcept::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::IndexedBidirectional2DIteratorConcept::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::IndexedBidirectional2DIteratorConcept::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator1::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator1::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator1::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator1::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator2::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator2::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator2::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator1::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator1::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator1::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator2::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator2::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indexed_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::IndexedRandomAccess1DIteratorConcept::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::IndexedRandomAccess2DIteratorConcept::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::IndexedRandomAccess2DIteratorConcept::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::value1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::value2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair_array::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_pair::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::IndexSetConcept::generator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::IndexSetConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::IndexSetConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::value1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::value2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::value3_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple_array::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::index_triple::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::indirect_array::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_base_traits::iterator_base::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_base_traits::iterator_base::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_base_traits::iterator_base::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_base_traits::iterator_base::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_base_traits::iterator_base::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_base_traits::iterator_base::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_restrict_traits::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_restrict_traits::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_restrict_traits::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_restrict_traits::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_restrict_traits::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_restrict_traits::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_restrict_traits::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_type::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_type::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::iterator_type::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::lower
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::allocator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::data_const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::data_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::data_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::key_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::mapped_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::map_array::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_matrix::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::vector_const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::vector_data_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::vector_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector_of_mapped_vector::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::true_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mapped_vector::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator1::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator11_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator12_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator21_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_iterator22_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::iterator_category1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::iterator_category2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator1::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator21_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_iterator22_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator1::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator11_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator12_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_scalar2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_binary::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_column::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixConcept::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixConcept::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_container::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_container::type_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixExpressionConcept::const_reverse_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixExpressionConcept::const_reverse_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixExpressionConcept::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixExpressionConcept::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixExpressionConcept::matrix_expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixExpressionConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixExpressionConcept::type_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::MatrixExpressionConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::const_matrix_column_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::const_matrix_range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::const_matrix_row_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::const_matrix_slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::const_vector_range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::const_vector_slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::default_range
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::default_slice
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::matrix_column_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::matrix_range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::matrix_row_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::matrix_slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::type_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::vector_range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_expression::vector_slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::indirect_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_indirect::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator1::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator11_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator12_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator21_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_iterator22_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_functor::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_functor::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_functor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_traits::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_binary::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_prod::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_prod::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_prod::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_prod::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_solve_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_matrix_solve_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_norm_1::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_norm_1::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_norm_1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_norm_frobenius::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_norm_frobenius::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_norm_frobenius::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_norm_inf::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_norm_inf::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_norm_inf::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_range::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::referred_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_reference::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_row::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_real_unary_functor::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_real_unary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_real_unary_functor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_unary::expression_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_unary::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_unary::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_unary_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_unary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_unary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_scalar_unary::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_slice::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_swap_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_swap_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_swap_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_temporary_traits::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator1::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::expression_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator1::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::expression_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_unary2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_iterator::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1_traits::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_iterator::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2_traits::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary_functor::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary_functor::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_binary_functor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::indirect_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_indirect::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_prod1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_prod1::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_prod1::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_prod1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_prod2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_prod2::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_prod2::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_prod2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_range::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_slice::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_solve_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_vector_solve_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::row_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::matrix_view_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_container_traits::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_container_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_IndexedBidirectional1DIteratorConcept::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_IndexedBidirectional2DIteratorConcept::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_IndexedBidirectional2DIteratorConcept::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_IndexedRandomAccess1DIteratorConcept::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_IndexedRandomAccess2DIteratorConcept::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_IndexedRandomAccess2DIteratorConcept::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixConcept::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixConcept::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixExpressionConcept::matrix_expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixExpressionConcept::reverse_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixExpressionConcept::reverse_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixExpressionConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixExpressionConcept::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixExpressionConcept::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_MatrixExpressionConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_matrix_traits::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_matrix_traits::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_matrix_traits::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_matrix_traits::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_matrix_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_SparseMatrixConcept::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_SparseMatrixConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_SparseMatrixConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_SparseVectorConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_SparseVectorConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_SparseVectorConcept::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_StorageArrayConcept::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_StorageArrayConcept::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_StorageArrayConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_StorageArrayConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_StorageSparseConcept::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_StorageSparseConcept::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_StorageSparseConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_StorageSparseConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_VectorConcept::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_VectorConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_VectorConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_VectorConcept::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_VectorExpressionConcept::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_VectorExpressionConcept::reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_VectorExpressionConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_VectorExpressionConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::Mutable_VectorExpressionConcept::vector_expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_vector_traits::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_vector_traits::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_vector_traits::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::mutable_vector_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::noalias_proxy::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::nonassignable
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::permutation_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::permutation_matrix::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::base_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::id
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::promote_traits::promote_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::random_access_iterator_base::derived_difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::random_access_iterator_base::derived_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::random_access_iterator_base::derived_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::range
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base1::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base1::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base1::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base2::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base2::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base2::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base::iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::reverse_iterator_base::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::row_major
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_assign::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_assign::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_assign::rebind::other
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_binary_assign_functor::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_binary_assign_functor::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_binary_functor::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_binary_functor::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_binary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_binary_swap_functor::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_binary_swap_functor::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_conj::argument_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_conj::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_conj::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_divides::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_divides::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_divides_assign::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_divides_assign::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_divides_assign::rebind::other
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_divides::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::ScalarExpressionConcept::scalar_expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::ScalarExpressionConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_expression::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_expression::type_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_identity::argument_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_identity::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_imag::argument_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_imag::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_imag::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_minus::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_minus::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_minus_assign::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_minus_assign::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_minus_assign::rebind::other
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_minus::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_multiplies::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_multiplies::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_multiplies_assign::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_multiplies_assign::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_multiplies_assign::rebind::other
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_multiplies::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_negate::argument_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_negate::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_plus::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_plus::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_plus_assign::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_plus_assign::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_plus_assign::rebind::other
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_plus::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_real::argument_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_real::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_real_unary_functor::argument_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_real_unary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_real_unary_functor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_real::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_reference::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_reference::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_reference::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_reference::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_reference::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_reference::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_swap::argument1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_swap::argument2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_swap::rebind::other
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_unary_functor::argument_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_unary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_unary_functor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_value::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_value::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_value::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_value::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_value::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_value::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::scalar_vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::leaker::argument_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::leaker::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::shallow_array_adaptor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::slice
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::SparseMatrixConcept::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::SparseMatrixConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_matrix_element::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_matrix_element::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_matrix_element::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_matrix_element::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_matrix_element::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_matrix_element::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_storage_element::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_storage_element::data_const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_storage_element::data_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_storage_element::data_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_storage_element::index_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_storage_element::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_storage_element::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::SparseVectorConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::SparseVectorConcept::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_vector_element::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_vector_element::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_vector_element::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_vector_element::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::sparse_vector_element::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::StorageArrayConcept::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::StorageArrayConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::StorageArrayConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::storage_restrict_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::StorageSparseConcept::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::StorageSparseConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::strict_lower
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::strict_upper
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_adaptor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::symmetric_matrix::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::matrix_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::matrix_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_adaptor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::triangular_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::triangular_matrix::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::base_result_of::types
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::base_result_of::x_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::base_result_of::y_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::bool_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::cant_deduce_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::char_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::double_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::float_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::int_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::long_double_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::long_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::schar_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::short_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::uchar_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::uint_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::ulong_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::ushort_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::x_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_deduction_detail::y_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::element_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::element_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::element_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::precision_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::type_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::ublas_expression::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::allocator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unbounded_array::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_lower
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_upper
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::const_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::unit_vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::upper
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_assign_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_iterator::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_iterator::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_iterator::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_scalar2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_binary::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorConcept::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorConcept::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_container::container_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_container::type_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorExpressionConcept::const_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorExpressionConcept::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorExpressionConcept::const_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorExpressionConcept::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorExpressionConcept::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorExpressionConcept::type_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorExpressionConcept::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::VectorExpressionConcept::vector_expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_expression::const_vector_range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_expression::const_vector_slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_expression::default_range
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_expression::default_slice
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_expression::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_expression::type_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_expression::vector_range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_expression::vector_slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_index_norm_inf::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_index_norm_inf::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_index_norm_inf::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_indirect_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::const_vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::indirect_array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::vector_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_indirect::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_inner_prod::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_inner_prod::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator1::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator2::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_subiterator1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::const_subiterator2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_matrix_binary::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_norm_1::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_norm_1::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_norm_1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_norm_2::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_norm_2::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_norm_2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_norm_inf::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_norm_inf::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_norm_inf::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::array_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::layout_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::matrix_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_of_vector::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::const_vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::vector_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_range::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::referred_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_reference::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::expression1_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::expression1_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::expression2_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::expression2_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary_functor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_binary::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_index_unary_functor::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_index_unary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_index_unary_functor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_real_unary_functor::real_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_real_unary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_real_unary_functor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::expression_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary_functor::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary_functor::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_scalar_unary::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::const_vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::range_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::slice_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::vector_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_slice::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_sum::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_sum::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_swap_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_swap_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_swap_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_temporary_traits::type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_iterator::iterator_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::const_subiterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::expression_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::functor_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary_traits::expression_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary_traits::result_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_unary::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector::vector_temporary_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::const_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::vector_view_traits::vector_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator1::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator1::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator1::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator1::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator1::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator1::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator2::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator2::dual_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator2::dual_reverse_iterator_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator2::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator2::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_iterator2::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_reverse_iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::const_reverse_iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::iterator1
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::iterator2
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::orientation_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_matrix::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::const_closure_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::const_iterator::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::const_iterator::pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::const_iterator::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::const_iterator::value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::const_pointer
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::const_reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::const_reverse_iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::const_value_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::difference_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::iterator
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::reference
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::self_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::size_type
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::storage_category
+/// \brief
+///
+
+///
+/// \typedef boost::numeric::ublas::zero_vector::value_type
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::blas_1
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::blas_2
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::blas_3
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::detail
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::dimension
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::nonassignable_
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::raw
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::raw
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::tag
+/// \brief
+///
+
+///
+/// \namespace boost::numeric::ublas::type_deduction_detail
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::array_adaptor::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::array_adaptor::own_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::array_adaptor::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_adaptor::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_adaptor::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_adaptor::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_adaptor::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_adaptor::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_adaptor::lower_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_adaptor::upper_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_adaptor::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_adaptor::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::lower_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::upper_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::banded_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::basic_range::all_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::basic_range::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::basic_range::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::basic_range::start_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::basic_slice::all_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::basic_slice::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::basic_slice::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::basic_slice::start_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::basic_slice::stride_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::bounded_array::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::bounded_array::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::bounded_matrix::max_size1
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::bounded_matrix::max_size2
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::bounded_vector::max_size
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_array_view::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_array_view::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_matrix::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_matrix::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_matrix::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_matrix::iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_matrix::iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::complex_traits::multiplies_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::complex_traits::plus_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::capacity_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator1::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator2::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::const_iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::filled1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::filled2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::index1_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::index2_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator1::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator2::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::value_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix_view::index1_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix_view::index2_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix_view::nnz_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix_view::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix_view::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix_view::value_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix_view::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix_view::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_vector::capacity_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_vector::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_vector::filled_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_vector::index_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_vector::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_vector::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_vector::value_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::compressed_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::container_const_reference::c_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::container_reference::c_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::capacity_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator1::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator2::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::const_iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::filled_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::index1_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::index2_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator1::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator2::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::sorted_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::sorted_filled_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::value_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::capacity_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::filled_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::index_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::sorted_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::sorted_filled_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::value_data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::coordinate_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_vector::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_vector::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_vector::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::c_vector::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::const_iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator1::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator2::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::generalized_vector_of_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::conj_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::conj_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator1::begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator1::current_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator1::end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator1::it1_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator1::it1_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator1::it2_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator1::it2_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator2::begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator2::current_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator2::end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator2::it1_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator2::it1_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator2::it2_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::const_iterator2::it2_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_adaptor::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix_element::d_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix_element::dirty_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix_element::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix_element::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::hermitian_matrix::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::identity_matrix::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::identity_matrix::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::identity_matrix::one_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::identity_matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::identity_matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::identity_matrix::size_common_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::identity_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::identity_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indexed_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_pair_array::data1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_pair_array::data2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_pair_array::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_pair::dirty_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_pair::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_pair::is_copy_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_pair::v1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_pair::v2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple_array::data1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple_array::data2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple_array::data3_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple_array::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple::dirty_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple::is_copy_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple::v1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple::v2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::index_triple::v3_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indirect_array::all_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indirect_array::all_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indirect_array::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indirect_array::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::indirect_array::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::map_array::alloc_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::map_array::capacity_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::map_array::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::map_array::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::const_iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::const_iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::const_iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::const_iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::const_iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::const_iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::const_iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator1::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::itv_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::iterator2::rank_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector_of_mapped_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::mapped_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator1::it1_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator1::it2_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator2::it1_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator2::it2_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::const_iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar1::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar1::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar1::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar1::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar1::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar1::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar2::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar2::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar2::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar2::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar2::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_binary_scalar2::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_column::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_column::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_column::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_column::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_container::complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_expression::complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::ia1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::ia2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_indirect::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix::iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix::iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::const_iterator1::it2_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::const_iterator1::it2_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::const_iterator2::it1_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::const_iterator2::it1_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_matrix_binary::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_range::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_range::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_range::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_range::iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_range::iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_range::r1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_range::r2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_reference::e_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_row::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_row::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_row::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_row::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_scalar_unary::e_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::s1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_slice::s2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_unary1::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_unary1::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_unary1::e_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_unary2::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_unary2::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_unary2::e_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary1::complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary1::const_iterator::e2_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary1::const_iterator::e2_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary1::const_iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary1::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary1::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary2::complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary2::const_iterator::e1_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary2::const_iterator::e1_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary2::const_iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary2::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_binary2::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_indirect::const_iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_indirect::const_iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_indirect::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_indirect::ia1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_indirect::ia2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_indirect::iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_indirect::iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_range::const_iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_range::const_iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_range::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_range::iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_range::iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_range::r1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_range::r2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_slice::const_iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_slice::const_iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_slice::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_slice::iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_slice::iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_slice::s1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::matrix_vector_slice::s2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::noalias_proxy::lval_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::promote_traits::index
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::promote_traits::size
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::promote_traits::x
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::promote_traits::y
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_divides_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_divides_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::ScalarExpressionConcept::complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_matrix::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_matrix::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_matrix::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_matrix::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_matrix::value_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_minus_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_minus_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_minus_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_multiplies_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_plus_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_plus_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_plus_assign::computed
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_reference::t_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_traits::multiplies_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_traits::plus_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_value::t_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_vector::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_vector::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::scalar_vector::value_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::shallow_array_adaptor::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::shallow_array_adaptor::own_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::shallow_array_adaptor::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::sparse_matrix_element::d_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::sparse_matrix_element::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::sparse_matrix_element::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::sparse_storage_element::d_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::sparse_storage_element::dirty_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::sparse_storage_element::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::sparse_storage_element::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::sparse_vector_element::d_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::sparse_vector_element::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator1::begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator1::current_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator1::end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator1::it1_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator1::it1_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator1::it2_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator1::it2_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator2::begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator2::current_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator2::end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator2::it1_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator2::it1_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator2::it2_begin_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::const_iterator2::it2_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_adaptor::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::symmetric_matrix::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_adaptor::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_adaptor::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_adaptor::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_adaptor::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_adaptor::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_adaptor::one_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_adaptor::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_adaptor::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::one_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::triangular_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::type_traits::multiplies_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::type_traits::multiplies_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::type_traits::multiplies_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::type_traits::multiplies_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::type_traits::plus_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::type_traits::plus_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::type_traits::plus_complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::unbounded_array::alloc_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::unbounded_array::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::unbounded_array::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::unit_vector::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::unit_vector::index_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::unit_vector::one_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::unit_vector::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::unit_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::unit_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary::const_iterator::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary::const_iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary::const_iterator::it1_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary::const_iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary::const_iterator::it2_end_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary_scalar1::const_iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary_scalar1::const_iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary_scalar1::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary_scalar1::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary_scalar2::const_iterator::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary_scalar2::const_iterator::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary_scalar2::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_binary_scalar2::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_container::complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_expression::complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_indirect::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_indirect::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_indirect::ia_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_indirect::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator1::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator1::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator1::t2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator2::it1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator2::it2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::const_iterator2::t1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_matrix_binary::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::const_iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::const_iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::const_iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::const_iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::const_iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::const_iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::iterator1::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::iterator1::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::iterator1::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::iterator2::i_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::iterator2::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::iterator2::j_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_of_vector::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_range::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_range::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_range::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_range::r_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_reference::e_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_scalar_binary::complexity
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_scalar_binary::e1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_scalar_binary::e2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_scalar_unary::e_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_slice::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_slice::data_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_slice::iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_slice::s_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_unary::const_iterator::it_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::vector_unary::e_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::zero_matrix::size1_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::zero_matrix::size2_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::zero_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::zero_matrix::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::zero_vector::size_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::zero_vector::zero_
+/// \brief
+///
+
+///
+/// \var boost::numeric::ublas::zero_vector::zero_
+/// \brief
+///
+
+///
+/// \file banded.hpp
+/// \brief Definitions and algorithms for representing and manipulating banded matrices
+///
+
+///
+/// \file blas.hpp
+/// \brief
+///
+
+///
+/// \file exception.hpp
+/// \brief
+///
+
+///
+/// \file expression_types.hpp
+/// \brief
+///
+
+///
+/// \file functional.hpp
+/// \brief
+///
+
+///
+/// \file fwd.hpp
+/// \brief
+///
+
+///
+/// \file hermitian.hpp
+/// \brief Definitions and algorithms for representing and manipulating hermitian matrices
+///
+
+///
+/// \file io.hpp
+/// \brief
+///
+
+///
+/// \file lu.hpp
+/// \brief
+///
+
+///
+/// \file matrix_expression.hpp
+/// \brief
+///
+
+///
+/// \file matrix.hpp
+/// \brief Definitions and algorithms for representing and manipulating dense matrices
+///
+
+///
+/// \file matrix_proxy.hpp
+/// \brief
+///
+
+///
+/// \file matrix_sparse.hpp
+/// \brief Definitions and algorithms for representing and manipulating sparse matrices
+///
+
+///
+/// \file operation_blocked.hpp
+/// \brief
+///
+
+///
+/// \file operation.hpp
+/// \brief
+///
+
+///
+/// \file operations.hpp
+/// \brief
+///
+
+///
+/// \file operation_sparse.hpp
+/// \brief
+///
+
+///
+/// \file storage.hpp
+/// \brief
+///
+
+///
+/// \file storage_sparse.hpp
+/// \brief
+///
+
+///
+/// \file symmetric.hpp
+/// \brief Definitions and algorithms for representing and manipulating symmetric matrices
+///
+
+///
+/// \file tags.hpp
+/// \brief
+///
+
+///
+/// \file traits.hpp
+/// \brief
+///
+
+///
+/// \file triangular.hpp
+/// \brief Definitions and algorithms for representing and manipulating triangular matrices
+///
+
+///
+/// \file vector_expression.hpp
+/// \brief
+///
+
+///
+/// \file vector.hpp
+/// \brief Definitions and algorithms for representing and manipulating dense vectors
+///
+
+///
+/// \file vector_of_vector.hpp
+/// \brief
+///
+
+///
+/// \file vector_proxy.hpp
+/// \brief
+///
+
+///
+/// \file vector_sparse.hpp
+/// \brief Definitions and algorithms for representing and manipulating sparse vectors
+///
