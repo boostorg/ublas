@@ -35250,101 +35250,27 @@
 
 ///
 /// \namespace boost::numeric::ublas::blas_1
-/// \brief
+/// \brief uBLAS main namespace. Everything is under this namespace
+///
+
+/// \namespace boost::numeric::ublas::blas_1
+/// \brief Interface and implementation of BLAS level 1
+/// Interface and implementation of BLAS level 1. This includes functions which perform vector-vector operations.
+/// More information about BLAS can be found at <a href="http://en.wikipedia.org/wiki/BLAS">http://en.wikipedia.org/wiki/BLAS</a>
 ///
 
 ///
 /// \namespace boost::numeric::ublas::blas_2
-/// \brief
+/// \brief Interface and implementation of BLAS level 2
+/// Interface and implementation of BLAS level 2. This includes functions which perform matrix-vector operations.
+/// More information about BLAS can be found at <a href="http://en.wikipedia.org/wiki/BLAS">http://en.wikipedia.org/wiki/BLAS</a>
 ///
 
 ///
 /// \namespace boost::numeric::ublas::blas_3
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::detail
+/// \brief Interface and implementation of BLAS level 3
+/// Interface and implementation of BLAS level 3. This includes functions which perform matrix-matrix operations.
+/// More information about BLAS can be found at <a href="http://en.wikipedia.org/wiki/BLAS">http://en.wikipedia.org/wiki/BLAS</a>
 /// \brief
 ///
 
@@ -35360,11 +35286,6 @@
 
 ///
 /// \namespace boost::numeric::ublas::nonassignable_
-/// \brief
-///
-
-///
-/// \namespace boost::numeric::ublas::raw
 /// \brief
 ///
 
