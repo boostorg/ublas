@@ -21,6 +21,13 @@
 namespace boost { namespace numeric { namespace ublas {
 
     // Array based banded matrix class
+    /// \brief A banded matrix is a generalization of a diagonal matrix.
+    /// A banded matrix is a generalization of a diagonal matrix. For a \f$(mxn)\f$-dimensional banded matrix
+    /// with \f$l\f$ lower and \f$u\f$ upper diagonals and \f$0 \leq i < m\f$ and \f$0 \leq j < n\f$,
+    /// if \f$i>j+l\f$ or \f$i<j-u\f$ then \f$b_{i,j}=0\f$. The storage of banded matrices is packed.
+    /// \tparam T type of the stored values
+    /// \tparam L
+    /// \tparam A type of values' container. Default is ...
     template<class T, class L, class A>
     class banded_matrix:
         public matrix_container<banded_matrix<T, L, A> > {
