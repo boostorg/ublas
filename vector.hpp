@@ -26,10 +26,11 @@
 
 namespace boost { namespace numeric { namespace ublas {
 
-    /// \brief Array-based vector class
-    ///
-    /// Array-based vector class: this templated vector class is the base container adaptor for dense vectors. For a \f$n\-dimensional vector \f$v\f$ and \f$0 \leq i < n\f$ every element \f$v_i\f$ is mapped to the \f$i\f$-th element of the container. The 2 templates parameters respectively defines the following:
-    /// \tparam T type of the objects stored in the vector: it can be anything even if most of the time, scalar types will be used like \c double or \c int. Complex types can be used, or even classes.
+    /// \brief The classical dense vector
+    /// A dense vector of values of type \c T of variable size. A storage type \c A can be specified which defaults to \c unbounded_array. 
+    /// Elements are constructed by \c A, which need not initialise their value. For a \f$n\-dimensional vector \f$v\f$ and \f$0 \leq i < n\f$ 
+    /// every element \f$v_i\f$ is mapped to the \f$i\f$-th element of the container. 
+    /// \tparam T type of the objects stored in the vector: it can be anything even if most of the time, scalar types will be used like \c double or \c int. Complex types can be used, or even classes like boost::interval.
     /// \tparam A The type of the storage array of the vector. By default it is \c unbounded_array<T>. Common other value can be \c <bounded_array<T> and \c std::vector<T>.
     /// Also note that, expect when making an empty vector, all other constructors imply a \f$O(n)\f$ time complexity during construction due to the initialization. Because \e uBLAS tries to avoid the creation of temporaries into expressions, this penalty only occurs when explicitely creating vectors in your code. If you want to create many vectors without initialization, consider using a different storage type like \c std::vector<T> for example.
     template<class T, class A>
@@ -134,7 +135,7 @@ namespace boost { namespace numeric { namespace ublas {
 	// -----------------------
 	
 	/// \brief Return the maximum size of the data container.
-	/// Return the upper bound (maximum size) on the data container. Depending on the container, it can be bigger of the current size of the vector.
+	/// Return the upper bound (maximum size) on the data container. Depending on the container, it can be bigger than the current size of the vector.
         BOOST_UBLAS_INLINE
         size_type max_size () const {
             return data_.max_size ();
@@ -214,6 +215,7 @@ namespace boost { namespace numeric { namespace ublas {
 	// --------------
 
 	/// \brief Return a const reference to the element \f$i\f$
+	/// Return a const reference to the element \f$i\f$. With some compilers, this notation will be faster than \c[i]
 	/// \param i index of the element
         BOOST_UBLAS_INLINE
         const_reference operator () (size_type i) const {
@@ -221,6 +223,7 @@ namespace boost { namespace numeric { namespace ublas {
         }
 	
 	/// \brief Return a reference to the element \f$i\f$
+	/// Return a reference to the element \f$i\f$. With some compilers, this notation will be faster than \c[i]
 	/// \param i index of the element
         BOOST_UBLAS_INLINE
         reference operator () (size_type i) {
@@ -474,9 +477,6 @@ namespace boost { namespace numeric { namespace ublas {
         typedef typename A::iterator subiterator_type;
 
     public:
-	/// \typedef iterator
-	/// \typedef const_iterator
-
 #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
         typedef indexed_iterator<self_type, dense_random_access_iterator_tag> iterator;
         typedef indexed_const_iterator<self_type, dense_random_access_iterator_tag> const_iterator;
@@ -744,10 +744,13 @@ namespace boost { namespace numeric { namespace ublas {
         };
 #endif
 
+	/// \brief Return an iterator on the first element of the vector
         BOOST_UBLAS_INLINE
         iterator begin () {
             return find (0);
         }
+
+	/// \brief Return an iterator at the end of the vector
         BOOST_UBLAS_INLINE
         iterator end () {
             return find (data_.size ());
@@ -757,24 +760,37 @@ namespace boost { namespace numeric { namespace ublas {
         typedef reverse_iterator_base<const_iterator> const_reverse_iterator;
         typedef reverse_iterator_base<iterator> reverse_iterator;
 
+	/// \brief Return a const reverse iterator before the first element of the reversed vector (i.e. end() of normal vector)
         BOOST_UBLAS_INLINE
         const_reverse_iterator rbegin () const {
             return const_reverse_iterator (end ());
         }
+
+	/// \brief Return a const reverse iterator on the end of the reverse vector (i.e. first element of the normal vector) 
         BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
         }
+
+	/// \brief Return a const reverse iterator before the first element of the reversed vector (i.e. end() of normal vector)
         BOOST_UBLAS_INLINE
         reverse_iterator rbegin () {
             return reverse_iterator (end ());
         }
+
+	/// \brief Return a const reverse iterator on the end of the reverse vector (i.e. first element of the normal vector) 
         BOOST_UBLAS_INLINE
         reverse_iterator rend () {
             return reverse_iterator (begin ());
         }
 
+	// -------------
         // Serialization
+	// -------------
+	
+	/// Serialize a vector into and archive as defined in Boost
+	/// \param ar Archive object. Can be a flat file, an XML file or any other stream
+	/// \param file_version Optional file version (not yet used)
         template<class Archive>
         void serialize(Archive & ar, const unsigned int /* file_version */){
             ar & serialization::make_nvp("data",data_);
@@ -785,7 +801,13 @@ namespace boost { namespace numeric { namespace ublas {
     };
 
 
+    // --------------------
     // Bounded vector class
+    // --------------------
+
+    /// \brief a dense vector of values of type \c T, of variable size but with maximum \f$N\f$.
+    /// A dense vector of values of type \c T, of variable size but with maximum \f$N\f$.  The default constructor 
+    /// creates the vector with size \f$N\f$. Elements are constructed by the storage type \c bounded_array, which \b need \b not \b initialise their value.
     template<class T, std::size_t N>
     class bounded_vector:
         public vector<T, bounded_array<T, N> > {
@@ -853,7 +875,14 @@ namespace boost { namespace numeric { namespace ublas {
     };
 
 
+    // -----------------
     // Zero vector class
+    // -----------------
+    
+    /// \brief A zero vector of type \c T and a given \c size
+    /// A zero vector of type \c T and a given \c size. This is a virtual vector in the sense that no memory is allocated 
+    /// for storing the zero values: it still acts like any other vector. However assigning values to it will not change the zero
+    /// vector into a normal vector. It must first be assigned to another normal vector by any suitable means. Its memory footprint is constant.
     template<class T, class ALLOC>
     class zero_vector:
         public vector_container<zero_vector<T, ALLOC> > {
@@ -1301,13 +1330,11 @@ namespace boost { namespace numeric { namespace ublas {
     template<class T, class ALLOC>
     typename unit_vector<T, ALLOC>::const_value_type unit_vector<T, ALLOC>::one_ (1);  // ISSUE: need 'one'-traits here
 
-
-    // Scalar vector class
-    /// \brief vector having a unique value
-    ///
-    /// A scalar vector is a vector having a unique value whatever its size. Changing its value means changing all the element at once to the new value.
-    /// \tparam T type of the objects stored in the vector: it can be anything even if most of the time, scalar types will be used like \c double or \c int. Complex types can be used, or even classes.
-    /// \tparam ALLOC 
+    /// \brief A scalar (i.e. unique value) vector of type \c T and a given \c size
+    /// A scalar (i.e. unique value) vector of type \c T and a given \c size. This is a virtual vector in the sense that no memory is allocated 
+    /// for storing the unique value more than once: it still acts like any other vector. However assigning a new value will change all the value at once.
+    /// vector into a normal vector. It must first be assigned to another normal vector by any suitable means. Its memory footprint is constant.
+    /// \tparam T type of the objects stored in the vector: it can be anything even if most of the time, scalar types will be used like \c double or \c int. Complex types can be used, or even classes like boost::interval.
     template<class T, class ALLOC>
     class scalar_vector:
         public vector_container<scalar_vector<T, ALLOC> > {
@@ -1543,8 +1570,11 @@ namespace boost { namespace numeric { namespace ublas {
         value_type value_;
     };
 
-
+    // ------------------------
     // Array based vector class
+    // ------------------------
+
+    /// \brief A dense vector of values of type \c T with the given \c size. The data is stored as an ordinary C++ array \c T \c data_[M]
     template<class T, std::size_t N>
     class c_vector:
         public vector_container<c_vector<T, N> > {
