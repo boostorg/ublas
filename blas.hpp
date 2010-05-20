@@ -16,13 +16,12 @@
 #include <boost/numeric/ublas/traits.hpp>
 
 namespace boost { namespace numeric { namespace ublas {
+	
 
+    /// \brief Interface and implementation of BLAS level 1
+    /// Interface and implementation of BLAS level 1. This includes functions which perform vector-vector operations.
+    /// More information about BLAS can be found at <a href="http://en.wikipedia.org/wiki/BLAS">http://en.wikipedia.org/wiki/BLAS</a>
     namespace blas_1 {
-
-          /** \namespace boost::numeric::ublas::blas_1
-                  \brief wrapper functions for level 1 blas
-          */
-
 
           /** \brief 1-Norm: \f$\sum_i |x_i|\f$
                   \ingroup blas1
@@ -107,11 +106,10 @@ namespace boost { namespace numeric { namespace ublas {
 
     }
 
+    /// \brief Interface and implementation of BLAS level 2
+    /// Interface and implementation of BLAS level 2. This includes functions which perform matrix-vector operations.
+    /// More information about BLAS can be found at <a href="http://en.wikipedia.org/wiki/BLAS">http://en.wikipedia.org/wiki/BLAS</a>
     namespace blas_2 {
-
-          /** \namespace boost::numeric::ublas::blas_2
-                  \brief wrapper functions for level 2 blas
-          */
 
           /** \brief multiply vector \a v with triangular matrix \a m
                   \ingroup blas2
@@ -209,11 +207,10 @@ namespace boost { namespace numeric { namespace ublas {
 
     }
 
+    /// \brief Interface and implementation of BLAS level 3
+    /// Interface and implementation of BLAS level 3. This includes functions which perform matrix-matrix operations.
+    /// More information about BLAS can be found at <a href="http://en.wikipedia.org/wiki/BLAS">http://en.wikipedia.org/wiki/BLAS</a>
     namespace blas_3 {
-
-          /** \namespace boost::numeric::ublas::blas_3
-                  \brief wrapper functions for level 3 blas
-          */
 
           /** \brief triangular matrix multiplication
                   \ingroup blas3
