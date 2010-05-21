@@ -21,7 +21,16 @@
 
 namespace boost { namespace numeric { namespace ublas {
 
+    // ------------------------
     // Vector based range class
+    // ------------------------
+
+    /// \brief A subvector defined by a range on another vector. It is used as a normal vector.
+    /// A subvector defined by a range on another vector. It is used as a normal vector.
+    /// After being defined it allows the manipulation of a subvector like a normal vector.
+    /// If the specified range falls outside that of of the index range of the vector, then
+    /// the \c vector_range is not a well formed Vector Expression and access to an element
+    /// outside of index range of the vector is \b undefined.
     template<class V>
     class vector_range:
         public vector_expression<vector_range<V> > {
@@ -476,13 +485,25 @@ namespace boost { namespace numeric { namespace ublas {
         range_type r_;
     };
 
+    // ------------------
     // Simple Projections
+    // ------------------
+
+    /// \brief Return a \c vector_range on a specified vector, a start and stop index.
+    /// Return a \c vector_range on a specified vector, a start and stop index. The resulting \c vector_range can be manipulated like a normal vector.
+    /// If the specified range falls outside that of of the index range of the vector, then the resulting \c vector_range is not a well formed
+    /// Vector Expression and access to an element outside of index range of the vector is \b undefined.
     template<class V>
     BOOST_UBLAS_INLINE
     vector_range<V> subrange (V &data, typename V::size_type start, typename V::size_type stop) {
         typedef basic_range<typename V::size_type, typename V::difference_type> range_type;
         return vector_range<V> (data, range_type (start, stop));
     }
+
+    /// \brief Return a \c const \c vector_range on a specified vector, a start and stop index.
+    /// Return a \c const \c vector_range on a specified vector, a start and stop index. The resulting \c const \c vector_range can be manipulated like a normal vector.
+    /// If the specified range falls outside that of of the index range of the vector, then the resulting \c vector_range is not a well formed
+    /// Vector Expression and access to an element outside of index range of the vector is \b undefined.
     template<class V>
     BOOST_UBLAS_INLINE
     vector_range<const V> subrange (const V &data, typename V::size_type start, typename V::size_type stop) {
@@ -490,23 +511,45 @@ namespace boost { namespace numeric { namespace ublas {
         return vector_range<const V> (data, range_type (start, stop));
     }
 
+    // -------------------
     // Generic Projections
+    // -------------------
+    
+    /// \brief Return a \c const \c vector_range on a specified vector and \c range
+    /// Return a \c const \c vector_range on a specified vector and \c range. The resulting \c vector_range can be manipulated like a normal vector.
+    /// If the specified range falls outside that of of the index range of the vector, then the resulting \c vector_range is not a well formed
+    /// Vector Expression and access to an element outside of index range of the vector is \b undefined.
     template<class V>
     BOOST_UBLAS_INLINE
     vector_range<V> project (V &data, typename vector_range<V>::range_type const &r) {
         return vector_range<V> (data, r);
     }
+
+    /// \brief Return a \c vector_range on a specified vector and \c range
+    /// Return a \c vector_range on a specified vector and \c range. The resulting \c vector_range can be manipulated like a normal vector.
+    /// If the specified range falls outside that of of the index range of the vector, then the resulting \c vector_range is not a well formed
+    /// Vector Expression and access to an element outside of index range of the vector is \b undefined.
     template<class V>
     BOOST_UBLAS_INLINE
     const vector_range<const V> project (const V &data, typename vector_range<V>::range_type const &r) {
         // ISSUE was: return vector_range<V> (const_cast<V &> (data), r);
         return vector_range<const V> (data, r);
-    }
+   }
+
+    /// \brief Return a \c const \c vector_range on a specified vector and const \c range
+    /// Return a \c const \c vector_range on a specified vector and const \c range. The resulting \c vector_range can be manipulated like a normal vector.
+    /// If the specified range falls outside that of of the index range of the vector, then the resulting \c vector_range is not a well formed
+    /// Vector Expression and access to an element outside of index range of the vector is \b undefined.
     template<class V>
     BOOST_UBLAS_INLINE
     vector_range<V> project (vector_range<V> &data, const typename vector_range<V>::range_type &r) {
         return data.project (r);
     }
+
+    /// \brief Return a \c vector_range on a specified vector and const \c range
+    /// Return a \c vector_range on a specified vector and const \c range. The resulting \c vector_range can be manipulated like a normal vector.
+    /// If the specified range falls outside that of of the index range of the vector, then the resulting \c vector_range is not a well formed
+    /// Vector Expression and access to an element outside of index range of the vector is \b undefined.
     template<class V>
     BOOST_UBLAS_INLINE
     const vector_range<V> project (const vector_range<V> &data, const typename vector_range<V>::range_type &r) {
