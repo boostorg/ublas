@@ -11,6 +11,8 @@
 //
 //  And we acknowledge the support from all contributors.
 
+/// \file Defition
+
 #ifndef _BOOST_UBLAS_VECTOR_
 #define _BOOST_UBLAS_VECTOR_
 
