@@ -11,7 +11,7 @@
 //
 //  And we acknowledge the support from all contributors.
 
-/// \file Defition
+/// \file Definition for the class vector and its derivative
 
 #ifndef _BOOST_UBLAS_VECTOR_
 #define _BOOST_UBLAS_VECTOR_
@@ -22,19 +22,20 @@
 #include <boost/serialization/collection_size_type.hpp>
 #include <boost/serialization/nvp.hpp>
 
-/// \file This file contains definition for the class vector and all its derivative.
 
 // Iterators based on ideas of Jeremy Siek
 
 namespace boost { namespace numeric { namespace ublas {
 
-    /// \brief The classical dense vector
-    /// A dense vector of values of type \c T of variable size. A storage type \c A can be specified which defaults to \c unbounded_array. 
-    /// Elements are constructed by \c A, which need not initialise their value. For a \f$n\-dimensional vector \f$v\f$ and \f$0 \leq i < n\f$ 
-    /// every element \f$v_i\f$ is mapped to the \f$i\f$-th element of the container. 
-    /// \tparam T type of the objects stored in the vector: it can be anything even if most of the time, scalar types will be used like \c double or \c int. Complex types can be used, or even classes like boost::interval.
-    /// \tparam A The type of the storage array of the vector. By default it is \c unbounded_array<T>. Common other value can be \c <bounded_array<T> and \c std::vector<T>.
-    /// Also note that, expect when making an empty vector, all other constructors imply a \f$O(n)\f$ time complexity during construction due to the initialization. Because \e uBLAS tries to avoid the creation of temporaries into expressions, this penalty only occurs when explicitely creating vectors in your code. If you want to create many vectors without initialization, consider using a different storage type like \c std::vector<T> for example.
+    /** \brief A dense vector of values of type \c T.
+     *
+     * For a \f$n\-dimensional vector \f$v\f$ and \f$0\leq i < n\f$ every element \f$v_i\f$ is mapped 
+     * to the \f$i\f$-th element of the container. A storage type \c A can be specified which defaults to \c unbounded_array. 
+     * Elements are constructed by \c A, which need not initialise their value.
+     *
+     * \tparam T type of the objects stored in the vector (like int, double, complex,...)
+     * \tparam A The type of the storage array of the vector. Default is \c unbounded_array<T>. \c <bounded_array<T> and \c std::vector<T> can also be used
+     */
     template<class T, class A>
     class vector:
         public vector_container<vector<T, A> > {
@@ -44,18 +45,6 @@ namespace boost { namespace numeric { namespace ublas {
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
         using vector_container<self_type>::operator ();
 #endif
-	/// \typedef size_type
-        /// \typedef difference_type
-        /// \typedef value_type
-        /// \typedef const_reference
-        /// \typedef reference
-        /// \typedef pointer
-        /// \typedef const_pointer
-        /// \typedef array_type
-        /// \typedef const_closure_type
-        /// \typedef closure_type
-        /// \typedef vector_temporary_type
-        /// \typedef storage_category
 
 	typedef typename A::size_type size_type;
         typedef typename A::difference_type difference_type;
@@ -73,14 +62,14 @@ namespace boost { namespace numeric { namespace ublas {
         // Construction and destruction
 	
 	/// \brief Constructor of a vector
-	/// Constructor for a vector. By default it is empty, i.e. \c size()==0.
+	/// By default it is empty, i.e. \c size()==0.
         BOOST_UBLAS_INLINE
         vector ():
             vector_container<self_type> (),
             data_ () {}
 
 	/// \brief Constructor of a vector with a predefined size
-	/// Constructor for a vector with a predefined size. By default, its elements are initialized to 0.
+	/// By default, its elements are initialized to 0.
 	/// \param size initial size of the vector
         explicit BOOST_UBLAS_INLINE
         vector (size_type size):
@@ -89,7 +78,7 @@ namespace boost { namespace numeric { namespace ublas {
         }
 
 	/// \brief Constructor of a vector by copying from another container
-	/// Constructor for a vector by copying from another container of the same type (\c A) as the template definition. This type has the generic name \c array_typ within the vector definition.
+	/// This type has the generic name \c array_typ within the vector definition.
 	/// \param size initial size of the vector \bug this value is not used
 	/// \param data container of type \c A
 	/// \todo remove this definition because \c size is not used
@@ -99,7 +88,7 @@ namespace boost { namespace numeric { namespace ublas {
             data_ (data) {}
 
 	/// \brief Constructor of a vector by copying from another container
-	/// Constructor for a vector by copying from another container of the same type (\c A) as the template definition. This type has the generic name \c array_typ within the vector definition.
+	/// This type has the generic name \c array_typ within the vector definition.
 	/// \param data container of type \c A
         BOOST_UBLAS_INLINE
         vector (const array_type &data):
@@ -122,7 +111,8 @@ namespace boost { namespace numeric { namespace ublas {
             data_ (v.data_) {}
 
 	/// \brief Copy-constructor of a vector from a vector_expression
-	/// Copy-constructor of a vector from a vector_expression. Depending on the vector_expression, this constructor can have the cost of the computations of the expression (trivial to say it, but it is to take into account in your complexity calculations).
+	/// Depending on the vector_expression, this constructor can have the cost of the computations 
+	/// of the expression (trivial to say it, but it is to take into account in your complexity calculations).
 	/// \param ae the vector_expression which values will be duplicated into the vector
         template<class AE>
         BOOST_UBLAS_INLINE
