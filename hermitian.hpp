@@ -223,7 +223,27 @@ namespace boost { namespace numeric { namespace ublas {
 
 #endif
 
+    // ----------------------------------
     // Array based hermitian matrix class
+    // ----------------------------------
+    /**
+     * \brief A hermitian matrix of values of type \c T. Orientation can be specified, otherwise a row major and unbounded array are used.
+     *
+     * A hermitian matrix of values of type \c T. Orientation and storage can also be specified, otherwise a row 
+     * major and unbounded array are used. It is \b not required by the storage to initialize elements of the matrix. 
+     * Only the given triangular matrix is stored and the storage of hermitian matrices is packed.
+     * 
+     * For a \f$(n \times n)\f$-dimensional matrix and \f$ 0 \leq i < n, 0 \leq j < n\f$, every element \f$m_{i,j} is mapped 
+     * to the \f$(i x n + j)\f$-th element of the container for row major orientation or the \f$(i + j x m)\f$-th element of 
+     * the container for column major orientation. And \f$\forall i,j\f$, \f$m_{i,j} = \overline{m_{i,j}}\f$.
+     *
+     * See http://en.wikipedia.org/wiki/Hermitian_matrix for more details and properties.
+     *
+     * \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
+     * \tparam TRI the type of triangular matrix is either \c lower or \c upper. Default is \c lower
+     * \tparam L the storage organization. It is either \c row_major or \c column_major. Default is \c row_major
+     * \tparam A the type of Storage array. Default is \unbounded_array.
+     */
     template<class T, class TRI, class L, class A>
     class hermitian_matrix:
         public matrix_container<hermitian_matrix<T, TRI, L, A> > {
