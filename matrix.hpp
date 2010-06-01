@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2000-2007
-//  Joerg Walter, Mathias Koch, Gunter Winkler
+//  Copyright (c) 2000-2010
+//  Joerg Walter, Mathias Koch, Gunter Winkler, David Bellot
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -22,7 +22,19 @@
 
 // Iterators based on ideas of Jeremy Siek
 
-namespace boost { namespace numeric { namespace ublas {
+namespace boost { namespace numeric { 
+	
+	/** \brief main namespace of uBLAS.
+	 *
+	 * Use this namespace for all operations with uBLAS. It can also be abbreviated with
+	 * \code namespace ublas = boost::numeric::ublas; \endcode
+	 *
+	 * A common practice is to bring this namespace into the current scope with
+	 * \code using namespace boost::numeric::ublas; \endcode.
+	 *
+	 * One has to be cautious when doing that and using STL vector<> at the same time because of the name conflict.
+	 */
+	namespace ublas {
 
     namespace detail {
         using namespace boost::numeric::ublas;
@@ -57,14 +69,21 @@ namespace boost { namespace numeric { namespace ublas {
         }
     }
 
-    // ------------------------
-    // Array based matrix class
-    // ------------------------
-    /// \brief A dense matrix of values of type \c T. Orientation and storage can also be specified, otherwise a row major and unbounded array are used.
-    /// A dense matrix of values of type \c T. Orientation and storage can also be specified, otherwise a row major and unbounded array are used. It is \b not required by the storage to initialize elements of the matrix. By default, the orientation if \c row_major and the storage is \c unbounded_array. For a \f$(m x n)\f$-dimensional matrix and \f$ 0 \leq i < m, 0 \leq j < n\f$, every element \f$m_{i,j} is mapped to the \f$(i x n + j)\f$-th element of the container for row major orientation or the \f$(i + j x m)\f$-th element of the container for column major orientation. Finally in a dense matrix all elements are represented in memory in a contiguous chunk of memory.
-    /// \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
-    /// \tparam L the storage organization. It can be either \c row_major or \c column_major. By default it is \c row_major
-    /// \tparam A the type of Storage array. By default, it is an \unbounded_array
+    /**
+     * \brief A dense matrix of values of type \c T.
+     *
+     * For a \f$(m x n)\f$-dimensional matrix and \f$ 0 \leq i < m, 0 \leq j < n\f$, every element \f$m_{i,j} is mapped to 
+     * the \f$(i x n + j)\f$-th element of the container for row major orientation or the \f$(i + j x m)\f$-th element of 
+     * the container for column major orientation. In a dense matrix all elements are represented in memory in a 
+     * contiguous chunk of memory by definition.
+     * 
+     * Orientation and storage can also be specified, otherwise a \c row_major and \c unbounded_array are used. It is \b not 
+     * required by the storage to initialize elements of the matrix.
+     *
+     * \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
+     * \tparam L the storage organization. It can be either \c row_major or \c column_major. Default is \c row_major
+     * \tparam A the type of Storage array. Default is \c unbounded_array
+     */
     template<class T, class L, class A>
     class matrix:
         public matrix_container<matrix<T, L, A> > {
