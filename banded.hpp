@@ -20,18 +20,18 @@
 
 namespace boost { namespace numeric { namespace ublas {
 
-    // ------------------
-    // Array based banded
-    // ------------------
-
-    /// \brief A banded matrix of values of type \c T that can be symmetric or not around the diagonal.
-    /// A banded matrix of values of type \c T that can be symmetric or not around the diagonal. Orientation and storage can also be specified, otherwise a row major 
-    /// and unbounded array are used. It is \b not required by the storage to initialize elements of the matrix. For a \f$(mxn)\f$-dimensional banded matrix with \f$l\f$ lower 
-    /// and \f$u\f$ upper diagonals and \f$0 \leq i < m\f$ and \f$0 \leq j < n\f$, if \f$i>j+l\f$ or \f$i<j-u\f$ then \f$b_{i,j}=0\f$. The default storage for 
-    /// banded matrices is packed. Orientation storage can also be specified. 
-    /// \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
-    /// \tparam L the storage organization. It can be either \c row_major or \c column_major. By default it is \c row_major
-    /// \tparam A the type of Storage array. By default, it is an \unbounded_array
+    /** \brief A banded matrix of values of type \c T.
+     *
+     * For a \f$(mxn)\f$-dimensional banded matrix with \f$l\f$ lower and \f$u\f$ upper diagonals and 
+     * \f$0 \leq i < m\f$ and \f$0 \leq j < n\f$, if \f$i>j+l\f$ or \f$i<j-u\f$ then \f$b_{i,j}=0\f$. 
+     * The default storage for banded matrices is packed. Orientation and storage can also be specified. 
+     * Default is \c row_major and and unbounded_array. It is \b not required by the storage to initialize 
+     * elements of the matrix.
+     *
+     * \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
+     * \tparam L the storage organization. It can be either \c row_major or \c column_major. Default is \c row_major
+     * \tparam A the type of Storage array. Default is \c unbounded_array
+     */
     template<class T, class L, class A>
     class banded_matrix:
         public matrix_container<banded_matrix<T, L, A> > {
@@ -981,19 +981,20 @@ namespace boost { namespace numeric { namespace ublas {
     typename banded_matrix<T, L, A>::const_value_type banded_matrix<T, L, A>::zero_ = value_type/*zero*/();
 
 
-    // ---------------------
-    // Diagonal matrix class
-    // ---------------------
-
-    /// \brief A diagonal matrix of values of type \c T (which is a specialization of a banded matrix)
-    /// A diagonal matrix of values of type \c T (which is a specialization of a banded matrix). Orientation and storage can also be specified, otherwise a row major 
-    /// and unbounded array are used. As a specialization of a banded matrix, the constructor of the diagonal matrix creates a banded matrix with 0 upper and lower diagonals
-    /// around the main diagonal and the matrix is obviously a square matrix. Operations are optimized based on these 2 assumptions. It is \b not required by 
-    /// the storage to initialize elements of the matrix.  For a \f$(mxm)\f$-dimensional diagonal matrix, \f$0 \leq i < m\f$ and \f$0 \leq j < m\f$, if \f$i\neq j\f$ then 
-    /// \f$b_{i,j}=0\f$. The default storage for diagonal matrices is packed. Orientation storage can also be specified. 
-    /// \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
-    /// \tparam L the storage organization. It can be either \c row_major or \c column_major. By default it is \c row_major
-    /// \tparam A the type of Storage array. By default, it is an \unbounded_array
+    /** \brief A diagonal matrix of values of type \c T, which is a specialization of a banded matrix
+     *
+     * For a \f$(mxm)\f$-dimensional diagonal matrix, \f$0 \leq i < m\f$ and \f$0 \leq j < m\f$, if \f$i\neq j\f$ then
+     * \f$b_{i,j}=0\f$. The default storage for diagonal matrices is packed. Orientation and storage can also be specified.
+     * Default is \c row major \c unbounded_array. 
+     *
+     * As a specialization of a banded matrix, the constructor of the diagonal matrix creates a banded matrix with 0 upper 
+     * and lower diagonals around the main diagonal and the matrix is obviously a square matrix. Operations are optimized 
+     * based on these 2 assumptions. It is \b not required by the storage to initialize elements of the matrix.  
+     *
+     * \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
+     * \tparam L the storage organization. It can be either \c row_major or \c column_major. Default is \c row_major
+     * \tparam A the type of Storage array. Default is \c unbounded_array
+     */
     template<class T, class L, class A>
     class diagonal_matrix:
         public banded_matrix<T, L, A> {
