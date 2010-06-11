@@ -23,6 +23,8 @@
 namespace boost { namespace numeric { namespace ublas {
 
     // Matrix based row vector class
+    /** \brief
+     */
     template<class M>
     class matrix_row:
         public vector_expression<matrix_row<M> > {

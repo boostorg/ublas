@@ -260,7 +260,22 @@ namespace boost { namespace numeric { namespace ublas {
 #endif
 
 
-    // Index map based sparse vector class
+    /** \brief Index map based sparse vector
+     *
+     * A sparse vector of values of type T of variable size. The sparse storage type A can be 
+     * \c std::map<size_t, T> or \c map_array<size_t, T>. This means that only non-zero elements
+     * are effectively stored.
+     *
+     * For a \f$n\f$-dimensional sparse vector,  and 0 <= i < n the non-zero elements \f$v_i\f$ 
+     * are mapped to consecutive elements of the associative container, i.e. for elements 
+     * \f$k = v_{i_1}\f$ and \f$k + 1 = v_{i_2}\f$ of the container, holds \f$i_1 < i_2\f$.
+     *
+     * Supported parameters for the adapted array are \c map_array<std::size_t, T> and 
+     * \c map_std<std::size_t, T>. The latter is equivalent to \c std::map<std::size_t, T>.
+     *
+     * \tparam T
+     * \tparam A
+     */
     template<class T, class A>
     class mapped_vector:
         public vector_container<mapped_vector<T, A> > {
