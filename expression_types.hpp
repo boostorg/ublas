@@ -22,8 +22,13 @@
 
 namespace boost { namespace numeric { namespace ublas {
 
-    // Base class for uBLAS staticaly derived expressions - see the Barton Nackman trick
-    //  Provides numeric properties for linear algebra
+    /** \brief Base class for uBLAS staticaly derived expressions using the the Barton Nackman trick
+     *
+     * This class provides the numeric properties for linear algebra.
+     * This is a NonAssignable class
+     * 
+     * \tparam E an expression type
+     */
     template<class E>
     class ublas_expression {
     public:
@@ -42,11 +47,16 @@ namespace boost { namespace numeric { namespace ublas {
     };
 
 
-    // Base class for Scalar Expression models -
-    //  it does not model the Scalar Expression concept but all derived types should.
-    // The class defines a common base type and some common interface for all
-    // statically derived Scalar Expression classes
-    // We implement the casts to the statically derived type.
+    /** \bried Base class for Scalar Expression models
+     *
+     * It does not model the Scalar Expression concept but all derived types should.
+     * The class defines a common base type and some common interface for all statically 
+     * derived Scalar Expression classes.
+     *
+     * We implement the casts to the statically derived type.
+     *
+     * \tparam E an expression type
+     */
     template<class E>
     class scalar_expression:
         public ublas_expression<E> {
