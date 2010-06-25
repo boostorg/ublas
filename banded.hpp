@@ -1037,7 +1037,18 @@ namespace boost { namespace numeric { namespace ublas {
         }
     };
 
-    // Banded matrix adaptor class
+    /** \brief A banded matrix adaptator: convert a matrix into a banded matrix
+     *
+     * For a \f$(mxn)\f$-dimensional banded matrix with \f$l\f$ lower and \f$u\f$ upper diagonals and 
+     * \f$0 \leq i < m\f$ and \f$0 \leq j < n\f$, if \f$i>j+l\f$ or \f$i<j-u\f$ then \f$b_{i,j}=0\f$. 
+     * The default storage for banded matrices is packed. Orientation and storage can also be specified. 
+     * Default is \c row_major and and unbounded_array. It is \b not required by the storage to initialize 
+     * elements of the matrix.
+     *
+     * \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
+     * \tparam L the storage organization. It can be either \c row_major or \c column_major. Default is \c row_major
+     * \tparam A the type of Storage array. Default is \c unbounded_array
+     */
     template<class M>
     class banded_adaptor:
         public matrix_expression<banded_adaptor<M> > {
