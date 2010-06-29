@@ -983,13 +983,14 @@ namespace boost { namespace numeric { namespace ublas {
 
     /** \brief A diagonal matrix of values of type \c T, which is a specialization of a banded matrix
      *
-     * For a \f$(mxm)\f$-dimensional diagonal matrix, \f$0 \leq i < m\f$ and \f$0 \leq j < m\f$, if \f$i\neq j\f$ then
-     * \f$b_{i,j}=0\f$. The default storage for diagonal matrices is packed. Orientation and storage can also be specified.
-     * Default is \c row major \c unbounded_array. 
+     * For a \f$(mxm)\f$-dimensional diagonal matrix, \f$0 \leq i < m\f$ and \f$0 \leq j < m\f$, 
+     * if \f$i\neq j\f$ then \f$b_{i,j}=0\f$. The default storage for diagonal matrices is packed. 
+     * Orientation and storage can also be specified. Default is \c row major \c unbounded_array. 
      *
-     * As a specialization of a banded matrix, the constructor of the diagonal matrix creates a banded matrix with 0 upper 
-     * and lower diagonals around the main diagonal and the matrix is obviously a square matrix. Operations are optimized 
-     * based on these 2 assumptions. It is \b not required by the storage to initialize elements of the matrix.  
+     * As a specialization of a banded matrix, the constructor of the diagonal matrix creates 
+     * a banded matrix with 0 upper and lower diagonals around the main diagonal and the matrix is 
+     * obviously a square matrix. Operations are optimized based on these 2 assumptions. It is 
+     * \b not required by the storage to initialize elements of the matrix.  
      *
      * \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
      * \tparam L the storage organization. It can be either \c row_major or \c column_major. Default is \c row_major
@@ -1037,17 +1038,17 @@ namespace boost { namespace numeric { namespace ublas {
         }
     };
 
-    /** \brief A banded matrix adaptator: convert a matrix into a banded matrix
+    /** \brief A banded matrix adaptator: convert a any matrix into a banded matrix expression
      *
-     * For a \f$(mxn)\f$-dimensional banded matrix with \f$l\f$ lower and \f$u\f$ upper diagonals and 
-     * \f$0 \leq i < m\f$ and \f$0 \leq j < n\f$, if \f$i>j+l\f$ or \f$i<j-u\f$ then \f$b_{i,j}=0\f$. 
-     * The default storage for banded matrices is packed. Orientation and storage can also be specified. 
-     * Default is \c row_major and and unbounded_array. It is \b not required by the storage to initialize 
-     * elements of the matrix.
+     * For a \f$(mxn)\f$-dimensional matrix, the \c banded_adaptor will provide a banded matrix
+     * with \f$l\f$ lower and \f$u\f$ upper diagonals and \f$0 \leq i < m\f$ and \f$0 \leq j < n\f$,
+     * if \f$i>j+l\f$ or \f$i<j-u\f$ then \f$b_{i,j}=0\f$. 
      *
-     * \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
-     * \tparam L the storage organization. It can be either \c row_major or \c column_major. Default is \c row_major
-     * \tparam A the type of Storage array. Default is \c unbounded_array
+     * Storage and location are based on those of the underlying matrix. This is important because
+     * a \c banded_adaptor does not copy the matrix data to a new place. Therefore, modifying values
+     * in a \c banded_adaptor matrix will also modify the underlying matrix too.
+     *
+     * \tparam M the type of matrix used to generate a banded matrix
      */
     template<class M>
     class banded_adaptor:
@@ -2022,7 +2023,18 @@ namespace boost { namespace numeric { namespace ublas {
     template<class M>
     typename banded_adaptor<M>::const_value_type banded_adaptor<M>::zero_ = value_type/*zero*/();
 
-    // Diagonal matrix adaptor class
+    /** \brief A diagonal matrix adaptator: convert a any matrix into a diagonal matrix expression
+     *
+     * For a \f$(mxm)\f$-dimensional matrix, the \c diagonal_adaptor will provide a diagonal matrix
+     * with \f$0 \leq i < m\f$ and \f$0 \leq j < m\f$, if \f$i\neq j\f$ then \f$b_{i,j}=0\f$. 
+     *
+     * Storage and location are based on those of the underlying matrix. This is important because
+     * a \c diagonal_adaptor does not copy the matrix data to a new place. Therefore, modifying values
+     * in a \c diagonal_adaptor matrix will also modify the underlying matrix too.
+     *
+     * \tparam M the type of matrix used to generate the diagonal matrix
+     */
+
     template<class M>
     class diagonal_adaptor:
         public banded_adaptor<M> {
