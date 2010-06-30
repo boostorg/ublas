@@ -132,21 +132,26 @@ namespace boost { namespace numeric { namespace ublas {
             return v1.plus_assign (t * v2);
         }
 
-	/** Performs rotation of points in the plane
+	/** Performs rotation of points in the plane and assign the result to the first vector
 	 *
-	* \param t1 first scalar
-	* \param v1 first vector
-	* \param t2 second scalar
-	* \param v2 second vector
-	*
-	* \tparam T1 type of the first scalar (not needed by default)
-	* \tparam V1 type of the first vector (not needed by default)
-	* \tparam T2 type of the second scalar (not needed by default)
-	* \tparam V2 type of the second vector (not needed by default)
-	*/
+	 * Each point is defined as a pair \c v1(i) and \c v2(i), being respectively 
+	 * the \f$x\f$ and \f$y\f$ coordinates. The parameters \c t1 and \t2 are respectively 
+	 * the cosine and sine of the angle of the rotation.
+	 * Results are not returned but directly written into \c v1.
+	 *
+	 * \param t1 cosine of the rotation
+	 * \param v1 vector of \f$x\f$ values
+	 * \param t2 sine of the rotation 
+	 * \param v2 vector of \f$y\f$ values
+	 *
+	 * \tparam T1 type of the cosine value (not needed by default)
+	 * \tparam V1 type of the \f$x\f$ vector (not needed by default)
+	 * \tparam T2 type of the sine value (not needed by default)
+	 * \tparam V2 type of the \f$y\f$ vector (not needed by default)
+	 */
         template<class T1, class V1, class T2, class V2>
-        void
-        rot (const T1 &t1, V1 &v1, const T2 &t2, V2 &v2) {
+        void rot (const T1 &t1, V1 &v1, const T2 &t2, V2 &v2) 
+	{
             typedef typename promote_traits<typename V1::value_type, typename V2::value_type>::promote_type promote_type;
             vector<promote_type> vt (t1 * v1 + t2 * v2);
             v2.assign (- t2 * v1 + t1 * v2);
@@ -162,7 +167,7 @@ namespace boost { namespace numeric { namespace ublas {
      */
     namespace blas_2 {
 
-       /** \brief multiply vector \a v with triangular matrix \a m
+       /** \brief multiply vector \c v with triangular matrix \c m
 	*
 	* \param v a vector
 	* \param m a triangular matrix
@@ -177,15 +182,16 @@ namespace boost { namespace numeric { namespace ublas {
             return v = prod (m, v);
         }
 
-        /** \brief solve \f$m.x = v\f$ in place, where \a m is a triangular matrix
+        /** \brief solve \f$m.x = v\f$ in place, where \c m is a triangular matrix
 	 *
 	 * \param v a vector
 	 * \param m a matrix
-	 * \param C
+	 * \param C (this parameter is not needed)
+	 * \return a result vector from the above operation
 	 *
-	 * \tparam V a vector
-	 * \tparam M a matrix
-	 * \tparam C
+	 * \tparam V type of the vector (not needed by default)
+	 * \tparam M type of the matrix (not needed by default)
+	 * \tparam C n/a
          */                 
         template<class V, class M, class C>
         V & tsv (V &v, const M &m, C) 
@@ -193,19 +199,20 @@ namespace boost { namespace numeric { namespace ublas {
             return v = solve (m, v, C ());
         }
 
-        /** \brief compute \a v1 = \a t1 * \a v1 + \a t2 * (\a m * \a v2)
+        /** \brief compute \f$ v1 = t1.v1 + t2.(m.v2)\f$, a general matrix-vector product
 	 *
-	 * \param v1
-	 * \param t1
-	 * \param t2
-	 * \param m
-	 * \param v2
+	 * \param v1 a vector
+	 * \param t1 a scalar
+	 * \param t2 another scalar
+	 * \param m a matrix
+	 * \param v2 another vector
+	 * \return the vector \c v1 with the result from the above operation
 	 *
-	 * \tparam V1
-	 * \tparam T1
-	 * \tparam T2
-	 * \tparam M
-	 * \tparam V2
+	 * \tparam V1 type of first vector (not needed by default)
+	 * \tparam T1 type of first scalar (not needed by default)
+	 * \tparam T2 type of second scalar (not needed by default)
+	 * \tparam M type of matrix (not needed by default)
+	 * \tparam V2 type of second vector (not needed by default)
          */                 
         template<class V1, class T1, class T2, class M, class V2>
         V1 & gmv (V1 &v1, const T1 &t1, const T2 &t2, const M &m, const V2 &v2) 
@@ -213,17 +220,18 @@ namespace boost { namespace numeric { namespace ublas {
             return v1 = t1 * v1 + t2 * prod (m, v2);
         }
 
-        /** \brief rank 1 update: \a m = \a m + \a t * (\a v1 * \a v2<sup>T</sup>)
+        /** \brief Rank 1 update: \f$ m = m + t.(v1.v2^T)\f$
 	 *
-	 * \param m
-	 * \param t
-	 * \param v1
-	 * \param v2
+	 * \param m a matrix
+	 * \param t a scalar
+	 * \param v1 a vector
+	 * \param v2 another vector
+	 * \return a matrix with the result from the above operation
 	 *
-	 * \tparam M
-	 * \tparam T
-	 * \tparam V1
-	 * \tparam V2
+	 * \tparam M type of matrix (not needed by default)
+	 * \tparam T type of scalar (not needed by default)
+	 * \tparam V1 type of first vector (not needed by default)
+	 * \tparam V2type of second vector (not needed by default)
 	 */
         template<class M, class T, class V1, class V2>
         M & gr (M &m, const T &t, const V1 &v1, const V2 &v2) 
@@ -235,18 +243,20 @@ namespace boost { namespace numeric { namespace ublas {
 #endif
         }
 
-        /** \brief symmetric rank 1 update: \a m = \a m + \a t * (\a v * \a v<sup>T</sup>)
+        /** \brief symmetric rank 1 update: \f$m = m + t.(v.v^T)\f$
 	 *
-	 * \param m
-	 * \param t
-	 * \param v
+	 * \param m a matrix
+	 * \param t a scalar
+	 * \param v a vector
+	 * \return a matrix with the result from the above operation
 	 *
-	 * \tparam M
-	 * \tparam T
-	 * \tparam V
+	 * \tparam M type of matrix (not needed by default)
+	 * \tparam T type of scalar (not needed by default)
+	 * \tparam V type of vector (not needed by default)
 	 */
         template<class M, class T, class V>
-        M & sr (M &m, const T &t, const V &v) {
+        M & sr (M &m, const T &t, const V &v) 
+	{
 #ifndef BOOST_UBLAS_SIMPLE_ET_DEBUG
             return m += t * outer_prod (v, v);
 #else
@@ -254,15 +264,16 @@ namespace boost { namespace numeric { namespace ublas {
 #endif
         }
 
-        /** \brief hermitian rank 1 update: \a m = \a m + \a t * (\a v * \a v<sup>H</sup>)
+        /** \brief hermitian rank 1 update: \f$m = m + t.(v.v^H)\f$
 	 *
-	 * \param m
-	 * \param t
-	 * \param v
+	 * \param m a matrix
+	 * \param t a scalar
+	 * \param v a vector
+	 * \return a matrix with the result from the above operation
 	 *
-	 * \tparam M
-	 * \tparam T
-	 * \tparam V
+	 * \tparam M type of matrix (not needed by default)
+	 * \tparam T type of scalar (not needed by default)
+	 * \tparam V type of vector (not needed by default)
 	 */
         template<class M, class T, class V>
         M & hr (M &m, const T &t, const V &v) 
@@ -274,17 +285,18 @@ namespace boost { namespace numeric { namespace ublas {
 #endif
         }
 
-         /** \brief symmetric rank 2 update: \a m = \a m + \a t * (\a v1 * \a v2<sup>T</sup> + \a v2 * \a v1<sup>T</sup>) 
+         /** \brief symmetric rank 2 update: \f$ m=m+ t.(v1.v2^T + v2.v1^T)\f$ 
 	  *
-	  * \param m
-	  * \param t
-	  * \param v1
-	  * \param v2
+	  * \param m a matrix
+	  * \param t a scalar
+	  * \param v1 a vector
+	  * \param v2 another vector
+	  * \return a matrix with the result from the above operation
 	  *
-	  * \tparam M
-	  * \tparam T
-	  * \tparam V1
-	  * \tparam V2
+	  * \tparam M type of matrix (not needed by default)
+	  * \tparam T type of scalar (not needed by default)
+	  * \tparam V1 type of first vector (not needed by default)
+	  * \tparam V2type of second vector (not needed by default)
           */                 
         template<class M, class T, class V1, class V2>
         M & sr2 (M &m, const T &t, const V1 &v1, const V2 &v2) 
@@ -296,17 +308,18 @@ namespace boost { namespace numeric { namespace ublas {
 #endif
         }
 
-        /** \brief hermitian rank 2 update: \a m = \a m + \a t * (\a v1 * \a v2<sup>H</sup>) + \a v2 * (\a t * \a v1)<sup>H</sup>) 
+        /** \brief hermitian rank 2 update: \f$m=m+t.(v1.v2^H) + v2.(t.v1)^H) 
 	 *
-	 * \param m
-	 * \param t
-	 * \param v1
-	 * \param v2
+	 * \param m a matrix
+	 * \param t a scalar
+	 * \param v1 a vector
+	 * \param v2 another vector
+	 * \return a matrix with the result from the above operation
 	 *
-	 * \tparam M
-	 * \tparam T
-	 * \tparam V1
-	 * \tparam V2
+	 * \tparam M type of matrix (not needed by default)
+	 * \tparam T type of scalar (not needed by default)
+	 * \tparam V1 type of first vector (not needed by default)
+	 * \tparam V2type of second vector (not needed by default)
          */                 
         template<class M, class T, class V1, class V2>
         M & hr2 (M &m, const T &t, const V1 &v1, const V2 &v2) 
