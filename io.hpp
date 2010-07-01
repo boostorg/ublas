@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2000-2002
-//  Joerg Walter, Mathias Koch
+//  Copyright (c) 2000-2010
+//  Joerg Walter, Mathias Koch, David Bellot
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -21,6 +21,7 @@
 
 namespace boost { namespace numeric { namespace ublas {
 
+    /** \brief Output operator*/
     template<class E, class T, class VE>
     // BOOST_UBLAS_INLINE This function seems to be big. So we do not let the compiler inline it.
     std::basic_ostream<E, T> &operator << (std::basic_ostream<E, T> &os,

@@ -32,7 +32,10 @@ namespace boost { namespace numeric {
 	 * A common practice is to bring this namespace into the current scope with
 	 * \code using namespace boost::numeric::ublas; \endcode.
 	 *
-	 * One has to be cautious when doing that and using STL vector<> at the same time because of the name conflict.
+	 * However, be warned that using the ublas namespace and the std::vector at the same time can lead to the compiler to confusion. 
+	 * The solution is simply to prefix each ublas vector like \c boost::numeric::ublas::vector<T>. If you think it's too long to 
+	 * write, you can define a new namespace like \c namespace ublas = boost::numeric::ublas and then just declare your vectors
+	 * with \c ublas::vector<T>. STL vectors will be declared as vector<T>. No need to prefix with \c std::
 	 */
 	namespace ublas {
 
