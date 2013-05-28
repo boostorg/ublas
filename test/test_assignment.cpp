@@ -39,7 +39,7 @@ typename AE::value_type mean_square(const vector_expression<AE> &ve) {
     typename AE::value_type s(0);
     typename AE::size_type i;
     for (i=0; i!= ve().size(); i++) {
-            s+=scalar_traits<typename AE::value_type>::type_abs(ve()(i));
+            s+=scalar_traits<typename AE::value_type>::type_abs(ve()(i)); // nasos: TODO: 1. This is not the mean square. 2.Make this a common facility for testing
         }
     return s/ve().size();
 }
