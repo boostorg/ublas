@@ -45,27 +45,6 @@ namespace boost { namespace numeric { namespace ublas {
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
         using vector_container<self_type>::operator ();
 #endif
-        typedef std::size_t size_type;
-        typedef std::ptrdiff_t difference_type;
-        typedef T value_type;
-        // typedef const T &const_reference;
-        typedef typename type_traits<T>::const_reference const_reference;
-        typedef T &reference;
-        typedef const T *const_pointer;
-        typedef T *pointer;
-        typedef A array_type;
-        typedef const A const_array_type;
-        typedef const vector<T, A> const_self_type;
-        typedef vector<T, A> self_type;
-#ifndef BOOST_UBLAS_CT_REFERENCE_BASE_TYPEDEFS
-        typedef const vector_const_reference<const_self_type> const_closure_type;
-#else
-        typedef const vector_reference<const_self_type> const_closure_type;
-#endif
-        typedef vector_reference<self_type> closure_type;
-        typedef typename A::const_iterator const_iterator_type;
-        typedef typename A::iterator iterator_type;
-        typedef dense_tag storage_category;
 
 	typedef typename A::size_type size_type;
 	    typedef typename A::difference_type difference_type;
@@ -310,23 +289,6 @@ namespace boost { namespace numeric { namespace ublas {
         }
 #endif
 
-    /// \brief Assign a full vector (\e RHS-vector) to the current vector (\e LHS-vector)
-    /// Assign a full vector (\e RHS-vector) to the current vector (\e LHS-vector). This method does not create any temporary.
-    /// \param v is the source vector container
-    /// \return a reference to a vector (i.e. the destination vector)
-        template<class C>          // Container assignment without temporary
-        BOOST_UBLAS_INLINE
-        vector &operator = (const vector_container<C> &v) {
-            resize (v ().size (), false);
-            assign (v);
-            return *this;
-        }
-
-    /// \brief Assign a full vector (\e RHS-vector) to the current vector (\e LHS-vector)
-    /// \param v is the source vector
-    /// \return a reference to a vector (i.e. the destination vector)
-#endif
-
 	/// \brief Assign a full vector (\e RHS-vector) to the current vector (\e LHS-vector)
 	/// Assign a full vector (\e RHS-vector) to the current vector (\e LHS-vector). This method does not create any temporary.
 	/// \param v is the source vector container
@@ -358,30 +320,6 @@ namespace boost { namespace numeric { namespace ublas {
         vector &operator = (const vector_expression<AE> &ae) {
             self_type temporary (ae);
             return assign_temporary (temporary);
-        }
-        template<class AE>
-        BOOST_UBLAS_INLINE
-        vector &reset (const vector_expression<AE> &ae) {
-            self_type temporary (ae);
-            resize (temporary.size ());
-            return assign_temporary (temporary);
-        }
-        template<class AE>
-        BOOST_UBLAS_INLINE
-        vector &assign (const vector_expression<AE> &ae) {
-            vector_assign (scalar_assign<value_type, BOOST_UBLAS_TYPENAME AE::value_type> (), *this, ae);
-            return *this;
-        }
-        template<class AE>
-        BOOST_UBLAS_INLINE
-        vector &operator += (const vector_expression<AE> &ae) {
-#ifdef BOOST_UBLAS_MUTABLE_TEMPORARY
-            return assign_temporary (self_type (*this + ae));
-#else
-            // return assign (self_type (*this + ae));
-            self_type temporary (*this + ae);
-            return assign_temporary (temporary);
-#endif
         }
 
 	/// \brief Assign the result of a vector_expression to the vector
