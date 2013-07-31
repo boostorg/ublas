@@ -48,9 +48,6 @@ int expected_index_5_by_6( int index, row_major tag ) {
    return mapping[ index ];
 }
 
-
-
-
 template< typename Orientation >
 bool test_band_storage() {
         
@@ -264,8 +261,6 @@ BOOST_UBLAS_TEST_DEF( banded_matrix_row_major_5_by_6 )
 
     BOOST_UBLAS_TEST_CHECK( test_band_storage_5_by_6< row_major >() );
 }
-
-
 
 int main()
 {
