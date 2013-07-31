@@ -8,7 +8,6 @@
 #include "utils.hpp"
 
 using namespace boost::numeric::ublas;
- 
 
 int expected_index( int index, column_major tag ) {
    // this is the data shown on http://www.netlib.org/lapack/lug/node124.html
