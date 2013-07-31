@@ -69,7 +69,7 @@ public:
 
     template <class T>
     BOOST_UBLAS_INLINE static bool valid_index(T /*size1*/, T  size2, T lower, T upper, T i, T j) {
-        return (lower+j >= i) && j <= std::min(size2 - 1, i + upper)    ; // lower + j is used by get_index. Maybe find a way to consolidate the operations to increase performance
+        return (lower+j >= i) && j <= std::min(size2 - 1, i + upper); // lower + j is used by get_index. Maybe find a way to consolidate the operations to increase performance
     }
 
     template <class T>
