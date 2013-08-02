@@ -133,7 +133,7 @@ public:
             matrix_container<self_type> (),
             size1_ (size1), size2_ (size2),
             lower_ (lower), upper_ (upper),
-#ifdef BOOST_UBLAS_OWN_BANDED
+#if defined(BOOST_UBLAS_OWN_BANDED) || (BOOST_UBLAS_LEGACY_BANDED)
             data_ ((std::max) (size1, size2) * (lower + 1 + upper))
 #else
             data_ ( hidden::banded_indexing<layout_type>::size(size1, size2) * (lower + 1 + upper)) // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
@@ -156,7 +156,7 @@ public:
             matrix_container<self_type> (),
             size1_ (ae ().size1 ()), size2_ (ae ().size2 ()),
             lower_ (lower), upper_ (upper),
-#ifdef BOOST_UBLAS_OWN_BANDED
+#if defined(BOOST_UBLAS_OWN_BANDED) || (BOOST_UBLAS_LEGACY_BANDED)
             data_ ((std::max) (size1_, size2_) * (lower_ + 1 + upper_))
 #else
             data_ ( hidden::banded_indexing<layout_type>::size(size1_, size2_) * (lower_ + 1 + upper_)) // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
@@ -230,7 +230,14 @@ public:
                 l < lower_ + 1 + upper_)
                 return data () [layout_type::element (k, (std::max) (size1_, size2_),
                                                        l, lower_ + 1 + upper_)];
-#else
+#elif BOOST_UBLAS_LEGACY_BANDED // Prior to version: TODO: add version this is actually incorporated in
+            const size_type k = j;
+            const size_type l = upper_ + i - j;
+            if (k < size2_ &&
+                l < lower_ + 1 + upper_)
+                return data () [layout_type::element (k, size2_,
+                                                       l, lower_ + 1 + upper_)];
+#else  // New default
             // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
             if ( hidden::banded_indexing<layout_type>::valid_index(size1_, size2_, lower_, upper_, i, j) ) {
                 return data () [hidden::banded_indexing<layout_type>::get_index(size1_, size2_, lower_, upper_, i, j)];
@@ -247,6 +254,16 @@ public:
             const size_type l = lower_ + j - i; // TODO: Don't we need an if or BOOST_UBLAS_CHECK HERE?
             return data () [layout_type::element (k, (std::max) (size1_, size2_),
                                                    l, lower_ + 1 + upper_)];
+#elif BOOST_UBLAS_LEGACY_BANDED // Prior to version: TODO: add version this is actually incorporated in
+            const size_type k = j;
+            const size_type l = upper_ + i - j;
+            if (! (k < size2_ &&
+                   l < lower_ + 1 + upper_) ) {
+                bad_index ().raise ();
+                // NEVER reached
+            }
+            return data () [layout_type::element (k, size2_,
+                                                       l, lower_ + 1 + upper_)];
 #else
             // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
             BOOST_UBLAS_CHECK( hidden::banded_indexing<layout_type>::valid_index(size1_, size2_, lower_, upper_, i, j) , bad_index());
@@ -267,7 +284,16 @@ public:
             }
             return data () [layout_type::element (k, (std::max) (size1_, size2_),
                                                        l, lower_ + 1 + upper_)];
-
+#elif BOOST_UBLAS_LEGACY_BANDED // Prior to version: TODO: add version this is actually incorporated in
+            const size_type k = j;
+            const size_type l = upper_ + i - j;
+            if (! (k < size2_ &&
+                   l < lower_ + 1 + upper_) ) {
+                bad_index ().raise ();
+                // NEVER reached
+            }
+            return data () [layout_type::element (k, size2_,
+                                                       l, lower_ + 1 + upper_)];
 #else
             // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
             BOOST_UBLAS_CHECK( hidden::banded_indexing<layout_type>::valid_index(size1_, size2_, lower_, upper_, i, j) , bad_index());
