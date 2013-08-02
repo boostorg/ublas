@@ -747,19 +747,6 @@ namespace boost { namespace numeric { namespace ublas {
 
     // Note: specializations for T[N] and T[M][N] have been moved to traits/c_array.hpp
 
-    template <class MAJORITY_TAG>
-    struct majority_from_orientation { };
-
-    template <>
-    struct majority_from_orientation<column_major_tag> {
-        typedef column_major type;
-    };
-
-    template <>
-    struct majority_from_orientation<row_major_tag> {
-        typedef row_major type;
-    };
-
 }}}
 
 #endif

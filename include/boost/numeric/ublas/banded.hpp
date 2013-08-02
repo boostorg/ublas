@@ -36,7 +36,7 @@ class banded_indexing { };
  *
  */
 template <>
-class banded_indexing<column_major> {
+class banded_indexing<column_major_tag> {
 public:
 
     template <class T>
@@ -59,7 +59,7 @@ public:
  *
  */
 template <>
-class banded_indexing<row_major> {
+class banded_indexing<row_major_tag> {
 public:
 
     template <class T>
@@ -136,7 +136,7 @@ public:
 #if defined(BOOST_UBLAS_OWN_BANDED) || (BOOST_UBLAS_LEGACY_BANDED)
             data_ ((std::max) (size1, size2) * (lower + 1 + upper))
 #else
-            data_ ( hidden::banded_indexing<layout_type>::size(size1, size2) * (lower + 1 + upper)) // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
+            data_ ( hidden::banded_indexing<orientation_category>::size(size1, size2) * (lower + 1 + upper)) // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
 #endif
         {
         }
@@ -159,7 +159,7 @@ public:
 #if defined(BOOST_UBLAS_OWN_BANDED) || (BOOST_UBLAS_LEGACY_BANDED)
             data_ ((std::max) (size1_, size2_) * (lower_ + 1 + upper_))
 #else
-            data_ ( hidden::banded_indexing<layout_type>::size(size1_, size2_) * (lower_ + 1 + upper_)) // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
+            data_ ( hidden::banded_indexing<orientation_category>::size(size1_, size2_) * (lower_ + 1 + upper_)) // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
 #endif
         {
             matrix_assign<scalar_assign> (*this, ae);
@@ -239,8 +239,8 @@ public:
                                                        l, lower_ + 1 + upper_)];
 #else  // New default
             // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
-            if ( hidden::banded_indexing<layout_type>::valid_index(size1_, size2_, lower_, upper_, i, j) ) {
-                return data () [hidden::banded_indexing<layout_type>::get_index(size1_, size2_, lower_, upper_, i, j)];
+            if ( hidden::banded_indexing<orientation_category>::valid_index(size1_, size2_, lower_, upper_, i, j) ) {
+                return data () [hidden::banded_indexing<orientation_category>::get_index(size1_, size2_, lower_, upper_, i, j)];
             }
 #endif
             return zero_;
@@ -267,8 +267,8 @@ public:
                                                        l, lower_ + 1 + upper_)];
 #else
             // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
-            BOOST_UBLAS_CHECK( hidden::banded_indexing<layout_type>::valid_index(size1_, size2_, lower_, upper_, i, j) , bad_index());
-            return data () [hidden::banded_indexing<layout_type>::get_index(size1_, size2_, lower_, upper_, i, j)];
+            BOOST_UBLAS_CHECK( hidden::banded_indexing<orientation_category>::valid_index(size1_, size2_, lower_, upper_, i, j) , bad_index());
+            return data () [hidden::banded_indexing<orientation_category>::get_index(size1_, size2_, lower_, upper_, i, j)];
 #endif
         }
         BOOST_UBLAS_INLINE
@@ -297,8 +297,8 @@ public:
                                                        l, lower_ + 1 + upper_)];
 #else
             // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
-            BOOST_UBLAS_CHECK( hidden::banded_indexing<layout_type>::valid_index(size1_, size2_, lower_, upper_, i, j) , bad_index());
-            return data () [hidden::banded_indexing<layout_type>::get_index(size1_, size2_, lower_, upper_, i, j)];
+            BOOST_UBLAS_CHECK( hidden::banded_indexing<orientation_category>::valid_index(size1_, size2_, lower_, upper_, i, j) , bad_index());
+            return data () [hidden::banded_indexing<orientation_category>::get_index(size1_, size2_, lower_, upper_, i, j)];
 #endif
 
         }
@@ -1152,7 +1152,7 @@ public:
         public matrix_expression<banded_adaptor<M> > {
 
         typedef banded_adaptor<M> self_type;
-        typedef majority_from_orientation<typename M::orientation_category> closure_layout_type;
+
     public:
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
         using matrix_expression<self_type>::operator ();
@@ -1235,7 +1235,8 @@ public:
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
 #else
-            if (hidden::banded_indexing<closure_layout_type>::valid_index(size1(), size2(), lower_, upper_, i, j))
+            if (hidden::banded_indexing<orientation_category>::valid_index(
+                        size1(), size2(), lower_, upper_, i, j))
                 return data () (i, j);
 #endif
             return zero_;
@@ -1257,7 +1258,8 @@ public:
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
 #else
-            if (hidden::banded_indexing<closure_layout_type>::valid_index(size1(), size2(), lower_, upper_, i, j))
+            if (hidden::banded_indexing<orientation_category>::valid_index(
+                        size1(), size2(), lower_, upper_, i, j))
                 return data () (i, j);
 #endif
 #ifndef BOOST_UBLAS_REFERENCE_CONST_MEMBER
@@ -1283,7 +1285,8 @@ public:
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
 #else
-            if (hidden::banded_indexing<closure_layout_type>::valid_index(size1(), size2(), lower_, upper_, i, j))
+            if (hidden::banded_indexing<orientation_category>::valid_index(
+                        size1(), size2(), lower_, upper_, i, j))
                 return data () (i, j);
 #endif
 #ifndef BOOST_UBLAS_REFERENCE_CONST_MEMBER
