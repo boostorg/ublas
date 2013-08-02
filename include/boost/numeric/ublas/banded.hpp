@@ -53,7 +53,7 @@ public:
 
     template <class T>
     BOOST_UBLAS_INLINE static T get_index(T /*size1*/, T size2, T lower, T upper, T i, T j) {
-        return column_major::element (upper+i - j, lower + 1 + upper, j, size2);
+        return column_major::element (upper + i - j, lower + 1 + upper, j, size2);
     }
 };
 
@@ -69,7 +69,6 @@ public:
         return size1;
     }
 
-
   //  template <class T>
   //  BOOST_UBLAS_INLINE static bool valid_index(T /*size1*/, T  size2, T lower, T upper, T i, T j) {
   //      return (lower+j >= i) && j <= std::min(size2 - 1, i + upper); // lower + j is used by get_index. Maybe find a way to consolidate the operations to increase performance
@@ -77,7 +76,7 @@ public:
 
     template <class T>
     BOOST_UBLAS_INLINE static T get_index(T size1, T /*size2*/, T lower, T upper, T i, T j) {
-        return row_major::element (i, size1, lower+j - i, lower + 1 + upper);
+        return row_major::element (i, size1, lower + j - i, lower + 1 + upper);
     }
 };
 
