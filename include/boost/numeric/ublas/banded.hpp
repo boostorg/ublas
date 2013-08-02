@@ -245,6 +245,7 @@ public:
 #endif
             return zero_;
         }
+
         BOOST_UBLAS_INLINE
         reference at_element (size_type i, size_type j) {
             BOOST_UBLAS_CHECK (i < size1_, bad_index ());
@@ -1151,6 +1152,7 @@ public:
         public matrix_expression<banded_adaptor<M> > {
 
         typedef banded_adaptor<M> self_type;
+        typedef majority_from_orientation<typename M::orientation_category> closure_layout_type;
     public:
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
         using matrix_expression<self_type>::operator ();
@@ -1226,11 +1228,14 @@ public:
             if (k < (std::max) (size1 (), size2 ()) &&
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
-#else
+#elif BOOST_UBLAS_LEGACY_BANDED
             size_type k = j;
             size_type l = upper_ + i - j;
             if (k < size2 () &&
                 l < lower_ + 1 + upper_)
+                return data () (i, j);
+#else
+            if (hidden::banded_indexing<closure_layout_type>::valid_index(size1(), size2(), lower_, upper_, i, j))
                 return data () (i, j);
 #endif
             return zero_;
@@ -1245,11 +1250,14 @@ public:
             if (k < (std::max) (size1 (), size2 ()) &&
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
-#else
+#elif BOOST_UBLAS_LEGACY_BANDED
             size_type k = j;
             size_type l = upper_ + i - j;
             if (k < size2 () &&
                 l < lower_ + 1 + upper_)
+                return data () (i, j);
+#else
+            if (hidden::banded_indexing<closure_layout_type>::valid_index(size1(), size2(), lower_, upper_, i, j))
                 return data () (i, j);
 #endif
 #ifndef BOOST_UBLAS_REFERENCE_CONST_MEMBER
@@ -1268,11 +1276,14 @@ public:
             if (k < (std::max) (size1 (), size2 ()) &&
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
-#else
+#elif BOOST_UBLAS_LEGACY_BANDED
             size_type k = j;
             size_type l = upper_ + i - j;
             if (k < size2 () &&
                 l < lower_ + 1 + upper_)
+                return data () (i, j);
+#else
+            if (hidden::banded_indexing<closure_layout_type>::valid_index(size1(), size2(), lower_, upper_, i, j))
                 return data () (i, j);
 #endif
 #ifndef BOOST_UBLAS_REFERENCE_CONST_MEMBER
