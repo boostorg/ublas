@@ -199,7 +199,8 @@ public:
 #if !defined (BOOST_UBLAS_OWN_BANDED)||(BOOST_UBLAS_LEGACY_BANDED)
         BOOST_UBLAS_INLINE
         bool is_element_in_band(size_type i, size_type j) const{
-            return (upper_+i >= j) && i <=  j + lower_;
+            //return (upper_+i >= j) && i <= std::min(size1() - 1, j + lower_); // We don't need to check if i is outside because it is checked anyway in the accessors.
+            return (upper_+i >= j) && i <= ( j + lower_); // Essentially this band has "infinite" positive dimensions
         }
 #endif
         // Resizing
@@ -1228,7 +1229,8 @@ public:
 #if !defined (BOOST_UBLAS_OWN_BANDED)||(BOOST_UBLAS_LEGACY_BANDED)
         BOOST_UBLAS_INLINE
         bool is_element_in_band(size_type i, size_type j) const{
-            return (upper_+i >= j) && i <= std::min(size1() - 1, j + lower_);
+            //return (upper_+i >= j) && i <= std::min(size1() - 1, j + lower_); // We don't need to check if i is outside because it is checked anyway in the accessors.
+            return (upper_+i >= j) && i <= ( j + lower_); // Essentially this band has "infinite" positive dimensions
         }
 #endif
 
