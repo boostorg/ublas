@@ -199,7 +199,7 @@ public:
 #if !defined (BOOST_UBLAS_OWN_BANDED)||(BOOST_UBLAS_LEGACY_BANDED)
         BOOST_UBLAS_INLINE
         bool is_element_in_band(size_type i, size_type j) const{
-            return (upper_+i >= j) && i <= std::min(size1() - 1, j + lower_);
+            return (upper_+i >= j) && i <=  j + lower_;
         }
 #endif
         // Resizing
