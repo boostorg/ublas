@@ -24,6 +24,8 @@ namespace boost { namespace numeric { namespace ublas {
 
 namespace hidden {
 
+
+
 /** \brief A helper for band_matrix indexing.
  *
  * The indexing happens as per the netlib description: http://www.netlib.org/lapack/lug/node124.html.
@@ -44,10 +46,10 @@ public:
         return size2;
     }
 
-    template <class T>
-    BOOST_UBLAS_INLINE static bool valid_index(T size1, T /*size2*/, T lower, T upper, T i, T j) {
-        return (upper+i >= j) && i <= std::min(size1 - 1, j + lower); // upper + i is used by get_index. Maybe find a way to consolidate the operations to increase performance
-    }
+//    template <class T>
+//    BOOST_UBLAS_INLINE static bool valid_index(T size1, T /*size2*/, T lower, T upper, T i, T j) {
+//        return (upper+i >= j) && i <= std::min(size1 - 1, j + lower); // upper + i is used by get_index. Maybe find a way to consolidate the operations to increase performance
+//    }
 
     template <class T>
     BOOST_UBLAS_INLINE static T get_index(T /*size1*/, T size2, T lower, T upper, T i, T j) {
@@ -67,10 +69,11 @@ public:
         return size1;
     }
 
-    template <class T>
-    BOOST_UBLAS_INLINE static bool valid_index(T /*size1*/, T  size2, T lower, T upper, T i, T j) {
-        return (lower+j >= i) && j <= std::min(size2 - 1, i + upper); // lower + j is used by get_index. Maybe find a way to consolidate the operations to increase performance
-    }
+
+  //  template <class T>
+  //  BOOST_UBLAS_INLINE static bool valid_index(T /*size1*/, T  size2, T lower, T upper, T i, T j) {
+  //      return (lower+j >= i) && j <= std::min(size2 - 1, i + upper); // lower + j is used by get_index. Maybe find a way to consolidate the operations to increase performance
+  //  }
 
     template <class T>
     BOOST_UBLAS_INLINE static T get_index(T size1, T /*size2*/, T lower, T upper, T i, T j) {
@@ -193,6 +196,12 @@ public:
             return data_;
         }
 
+#if !defined (BOOST_UBLAS_OWN_BANDED)||(BOOST_UBLAS_LEGACY_BANDED)
+        BOOST_UBLAS_INLINE
+        bool is_element_in_band(size_type i, size_type j) const{
+            return (upper_+i >= j) && i <= std::min(size1() - 1, j + lower_);
+        }
+#endif
         // Resizing
         BOOST_UBLAS_INLINE
         void resize (size_type size1, size_type size2, size_type lower = 0, size_type upper = 0, bool preserve = true) {
@@ -239,7 +248,7 @@ public:
                                                        l, lower_ + 1 + upper_)];
 #else  // New default
             // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
-            if ( hidden::banded_indexing<orientation_category>::valid_index(size1_, size2_, lower_, upper_, i, j) ) {
+            if ( is_element_in_band( i, j) ) {
                 return data () [hidden::banded_indexing<orientation_category>::get_index(size1_, size2_, lower_, upper_, i, j)];
             }
 #endif
@@ -267,7 +276,7 @@ public:
                                                        l, lower_ + 1 + upper_)];
 #else
             // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
-            BOOST_UBLAS_CHECK( hidden::banded_indexing<orientation_category>::valid_index(size1_, size2_, lower_, upper_, i, j) , bad_index());
+            BOOST_UBLAS_CHECK(is_element_in_band( i, j) , bad_index());
             return data () [hidden::banded_indexing<orientation_category>::get_index(size1_, size2_, lower_, upper_, i, j)];
 #endif
         }
@@ -297,7 +306,7 @@ public:
                                                        l, lower_ + 1 + upper_)];
 #else
             // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
-            BOOST_UBLAS_CHECK( hidden::banded_indexing<orientation_category>::valid_index(size1_, size2_, lower_, upper_, i, j) , bad_index());
+            BOOST_UBLAS_CHECK( is_element_in_band( i, j) , bad_index());
             return data () [hidden::banded_indexing<orientation_category>::get_index(size1_, size2_, lower_, upper_, i, j)];
 #endif
 
@@ -1216,6 +1225,13 @@ public:
             return data_;
         }
 
+#if !defined (BOOST_UBLAS_OWN_BANDED)||(BOOST_UBLAS_LEGACY_BANDED)
+        BOOST_UBLAS_INLINE
+        bool is_element_in_band(size_type i, size_type j) const{
+            return (upper_+i >= j) && i <= std::min(size1() - 1, j + lower_);
+        }
+#endif
+
         // Element access
 #ifndef BOOST_UBLAS_PROXY_CONST_MEMBER
         BOOST_UBLAS_INLINE
@@ -1235,8 +1251,7 @@ public:
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
 #else
-            if (hidden::banded_indexing<orientation_category>::valid_index(
-                        size1(), size2(), lower_, upper_, i, j))
+            if (is_element_in_band( i, j))
                 return data () (i, j);
 #endif
             return zero_;
@@ -1258,8 +1273,7 @@ public:
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
 #else
-            if (hidden::banded_indexing<orientation_category>::valid_index(
-                        size1(), size2(), lower_, upper_, i, j))
+            if (is_element_in_band( i, j))
                 return data () (i, j);
 #endif
 #ifndef BOOST_UBLAS_REFERENCE_CONST_MEMBER
@@ -1285,8 +1299,7 @@ public:
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
 #else
-            if (hidden::banded_indexing<orientation_category>::valid_index(
-                        size1(), size2(), lower_, upper_, i, j))
+            if (is_element_in_band( i, j))
                 return data () (i, j);
 #endif
 #ifndef BOOST_UBLAS_REFERENCE_CONST_MEMBER
