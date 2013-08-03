@@ -10,7 +10,9 @@ HEADERS += \
     ../../../test/test4.hpp \
     ../../../test/test3.hpp \
     ../../../test/test2.hpp \
-    ../../../test/test1.hpp
+    ../../../test/test1.hpp \
+    ../../../test/common/testhelper.hpp \
+    ../../../test/common/init.hpp
 
 SOURCES += \
     ../../../test/triangular_layout.cpp \
