@@ -12,7 +12,7 @@
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/vector_expression.hpp>
 #include <iostream>
-#include "libs/numeric/ublas/test/utils.hpp"
+#include "utils.hpp"
 
 
 BOOST_UBLAS_TEST_DEF( test_vector_container )
