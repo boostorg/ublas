@@ -39,6 +39,3 @@ HEADERS += \
     $${INCLUDE_DIR}/boost/numeric/ublas/blas.hpp \
     $${INCLUDE_DIR}/boost/numeric/ublas/banded.hpp \
     $${INCLUDE_DIR}/boost/numeric/ublas/assignment.hpp
-
-
-message($$HEADERS)
