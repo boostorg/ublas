@@ -8,7 +8,7 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include <complex>
 
-#include "libs/numeric/ublas/test/utils.hpp"
+#include "utils.hpp"
 
 using namespace boost::numeric::ublas;
 
