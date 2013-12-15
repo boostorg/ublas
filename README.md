@@ -2,7 +2,15 @@ ublas
 =====
 
 The Boost Linear Algebra Library v1.0
-Please report issues to the boost ublas mailing list
-To follow development, go to the ublas/ublas project on github
 
-Please ask for help and assistance to david.bellot@gmail.com
+- To follow development and test experimental features, you can clone the Github project uBLAS/ublas
+at https://github.com/uBLAS/ublas
+
+- A development wiki is available at https://github.com/uBLAS/ublas/wiki
+
+- A mailing-list is available at http://lists.boost.org/ublas/
+
+- For any other questions, you can contact David at david.bellot@gmail.com
+
+
+last update: 15 December 2013
