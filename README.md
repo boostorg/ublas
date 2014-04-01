@@ -12,4 +12,4 @@ at https://github.com/uBLAS/ublas
 - version numbers have never been used for this library until 02 March 2014.
   So we start at v1.0 on that day.
 
-last update: 02 March 2014
+last update: 1 April 2014
