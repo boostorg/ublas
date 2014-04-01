@@ -1,8 +1,9 @@
-//  Copyright (c) 2009-2011 Gunter Winkler, David Bellot
-//
-//  Distributed under the Boost Software License, Version 1.0. (See
-//  accompanying file LICENSE_1_0.txt or copy at
-//  http://www.boost.org/LICENSE_1_0.txt)
+
+/* Test program to test find functions of triagular matrices
+ *
+ * author: Gunter Winkler ( guwi17 at gmx dot de )
+ */
+
 
 // ublas headers
 
