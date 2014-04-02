@@ -1859,7 +1859,6 @@ namespace boost { namespace numeric { namespace ublas {
     void inplace_solve (const matrix_expression<E1> &e1, vector_expression<E2> &e2,
                         lower_tag, column_major_tag, dense_proxy_tag) {
         typedef typename E2::size_type size_type;
-        typedef typename E2::difference_type difference_type;
         typedef typename E2::value_type value_type;
 
         BOOST_UBLAS_CHECK (e1 ().size1 () == e1 ().size2 (), bad_size ());
@@ -1914,7 +1913,6 @@ namespace boost { namespace numeric { namespace ublas {
     void inplace_solve (const matrix_expression<E1> &e1, vector_expression<E2> &e2,
                         lower_tag, column_major_tag, unknown_storage_tag) {
         typedef typename E2::size_type size_type;
-        typedef typename E2::difference_type difference_type;
         typedef typename E2::value_type value_type;
 
         BOOST_UBLAS_CHECK (e1 ().size1 () == e1 ().size2 (), bad_size ());
@@ -1943,7 +1941,6 @@ namespace boost { namespace numeric { namespace ublas {
     void inplace_solve (const matrix_expression<E1> &e1, vector_expression<E2> &e2,
                         lower_tag, row_major_tag, dense_proxy_tag) {
         typedef typename E2::size_type size_type;
-        typedef typename E2::difference_type difference_type;
         typedef typename E2::value_type value_type;
 
         BOOST_UBLAS_CHECK (e1 ().size1 () == e1 ().size2 (), bad_size ());
@@ -1969,7 +1966,6 @@ namespace boost { namespace numeric { namespace ublas {
     void inplace_solve (const matrix_expression<E1> &e1, vector_expression<E2> &e2,
                         lower_tag, row_major_tag, packed_proxy_tag) {
         typedef typename E2::size_type size_type;
-        typedef typename E2::difference_type difference_type;
         typedef typename E2::value_type value_type;
 
         BOOST_UBLAS_CHECK (e1 ().size1 () == e1 ().size2 (), bad_size ());
@@ -1998,7 +1994,6 @@ namespace boost { namespace numeric { namespace ublas {
     void inplace_solve (const matrix_expression<E1> &e1, vector_expression<E2> &e2,
                         lower_tag, row_major_tag, unknown_storage_tag) {
         typedef typename E2::size_type size_type;
-        typedef typename E2::difference_type difference_type;
         typedef typename E2::value_type value_type;
 
         BOOST_UBLAS_CHECK (e1 ().size1 () == e1 ().size2 (), bad_size ());
@@ -2374,7 +2369,6 @@ namespace boost { namespace numeric { namespace ublas {
     void inplace_solve (const matrix_expression<E1> &e1, matrix_expression<E2> &e2,
                         lower_tag, dense_proxy_tag) {
         typedef typename E2::size_type size_type;
-        typedef typename E2::difference_type difference_type;
         typedef typename E2::value_type value_type;
 
         BOOST_UBLAS_CHECK (e1 ().size1 () == e1 ().size2 (), bad_size ());
@@ -2435,7 +2429,6 @@ namespace boost { namespace numeric { namespace ublas {
     void inplace_solve (const matrix_expression<E1> &e1, matrix_expression<E2> &e2,
                         lower_tag, unknown_storage_tag) {
         typedef typename E2::size_type size_type;
-        typedef typename E2::difference_type difference_type;
         typedef typename E2::value_type value_type;
 
         BOOST_UBLAS_CHECK (e1 ().size1 () == e1 ().size2 (), bad_size ());
