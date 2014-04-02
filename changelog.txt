@@ -1,3 +1,4 @@
 Version 1.0.1
 02 Apr. 2014    Nasos Iliopoulos        
         * Added changelog
+        * Corrected a big number of warnings coming from stray typedefs. Others may be present that are not triggered by the unit tests
