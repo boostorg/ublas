@@ -59,4 +59,5 @@ SOURCES += \
     ../../../test/num_columns.cpp \
     ../../../test/concepts.cpp \
     ../../../test/comp_mat_erase.cpp \
-    ../../../test/begin_end.cpp
+    ../../../test/begin_end.cpp\
+    ../../../test/test_matrix_vector.cpp

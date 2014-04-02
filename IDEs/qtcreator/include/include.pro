@@ -30,4 +30,5 @@ HEADERS += \
     ../../../include/boost/numeric/ublas/doxydoc.hpp \
     ../../../include/boost/numeric/ublas/blas.hpp \
     ../../../include/boost/numeric/ublas/banded.hpp \
-    ../../../include/boost/numeric/ublas/assignment.hpp
+    ../../../include/boost/numeric/ublas/assignment.hpp \
+    ../../../include/boost/numeric/ublas/matrix_vector.hpp

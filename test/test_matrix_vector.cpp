@@ -56,6 +56,8 @@ bool test_matrix_row_facade() {
     typedef matrix_row_vector<Matrix> RowVector;
 
     { // Testing resize
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_row_facade: resize" );
+
     typename Matrix::size_type num_rows = 3;
     typename Matrix::size_type num_cols = 5;
 		
@@ -73,6 +75,8 @@ bool test_matrix_row_facade() {
     }
 
     { // Testing operator()
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_row_facade: operator()" );
+
     Matrix A(3,3), RA(3,3);
     RowVector rows(A);
 
@@ -88,6 +92,8 @@ bool test_matrix_row_facade() {
     }
 
     { // Testing operator[]
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_row_facade: operator[]" );
+
     Matrix A(3,3), RA(3,3);
     RowVector rows(A);
 
@@ -103,6 +109,8 @@ bool test_matrix_row_facade() {
     }
     
     { // Testing operator[] const
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_row_facade: operator[] const" );
+
     Matrix RA(3,3);
     RowVector rows(RA);
 
@@ -116,6 +124,8 @@ bool test_matrix_row_facade() {
     }
 
     { // Testing const iterator
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_row_facade: const iterator" );
+
     Matrix RA(3,3);
     RowVector rows(RA);
 
@@ -132,6 +142,8 @@ bool test_matrix_row_facade() {
     }
 
     { // Testing iterator
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_row_facade: iterator" );
+
     Matrix A(3,3), RA(3,3);
     RowVector rows(A);
 
@@ -150,6 +162,8 @@ bool test_matrix_row_facade() {
     }
 
     { // Testing reserse iterator
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_row_facade: reverse iterator" );
+
     Matrix A(3,3), RA(3,3);
     RowVector rows(A);
 
@@ -168,6 +182,8 @@ bool test_matrix_row_facade() {
     }
 
     { // Testing const reverse iterator
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_row_facade: const reverse iterator" );
+
     Matrix RA(3,3);
     RowVector rows(RA);
 
@@ -195,6 +211,7 @@ bool test_matrix_column_facade() {
     typedef matrix_column_vector<Matrix> ColumnVector;
 
     { // Testing resize
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_column_facade: resize" );
     typename Matrix::size_type num_rows = 5;
     typename Matrix::size_type num_cols = 3;
     
@@ -212,6 +229,8 @@ bool test_matrix_column_facade() {
     }
 
     { // Testing operator ()
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_column_facade: operator()" );
+
     Matrix A(3,3), RA(3,3);
     ColumnVector columns(A);
 
@@ -227,6 +246,8 @@ bool test_matrix_column_facade() {
     }
 
     { // Testing operator[]
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_column_facade: operator[]" );
+
     Matrix A(3,3), RA(3,3);
     ColumnVector columns(A);
 
@@ -242,6 +263,8 @@ bool test_matrix_column_facade() {
     }
     
     { // Testing operator[] const
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_column_facade: operator[] const" );
+
     Matrix RA(3,3);
     ColumnVector columns(RA);
 
@@ -255,7 +278,9 @@ bool test_matrix_column_facade() {
     }
 
     { // Testing iterator
-      Matrix A(3,3), RA(3,3);
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_column_facade: iterator" );
+
+     Matrix A(3,3), RA(3,3);
     ColumnVector columns(A);
 
     RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
@@ -273,6 +298,8 @@ bool test_matrix_column_facade() {
     }
 
     { // Testing const iterator
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_column_facade: const iterator" );
+
     Matrix RA(3,3);
     ColumnVector columns(RA);
 
@@ -289,6 +316,8 @@ bool test_matrix_column_facade() {
     }
 
     { // Testing reserse iterator
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_column_facade: reverese iterator" );
+
     Matrix A(3,3), RA(3,3);
     ColumnVector columns(A);
 
@@ -307,6 +336,8 @@ bool test_matrix_column_facade() {
     }
 
     { // Testing const reverse iterator
+    BOOST_UBLAS_DEBUG_TRACE( "test_matrix_column_facade: const reverese iterator" );
+
     Matrix RA(3,3);
     ColumnVector columns(RA);
 
@@ -330,6 +361,7 @@ BOOST_UBLAS_TEST_DEF (test_matrix_row_facade) {
 
     BOOST_UBLAS_DEBUG_TRACE( "Starting matrix row vector facade" );
 
+    BOOST_UBLAS_DEBUG_TRACE( "Testing matrix..." );
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<matrix<double> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<matrix<float> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<matrix<long> >());
@@ -339,6 +371,7 @@ BOOST_UBLAS_TEST_DEF (test_matrix_row_facade) {
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<matrix<std::size_t> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<matrix<char> >());
 
+    BOOST_UBLAS_DEBUG_TRACE( "Testing bounded_matrix..." );
     BOOST_UBLAS_TEST_CHECK((test_matrix_row_facade<bounded_matrix<double,7, 7> >()));
     BOOST_UBLAS_TEST_CHECK((test_matrix_row_facade<bounded_matrix<float,7, 7> >()));
     BOOST_UBLAS_TEST_CHECK((test_matrix_row_facade<bounded_matrix<long,7, 7> >()));
@@ -348,6 +381,7 @@ BOOST_UBLAS_TEST_DEF (test_matrix_row_facade) {
     BOOST_UBLAS_TEST_CHECK((test_matrix_row_facade<bounded_matrix<char,7, 7> >()));
     BOOST_UBLAS_TEST_CHECK((test_matrix_row_facade<bounded_matrix<std::size_t,7, 7> >()));
 
+    BOOST_UBLAS_DEBUG_TRACE( "Testing mapped_matrix..." );
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<mapped_matrix<double> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<mapped_matrix<float> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<mapped_matrix<long> >());
@@ -357,6 +391,7 @@ BOOST_UBLAS_TEST_DEF (test_matrix_row_facade) {
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<mapped_matrix<std::size_t> >())
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<mapped_matrix<char> >());
 
+    BOOST_UBLAS_DEBUG_TRACE( "Testing compressed_matrix..." );
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<compressed_matrix<double> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<compressed_matrix<float> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<compressed_matrix<long> >());
@@ -366,6 +401,7 @@ BOOST_UBLAS_TEST_DEF (test_matrix_row_facade) {
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<compressed_matrix<std::size_t> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<compressed_matrix<char> >());
 
+    BOOST_UBLAS_DEBUG_TRACE( "Testing coordinate_matrix..." );
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<coordinate_matrix<double> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<coordinate_matrix<float> >());
     BOOST_UBLAS_TEST_CHECK(test_matrix_row_facade<coordinate_matrix<long> >())
