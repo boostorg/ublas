@@ -1515,21 +1515,21 @@ namespace boost { namespace numeric { namespace ublas {
 #endif
 
 #ifdef EXTERNAL
-        function_requires< AdditiveAbelianGroupConcept<float> >();
-        function_requires< CommutativeRingWithIdentityConcept<float> >();
-        function_requires< FieldConcept<float> >();
-        function_requires< VectorSpaceConcept<float, vector<float> > >();
-        function_requires< Prod_RingWithIdentityConcept<matrix<float> > >();
-        function_requires< VectorSpaceConcept<float, matrix<float> > >();
-        function_requires< LinearOperatorConcept<float, vector<float>, matrix<float> > >();
+        function_requires< AdditiveAbelianGroupConcept<T> >();
+        function_requires< CommutativeRingWithIdentityConcept<T> >();
+        function_requires< FieldConcept<T> >();
+        function_requires< VectorSpaceConcept<T, vector<T> > >();
+        function_requires< Prod_RingWithIdentityConcept<matrix<T> > >();
+        function_requires< VectorSpaceConcept<T, matrix<T> > >();
+        function_requires< LinearOperatorConcept<T, vector<T>, matrix<T> > >();
 
-        function_requires< AdditiveAbelianGroupConcept<std::complex<float> > >();
-        function_requires< CommutativeRingWithIdentityConcept<std::complex<float> > >();
-        function_requires< FieldConcept<std::complex<float> > >();
-        function_requires< VectorSpaceConcept<std::complex<float>, vector<std::complex<float> > > >();
-        function_requires< Prod_RingWithIdentityConcept<matrix<std::complex<float> > > >();
-        function_requires< VectorSpaceConcept<std::complex<float>, matrix<std::complex<float> > > >();
-        function_requires< LinearOperatorConcept<std::complex<float>, vector<std::complex<float> >, matrix<std::complex<float> > > >();
+        function_requires< AdditiveAbelianGroupConcept<std::complex<T> > >();
+        function_requires< CommutativeRingWithIdentityConcept<std::complex<T> > >();
+        function_requires< FieldConcept<std::complex<T> > >();
+        function_requires< VectorSpaceConcept<std::complex<T>, vector<std::complex<T> > > >();
+        function_requires< Prod_RingWithIdentityConcept<matrix<std::complex<T> > > >();
+        function_requires< VectorSpaceConcept<std::complex<T>, matrix<std::complex<T> > > >();
+        function_requires< LinearOperatorConcept<std::complex<T>, vector<std::complex<T> >, matrix<std::complex<T> > > >();
 #endif
     }
 
