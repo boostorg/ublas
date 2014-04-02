@@ -15,7 +15,6 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/detail/temporary.hpp>
-#include <iostream>
 
 // Iterators based on ideas of Jeremy Siek
 
