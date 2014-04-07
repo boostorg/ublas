@@ -48,6 +48,19 @@ const double TOL=0.0;
 
 }
 
+template <class Vector, class StorageCategory>
+void guardSparsePreserveResize( Vector &vec, typename Vector::size_type new_size, StorageCategory storageTag) // Because sparse matrices don't have preserve data implemented
+{
+    vec.resize( new_size );
+}
+
+
+template <class Vector>
+void guardSparsePreserveResize( Vector &vec, typename Vector::size_type new_size, sparse_tag storageTag) // Because sparse matrices don't have preserve data implemented
+{
+    vec.resize( new_size, false );
+}
+
 template <class Matrix>
 bool test_matrix_row_facade() {
     bool pass = true;
@@ -68,7 +81,9 @@ bool test_matrix_row_facade() {
     pass &= (matrix.size2() == num_cols);
 	
     typename Matrix::size_type new_num_rows = 6;
-    rows.resize(new_num_rows);
+    guardSparsePreserveResize( rows, new_num_rows, typename Matrix::storage_category());
+    //rows.resize(new_num_rows);
+
     pass &= (matrix.size1() == new_num_rows);
     pass &= (rows.size() == new_num_rows);
     pass &= (matrix.size2() == num_cols);
@@ -80,10 +95,10 @@ bool test_matrix_row_facade() {
     Matrix A(3,3), RA(3,3);
     RowVector rows(A);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
-		
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
+
     for(typename Matrix::size_type i = 0; i < A.size1(); i++) {
         rows(i) = matrix_row<Matrix>(RA, i);
     }
@@ -97,9 +112,9 @@ bool test_matrix_row_facade() {
     Matrix A(3,3), RA(3,3);
     RowVector rows(A);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 		
     for(typename Matrix::size_type i = 0; i < A.size1(); i++) {
         rows[i] = matrix_row<Matrix>(RA, i);
@@ -114,9 +129,9 @@ bool test_matrix_row_facade() {
     Matrix RA(3,3);
     RowVector rows(RA);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     for(typename Matrix::size_type i = 0; i < RA.size1(); i++) {
       pass &= (mean_square(rows[i]-matrix_row<Matrix>(RA, i))<=TOL);
@@ -129,9 +144,9 @@ bool test_matrix_row_facade() {
     Matrix RA(3,3);
     RowVector rows(RA);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     typename RowVector::size_type i = 0;
     for(typename RowVector::const_iterator iter = rows.begin();
@@ -147,9 +162,9 @@ bool test_matrix_row_facade() {
     Matrix A(3,3), RA(3,3);
     RowVector rows(A);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     typename RowVector::size_type i = 0;
     for(typename RowVector::iterator iter = rows.begin();
@@ -167,9 +182,9 @@ bool test_matrix_row_facade() {
     Matrix A(3,3), RA(3,3);
     RowVector rows(A);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     typename RowVector::size_type i = rows.size();
     for(typename RowVector::reverse_iterator iter = rows.rbegin();
@@ -187,9 +202,9 @@ bool test_matrix_row_facade() {
     Matrix RA(3,3);
     RowVector rows(RA);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     typename RowVector::size_type i = rows.size();
     for(typename RowVector::const_reverse_iterator iter = rows.rbegin();
@@ -222,7 +237,8 @@ bool test_matrix_column_facade() {
     pass &= (matrix.size1() == num_rows);
 	
     typename Matrix::size_type new_num_cols = 6;
-    columns.resize(new_num_cols);
+    guardSparsePreserveResize( columns, new_num_cols, typename Matrix::storage_category());
+    //columns.resize(new_num_cols);
     pass &= (matrix.size2() == new_num_cols);
     pass &= (columns.size() == new_num_cols);
     pass &= (matrix.size1() == num_rows);
@@ -234,9 +250,9 @@ bool test_matrix_column_facade() {
     Matrix A(3,3), RA(3,3);
     ColumnVector columns(A);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 		
     for(typename Matrix::size_type i = 0; i < A.size2(); i++) {
         columns(i) = matrix_column<Matrix>(RA, i);
@@ -251,9 +267,9 @@ bool test_matrix_column_facade() {
     Matrix A(3,3), RA(3,3);
     ColumnVector columns(A);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 		
     for(typename Matrix::size_type i = 0; i < A.size2(); i++) {
         columns[i] = matrix_column<Matrix>(RA, i);
@@ -268,9 +284,9 @@ bool test_matrix_column_facade() {
     Matrix RA(3,3);
     ColumnVector columns(RA);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     for(typename Matrix::size_type i = 0; i < RA.size2(); i++) {
       pass &= (mean_square(columns[i]-matrix_column<Matrix>(RA, i))<=TOL);
@@ -283,9 +299,9 @@ bool test_matrix_column_facade() {
      Matrix A(3,3), RA(3,3);
     ColumnVector columns(A);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     typename ColumnVector::size_type i = 0;
     for(typename ColumnVector::iterator iter = columns.begin();
@@ -303,9 +319,9 @@ bool test_matrix_column_facade() {
     Matrix RA(3,3);
     ColumnVector columns(RA);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     typename ColumnVector::size_type i = 0;
     for(typename ColumnVector::const_iterator iter = columns.begin();
@@ -321,9 +337,9 @@ bool test_matrix_column_facade() {
     Matrix A(3,3), RA(3,3);
     ColumnVector columns(A);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     typename ColumnVector::size_type i = columns.size();
     for(typename ColumnVector::reverse_iterator iter = columns.rbegin();
@@ -341,9 +357,9 @@ bool test_matrix_column_facade() {
     Matrix RA(3,3);
     ColumnVector columns(RA);
 
-    RA(0,0)= 1; RA(0,1)=2; RA(0,2)=3;
-    RA(1,0)= 4; RA(1,1)=5; RA(1,2)=6;
-    RA(2,0)= 7; RA(2,1)=8; RA(2,2)=9;
+    RA <<=  1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
 
     typename ColumnVector::size_type i = columns.size();
     for(typename ColumnVector::const_reverse_iterator iter = columns.rbegin();
