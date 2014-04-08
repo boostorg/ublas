@@ -1727,6 +1727,13 @@ namespace boost { namespace numeric { namespace ublas {
             std::swap(lhs().data2_[i1], rhs().data2_[i2]);
         }
 
+        // This refers to index_pair<>&, but [gcc4.8, C++11] can't deduce the type to correctly dispatch the swap
+        // Fixme: find a more elegant solution
+        BOOST_UBLAS_INLINE
+        friend void swap( typename iterator::reference lhs, typename iterator::reference rhs) { // This referes to index_pair<>&, but gcc4.8 can't deduce the type to correctly dispatch the swap
+                lhs.swap(rhs);
+        }
+
     private:
         size_type size_;
         V1& data1_;
@@ -1901,6 +1908,13 @@ namespace boost { namespace numeric { namespace ublas {
             std::swap(lhs().data1_[i1], rhs().data1_[i2]);
             std::swap(lhs().data2_[i1], rhs().data2_[i2]);
             std::swap(lhs().data3_[i1], rhs().data3_[i2]);
+        }
+
+        // This refers to index_pair<>&, but [gcc4.8, C++11] can't deduce the type to correctly dispatch the swap
+        // Fixme: find a more elegant solution
+        BOOST_UBLAS_INLINE
+        friend void swap( typename iterator::reference lhs, typename iterator::reference rhs) {
+                lhs.swap(rhs);
         }
 
     private:
