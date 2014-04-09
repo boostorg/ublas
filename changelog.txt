@@ -8,6 +8,7 @@ Version 1.1.0
       index_triple_array to allow proper compilation of sparse containers
       with g++>4.8 (4.7 also?) in C++11 mode.
 
+
 02 Apr. 2014    Nasos Iliopoulos    
 
     * Added changelog

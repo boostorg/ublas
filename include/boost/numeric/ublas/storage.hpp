@@ -1607,10 +1607,16 @@ namespace boost { namespace numeric { namespace ublas {
             rhs = *this;
             *this = tmp;
         }
+
         BOOST_UBLAS_INLINE
         friend void swap(self_type& lhs, self_type& rhs) {
             lhs.swap(rhs);
         }
+
+        friend void swap(self_type lhs, self_type rhs) { // For gcc 4.8 and c++11
+            lhs.swap(rhs);
+        }
+
 
         BOOST_UBLAS_INLINE
         bool equal(const self_type& rhs) const {
@@ -1727,11 +1733,12 @@ namespace boost { namespace numeric { namespace ublas {
             std::swap(lhs().data2_[i1], rhs().data2_[i2]);
         }
 
-        // This refers to index_pair<>&, but [gcc4.8, C++11] can't deduce the type to correctly dispatch the swap
-        // Fixme: find a more elegant solution
         BOOST_UBLAS_INLINE
-        friend void swap( typename iterator::reference lhs, typename iterator::reference rhs) { // This referes to index_pair<>&, but gcc4.8 can't deduce the type to correctly dispatch the swap
-                lhs.swap(rhs);
+        friend void iter_swap(iterator& lhs, const iterator& rhs) {
+            const size_type i1 = lhs.index();
+            const size_type i2 = rhs.index();
+            std::swap(lhs().data1_[i1], rhs().data1_[i2]);
+            std::swap(lhs().data2_[i1], rhs().data2_[i2]);
         }
 
     private:
@@ -1780,13 +1787,18 @@ namespace boost { namespace numeric { namespace ublas {
         }
 
         BOOST_UBLAS_INLINE
-        void swap(self_type& rhs) {
+        void swap(self_type& rhs) { // Fixme: Should this be deprecated?
             self_type tmp(rhs);
             rhs = *this;
             *this = tmp;
         }
+
         BOOST_UBLAS_INLINE
         friend void swap(self_type& lhs, self_type& rhs) {
+            lhs.swap(rhs);
+        }
+
+        friend void swap(self_type lhs, self_type rhs) { // For gcc 4.8 and c++11
             lhs.swap(rhs);
         }
 
@@ -1908,13 +1920,6 @@ namespace boost { namespace numeric { namespace ublas {
             std::swap(lhs().data1_[i1], rhs().data1_[i2]);
             std::swap(lhs().data2_[i1], rhs().data2_[i2]);
             std::swap(lhs().data3_[i1], rhs().data3_[i2]);
-        }
-
-        // This refers to index_pair<>&, but [gcc4.8, C++11] can't deduce the type to correctly dispatch the swap
-        // Fixme: find a more elegant solution
-        BOOST_UBLAS_INLINE
-        friend void swap( typename iterator::reference lhs, typename iterator::reference rhs) {
-                lhs.swap(rhs);
         }
 
     private:
