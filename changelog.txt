@@ -1,4 +1,6 @@
 Version 1.1.0
+----------------
+
 02 Apr. 2014    Nasos Iliopoulos    
 
     * Added changelog
