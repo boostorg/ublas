@@ -37,33 +37,19 @@ namespace {
     // we'll find either std::sqrt or else another version via ADL:
     return sqrt (t);
   }
- // template<class T> T boost_numeric_ublas_abs (const T& t) {
- //   using namespace std;
-    // we'll find either std::abs or else another version via ADL:
- //   return abs (t);
- // }
 
 template<typename T>
-typename boost::disable_if<
+inline typename boost::disable_if<
     boost::is_unsigned<T>, T >::type
-    inline boost_numeric_ublas_abs (const T &t ) {
-    using namespace std;
+    boost_numeric_ublas_abs (const T &t ) {
+        using namespace std;
         return abs( t );
     }
 
-  // unsigned types are always non-negative
-  //template<> inline unsigned int boost_numeric_ublas_abs (const unsigned int& t) {
-  //  return t;
-  //}
-  // unsigned types are always non-negative
-  //template<> inline unsigned long boost_numeric_ublas_abs (const unsigned long& t) {
-  //  return t;
-  //}
-
 template<typename T>
-typename boost::enable_if<
+inline typename boost::enable_if<
     boost::is_unsigned<T>, T >::type
-    inline boost_numeric_ublas_abs (const T &t ) {
+    boost_numeric_ublas_abs (const T &t ) {
         return t;
     }
 }

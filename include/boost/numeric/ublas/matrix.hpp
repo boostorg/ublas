@@ -1098,17 +1098,17 @@ namespace boost { namespace numeric {
 #ifdef BOOST_UBLAS_CPP11
     /** \brief A fixed size dense matrix of values of type \c T. Equivalent to a c-style 2 dimensional array.
      *
-     * For a \f$(m \times n)\f$-dimensional matrix and \f$ 0 \leq i < m, 0 \leq j < n\f$, every element \f$ m_{i,j} \f$ is mapped to
+     * For a \f$(m \times n)\f$-dimensional fixed_matrix and \f$ 0 \leq i < m, 0 \leq j < n\f$, every element \f$ m_{i,j} \f$ is mapped to
      * the \f$(i.n + j)\f$-th element of the container for row major orientation or the \f$ (i + j.m) \f$-th element of
      * the container for column major orientation. In a dense matrix all elements are represented in memory in a
      * contiguous chunk of memory by definition.
      *
-     * Orientation and storage can also be specified, otherwise a \c row_major and \c std::array are used. It is \b not
-     * required by the storage to initialize elements of the matrix.
+     * Orientation and storage can also be specified, otherwise \c row_major and \c std::array are used. It is \b not
+     * required by the storage container to initialize elements of the matrix.
      *
-     * \tparam T the type of object stored in the matrix (like double, float, complex, etc...)
+     * \tparam T the type of object stored in the matrix (like double, float, std::complex<double>, etc...)
      * \tparam L the storage organization. It can be either \c row_major or \c column_major. Default is \c row_major
-     * \tparam A the type of Storage array. Default is \c std::array
+     * \tparam A the type of Storage array. Default is \c std::array<T, M*N>
      */
     template<class T, std::size_t M, std::size_t N, class L, class A>
     class fixed_matrix:
@@ -1139,23 +1139,21 @@ namespace boost { namespace numeric {
 
         // Construction and destruction
 
-      /// Default dense fixed_matrix constructor. Make a dense fixed_matrix of size (N,M)
+      /// Default dense fixed_matrix constructor. Make a dense fixed_matrix of size M x N
         BOOST_UBLAS_INLINE
         fixed_matrix ():
             matrix_container<self_type> (),
             data_ () {}
 
         /// \brief Construct a fixed_matrix from a list of values
-        /// The list should be included in curly braces. Typical syntax is:
+        /// The list may be included in curly braces. Typical syntax is choices are :
         /// fixed_matrix<double, 2,2> v = { 1, 2, 3, 4 } or fixed_matrix<double,4> v( {1, 2, 3, 4} ) or fixed_matrix<double,2,2> v( 1, 2, 3, 4 )
         template <typename... Types>
         fixed_matrix(value_type v0, Types... vrest) :
             matrix_container<self_type> (),
             data_{ { v0, vrest... } } {}
 
-      /** Dense matrix constructor with defined size a initial value for all the matrix elements
-       * \param size1 number of rows
-       * \param size2 number of columns
+      /** Dense fixed_matrix constructor with defined initial value for all the matrix elements
        * \param init initial value assigned to all elements
        */
         fixed_matrix (const value_type &init):
@@ -1164,9 +1162,7 @@ namespace boost { namespace numeric {
             data_.fill(init);
         }
 
-      /** Dense matrix constructor with defined size and an initial data array
-       * \param size1 number of rows
-       * \param size2 number of columns
+      /** Dense matrix constructor with defined initial data array
        * \param data array to copy into the matrix. Must have the same dimension as the matrix
        */
         BOOST_UBLAS_INLINE
@@ -1195,7 +1191,7 @@ namespace boost { namespace numeric {
 
         // Accessors
       /** Return the number of rows of the fixed_matrix
-       * You can also use the free size<>() function in operation/size.hpp as size<1>(m) where m is a matrix
+       * You can also use the free size<>() function in operation/size.hpp as size<1>(m) where m is a fixed_matrix
        */
         BOOST_UBLAS_INLINE
         constexpr size_type size1 () const {
@@ -1203,7 +1199,7 @@ namespace boost { namespace numeric {
         }
 
       /** Return the number of colums of the fixed_matrix
-       * You can also use the free size<>() function in operation/size.hpp as size<2>(m) where m is a matrix
+       * You can also use the free size<>() function in operation/size.hpp as size<2>(m) where m is a fixed_matrix
        */
         BOOST_UBLAS_INLINE
         constexpr size_type size2 () const {
@@ -1218,8 +1214,8 @@ namespace boost { namespace numeric {
         const array_type &data () const {
             return data_;
         }
-      /** Return a reference to the internal storage of a dense matrix, i.e. the raw data
-       * It's type depends on the type used by the matrix to store its data
+      /** Return a reference to the internal storage of a dense fixed_matrix, i.e. the raw data
+       * It's type depends on the type used by the fixed_matrix to store its data
        */
         BOOST_UBLAS_INLINE
         array_type &data () {
@@ -1236,7 +1232,7 @@ namespace boost { namespace numeric {
      */
         BOOST_UBLAS_INLINE
         const_reference operator () (size_type i, size_type j) const {
-            return data () [layout_type::element (i, M, j, N)];
+            return data () [layout_type::element (i, M, j, N)]; // Fixme: add static lookup for element(...) i.e.: element<M, N>(i,j)
         }
 
     /** Access a fixed_matrix element. Here we return a reference
@@ -1249,7 +1245,7 @@ namespace boost { namespace numeric {
             return data () [layout_type::element (i, M, j, N)];
         }
 
-    /** Access a matrix element. Here we return a reference
+    /** Access a fixed_matrix element. Here we return a reference
      * \param i the first coordinate of the element. By default it's the row
      * \param j the second coordinate of the element. By default it's the column
      * \return a reference to the element
@@ -1261,7 +1257,7 @@ namespace boost { namespace numeric {
 
         // Element assignment
 
-    /** Change the value of a matrix element. Return back a reference to it
+    /** Change the value of a fixed_matrix element. Return back a reference to it
      * \param i the first coordinate of the element. By default it's the row
      * \param j the second coordinate of the element. By default it's the column
      * \param t the new value of the element
@@ -1284,7 +1280,7 @@ namespace boost { namespace numeric {
         }
 
         // Zeroing
-    /** Erase all elements in the matrix
+    /** Erase all elements in the fixed_matrix
      * For most types (int, double, etc...) it means writing 0 (zero) everywhere.
      * For user-defined types, it could be another value if you decided it. Your type in that case must
      * contain a default null value.

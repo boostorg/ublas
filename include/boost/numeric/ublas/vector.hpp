@@ -840,14 +840,14 @@ namespace boost { namespace numeric { namespace ublas {
             data_ () {}
 
     /// \brief Constructor of a fixed_vector by copying from another container
-    /// This type has the generic name \c array_typ within the vector definition.
+    /// This type uses the generic name \c array_type within the vector definition.
     /// \param data container of type \c A
          BOOST_UBLAS_INLINE
          fixed_vector (const array_type &data):
              vector_container<self_type> (),
              data_ (data) {}
 
-    /// \brief Constructor of a fixed_vector with a predefined size and a unique initial value
+    /// \brief Constructor of a fixed_vector with a unique initial value
     /// \param init value to assign to each element of the vector
          BOOST_UBLAS_INLINE
          fixed_vector (const value_type &init):
@@ -865,7 +865,7 @@ namespace boost { namespace numeric { namespace ublas {
 
     /// \brief Copy-constructor of a vector from a vector_expression
     /// Depending on the vector_expression, this constructor can have the cost of the computations
-    /// of the expression (trivial to say it, but it is to take into account in your complexity calculations).
+    /// of the expression (trivial to say it, but take it must be taken into account in your complexity calculations).
     /// \param ae the vector_expression which values will be duplicated into the vector
         template<class AE>
         BOOST_UBLAS_INLINE
@@ -876,7 +876,7 @@ namespace boost { namespace numeric { namespace ublas {
         }
 
         /// \brief Construct a fixed_vector from a list of values
-        /// The list should be included in curly braces. Typical syntax is:
+        /// This constructor enables initialization by using any of:
         /// fixed_vector<double, 3> v = { 1, 2, 3 } or fixed_vector<double,3> v( {1, 2, 3} ) or fixed_vector<double,3> v( 1, 2, 3 )
         template <typename... Types>
         fixed_vector(value_type v0, Types... vrest) :
@@ -1031,9 +1031,9 @@ namespace boost { namespace numeric { namespace ublas {
              return *this;
          }
 #else
-    /// \brief Assign a full vector (\e RHS-vector) to the current vector (\e LHS-vector)
-    /// \param v is the source vector
-    /// \return a reference to a vector (i.e. the destination vector)
+    /// \brief Assign a full fixed_vector (\e RHS-vector) to the current fixed_vector (\e LHS-vector)
+    /// \param v is the source fixed_vector
+    /// \return a reference to a fixed_vector (i.e. the destination vector)
          BOOST_UBLAS_INLINE
          fixed_vector &operator = (const fixed_vector &v) {
              data () = v.data ();
@@ -1041,7 +1041,7 @@ namespace boost { namespace numeric { namespace ublas {
          }
 #endif
 
-    /// \brief Assign a full fixed_vector (\e RHS-vector) to the current fixed_vector (\e LHS-vector)
+    /// \brief Assign a full vector (\e RHS-vector) to the current fixed_vector (\e LHS-vector)
     /// Assign a full vector (\e RHS-vector) to the current fixed_vector (\e LHS-vector). This method does not create any temporary.
     /// \param v is the source vector container
     /// \return a reference to a vector (i.e. the destination vector)
@@ -1052,20 +1052,20 @@ namespace boost { namespace numeric { namespace ublas {
              return *this;
          }
 
-    /// \brief Assign a full vector (\e RHS-vector) to the current vector (\e LHS-vector)
-    /// \param v is the source vector
-    /// \return a reference to a vector (i.e. the destination vector)
+    /// \brief Assign a full fixed_vector (\e RHS-vector) to the current fixed_vector (\e LHS-vector)
+    /// \param v is the source fixed_vector
+    /// \return a reference to a fixed_vector (i.e. the destination fixed_vector)
          BOOST_UBLAS_INLINE
          fixed_vector &assign_temporary (fixed_vector &v) {
              swap ( v );
              return *this;
          }
 
-    /// \brief Assign the result of a vector_expression to the vector
+    /// \brief Assign the result of a vector_expression to the fixed_vector
     /// Assign the result of a vector_expression to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
     /// \tparam AE is the type of the vector_expression
     /// \param ae is a const reference to the vector_expression
-    /// \return a reference to the resulting vector
+    /// \return a reference to the resulting fixed_vector
          template<class AE>
          BOOST_UBLAS_INLINE
          fixed_vector &operator = (const vector_expression<AE> &ae) {
@@ -1073,11 +1073,11 @@ namespace boost { namespace numeric { namespace ublas {
              return assign_temporary (temporary);
          }
 
-    /// \brief Assign the result of a vector_expression to the vector
+    /// \brief Assign the result of a vector_expression to the fixed_vector
     /// Assign the result of a vector_expression to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
     /// \tparam AE is the type of the vector_expression
     /// \param ae is a const reference to the vector_expression
-    /// \return a reference to the resulting vector
+    /// \return a reference to the resulting fixed_vector
          template<class AE>
          BOOST_UBLAS_INLINE
          fixed_vector &assign (const vector_expression<AE> &ae) {
@@ -1089,12 +1089,12 @@ namespace boost { namespace numeric { namespace ublas {
          // Computed assignment
     // -------------------
 
-    /// \brief Assign the sum of the vector and a vector_expression to the vector
-    /// Assign the sum of the vector and a vector_expression to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
+    /// \brief Assign the sum of the fixed_vector and a vector_expression to the fixed_vector
+    /// Assign the sum of the fixed_vector and a vector_expression to the fixed_vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
     /// A temporary is created for the computations.
     /// \tparam AE is the type of the vector_expression
     /// \param ae is a const reference to the vector_expression
-    /// \return a reference to the resulting vector
+    /// \return a reference to the resulting fixed_vector
          template<class AE>
          BOOST_UBLAS_INLINE
          fixed_vector &operator += (const vector_expression<AE> &ae) {
@@ -1102,8 +1102,8 @@ namespace boost { namespace numeric { namespace ublas {
              return assign_temporary (temporary);
          }
 
-    /// \brief Assign the sum of the vector and a vector_expression to the vector
-    /// Assign the sum of the vector and a vector_expression to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
+    /// \brief Assign the sum of the fixed_vector and a vector_expression to the fixed_vector
+    /// Assign the sum of the fixed_vector and a vector_expression to the fixed_vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
     /// No temporary is created. Computations are done and stored directly into the resulting vector.
     /// \tparam AE is the type of the vector_expression
     /// \param ae is a const reference to the vector_expression
@@ -1115,9 +1115,9 @@ namespace boost { namespace numeric { namespace ublas {
              return *this;
          }
 
-    /// \brief Assign the sum of the vector and a vector_expression to the vector
-    /// Assign the sum of the vector and a vector_expression to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
-    /// No temporary is created. Computations are done and stored directly into the resulting vector.
+    /// \brief Assign the sum of the fixed_vector and a vector_expression to the fixed_vector
+    /// Assign the sum of the fixed_vector and a vector_expression to the fixed_vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
+    /// No temporary is created. Computations are done and stored directly into the resulting fixed_vector.
     /// \tparam AE is the type of the vector_expression
     /// \param ae is a const reference to the vector_expression
     /// \return a reference to the resulting vector
@@ -1128,8 +1128,8 @@ namespace boost { namespace numeric { namespace ublas {
              return *this;
          }
 
-    /// \brief Assign the difference of the vector and a vector_expression to the vector
-    /// Assign the difference of the vector and a vector_expression to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
+    /// \brief Assign the difference of the fixed_vector and a vector_expression to the fixed_vector
+    /// Assign the difference of the fixed_vector and a vector_expression to the fixed_vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
     /// A temporary is created for the computations.
     /// \tparam AE is the type of the vector_expression
     /// \param ae is a const reference to the vector_expression
@@ -1140,9 +1140,9 @@ namespace boost { namespace numeric { namespace ublas {
              return assign_temporary (temporary);
          }
 
-    /// \brief Assign the difference of the vector and a vector_expression to the vector
-    /// Assign the difference of the vector and a vector_expression to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
-    /// No temporary is created. Computations are done and stored directly into the resulting vector.
+    /// \brief Assign the difference of the fixed_vector and a vector_expression to the fixed_vector
+    /// Assign the difference of the fixed_vector and a vector_expression to the fixed_vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
+    /// No temporary is created. Computations are done and stored directly into the resulting fixed_vector.
     /// \tparam AE is the type of the vector_expression
     /// \param ae is a const reference to the vector_expression
     /// \return a reference to the resulting vector
@@ -1153,12 +1153,12 @@ namespace boost { namespace numeric { namespace ublas {
              return *this;
          }
 
-    /// \brief Assign the difference of the vector and a vector_expression to the vector
-    /// Assign the difference of the vector and a vector_expression to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
-    /// No temporary is created. Computations are done and stored directly into the resulting vector.
+    /// \brief Assign the difference of the fixed_vector and a vector_expression to the fixed_vector
+    /// Assign the difference of the fixed_vector and a vector_expression to the fixed_vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
+    /// No temporary is created. Computations are done and stored directly into the resulting fixed_vector.
     /// \tparam AE is the type of the vector_expression
     /// \param ae is a const reference to the vector_expression
-    /// \return a reference to the resulting vector
+    /// \return a reference to the resulting fixed_vector
          template<class AE>
          BOOST_UBLAS_INLINE
          fixed_vector &minus_assign (const vector_expression<AE> &ae) {
@@ -1166,12 +1166,12 @@ namespace boost { namespace numeric { namespace ublas {
              return *this;
          }
 
-    /// \brief Assign the product of the vector and a scalar to the vector
-    /// Assign the product of the vector and a scalar to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
-    /// No temporary is created. Computations are done and stored directly into the resulting vector.
+    /// \brief Assign the product of the fixed_vector and a scalar to the fixed_vector
+    /// Assign the product of the fixed_vector and a scalar to the fixed_vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
+    /// No temporary is created. Computations are done and stored directly into the resulting fixed_vector.
     /// \tparam AE is the type of the vector_expression
     /// \param at is a const reference to the scalar
-    /// \return a reference to the resulting vector
+    /// \return a reference to the resulting fixed_vector
          template<class AT>
          BOOST_UBLAS_INLINE
          fixed_vector &operator *= (const AT &at) {
@@ -1179,12 +1179,12 @@ namespace boost { namespace numeric { namespace ublas {
              return *this;
          }
 
-    /// \brief Assign the division of the vector by a scalar to the vector
-    /// Assign the division of the vector by a scalar to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
+    /// \brief Assign the division of the fixed_vector by a scalar to the fixed_vector
+    /// Assign the division of the fixed_vector by a scalar to the vector. This is lazy-compiled and will be optimized out by the compiler on any type of expression.
     /// No temporary is created. Computations are done and stored directly into the resulting vector.
     /// \tparam AE is the type of the vector_expression
     /// \param at is a const reference to the scalar
-    /// \return a reference to the resulting vector
+    /// \return a reference to the resulting fixed_vector
         template<class AT>
         BOOST_UBLAS_INLINE
         fixed_vector &operator /= (const AT &at) {
@@ -1196,8 +1196,8 @@ namespace boost { namespace numeric { namespace ublas {
         // Swapping
     // --------
 
-    /// \brief Swap the content of the vector with another vector
-    /// \param v is the vector to be swapped with
+    /// \brief Swap the content of the fixed_vector with another vector
+    /// \param v is the fixed_vector to be swapped with
         BOOST_UBLAS_INLINE
         void swap (fixed_vector &v) {
             if (this != &v) {
@@ -1205,9 +1205,9 @@ namespace boost { namespace numeric { namespace ublas {
             }
         }
 
-    /// \brief Swap the content of two vectors
-    /// \param v1 is the first vector. It takes values from v2
-    /// \param v2 is the second vector It takes values from v1
+    /// \brief Swap the content of two fixed_vectors
+    /// \param v1 is the first fixed_vector. It takes values from v2
+    /// \param v2 is the second fixed_vector It takes values from v1
          BOOST_UBLAS_INLINE
          friend void swap (fixed_vector &v1, fixed_vector &v2) {
              v1.swap (v2);
@@ -1383,13 +1383,13 @@ namespace boost { namespace numeric { namespace ublas {
          };
 #endif
 
-    /// \brief return an iterator on the first element of the vector
+    /// \brief return an iterator on the first element of the fixed_vector
         BOOST_UBLAS_INLINE
         const_iterator begin () const {
             return find (0);
         }
 
-    /// \brief return an iterator after the last element of the vector
+    /// \brief return an iterator after the last element of the fixed_vector
          BOOST_UBLAS_INLINE
          const_iterator end () const {
              return find (data_.size ());
@@ -1487,13 +1487,13 @@ namespace boost { namespace numeric { namespace ublas {
          };
 #endif
 
-    /// \brief Return an iterator on the first element of the vector
+    /// \brief Return an iterator on the first element of the fixed_vector
         BOOST_UBLAS_INLINE
         iterator begin () {
             return find (0);
         }
 
-    /// \brief Return an iterator at the end of the vector
+    /// \brief Return an iterator at the end of the fixed_vector
         BOOST_UBLAS_INLINE
         iterator end () {
             return find (data_.size ());
@@ -1503,25 +1503,25 @@ namespace boost { namespace numeric { namespace ublas {
         typedef reverse_iterator_base<const_iterator> const_reverse_iterator;
         typedef reverse_iterator_base<iterator> reverse_iterator;
 
-    /// \brief Return a const reverse iterator before the first element of the reversed vector (i.e. end() of normal vector)
+    /// \brief Return a const reverse iterator before the first element of the reversed fixed_vector (i.e. end() of normal fixed_vector)
         BOOST_UBLAS_INLINE
         const_reverse_iterator rbegin () const {
             return const_reverse_iterator (end ());
         }
 
-    /// \brief Return a const reverse iterator on the end of the reverse vector (i.e. first element of the normal vector)
+    /// \brief Return a const reverse iterator on the end of the reverse fixed_vector (i.e. first element of the normal fixed_vector)
         BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
         }
 
-    /// \brief Return a const reverse iterator before the first element of the reversed vector (i.e. end() of normal vector)
+    /// \brief Return a const reverse iterator before the first element of the reversed fixed_vector (i.e. end() of normal fixed_vector)
         BOOST_UBLAS_INLINE
         reverse_iterator rbegin () {
             return reverse_iterator (end ());
         }
 
-    /// \brief Return a const reverse iterator on the end of the reverse vector (i.e. first element of the normal vector)
+    /// \brief Return a const reverse iterator on the end of the reverse fixed_vector (i.e. first element of the normal fixed_vector)
         BOOST_UBLAS_INLINE
         reverse_iterator rend () {
             return reverse_iterator (begin ());
@@ -1531,7 +1531,7 @@ namespace boost { namespace numeric { namespace ublas {
         // Serialization
     // -------------
 
-    /// Serialize a vector into and archive as defined in Boost
+    /// Serialize a fixed_vector into and archive as defined in Boost
     /// \param ar Archive object. Can be a flat file, an XML file or any other stream
     /// \param file_version Optional file version (not yet used)
          template<class Archive>
