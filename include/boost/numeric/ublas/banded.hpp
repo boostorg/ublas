@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2000-2002
-//  Joerg Walter, Mathias Koch
+//  Copyright (c) 2000-2013
+//  Joerg Walter, Mathias Koch, Athanasios Iliopoulos
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -19,6 +19,67 @@
 // Iterators based on ideas of Jeremy Siek
 
 namespace boost { namespace numeric { namespace ublas {
+
+
+namespace hidden {
+
+
+
+/** \brief A helper for band_matrix indexing.
+ *
+ * The indexing happens as per the netlib description: http://www.netlib.org/lapack/lug/node124.html.
+ * In the case of a row_major matrix a different approach is followed;
+ */
+template <class LayoutType>
+class banded_indexing { };
+
+/** \brief A helper for indexing column major banded matrices.
+ *
+ */
+template <>
+class banded_indexing<column_major_tag> {
+public:
+
+    template <class T>
+    BOOST_UBLAS_INLINE static T size(T /*size1*/, T size2) {
+        return size2;
+    }
+
+//    template <class T>
+//    BOOST_UBLAS_INLINE static bool valid_index(T size1, T /*size2*/, T lower, T upper, T i, T j) {
+//        return (upper+i >= j) && i <= std::min(size1 - 1, j + lower); // upper + i is used by get_index. Maybe find a way to consolidate the operations to increase performance
+//    }
+
+    template <class T>
+    BOOST_UBLAS_INLINE static T get_index(T /*size1*/, T size2, T lower, T upper, T i, T j) {
+        return column_major::element (upper + i - j, lower + 1 + upper, j, size2);
+    }
+};
+
+/** \brief A helper for indexing row major banded matrices.
+ *
+ */
+template <>
+class banded_indexing<row_major_tag> {
+public:
+
+    template <class T>
+    BOOST_UBLAS_INLINE static T size(T size1, T /*size2*/) {
+        return size1;
+    }
+
+  //  template <class T>
+  //  BOOST_UBLAS_INLINE static bool valid_index(T /*size1*/, T  size2, T lower, T upper, T i, T j) {
+  //      return (lower+j >= i) && j <= std::min(size2 - 1, i + upper); // lower + j is used by get_index. Maybe find a way to consolidate the operations to increase performance
+  //  }
+
+    template <class T>
+    BOOST_UBLAS_INLINE static T get_index(T size1, T /*size2*/, T lower, T upper, T i, T j) {
+        return row_major::element (i, size1, lower + j - i, lower + 1 + upper);
+    }
+};
+
+}
 
     /** \brief A banded matrix of values of type \c T.
      *
@@ -39,6 +100,9 @@ namespace boost { namespace numeric { namespace ublas {
         typedef T *pointer;
         typedef L layout_type;
         typedef banded_matrix<T, L, A> self_type;
+
+
+
     public:
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
         using matrix_container<self_type>::operator ();
@@ -56,6 +120,9 @@ namespace boost { namespace numeric { namespace ublas {
         typedef packed_tag storage_category;
         typedef typename L::orientation_category orientation_category;
 
+    private:
+    public:
+
         // Construction and destruction
         BOOST_UBLAS_INLINE
         banded_matrix ():
@@ -66,7 +133,13 @@ namespace boost { namespace numeric { namespace ublas {
         banded_matrix (size_type size1, size_type size2, size_type lower = 0, size_type upper = 0):
             matrix_container<self_type> (),
             size1_ (size1), size2_ (size2),
-            lower_ (lower), upper_ (upper), data_ ((std::max) (size1, size2) * (lower + 1 + upper)) {
+            lower_ (lower), upper_ (upper),
+#if defined(BOOST_UBLAS_OWN_BANDED) || (BOOST_UBLAS_LEGACY_BANDED)
+            data_ ((std::max) (size1, size2) * (lower + 1 + upper))
+#else
+            data_ ( hidden::banded_indexing<orientation_category>::size(size1, size2) * (lower + 1 + upper)) // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
+#endif
+        {
         }
         BOOST_UBLAS_INLINE
         banded_matrix (size_type size1, size_type size2, size_type lower, size_type upper, const array_type &data):
@@ -84,7 +157,12 @@ namespace boost { namespace numeric { namespace ublas {
             matrix_container<self_type> (),
             size1_ (ae ().size1 ()), size2_ (ae ().size2 ()),
             lower_ (lower), upper_ (upper),
-            data_ ((std::max) (size1_, size2_) * (lower_ + 1 + upper_)) {
+#if defined(BOOST_UBLAS_OWN_BANDED) || (BOOST_UBLAS_LEGACY_BANDED)
+            data_ ((std::max) (size1_, size2_) * (lower_ + 1 + upper_))
+#else
+            data_ ( hidden::banded_indexing<orientation_category>::size(size1_, size2_) * (lower_ + 1 + upper_)) // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
+#endif
+        {
             matrix_assign<scalar_assign> (*this, ae);
         }
 
@@ -116,6 +194,13 @@ namespace boost { namespace numeric { namespace ublas {
             return data_;
         }
 
+#if !defined (BOOST_UBLAS_OWN_BANDED)||(BOOST_UBLAS_LEGACY_BANDED)
+        BOOST_UBLAS_INLINE
+        bool is_element_in_band(size_type i, size_type j) const{
+            //return (upper_+i >= j) && i <= std::min(size1() - 1, j + lower_); // We don't need to check if i is outside because it is checked anyway in the accessors.
+            return (upper_+i >= j) && i <= ( j + lower_); // Essentially this band has "infinite" positive dimensions
+        }
+#endif
         // Resizing
         BOOST_UBLAS_INLINE
         void resize (size_type size1, size_type size2, size_type lower = 0, size_type upper = 0, bool preserve = true) {
@@ -149,51 +234,36 @@ namespace boost { namespace numeric { namespace ublas {
 #ifdef BOOST_UBLAS_OWN_BANDED
             const size_type k = (std::max) (i, j);
             const size_type l = lower_ + j - i;
-            if (k < (std::max) (size1_, size2_) &&
+            if (k < (std::max) (size1_, size2_) && // TODO: probably use BOOST_UBLAS_CHECK here instead of if
                 l < lower_ + 1 + upper_)
                 return data () [layout_type::element (k, (std::max) (size1_, size2_),
                                                        l, lower_ + 1 + upper_)];
-#else
+#elif BOOST_UBLAS_LEGACY_BANDED // Prior to version: TODO: add version this is actually incorporated in
             const size_type k = j;
             const size_type l = upper_ + i - j;
             if (k < size2_ &&
                 l < lower_ + 1 + upper_)
                 return data () [layout_type::element (k, size2_,
                                                        l, lower_ + 1 + upper_)];
+#else  // New default
+            // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
+            if ( is_element_in_band( i, j) ) {
+                return data () [hidden::banded_indexing<orientation_category>::get_index(size1_, size2_, lower_, upper_, i, j)];
+            }
 #endif
             return zero_;
         }
+
         BOOST_UBLAS_INLINE
         reference at_element (size_type i, size_type j) {
             BOOST_UBLAS_CHECK (i < size1_, bad_index ());
             BOOST_UBLAS_CHECK (j < size2_, bad_index ());
 #ifdef BOOST_UBLAS_OWN_BANDED
             const size_type k = (std::max) (i, j);
-            const size_type l = lower_ + j - i;
+            const size_type l = lower_ + j - i; // TODO: Don't we need an if or BOOST_UBLAS_CHECK HERE?
             return data () [layout_type::element (k, (std::max) (size1_, size2_),
                                                    l, lower_ + 1 + upper_)];
-#else
-            const size_type k = j;
-            const size_type l = upper_ + i - j;
-            return data () [layout_type::element (k, size2_,
-                                                   l, lower_ + 1 + upper_)];
-#endif
-        }
-        BOOST_UBLAS_INLINE
-        reference operator () (size_type i, size_type j) {
-            BOOST_UBLAS_CHECK (i < size1_, bad_index ());
-            BOOST_UBLAS_CHECK (j < size2_, bad_index ());
-#ifdef BOOST_UBLAS_OWN_BANDED
-            const size_type k = (std::max) (i, j);
-            const size_type l = lower_ + j - i;
-            if (! (k < (std::max) (size1_, size2_) &&
-                  l < lower_ + 1 + upper_) ) {
-                bad_index ().raise ();
-                // NEVER reached
-            }
-            return data () [layout_type::element (k, (std::max) (size1_, size2_),
-                                                       l, lower_ + 1 + upper_)];
-#else
+#elif BOOST_UBLAS_LEGACY_BANDED // Prior to version: TODO: add version this is actually incorporated in
             const size_type k = j;
             const size_type l = upper_ + i - j;
             if (! (k < size2_ &&
@@ -203,7 +273,42 @@ namespace boost { namespace numeric { namespace ublas {
             }
             return data () [layout_type::element (k, size2_,
                                                        l, lower_ + 1 + upper_)];
+#else
+            // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
+            BOOST_UBLAS_CHECK(is_element_in_band( i, j) , bad_index());
+            return data () [hidden::banded_indexing<orientation_category>::get_index(size1_, size2_, lower_, upper_, i, j)];
 #endif
+        }
+        BOOST_UBLAS_INLINE
+        reference operator () (size_type i, size_type j) {
+            BOOST_UBLAS_CHECK (i < size1_, bad_index ());
+            BOOST_UBLAS_CHECK (j < size2_, bad_index ());
+#ifdef BOOST_UBLAS_OWN_BANDED
+            const size_type k = (std::max) (i, j);
+            const size_type l = lower_ + j - i;
+            if (! (k < (std::max) (size1_, size2_) && // TODO: probably use BOOST_UBLAS_CHECK here instead of if
+                  l < lower_ + 1 + upper_) ) {
+                bad_index ().raise ();
+                // NEVER reached
+            }
+            return data () [layout_type::element (k, (std::max) (size1_, size2_),
+                                                       l, lower_ + 1 + upper_)];
+#elif BOOST_UBLAS_LEGACY_BANDED // Prior to version: TODO: add version this is actually incorporated in
+            const size_type k = j;
+            const size_type l = upper_ + i - j;
+            if (! (k < size2_ &&
+                   l < lower_ + 1 + upper_) ) {
+                bad_index ().raise ();
+                // NEVER reached
+            }
+            return data () [layout_type::element (k, size2_,
+                                                       l, lower_ + 1 + upper_)];
+#else
+            // This is the netlib layout as described here: http://www.netlib.org/lapack/lug/node124.html
+            BOOST_UBLAS_CHECK( is_element_in_band( i, j) , bad_index());
+            return data () [hidden::banded_indexing<orientation_category>::get_index(size1_, size2_, lower_, upper_, i, j)];
+#endif
+
         }
 
         // Element assignment
@@ -1055,6 +1160,7 @@ namespace boost { namespace numeric { namespace ublas {
         public matrix_expression<banded_adaptor<M> > {
 
         typedef banded_adaptor<M> self_type;
+
     public:
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
         using matrix_expression<self_type>::operator ();
@@ -1118,6 +1224,14 @@ namespace boost { namespace numeric { namespace ublas {
             return data_;
         }
 
+#if !defined (BOOST_UBLAS_OWN_BANDED)||(BOOST_UBLAS_LEGACY_BANDED)
+        BOOST_UBLAS_INLINE
+        bool is_element_in_band(size_type i, size_type j) const{
+            //return (upper_+i >= j) && i <= std::min(size1() - 1, j + lower_); // We don't need to check if i is outside because it is checked anyway in the accessors.
+            return (upper_+i >= j) && i <= ( j + lower_); // Essentially this band has "infinite" positive dimensions
+        }
+#endif
+
         // Element access
 #ifndef BOOST_UBLAS_PROXY_CONST_MEMBER
         BOOST_UBLAS_INLINE
@@ -1130,11 +1244,14 @@ namespace boost { namespace numeric { namespace ublas {
             if (k < (std::max) (size1 (), size2 ()) &&
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
-#else
+#elif BOOST_UBLAS_LEGACY_BANDED
             size_type k = j;
             size_type l = upper_ + i - j;
             if (k < size2 () &&
                 l < lower_ + 1 + upper_)
+                return data () (i, j);
+#else
+            if (is_element_in_band( i, j))
                 return data () (i, j);
 #endif
             return zero_;
@@ -1149,11 +1266,14 @@ namespace boost { namespace numeric { namespace ublas {
             if (k < (std::max) (size1 (), size2 ()) &&
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
-#else
+#elif BOOST_UBLAS_LEGACY_BANDED
             size_type k = j;
             size_type l = upper_ + i - j;
             if (k < size2 () &&
                 l < lower_ + 1 + upper_)
+                return data () (i, j);
+#else
+            if (is_element_in_band( i, j))
                 return data () (i, j);
 #endif
 #ifndef BOOST_UBLAS_REFERENCE_CONST_MEMBER
@@ -1172,11 +1292,14 @@ namespace boost { namespace numeric { namespace ublas {
             if (k < (std::max) (size1 (), size2 ()) &&
                 l < lower_ + 1 + upper_)
                 return data () (i, j);
-#else
+#elif BOOST_UBLAS_LEGACY_BANDED
             size_type k = j;
             size_type l = upper_ + i - j;
             if (k < size2 () &&
                 l < lower_ + 1 + upper_)
+                return data () (i, j);
+#else
+            if (is_element_in_band( i, j))
                 return data () (i, j);
 #endif
 #ifndef BOOST_UBLAS_REFERENCE_CONST_MEMBER

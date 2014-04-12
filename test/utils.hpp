@@ -119,8 +119,8 @@ template <typename T1, typename T2, typename T3>
 BOOST_UBLAS_INLINE
 bool rel_close_to(T1 x, T2 y, T3 tol)
 {
-	typedef typename promote_traits<typename promote_traits<T1,T2>::promote_type,
-									T3>::promote_type real_type;
+    //typedef typename promote_traits<typename promote_traits<T1,T2>::promote_type,
+    //								T3>::promote_type real_type;
 
     if ((boost::math::isnan)(x) || (boost::math::isnan)(y))
     {
