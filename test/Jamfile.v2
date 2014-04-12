@@ -213,6 +213,8 @@ test-suite numeric/uBLAS
         :
       ]
       [ run test_fixed_containers.cpp
-        : : : <define>BOOST_UBLAS_CPP11
+        :
+        :
+        :  <toolset>gcc:<cxxflags>-std=c++11 <toolset>clang:<cxxflags>-std=c++11 <toolset>intel:<cxxflags>-std=c++11  <define>BOOST_UBLAS_CPP11
       ]
     ;

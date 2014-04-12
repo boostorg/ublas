@@ -1,6 +1,7 @@
 //
 //  Copyright (c) 2000-2010
 //  Joerg Walter, Mathias Koch, David Bellot
+//  Copyright (c) 2014, Athanasios Iliopoulos
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -797,15 +798,15 @@ namespace boost { namespace numeric { namespace ublas {
 	 };
 
 
-
+#ifdef BOOST_UBLAS_CPP11
      /** \brief A dense vector of values of type \c T.
       *
       * For a \f$n\f$-dimensional vector \f$v\f$ and \f$0\leq i < n\f$ every element \f$v_i\f$ is mapped
-      * to the \f$i\f$-th element of the container. A storage type \c A can be specified which defaults to \c unbounded_array.
+      * to the \f$i\f$-th element of the container. A storage type \c A can be specified which defaults to \c std::array.
       * Elements are constructed by \c A, which need not initialise their value.
       *
       * \tparam T type of the objects stored in the vector (like int, double, complex,...)
-      * \tparam A The type of the storage array of the vector. Default is \c unbounded_array<T>. \c <bounded_array<T> and \c std::vector<T> can also be used
+      * \tparam A The type of the storage array of the vector. Default is \c std::array<T>.
       */
      template<class T, std::size_t N, class A>
      class fixed_vector:
@@ -848,10 +849,12 @@ namespace boost { namespace numeric { namespace ublas {
 
     /// \brief Constructor of a fixed_vector with a predefined size and a unique initial value
     /// \param init value to assign to each element of the vector
-        BOOST_UBLAS_INLINE
-        fixed_vector (const value_type &init):
-            vector_container<self_type> (),
-            data_ ( init) {}
+         BOOST_UBLAS_INLINE
+         fixed_vector (const value_type &init):
+             vector_container<self_type> (),
+             data_ () {
+             data_.fill( init );
+         }
 
     /// \brief Copy-constructor of a fixed_vector
     /// \param v is the fixed_vector to be duplicated
@@ -875,8 +878,10 @@ namespace boost { namespace numeric { namespace ublas {
         /// \brief Construct a fixed_vector from a list of values
         /// The list should be included in curly braces. Typical syntax is:
         /// fixed_vector<double, 3> v = { 1, 2, 3 } or fixed_vector<double,3> v( {1, 2, 3} ) or fixed_vector<double,3> v( 1, 2, 3 )
-        template <typename U, typename... Types>
-        fixed_vector(U v0, Types... vrest) : data_{ { v0, vrest... } } {}
+        template <typename... Types>
+        fixed_vector(value_type v0, Types... vrest) :
+            vector_container<self_type> (),
+            data_{ { v0, vrest... } } {}
 
     // -----------------------
     // Random Access Container
@@ -902,7 +907,7 @@ namespace boost { namespace numeric { namespace ublas {
 
     /// \brief Return the size of the vector
          BOOST_UBLAS_INLINE
-         constexpr size_type size () { // should have a const after C++14
+         constexpr size_type size () const{ // should have a const after C++14
              return data_.size ();
          }
 
@@ -1538,6 +1543,7 @@ namespace boost { namespace numeric { namespace ublas {
          array_type data_;
      };
 
+#endif // BOOST_UBLAS_CPP11
 
 	 // --------------------
 	 // Bounded vector class

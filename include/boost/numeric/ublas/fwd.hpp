@@ -133,6 +133,10 @@ namespace boost { namespace numeric { namespace ublas {
 
     template<class T, class L = row_major, class A = unbounded_array<T> >
     class matrix;
+#ifdef BOOST_UBLAS_CPP11
+    template<class T, std::size_t M, std::size_t N, class L = row_major, class A = std::array<T, M*N> >
+    class fixed_matrix;
+#endif
     template<class T, std::size_t M, std::size_t N, class L = row_major>
     class bounded_matrix;
 
