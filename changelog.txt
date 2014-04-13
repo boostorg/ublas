@@ -1,0 +1,14 @@
+Version 1.1.0
+----------------
+
+02 Apr. 2014    Nasos Iliopoulos    
+
+    * Added changelog
+        
+    * Corrected a big number of warnings coming from stray typedefs. Other 
+      issues may be present that are not triggered by the unit tests
+          
+    * Corrected the banded matrix bug 
+      (https://svn.boost.org/trac/boost/ticket/7549) and updated appropriate 
+      unit tests. To enable the old (incorrect though) behaviour one should 
+      define BOOST_UBLAS_LEGACY_BANDED.
