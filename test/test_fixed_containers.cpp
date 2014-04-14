@@ -10,6 +10,8 @@
 #include <iomanip>
 #include "utils.hpp"
 
+#ifdef BOOST_UBLAS_CPP_GE_2011
+
 using namespace boost::numeric::ublas;
 
 using std::cout;
@@ -141,7 +143,7 @@ bool test_vector( std::string type_name)
             (void) a ;
 
         } catch ( bad_index &e) {
-            std::cout << " Caught: " << e.what() << endl;
+            std::cout << " Caught (GOOD): " << e.what() << endl;
             pass &= true;
         }
 
@@ -216,7 +218,7 @@ bool test_matrix( std::string type_name)
 
         mat33 m3 = prod(m1, m2);
 
-        matrix<double> m(3, 3);
+        matrix<T> m(3, 3);
         m <<= 31,36,22,47,59,40,43,52,38;
 
         pass &= compare(m ,m3);
@@ -251,21 +253,17 @@ bool test_matrix( std::string type_name)
             (void) a ;
 
         } catch ( bad_index &e) {
-            std::cout << " Caught: " << e.what() << endl;
+            std::cout << " Caught (GOOD): " << e.what() << endl;
             pass &= true;
         }
 
     }
 
-
-
-
-
     return pass;
 
 }
 
-BOOST_UBLAS_TEST_DEF (test_vector) {
+BOOST_UBLAS_TEST_DEF (test_fixed) {
 
     BOOST_UBLAS_DEBUG_TRACE( "Starting fixed container tests" );
 
@@ -278,27 +276,34 @@ BOOST_UBLAS_TEST_DEF (test_vector) {
     BOOST_UBLAS_TEST_CHECK(  test_vector< std::complex<int> >( "std::complex<int>") );
 
     BOOST_UBLAS_TEST_CHECK(  test_matrix< double >( "double") );
-    BOOST_UBLAS_TEST_CHECK(  test_vector< float >( "float") );
-    BOOST_UBLAS_TEST_CHECK(  test_vector< int >( "int") );
+    BOOST_UBLAS_TEST_CHECK(  test_matrix< float >( "float") );
+    BOOST_UBLAS_TEST_CHECK(  test_matrix< int >( "int") );
 
-    BOOST_UBLAS_TEST_CHECK(  test_vector< std::complex<double> >( "std::complex<double>") );
-    BOOST_UBLAS_TEST_CHECK(  test_vector< std::complex<float> >( "std::complex<float>") );
-    BOOST_UBLAS_TEST_CHECK(  test_vector< std::complex<int> >( "std::complex<int>") );
+    BOOST_UBLAS_TEST_CHECK(  test_matrix< std::complex<double> >( "std::complex<double>") );
+    BOOST_UBLAS_TEST_CHECK(  test_matrix< std::complex<float> >( "std::complex<float>") );
+    BOOST_UBLAS_TEST_CHECK(  test_matrix< std::complex<int> >( "std::complex<int>") );
 }
+
 
 int main () {
 
-#ifdef BOOST_UBLAS_NO_EXCEPTIONS
-    std::cout << "DEFINED       SDFSDF SDF SDF " << std::endl;
-#endif
-
     BOOST_UBLAS_TEST_BEGIN();
 
-    BOOST_UBLAS_TEST_DO( test_vector );
+    BOOST_UBLAS_TEST_DO( test_fixed );
 
+    BOOST_UBLAS_TEST_END();
+    return EXIT_SUCCESS;
+
+}
+
+#else
+
+int main () {
+
+    BOOST_UBLAS_TEST_BEGIN();
     BOOST_UBLAS_TEST_END();
 
     return EXIT_SUCCESS;
 
 }
-
+#endif // BOOST_UBLAS_CPP_GE_2011

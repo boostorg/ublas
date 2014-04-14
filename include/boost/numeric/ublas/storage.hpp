@@ -1612,6 +1612,10 @@ namespace boost { namespace numeric { namespace ublas {
             lhs.swap(rhs);
         }
 
+        friend void swap(self_type lhs, self_type rhs) { // For c++11
+            lhs.swap(rhs);
+        }
+
         BOOST_UBLAS_INLINE
         bool equal(const self_type& rhs) const {
             return (v1_ == rhs.v1_);
@@ -1780,6 +1784,10 @@ namespace boost { namespace numeric { namespace ublas {
         }
         BOOST_UBLAS_INLINE
         friend void swap(self_type& lhs, self_type& rhs) {
+            lhs.swap(rhs);
+        }
+
+        friend void swap(self_type lhs, self_type rhs) { // For c++11
             lhs.swap(rhs);
         }
 
