@@ -23,7 +23,7 @@
 #include <boost/serialization/collection_size_type.hpp>
 #include <boost/serialization/nvp.hpp>
 
-#ifdef BOOST_UBLAS_CPP11
+#ifdef BOOST_UBLAS_CPP_GE_2011
 #include <array>
 #include <initializer_list>
 #endif
@@ -798,7 +798,7 @@ namespace boost { namespace numeric { namespace ublas {
 	 };
 
 
-#ifdef BOOST_UBLAS_CPP11
+#ifdef BOOST_UBLAS_CPP_GE_2011
      /** \brief A dense vector of values of type \c T.
       *
       * For a \f$n\f$-dimensional vector \f$v\f$ and \f$0\leq i < n\f$ every element \f$v_i\f$ is mapped
@@ -1543,7 +1543,7 @@ namespace boost { namespace numeric { namespace ublas {
          array_type data_;
      };
 
-#endif // BOOST_UBLAS_CPP11
+#endif // BOOST_UBLAS_CPP_GE_2011
 
 	 // --------------------
 	 // Bounded vector class

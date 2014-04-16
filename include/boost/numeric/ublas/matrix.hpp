@@ -1095,7 +1095,7 @@ namespace boost { namespace numeric {
     };
 
 
-#ifdef BOOST_UBLAS_CPP11
+#ifdef BOOST_UBLAS_CPP_GE_2011
     /** \brief A fixed size dense matrix of values of type \c T. Equivalent to a c-style 2 dimensional array.
      *
      * For a \f$(m \times n)\f$-dimensional fixed_matrix and \f$ 0 \leq i < m, 0 \leq j < n\f$, every element \f$ m_{i,j} \f$ is mapped to
@@ -2071,7 +2071,7 @@ namespace boost { namespace numeric {
         array_type data_;
     };
 
-#endif // BOOST_UBLAS_CPP11
+#endif // BOOST_UBLAS_CPP_GE_2011
 
     /** \brief A dense matrix of values of type \c T with a variable size bounded to a maximum of \f$M\f$ by \f$N\f$. 
      *

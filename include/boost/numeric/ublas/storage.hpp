@@ -1607,10 +1607,16 @@ namespace boost { namespace numeric { namespace ublas {
             rhs = *this;
             *this = tmp;
         }
+
         BOOST_UBLAS_INLINE
         friend void swap(self_type& lhs, self_type& rhs) {
             lhs.swap(rhs);
         }
+
+        friend void swap(self_type lhs, self_type rhs) { // For gcc 4.8 and c++11
+            lhs.swap(rhs);
+        }
+
 
         BOOST_UBLAS_INLINE
         bool equal(const self_type& rhs) const {
@@ -1778,8 +1784,13 @@ namespace boost { namespace numeric { namespace ublas {
             rhs = *this;
             *this = tmp;
         }
+
         BOOST_UBLAS_INLINE
         friend void swap(self_type& lhs, self_type& rhs) {
+            lhs.swap(rhs);
+        }
+
+        friend void swap(self_type lhs, self_type rhs) { // For gcc 4.8 and c++11
             lhs.swap(rhs);
         }
 
