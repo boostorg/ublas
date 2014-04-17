@@ -928,7 +928,7 @@ namespace boost { namespace numeric { namespace ublas {
         }
     };
 
-    void concept_checks () {
+inline void concept_checks () {
 
         // Allow tests to be group to keep down compiler storage requirement
 #ifdef INTERAL

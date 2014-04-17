@@ -907,7 +907,7 @@ namespace boost { namespace numeric { namespace ublas {
 
     /// \brief Return the size of the vector
          BOOST_UBLAS_INLINE
-         constexpr size_type size () const{ // should have a const after C++14
+         BOOST_UBLAS_CONSTEXPR size_type size () const{ // should have a const after C++14
              return data_.size ();
          }
 
