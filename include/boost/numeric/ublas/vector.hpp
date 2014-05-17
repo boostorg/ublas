@@ -88,7 +88,7 @@ namespace boost { namespace numeric { namespace ublas {
 	/// \param data container of type \c A
 	/// \todo remove this definition because \c size is not used
 	    BOOST_UBLAS_INLINE
-	    vector (size_type size, const array_type &data):
+        vector (size_type /*size*/, const array_type &data):
 	        vector_container<self_type> (),
 	        data_ (data) {}
 
@@ -1675,7 +1675,7 @@ namespace boost { namespace numeric { namespace ublas {
 
 	     // Element support
 	     BOOST_UBLAS_INLINE
-	     const_pointer find_element (size_type i) const {
+         const_pointer find_element (size_type /*i*/) const {
 	         return & zero_;
 	     }
 
@@ -2384,7 +2384,7 @@ namespace boost { namespace numeric { namespace ublas {
 
 	     // Resizing
 	     BOOST_UBLAS_INLINE
-	     void resize (size_type size, bool preserve = true) {
+         void resize (size_type size, bool /*preserve*/ = true) {
 	         if (size > N)
                  bad_size ().raise ();
 	         size_ = size;

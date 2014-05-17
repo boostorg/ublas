@@ -3210,7 +3210,7 @@ namespace boost { namespace numeric {
 
         // Resizing
         BOOST_UBLAS_INLINE
-        void resize (size_type size, bool preserve = true) {
+        void resize (size_type size, bool /*preserve*/ = true) {
             size1_ = size;
             size2_ = size;
         }
@@ -3597,7 +3597,7 @@ namespace boost { namespace numeric {
 
         // Resizing
         BOOST_UBLAS_INLINE
-        void resize (size_type size, bool preserve = true) {
+        void resize (size_type size, bool /*preserve*/ = true) {
             size1_ = size;
             size2_ = size;
             size_common_ = ((std::min)(size1_, size2_));
@@ -4692,7 +4692,7 @@ namespace boost { namespace numeric {
 
         // Element lookup
         BOOST_UBLAS_INLINE
-        const_iterator1 find1 (int rank, size_type i, size_type j) const {
+        const_iterator1 find1 (int /*rank*/, size_type i, size_type j) const {
 #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
             return const_iterator1 (*this, i, j);
 #else
@@ -4700,7 +4700,7 @@ namespace boost { namespace numeric {
 #endif
         }
         BOOST_UBLAS_INLINE
-        iterator1 find1 (int rank, size_type i, size_type j) {
+        iterator1 find1 (int /*rank*/, size_type i, size_type j) {
 #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
             return iterator1 (*this, i, j);
 #else
@@ -4708,7 +4708,7 @@ namespace boost { namespace numeric {
 #endif
         }
         BOOST_UBLAS_INLINE
-        const_iterator2 find2 (int rank, size_type i, size_type j) const {
+        const_iterator2 find2 (int /*rank*/, size_type i, size_type j) const {
 #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
             return const_iterator2 (*this, i, j);
 #else
@@ -4716,7 +4716,7 @@ namespace boost { namespace numeric {
 #endif
         }
         BOOST_UBLAS_INLINE
-        iterator2 find2 (int rank, size_type i, size_type j) {
+        iterator2 find2 (int /*rank*/, size_type i, size_type j) {
 #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
             return iterator2 (*this, i, j);
 #else
