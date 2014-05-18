@@ -17,6 +17,7 @@
 #ifndef _BOOST_UBLAS_VECTOR_
 #define _BOOST_UBLAS_VECTOR_
 
+#include <boost/config.hpp>
 #include <boost/numeric/ublas/storage.hpp>
 #include <boost/numeric/ublas/vector_expression.hpp>
 #include <boost/numeric/ublas/detail/vector_assign.hpp>
@@ -907,7 +908,7 @@ namespace boost { namespace numeric { namespace ublas {
 
     /// \brief Return the size of the vector
          BOOST_UBLAS_INLINE
-         constexpr size_type size () const{ // should have a const after C++14
+         BOOST_CONSTEXPR size_type size () const{ // should have a const after C++14
              return data_.size ();
          }
 

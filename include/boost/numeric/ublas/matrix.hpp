@@ -14,6 +14,7 @@
 #ifndef _BOOST_UBLAS_MATRIX_
 #define _BOOST_UBLAS_MATRIX_
 
+#include <boost/config.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix_expression.hpp>
 #include <boost/numeric/ublas/detail/matrix_assign.hpp>
@@ -1194,7 +1195,7 @@ namespace boost { namespace numeric {
        * You can also use the free size<>() function in operation/size.hpp as size<1>(m) where m is a fixed_matrix
        */
         BOOST_UBLAS_INLINE
-        constexpr size_type size1 () const {
+        BOOST_CONSTEXPR size_type size1 () const {
             return M;
         }
 
@@ -1202,7 +1203,7 @@ namespace boost { namespace numeric {
        * You can also use the free size<>() function in operation/size.hpp as size<2>(m) where m is a fixed_matrix
        */
         BOOST_UBLAS_INLINE
-        constexpr size_type size2 () const {
+        BOOST_CONSTEXPR size_type size2 () const {
             return N;
         }
 
