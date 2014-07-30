@@ -17,6 +17,7 @@
 #ifndef _BOOST_UBLAS_VECTOR_
 #define _BOOST_UBLAS_VECTOR_
 
+#include <boost/config.hpp>
 #include <boost/numeric/ublas/storage.hpp>
 #include <boost/numeric/ublas/vector_expression.hpp>
 #include <boost/numeric/ublas/detail/vector_assign.hpp>
@@ -88,7 +89,7 @@ namespace boost { namespace numeric { namespace ublas {
 	/// \param data container of type \c A
 	/// \todo remove this definition because \c size is not used
 	    BOOST_UBLAS_INLINE
-	    vector (size_type size, const array_type &data):
+        vector (size_type /*size*/, const array_type &data):
 	        vector_container<self_type> (),
 	        data_ (data) {}
 
@@ -907,7 +908,7 @@ namespace boost { namespace numeric { namespace ublas {
 
     /// \brief Return the size of the vector
          BOOST_UBLAS_INLINE
-         BOOST_UBLAS_CONSTEXPR size_type size () const{ // should have a const after C++14
+         BOOST_CONSTEXPR size_type size () const{ // should have a const after C++14
              return data_.size ();
          }
 
@@ -1675,7 +1676,7 @@ namespace boost { namespace numeric { namespace ublas {
 
 	     // Element support
 	     BOOST_UBLAS_INLINE
-	     const_pointer find_element (size_type i) const {
+         const_pointer find_element (size_type /*i*/) const {
 	         return & zero_;
 	     }
 
@@ -2384,7 +2385,7 @@ namespace boost { namespace numeric { namespace ublas {
 
 	     // Resizing
 	     BOOST_UBLAS_INLINE
-	     void resize (size_type size, bool preserve = true) {
+         void resize (size_type size, bool /*preserve*/ = true) {
 	         if (size > N)
                  bad_size ().raise ();
 	         size_ = size;

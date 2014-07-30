@@ -14,6 +14,7 @@
 #ifndef _BOOST_UBLAS_MATRIX_
 #define _BOOST_UBLAS_MATRIX_
 
+#include <boost/config.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix_expression.hpp>
 #include <boost/numeric/ublas/detail/matrix_assign.hpp>
@@ -1194,7 +1195,7 @@ namespace boost { namespace numeric {
        * You can also use the free size<>() function in operation/size.hpp as size<1>(m) where m is a fixed_matrix
        */
         BOOST_UBLAS_INLINE
-        constexpr size_type size1 () const {
+        BOOST_CONSTEXPR size_type size1 () const {
             return M;
         }
 
@@ -1202,7 +1203,7 @@ namespace boost { namespace numeric {
        * You can also use the free size<>() function in operation/size.hpp as size<2>(m) where m is a fixed_matrix
        */
         BOOST_UBLAS_INLINE
-        constexpr size_type size2 () const {
+        BOOST_CONSTEXPR size_type size2 () const {
             return N;
         }
 
@@ -3210,7 +3211,7 @@ namespace boost { namespace numeric {
 
         // Resizing
         BOOST_UBLAS_INLINE
-        void resize (size_type size, bool preserve = true) {
+        void resize (size_type size, bool /*preserve*/ = true) {
             size1_ = size;
             size2_ = size;
         }
@@ -3597,7 +3598,7 @@ namespace boost { namespace numeric {
 
         // Resizing
         BOOST_UBLAS_INLINE
-        void resize (size_type size, bool preserve = true) {
+        void resize (size_type size, bool /*preserve*/ = true) {
             size1_ = size;
             size2_ = size;
             size_common_ = ((std::min)(size1_, size2_));
@@ -4692,7 +4693,7 @@ namespace boost { namespace numeric {
 
         // Element lookup
         BOOST_UBLAS_INLINE
-        const_iterator1 find1 (int rank, size_type i, size_type j) const {
+        const_iterator1 find1 (int /*rank*/, size_type i, size_type j) const {
 #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
             return const_iterator1 (*this, i, j);
 #else
@@ -4700,7 +4701,7 @@ namespace boost { namespace numeric {
 #endif
         }
         BOOST_UBLAS_INLINE
-        iterator1 find1 (int rank, size_type i, size_type j) {
+        iterator1 find1 (int /*rank*/, size_type i, size_type j) {
 #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
             return iterator1 (*this, i, j);
 #else
@@ -4708,7 +4709,7 @@ namespace boost { namespace numeric {
 #endif
         }
         BOOST_UBLAS_INLINE
-        const_iterator2 find2 (int rank, size_type i, size_type j) const {
+        const_iterator2 find2 (int /*rank*/, size_type i, size_type j) const {
 #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
             return const_iterator2 (*this, i, j);
 #else
@@ -4716,7 +4717,7 @@ namespace boost { namespace numeric {
 #endif
         }
         BOOST_UBLAS_INLINE
-        iterator2 find2 (int rank, size_type i, size_type j) {
+        iterator2 find2 (int /*rank*/, size_type i, size_type j) {
 #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
             return iterator2 (*this, i, j);
 #else
