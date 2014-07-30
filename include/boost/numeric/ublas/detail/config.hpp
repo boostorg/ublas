@@ -33,25 +33,18 @@
 
 #define BOOST_UBLAS_CPP_GE_2011
 
+#elif BOOST_MSVC >= 1800
+
+#define BOOST_UBLAS_CPP_GE_2011
+
 #else
 
 #undef BOOST_UBLAS_CPP_GE_2011 // Make sure no one defined it
 
 #endif
-#define BOOST_UBLAS_CONSTEXPR constexpr // Every compiler besides MSVC<=1800
-
 
 // Microsoft Visual C++
 #if defined (BOOST_MSVC) && ! defined (BOOST_STRICT_CONFIG)
-
-// MSVC C++11
-#if BOOST_MSVC >= 1800
-#define BOOST_UBLAS_CPP_GE_2011
-#if (BOOST_MSVC == 1800)
-#define BOOST_UBLAS_CONSTEXPR //Hopefully versions over 1800 (MSVC2013) will include constexpr (picked from above)
-#endif
-#endif
-
 
 // Version 7.1
 #if BOOST_MSVC == 1310
@@ -308,3 +301,4 @@ bool disable_type_check<Dummy>::value = false;
 
 
 #endif
+
