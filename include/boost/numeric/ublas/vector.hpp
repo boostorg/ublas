@@ -643,11 +643,23 @@ namespace boost { namespace numeric { namespace ublas {
 	        return find (0);
 	    }
 
+    /// \brief return an iterator on the first element of the vector
+        BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+
 	/// \brief return an iterator after the last element of the vector
-	     BOOST_UBLAS_INLINE
-	     const_iterator end () const {
-	         return find (data_.size ());
-	     }
+        BOOST_UBLAS_INLINE
+        const_iterator end () const {
+            return find (data_.size ());
+        }
+
+    /// \brief return an iterator after the last element of the vector
+         BOOST_UBLAS_INLINE
+         const_iterator cend () const {
+             return end ();
+         }
 
 #ifndef BOOST_UBLAS_USE_INDEXED_ITERATOR
 	     class iterator:
@@ -763,12 +775,24 @@ namespace boost { namespace numeric { namespace ublas {
 	        return const_reverse_iterator (end ());
 	    }
 	
+    /// \brief Return a const reverse iterator before the first element of the reversed vector (i.e. end() of normal vector)
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crbegin () const {
+            return rbegin ();
+        }
+
 	/// \brief Return a const reverse iterator on the end of the reverse vector (i.e. first element of the normal vector) 
 	    BOOST_UBLAS_INLINE
 	    const_reverse_iterator rend () const {
 	        return const_reverse_iterator (begin ());
 	    }
 	
+    /// \brief Return a const reverse iterator on the end of the reverse vector (i.e. first element of the normal vector)
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crend () const {
+            return rend ();
+        }
+
 	/// \brief Return a const reverse iterator before the first element of the reversed vector (i.e. end() of normal vector)
 	    BOOST_UBLAS_INLINE
 	    reverse_iterator rbegin () {
@@ -1389,10 +1413,22 @@ namespace boost { namespace numeric { namespace ublas {
             return find (0);
         }
 
+    /// \brief return an iterator on the first element of the fixed_vector
+        BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+
     /// \brief return an iterator after the last element of the fixed_vector
          BOOST_UBLAS_INLINE
          const_iterator end () const {
              return find (data_.size ());
+         }
+
+    /// \brief return an iterator after the last element of the fixed_vector
+         BOOST_UBLAS_INLINE
+         const_iterator cend () const {
+             return end ();
          }
 
 #ifndef BOOST_UBLAS_USE_INDEXED_ITERATOR
@@ -1509,10 +1545,22 @@ namespace boost { namespace numeric { namespace ublas {
             return const_reverse_iterator (end ());
         }
 
+    /// \brief Return a const reverse iterator before the first element of the reversed fixed_vector (i.e. end() of normal fixed_vector)
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crbegin () const {
+            return rbegin ();
+        }
+
     /// \brief Return a const reverse iterator on the end of the reverse fixed_vector (i.e. first element of the normal fixed_vector)
         BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
+        }
+
+    /// \brief Return a const reverse iterator on the end of the reverse fixed_vector (i.e. first element of the normal fixed_vector)
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crend () const {
+            return rend ();
         }
 
     /// \brief Return a const reverse iterator before the first element of the reversed fixed_vector (i.e. end() of normal fixed_vector)
@@ -1790,10 +1838,18 @@ namespace boost { namespace numeric { namespace ublas {
 	     const_iterator begin () const {
 	         return const_iterator (*this);
 	     }
+         BOOST_UBLAS_INLINE
+         const_iterator cbegin () const {
+             return begin ();
+         }
 	     BOOST_UBLAS_INLINE
 	     const_iterator end () const {
 	         return const_iterator (*this);
 	     }
+         BOOST_UBLAS_INLINE
+         const_iterator cend () const {
+             return end ();
+         }
 
 	     // Reverse iterator
 	     typedef reverse_iterator_base<const_iterator> const_reverse_iterator;
@@ -1802,10 +1858,18 @@ namespace boost { namespace numeric { namespace ublas {
 	     const_reverse_iterator rbegin () const {
 	         return const_reverse_iterator (end ());
 	     }
+         BOOST_UBLAS_INLINE
+         const_reverse_iterator crbegin () const {
+             return rbegin ();
+         }
 	     BOOST_UBLAS_INLINE
 	     const_reverse_iterator rend () const {
 	         return const_reverse_iterator (begin ());
 	     }
+         BOOST_UBLAS_INLINE
+         const_reverse_iterator crend () const {
+             return rend ();
+         }
 
 	      // Serialization
 	     template<class Archive>
@@ -2034,10 +2098,18 @@ namespace boost { namespace numeric { namespace ublas {
 	     const_iterator begin () const {
 	         return const_iterator (*this, true);
 	     }
+         BOOST_UBLAS_INLINE
+         const_iterator cbegin () const {
+             return begin ();
+         }
 	     BOOST_UBLAS_INLINE
 	     const_iterator end () const {
 	         return const_iterator (*this, false);
 	     }
+         BOOST_UBLAS_INLINE
+         const_iterator cend () const {
+             return end ();
+         }
 
 	     // Reverse iterator
 	     typedef reverse_iterator_base<const_iterator> const_reverse_iterator;
@@ -2046,10 +2118,18 @@ namespace boost { namespace numeric { namespace ublas {
 	     const_reverse_iterator rbegin () const {
 	         return const_reverse_iterator (end ());
 	     }
+         BOOST_UBLAS_INLINE
+         const_reverse_iterator crbegin () const {
+             return rbegin ();
+         }
 	     BOOST_UBLAS_INLINE
 	     const_reverse_iterator rend () const {
 	         return const_reverse_iterator (begin ());
 	     }
+         BOOST_UBLAS_INLINE
+         const_reverse_iterator crend () const {
+             return rend ();
+         }
 
 	      // Serialization
 	     template<class Archive>
@@ -2282,10 +2362,18 @@ namespace boost { namespace numeric { namespace ublas {
 	     const_iterator begin () const {
 	         return find (0);
 	     }
+         BOOST_UBLAS_INLINE
+         const_iterator cbegin () const {
+             return begin ();
+         }
 	     BOOST_UBLAS_INLINE
 	     const_iterator end () const {
 	         return find (size_);
 	     }
+         BOOST_UBLAS_INLINE
+         const_iterator cend () const {
+             return end ();
+         }
 
 	     // Reverse iterator
 	     typedef reverse_iterator_base<const_iterator> const_reverse_iterator;
@@ -2294,10 +2382,18 @@ namespace boost { namespace numeric { namespace ublas {
 	     const_reverse_iterator rbegin () const {
 	         return const_reverse_iterator (end ());
 	     }
+         BOOST_UBLAS_INLINE
+         const_reverse_iterator crbegin () const {
+             return rbegin ();
+         }
 	     BOOST_UBLAS_INLINE
 	     const_reverse_iterator rend () const {
 	         return const_reverse_iterator (begin ());
 	     }
+         BOOST_UBLAS_INLINE
+         const_reverse_iterator crend () const {
+             return rend ();
+         }
 
 	      // Serialization
 	     template<class Archive>
@@ -2677,10 +2773,18 @@ namespace boost { namespace numeric { namespace ublas {
 	     const_iterator begin () const {
 	         return find (0);
 	     }
+         BOOST_UBLAS_INLINE
+         const_iterator cbegin () const {
+             return begin ();
+         }
 	     BOOST_UBLAS_INLINE
 	     const_iterator end () const {
 	         return find (size_);
 	     }
+         BOOST_UBLAS_INLINE
+         const_iterator cend () const {
+             return end ();
+         }
 
 #ifndef BOOST_UBLAS_USE_INDEXED_ITERATOR
 	     class iterator:
@@ -2792,10 +2896,18 @@ namespace boost { namespace numeric { namespace ublas {
 	     const_reverse_iterator rbegin () const {
 	         return const_reverse_iterator (end ());
 	     }
+         BOOST_UBLAS_INLINE
+         const_reverse_iterator crbegin () const {
+             return rbegin ();
+         }
 	     BOOST_UBLAS_INLINE
 	     const_reverse_iterator rend () const {
 	         return const_reverse_iterator (begin ());
 	     }
+         BOOST_UBLAS_INLINE
+         const_reverse_iterator crend () const {
+             return rend ();
+         }
 	     BOOST_UBLAS_INLINE
 	     reverse_iterator rbegin () {
 	         return reverse_iterator (end ());
