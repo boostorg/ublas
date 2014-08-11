@@ -289,7 +289,7 @@ namespace boost { namespace numeric { namespace ublas {
 
         // Serialization
         template<class Archive>
-        void serialize(Archive & ar, const unsigned int version)
+        void serialize(Archive & ar, const unsigned int /*version*/)
         { 
             serialization::collection_size_type s(size_);
             ar & serialization::make_nvp("size",s);
@@ -483,7 +483,7 @@ namespace boost { namespace numeric { namespace ublas {
         friend class boost::serialization::access;
 
         template<class Archive>
-        void serialize(Archive & ar, const unsigned int version)
+        void serialize(Archive & ar, const unsigned int /*version*/)
         {
             serialization::collection_size_type s(size_);
             ar & serialization::make_nvp("size", s);

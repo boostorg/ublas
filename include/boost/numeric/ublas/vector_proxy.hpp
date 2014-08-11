@@ -1336,8 +1336,8 @@ namespace boost { namespace numeric { namespace ublas {
 
         // Closure comparison
         BOOST_UBLAS_INLINE
-        bool same_closure (const vector_indirect &vr) const {
-return true;
+        bool same_closure (const vector_indirect &/*vr*/) const {
+            return true;
         }
 
         // Comparison
