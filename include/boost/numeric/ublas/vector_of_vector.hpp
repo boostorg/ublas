@@ -630,7 +630,6 @@ namespace boost { namespace numeric { namespace ublas {
             const_reverse_iterator2 rend () const {
                 return const_reverse_iterator2 (begin ());
             }
-#endif
             BOOST_UBLAS_INLINE
 #ifdef BOOST_UBLAS_MSVC_NESTED_CLASS_RELATION
             typename self_type::
@@ -1257,7 +1256,7 @@ namespace boost { namespace numeric { namespace ublas {
         }
         BOOST_UBLAS_INLINE
         const_reverse_iterator1 crbegin1 () const {
-            return rbegin ();
+            return rbegin1 ();
         }
         BOOST_UBLAS_INLINE
         const_reverse_iterator1 rend1 () const {
