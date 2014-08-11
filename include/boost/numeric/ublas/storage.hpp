@@ -229,8 +229,16 @@ namespace boost { namespace numeric { namespace ublas {
             return data_;
         }
         BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+        BOOST_UBLAS_INLINE
         const_iterator end () const {
             return data_ + size_;
+        }
+        BOOST_UBLAS_INLINE
+        const_iterator cend () const {
+            return end ();
         }
 
         BOOST_UBLAS_INLINE
@@ -251,8 +259,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_reverse_iterator (end ());
         }
         BOOST_UBLAS_INLINE
+        const_reverse_iterator crbegin () const {
+            return rbegin ();
+        }
+        BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
+        }
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crend () const {
+            return rend ();
         }
         BOOST_UBLAS_INLINE
         reverse_iterator rbegin () {
@@ -412,8 +428,16 @@ namespace boost { namespace numeric { namespace ublas {
             return data_;
         }
         BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+        BOOST_UBLAS_INLINE
         const_iterator end () const {
             return data_ + size_;
+        }
+        BOOST_UBLAS_INLINE
+        const_iterator cend () const {
+            return end ();
         }
 
         BOOST_UBLAS_INLINE
@@ -434,8 +458,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_reverse_iterator (end ());
         }
         BOOST_UBLAS_INLINE
+        const_reverse_iterator crbegin () const {
+            return rbegin ();
+        }
+        BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
+        }
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crend () const {
+            return rend ();
         }
         BOOST_UBLAS_INLINE
         reverse_iterator rbegin () {
@@ -628,8 +660,16 @@ namespace boost { namespace numeric { namespace ublas {
             return data_;
         }
         BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+        BOOST_UBLAS_INLINE
         const_iterator end () const {
             return data_ + size_;
+        }
+        BOOST_UBLAS_INLINE
+        const_iterator cend () const {
+            return end ();
         }
 
         typedef pointer iterator;
@@ -652,8 +692,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_reverse_iterator (end ());
         }
         BOOST_UBLAS_INLINE
+        const_reverse_iterator crbegin () const {
+            return rbegin ();
+        }
+        BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
+        }
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crend () const {
+            return rend ();
         }
         BOOST_UBLAS_INLINE
         reverse_iterator rbegin () {
@@ -824,8 +872,16 @@ namespace boost { namespace numeric { namespace ublas {
             return data_.get ();
         }
         BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+        BOOST_UBLAS_INLINE
         const_iterator end () const {
             return data_.get () + size_;
+        }
+        BOOST_UBLAS_INLINE
+        const_iterator cend () const {
+            return end ();
         }
 
         typedef pointer iterator;
@@ -848,8 +904,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_reverse_iterator (end ());
         }
         BOOST_UBLAS_INLINE
+        const_reverse_iterator crbegin () const {
+            return rbegin ();
+        }
+        BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
+        }
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crend () const {
+            return rend ();
         }
         BOOST_UBLAS_INLINE
         reverse_iterator rbegin () {
@@ -1043,8 +1107,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_iterator (*this, start_);
         }
         BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+        BOOST_UBLAS_INLINE
         const_iterator end () const {
             return const_iterator (*this, start_ + size_);
+        }
+        BOOST_UBLAS_INLINE
+        const_iterator cend () const {
+            return end ();
         }
 
         // Reverse iterator
@@ -1055,8 +1127,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_reverse_iterator (end ());
         }
         BOOST_UBLAS_INLINE
+        const_reverse_iterator crbegin () const {
+            return rbegin ();
+        }
+        BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
+        }
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crend () const {
+            return rend ();
         }
 
         BOOST_UBLAS_INLINE
@@ -1262,8 +1342,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_iterator (*this, 0);
         }
         BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+        BOOST_UBLAS_INLINE
         const_iterator end () const {
             return const_iterator (*this, size_);
+        }
+        BOOST_UBLAS_INLINE
+        const_iterator cend () const {
+            return end ();
         }
 
         // Reverse iterator
@@ -1274,8 +1362,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_reverse_iterator (end ());
         }
         BOOST_UBLAS_INLINE
+        const_reverse_iterator crbegin () const {
+            return rbegin ();
+        }
+        BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
+        }
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crend () const {
+            return rend ();
         }
 
         BOOST_UBLAS_INLINE
@@ -1522,8 +1618,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_iterator (*this, 0);
         }
         BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+        BOOST_UBLAS_INLINE
         const_iterator end () const {
             return const_iterator (*this, size_);
+        }
+        BOOST_UBLAS_INLINE
+        const_iterator cend () const {
+            return end ();
         }
 
         // Reverse iterator
@@ -1534,8 +1638,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_reverse_iterator (end ());
         }
         BOOST_UBLAS_INLINE
+        const_reverse_iterator crbegin () const {
+            return rbegin ();
+        }
+        BOOST_UBLAS_INLINE
         const_reverse_iterator rend () const {
             return const_reverse_iterator (begin ());
+        }
+        BOOST_UBLAS_INLINE
+        const_reverse_iterator crend () const {
+            return rend ();
         }
 
         BOOST_UBLAS_INLINE
@@ -1710,8 +1822,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_iterator( (*this), 0);
         }
         BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+        BOOST_UBLAS_INLINE
         const_iterator end() const {
             return const_iterator( (*this), size());
+        }
+        BOOST_UBLAS_INLINE
+        const_iterator cend () const {
+            return end ();
         }
 
         // unnecessary function:
@@ -1889,8 +2009,16 @@ namespace boost { namespace numeric { namespace ublas {
             return const_iterator( (*this), 0);
         }
         BOOST_UBLAS_INLINE
+        const_iterator cbegin () const {
+            return begin ();
+        }
+        BOOST_UBLAS_INLINE
         const_iterator end() const {
             return const_iterator( (*this), size());
+        }
+        BOOST_UBLAS_INLINE
+        const_iterator cend () const {
+            return end ();
         }
 
         // unnecessary function:
