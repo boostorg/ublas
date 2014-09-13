@@ -6,18 +6,12 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <boost/foreach.hpp>
 #include <boost/numeric/ublas/assignment.hpp>
-#include <boost/numeric/ublas/vector.hpp>
-#include <boost/numeric/ublas/vector_proxy.hpp>
-#include <boost/numeric/ublas/vector_sparse.hpp>
 #include <boost/numeric/ublas/matrix_sparse.hpp>
-#include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/matrix_vector.hpp>
-#include "libs/numeric/ublas/test/utils.hpp"
-#include <boost/timer.hpp>
-#include <ctime>
+
+#include "utils.hpp"
 
 using namespace boost::numeric::ublas;
 
