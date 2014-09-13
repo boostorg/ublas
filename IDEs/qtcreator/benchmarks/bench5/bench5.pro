@@ -1,3 +1,7 @@
+TEMPLATE = app
+TARGET = bench5
+CONFIG -= qt
+
 OTHER_FILES += \
     ../../../../benchmarks/bench5/Jamfile.v2
 

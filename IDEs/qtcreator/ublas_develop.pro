@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
-CONFIG -= qt
 CONFIG += ordered
-SUBDIRS = include benchmarks test
+SUBDIRS = include benchmarks
 OTHER_FILES += ../../changelog.txt
+
+include (tests.pri)
