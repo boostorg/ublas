@@ -1,6 +1,9 @@
 Version 1.1.0
 -------------
 
+2014-09-16: Nasos Iliopoulos <>
+	* feature: Merged matrix row and column facades ( matrix as a vector of rows/columns )
+	
 2014-05-03: David Bellot <david.bellot@gmail.com>
 	* removed doxygen documentation from main source
 	* changed the changelog file for GNU format
