@@ -1,5 +1,6 @@
 TEMPLATE = lib
 CONFIG += staticlib
+CONFIG -= qt
 
 INCLUDE_DIR = ../../../include
 
