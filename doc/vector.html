@@ -52,18 +52,18 @@ int main () {
 </tr>
 <tr>
 <td><code>A</code></td>
-<td>The type of the <a href="storage_concept.htm">Storage</a> array. <a href="#vector_1">[1]</a></td>
+<td>The type of the <a href="storage_concept.html">Storage</a> array. <a href="#vector_1">[1]</a></td>
 <td><code>unbounded_array&lt;T&gt;</code></td>
 </tr>
 </tbody>
 </table>
 <h4>Model of</h4>
-<p><a href="container_concept.htm#vector">Vector</a>,
+<p><a href="container_concept.html#vector">Vector</a>,
 <a href="http://www.sgi.com/tech/stl/RandomAccessContainer.html">RandomAccessContainer</a>
 </p>
 <h4>Type requirements</h4>
 <p>None, except for those imposed by the requirements of <a href=
-"container_concept.htm#vector">Vector</a>
+"container_concept.html#vector">Vector</a>
 and <a href="http://www.sgi.com/tech/stl/RandomAccessContainer.html">RandomAccessContainer</a>.</p>
 <h4>Public base classes</h4>
 <p><code>vector_container&lt;vector&lt;T, A&gt; &gt;</code></p>
@@ -77,63 +77,63 @@ and <a href="http://www.sgi.com/tech/stl/RandomAccessContainer.html">RandomAcces
 </tr>
 <tr>
 <td><code>value_type</code>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>reference</code>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>const_reference</code>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>size_type</code>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>difference_type</code>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>const_iterator</code>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>iterator</code>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>const_reverse_iterator</code>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>reverse_iterator</code>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>array_type</code>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>vector ()</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Allocates an uninitialized <code>vector</code> that holds zero
 elements.</td>
 </tr>
 <tr>
 <td><code>vector (size_type size)</code></td>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td>Allocates an uninitialized <code>vector</code> that holds
 <code>size</code> elements.</td>
 </tr>
@@ -151,14 +151,14 @@ vector (const vector_expression&lt;AE&gt; &amp;ae)</code></td>
 <tr>
 <td><code>void resize (size_type size, bool preserve =
 true)</code></td>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td>Reallocates a <code>vector</code> to hold <code>size</code>
 elements. The existing elements of the <code>vector</code> are
 preseved when specified.</td>
 </tr>
 <tr>
 <td><code>size_type size () const</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns the size of the <code>vector</code>.</td>
 </tr>
 <tr>
@@ -173,59 +173,59 @@ preseved when specified.</td>
 </tr>
 <tr>
 <td><code>const array_type&amp; data () const</code></td>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>array_type&amp; data ()</code></td>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>const_reference operator () (size_type i)
 const</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a <code>const</code> reference of the <code>i</code>
 -th element.</td>
 </tr>
 <tr>
 <td><code>reference operator () (size_type i)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a reference of the <code>i</code>-th element.</td>
 </tr>
 <tr>
 <td><code>const_reference operator [] (size_type i) const</code></td>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td>Returns a <code>const</code> reference of the <code>i</code>
 -th element.</td>
 </tr>
 <tr>
 <td><code>reference operator [] (size_type i)</code></td>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td>Returns a reference of the <code>i</code>-th element.</td>
 </tr>
 <tr>
 <td><code>vector &amp;operator = (const vector &amp;v)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>The assignment operator.</td>
 </tr>
 <tr>
 <td><code>vector &amp;assign_temporary (vector &amp;v)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Assigns a temporary. May change the vector <code>v</code>.</td>
 </tr>
 <tr>
 <td><code>template&lt;class AE&gt;<br />
 vector &amp;operator = (const vector_expression&lt;AE&gt;
 &amp;ae)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>The extended assignment operator.</td>
 </tr>
 <tr>
 <td><code>template&lt;class AE&gt;<br />
 vector &amp;assign (const vector_expression&lt;AE&gt;
 &amp;ae)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Assigns a vector expression to the vector. Left and right hand
 side of the assignment should be independent.</td>
 </tr>
@@ -233,7 +233,7 @@ side of the assignment should be independent.</td>
 <td><code>template&lt;class AE&gt;<br />
 vector &amp;operator += (const vector_expression&lt;AE&gt;
 &amp;ae)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>A computed assignment operator. Adds the vector expression to
 the vector.</td>
 </tr>
@@ -241,7 +241,7 @@ the vector.</td>
 <td><code>template&lt;class AE&gt;<br />
 vector &amp;plus_assign (const vector_expression&lt;AE&gt;
 &amp;ae)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Adds a vector expression to the vector. Left and right hand
 side of the assignment should be independent.</td>
 </tr>
@@ -249,7 +249,7 @@ side of the assignment should be independent.</td>
 <td><code>template&lt;class AE&gt;<br />
 vector &amp;operator -= (const vector_expression&lt;AE&gt;
 &amp;ae)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>A computed assignment operator. Subtracts the vector expression
 from the vector.</td>
 </tr>
@@ -257,90 +257,90 @@ from the vector.</td>
 <td><code>template&lt;class AE&gt;<br />
 vector &amp;minus_assign (const vector_expression&lt;AE&gt;
 &amp;ae)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Subtracts a vector expression from the vector. Left and right
 hand side of the assignment should be independent.</td>
 </tr>
 <tr>
 <td><code>template&lt;class AT&gt;<br />
 vector &amp;operator *= (const AT &amp;at)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>A computed assignment operator. Multiplies the vector with a
 scalar.</td>
 </tr>
 <tr>
 <td><code>template&lt;class AT&gt;<br />
 vector &amp;operator /= (const AT &amp;at)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>A computed assignment operator. Divides the vector through a
 scalar.</td>
 </tr>
 <tr>
 <td><code>void swap (vector &amp;v)</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Swaps the contents of the vectors.</td>
 </tr>
 <tr>
 <td><code>void insert_element (size_type i, const_reference t)</code></td>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td>Inserts the value <code>t</code> at the <code>i</code>-th
 element.</td>
 </tr>
 <tr>
 <td><code>void erase_element (size_type i)</code></td>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td>Erases the value at the <code>i</code>-th element.</td>
 </tr>
 <tr>
 <td><code>void clear ()</code></td>
-<td><a href="container_concept.htm#vector">Vector</a></td>
+<td><a href="container_concept.html#vector">Vector</a></td>
 <td>Clears the vector.</td>
 </tr>
 <tr>
 <td><code>const_iterator begin () const</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a <code>const_iterator</code> pointing to the beginning
 of the <code>vector</code>.</td>
 </tr>
 <tr>
 <td><code>const_iterator end () const</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a <code>const_iterator</code> pointing to the end of
 the <code>vector</code>.</td>
 </tr>
 <tr>
 <td><code>iterator begin ()</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a <code>iterator</code> pointing to the beginning of
 the <code>vector</code>.</td>
 </tr>
 <tr>
 <td><code>iterator end ()</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a <code>iterator</code> pointing to the end of the
 <code>vector</code>.</td>
 </tr>
 <tr>
 <td><code>const_reverse_iterator rbegin () const</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a <code>const_reverse_iterator</code> pointing to the
 beginning of the reversed <code>vector</code>.</td>
 </tr>
 <tr>
 <td><code>const_reverse_iterator rend () const</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a <code>const_reverse_iterator</code> pointing to the
 end of the reversed <code>vector</code>.</td>
 </tr>
 <tr>
 <td><code>reverse_iterator rbegin ()</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a <code>reverse_iterator</code> pointing to the
 beginning of the reversed <code>vector</code>.</td>
 </tr>
 <tr>
 <td><code>reverse_iterator rend ()</code></td>
-<td><a href="expression_concept.htm#vector_expression">VectorExpression</a></td>
+<td><a href="expression_concept.html#vector_expression">VectorExpression</a></td>
 <td>Returns a <code>reverse_iterator</code> pointing to the end of
 the reversed <code>vector</code>.</td>
 </tr>
@@ -396,10 +396,10 @@ int main () {
 </tbody>
 </table>
 <h4>Model of</h4>
-<p><a href="container_concept.htm#vector">Vector</a> .</p>
+<p><a href="container_concept.html#vector">Vector</a> .</p>
 <h4>Type requirements</h4>
 <p>None, except for those imposed by the requirements of
-<a href="container_concept.htm#vector">Vector</a> .</p>
+<a href="container_concept.html#vector">Vector</a> .</p>
 <h4>Public base classes</h4>
 <p><code>vector_container&lt;unit_vector&lt;T&gt; &gt;</code></p>
 <h4>Members</h4>
@@ -525,10 +525,10 @@ int main () {
 </tbody>
 </table>
 <h4>Model of</h4>
-<p><a href="container_concept.htm#vector">Vector</a> .</p>
+<p><a href="container_concept.html#vector">Vector</a> .</p>
 <h4>Type requirements</h4>
 <p>None, except for those imposed by the requirements of
-<a href="container_concept.htm#vector">Vector</a> .</p>
+<a href="container_concept.html#vector">Vector</a> .</p>
 <h4>Public base classes</h4>
 <p><code>vector_container&lt;zero_vector&lt;T&gt; &gt;</code></p>
 <h4>Members</h4>
@@ -650,10 +650,10 @@ int main () {
 </tbody>
 </table>
 <h4>Model of</h4>
-<p><a href="container_concept.htm#vector">Vector</a> .</p>
+<p><a href="container_concept.html#vector">Vector</a> .</p>
 <h4>Type requirements</h4>
 <p>None, except for those imposed by the requirements of
-<a href="container_concept.htm#vector">Vector</a> .</p>
+<a href="container_concept.html#vector">Vector</a> .</p>
 <h4>Public base classes</h4>
 <p><code>vector_container&lt;scalar_vector&lt;T&gt;
 &gt;</code></p>
