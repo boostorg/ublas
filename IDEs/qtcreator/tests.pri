@@ -22,8 +22,10 @@ SUBDIRS += \
     test_coordinate_matrix_inplace_merge \
     test_coordinate_matrix_sort \
     test_coordinate_vector_inplace_merge \
+    test_fixed_containers \
     test_inplace_solve \
     test_lu \
+    test_matrix_vector \
     test_ticket7296 \
     test_triangular \
     triangular_access \
@@ -48,8 +50,10 @@ test_complex_norms.file = test/test_complex_norms.pro
 test_coordinate_matrix_inplace_merge.file = test/test_coordinate_matrix_inplace_merge.pro
 test_coordinate_matrix_sort.file = test/test_coordinate_matrix_sort.pro
 test_coordinate_vector_inplace_merge.file = test/test_coordinate_vector_inplace_merge.pro
+test_fixed_containers.file = test/test_fixed_containers.pro
 test_inplace_solve.file = test/test_inplace_solve.pro
 test_lu.file = test/test_lu.pro
+test_matrix_vector.file = test/test_matrix_vector.pro
 test_ticket7296.file = test/test_ticket7296.pro
 test_triangular.file = test/test_triangular.pro
 triangular_access.file = test/triangular_access.pro
