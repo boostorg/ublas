@@ -807,5 +807,5 @@ int main () {
 
     BOOST_UBLAS_TEST_END();
 
-    return EXIT_SUCCESS;;
+    return EXIT_SUCCESS;
 }
