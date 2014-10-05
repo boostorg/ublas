@@ -33,7 +33,7 @@ namespace detail{
  * \tparameter Reference Matrix row or matrix column type.
  */
 template<class Matrix, class Reference>
-struct matrix_vector_iterator: public boost::iterator_facade<
+class matrix_vector_iterator: public boost::iterator_facade<
     matrix_vector_iterator<Matrix,Reference>,
     typename vector_temporary_traits<Reference>::type,
     boost::random_access_traversal_tag,
