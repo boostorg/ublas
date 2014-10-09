@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = placement_new
-CONFIG -= qt
+
+!include (configuration.pri)
 
 SOURCES += \
     ../../../test/placement_new.cpp

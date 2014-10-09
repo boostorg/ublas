@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test_banded_storage_layout
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

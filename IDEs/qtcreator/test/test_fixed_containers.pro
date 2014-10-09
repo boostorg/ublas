@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test_fixed_containers
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

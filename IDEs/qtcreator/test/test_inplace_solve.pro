@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test_inplace_solve
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

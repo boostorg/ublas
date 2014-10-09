@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test2
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += ../../../test/test2.hpp
 

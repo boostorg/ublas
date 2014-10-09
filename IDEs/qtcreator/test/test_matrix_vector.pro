@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test_matrix_vector
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = num_columns
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

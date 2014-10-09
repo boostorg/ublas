@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = triangular_access
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/common/testhelper.hpp

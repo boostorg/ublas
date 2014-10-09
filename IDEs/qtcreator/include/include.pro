@@ -1,5 +1,9 @@
 TEMPLATE = lib
-CONFIG += staticlib
+TARGET = ublas
+
+CONFIG += \
+    staticlib \
+    depend_includepath
 CONFIG -= qt
 
 INCLUDE_DIR = ../../../include
