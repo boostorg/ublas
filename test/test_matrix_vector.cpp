@@ -43,14 +43,14 @@ const double TOL=0.0;
 }
 
 template <class Vector, class StorageCategory>
-void guardSparsePreserveResize( Vector &vec, typename Vector::size_type new_size, StorageCategory storageTag) // Because sparse matrices don't have preserve data implemented
+void guardSparsePreserveResize( Vector &vec, typename Vector::size_type new_size, StorageCategory) // Because sparse matrices don't have preserve data implemented
 {
     vec.resize( new_size );
 }
 
 
 template <class Vector>
-void guardSparsePreserveResize( Vector &vec, typename Vector::size_type new_size, sparse_tag storageTag) // Because sparse matrices don't have preserve data implemented
+void guardSparsePreserveResize( Vector &vec, typename Vector::size_type new_size, sparse_tag) // Because sparse matrices don't have preserve data implemented
 {
     vec.resize( new_size, false );
 }
