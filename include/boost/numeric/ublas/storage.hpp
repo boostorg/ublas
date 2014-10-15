@@ -128,7 +128,7 @@ namespace boost { namespace numeric { namespace ublas {
                             }
                         }
                         else {
-                            for (pointer si = p_data; si != p_data + size_; ++si) {
+                            for (; si != p_data + size_; ++si) {
                                 alloc_.construct (di, *si);
                                 ++di;
                             }

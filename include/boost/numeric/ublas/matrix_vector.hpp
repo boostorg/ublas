@@ -19,14 +19,21 @@
 namespace boost { namespace numeric { namespace ublas {
 
 namespace detail{
-/// \brief Iterator which represents a matrix as a range of row/column-vectors
-///
-/// The second argument is the reference to a matrix_row/matrix_column.
-/// Whatever type used, it must offer a constructor Reference(sequence,i)
-/// which constructs a reference to the i-th proxy-element
-/// This iterator is invalidated when the underlying matrix is resized.
+
+/** \brief Iterator used in the represention of a matrix as a vector of rows or columns
+ *
+ * Iterator used in the represention of a matrix as a vector of rows/columns. It refers
+ * to the i-th element of the matrix, a column or a row depending of Reference type.
+ *
+ * The type of Reference should provide a constructor Reference(matrix, i)
+ *
+ * This iterator is invalidated when the underlying matrix is resized.
+ *
+ * \tparameter Matrix type of matrix that is represented as a vector of row/column
+ * \tparameter Reference Matrix row or matrix column type.
+ */
 template<class Matrix, class Reference>
-struct matrix_vector_iterator: public boost::iterator_facade<
+class matrix_vector_iterator: public boost::iterator_facade<
     matrix_vector_iterator<Matrix,Reference>,
     typename vector_temporary_traits<Reference>::type,
     boost::random_access_traversal_tag,
@@ -79,7 +86,14 @@ private:
 
 }
 
-///\brief Represents a Matrix as a vector of rows.
+/** \brief Represents a \c Matrix as a vector of rows.
+ *
+ * Implements an interface to Matrix that the underlaying matrix is represented as a
+ * vector of rows.
+ *
+ * The vector could be resized which causes the resize of the number of rows of
+ * the underlaying matrix.
+ */
 template<class Matrix>
 class matrix_row_vector {
 public:
@@ -173,21 +187,42 @@ private:
 };
 
 
-///\brief convenience function to create matrix_row_vector.
+/** \brief Convenience function to create \c matrix_row_vector.
+ *
+ * Function to create \c matrix_row_vector objects.
+ * \param matrix the \c matrix_expression that generates the matrix that \c matrix_row_vector is referring.
+ * \return Created \c matrix_row_vector object.
+ *
+ * \tparam Matrix the type of matrix that \c matrix_row_vector is referring.
+ */
 template<class Matrix>
 matrix_row_vector<Matrix> make_row_vector(matrix_expression<Matrix>& matrix){
     return matrix_row_vector<Matrix>(matrix());
 }
 
 
-///\brief convenience function to create matrix_row_vector.
+/** \brief Convenience function to create \c matrix_row_vector.
+ *
+ * Function to create \c matrix_row_vector objects.
+ * \param matrix the \c matrix_expression that generates the matrix that \c matrix_row_vector is referring.
+ * \return Created \c matrix_row_vector object.
+ *
+ * \tparam Matrix the type of matrix that \c matrix_row_vector is referring.
+ */
 template<class Matrix>
 matrix_row_vector<Matrix const> make_row_vector(matrix_expression<Matrix> const& matrix){
     return matrix_row_vector<Matrix const>(matrix());
 }
 
 
-///\brief Represents a Matrix as a vector of rows.
+/** \brief Represents a \c Matrix as a vector of columns.
+ *
+ * Implements an interface to Matrix that the underlaying matrix is represented as a
+ * vector of columns.
+ *
+ * The vector could be resized which causes the resize of the number of columns of
+ * the underlaying matrix.
+ */
 template<class Matrix>
 class matrix_column_vector
 {
@@ -281,14 +316,28 @@ private:
 };
 
 
-///\brief convenience function to create matrix_column_vector.
+/** \brief Convenience function to create \c matrix_column_vector.
+ *
+ * Function to create \c matrix_column_vector objects.
+ * \param matrix the \c matrix_expression that generates the matrix that \c matrix_column_vector is referring.
+ * \return Created \c matrix_column_vector object.
+ *
+ * \tparam Matrix the type of matrix that \c matrix_column_vector is referring.
+ */
 template<class Matrix>
 matrix_column_vector<Matrix> make_column_vector(matrix_expression<Matrix>& matrix){
     return matrix_column_vector<Matrix>(matrix());
 }
 
 
-///\brief convenience function to create matrix_column_vector.
+/** \brief Convenience function to create \c matrix_column_vector.
+ *
+ * Function to create \c matrix_column_vector objects.
+ * \param matrix the \c matrix_expression that generates the matrix that \c matrix_column_vector is referring.
+ * \return Created \c matrix_column_vector object.
+ *
+ * \tparam Matrix the type of matrix that \c matrix_column_vector is referring.
+ */
 template<class Matrix>
 matrix_column_vector<Matrix const> make_column_vector(matrix_expression<Matrix> const& matrix){
     return matrix_column_vector<Matrix const>(matrix());
