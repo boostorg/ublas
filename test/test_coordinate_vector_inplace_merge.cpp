@@ -14,7 +14,7 @@
 #include <boost/numeric/ublas/vector_expression.hpp>
 #include <boost/numeric/ublas/io.hpp>
 
-#include "libs/numeric/ublas/test/utils.hpp"
+#include "utils.hpp"
 
 const double TOL = 1e-15;
 
