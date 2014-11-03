@@ -1,5 +1,9 @@
 TEMPLATE = lib
-CONFIG += staticlib
+TARGET = ublas
+
+CONFIG += \
+    staticlib \
+    depend_includepath
 CONFIG -= qt
 
 INCLUDE_DIR = ../../../include
@@ -39,4 +43,5 @@ HEADERS += \
     $${INCLUDE_DIR}/boost/numeric/ublas/doxydoc.hpp \
     $${INCLUDE_DIR}/boost/numeric/ublas/blas.hpp \
     $${INCLUDE_DIR}/boost/numeric/ublas/banded.hpp \
-    $${INCLUDE_DIR}/boost/numeric/ublas/assignment.hpp
+    $${INCLUDE_DIR}/boost/numeric/ublas/assignment.hpp \
+    $${INCLUDE_DIR}/boost/numeric/ublas/matrix_vector.hpp

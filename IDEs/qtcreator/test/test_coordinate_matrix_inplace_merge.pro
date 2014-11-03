@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test_coordinate_matrix_inplace_merge
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

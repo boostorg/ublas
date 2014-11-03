@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = bench5
-CONFIG -= qt
+
+!include (../configuration.pri)
 
 OTHER_FILES += \
     ../../../../benchmarks/bench5/Jamfile.v2

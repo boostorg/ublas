@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test_ticket7296
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

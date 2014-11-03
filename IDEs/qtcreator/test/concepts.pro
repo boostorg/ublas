@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = concepts
-CONFIG -= qt
+
+!include (configuration.pri)
 
 SOURCES += \
     ../../../test/concepts.cpp

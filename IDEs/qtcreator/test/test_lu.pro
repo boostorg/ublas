@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test_lu
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/common/testhelper.hpp

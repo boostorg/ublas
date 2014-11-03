@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test_assignment
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

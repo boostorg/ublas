@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = test_complex_norms
-CONFIG -= qt
+
+!include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

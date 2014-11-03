@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = triangular_layout
-CONFIG -= qt
+
+!include (configuration.pri)
 
 SOURCES += \
     ../../../test/triangular_layout.cpp
