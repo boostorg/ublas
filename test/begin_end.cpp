@@ -17,7 +17,7 @@
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/vector_expression.hpp>
 #include <iostream>
-#include "libs/numeric/ublas/test/utils.hpp"
+#include "utils.hpp"
 
 
 static const double TOL(1.0e-5); ///< Used for comparing two real numbers.
