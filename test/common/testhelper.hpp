@@ -83,4 +83,51 @@ bool compare( const boost::numeric::ublas::vector_expression<M1> & m1,
   return true;
 }
 
+// Compare if two matrices or vectors are equals based on distance.
+
+template <class AE>
+typename AE::value_type mean_square(const boost::numeric::ublas::matrix_expression<AE> &me) {
+    typename AE::value_type s(0);
+    typename AE::size_type i, j;
+    for (i=0; i!= me().size1(); i++) {
+        for (j=0; j!= me().size2(); j++) {
+            s += boost::numeric::ublas::scalar_traits<typename AE::value_type>::type_abs(me()(i,j));
+        }
+    }
+    return s / (me().size1() * me().size2());
+}
+
+template <class AE>
+typename AE::value_type mean_square(const boost::numeric::ublas::vector_expression<AE> &ve) {
+    // We could have use norm2 here, but ublas' ABS does not support unsigned types.
+    typename AE::value_type s(0);
+    typename AE::size_type i;
+    for (i=0; i!= ve().size(); i++) {
+        s += boost::numeric::ublas::scalar_traits<typename AE::value_type>::type_abs(ve()(i));
+    }
+    return s / ve().size();
+}
+
+template < class M1, class M2 >
+bool equal_to( const boost::numeric::ublas::matrix_expression<M1> & m1,
+              const boost::numeric::ublas::matrix_expression<M2> & m2 ) {
+    if ((m1().size1() != m2().size1()) ||
+        (m1().size2() != m2().size2())) {
+        return false;
+    }
+
+    return mean_square(m2() - m1()) <= 0;
+}
+
+template < class M1, class M2 >
+bool equal_to( const boost::numeric::ublas::vector_expression<M1> & m1,
+              const boost::numeric::ublas::vector_expression<M2> & m2 ) {
+    if (m1().size() != m2().size()) {
+        return false;
+    }
+
+    return mean_square(m2() - m1()) <= 0;
+}
+
+
 #endif
