@@ -19,6 +19,7 @@
 using std::cout;
 using std::endl;
 
+const double TOL = 1e-15;
 
 template<typename T>
 bool check_sortedness(const boost::numeric::ublas::coordinate_matrix<T>& matrix) {
@@ -77,12 +78,12 @@ BOOST_UBLAS_TEST_DEF( test_coordinate_matrix_inplace_merge_random )
 
       {
         bool sorted = check_sortedness(matrix_coord);
-        bool identical = equal_to(matrix_coord, matrix_dense);
+        bool identical = equal_to(matrix_coord, matrix_dense, TOL);
         if (!(sorted && identical)) {
           print_entries(size_x, size_y, entries);
         }
         BOOST_UBLAS_TEST_CHECK( check_sortedness(matrix_coord) );
-        BOOST_UBLAS_TEST_CHECK( equal_to(matrix_coord, matrix_dense) );
+        BOOST_UBLAS_TEST_CHECK( equal_to(matrix_coord, matrix_dense, TOL) );
       }
 
       for (size_t entry = 0; entry < nr_entries; ++ entry) {
@@ -96,7 +97,7 @@ BOOST_UBLAS_TEST_DEF( test_coordinate_matrix_inplace_merge_random )
 
       {
         bool sorted = check_sortedness(matrix_coord);
-        bool identical = equal_to(matrix_coord, matrix_dense);
+        bool identical = equal_to(matrix_coord, matrix_dense, TOL);
         if (!(sorted && identical)) {
           print_entries(size_x, size_y, entries);
         }
