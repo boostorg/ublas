@@ -4,7 +4,7 @@
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-#include "boost/numeric/ublas/matrix_sparse.hpp"
+#include <boost/numeric/ublas/matrix_sparse.hpp>
 
 #define BOOST_TEST_MODULE SparseMatrixErasureTest
 #include <boost/test/included/unit_test.hpp>

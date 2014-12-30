@@ -1,13 +1,13 @@
 TEMPLATE = app
-TARGET = test_assignment
+TARGET = test_inplace_solve_mvov
 
 !include (configuration.pri)
 
 DEFINES += \
-    BOOST_UBLAS_COO_ALWAYS_DO_FULL_SORT
+    USE_MAPPED_VECTOR_OF_MAPPED_VECTOR
 
 HEADERS += \
     ../../../test/utils.hpp
 
 SOURCES += \
-    ../../../test/test_assignment.cpp
+    ../../../test/test_inplace_solve.cpp
