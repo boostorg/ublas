@@ -16,6 +16,8 @@
 #include "common/testhelper.hpp"
 #include "utils.hpp"
 
+const double TOL = 1e-15;
+
 template<typename T>
 bool check_sortedness(const boost::numeric::ublas::coordinate_vector<T>& vector) {
   bool result = true;
@@ -66,12 +68,12 @@ BOOST_UBLAS_TEST_DEF( test_coordinate_vector_inplace_merge_random )
 
       {
         bool sorted = check_sortedness(vector_coord);
-        bool identical = equal_to(vector_coord, vector_dense);
+        bool identical = compare_to(vector_coord, vector_dense, TOL);
         if (!(sorted && identical)) {
           print_entries(size_vec, entries);
         }
         BOOST_UBLAS_TEST_CHECK( check_sortedness(vector_coord) );
-        BOOST_UBLAS_TEST_CHECK( equal_to(vector_coord, vector_dense) );
+        BOOST_UBLAS_TEST_CHECK( compare_to(vector_coord, vector_dense, TOL) );
       }
 
       for (size_t entry = 0; entry < nr_entries; ++ entry) {
@@ -84,7 +86,7 @@ BOOST_UBLAS_TEST_DEF( test_coordinate_vector_inplace_merge_random )
 
       {
         bool sorted = check_sortedness(vector_coord);
-        bool identical = equal_to(vector_coord, vector_dense);
+        bool identical = compare_to(vector_coord, vector_dense, TOL);
         if (!(sorted && identical)) {
           print_entries(size_vec, entries);
         }
