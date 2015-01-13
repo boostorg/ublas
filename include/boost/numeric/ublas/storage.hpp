@@ -370,7 +370,7 @@ namespace boost { namespace numeric { namespace ublas {
         // Random Access Container
         BOOST_UBLAS_INLINE
         size_type max_size () const {
-            return ALLOC ().max_size();
+            return N;
         }
         
         BOOST_UBLAS_INLINE
