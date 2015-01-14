@@ -31,6 +31,8 @@ struct bench_c_outer_prod {
                 }
 //                sink_c_matrix<T, N, N> () (m);
             }
+            BOOST_UBLAS_NOT_USED(m);
+
             footer<value_type> () (N * N, N * N, runs, t.elapsed ());
         }
         catch (std::exception &e) {
@@ -214,6 +216,8 @@ struct bench_c_matrix_add {
                 }
 //                sink_c_matrix<T, N, N> () (m3);
             }
+            BOOST_UBLAS_NOT_USED(m3);
+
             footer<value_type> () (0, 2 * N * N, runs, t.elapsed ());
         }
         catch (std::exception &e) {

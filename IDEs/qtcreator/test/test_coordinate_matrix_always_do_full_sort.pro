@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = test_assignment
+TARGET = test_coordinate_matrix_always_do_full_sort
 
 !include (configuration.pri)
 
@@ -10,4 +10,4 @@ HEADERS += \
     ../../../test/utils.hpp
 
 SOURCES += \
-    ../../../test/test_assignment.cpp
+    ../../../test/test_coordinate_matrix_sort.cpp

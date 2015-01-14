@@ -3,6 +3,8 @@ TARGET = test6
 
 !include (configuration.pri)
 
+DEFINES += $$UBLAS_TESTSET
+
 HEADERS += ../../../test/test6.hpp
 
 SOURCES += \

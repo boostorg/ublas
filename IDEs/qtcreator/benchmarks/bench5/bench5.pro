@@ -3,6 +3,8 @@ TARGET = bench5
 
 !include (../configuration.pri)
 
+DEFINES += BOOST_UBLAS_USE_INTERVAL
+
 OTHER_FILES += \
     ../../../../benchmarks/bench5/Jamfile.v2
 

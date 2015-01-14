@@ -1,9 +1,9 @@
 TEMPLATE = app
-TARGET = test3
+TARGET = test3_coo
 
 !include (configuration.pri)
 
-DEFINES += $$UBLAS_TESTSET_SPARSE
+DEFINES += $$UBLAS_TESTSET_SPARSE_COO
 
 HEADERS += ../../../test/test3.hpp
 

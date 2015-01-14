@@ -3,6 +3,8 @@ TARGET = triangular_access
 
 !include (configuration.pri)
 
+DEFINES += NOMESSAGES
+
 HEADERS += \
     ../../../test/common/testhelper.hpp
 
