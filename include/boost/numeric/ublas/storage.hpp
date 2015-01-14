@@ -802,6 +802,7 @@ namespace boost { namespace numeric { namespace ublas {
                     std::fill (data.get () + (std::min) (size, size_), data.get () + size, init);
                 }
                 size_ = size;
+                own_ = true;
                 data_ = data;
             }
         }
@@ -812,6 +813,7 @@ namespace boost { namespace numeric { namespace ublas {
                 std::fill (data + (std::min) (size, size_), data + size, init);
             }
             size_ = size;
+            own_ = false;
             data_.reset(data, leaker<value_type> ());
         }
     public:
