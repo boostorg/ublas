@@ -537,9 +537,9 @@ namespace boost { namespace numeric { namespace ublas {
         BOOST_UBLAS_INLINE
         array_adaptor (size_type size, pointer data):
             size_ (size), own_ (false), data_ (data) {}
-        BOOST_UBLAS_INLINE
+
         template <size_t N>
-        array_adaptor (T (&data)[N]):
+        BOOST_UBLAS_INLINE array_adaptor (T (&data)[N]):
             size_ (N), own_ (false), data_ (data) {}
         BOOST_UBLAS_INLINE
         array_adaptor (const array_adaptor &a):
@@ -605,14 +605,14 @@ namespace boost { namespace numeric { namespace ublas {
         void resize (size_type size, pointer data, value_type init) {
             resize_internal (size, data, init, true);
         }
-        BOOST_UBLAS_INLINE
+
         template <size_t N>
-        void resize (T (&data)[N]) {
+        BOOST_UBLAS_INLINE void resize (T (&data)[N]) {
             resize_internal (N, data, value_type (), false);
         }
-        BOOST_UBLAS_INLINE
+
         template <size_t N>
-        void resize (T (&data)[N], value_type init) {
+        BOOST_UBLAS_INLINE void resize (T (&data)[N], value_type init) {
             resize_internal (N, data, init, true);
         }
 
