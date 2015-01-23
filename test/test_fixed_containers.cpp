@@ -108,8 +108,8 @@ bool test_vector( std::string type_name)
 
         for ( std::size_t i = 0; i!= v1.size(); i++)
         {
-            v1( i ) = 3.14159*i*i;
-            v ( i ) = 3.14159*i*i;
+            v1( i ) = 3.14159*i;
+            v ( i ) = 3.14159*i;
         }
 
         pass &= compare( v1, v );
