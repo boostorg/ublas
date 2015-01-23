@@ -10,37 +10,11 @@
 #include <boost/numeric/ublas/matrix_sparse.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/matrix_vector.hpp>
-
+#include "common/testhelper.hpp"
 #include "utils.hpp"
 
 using namespace boost::numeric::ublas;
 
-namespace tans {
-template <class AE>
-typename AE::value_type mean_square(const matrix_expression<AE> &me) {
-    typename AE::value_type s(0);
-    typename AE::size_type i, j;
-    for (i=0; i!= me().size1(); i++) {
-        for (j=0; j!= me().size2(); j++) {
-          s+= scalar_traits<typename AE::value_type>::type_abs(me()(i,j));
-        }
-    }
-    return s/me().size1()*me().size2();
-}
-
-template <class AE>
-typename AE::value_type mean_square(const vector_expression<AE> &ve) {
-    // We could have use norm2 here, but ublas' ABS does not support unsigned types.
-    typename AE::value_type s(0);
-    typename AE::size_type i;
-    for (i=0; i!= ve().size(); i++) {
-            s+=scalar_traits<typename AE::value_type>::type_abs(ve()(i));
-        }
-    return s/ve().size();
-}
-const double TOL=0.0;
-
-}
 
 template <class Vector, class StorageCategory>
 void guardSparsePreserveResize( Vector &vec, typename Vector::size_type new_size, StorageCategory) // Because sparse matrices don't have preserve data implemented
@@ -58,7 +32,6 @@ void guardSparsePreserveResize( Vector &vec, typename Vector::size_type new_size
 template <class Matrix>
 bool test_matrix_row_facade() {
     bool pass = true;
-    using namespace tans;
 
     typedef matrix_row_vector<Matrix> RowVector;
 
@@ -97,7 +70,7 @@ bool test_matrix_row_facade() {
         rows(i) = matrix_row<Matrix>(RA, i);
     }
     
-    pass &= (mean_square(A-RA)<=TOL);
+    pass &= compare_to(A, RA);
     }
 
     { // Testing operator[]
@@ -114,7 +87,7 @@ bool test_matrix_row_facade() {
         rows[i] = matrix_row<Matrix>(RA, i);
     }
     
-    pass &= (mean_square(A-RA)<=TOL);
+    pass &= compare_to(A, RA);
     }
     
     { // Testing operator[] const
@@ -128,7 +101,7 @@ bool test_matrix_row_facade() {
             7, 8, 9;
 
     for(typename Matrix::size_type i = 0; i < RA.size1(); i++) {
-      pass &= (mean_square(rows[i]-matrix_row<Matrix>(RA, i))<=TOL);
+      pass &= compare_to(rows[i], matrix_row<Matrix>(RA, i));
     }
     }
 
@@ -146,7 +119,7 @@ bool test_matrix_row_facade() {
     for(typename RowVector::const_iterator iter = rows.begin();
 	iter != rows.end();
 	iter++) {
-      pass &= (mean_square(*iter-matrix_row<Matrix>(RA, i++))<=TOL);
+      pass &= compare_to(*iter, matrix_row<Matrix>(RA, i++));
     }
     }
 
@@ -167,7 +140,7 @@ bool test_matrix_row_facade() {
       *iter = matrix_row<Matrix>(RA, i++);
     }
 
-    pass &= (mean_square(A-RA)<=TOL);
+    pass &= compare_to(A, RA);
     }
 
     { // Testing reserse iterator
@@ -187,7 +160,7 @@ bool test_matrix_row_facade() {
       *iter = matrix_row<Matrix>(RA, --i);
     }
 
-    pass &= (mean_square(A-RA)<=TOL);
+    pass &= compare_to(A, RA);
     }
 
     { // Testing const reverse iterator
@@ -204,7 +177,7 @@ bool test_matrix_row_facade() {
     for(typename RowVector::const_reverse_iterator iter = rows.rbegin();
 	iter != rows.rend();
 	iter++) {
-      pass &= (mean_square(*iter-matrix_row<Matrix>(RA, --i))<=TOL);
+      pass &= compare_to(*iter, matrix_row<Matrix>(RA, --i));
     }
     }
 
@@ -215,7 +188,6 @@ bool test_matrix_row_facade() {
 template <class Matrix>
 bool test_matrix_column_facade() {
     bool pass = true;
-    using namespace tans;
 
     typedef matrix_column_vector<Matrix> ColumnVector;
 
@@ -252,7 +224,7 @@ bool test_matrix_column_facade() {
         columns(i) = matrix_column<Matrix>(RA, i);
     }
     
-    pass &= (mean_square(A-RA)<=TOL);	
+    pass &= compare_to(A, RA);
     }
 
     { // Testing operator[]
@@ -269,7 +241,7 @@ bool test_matrix_column_facade() {
         columns[i] = matrix_column<Matrix>(RA, i);
     }
     
-    pass &= (mean_square(A-RA)<=TOL);
+    pass &= compare_to(A, RA);
     }
     
     { // Testing operator[] const
@@ -283,7 +255,7 @@ bool test_matrix_column_facade() {
             7, 8, 9;
 
     for(typename Matrix::size_type i = 0; i < RA.size2(); i++) {
-      pass &= (mean_square(columns[i]-matrix_column<Matrix>(RA, i))<=TOL);
+      pass &= compare_to(columns[i], matrix_column<Matrix>(RA, i));
     }
     }
 
@@ -304,7 +276,7 @@ bool test_matrix_column_facade() {
       *iter = matrix_column<Matrix>(RA, i++);
     }
 
-    pass &= (mean_square(A-RA)<=TOL);
+    pass &= compare_to(A, RA);
     }
 
     { // Testing const iterator
@@ -321,7 +293,7 @@ bool test_matrix_column_facade() {
     for(typename ColumnVector::const_iterator iter = columns.begin();
 	iter != columns.end();
 	iter++) {
-      pass &= (mean_square(*iter-matrix_column<Matrix>(RA, i++))<=TOL);
+      pass &= compare_to(*iter, matrix_column<Matrix>(RA, i++));
     }
     }
 
@@ -342,7 +314,7 @@ bool test_matrix_column_facade() {
       *iter = matrix_column<Matrix>(RA, --i);
     }
 
-    pass &= (mean_square(A-RA)<=TOL);
+    pass &= compare_to(A, RA);
     }
 
     { // Testing const reverse iterator
@@ -359,7 +331,7 @@ bool test_matrix_column_facade() {
     for(typename ColumnVector::const_reverse_iterator iter = columns.rbegin();
 	iter != columns.rend();
 	iter++) {
-      pass &= (mean_square(*iter-matrix_column<Matrix>(RA, --i))<=TOL);
+      pass &= compare_to(*iter, matrix_column<Matrix>(RA, --i));
     }
     }
 

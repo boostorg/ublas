@@ -23,6 +23,9 @@
 #include <boost/timer.hpp>
 
 
+#define BOOST_UBLAS_NOT_USED(x) (void)(x)
+
+
 namespace ublas = boost::numeric::ublas;
 
 void header (std::string text);

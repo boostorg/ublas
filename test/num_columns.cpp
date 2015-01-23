@@ -9,7 +9,7 @@
 #include <boost/numeric/ublas/matrix_expression.hpp>
 #include <boost/numeric/ublas/operation/num_columns.hpp>
 #include <iostream>
-#include "libs/numeric/ublas/test/utils.hpp"
+#include "utils.hpp"
 
 
 BOOST_UBLAS_TEST_DEF( test_row_major_matrix_container )
