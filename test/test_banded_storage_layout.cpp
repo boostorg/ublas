@@ -9,7 +9,7 @@
 
 using namespace boost::numeric::ublas;
 
-int expected_index( int index, column_major tag ) {
+int expected_index( int index, column_major ) {
    // this is the data shown on http://www.netlib.org/lapack/lug/node124.html
    // read column-by-column, aka column_major
    int mapping[] = { 0, 11, 21, 31, 12, 22, 32, 42, 23, 33, 43, 53, 34, 44, 54, 0, 45, 55, 0, 0 };
@@ -17,32 +17,32 @@ int expected_index( int index, column_major tag ) {
 }
 
 
-int expected_index( int index, row_major tag ) {
+int expected_index( int index, row_major ) {
    // this is the data shown on http://www.netlib.org/lapack/lug/node124.html
    // read row-by-row, aka row_major
    int mapping[] = { 0, 0, 11, 12, 0, 21, 22, 23, 31, 32, 33, 34, 42, 43, 44, 45, 53, 54, 55, 0 };
    return mapping[ index ];
 }
 
-int expected_index_6_by_5( int index, column_major tag ) {
+int expected_index_6_by_5( int index, column_major ) {
    // read column-by-column, aka column_major
    int mapping[] = { 0, 11, 21, 31, 12, 22, 32, 42, 23, 33, 43, 53, 34, 44, 54, 64, 45, 55, 65, 0 };
    return mapping[ index ];
 }
 
-int expected_index_6_by_5( int index, row_major tag ) {
+int expected_index_6_by_5( int index, row_major ) {
    // read row-by-row, aka row_major
    int mapping[] = { 0, 0, 11, 12, 0, 21, 22, 23, 31, 32, 33, 34, 42, 43, 44, 45, 53, 54, 55, 0, 64, 65, 0, 0 };
    return mapping[ index ];
 }
 
-int expected_index_5_by_6( int index, column_major tag ) {
+int expected_index_5_by_6( int index, column_major ) {
    // read column-by-column, aka column_major
    int mapping[] = { 0, 11, 21, 31, 12, 22, 32, 42, 23, 33, 43, 53, 34, 44, 54, 0, 45, 55, 0, 0, 56, 0, 0, 0 };
    return mapping[ index ];
 }
 
-int expected_index_5_by_6( int index, row_major tag ) {
+int expected_index_5_by_6( int index, row_major ) {
    // read row-by-row, aka row_major
    int mapping[] = { 0, 0, 11, 12, 0, 21, 22, 23, 31, 32, 33, 34, 42, 43, 44, 45, 53, 54, 55, 56};
    return mapping[ index ];

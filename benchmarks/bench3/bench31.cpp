@@ -52,6 +52,7 @@ struct bench_my_inner_prod {
                 static value_type s (0);
                 s = ublas::inner_prod (vr1, vr2);
 //                sink_scalar (s);
+                BOOST_UBLAS_NOT_USED(s);
             }
             footer<value_type> () (N, N - 1, runs, t.elapsed ());
         }
@@ -98,6 +99,7 @@ struct bench_c_vector_add {
                     v3 [j] = - (v1 [j] + v2 [j]);
                 }
 //                sink_c_vector<T, N> () (v3);
+                BOOST_UBLAS_NOT_USED(v3);
             }
             footer<value_type> () (0, 2 * N, runs, t.elapsed ());
         }

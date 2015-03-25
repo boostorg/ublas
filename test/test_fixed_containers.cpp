@@ -108,8 +108,8 @@ bool test_vector( std::string type_name)
 
         for ( std::size_t i = 0; i!= v1.size(); i++)
         {
-            v1( i ) = 3.14159*i*i;
-            v ( i ) = 3.14159*i*i;
+            v1( i ) = 3.14159*i;
+            v ( i ) = 3.14159*i;
         }
 
         pass &= compare( v1, v );
@@ -140,7 +140,7 @@ bool test_vector( std::string type_name)
         try {
             T a;
             a=v1( 100 );
-            (void) a ;
+            BOOST_UBLAS_NOT_USED( a );
 
         } catch ( bad_index &e) {
             std::cout << " Caught (GOOD): " << e.what() << endl;
@@ -250,7 +250,7 @@ bool test_matrix( std::string type_name)
         try {
             T a;
             a=m1( 100, 100 );
-            (void) a ;
+            BOOST_UBLAS_NOT_USED( a );
 
         } catch ( bad_index &e) {
             std::cout << " Caught (GOOD): " << e.what() << endl;
