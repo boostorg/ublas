@@ -64,6 +64,8 @@
 #include <limits>
 #include <stdexcept>
 
+#define BOOST_UBLAS_NOT_USED(x) (void)(x)
+
 namespace boost { namespace numeric { namespace ublas { namespace test { namespace detail { namespace /*<unnamed>*/ {
 
   using ::std::abs;

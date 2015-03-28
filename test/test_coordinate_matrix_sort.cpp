@@ -11,7 +11,7 @@
 #include<boost/numeric/ublas/matrix_sparse.hpp>
 #include<boost/numeric/ublas/io.hpp>
 
-#include "libs/numeric/ublas/test/utils.hpp"
+#include "utils.hpp"
 
 using std::cout;
 using std::endl;

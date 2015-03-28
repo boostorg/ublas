@@ -1,3 +1,10 @@
+TEMPLATE = app
+TARGET = bench4
+
+!include (../configuration.pri)
+
+DEFINES += BOOST_UBLAS_USE_INTERVAL
+
 OTHER_FILES += \
     ../../../../benchmarks/bench4/Jamfile.v2
 
