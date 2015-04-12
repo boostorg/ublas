@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_ticket7296
 
-!include (configuration.pri)
+include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

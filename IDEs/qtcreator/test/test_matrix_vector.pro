@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_matrix_vector
 
-!include (configuration.pri)
+include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

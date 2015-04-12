@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = bench3
 
-!include (../configuration.pri)
+include (../configuration.pri)
 
 OTHER_FILES += \
     ../../../../benchmarks/bench3/Jamfile.v2
