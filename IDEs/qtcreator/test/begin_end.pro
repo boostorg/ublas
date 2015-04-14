@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = begin_end
 
-!include (configuration.pri)
+include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

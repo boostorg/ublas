@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test3_mvov
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += \
     USE_FLOAT \

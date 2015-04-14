@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_inplace_solve_basic
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += \
     $$UBLAS_TESTSET
