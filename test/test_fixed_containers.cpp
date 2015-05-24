@@ -5,7 +5,6 @@
 #include <boost/numeric/ublas/assignment.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <string>
-#include <sstream>
 #include <complex>
 #include <iomanip>
 #include "utils.hpp"
@@ -20,9 +19,7 @@ using std::endl;
 template < class T >
 bool test_vector( std::string type_name)
 {
-    std::stringstream stream;
-    stream << "Testing for: " << type_name;
-    BOOST_UBLAS_DEBUG_TRACE( stream.str() );
+    BOOST_UBLAS_DEBUG_TRACE( std::string("Testing for: ") + type_name );
 
     bool pass = true;
 
@@ -155,9 +152,7 @@ bool test_vector( std::string type_name)
 template < class T >
 bool test_matrix( std::string type_name)
 {
-    std::stringstream stream;
-    stream << "Testing for: " << type_name;
-    BOOST_UBLAS_DEBUG_TRACE( stream.str() );
+    BOOST_UBLAS_DEBUG_TRACE( std::string("Testing for: ") + type_name );
 
     bool pass = true;
 
