@@ -24,11 +24,11 @@ namespace boost {
 				// x must be a vector 
 				// output will be a vector in R^n 
 				size_type n = x.size();
-				value_type sigma = outer_prod(project(x, range(1, n)), project(x, range(1, n)));
-
-				v = vector<M>(x);
+				value_type sigma =  inner_prod(project(x, range(1, n)), project(x, range(1, n)));
+				
+				v = M(x); //Ask Mentor how to evoke copy constructor 
 				v(size_type(0)) = value_type(1);
-
+				
 
 				if (sigma != value_type()) {
 					value_type mu = ((x(size_type(0)))*(x(size_type(0)))) + sigma;
@@ -52,7 +52,9 @@ namespace boost {
 						beta = value_type(-2); // Ask mentor if this is Valid 
 					}
 				}
+				
 
+				return size_type(0);
 			}
 
 }}}
