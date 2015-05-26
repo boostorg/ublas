@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test3
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += $$UBLAS_TESTSET_SPARSE
 
