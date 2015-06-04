@@ -25,9 +25,26 @@ namespace boost { namespace numeric { namespace ublas {
 		BOOST_UBLAS_CHECK(num_rows != num_cols, singular()); //Throw some kind of assertion error saying that eigen solver works only for sqaure matrices
 
 		size_type n = num_rows;
-		vector<value_type> temp(n);
-		for (size_type i = 0; i < n; ++i) {
-			//Insert householder modules here
+		for (size_type i = 0; i < n-2; ++i) {
+			vector<value_type> x = project(column(m,i), range(i + 1, n));	
+			vector<value_type> v;
+			value_type beta;
+			householder(x, v, beta);
+			
+			matrix<value_type> vvt = outer_prod(v, v);
+			vvt *= beta;
+			size_type n_vvt = vvt.size1();
+			matrix<value_type> imvvt = identity_matrix<value_type>(n_vvt) - vvt;
+
+			matrix<value_type> t1 = prod(imvvt, project(m, range(i + 1, n), range(i, n)));
+			project(m, range(i + 1, n), range(i, n)).assign(t1);
+			matrix<value_type> t2 = prod(project(m, range(0, n), range(i + 1, n)), imvvt);
+			project(m, range(0, n), range(i + 1, n)).assign(t2);
+
+			//@TODO: Ask mentor why uncommented lines are more accurate than commented lines... 
+			//project(m, range(i + 1, num_rows), range(i, num_rows)).assign(prod(imvvt, project(m, range(i + 1, num_rows), range(i, num_rows))));
+			//project(m, range(0, num_rows), range(i+1, num_rows)).assign(prod(project(m, range(0, num_rows), range(i+1, num_rows)),imvvt));
+
 		}
 
 	}
