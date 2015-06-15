@@ -42,8 +42,8 @@ namespace boost { namespace numeric { namespace ublas {
 			project(m, range(0, n), range(i + 1, n)).assign(t2);
 
 			//@TODO: Ask mentor why uncommented lines are more accurate than commented lines... 
-			//project(m, range(i + 1, num_rows), range(i, num_rows)).assign(prod(imvvt, project(m, range(i + 1, num_rows), range(i, num_rows))));
-			//project(m, range(0, num_rows), range(i+1, num_rows)).assign(prod(project(m, range(0, num_rows), range(i+1, num_rows)),imvvt));
+			//project(m, range(i + 1, n), range(i, n)).assign(prod(imvvt, project(m, range(i + 1, n), range(i, n))));
+			//project(m, range(0, n), range(i+1, n)).assign(prod(project(m, range(0, n), range(i+1, n)),imvvt));
 
 		}
 
