@@ -241,6 +241,38 @@ namespace boost {
 
 
 			}
+
+			template<class M>
+			void block_diag(M &t, M &q) {
+				typedef typename M::size_type size_type;
+				typedef typename M::value_type value_type;
+
+				size_type n = t.size1();
+
+				for (size_type j = size_type(2); j <= n; j++) {
+					for (size_type i = size_type(1); i < j; i++) {
+						value_type tii = t(i - size_type(1), i - size_type(1));
+						value_type tjj = t(j - size_type(1), j - size_type(1));
+						value_type tij = t(i - size_type(1), j - size_type(1));
+						value_type z = -tij / (tii - tjj);
+						for (size_type k = j + size_type(1); k <= n; k++) {
+							t(i - size_type(1), k - size_type(1)) -= (z*t(j - size_type(1), k - size_type(1)));
+						}
+						for (size_type k = size_type(1); k <= n; k++) {
+							q(k - size_type(1), j - size_type(1)) += (z*q(k - size_type(1), i - size_type(1)));
+						}
+					}
+				}
+
+				//We need to normalize the columns also 
+				for (size_type i = 0; i < n; i++) {
+					vector<value_type> vi = column(q, i);
+					value_type norm_vi = norm_2(vi);
+					vector<value_type> normalized_vi = vi / norm_vi;
+					column(q, i) = normalized_vi;
+				}
+
+			}
 }}}
 
 
