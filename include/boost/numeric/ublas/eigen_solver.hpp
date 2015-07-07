@@ -22,17 +22,18 @@ private:
 	M hessenberg_form;
 	M real_schur_form;
 	M transform_accumulations;
-	bool has_complex;
+	bool has_complex_part;
 	bool has_eigenvalues;
 	bool has_eigenvectors;
-	M eigenvalues;
+	M eigenvalues_real;
+	M eigenvalues_complex;
 	M eigenvectors;
 	eig_solver_params solver_params;
 public:
 	//This is the constructor
 	BOOST_UBLAS_INLINE 
 	explicit eigen_solver(M &m, eig_solver_params params = EIGVAL) :
-	matrix(m),has_complex(false),solver_params(params)
+	matrix(m), has_complex_part(false), solver_params(params)
 	{
 		has_eigenvalues = has_eigenvectors = false;
 		hessenberg_form = M(m);
@@ -72,14 +73,44 @@ public:
 	//Right now it doesn't
 	BOOST_UBLAS_INLINE
 	void extract_eigenvalues_from_schur() {
-		eigenvalues = diagonal_adaptor<M>(real_schur_form);
+		typedef typename M::size_type size_type;
+		typedef typename M::value_type value_type;
+
+		size_type n = real_schur_form.size1();
+		size_type i = size_type(0);
+
+		eigenvalues_real = zero_matrix<value_type>(n,n);
+		eigenvalues_complex = zero_matrix<value_type>(n, n);
+
+		while (i < n) {
+			if ((i == n - size_type(1)) || (real_schur_form(i + 1, i) == value_type(0))) {
+				eigenvalues_real(i, i) = real_schur_form(i, i);
+				i += size_type(1);
+			}
+			else {
+				value_type p = value_type(0.5) * (real_schur_form(i, i) - real_schur_form(i + size_type(1), i + size_type(1)));
+				value_type z = (std::sqrt)((std::abs)(p * p + real_schur_form(i + size_type(1), i) * real_schur_form(i, i + size_type(1))));
+				eigenvalues_real(i, i) = real_schur_form(i + size_type(1), i + size_type(1)) + p;
+				eigenvalues_complex(i, i) = z;
+				eigenvalues_real(i + size_type(1), i + size_type(1)) = real_schur_form(i + size_type(1), i + size_type(1)) + p;
+				eigenvalues_complex(i + size_type(1), i + size_type(1)) = -z;
+				i += size_type(2);
+				has_complex_part = true;
+			}
+		}
+
 		has_eigenvalues = true;
 	}
 
 	//Extraction function 
 	BOOST_UBLAS_INLINE 
 		M& get_real_eigenvalues() {
-		return eigenvalues;
+		return eigenvalues_real;
+	}
+
+	BOOST_UBLAS_INLINE
+		M& get_complex_eigenvalues() {
+		return eigenvalues_complex;
 	}
 
 	BOOST_UBLAS_INLINE 
