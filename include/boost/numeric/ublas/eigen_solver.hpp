@@ -88,6 +88,18 @@ public:
 	}
 
 
+		//THis is my functions - just kept for debugging will be deleted (or maybe not)
+		BOOST_UBLAS_INLINE
+			M& get_real_schur_form() {
+			return real_schur_form;
+		}
+
+		BOOST_UBLAS_INLINE
+			M& get_hessenberg_form() {
+			return hessenberg_form;
+		}
+
+
 };
 
 

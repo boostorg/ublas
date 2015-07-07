@@ -13,6 +13,8 @@
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/triangular.hpp>
 #include <iostream>
+#include <limits>
+
 
 namespace boost {
 	namespace numeric {
@@ -120,15 +122,62 @@ namespace boost {
 					value_type y = h(size_type(1), size_type(0)) * (h(size_type(0), size_type(0)) + h(size_type(1), size_type(1)) - s);
 					value_type z = h(size_type(1), size_type(0)) * h(size_type(2), size_type(1));
 
+					/*value_type h_nn = h(p - size_type(1), p - size_type(1)); //gsl_matrix_get(H, N - 1, N - 1);
+					value_type h_nm1nm1 = h(q - size_type(1), q - size_type(1)); //gsl_matrix_get(H, N - 2, N - 2);
+					value_type h_cross = h(p - size_type(1), q - size_type(1)) * h(q - size_type(1), p - size_type(1));  //gsl_matrix_get(H, N - 1, N - 2) * gsl_matrix_get(H, N - 2, N - 1);
+
+					value_type disc = value_type(0.5) * (h_nm1nm1 - h_nn);
+					disc = disc * disc + h_cross;
+					if (disc > value_type(0))
+					{
+						value_type ave;
+
+						
+						disc = sqrt(disc);
+						ave = value_type(0.5) * (h_nm1nm1 + h_nn);
+						value_type sign_ave = value_type(1.0);
+						if (ave < value_type(0)) {
+							sign_ave = value_type(-1.0);
+						}
+						if (((std::abs)(h_nm1nm1) - (std::abs)(h_nn) )> value_type(0))
+						{
+							h_nm1nm1 = h_nm1nm1 * h_nn - h_cross;
+							h_nn = h_nm1nm1 / (disc * sign_ave + ave);
+						}
+						else
+						{
+							h_nn = disc * sign_ave + ave;
+						}
+
+						h_nm1nm1 = h_nn;
+						h_cross = 0.0;
+					}
+
+					value_type h_tmp1 = h_nm1nm1 - h(0, 0);
+					value_type h_tmp2 = h_nn - h(0, 0);
+
+					value_type x = (h_tmp1*h_tmp2 - h_cross) / h( 1, 0) + h(0, 1);
+					value_type y = h(1, 1) - h(0, 0) - h_tmp1 - h_tmp2;
+					value_type z = h(2, 1);*/
+
 					//Ask mentor if we can assume that size_type will support signed type (otherwise we need a different mechanism 
 					// On second thought lets make no such assumptions 
 					for (size_type k = size_type(0); k <= p - size_type(3); k++) {
 						vector<value_type> tx(3);
 						tx(0) = x; tx(1) = y; tx(2) = z;
+
+						//Add some scaling factor here
+						value_type scale = (std::abs)(tx(0)) + (std::abs)(tx(1)) + (std::abs)(tx(2));
+						if (scale != value_type(0)) {
+							tx(0) /= scale;
+							tx(1) /= scale;
+							tx(2) /= scale;
+						}
+
 						vector<value_type> v;
 						value_type beta;
 						householder<vector<value_type> >(tx, v, beta);
-
+						
 						size_type r = (std::max)(size_type(1), k);
 
 						matrix<value_type> vvt = outer_prod(v, v);
@@ -158,30 +207,56 @@ namespace boost {
 
 					vector<value_type> tx(2);
 					tx(0) = x; tx(1) = y;
-					vector<value_type> v;
-					value_type beta;
-					householder<vector<value_type> >(tx, v, beta);
 
-					matrix<value_type> vvt = outer_prod(v, v);
-					vvt *= beta;
-					size_type n_vvt = vvt.size1();
-					matrix<value_type> imvvt = identity_matrix<value_type>(n_vvt) -vvt;
+					value_type scale = (std::abs)(tx(0)) + (std::abs)(tx(1)) ;
+					if (scale != value_type(0)) {
+						tx(0) /= scale;
+						tx(1) /= scale;
+					}
 
-					matrix<value_type> t1 = prod(imvvt, project(h, range(q - size_type(1), p), range(p - size_type(3), n)));
+					value_type cg, sg;
+					givens_rotation<value_type>(tx(0), tx(1), cg, sg);
+
+					//Apply rotation to matrices as needed
+					matrix<value_type> t1 = project(h, range(q - size_type(1), p), range(p - size_type(3), n));
+					size_type t1_cols = t1.size2();
+					size_type t1_rows = t1.size1();
+					for (size_type j = size_type(0); j < t1_cols; j++) {
+						value_type tau1 = t1(0, j);
+						value_type tau2 = t1(t1_rows - 1, j);
+						t1(0, j) = cg*tau1 - sg*tau2;
+						t1(t1_rows - 1, j) = sg*tau1 + cg*tau2;
+					}
 					project(h, range(q - size_type(1), p), range(p - size_type(3), n)).assign(t1);
 
-					matrix<value_type> t2 = prod(project(h, range(0, p), range(p - size_type(2), p)), imvvt);
+					matrix<value_type> t2 = project(h, range(0, p), range(p - size_type(2), p));
+					size_type t2_cols = t2.size2();
+					size_type t2_rows = t2.size1();
+					for (size_type j = size_type(0); j < t2_rows; j++) {
+						value_type tau1 = t2(j, 0);
+						value_type tau2 = t2(j,t2_cols - 1);
+						t2(j, 0) = cg*tau1 - sg*tau2;
+						t2(j, t2_cols - 1) = sg*tau1 + cg*tau2;
+					}
 					project(h, range(0, p), range(p - size_type(2), p)).assign(t2);
 
-					matrix<value_type> t3 = prod(project(qv, range(0,n), range(p - size_type(2),p)), imvvt);
-					project(qv, range(0, p), range(p - size_type(2), p)).assign(t3);
+					matrix<value_type> t3 = project(qv, range(0, n), range(p - size_type(2), p));
+					size_type t3_cols = t3.size2();
+					size_type t3_rows = t3.size1();
+					for (size_type j = size_type(0); j < t3_rows; j++) {
+						value_type tau1 = t3(j, 0);
+						value_type tau2 = t3(j, t3_cols - 1);
+						t3(j, 0) = cg*tau1 - sg*tau2;
+						t3(j, t3_cols - 1) = sg*tau1 + cg*tau2;
+					}
+					project(qv, range(0, n), range(p - size_type(2), p)).assign(t3);
 
-					if ((std::abs)(h(p - size_type(1), q - size_type(1))) < (EPSA)*((std::abs)(h(p - size_type(1), p - size_type(1))) + (std::abs)(h(q - size_type(1), q - size_type(1))))) {
+					if ((std::abs)(h(p - size_type(1), q - size_type(1))) < (std::numeric_limits<value_type>::epsilon())*((std::abs)(h(p - size_type(1), p - size_type(1))) + (std::abs)(h(q - size_type(1), q - size_type(1))))) {
 						h(p - size_type(1), q - size_type(1)) = value_type(0);
 						p = p - size_type(1);
 						q = p - size_type(1);
 					}
-					else if ((std::abs)(h(p - size_type(2), q - size_type(2))) < (EPSA)*((std::abs)(h(q - size_type(2), q - size_type(2))) + (std::abs)(h(q - size_type(1), q - size_type(1))))) {
+					else if ((std::abs)(h(p - size_type(2), q - size_type(2))) < (std::numeric_limits<value_type>::epsilon())*((std::abs)(h(q - size_type(2), q - size_type(2))) + (std::abs)(h(q - size_type(1), q - size_type(1))))) {
 						h(p - size_type(2), q - size_type(2)) = value_type(0);
 						p = p - size_type(2);
 						q = p - size_type(1);

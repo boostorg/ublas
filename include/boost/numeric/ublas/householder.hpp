@@ -57,6 +57,34 @@ namespace boost {
 				return size_type(0);
 			}
 
+
+			template<class M>
+			void givens_rotation(M &a, M &b, M&c, M&s) {
+				if (b == M(0)) {
+					c = M(1);
+					s = M(0);
+				}
+				else {
+					if ((std::abs)(b) > (std::abs)(a)) {
+						M tau = -a / b;
+						M s_temp = M(1.0) + (tau*tau);
+						s_temp = (std::sqrt)(s_temp);
+
+						s = M(1.0) / s_temp;
+						c = s * tau;
+					}
+					else {
+						M tau = -b / a;
+						M c_temp = M(1.0) + (tau*tau);
+						c_temp = (std::sqrt)(c_temp);
+
+						c = M(1.0) / c_temp;
+						s = c * tau;
+					}
+				}
+			}
+
+
 }}}
 
 #endif
