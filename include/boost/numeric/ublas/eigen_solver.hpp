@@ -5,6 +5,8 @@
 #ifndef _BOOST_UBLAS_EIGENSOLVER_
 #define _BOOST_UBLAS_EIGENSOLVER_
 
+#include <boost\numeric\ublas\matrix.hpp>
+#include <boost\numeric\ublas\matrix_proxy.hpp>
 #include <boost\numeric\ublas\hessenberg.hpp>
 #include <boost\numeric\ublas\householder.hpp>
 #include <boost\numeric\ublas\schur_decomposition.hpp>
@@ -54,23 +56,21 @@ public:
 			schur_decomposition<M>(real_schur_form);
 			extract_eigenvalues_from_schur();
 			has_eigenvalues = true;
+			has_eigenvectors = false;
 		}
 		else {
 			to_hessenberg<M>(hessenberg_form, transform_accumulations);
 			real_schur_form = M(hessenberg_form);
 			schur_decomposition<M>(real_schur_form, transform_accumulations);
 			extract_eigenvalues_from_schur();
-			eigenvectors = M(transform_accumulations);
-			M temp_q_storage = M(real_schur_form);
-			block_diag(temp_q_storage, eigenvectors);
+			extract_eigenvectors();
+			has_eigenvalues = true;
 			has_eigenvectors = true;
 		}
 
 
 	}
 
-	//This is a tricky function because it will do many things...
-	//Right now it doesn't
 	BOOST_UBLAS_INLINE
 	void extract_eigenvalues_from_schur() {
 		typedef typename M::size_type size_type;
@@ -83,7 +83,7 @@ public:
 		eigenvalues_complex = zero_matrix<value_type>(n, n);
 
 		while (i < n) {
-			if ((i == n - size_type(1)) || (real_schur_form(i + 1, i) == value_type(0))) {
+			if ((i == n - size_type(1)) || (real_schur_form(i + 1, i) == value_type(0)) || ((std::abs)(real_schur_form(i + 1, i)) <= 1.0e-5)) {
 				eigenvalues_real(i, i) = real_schur_form(i, i);
 				i += size_type(1);
 			}
@@ -119,6 +119,95 @@ public:
 	}
 
 
+	BOOST_UBLAS_INLINE 
+		void extract_eigenvectors() {
+
+		typedef typename M::size_type size_type;
+		typedef typename M::value_type value_type;
+
+		M T(real_schur_form);
+		eigenvectors = M(transform_accumulations);
+
+		size_type n = eigenvalues_real.size1();
+
+		value_type norm = value_type(0);
+		for (size_type j = size_type(0); j < n; j++) {
+			size_type idx = (j==size_type(0))?size_type(0):(j - size_type(1));
+			vector<value_type> v = project(row(T,j), range(idx, n));
+			norm += norm_1(v);
+		}
+
+
+		for (size_type k = n; k--!=size_type(0); ) {
+			
+			value_type p = eigenvalues_real(k, k);
+			value_type q = eigenvalues_complex(k, k);
+
+			value_type lastr, lastw;
+			lastr = lastw = value_type(0);
+			size_type l = k;
+
+			T(k, k) = value_type(1);
+
+				for (size_type i = k; i--!=size_type(0);) {
+					value_type w = T(i, i) - p;
+					vector<value_type> r_left = project(row(T, i), range(l, k + size_type(1)));
+					vector<value_type> r_right = project(column(T, k), range(l, k + size_type(1)));
+					value_type r = inner_prod(r_left, r_right);
+					if (eigenvalues_complex(i, i) < value_type(0)) {
+						lastw = w;
+						lastr = r;
+					}
+					else {
+						l = i;
+						if (eigenvalues_complex(i, i) == value_type(0)) {
+							if (w != value_type(0)) {
+								T(i, k) = -r / w;
+							}
+							else {
+								T(i, k) = -r / (norm * std::numeric_limits<value_type>::epsilon());
+							}
+						}
+						else {
+							value_type x = T(i, i + size_type(1));
+							value_type y = T(i + size_type(1), i);
+							value_type denom = (eigenvalues_real(i, i) - p)*(eigenvalues_real(i, i) - p) + (eigenvalues_complex(i, i))*(eigenvalues_complex(i, i));
+							value_type t = (x * lastr - lastw * r) / denom;
+							T(i, k) = t;
+							if ((std::abs)(x) > (std::abs)(lastw)) {
+								T(i + size_type(1), k) = (-r - w * t) / x;
+							}
+							else {
+								T(i + size_type(1), k) = (-lastr - y * t) / lastw;
+							}
+						}
+
+						// Overflow control
+						value_type t = (std::abs)(T(i, k));
+						if ((std::numeric_limits<value_type>::epsilon() * t) * t > value_type(1)) {
+							for (size_type j = n - k - i; j < n;j++)
+								T(k,j) /= t;
+						}
+					}
+				}
+		}
+
+		for (size_type j = n; j--!=size_type(0);)
+		{
+			M matrix_left = project(eigenvectors, range(0, n),range(0, j + size_type(1)));
+			vector<value_type> vector_right = project(column(T,j), range(0, j + size_type(1)));
+			vector<value_type> v  = prod(matrix_left,vector_right);
+			column(eigenvectors,j) = v;
+		}
+
+		for (size_type i = 0; i < n; i++) {
+			vector<value_type> vi = column(eigenvectors, i);
+			value_type norm_vi = norm_2(vi);
+			vector<value_type> normalized_vi = vi / norm_vi;
+			column(eigenvectors, i) = normalized_vi;
+		}
+	}
+
 		//THis is my functions - just kept for debugging will be deleted (or maybe not)
 		BOOST_UBLAS_INLINE
 			M& get_real_schur_form() {
@@ -128,6 +217,11 @@ public:
 		BOOST_UBLAS_INLINE
 			M& get_hessenberg_form() {
 			return hessenberg_form;
+		}
+
+		BOOST_UBLAS_INLINE
+			M& get_transform_accumulations() {
+			return transform_accumulations;
 		}
 
 

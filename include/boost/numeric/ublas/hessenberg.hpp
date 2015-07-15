@@ -17,7 +17,7 @@
 namespace boost { namespace numeric { namespace ublas {
 
 	template<class M>
-	typename M::size_type to_hessenberg(M &m) {
+	void to_hessenberg(M &m) {
 
 		typedef typename M::size_type size_type;
 		typedef typename M::value_type value_type;
@@ -53,7 +53,7 @@ namespace boost { namespace numeric { namespace ublas {
 	}
 
 	template<class M>
-	typename M::size_type to_hessenberg(M &m, M &u0) {
+	void to_hessenberg(M &m, M &u0) {
 
 		typedef typename M::size_type size_type;
 		typedef typename M::value_type value_type;
@@ -63,7 +63,7 @@ namespace boost { namespace numeric { namespace ublas {
 		//At this point, we should probably check if the number of rows and columns of M are the same or not 
 		size_type num_rows = m.size1();
 		size_type num_cols = m.size2();
-		BOOST_UBLAS_CHECK(num_rows != num_cols, singular()); //Throw some kind of assertion error saying that eigen solver works only for sqaure matrices
+		BOOST_UBLAS_CHECK(num_rows == num_cols, singular()); //Throw some kind of assertion error saying that eigen solver works only for sqaure matrices
 
 		size_type n = num_rows;
 		u0 = identity_matrix<value_type>(n);
