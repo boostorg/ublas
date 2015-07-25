@@ -25,7 +25,7 @@ namespace boost { namespace numeric { namespace ublas {
 		//At this point, we should probably check if the number of rows and columns of M are the same or not 
 		size_type num_rows = m.size1();
 		size_type num_cols = m.size2();
-		BOOST_UBLAS_CHECK(num_rows != num_cols, singular()); //Throw some kind of assertion error saying that eigen solver works only for sqaure matrices
+		BOOST_UBLAS_CHECK(num_rows == num_cols, singular()); //Throw some kind of assertion error saying that eigen solver works only for sqaure matrices
 
 		size_type n = num_rows;
 		for (size_type i = 0; i < n-2; ++i) {
