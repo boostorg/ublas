@@ -242,7 +242,6 @@ public:
 					}
 					else {
 						l = i;
-
 						if (eigenvalues_complex(i, i) == value_type(0)) {
 							std::complex<value_type> x(-ra, -sa);
 							std::complex<value_type> y(w, q);
@@ -268,7 +267,7 @@ public:
 
 							if ((std::abs)(x) > ((std::abs)(lastw)+(std::abs)(q))) {
 								T(i + size_type(1), k - size_type(1)) = (-ra - w * T(i, k - size_type(1)) + q * T(i, k)) / x;
-								T(i + size_type(1), k) = (-sa - w * T(i, k) - q * T(i, n - size_type(1))) / x;
+								T(i + size_type(1), k) = (-sa - w * T(i, k) - q * T(i, k - size_type(1))) / x;
 							}
 							else {
 								x1 = std::complex<value_type>(-lastra - y*T(i, k - size_type(1)), -lastsa - y*T(i, k));
@@ -282,11 +281,20 @@ public:
 
 					}
 
+					value_type t = (std::max)((std::abs)(T(i, k - size_type(1))), (std::abs)(T(i, k)));
+					if ((std::numeric_limits<value_type>::epsilon() * t)*t > value_type(1)) {
+						for (size_type j = i; j < k + i - size_type(1); j++){
+							T(j, n - i) /= t;
+							T(j, n - i + size_type(1)) /= t;
+						}
+					}
+
 				}
 				k--;
 			}
-
 		}
+
+		std::cout << eigenvectors << "\n";
 
 		for (size_type j = n; j--!=size_type(0);)
 		{
@@ -295,6 +303,8 @@ public:
 			vector<value_type> v  = prod(matrix_left,vector_right);
 			column(eigenvectors,j) = v;
 		}
+
+		//std::cout << eigenvectors << "\n";
 
 		eigenvectors_real = zero_matrix<value_type>(n, n);
 		eigenvectors_complex = zero_matrix<value_type>(n, n);
