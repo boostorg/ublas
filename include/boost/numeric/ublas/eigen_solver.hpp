@@ -12,6 +12,7 @@
 #include <boost\numeric\ublas\hessenberg.hpp>
 #include <boost\numeric\ublas\householder.hpp>
 #include <boost\numeric\ublas\schur_decomposition.hpp>
+#include <boost\numeric\ublas\matrix_balancing.hpp>
 
 namespace boost { namespace numeric { namespace ublas {
 
