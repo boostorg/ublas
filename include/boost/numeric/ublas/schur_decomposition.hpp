@@ -1,6 +1,11 @@
+// Rajaditya Mukherjee
+//
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
+
+
+/// \file schur_decomposition.hpp Contains methods for real schur decomposition 
 
 #ifndef _BOOST_UBLAS_SCHURDECOMPOSITION_
 #define _BOOST_UBLAS_SCHURDECOMPOSITION_
@@ -20,6 +25,11 @@ namespace boost {
 	namespace numeric {
 		namespace ublas {
 
+			/// \brief Performs Real Schur Decomposition for Matrix \c m (Version without EigenVectors).
+			/// Replaces the input matrix which is assumed to be in Hessenberg Form by the 
+			/// real schur form of the matrix. This uses the Francis Double Shift QR Algorithm to compute the real Schur Form. 
+			/// The diagonals of the schur form are either 1x1 blocks (real eigenvalues) or 2x2 blocks (complex eigenvalues).
+			/// \param m matrix type (like matrix<double>) - input hessenberg form output - schur form
 			template<class M>
 			void schur_decomposition(M &h) {
 
@@ -122,6 +132,12 @@ namespace boost {
 				}
 			}
 
+			/// \brief Performs Real Schur Decomposition for Matrix \c m (Version with EigenVectors).
+			/// Replaces the input matrix which is assumed to be in Hessenberg Form by the 
+			/// real schur form of the matrix. This uses the Francis Double Shift QR Algorithm to compute the real Schur Form. 
+			/// The diagonals of the schur form are either 1x1 blocks (real eigenvalues) or 2x2 blocks (complex eigenvalues).
+			/// \param m matrix type (like matrix<double>) - input hessenberg form output - schur form
+			/// \param qv matrix type (like matrix<double>) - input accumulated transforms 
 			template<class M>
 			void schur_decomposition(M &h, M &qv) {
 
@@ -255,93 +271,9 @@ namespace boost {
 						p = p - size_type(2);
 						q = p - size_type(1);
 					}
-					//std::cout << p << " " << q << "\n";
 				}
 			}
 
-		
-			template<class M> 
-			void inverse_iterations(M &h, M &u0, M &v) {
-				typedef typename M::size_type size_type;
-				typedef typename M::value_type value_type;
-
-				size_type n = h.size1();
-
-				v = identity_matrix <value_type>(n); 
-				matrix<value_type> in = identity_matrix<value_type>(n);
-				//This is the main loop
-				for (size_type i = size_type(0); i < n; i++) {
-					value_type mu = h(i, i);
-					matrix<value_type> mu_i = mu * in;
-					matrix<value_type> mat_lhs = h - mu_i;
-					size_type max_iters = size_type(1000); //This should be adjustable
-					vector<value_type> q = column(v, i);
-					vector<value_type> z;
-					int counter = 0;
-					//This is the iteration loop
-					bool convergence_reached = false;
-					while (!convergence_reached) {
-						//Start solve of mat_lhs * z = q via column oriented back-substitution 
-						//vector<value_type> q_copy = q;
-						for (size_type j = n; j >= size_type(2); j--) {
-							q(j - size_type(1)) = q(j - size_type(1)) / mat_lhs(j - size_type(1), j - size_type(1));
-							vector<value_type> u_ranged = project(column(mat_lhs, j - size_type(1)), range(size_type(0), j - size_type(1)));
-							u_ranged *= q(j - size_type(1));
-							vector<value_type> b_ranged = project(q, range(size_type(0), j - size_type(1)));
-							b_ranged -= u_ranged;
-							project(q, range(size_type(0), j - size_type(1))).assign(b_ranged);
-						}
-						q(size_type(0)) = q(size_type(0)) / mat_lhs(size_type(0), size_type(0)); 
-					  
-						//Normalize the q
-						value_type q_norm = norm_2(q);
-						//q = q / q_norm;
-
-						counter++;
-						std::cout << counter  << " " << q << "\n";
-						if (counter==10)
-							convergence_reached = true;
-					}
-
-					column(v, i) = q;
-
-
-				}
-
-
-			}
-
-			template<class M>
-			void block_diag(M &t, M &q) {
-				typedef typename M::size_type size_type;
-				typedef typename M::value_type value_type;
-
-				size_type n = t.size1();
-
-				for (size_type j = size_type(2); j <= n; j++) {
-					for (size_type i = size_type(1); i < j; i++) {
-						value_type tii = t(i - size_type(1), i - size_type(1));
-						value_type tjj = t(j - size_type(1), j - size_type(1));
-						value_type tij = t(i - size_type(1), j - size_type(1));
-						value_type z = -tij / (tii - tjj);
-						for (size_type k = j + size_type(1); k <= n; k++) {
-							t(i - size_type(1), k - size_type(1)) -= (z*t(j - size_type(1), k - size_type(1)));
-						}
-						for (size_type k = size_type(1); k <= n; k++) {
-							q(k - size_type(1), j - size_type(1)) += (z*q(k - size_type(1), i - size_type(1)));
-						}
-					}
-				}
-
-				//We need to normalize the columns also 
-				for (size_type i = 0; i < n; i++) {
-					vector<value_type> vi = column(q, i);
-					value_type norm_vi = norm_2(vi);
-					vector<value_type> normalized_vi = vi / norm_vi;
-					column(q, i) = normalized_vi;
-				}
-
-			}
 }}}
 
 

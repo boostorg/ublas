@@ -1,7 +1,10 @@
+// Rajaditya Mukherjee
+//
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
+/// \file matrix_balancing.hpp Contains methods for balancing a real-nonsymmetric matrix. 
 
 #ifndef _BOOST_UBLAS_MATRIXBALANCING_
 #define _BOOST_UBLAS_MATRIXBALANCING_
@@ -16,6 +19,11 @@ namespace boost {
 	namespace numeric {
 		namespace ublas {
 
+			/// \brief Method that computes the balancing multiplier vector. 
+			/// The only argument that it needs is the matrix which we wish to balance. Note that if the matrix is symmetric, then the balancing vector will be all ones. 
+			/// The output of this method is the diagonal matrix (we represent the matrix as a vector for space constaints). 
+			/// \param m Matrix of type \c T for which we need to balance.
+			/// \param d Vector of type \c T which is the diagonal balancing matrix. 
 			template<class T> 
 			void matrix_balance(matrix<T> &m, vector<T> &d) {
 				typedef typename matrix<T>::size_type size_type;
@@ -80,6 +88,10 @@ namespace boost {
 				}
 			}
 
+			/// \brief Method that applies the balancing transform.
+			/// Essentially given a matrix m, this returns m = md where d is a diagonal matrix whose diagonal elements are represented as a vector.
+			/// \param m Matrix of type \c T for which we need to balance.
+			/// \param d Vector of type \c T which is the diagonal balancing matrix. 
 			template<class T>
 			void apply_transformation(matrix<T> &m, vector<T> &d) {
 				typedef typename matrix<T>::size_type size_type;

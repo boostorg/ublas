@@ -1,6 +1,10 @@
+// Rajaditya Mukherjee
+// 
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
+
+/// \file eigen_solver.hpp Contains method for computing the eigenvalues of real matrices
 
 #ifndef _BOOST_UBLAS_EIGENSOLVER_
 #define _BOOST_UBLAS_EIGENSOLVER_
@@ -20,6 +24,12 @@ namespace boost { namespace numeric { namespace ublas {
 //Ask mentor about how to "formally" add them to ublas 
 typedef enum eig_solver_params {EIGVAL,EIGVEC};
 
+/** \brief Computes Eigenvalues and Eigenvectors for matrix type M \c T.
+* Given a matrix type \c M, this class computes the EigenValues and (optionally) Eigenvectors. The input matrix is expected to be real. 
+* The output Eigenvalues as well as Eigenvectors can be both real or complex. 
+* \tparam M type of the objects stored in the vector. Expected to be a matrix (like matrix<double>)
+*/
+
 template <class M> 
 class eigen_solver {
 private:
@@ -37,7 +47,12 @@ private:
 	M eigenvectors_complex;
 	eig_solver_params solver_params;
 public:
-	//This is the constructor
+	/// \brief Constructor that takes a matrix and an (optional) argument whether to extract eigenvectors also. 
+	/// The only argument that it needs is the matrix for which we wish to compute the Eigenvalues (and optionally Eigenvectors). The second option
+	/// specifies whether we wish to compute only the Eigenvalues (EIGVAL) or both Eigenvalues as well as Eigenvectors(EIGVEC). The default option 
+	/// is that it only computes the Eigenvalues. 
+	/// \param m Matrix for which we need to extract the Eigenvalues 
+	/// \param params Can have two values EIGVAL or EIGVEC.
 	BOOST_UBLAS_INLINE 
 	explicit eigen_solver(M &m, eig_solver_params params = EIGVAL) :
 	matrix(m), has_complex_part(false), solver_params(params)
@@ -47,7 +62,11 @@ public:
 		compute(solver_params);
 	}
 
-	//The compute function 
+	/// \brief Method to order the class to (re)compute the Eigenvalues and Eigenvectors.
+	/// Normally the user doesn't need to call this method explicitly as it called with the constructor. However, if initially the second argument
+	/// specified EIGVAL option and then the user wants to compute the Eigenvectors also, he will need to call this to recompute the 
+	/// Eigenvectors with the EIGVEC option.
+	/// \param params Can have two values EIGVAL or EIGVEC.
 	BOOST_UBLAS_INLINE 
 	void compute(eig_solver_params params = EIGVAL) {
 		if (params != solver_params) {
@@ -107,22 +126,25 @@ public:
 		has_eigenvalues = true;
 	}
 
-	//Extraction function 
+	/// \brief Method to get the real portion of the Eigenvalues. Output type same as input type.
 	BOOST_UBLAS_INLINE 
 		M& get_real_eigenvalues() {
 		return eigenvalues_real;
 	}
 
+	/// \brief Method to get the imaginary portion of the Eigenvalues. Output type same as input type.
 	BOOST_UBLAS_INLINE
 		M& get_complex_eigenvalues() {
 		return eigenvalues_complex;
 	}
 
+	/// \brief Method to get the real portion of the Eigenvectors. Output type same as input type.
 	BOOST_UBLAS_INLINE 
 		M& get_real_eigenvectors() {
 		return eigenvectors_real;
 	}
 
+	/// \brief Method to get the imaginary portion of the Eigenvectors. Output type same as input type.
 	BOOST_UBLAS_INLINE 
 		M& get_complex_eigenvectors() {
 		return eigenvectors_complex;
@@ -342,22 +364,29 @@ public:
 		}
 	}
 
-		//THis is my functions - just kept for debugging will be deleted (or maybe not)
+	/// \brief Method to get the real schur decomposition of input matrix. Output type same as input type.
 		BOOST_UBLAS_INLINE
 			M& get_real_schur_form() {
 			return real_schur_form;
 		}
 
+		/// \brief Method to get the Hessenberg Form of input matrix. Output type same as input type.
 		BOOST_UBLAS_INLINE
 			M& get_hessenberg_form() {
 			return hessenberg_form;
 		}
 
+		/// \brief Method to get the accumulated transformations for Hessenberg Form of input matrix. Output type same as input type.
 		BOOST_UBLAS_INLINE
 			M& get_transform_accumulations() {
 			return transform_accumulations;
 		}
 
+		/// \brief Method to check if the given matrix has real or complex Eigenvalues (and hence Eigenvectors). 
+		BOOST_UBLAS_INLINE 
+			bool has_complex_eigenvalues() {
+			return has_complex_part;
+		}
 
 };
 

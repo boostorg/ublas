@@ -1,6 +1,10 @@
-//  Distributed under the Boost Software License, Version 1.0. (See
-//  accompanying file LICENSE_1_0.txt or copy at
-//  http://www.boost.org/LICENSE_1_0.txt)
+// Rajaditya Mukherjee
+// 
+// Distributed under the Boost Software License, Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
+
+/// \file hessenberg.hpp Definition for the methods performing Hessenberg Transformation
 
 #ifndef _BOOST_UBLAS_HESSENBERG_
 #define _BOOST_UBLAS_HESSENBERG_
@@ -11,11 +15,18 @@
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/triangular.hpp>
 #include <boost/numeric/ublas/io.hpp>
+#include <boost/numeric/ublas/householder.hpp>
 
 #include <iostream>
 
 namespace boost { namespace numeric { namespace ublas {
 
+	/// \brief Performs Hessenberg for Matrix \c m without accumulating transformations.
+	/// Replaces the input matrix by its Hessenberg Form which is a quasi-upper triangular matrix 
+	/// preserved by QR Algorithms. It is easier and faster for the QR Algorithm to work on the Hessenberg form instead of the dense form.
+	/// We use a series of householder reflections to generate the Hessenberg Forms. 
+	/// We use this form when we need only the eigen-values.
+	/// \param m matrix type (like matrix<double>)
 	template<class M>
 	void to_hessenberg(M &m) {
 
@@ -43,15 +54,17 @@ namespace boost { namespace numeric { namespace ublas {
 			project(m, range(i + 1, n), range(i, n)).assign(t1);
 			matrix<value_type> t2 = prod(project(m, range(0, n), range(i + 1, n)), imvvt);
 			project(m, range(0, n), range(i + 1, n)).assign(t2);
-
-			//@TODO: Ask mentor why uncommented lines are more accurate than commented lines... 
-			//project(m, range(i + 1, n), range(i, n)).assign(prod(imvvt, project(m, range(i + 1, n), range(i, n))));
-			//project(m, range(0, n), range(i+1, n)).assign(prod(project(m, range(0, n), range(i+1, n)),imvvt));
-
 		}
 
 	}
 
+	/// \brief Performs Hessenberg for Matrix \c m with accumulating transformations.
+	/// Replaces the input matrix by its Hessenberg Form which is a quasi-upper triangular matrix 
+	/// preserved by QR Algorithms. It is easier and faster for the QR Algorithm to work on the Hessenberg form instead of the dense form.
+	/// We use a series of householder reflections to generate the Hessenberg Forms. In this format, we also accumulate the transformations which is needed 
+	/// to calculate the eigen-vectors. We use this form when we need both the eigen-values as well as eigen-vectors.
+	/// \param m matrix type (like matrix<double>)
+	/// \param u0 output with the transformations accumulated. (same type as M) 
 	template<class M>
 	void to_hessenberg(M &m, M &u0) {
 
@@ -73,8 +86,6 @@ namespace boost { namespace numeric { namespace ublas {
 			value_type beta;
 			householder(x, v, beta);
 
-			//std::cout << i << " " << x << " " << v << "\n";
-
 			matrix<value_type> vvt = outer_prod(v, v);
 			vvt *= beta;
 			size_type n_vvt = vvt.size1();
@@ -90,10 +101,6 @@ namespace boost { namespace numeric { namespace ublas {
 			project(m, range(i + 1, n), range(i, n)).assign(t1);
 			matrix<value_type> t2 = prod(project(m, range(0, n), range(i + 1, n)), imvvt);
 			project(m, range(0, n), range(i + 1, n)).assign(t2);
-
-			//@TODO: Ask mentor why uncommented lines are more accurate than commented lines... 
-			//project(m, range(i + 1, n), range(i, n)).assign(prod(imvvt, project(m, range(i + 1, n), range(i, n))));
-			//project(m, range(0, n), range(i+1, n)).assign(prod(project(m, range(0, n), range(i+1, n)),imvvt));
 
 		}
 	}
