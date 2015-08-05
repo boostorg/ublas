@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_complex_norms
 
-!include (configuration.pri)
+include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

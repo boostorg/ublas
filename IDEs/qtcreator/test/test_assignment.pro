@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_assignment
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += \
     BOOST_UBLAS_COO_ALWAYS_DO_FULL_SORT
