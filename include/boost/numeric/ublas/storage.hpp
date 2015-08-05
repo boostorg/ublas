@@ -777,8 +777,8 @@ namespace boost { namespace numeric { namespace ublas {
         BOOST_UBLAS_INLINE
         shallow_array_adaptor (size_type size, pointer data):
             size_ (size), own_ (false), data_ (data, leaker<value_type> ()) {}
-        BOOST_UBLAS_INLINE
         template <size_t N>
+        BOOST_UBLAS_INLINE
         shallow_array_adaptor (T (&data)[N]):
             size_ (N), own_ (false), data_ (data, leaker<value_type> ()) {}
 
