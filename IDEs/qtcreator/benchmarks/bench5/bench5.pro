@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = bench5
 
-!include (../configuration.pri)
+include (../configuration.pri)
 
 DEFINES += BOOST_UBLAS_USE_INTERVAL
 

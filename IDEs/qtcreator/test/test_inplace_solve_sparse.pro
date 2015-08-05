@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_inplace_solve_sparse
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += \
     $$UBLAS_TESTSET_SPARSE \

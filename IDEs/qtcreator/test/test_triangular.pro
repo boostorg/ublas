@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_triangular
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += \
     BOOST_CHRONO_DYN_LINK=1 \
