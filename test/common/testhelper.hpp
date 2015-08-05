@@ -70,6 +70,31 @@ bool compare( const boost::numeric::ublas::matrix_expression<M1> & m1,
 }
 
 template < class M1, class M2 >
+bool compare_on_tolerance(const boost::numeric::ublas::matrix_expression<M1> & m1,
+	const boost::numeric::ublas::matrix_expression<M2> & m2, double tolerance = 1.0e7) {
+	if ((m1().size1() != m2().size1()) ||
+		(m1().size2() != m2().size2())) {
+		return false;
+	}
+
+	size_t size1 = m1().size1();
+	size_t size2 = m1().size2();
+	for (size_t i = 0; i < size1; ++i) {
+		for (size_t j = 0; j < size2; ++j) {
+			if ((std::abs)(m1()(i, j) - m2()(i, j)) < tolerance)
+			{
+				continue;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+template < class M1, class M2 >
 bool compare( const boost::numeric::ublas::vector_expression<M1> & m1, 
               const boost::numeric::ublas::vector_expression<M2> & m2 ) {
   if (m1().size() != m2().size()) {

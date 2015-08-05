@@ -25,11 +25,13 @@ namespace boost {
 	namespace numeric {
 		namespace ublas {
 
-			/// \brief Performs Real Schur Decomposition for Matrix \c m (Version without EigenVectors).
-			/// Replaces the input matrix which is assumed to be in Hessenberg Form by the 
-			/// real schur form of the matrix. This uses the Francis Double Shift QR Algorithm to compute the real Schur Form. 
-			/// The diagonals of the schur form are either 1x1 blocks (real eigenvalues) or 2x2 blocks (complex eigenvalues).
-			/// \param m matrix type (like matrix<double>) - input hessenberg form output - schur form
+			/*! @fn schur_decomposition(M &h)
+			 * @brief Performs Real Schur Decomposition for Matrix \c m (Version without EigenVectors).
+			 * Replaces the input matrix which is assumed to be in Hessenberg Form by the 
+			 real schur form of the matrix. This uses the Francis Double Shift QR Algorithm to compute the real Schur Form. 
+			 * The diagonals of the schur form are either 1x1 blocks (real eigenvalues) or 2x2 blocks (complex eigenvalues).
+			 * @tparam[in] m matrix type (like matrix<double>) - input hessenberg form output - schur form
+			*/
 			template<class M>
 			void schur_decomposition(M &h) {
 
