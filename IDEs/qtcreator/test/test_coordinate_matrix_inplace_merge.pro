@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_coordinate_matrix_inplace_merge
 
-!include (configuration.pri)
+include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

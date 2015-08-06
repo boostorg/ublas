@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = triangular_access
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += NOMESSAGES
 

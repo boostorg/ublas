@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test2
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += $$UBLAS_TESTSET
 

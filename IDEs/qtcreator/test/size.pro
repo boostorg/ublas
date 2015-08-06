@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = size
 
-!include (configuration.pri)
+include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

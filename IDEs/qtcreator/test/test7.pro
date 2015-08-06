@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test7
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += \
     BOOST_UBLAS_USE_INTERVAL \
