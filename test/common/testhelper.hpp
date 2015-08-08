@@ -94,7 +94,7 @@ typename AE::value_type mean_square(const boost::numeric::ublas::matrix_expressi
             s += boost::numeric::ublas::scalar_traits<typename AE::value_type>::type_abs(me()(i,j));
         }
     }
-    return s / (me().size1() * me().size2());
+    return static_cast<typename AE::value_type>(s / (me().size1() * me().size2()));
 }
 
 template <class AE>
@@ -105,7 +105,7 @@ typename AE::value_type mean_square(const boost::numeric::ublas::vector_expressi
     for (i=0; i!= ve().size(); i++) {
         s += boost::numeric::ublas::scalar_traits<typename AE::value_type>::type_abs(ve()(i));
     }
-    return s / ve().size();
+    return static_cast<typename AE::value_type>(s / ve().size());
 }
 
 template < class M1, class M2 >
