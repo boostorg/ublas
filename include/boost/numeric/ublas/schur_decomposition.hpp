@@ -251,7 +251,7 @@ namespace boost {
 					project(qv, range(0, n), range(p - size_type(2), p)).assign(t3);
 
 					//Pollution Cleanup 
-					for (size_type ci = 0; ci < p; ++ci)
+					/*for (size_type ci = 0; ci < p; ++ci)
 					{
 						for (size_type ri = p; ri < n; ri++) {
 							h(ri, ci) = value_type(0);
@@ -261,7 +261,7 @@ namespace boost {
 						for (size_type ri = n - q; ri < n; ri++){
 							h(ri, ci) = value_type(0);
 						}
-					}
+					}*/
 
 					if ((std::abs)(h(p - size_type(1), q - size_type(1))) < (std::numeric_limits<value_type>::epsilon())*((std::abs)(h(p - size_type(1), p - size_type(1))) + (std::abs)(h(q - size_type(1), q - size_type(1))))) {
 						h(p - size_type(1), q - size_type(1)) = value_type(0);

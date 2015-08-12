@@ -317,8 +317,6 @@ public:
 			}
 		}
 
-		std::cout << eigenvectors << "\n";
-
 		for (size_type j = n; j--!=size_type(0);)
 		{
 			M matrix_left = project(eigenvectors, range(0, n),range(0, j + size_type(1)));
