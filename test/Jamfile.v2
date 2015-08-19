@@ -63,6 +63,7 @@ test-suite numeric/uBLAS
         : # input files
         : # requirements
             <define>$(UBLAS_TESTSET)
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
       [ run test2.cpp
             test21.cpp
@@ -70,6 +71,7 @@ test-suite numeric/uBLAS
             test23.cpp
         : : :
             <define>$(UBLAS_TESTSET)
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
       [ run test3.cpp
             test31.cpp
@@ -77,6 +79,7 @@ test-suite numeric/uBLAS
             test33.cpp
         : : :
             <define>$(UBLAS_TESTSET_SPARSE)
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
       [ run test3.cpp
             test31.cpp
@@ -84,6 +87,7 @@ test-suite numeric/uBLAS
             test33.cpp
         : : :
             <define>$(UBLAS_TESTSET_SPARSE_COO)
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
 	: test3_coo
 	:
       ]
@@ -105,18 +109,21 @@ test-suite numeric/uBLAS
             test43.cpp
         : : :
             <define>$(UBLAS_TESTSET)
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
       [ run test5.cpp
             test52.cpp
             test53.cpp
         : : :
             <define>$(UBLAS_TESTSET)
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
       [ run test6.cpp
             test62.cpp
             test63.cpp
         : : :
             <define>$(UBLAS_TESTSET)
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
 # Test commented out because boost::interval does not behave like a scalar type
 #      [ run test7.cpp
@@ -139,6 +146,8 @@ test-suite numeric/uBLAS
             <toolset>darwin:<cxxflags>"-fabi-version=0"
       ]
       [ run test_lu.cpp
+        : : :
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
       [ run triangular_access.cpp
         : : :
@@ -147,8 +156,12 @@ test-suite numeric/uBLAS
       [ run triangular_layout.cpp
       ]
       [ run comp_mat_erase.cpp
+        : : :
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
       [ run sparse_view_test.cpp
+        : : :
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
       [ run begin_end.cpp
       ]
@@ -169,28 +182,34 @@ test-suite numeric/uBLAS
       ]
       [ run test_complex_norms.cpp
       ]
-	  [ run test_assignment.cpp
-	  : : : <define>BOOST_UBLAS_COO_ALWAYS_DO_FULL_SORT
-	  : :
-	  ]
-          [ run test_triangular.cpp
-            :
-            :
-            : <library>/boost/timer//boost_timer
-          ]
-	  [ run test_ticket7296.cpp
-	  ]
+      [ run test_assignment.cpp
+       : : :
+           <define>BOOST_UBLAS_COO_ALWAYS_DO_FULL_SORT
+           <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
+       : :
+      ]
+      [ run test_triangular.cpp
+       :
+       :
+       : <library>/boost/timer//boost_timer
+         <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
+      ]
+      [ run test_ticket7296.cpp
+      ]
       [ run test_inplace_solve.cpp
         : 
         : 
-        : <define>$(UBLAS_TESTSET) 
+        : <define>$(UBLAS_TESTSET)
+          <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
         : test_inplace_solve_basic
         :
       ]
       [ run test_inplace_solve.cpp
         : 
         : 
-        : <define>$(UBLAS_TESTSET_SPARSE) <define>$(UBLAS_TESTSET_SPARSE_COO)
+        : <define>$(UBLAS_TESTSET_SPARSE)
+          <define>$(UBLAS_TESTSET_SPARSE_COO)
+          <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
         : test_inplace_solve_sparse
         :
       ]
@@ -198,12 +217,17 @@ test-suite numeric/uBLAS
         : 
         : 
         : <define>USE_MAPPED_VECTOR_OF_MAPPED_VECTOR
+          <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
         : test_inplace_solve_mvov
         :
       ]
-      [ run test_coordinate_vector_inplace_merge.cpp 
+      [ run test_coordinate_vector_inplace_merge.cpp
+        : : :
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
-      [ run test_coordinate_matrix_inplace_merge.cpp 
+      [ run test_coordinate_matrix_inplace_merge.cpp
+        : : :
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
       [ run test_banded_storage_layout.cpp
         :
@@ -218,5 +242,7 @@ test-suite numeric/uBLAS
         :
       ]
       [ run test_matrix_vector.cpp
+        : : :
+            <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
       ]
     ;
