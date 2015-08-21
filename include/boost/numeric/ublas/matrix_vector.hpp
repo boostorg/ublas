@@ -162,16 +162,20 @@ public:
         return end();
     }
 
-    value_type operator()(difference_type index) const {
+    value_type operator()(size_type index) {
         return value_type(matrix_, index);
     }
 
-    reference operator[](difference_type index){
-        return reference(matrix_, index);
+    value_type operator()(size_type index) const {
+        return value_type(matrix_, index);
     }
 
-    const_reference operator[](difference_type index) const {
-        return const_reference(matrix_, index);
+    reference operator[](size_type index){
+        return (*this) (index);
+    }
+
+    const_reference operator[](size_type index) const {
+        return (*this) (index);
     }
 
     size_type size() const {
@@ -291,16 +295,20 @@ public:
         return rend();
     }
 
-    value_type operator()(difference_type index) const {
+    value_type operator()(size_type index) {
         return value_type(matrix_, index);
     }
 
-    reference operator[](difference_type index) {
-        return reference(matrix_, index);
+    value_type operator()(size_type index) const {
+        return value_type(matrix_, index);
     }
 
-    const_reference operator[](difference_type index) const {
-        return const_reference(matrix_, index);
+    reference operator[](size_type index) {
+        return (*this) (index);
+    }
+
+    const_reference operator[](size_type index) const {
+        return (*this) (index);
     }
 
     size_type size() const {
