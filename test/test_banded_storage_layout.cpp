@@ -58,7 +58,7 @@ bool test_band_storage() {
     
     banded_matrix< int, Orientation > test_matrix( m, n, kl, ku );
     test_matrix.clear();
-    int band_storage_size = test_matrix.data().size();
+    size_t band_storage_size = test_matrix.data().size();
     
     test_matrix( 0, 0 ) = 11;
     test_matrix( 0, 1 ) = 12;
@@ -81,20 +81,20 @@ bool test_band_storage() {
     BOOST_UBLAS_TEST_TRACE( std::setw( 3 ) << test_matrix );
     
     BOOST_UBLAS_TEST_TRACE( "data() of matrix" );
-    for ( int i = 0; i < band_storage_size; ++i ) {
+    for ( size_t i = 0; i < band_storage_size; ++i ) {
         std::cerr << test_matrix.data()[ i ] << " ";
     }
     std::cerr << std::endl;
    
     BOOST_UBLAS_TEST_TRACE( "Expected data() of matrix" );
-    for ( int i = 0; i < band_storage_size; ++i ) {
+    for ( size_t i = 0; i < band_storage_size; ++i ) {
         std::cerr << expected_index( i, Orientation() ) << " ";
     }
     std::cerr << std::endl;
     
     size_t mismatch = 0;
 
-    for ( int i = 0; i < band_storage_size; ++i ) {
+    for ( size_t i = 0; i < band_storage_size; ++i ) {
       if ( test_matrix.data()[ i ] != expected_index( i, Orientation() ) ) {
         ++mismatch;
       }
@@ -114,7 +114,7 @@ bool test_band_storage_6_by_5() {
 
     banded_matrix< int, Orientation > test_matrix( m, n, kl, ku );
     test_matrix.clear();
-    int band_storage_size = test_matrix.data().size();
+    size_t band_storage_size = test_matrix.data().size();
 
     test_matrix( 0, 0 ) = 11;
     test_matrix( 0, 1 ) = 12;
@@ -139,20 +139,20 @@ bool test_band_storage_6_by_5() {
     BOOST_UBLAS_TEST_TRACE( std::setw( 3 ) << test_matrix );
 
     BOOST_UBLAS_TEST_TRACE( "data() of matrix" );
-    for ( int i = 0; i < band_storage_size; ++i ) {
+    for ( size_t i = 0; i < band_storage_size; ++i ) {
         std::cerr << test_matrix.data()[ i ] << " ";
     }
     std::cerr << std::endl;
 
     BOOST_UBLAS_TEST_TRACE( "Expected data() of matrix" );
-    for ( int i = 0; i < band_storage_size; ++i ) {
+    for ( size_t i = 0; i < band_storage_size; ++i ) {
         std::cerr << expected_index_6_by_5( i, Orientation() ) << " ";
     }
     std::cerr << std::endl;
 
     size_t mismatch = 0;
 
-    for ( int i = 0; i < band_storage_size; ++i ) {
+    for ( size_t i = 0; i < band_storage_size; ++i ) {
       if ( test_matrix.data()[ i ] != expected_index_6_by_5( i, Orientation() ) ) {
         ++mismatch;
       }
@@ -171,7 +171,7 @@ bool test_band_storage_5_by_6() {
 
     banded_matrix< int, Orientation > test_matrix( m, n, kl, ku );
     test_matrix.clear();
-    int band_storage_size = test_matrix.data().size();
+    size_t band_storage_size = test_matrix.data().size();
 
     test_matrix( 0, 0 ) = 11;
     test_matrix( 0, 1 ) = 12;
@@ -195,20 +195,20 @@ bool test_band_storage_5_by_6() {
     BOOST_UBLAS_TEST_TRACE( std::setw( 3 ) << test_matrix );
 
     BOOST_UBLAS_TEST_TRACE( "data() of matrix" );
-    for ( int i = 0; i < band_storage_size; ++i ) {
+    for ( size_t i = 0; i < band_storage_size; ++i ) {
         std::cerr << test_matrix.data()[ i ] << " ";
     }
     std::cerr << std::endl;
 
     BOOST_UBLAS_TEST_TRACE( "Expected data() of matrix" );
-    for ( int i = 0; i < band_storage_size; ++i ) {
+    for ( size_t i = 0; i < band_storage_size; ++i ) {
         std::cerr << expected_index_5_by_6( i, Orientation() ) << " ";
     }
     std::cerr << std::endl;
 
     size_t mismatch = 0;
 
-    for ( int i = 0; i < band_storage_size; ++i ) {
+    for ( size_t i = 0; i < band_storage_size; ++i ) {
       if ( test_matrix.data()[ i ] != expected_index_5_by_6( i, Orientation() ) ) {
         ++mismatch;
       }

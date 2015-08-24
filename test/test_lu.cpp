@@ -54,7 +54,7 @@ int main () {
 
   permutation_matrix<> pm(3);
     
-  int result = lu_factorize<MATRIX, permutation_matrix<> >(A, pm);
+  std::size_t result = lu_factorize<MATRIX, permutation_matrix<> >(A, pm);
 
   assertTrue("factorization completed: ", 0 == result);
   assertTrue("LU factors are correct: ", compare(A, LU));
