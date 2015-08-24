@@ -158,6 +158,7 @@ test-suite numeric/uBLAS
       [ run comp_mat_erase.cpp
         : : :
             <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
+            <toolset>msvc:<asynch-exceptions>on
       ]
       [ run sparse_view_test.cpp
         : : :
