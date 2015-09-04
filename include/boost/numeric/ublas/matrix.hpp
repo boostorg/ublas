@@ -1234,14 +1234,6 @@ namespace boost { namespace numeric {
             matrix_container<self_type> (),
             data_ () {}
 
-        /// \brief Construct a fixed_matrix from a list of values
-        /// The list may be included in curly braces. Typical syntax is choices are :
-        /// fixed_matrix<double, 2,2> v = { 1, 2, 3, 4 } or fixed_matrix<double,4> v( {1, 2, 3, 4} ) or fixed_matrix<double,2,2> v( 1, 2, 3, 4 )
-        template <typename... Types>
-        fixed_matrix(value_type v0, Types... vrest) :
-            matrix_container<self_type> (),
-            data_{ { v0, vrest... } } {}
-
       /** Dense fixed_matrix constructor with defined initial value for all the matrix elements
        * \param init initial value assigned to all elements
        */
@@ -1277,6 +1269,15 @@ namespace boost { namespace numeric {
             data_ () {
             matrix_assign<scalar_assign> (*this, ae);
         }
+
+        /// \brief Construct a fixed_matrix from a list of values
+        /// The list may be included in curly braces. Typical syntax is choices are :
+        /// fixed_matrix<double, 2,2> v = { 1, 2, 3, 4 } or fixed_matrix<double,4> v( {1, 2, 3, 4} ) or fixed_matrix<double,2,2> v( 1, 2, 3, 4 )
+        template <typename... Types>
+        BOOST_UBLAS_INLINE
+        fixed_matrix(value_type v0, Types... vrest) :
+            matrix_container<self_type> (),
+            data_( array_type{ v0, vrest... } ) {}
 
         // Accessors
       /** Return the number of rows of the fixed_matrix
