@@ -453,6 +453,4 @@ int main () {
     BOOST_UBLAS_TEST_DO( test_matrix_column_facade );
 
     BOOST_UBLAS_TEST_END();
-
-    return EXIT_SUCCESS;;
 }
