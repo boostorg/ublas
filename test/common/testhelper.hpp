@@ -22,6 +22,8 @@ static inline
 void assertTrue(const char* message, bool condition) {
 #ifndef NOMESSAGES
   std::cout << message;
+#else
+  (void)message;
 #endif
   if ( condition ) {
     ++ _success_counter;
@@ -36,6 +38,8 @@ template < class T >
 void assertEquals(const char* message, T expected, T actual) {
 #ifndef NOMESSAGES
   std::cout << message;
+#else
+  (void)message;
 #endif
   if ( expected == actual ) {
     ++ _success_counter;
