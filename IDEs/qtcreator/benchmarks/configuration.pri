@@ -1,5 +1,6 @@
 CONFIG -= qt
 CONFIG += depend_includepath
+win*: CONFIG += console
 
 # ublas include directory
 INCLUDEPATH += \
@@ -9,5 +10,6 @@ INCLUDEPATH += \
 # then boost headers and boost libraries should be used.
 exists(../../../../../../boost-build.jam) {
     INCLUDEPATH += ../../../../../../..
-    #LIBS += -L../../../../../../../stage/lib
+    LIBS += -L../../../../../../../stage/lib
+    QMAKE_RPATHDIR += ../../../../../../../stage/lib
 }
