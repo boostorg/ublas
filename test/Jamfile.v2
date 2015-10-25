@@ -51,6 +51,7 @@ project
     : requirements
        <define>BOOST_UBLAS_NO_EXCEPTIONS
        <toolset>vacpp:<define>"BOOST_UBLAS_NO_ELEMENT_PROXIES"
+       <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
     ;
 
 
@@ -152,6 +153,8 @@ test-suite numeric/uBLAS
             <toolset>msvc:<asynch-exceptions>on
       ]
       [ run sparse_view_test.cpp
+        : : :
+            <toolset>msvc:<asynch-exceptions>on
       ]
       [ run begin_end.cpp
       ]
