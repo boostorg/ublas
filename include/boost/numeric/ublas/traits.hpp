@@ -32,10 +32,16 @@
 #include <boost/type_traits/is_integral.hpp>
 #include <boost/type_traits/is_unsigned.hpp>
 #include <boost/mpl/and.hpp>
+#include <boost/mpl/if.hpp>
+
 
 // anonymous namespace to avoid ADL issues
 namespace {
-  template<class T> T boost_numeric_ublas_sqrt (const T& t) {
+  template<class T>
+    typename boost::mpl::if_c<boost::is_integral<T>::value,
+                              double,
+                              T>::type
+  boost_numeric_ublas_sqrt (const T& t) {
     using namespace std;
     // we'll find either std::sqrt or else another version via ADL:
     return sqrt (t);
