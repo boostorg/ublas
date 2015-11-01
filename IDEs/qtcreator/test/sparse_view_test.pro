@@ -1,7 +1,9 @@
 TEMPLATE = app
 TARGET = sparse_view_test
 
-QMAKE_CXXFLAGS += /EHa
+win*:QMAKE_CXXFLAGS += /EHa
+# Support asynchronous structured exception handling
+# (SEH) with the native C++ catch(...) clause.
 
 include (configuration.pri)
 
