@@ -8,6 +8,8 @@
 
 #ifndef ASSIGNMENT_HPP
 #define ASSIGNMENT_HPP
+
+#include <boost/noncopyable.hpp>
 #include <boost/numeric/ublas/vector_expression.hpp>
 #include <boost/numeric/ublas/matrix_expression.hpp>
 
@@ -920,7 +922,7 @@ namespace traverse_policy {
 * \todo Add examples link
 */
 template <class E, class Fill_Policy = fill_policy::index_assign>
-class vector_expression_assigner {
+class vector_expression_assigner : private boost::noncopyable {
 public:
     typedef typename E::expression_type::value_type value_type;
     typedef typename E::expression_type::size_type size_type;
@@ -1096,7 +1098,7 @@ vector_expression_assigner<vector_expression<E>, T> operator<<=(vector_expressio
 * \todo Add examples link
 */
 template <class E, class Fill_Policy = fill_policy::index_assign, class Traverse_Policy = DEFAULT_TRAVERSE_POLICY >
-class matrix_expression_assigner {
+class matrix_expression_assigner : private boost::noncopyable {
 public:
     typedef typename E::expression_type::size_type size_type;
 
