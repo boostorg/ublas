@@ -52,7 +52,8 @@ inline typename boost::disable_if<
     boost::is_unsigned<T>, T >::type
     boost_numeric_ublas_abs (const T &t ) {
         using namespace std;
-        return abs( t );
+        // force a type conversion back to T for char and short types
+        return static_cast<T>(abs( t ));
     }
 
 template<typename T>
