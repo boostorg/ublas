@@ -819,7 +819,7 @@ namespace boost { namespace numeric { namespace ublas {
                 if (it2_ != it2_end_)
                     if (it2_.index () == i_)
                         t2 = *it2_;
-                return functor_type::apply (t1, t2);
+                return static_cast<value_type>(functor_type::apply (t1, t2));
             }
 
         public: 
