@@ -9,7 +9,8 @@
 #ifndef BOOST_UBLAS_MATRIX_VECTOR_HPP
 #define BOOST_UBLAS_MATRIX_VECTOR_HPP
 
-#include <boost/numeric/ublas/matrix_proxy.hpp>//for matrix_row, matrix_column and matrix_expression
+#include <boost/noncopyable.hpp>
+#include <boost/numeric/ublas/matrix_proxy.hpp> //for matrix_row, matrix_column and matrix_expression
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/range/iterator_range.hpp>
@@ -105,7 +106,7 @@ private:
  * the underlaying matrix.
  */
 template<class Matrix>
-class matrix_row_vector {
+class matrix_row_vector: private boost::noncopyable {
 public:
     typedef ublas::matrix_row<Matrix> value_type;
     typedef ublas::matrix_row<Matrix> reference;
@@ -120,7 +121,7 @@ public:
     typedef typename Matrix::size_type size_type;
 
     BOOST_UBLAS_INLINE
-    matrix_row_vector(Matrix& matrix) :
+    explicit matrix_row_vector(Matrix& matrix) :
         matrix_(matrix) {
     }
 
@@ -258,8 +259,7 @@ matrix_row_vector<Matrix const> make_row_vector(matrix_expression<Matrix> const&
  * the underlaying matrix.
  */
 template<class Matrix>
-class matrix_column_vector
-{
+class matrix_column_vector: private boost::noncopyable {
 public:
     typedef ublas::matrix_column<Matrix> value_type;
     typedef ublas::matrix_column<Matrix> reference;
@@ -274,7 +274,7 @@ public:
     typedef typename Matrix::size_type size_type;
 
     BOOST_UBLAS_INLINE
-    matrix_column_vector(Matrix& matrix) :
+    explicit matrix_column_vector(Matrix& matrix) :
         matrix_(matrix){
     }
 

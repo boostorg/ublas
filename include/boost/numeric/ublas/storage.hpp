@@ -303,6 +303,7 @@ namespace boost { namespace numeric { namespace ublas {
         // Handle explict destroy on a (possibly indexed) iterator
         BOOST_UBLAS_INLINE
         static void iterator_destroy (iterator &i) {
+            (void)(i);
             (&(*i)) -> ~value_type ();
         }
         ALLOC alloc_;

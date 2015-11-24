@@ -115,6 +115,4 @@ int main()
     BOOST_UBLAS_TEST_DO( test_coordinate_matrix_inplace_merge_random );
 
     BOOST_UBLAS_TEST_END();
-
-    return EXIT_SUCCESS;;
 }

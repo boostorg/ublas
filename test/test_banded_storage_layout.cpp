@@ -283,9 +283,5 @@ int main()
 
     BOOST_UBLAS_TEST_DO( banded_matrix_row_major_5_by_6 );
 
-	BOOST_UBLAS_TEST_END();
-
-    return EXIT_SUCCESS;
+    BOOST_UBLAS_TEST_END();
 }
-
-
