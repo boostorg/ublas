@@ -644,7 +644,7 @@ namespace boost { namespace numeric { namespace ublas {
     template<class T>
     T
     ZeroElement (T) {
-        return T(0.0);
+        return static_cast<T> (0);
     }
 
     template<class T>
@@ -662,13 +662,7 @@ namespace boost { namespace numeric { namespace ublas {
     template<class T>
     T
     OneElement (T) {
-        return T(0.0);
-    }
-
-    template<class T>
-    vector<T>
-    OneElement (vector<T>) {
-        return zero_vector<T> ();
+        return static_cast<T> (1);
     }
 
     template<class T>
