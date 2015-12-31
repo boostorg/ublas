@@ -175,7 +175,11 @@ template <std::ptrdiff_t I>
 class static_vector_move_manip: public index_manipulator<static_vector_move_manip<I> > {
 public:
     template <typename V>
-    BOOST_UBLAS_INLINE void manip(V &k) const { k+=I; }
+    BOOST_UBLAS_INLINE void manip(V &k) const {
+        // With the equivalent expression using '+=' operator, mscv reports waring C4245:
+        // '+=' : conversion from 'ptrdiff_t' to 'unsigned int', signed/unsigned mismatch
+        k = k + I;
+    }
 };
 
 /**
@@ -376,8 +380,10 @@ public:
     template <typename V, typename K>
     BOOST_UBLAS_INLINE
     void manip(V &k, K &l) const {
-        k+=I;
-        l+=J;
+        // With the equivalent expression using '+=' operator, mscv reports waring C4245:
+        // '+=' : conversion from 'ptrdiff_t' to 'unsigned int', signed/unsigned mismatch
+        k = k + I;
+        l = l + J;
     }
 };
 
