@@ -74,7 +74,7 @@ namespace detail {
 #endif
                 if (it2 != it2_end && it2e != it2e_end) {
                     size_type it2_index = it2.index2 (), it2e_index = it2e.index2 ();
-                    while (true) {
+                    for (;;) {
                         difference_type compare2 = it2_index - it2e_index;
                         if (compare2 == 0) {
                             ++ it2, ++ it2e;
@@ -177,7 +177,7 @@ namespace detail {
 #endif
                 if (it1 != it1_end && it1e != it1e_end) {
                     size_type it1_index = it1.index1 (), it1e_index = it1e.index1 ();
-                    while (true) {
+                    for (;;) {
                         difference_type compare2 = it1_index - it1e_index;
                         if (compare2 == 0) {
                             ++ it1, ++ it1e;
@@ -1002,7 +1002,7 @@ namespace detail {
 #endif
                 if (it2 != it2_end && it2e != it2e_end) {
                     size_type it2_index = it2.index2 (), it2e_index = it2e.index2 ();
-                    while (true) {
+                    for (;;) {
                         difference_type compare2 = it2_index - it2e_index;
                         if (compare2 == 0) {
                             functor_type::apply (*it2, *it2e);
@@ -1125,7 +1125,7 @@ namespace detail {
 #endif
                 if (it1 != it1_end && it1e != it1e_end) {
                     size_type it1_index = it1.index1 (), it1e_index = it1e.index1 ();
-                    while (true) {
+                    for (;;) {
                         difference_type compare2 = it1_index - it1e_index;
                         if (compare2 == 0) {
                             functor_type::apply (*it1, *it1e);
@@ -1390,7 +1390,7 @@ namespace detail {
 #endif
                 if (it2 != it2_end && it2e != it2e_end) {
                     size_type it2_index = it2.index2 (), it2e_index = it2e.index2 ();
-                    while (true) {
+                    for (;;) {
                         difference_type compare2 = it2_index - it2e_index;
                         if (compare2 == 0) {
                             functor_type::apply (*it2, *it2e);
@@ -1515,7 +1515,7 @@ namespace detail {
 #endif
                 if (it1 != it1_end && it1e != it1e_end) {
                     size_type it1_index = it1.index1 (), it1e_index = it1e.index1 ();
-                    while (true) {
+                    for (;;) {
                         difference_type compare2 = it1_index - it1e_index;
                         if (compare2 == 0) {
                             functor_type::apply (*it1, *it1e);

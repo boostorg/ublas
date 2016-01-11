@@ -59,7 +59,7 @@ namespace detail {
         typename E::const_iterator ite_end (e ().end ());
         if (it != it_end && ite != ite_end) {
             size_type it_index = it.index (), ite_index = ite.index ();
-            while (true) {
+            for (;;) {
                 difference_type compare = it_index - ite_index;
                 if (compare == 0) {
                     ++ it, ++ ite;
@@ -393,7 +393,7 @@ namespace detail {
         typename E::const_iterator ite_end (e ().end ());
         if (it != it_end && ite != ite_end) {
             size_type it_index = it.index (), ite_index = ite.index ();
-            while (true) {
+            for (;;) {
                 difference_type compare = it_index - ite_index;
                 if (compare == 0) {
                     functor_type::apply (*it, *ite);
@@ -524,7 +524,7 @@ namespace detail {
         typename E::iterator ite_end (e ().end ());
         if (it != it_end && ite != ite_end) {
             size_type it_index = it.index (), ite_index = ite.index ();
-            while (true) {
+            for (;;) {
                 difference_type compare = it_index - ite_index;
                 if (compare == 0) {
                     functor_type::apply (*it, *ite);
