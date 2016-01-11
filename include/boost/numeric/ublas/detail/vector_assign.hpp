@@ -316,7 +316,15 @@ namespace detail {
             difference_type size ((std::min) (difference_type (ite.index () - it.index ()), it_size));
             if (size > 0) {
                 it_size -= size;
+//Disabled warning C4127 because the conditional expression is constant
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4127)
+#endif
                 if (!functor_type::computed) {
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
                     while (-- size >= 0)    // zeroing
                         functor_type::apply (*it, value_type/*zero*/()), ++ it;
                 } else {
@@ -330,7 +338,15 @@ namespace detail {
         while (-- size >= 0)
             functor_type::apply (*it, *ite), ++ it, ++ ite;
         size = it_size;
+//Disabled warning C4127 because the conditional expression is constant
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4127)
+#endif
         if (!functor_type::computed) {
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
             while (-- size >= 0)    // zeroing
                 functor_type::apply (*it, value_type/*zero*/()), ++ it;
         } else {
@@ -348,7 +364,15 @@ namespace detail {
     void vector_assign (V &v, const vector_expression<E> &e, sparse_tag) {
         BOOST_UBLAS_CHECK (v.size () == e ().size (), bad_size ());
         typedef F<typename V::iterator::reference, typename E::value_type> functor_type;
+//Disabled warning C4127 because the conditional expression is constant
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4127)
+#endif
         BOOST_STATIC_ASSERT ((!functor_type::computed));
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
         typedef typename V::value_type value_type;
 #if BOOST_UBLAS_TYPE_CHECK
         vector<value_type> cv (v.size ());
@@ -404,7 +428,15 @@ namespace detail {
                     } else
                         break;
                 } else if (compare < 0) {
+//Disabled warning C4127 because the conditional expression is constant
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4127)
+#endif
                     if (!functor_type::computed) {
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
                         functor_type::apply (*it, value_type/*zero*/());
                         ++ it;
                     } else
@@ -422,8 +454,15 @@ namespace detail {
                 }
             }
         }
-
+//Disabled warning C4127 because the conditional expression is constant
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4127)
+#endif
         if (!functor_type::computed) {
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
             while (it != it_end) {  // zeroing
                 functor_type::apply (*it, value_type/*zero*/());
                 ++ it;
