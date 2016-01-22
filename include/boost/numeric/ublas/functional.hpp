@@ -749,7 +749,7 @@ namespace boost { namespace numeric { namespace ublas {
         result_type apply (I1 it1, const I1 &it1_end, I2 it2, const I2 &it2_end, sparse_bidirectional_iterator_tag) {
             result_type t = result_type (0);
             if (it1 != it1_end && it2 != it2_end) {
-                while (true) {
+                for (;;) {
                     if (it1.index () == it2.index ()) {
                         t += *it1 * *it2, ++ it1, ++ it2;
                         if (it1 == it1_end || it2 == it2_end)
@@ -887,7 +887,7 @@ namespace boost { namespace numeric { namespace ublas {
             result_type t = result_type (0);
             if (it1 != it1_end && it2 != it2_end) {
                 size_type it1_index = it1.index2 (), it2_index = it2.index ();
-                while (true) {
+                for (;;) {
                     difference_type compare = it1_index - it2_index;
                     if (compare == 0) {
                         t += *it1 * *it2, ++ it1, ++ it2;
@@ -1055,7 +1055,7 @@ namespace boost { namespace numeric { namespace ublas {
             result_type t = result_type (0);
             if (it1 != it1_end && it2 != it2_end) {
                 size_type it1_index = it1.index (), it2_index = it2.index1 ();
-                while (true) {
+                for (;;) {
                     difference_type compare = it1_index - it2_index;
                     if (compare == 0) {
                         t += *it1 * *it2, ++ it1, ++ it2;
@@ -1232,7 +1232,7 @@ namespace boost { namespace numeric { namespace ublas {
             result_type t = result_type (0);
             if (it1 != it1_end && it2 != it2_end) {
                 size_type it1_index = it1.index2 (), it2_index = it2.index1 ();
-                while (true) {
+                for (;;) {
                     difference_type compare = difference_type (it1_index - it2_index);
                     if (compare == 0) {
                         t += *it1 * *it2, ++ it1, ++ it2;
