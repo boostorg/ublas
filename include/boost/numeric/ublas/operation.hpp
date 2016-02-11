@@ -14,7 +14,7 @@
 #define _BOOST_UBLAS_OPERATION_
 
 #include <boost/numeric/ublas/matrix_proxy.hpp>
-
+#include <boost/numeric/ublas/detail/gemm.hpp>
 /** \file operation.hpp
  *  \brief This file contains some specialized products.
  */
@@ -637,7 +637,63 @@ namespace boost { namespace numeric { namespace ublas {
         return m;
     }
 
-    // Dispatcher
+    template<class M, class E1, class E2, class S, class B>
+    BOOST_UBLAS_INLINE
+    M&
+    axpy_prod (const matrix_expression<E1> &e1,
+               const matrix_expression<E2> &e2,
+               M &m, full,
+              S, bool init, B)
+    {
+        typedef typename M::value_type value_type;
+       typedef S storage_category;
+       typedef typename M::orientation_category orientation_category;
+
+
+       if (init)
+         m.assign (zero_matrix<value_type> (e1 ().size1 (), e2 ().size2 ()));
+       return axpy_prod (e1, e2, m, full (), storage_category (),
+                         orientation_category ());
+    }
+
+    template<class M, class E1, class E2, class B>
+    BOOST_UBLAS_INLINE
+    M&
+    axpy_prod (const matrix_expression<E1> &e1,
+               const matrix_expression<E2> &e2,
+               M &m, full,
+              dense_proxy_tag, bool init, B)
+    {
+        typedef typename M::value_type value_type;
+       typedef B block_sizes;
+        if (m.size1() < B::limit || m.size2() < B::limit) {
+            typedef typename M::storage_category storage_category;
+            typedef typename M::orientation_category orientation_category;
+
+            if (init)
+                m.assign (zero_matrix<value_type> (e1 ().size1 (), e2 ().size2 ()));
+            return axpy_prod (e1, e2, m, full (), storage_category (),
+                             orientation_category ());
+        } else {
+            detail::gemm(value_type(1), e1, e2,
+                        value_type(init? 0 : 1), m, block_sizes());
+            return m;
+        }
+    }
+
+    template<class M, class E1, class E2, class B>
+    BOOST_UBLAS_INLINE
+    M&
+    axpy_prod (const matrix_expression<E1> &e1,
+               const matrix_expression<E2> &e2,
+               M &m, full,
+              dense_tag, bool init, B b)
+    {
+       return axpy_prod (e1, e2, m, full (), dense_proxy_tag(),
+                         init, b);
+    }
+
+    // Dispatchers
     template<class M, class E1, class E2, class TRI>
     BOOST_UBLAS_INLINE
     M &
@@ -651,11 +707,16 @@ namespace boost { namespace numeric { namespace ublas {
 
         if (init)
             m.assign (zero_matrix<value_type> (e1 ().size1 (), e2 ().size2 ()));
-        return axpy_prod (e1, e2, m, triangular_restriction (), storage_category (), orientation_category ());
+
+        return axpy_prod(e1, e2, m, triangular_restriction (),
+                        storage_category (), orientation_category(),
+                        init);
     }
+
     template<class M, class E1, class E2, class TRI>
     BOOST_UBLAS_INLINE
-    M
+    typename enable_if_c<!detail::is_blocksize<TRI>::value,
+                               M>::type
     axpy_prod (const matrix_expression<E1> &e1,
                const matrix_expression<E2> &e2,
                TRI) {
@@ -690,29 +751,61 @@ namespace boost { namespace numeric { namespace ublas {
           \param E1 type of a matrix expression \c A
           \param E2 type of a matrix expression \c X
   */
+    template<class M, class E1, class E2, class B>
+    BOOST_UBLAS_INLINE
+    M &
+    axpy_prod (const matrix_expression<E1> &e1,
+               const matrix_expression<E2> &e2,
+               M &m, bool init, B) {
+        typedef typename M::storage_category storage_category;
+       typedef B block_sizes;
+
+        return axpy_prod(e1, e2, m, full (), storage_category (),
+                        init, block_sizes());
+    }
+
     template<class M, class E1, class E2>
     BOOST_UBLAS_INLINE
     M &
     axpy_prod (const matrix_expression<E1> &e1,
                const matrix_expression<E2> &e2,
                M &m, bool init = true) {
-        typedef typename M::value_type value_type;
         typedef typename M::storage_category storage_category;
-        typedef typename M::orientation_category orientation_category;
-
-        if (init)
-            m.assign (zero_matrix<value_type> (e1 ().size1 (), e2 ().size2 ()));
-        return axpy_prod (e1, e2, m, full (), storage_category (), orientation_category ());
+        typedef typename detail::prod_block_size<typename common_type<typename E1::value_type,
+                                                                      typename E2::value_type,
+                                                                      typename M::value_type>::type> block_sizes;
+        return axpy_prod(e1, e2, m, full (), storage_category (),
+                        init, block_sizes());
     }
+
+    template<class M, class E1, class E2, class B>
+    BOOST_UBLAS_INLINE
+    typename boost::enable_if_c<detail::is_blocksize<B>::value,
+                               M>::type
+    axpy_prod (const matrix_expression<E1> &e1,
+               const matrix_expression<E2> &e2, B) {
+        typedef M matrix_type;
+        typedef typename M::storage_category storage_category;
+       typedef B block_sizes;
+
+        matrix_type m (e1 ().size1 (), e2 ().size2 ());
+        return axpy_prod(e1, e2, m, full (), storage_category(), true,
+                        block_sizes());
+    }
+
     template<class M, class E1, class E2>
     BOOST_UBLAS_INLINE
     M
     axpy_prod (const matrix_expression<E1> &e1,
                const matrix_expression<E2> &e2) {
         typedef M matrix_type;
+        typedef typename M::storage_category storage_category;
+       typedef typename detail::prod_block_size<typename common_type<typename E1::value_type,
+                                                                     typename E2::value_type>::type> block_sizes;
 
         matrix_type m (e1 ().size1 (), e2 ().size2 ());
-        return axpy_prod (e1, e2, m, full (), true);
+        return axpy_prod(e1, e2, m, full (), storage_category(), true,
+                        block_sizes());
     }
 
 
@@ -823,6 +916,48 @@ namespace boost { namespace numeric { namespace ublas {
 
         matrix_type m (e1 ().size1 (), e2 ().size2 ());
         return opb_prod (e1, e2, m, true);
+    }
+
+  /** \brief computes <tt>C = alpha * A * B + beta * C</tt> in an
+          optimized fashion.
+
+         \param alpha scalar multiplier
+          \param e1 the matrix expression \c A
+          \param e2 the matrix expression \c B
+         \param beta scalar multiplier
+          \param e3  the result matrix \c C
+
+         <tt>gemm</tt> implements the well known gemm operation
+
+          \ingroup blas3
+
+          \internal
+
+          template parameters:
+          \param E1 type of a matrix expression \c A
+          \param E2 type of a matrix expression \c B
+          \param E3 type of a matrix expression \c C
+  */
+    template <typename E1, typename E2, typename E3>
+    BOOST_UBLAS_INLINE
+    void
+    gemm(typename E3::value_type alpha, const matrix_expression<E1> &e1,
+         const matrix_expression<E2> &e2,
+        typename E3::value_type beta, matrix_expression<E3> &e3) {
+        typedef typename detail::prod_block_size<typename common_type<typename E1::value_type,
+                                                                      typename E2::value_type,
+                                                                      typename E3::value_type>::type> block_sizes;
+       detail::gemm(alpha, e1, e2, beta, e3, block_sizes());
+    }
+
+    template <typename E1, typename E2, typename E3, typename BlockSize>
+    BOOST_UBLAS_INLINE
+    void
+    gemm(typename E3::value_type alpha, const matrix_expression<E1> &e1,
+         const matrix_expression<E2> &e2,
+        typename E3::value_type beta, matrix_expression<E3> &e3,
+        BlockSize b) {
+       detail::gemm(alpha, e1, e2, beta, e3, b);
     }
 
 }}}

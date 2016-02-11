@@ -14,6 +14,7 @@
 #define _BOOST_UBLAS_MATRIX_EXPRESSION_
 
 #include <boost/numeric/ublas/vector_expression.hpp>
+#include <boost/numeric/ublas/detail/gemm.hpp>
 
 // Expression templates based on ideas of Todd Veldhuizen and Geoffrey Furnish
 // Iterators based on ideas of Jeremy Siek
@@ -5460,33 +5461,93 @@ namespace boost { namespace numeric { namespace ublas {
         expression2_closure_type e2_;
     };
 
+    namespace detail {
+      template<class E1, class E2, class P, bool s>
+      struct binary_calculate_result_type;
+
+      template<class E1, class E2, class P>
+      struct binary_calculate_result_type<E1, E2, P, false> {
+       typedef matrix_matrix_binary<E1, E2, matrix_matrix_prod<E1, E2, P> > result_type;
+      };
+
+      template<class E1, class E2, class P>
+      struct binary_calculate_result_type<E1, E2, P, true> {
+       typedef matrix<P> result_type;
+      };
+    }
+
     template<class T1, class E1, class T2, class E2>
     struct matrix_matrix_binary_traits {
-        typedef unknown_storage_tag storage_category;
+      //        typedef unknown_storage_tag storage_category;
+      typedef typename storage_restrict_traits<typename E1::storage_category, typename E2::storage_category>::storage_category storage_category;
         typedef unknown_orientation_tag orientation_category;
         typedef typename promote_traits<T1, T2>::promote_type promote_type;
         typedef matrix_matrix_binary<E1, E2, matrix_matrix_prod<E1, E2, promote_type> > expression_type;
 #ifndef BOOST_UBLAS_SIMPLE_ET_DEBUG
-        typedef expression_type result_type;
+      //        typedef expression_type result_type;
+      typedef typename detail::binary_calculate_result_type<E1, E2, promote_type, boost::is_base_of<dense_proxy_tag, storage_category>::value>::result_type result_type;
 #else
         typedef typename E1::matrix_temporary_type result_type;
 #endif
     };
 
-    template<class E1, class E2>
+    template<class E1, class E2, class B>
     BOOST_UBLAS_INLINE
     typename matrix_matrix_binary_traits<typename E1::value_type, E1,
                                          typename E2::value_type, E2>::result_type
     prod (const matrix_expression<E1> &e1,
           const matrix_expression<E2> &e2,
+         B,
           unknown_storage_tag,
           unknown_orientation_tag) {
+
         typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
                                                      typename E2::value_type, E2>::expression_type expression_type;
         return expression_type (e1 (), e2 ());
     }
 
+    template<class E1, class E2, class B>
+    BOOST_UBLAS_INLINE
+    typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                         typename E2::value_type, E2>::result_type
+    prod (const matrix_expression<E1> &e1,
+          const matrix_expression<E2> &e2,
+         B b,
+          dense_proxy_tag,
+          unknown_orientation_tag) {
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::expression_type expression_type;
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::result_type result_type;
+       typedef typename result_type::value_type result_value;
+
+       if (e1 ().size1() < B::limit || e2 ().size2() < B::limit) {
+           return expression_type (e1 (), e2 ());
+       } else {
+            result_type rv(e1 ().size1(), e2 ().size2());
+           detail::gemm(result_value(1), e1, e2,
+                        result_value(0), rv, b);
+           return rv;
+       }
+    }
+
     // Dispatcher
+    template<class E1, class E2, class B>
+    BOOST_UBLAS_INLINE
+    typename enable_if_c<detail::is_blocksize<B>::value,
+                        typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                             typename E2::value_type, E2>::result_type>::type
+    prod (const matrix_expression<E1> &e1,
+          const matrix_expression<E2> &e2,
+         B b) {
+        BOOST_STATIC_ASSERT (E1::complexity == 0 && E2::complexity == 0);
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::storage_category storage_category;
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::orientation_category orientation_category;
+        return prod (e1, e2, b, storage_category (), orientation_category ());
+    }
+
     template<class E1, class E2>
     BOOST_UBLAS_INLINE
     typename matrix_matrix_binary_traits<typename E1::value_type, E1,
@@ -5494,11 +5555,10 @@ namespace boost { namespace numeric { namespace ublas {
     prod (const matrix_expression<E1> &e1,
           const matrix_expression<E2> &e2) {
         BOOST_STATIC_ASSERT (E1::complexity == 0 && E2::complexity == 0);
-        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
-                                                     typename E2::value_type, E2>::storage_category storage_category;
-        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
-                                                     typename E2::value_type, E2>::orientation_category orientation_category;
-        return prod (e1, e2, storage_category (), orientation_category ());
+       typedef typename detail::prod_block_size<typename common_type<typename E1::value_type,
+                                                                     typename E2::value_type>::type> block_sizes;
+
+        return prod (e1, e2, block_sizes());
     }
 
     template<class E1, class E2>
@@ -5529,13 +5589,76 @@ namespace boost { namespace numeric { namespace ublas {
         return prec_prod (e1, e2, storage_category (), orientation_category ());
     }
 
-    template<class M, class E1, class E2>
+    template<class M, class E1, class E2, typename B>
+    BOOST_UBLAS_INLINE
+    void
+    prod (const matrix_expression<E1> &e1,
+          const matrix_expression<E2> &e2,
+          M &m, B b,
+         unknown_storage_tag,
+          unknown_orientation_tag) {
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::expression_type expression_type;
+
+        m.assign(expression_type (e1 (), e2 ()));
+    }
+
+    template<class M, class E1, class E2, typename B>
+    BOOST_UBLAS_INLINE
+    void
+    prod (const matrix_expression<E1> &e1,
+          const matrix_expression<E2> &e2,
+          M &m, B b,
+         dense_proxy_tag,
+          unknown_orientation_tag) {
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::expression_type expression_type;
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::result_type result_type;
+       typedef typename result_type::value_type result_value;
+
+       if (e1 ().size1() < B::limit || e2 ().size2() < B::limit) {
+            m.assign(expression_type (e1 (), e2 ()));
+       } else {
+           detail::gemm(result_value(1), e1, e2,
+                        result_value(0), m, b);
+       }
+    }
+
+    // dispatcher
+      template<class M, class E1, class E2, class B>
     BOOST_UBLAS_INLINE
     M &
     prod (const matrix_expression<E1> &e1,
           const matrix_expression<E2> &e2,
+          M &m, B b) {
+        BOOST_STATIC_ASSERT (E1::complexity == 0 && E2::complexity == 0);
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::storage_category storage_category;
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::orientation_category orientation_category;
+
+        prod (e1, e2, m, b, storage_category(), orientation_category());
+       return m;
+    }
+    template<class M, class E1, class E2>
+    BOOST_UBLAS_INLINE
+    typename enable_if_c<!detail::is_blocksize<M>::value,
+                        M&>::type
+    prod (const matrix_expression<E1> &e1,
+          const matrix_expression<E2> &e2,
           M &m) {
-        return m.assign (prod (e1, e2));
+        BOOST_STATIC_ASSERT (E1::complexity == 0 && E2::complexity == 0);
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::storage_category storage_category;
+        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                                     typename E2::value_type, E2>::orientation_category orientation_category;
+        typedef typename detail::prod_block_size<typename common_type<typename E1::value_type,
+                                                                      typename E2::value_type,
+                                                                      typename M::value_type>::type> block_sizes;
+        prod (e1, e2, m, block_sizes(), storage_category(), 
+              orientation_category());
+        return m;
     }
 
     template<class M, class E1, class E2>
