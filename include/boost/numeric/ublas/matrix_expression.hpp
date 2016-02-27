@@ -15,6 +15,7 @@
 
 #include <boost/numeric/ublas/vector_expression.hpp>
 #include <boost/numeric/ublas/detail/gemm.hpp>
+#include <boost/numeric/ublas/detail/block_sizes.hpp>
 
 // Expression templates based on ideas of Todd Veldhuizen and Geoffrey Furnish
 // Iterators based on ideas of Jeremy Siek

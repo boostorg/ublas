@@ -15,6 +15,7 @@
 
 #include <boost/numeric/ublas/matrix_proxy.hpp>
 #include <boost/numeric/ublas/detail/gemm.hpp>
+#include <boost/numeric/ublas/detail/block_sizes.hpp>
 /** \file operation.hpp
  *  \brief This file contains some specialized products.
  */

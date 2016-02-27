@@ -11,70 +11,16 @@
 
 #include <boost/type_traits/common_type.hpp>
 #include <boost/type_traits/aligned_storage.hpp>
-#include <boost/align/aligned_allocator.hpp>
+#include <boost/type_traits/is_arithmetic.hpp>
+#include <boost/align/aligned_alloc.hpp>
 #include <boost/align/assume_aligned.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/numeric/ublas/matrix_proxy.hpp>
+#include <boost/numeric/ublas/detail/vector.hpp>
+#include <boost/numeric/ublas/detail/block_sizes.hpp>
+#include <boost/predef/compiler.h>
 
 namespace boost { namespace numeric { namespace ublas { namespace detail {
-
-    template <typename T>
-    struct prod_block_size {
-        static const unsigned mc = 256;
-        static const unsigned kc = 512; // stripe length
-        static const unsigned nc = 4092;
-        static const unsigned mr = 4; // stripe width for lhs
-        static const unsigned nr = 12; // stripe width for rhs
-        static const unsigned align = 64; // align temporary arrays to this boundary
-        static const unsigned limit = 26; // Use gemm from this size
-        BOOST_STATIC_ASSERT_MSG(mc>0 && kc>0 && nc>0 && mr>0 && nr>0, "Invalid block size.");
-        BOOST_STATIC_ASSERT_MSG(mc % mr == 0, "MC must be a multiple of MR.");
-        BOOST_STATIC_ASSERT_MSG(nc % nr == 0, "NC must be a multiple of NR.");
-    };
-
-    template <>
-    struct prod_block_size<float> {
-        static const unsigned mc = 256;
-        static const unsigned kc = 512; // stripe length
-        static const unsigned nc = 4080;
-        static const unsigned mr = 4; // stripe width for lhs
-        static const unsigned nr = 24; // stripe width for rhs
-        static const unsigned align = 64; // align temporary arrays to this boundary
-        static const unsigned limit = 26; // Use gemm from this size
-        BOOST_STATIC_ASSERT_MSG(mc>0 && kc>0 && nc>0 && mr>0 && nr>0, "Invalid block size.");
-        BOOST_STATIC_ASSERT_MSG(mc % mr == 0, "MC must be a multiple of MR.");
-        BOOST_STATIC_ASSERT_MSG(nc % nr == 0, "NC must be a multiple of NR.");
-    };
-
-    template <>
-    struct prod_block_size<long double> {
-        static const unsigned mc = 256;
-        static const unsigned kc = 512; // stripe length
-        static const unsigned nc = 4096;
-        static const unsigned mr = 2; // stripe width for lhs
-        static const unsigned nr = 2; // stripe width for rhs
-        static const unsigned align = 64; // align temporary arrays to this boundary
-        static const unsigned limit = 26; // Use gemm from this size
-        BOOST_STATIC_ASSERT_MSG(mc>0 && kc>0 && nc>0 && mr>0 && nr>0, "Invalid block size.");
-        BOOST_STATIC_ASSERT_MSG(mc % mr == 0, "MC must be a multiple of MR.");
-        BOOST_STATIC_ASSERT_MSG(nc % nr == 0, "NC must be a multiple of NR.");
-    };
-
-    template<typename T>
-    struct is_blocksize {
-        struct fallback { static const int nr = 0; };
-        struct derived : T, fallback {};
-        template<int C1>
-       struct nonr {
-           static const bool value = false;
-           typedef false_type type;
-       };
-
-         template<typename C> static char (&f(typename nonr<C::nr>::type*))[1];
-         template<typename C> static char (&f(...))[2];
-
-         static bool const value = sizeof(f<derived>(0)) == 2;
-    };
 
     template <typename E>
     void
@@ -82,9 +28,9 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
     {
         typedef typename E::size_type  size_type;
 
-       for (size_type i=0; i<X().size1(); ++i) {
+        for (size_type i=0; i<X().size1(); ++i) {
             for (size_type j=0; j<X().size2(); ++j) {
-               X()(i,j) *= alpha;
+                X()(i,j) *= alpha;
             }
         }
     }
@@ -123,9 +69,73 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         }
     }
 
-    //-- Micro Kernel --------------------------------------------------------------
-    template <typename Index, typename T, typename TC, typename BlockSize>
+    //-- Micro Kernel ----------------------------------------------------------
+#ifdef BOOST_UBLAS_VECTOR_KERNEL
+    template <typename Index, typename T, typename TC,
+              typename BlockSize>
+    typename enable_if_c<is_arithmetic<T>::value
+                         && (1 < BlockSize::vector_length)
+                         && (BlockSize::vector_length * sizeof(T) <= _BOOST_UBLAS_VECTOR_SIZE),
+                         void>::type
+    ugemm(Index kc, TC alpha, const T *A, const T *B,
+          TC beta, TC *C, Index incRowC, Index incColC)
+    {
+        BOOST_ALIGN_ASSUME_ALIGNED (A, BlockSize::align);
+        BOOST_ALIGN_ASSUME_ALIGNED (B, BlockSize::align);
+        static const unsigned vector_length = BlockSize::vector_length;
+        static const Index MR = BlockSize::mr;
+        static const Index NR = BlockSize::nr/vector_length;
+
+        typedef T vx __attribute__((vector_size (_BOOST_UBLAS_VECTOR_SIZE)));
+
+        vx P[MR*NR] = {};
+
+        const vx *b = (const vx *)B;
+        for (Index l=0; l<kc; ++l) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
+                    P[i*NR+j] += A[i]*b[j];
+                }
+            }
+            A += MR;
+            b += NR;
+        }
+
+        if (alpha!=TC(1)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
+                    P[i*NR+j] *= alpha;
+                }
+            }
+        }
+
+        const T *p = (const T *) P;
+        if (beta == TC(0)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR * vector_length; ++j) {
+                    C[i*incRowC+j*incColC] = p[i*NR * vector_length +j];
+                }
+            }
+        } else {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR * vector_length; ++j) {
+                    C[i*incRowC+j*incColC] *= beta;
+                    C[i*incRowC+j*incColC] += p[i*NR * vector_length+j];
+                }
+            }
+        }
+    }
+
+    template <typename Index, typename T, typename TC,
+              typename BlockSize>
+    typename enable_if_c<!is_arithmetic<T>::value
+                         || (BlockSize::vector_length <= 1),
+                         void>::type
+#else
+    template <typename Index, typename T, typename TC,
+              typename BlockSize>
     void
+#endif
     ugemm(Index kc, TC alpha, const T *A, const T *B,
           TC beta, TC *C, Index incRowC, Index incColC)
     {
@@ -133,47 +143,47 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         BOOST_ALIGN_ASSUME_ALIGNED(B, BlockSize::align);
         static const Index MR = BlockSize::mr;
         static const Index NR = BlockSize::nr;
-       typename boost::aligned_storage<sizeof(T[MR*NR]),BlockSize::align>::type Pa;
-       T *P = reinterpret_cast<T*>(Pa.address());
-       for (unsigned c = 0; c < MR * NR; c++)
-         P[c] = 0;
+        typename aligned_storage<sizeof(T[MR*NR]),BlockSize::align>::type Pa;
+        T *P = reinterpret_cast<T*>(Pa.address());
+        for (unsigned c = 0; c < MR * NR; c++)
+          P[c] = 0;
 
         for (Index l=0; l<kc; ++l) {
-           for (Index i=0; i<MR; ++i) {
+            for (Index i=0; i<MR; ++i) {
               for (Index j=0; j<NR; ++j) {
                     P[i* NR+j] += A[i]*B[j];
                 }
             }
-           A += MR;
-           B += NR;
+            A += MR;
+            B += NR;
         }
 
-       if (alpha!=TC(1)) {
-           for (Index i=0; i<MR; ++i) {
-               for (Index j=0; j<NR; ++j) {
-                   P[i*NR+j] *= alpha;
-               }
-           }
-       }
+        if (alpha!=TC(1)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
+                    P[i*NR+j] *= alpha;
+                }
+            }
+        }
 
-       if (beta == TC(0)) {
-           for (Index i=0; i<MR; ++i) {
-               for (Index j=0; j<NR; ++j) {
+        if (beta == TC(0)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
                 C[i*incRowC+j*incColC] = P[i*NR+j];
-               }
-           }
-       } else {
-           for (Index i=0; i<MR; ++i) {
-               for (Index j=0; j<NR; ++j) {
+                }
+            }
+        } else {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
                     C[i*incRowC+j*incColC] *= beta;
                     C[i*incRowC+j*incColC] += P[i*NR+j];
-               }
-           }
-       }
+                }
+            }
+        }
     }
 
-    //-- Macro Kernel --------------------------------------------------------------
-       template <typename Index, typename T, typename TC, typename BlockSize>
+    //-- Macro Kernel ----------------------------------------------------------
+        template <typename Index, typename T, typename TC, typename BlockSize>
     void
     mgemm(Index mc, Index nc, Index kc, TC alpha,
           const T *A, const T *B, TC beta,
@@ -190,9 +200,6 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         // #pragma omp parallel for
         // #endif
         for (Index j=0; j<np; ++j) {
-      // __builtin_prefetch(B + j * kc * NR, 0);
-      // __builtin_prefetch(B + j * kc * NR + 8, 0);
-      // __builtin_prefetch(B + j * kc * NR + 16, 0);
             const Index nr = (j!=np-1 || nr_==0) ? NR : nr_;
             TC C_[MR*NR];
 
@@ -200,7 +207,7 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
                 const Index mr = (i!=mp-1 || mr_==0) ? MR : mr_;
 
                 if (mr==MR && nr==NR) {
-                 ugemm<Index, T, TC, BlockSize>(kc, alpha,
+                  ugemm<Index, T, TC, BlockSize>(kc, alpha,
                           &A[i*kc*MR], &B[j*kc*NR],
                           beta,
                           &C[i*MR*incRowC+j*NR*incColC],
@@ -223,11 +230,12 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
     }
 
     //-- Packing blocks ------------------------------------------------------------
-       template <typename E, typename T, typename BlockSize>
+        template <typename E, typename T, typename BlockSize>
     void
     pack_A(const matrix_expression<E> &A, T *p)
     {
         typedef typename E::size_type  size_type;
+        BOOST_ALIGN_ASSUME_ALIGNED(p, BlockSize::align);
 
         const size_type mc = A ().size1();
         const size_type kc = A ().size2();
@@ -245,11 +253,12 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         }
     }
 
-       template <typename E, typename T, typename BlockSize>
+        template <typename E, typename T, typename BlockSize>
     void
     pack_B(const matrix_expression<E> &B, T *p)
     {
         typedef typename E::size_type  size_type;
+        BOOST_ALIGN_ASSUME_ALIGNED(p, BlockSize::align);
 
         const size_type kc = B ().size1();
         const size_type nc = B ().size2();
@@ -271,10 +280,15 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
     template <typename E1, typename E2, typename E3, typename BlockSize>
     void
     gemm(typename E3::value_type alpha, const matrix_expression<E1> &e1,
-        const matrix_expression<E2> &e2,
+         const matrix_expression<E2> &e2,
          typename E3::value_type beta, matrix_expression<E3> &e3,
-        BlockSize)
+         BlockSize)
     {
+#if defined(BOOST_COMP_GNUC_DETECTION)
+        check_blocksize<BlockSize> check __attribute__ ((unused));
+#else
+        check_blocksize<BlockSize> check;
+#endif
         typedef typename E3::size_type  size_type;
         typedef typename E1::value_type value_type1;
         typedef typename E2::value_type value_type2;
