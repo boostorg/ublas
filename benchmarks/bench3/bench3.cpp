@@ -76,22 +76,28 @@ void do_bench (std::string type_string, int scale)
     header (type_string + ", 3");
     bench_1<scalar, 3> () (1000000 * scale);
     bench_2<scalar, 3> () (300000 * scale);
-    bench_3<scalar, 3> () (100000 * scale);
+    bench_3<scalar, 3> () (3000000 * scale);
 
     header (type_string + ", 10");
     bench_1<scalar, 10> () (300000 * scale);
     bench_2<scalar, 10> () (30000 * scale);
-    bench_3<scalar, 10> () (3000 * scale);
+    bench_3<scalar, 10> () (100000 * scale);
 
     header (type_string + ", 30");
     bench_1<scalar, 30> () (100000 * scale);
     bench_2<scalar, 30> () (3000 * scale);
-    bench_3<scalar, 30> () (100 * scale);
+    bench_3<scalar, 30> () (30000 * scale);
 
     header (type_string + ", 100");
     bench_1<scalar, 100> () (30000 * scale);
     bench_2<scalar, 100> () (300 * scale);
-    bench_3<scalar, 100> () (3 * scale);
+    bench_3<scalar, 100> () (1000 * scale);
+
+    header (type_string + ", 300");
+    bench_3<scalar, 300> () (30 * scale);
+
+    header (type_string + ", 1000");
+    bench_3<scalar, 1000> () (1 * scale);
 }
 
 int main (int argc, char *argv []) {

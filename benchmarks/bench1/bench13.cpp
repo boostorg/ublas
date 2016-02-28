@@ -166,6 +166,8 @@ template struct bench_3<float, 3>;
 template struct bench_3<float, 10>;
 template struct bench_3<float, 30>;
 template struct bench_3<float, 100>;
+template struct bench_3<float, 300>;
+template struct bench_3<float, 1000>;
 #endif
 
 #ifdef USE_DOUBLE
@@ -173,6 +175,8 @@ template struct bench_3<double, 3>;
 template struct bench_3<double, 10>;
 template struct bench_3<double, 30>;
 template struct bench_3<double, 100>;
+template struct bench_3<double, 300>;
+template struct bench_3<double, 1000>;
 #endif
 
 #ifdef USE_STD_COMPLEX
@@ -181,6 +185,8 @@ template struct bench_3<std::complex<float>, 3>;
 template struct bench_3<std::complex<float>, 10>;
 template struct bench_3<std::complex<float>, 30>;
 template struct bench_3<std::complex<float>, 100>;
+template struct bench_3<std::complex<float>, 300>;
+template struct bench_3<std::complex<float>, 1000>;
 #endif
 
 #ifdef USE_DOUBLE
@@ -188,5 +194,7 @@ template struct bench_3<std::complex<double>, 3>;
 template struct bench_3<std::complex<double>, 10>;
 template struct bench_3<std::complex<double>, 30>;
 template struct bench_3<std::complex<double>, 100>;
+template struct bench_3<std::complex<double>, 300>;
+template struct bench_3<std::complex<double>, 1000>;
 #endif
 #endif
