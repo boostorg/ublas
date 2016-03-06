@@ -86,7 +86,11 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         static const Index MR = BlockSize::mr;
         static const Index NR = BlockSize::nr/vector_length;
 
+#ifdef BOOST_COMP_CLANG_DETECTION
+        typedef T vx __attribute__((ext_vector_type (vector_length)));
+#else
         typedef T vx __attribute__((vector_size (_BOOST_UBLAS_VECTOR_SIZE)));
+#endif
 
         vx P[MR*NR] = {};
 
