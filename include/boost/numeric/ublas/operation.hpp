@@ -775,8 +775,19 @@ namespace boost { namespace numeric { namespace ublas {
         typedef typename detail::prod_block_size<typename common_type<typename E1::value_type,
                                                                       typename E2::value_type,
                                                                       typename M::value_type>::type> block_sizes;
+#ifndef BOOST_UBLAS_LEGACY_PRODUCT
         return axpy_prod(e1, e2, m, full (), storage_category (),
                         init, block_sizes());
+#else
+        typedef typename M::value_type value_type;
+        typedef typename M::orientation_category orientation_category;
+
+        if (init)
+            m.assign (zero_matrix<value_type> (e1 ().size1 (), e2 ().size2 ()));
+
+        return axpy_prod(e1, e2, m, full (), storage_category (),
+                         orientation_category());
+#endif
     }
 
     template<class M, class E1, class E2, class B>
@@ -800,13 +811,9 @@ namespace boost { namespace numeric { namespace ublas {
     axpy_prod (const matrix_expression<E1> &e1,
                const matrix_expression<E2> &e2) {
         typedef M matrix_type;
-        typedef typename M::storage_category storage_category;
-       typedef typename detail::prod_block_size<typename common_type<typename E1::value_type,
-                                                                     typename E2::value_type>::type> block_sizes;
 
         matrix_type m (e1 ().size1 (), e2 ().size2 ());
-        return axpy_prod(e1, e2, m, full (), storage_category(), true,
-                        block_sizes());
+        return axpy_prod(e1, e2, m);
     }
 
 

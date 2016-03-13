@@ -5463,18 +5463,18 @@ namespace boost { namespace numeric { namespace ublas {
     };
 
     namespace detail {
-      template<class E1, class E2, class P, bool s>
-      struct binary_calculate_result_type;
+        template<class E1, class E2, class P, bool s>
+        struct binary_calculate_result_type;
 
-      template<class E1, class E2, class P>
-      struct binary_calculate_result_type<E1, E2, P, false> {
-       typedef matrix_matrix_binary<E1, E2, matrix_matrix_prod<E1, E2, P> > result_type;
-      };
+        template<class E1, class E2, class P>
+        struct binary_calculate_result_type<E1, E2, P, false> {
+            typedef matrix_matrix_binary<E1, E2, matrix_matrix_prod<E1, E2, P> > result_type;
+        };
 
-      template<class E1, class E2, class P>
-      struct binary_calculate_result_type<E1, E2, P, true> {
-       typedef matrix<P> result_type;
-      };
+        template<class E1, class E2, class P>
+        struct binary_calculate_result_type<E1, E2, P, true> {
+            typedef matrix<P> result_type;
+        };
     }
 
     template<class T1, class E1, class T2, class E2>
@@ -5495,7 +5495,7 @@ namespace boost { namespace numeric { namespace ublas {
     template<class E1, class E2, class B>
     BOOST_UBLAS_INLINE
     typename matrix_matrix_binary_traits<typename E1::value_type, E1,
-                                         typename E2::value_type, E2>::result_type
+                                         typename E2::value_type, E2>::expression_type
     prod (const matrix_expression<E1> &e1,
           const matrix_expression<E2> &e2,
          B,
@@ -5551,15 +5551,24 @@ namespace boost { namespace numeric { namespace ublas {
 
     template<class E1, class E2>
     BOOST_UBLAS_INLINE
+#ifndef BOOST_UBLAS_LEGACY_PRODUCT
     typename matrix_matrix_binary_traits<typename E1::value_type, E1,
                                          typename E2::value_type, E2>::result_type
+#else
+    typename matrix_matrix_binary_traits<typename E1::value_type, E1,
+                                         typename E2::value_type, E2>::expression_type
+#endif
     prod (const matrix_expression<E1> &e1,
           const matrix_expression<E2> &e2) {
         BOOST_STATIC_ASSERT (E1::complexity == 0 && E2::complexity == 0);
        typedef typename detail::prod_block_size<typename common_type<typename E1::value_type,
                                                                      typename E2::value_type>::type> block_sizes;
-
+#ifndef BOOST_UBLAS_LEGACY_PRODUCT
         return prod (e1, e2, block_sizes());
+#else
+        return prod (e1, e2, block_sizes(), unknown_storage_tag(),
+                     unknown_orientation_tag());
+#endif
     }
 
     template<class E1, class E2>
@@ -5657,8 +5666,13 @@ namespace boost { namespace numeric { namespace ublas {
         typedef typename detail::prod_block_size<typename common_type<typename E1::value_type,
                                                                       typename E2::value_type,
                                                                       typename M::value_type>::type> block_sizes;
+#ifndef BOOST_UBLAS_LEGACY_PRODUCT
         prod (e1, e2, m, block_sizes(), storage_category(), 
               orientation_category());
+#else
+        prod (e1, e2, m, block_sizes(), unknown_storage_tag(), 
+              unknown_orientation_tag());
+#endif
         return m;
     }
 
