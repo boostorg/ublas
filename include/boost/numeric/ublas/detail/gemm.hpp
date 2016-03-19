@@ -12,10 +12,11 @@
 #include <boost/type_traits/common_type.hpp>
 #include <boost/type_traits/aligned_storage.hpp>
 #include <boost/type_traits/is_arithmetic.hpp>
-#include <boost/align/aligned_alloc.hpp>
+#include <boost/align/aligned_allocator.hpp>
 #include <boost/align/assume_aligned.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/numeric/ublas/matrix_proxy.hpp>
+#include <boost/numeric/ublas/storage.hpp>
 #include <boost/numeric/ublas/detail/vector.hpp>
 #include <boost/numeric/ublas/detail/block_sizes.hpp>
 #include <boost/predef/compiler.h>
@@ -185,13 +186,149 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
             }
         }
     }
+#ifdef BOOST_UBLAS_VECTOR_KERNEL
+    template <typename Index, typename T, typename TC,
+              typename BlockSize>
+    typename enable_if_c<is_arithmetic<T>::value
+                         && (1 < BlockSize::vector_length)
+                         && (BlockSize::vector_length * sizeof(T) <= _BOOST_UBLAS_VECTOR_SIZE),
+                         void>::type
+    ugemm(Index kc, TC alpha, const T *Ar, const T *Ai,
+          const T *Br, const T *Bi,
+          TC beta, TC *C, Index incRowC, Index incColC)
+    {
+        BOOST_ALIGN_ASSUME_ALIGNED (Ar, BlockSize::align);
+        BOOST_ALIGN_ASSUME_ALIGNED (Ai, BlockSize::align);
+        BOOST_ALIGN_ASSUME_ALIGNED (Br, BlockSize::align);
+        BOOST_ALIGN_ASSUME_ALIGNED (Bi, BlockSize::align);
+        static const unsigned vector_length = BlockSize::vector_length;
+        static const Index MR = BlockSize::mr;
+        static const Index NR = BlockSize::nr/vector_length;
 
+#ifdef BOOST_COMP_CLANG_DETECTION
+        typedef T vx __attribute__((ext_vector_type (vector_length)));
+#else
+        typedef T vx __attribute__((vector_size (_BOOST_UBLAS_VECTOR_SIZE)));
+#endif
+
+        vx Pr[MR*NR] = {};
+        vx Pi[MR*NR] = {};
+
+        const vx *br = (const vx *)Br;
+        const vx *bi = (const vx *)Bi;
+        for (Index l=0; l<kc; ++l) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
+                    Pr[i * NR + j] += Ar[i] * br[j] - Ai[i] * bi[j];
+                    Pi[i * NR + j] += Ar[i] * bi[j] + Ai[i] * br[j];
+                }
+            }
+            Ar += MR;
+            Ai += MR;
+            br += NR;
+            bi += NR;
+        }
+
+        if (alpha!=TC(1)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
+                    Pr[i*NR+j] *= alpha.real();
+                    Pi[i*NR+j] *= alpha.imag();
+                }
+            }
+        }
+
+        const T *pr = (const T *) Pr;
+        const T *pi = (const T *) Pi;
+        if (beta == TC(0)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR * vector_length; ++j) {
+                    C[i*incRowC+j*incColC] = 
+                        TC(pr[i*NR * vector_length +j], pi[i*NR * vector_length +j]);
+                }
+            }
+        } else {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR * vector_length; ++j) {
+                    C[i*incRowC+j*incColC] *= beta;
+                    C[i*incRowC+j*incColC] +=
+                          TC(pr[i*NR * vector_length+j], pi[i*NR * vector_length+j]);
+                }
+            }
+        }
+    }
+
+    template <typename Index, typename T, typename TC,
+              typename BlockSize>
+    typename enable_if_c<!is_arithmetic<T>::value
+                         || (BlockSize::vector_length <= 1),
+                         void>::type
+#else
+    template <typename Index, typename T, typename TC,
+              typename BlockSize>
+    void
+#endif
+    ugemm(Index kc, TC alpha, const T *Ar, const T *Ai,
+          const T *Br, const T *Bi,
+          TC beta, TC *C, Index incRowC, Index incColC)
+    {
+        BOOST_ALIGN_ASSUME_ALIGNED(Ar, BlockSize::align);
+        BOOST_ALIGN_ASSUME_ALIGNED(Ai, BlockSize::align);
+        BOOST_ALIGN_ASSUME_ALIGNED(Br, BlockSize::align);
+        BOOST_ALIGN_ASSUME_ALIGNED(Bi, BlockSize::align);
+        static const Index MR = BlockSize::mr;
+        static const Index NR = BlockSize::nr;
+        typename aligned_storage<sizeof(T[MR*NR]),BlockSize::align>::type Par;
+        T *Pr = reinterpret_cast<T*>(Par.address());
+        typename aligned_storage<sizeof(T[MR*NR]),BlockSize::align>::type Pai;
+        T *Pi = reinterpret_cast<T*>(Pai.address());
+
+        for (unsigned c = 0; c < MR * NR; c++)
+          Pr[c] = Pi[c] = 0;
+
+        for (Index l=0; l<kc; ++l) {
+            for (Index i=0; i<MR; ++i) {
+              for (Index j=0; j<NR; ++j) {
+                    Pr[i * NR + j] += Ar[i] * Br[j] - Ai[i] * Bi[j];
+                    Pi[i * NR + j] += Ar[i] * Bi[j] + Ai[i] * Br[j];
+                }
+            }
+            Ar += MR;
+            Ai += MR;
+            Br += NR;
+            Bi += NR;
+        }
+
+        if (alpha!=TC(1)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
+                    Pr[i*NR+j] *= alpha.real();
+                    Pi[i*NR+j] *= alpha.imag();;
+                }
+            }
+        }
+
+        if (beta == TC(0)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
+                    C[i*incRowC+j*incColC] = TC(Pr[i*NR+j], Pi[i*NR+j]);
+                }
+            }
+        } else {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<NR; ++j) {
+                    C[i*incRowC+j*incColC] *= beta;
+                    C[i*incRowC+j*incColC] += TC(Pr[i*NR+j], Pi[i*NR+j]);
+                }
+            }
+        }
+    }
     //-- Macro Kernel ----------------------------------------------------------
-        template <typename Index, typename T, typename TC, typename BlockSize>
+    template <typename Index, typename T, typename TC, typename BlockSize>
     void
     mgemm(Index mc, Index nc, Index kc, TC alpha,
-          const T *A, const T *B, TC beta,
-          TC *C, Index incRowC, Index incColC)
+          const T *A, const T *B, TC beta, TC *C,
+          Index incRowC, Index incColC, BlockSize)
     {
         static const Index MR = BlockSize::mr;
         static const Index NR = BlockSize::nr;
@@ -200,9 +337,6 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         const Index mr_ = mc % MR;
         const Index nr_ = nc % NR;
 
-        // #if defined(_OPENMP)
-        // #pragma omp parallel for
-        // #endif
         for (Index j=0; j<np; ++j) {
             const Index nr = (j!=np-1 || nr_==0) ? NR : nr_;
             TC C_[MR*NR];
@@ -233,10 +367,57 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         }
     }
 
-    //-- Packing blocks ------------------------------------------------------------
-        template <typename E, typename T, typename BlockSize>
+    template <typename Index, typename T, typename TC, typename BlockSize>
     void
-    pack_A(const matrix_expression<E> &A, T *p)
+    mgemm(Index mc, Index nc, Index kc, TC alpha,
+          std::pair<T*, T*> A, std::pair<T*, T*>B,
+          TC beta, TC *C, Index incRowC, Index incColC, BlockSize)
+    {
+        static const Index MR = BlockSize::mr;
+        static const Index NR = BlockSize::nr;
+        const Index mp  = (mc+MR-1) / MR;
+        const Index np  = (nc+NR-1) / NR;
+        const Index mr_ = mc % MR;
+        const Index nr_ = nc % NR;
+
+        for (Index j=0; j<np; ++j) {
+            const Index nr = (j!=np-1 || nr_==0) ? NR : nr_;
+            TC C_[MR*NR];
+
+            for (Index i=0; i<mp; ++i) {
+                const Index mr = (i!=mp-1 || mr_==0) ? MR : mr_;
+
+                if (mr==MR && nr==NR) {
+                    ugemm<Index, T, TC, BlockSize>
+                        (kc, alpha,
+                         &A.first[i*kc*MR], &A.second[i*kc*MR], 
+                         &B.first[j*kc*NR], &B.second[j*kc*NR],
+                         beta,
+                         &C[i*MR*incRowC+j*NR*incColC],
+                         incRowC, incColC);
+                } else {
+                    std::fill_n(C_, MR*NR, T(0));
+                    ugemm<Index, T, TC, BlockSize>
+                        (kc, alpha,
+                         &A.first[i*kc*MR], &A.second[i*kc*MR],
+                         &B.first[j*kc*NR], &B.second[j*kc*NR],
+                         T(0),
+                         C_, NR, Index(1));
+                    gescal(mr, nr, beta,
+                           &C[i*MR*incRowC+j*NR*incColC],
+                           incRowC, incColC);
+                    geaxpy(mr, nr, TC(1), C_, NR, Index(1),
+                           &C[i*MR*incRowC+j*NR*incColC],
+                           incRowC, incColC);
+                }
+            }
+        }
+    }
+
+    //-- Packing blocks ------------------------------------------------------------
+    template <typename E, typename T, typename BlockSize>
+    void
+    pack_A(const matrix_expression<E> &A, T *p, BlockSize)
     {
         typedef typename E::size_type  size_type;
         BOOST_ALIGN_ASSUME_ALIGNED(p, BlockSize::align);
@@ -257,9 +438,34 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         }
     }
 
-        template <typename E, typename T, typename BlockSize>
+    template <typename E, typename T, typename BlockSize>
     void
-    pack_B(const matrix_expression<E> &B, T *p)
+    pack_A(const matrix_expression<E> &A, std::pair<T*, T*> p, BlockSize)
+    {
+        typedef typename E::size_type  size_type;
+        BOOST_ALIGN_ASSUME_ALIGNED(p.first, BlockSize::align);
+        BOOST_ALIGN_ASSUME_ALIGNED(p.second, BlockSize::align);
+
+        const size_type mc = A ().size1();
+        const size_type kc = A ().size2();
+        static const size_type MR = BlockSize::mr;
+        const size_type mp = (mc+MR-1) / MR;
+
+        for (size_type j=0; j<kc; ++j) {
+            for (size_type l=0; l<mp; ++l) {
+                for (size_type i0=0; i0<MR; ++i0) {
+                    size_type i  = l*MR + i0;
+                    size_type nu = l*MR*kc + j*MR + i0;
+                    p.first[nu]  = (i<mc) ? A()(i,j).real() : T(0);
+                    p.second[nu] = (i<mc) ? A()(i,j).imag() : T(0);
+                }
+            }
+        }
+    }
+
+    template <typename E, typename T, typename BlockSize>
+    void
+    pack_B(const matrix_expression<E> &B, T *p, BlockSize)
     {
         typedef typename E::size_type  size_type;
         BOOST_ALIGN_ASSUME_ALIGNED(p, BlockSize::align);
@@ -280,13 +486,38 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         }
     }
 
-    //-- Frame routine -------------------------------------------------------------
-    template <typename E1, typename E2, typename E3, typename BlockSize>
+    template <typename E, typename T, typename BlockSize>
     void
-    gemm(typename E3::value_type alpha, const matrix_expression<E1> &e1,
-         const matrix_expression<E2> &e2,
-         typename E3::value_type beta, matrix_expression<E3> &e3,
-         BlockSize)
+    pack_B(const matrix_expression<E> &B, std::pair<T*, T*> p, BlockSize)
+    {
+        typedef typename E::size_type  size_type;
+        BOOST_ALIGN_ASSUME_ALIGNED(p.first, BlockSize::align);
+        BOOST_ALIGN_ASSUME_ALIGNED(p.second, BlockSize::align);
+
+        const size_type kc = B ().size1();
+        const size_type nc = B ().size2();
+        static const size_type NR = BlockSize::nr;
+        const size_type np = (nc+NR-1) / NR;
+
+        for (size_type l=0; l<np; ++l) {
+            for (size_type j0=0; j0<NR; ++j0) {
+                for (size_type i=0; i<kc; ++i) {
+                    size_type j  = l*NR+j0;
+                    size_type nu = l*NR*kc + i*NR + j0;
+                    p.first[nu]  = (j<nc) ? B()(i,j).real() : T(0);
+                    p.second[nu] = (j<nc) ? B()(i,j).imag() : T(0);
+                }
+            }
+        }
+    }
+
+    //-- Frame routine -------------------------------------------------------------
+    template <typename E1, typename E2, typename E3, typename M, typename BlockSize>
+    void
+    gemm_(typename E3::value_type alpha, const matrix_expression<E1> &e1,
+          const matrix_expression<E2> &e2,
+          typename E3::value_type beta, matrix_expression<E3> &e3,
+          M A, M B, BlockSize bs)
     {
 #if defined(BOOST_COMP_GNUC_DETECTION)
         check_blocksize<BlockSize> check __attribute__ ((unused));
@@ -294,15 +525,7 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         check_blocksize<BlockSize> check;
 #endif
         typedef typename E3::size_type  size_type;
-        typedef typename E1::value_type value_type1;
-        typedef typename E2::value_type value_type2;
         typedef typename E3::value_type value_type3;
-        typedef typename common_type<value_type1,
-                                     value_type2,
-                                     value_type3>::type value_type_i;
-        typedef unbounded_array<value_type_i,
-                                typename alignment::aligned_allocator<value_type_i,
-                                                                      BlockSize::align> > array_type_i;
 
         static const size_type MC = BlockSize::mc;
         static const size_type NC = BlockSize::nc;
@@ -323,13 +546,7 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         const size_type incRowC = &e3()(1,0) - &e3()(0,0);
         const size_type incColC = &e3()(0,1) - &e3()(0,0);
 
-        if (alpha==value_type3(0) || k==0) {
-            gescal(beta, e3);
-            return;
-        }
-
-        array_type_i A(MC * KC);
-        array_type_i B(NC * KC);
+        assert(alpha!=value_type3(0) && k!=0);
 
         for (size_type j=0; j<nb; ++j) {
             size_type nc = (j!=nb-1 || nc_==0) ? NC : nc_;
@@ -340,24 +557,101 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
 
                 const matrix_range<const E2> Bs =
                     subrange(e2(), l*KC, l*KC+kc, j*NC, j*NC+nc);
-                pack_B<matrix_range<const E2>, value_type_i, BlockSize>
-                    (Bs, &B[0]);
+                pack_B(Bs, B, bs);
 
                 for (size_type i=0; i<mb; ++i) {
                     size_type mc = (i!=mb-1 || mc_==0) ? MC : mc_;
 
                     const matrix_range<const E1> As =
                         subrange(e1(), i*MC, i*MC+mc, l*KC, l*KC+kc);
-                    pack_A<matrix_range<const E1>, value_type_i, BlockSize>
-                        (As, &A[0]);
+                    pack_A (As, A, bs);
 
-                    mgemm<size_type, value_type_i, value_type3, BlockSize>
-                        (mc, nc, kc, alpha, &A[0], &B[0], beta_,
-                         &C_[i*MC*incRowC+j*NC*incColC],
-                         incRowC, incColC);
+                    mgemm(mc, nc, kc, alpha, A, B, beta_,
+                          &C_[i*MC*incRowC+j*NC*incColC],
+                          incRowC, incColC, bs);
                 }
             }
         }
+    }
+
+    template <typename E1, typename E2, typename E3, typename BlockSize>
+    typename enable_if_c<!is_complex<typename common_type<typename E1::value_type,
+                                                          typename E2::value_type>::type>::value
+                         || !is_complex<typename E3::value_type>::value,
+                         void>::type
+    gemm(typename E3::value_type alpha, const matrix_expression<E1> &e1,
+         const matrix_expression<E2> &e2,
+         typename E3::value_type beta, matrix_expression<E3> &e3,
+         BlockSize bs)
+    {
+        typedef typename E3::size_type  size_type;
+        typedef typename E1::value_type value_type1;
+        typedef typename E2::value_type value_type2;
+        typedef typename E3::value_type value_type3;
+        typedef typename common_type<value_type1,
+                                     value_type2,
+                                     value_type3>::type value_type_i;
+        typedef unbounded_array<value_type_i,
+                                typename alignment::aligned_allocator<value_type_i,
+                                                                      BlockSize::align> > array_type_i;
+
+        static const size_type MC = BlockSize::mc;
+        static const size_type NC = BlockSize::nc;
+
+        const size_type k = BOOST_UBLAS_SAME (e1 ().size2 (), e2 ().size1 ());
+
+        static const size_type KC = BlockSize::kc;
+
+        if (alpha==value_type3(0) || k==0) {
+            gescal(beta, e3);
+            return;
+        }
+
+        array_type_i A(MC * KC);
+        array_type_i B(NC * KC);
+        gemm_(alpha, e1, e2, beta, e3, &A[0], &B[0], bs);
+    }
+
+    template <typename E1, typename E2, typename E3, typename BlockSize>
+    typename enable_if_c<is_complex<typename common_type<typename E1::value_type,
+                                                         typename E2::value_type>::type>::value
+                         && is_complex<typename E3::value_type>::value,
+                         void>::type
+    gemm(typename E3::value_type alpha, const matrix_expression<E1> &e1,
+         const matrix_expression<E2> &e2,
+         typename E3::value_type beta, matrix_expression<E3> &e3,
+         BlockSize bs)
+    {
+        typedef typename E3::size_type  size_type;
+        typedef typename E1::value_type value_type1;
+        typedef typename E2::value_type value_type2;
+        typedef typename E3::value_type value_type3;
+        typedef typename common_type<value_type1,
+                                     value_type2,
+                                     value_type3>::type value_type_i;
+        typedef typename value_type_i::value_type value_type_f;
+        typedef unbounded_array<value_type_f,
+                                typename alignment::aligned_allocator<value_type_f,
+                                                                      BlockSize::align> > array_type_f;
+
+        static const size_type MC = BlockSize::mc;
+        static const size_type NC = BlockSize::nc;
+
+        const size_type k = BOOST_UBLAS_SAME (e1 ().size2 (), e2 ().size1 ());
+
+        static const size_type KC = BlockSize::kc;
+
+        if (alpha==value_type3(0) || k==0) {
+            gescal(beta, e3);
+            return;
+        }
+
+        array_type_f Ar(MC * KC);
+        array_type_f Ai(MC * KC);
+        array_type_f Br(NC * KC);
+        array_type_f Bi(NC * KC);
+        gemm_(alpha, e1, e2, beta, e3, std::make_pair(&Ar[0], &Ai[0]),
+              std::make_pair(&Br[0], &Bi[0]), bs);
     }
 }}}}
 #endif

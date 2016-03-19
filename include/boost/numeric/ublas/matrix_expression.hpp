@@ -5619,20 +5619,18 @@ namespace boost { namespace numeric { namespace ublas {
     prod (const matrix_expression<E1> &e1,
           const matrix_expression<E2> &e2,
           M &m, B b,
-         dense_proxy_tag,
+          dense_proxy_tag,
           unknown_orientation_tag) {
         typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
                                                      typename E2::value_type, E2>::expression_type expression_type;
-        typedef typename matrix_matrix_binary_traits<typename E1::value_type, E1,
-                                                     typename E2::value_type, E2>::result_type result_type;
-       typedef typename result_type::value_type result_value;
+        typedef typename M::value_type result_value;
 
-       if (e1 ().size1() < B::limit || e2 ().size2() < B::limit) {
+        if (e1 ().size1() < B::limit || e2 ().size2() < B::limit) {
             m.assign(expression_type (e1 (), e2 ()));
-       } else {
-           detail::gemm(result_value(1), e1, e2,
-                        result_value(0), m, b);
-       }
+        } else {
+            detail::gemm(result_value(1), e1, e2,
+                         result_value(0), m, b);
+        }
     }
 
     // dispatcher

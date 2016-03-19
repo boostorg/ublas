@@ -58,6 +58,36 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         BOOST_STATIC_ASSERT_MSG(nc % nr == 0, "NC must be a multiple of NR.");
     };
 
+    template <typename T>
+    struct prod_block_size<std::complex<T> > {
+        static const unsigned vector_length = _BOOST_UBLAS_VECTOR_SIZE/sizeof(T); // Number of elements in a vector register
+        static const unsigned mc = 255;
+        static const unsigned kc = 512; // stripe length
+        static const unsigned nc = 4096;
+        static const unsigned mr = 3; // stripe width for lhs
+        static const unsigned nr = vector_length; // stripe width for rhs
+        static const unsigned align = 64; // align temporary arrays to this boundary
+        static const unsigned limit = 23; // Use gemm from this size
+        BOOST_STATIC_ASSERT_MSG(mc>0 && kc>0 && nc>0 && mr>0 && nr>0, "Invalid block size.");
+        BOOST_STATIC_ASSERT_MSG(mc % mr == 0, "MC must be a multiple of MR.");
+        BOOST_STATIC_ASSERT_MSG(nc % nr == 0, "NC must be a multiple of NR.");
+    };
+
+    template <>
+    struct prod_block_size<std::complex<long double> > {
+        static const unsigned mc = 256;
+        static const unsigned kc = 512; // stripe length
+        static const unsigned nc = 4096;
+        static const unsigned mr = 1; // stripe width for lhs
+        static const unsigned nr = 1; // stripe width for rhs
+        static const unsigned align = 64; // align temporary arrays to this boundary
+        static const unsigned limit = 68; // Use gemm from this size
+        static const unsigned vector_length = 1; // Number of elements in a vector register
+        BOOST_STATIC_ASSERT_MSG(mc>0 && kc>0 && nc>0 && mr>0 && nr>0, "Invalid block size.");
+        BOOST_STATIC_ASSERT_MSG(mc % mr == 0, "MC must be a multiple of MR.");
+        BOOST_STATIC_ASSERT_MSG(nc % nr == 0, "NC must be a multiple of NR.");
+    };
+
     template<typename T>
     struct is_blocksize {
         struct fallback { static const int nr = 0; };
