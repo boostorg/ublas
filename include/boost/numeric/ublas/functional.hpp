@@ -522,6 +522,52 @@ namespace boost { namespace numeric { namespace ublas {
 #endif
         }
     };
+
+    template<class V>
+    struct vector_norm_2_square :
+        public vector_scalar_real_unary_functor<V> {
+        typedef typename vector_scalar_real_unary_functor<V>::value_type value_type;
+        typedef typename vector_scalar_real_unary_functor<V>::real_type real_type;
+        typedef typename vector_scalar_real_unary_functor<V>::result_type result_type;
+
+        template<class E>
+        static BOOST_UBLAS_INLINE
+        result_type apply (const vector_expression<E> &e) {
+            real_type t = real_type ();
+            typedef typename E::size_type vector_size_type;
+            vector_size_type size (e ().size ());
+            for (vector_size_type i = 0; i < size; ++ i) {
+                real_type u (type_traits<value_type>::norm_2 (e () (i)));
+                t +=  u * u;
+            }
+            return t;
+        }
+        // Dense case
+        template<class D, class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (D size, I it) {
+            real_type t = real_type ();
+            while (-- size >= 0) {
+                real_type u (type_traits<value_type>::norm_2 (*it));
+                t +=  u * u;
+                ++ it;
+            }
+            return t;
+        }
+        // Sparse case
+        template<class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (I it, const I &it_end) {
+            real_type t = real_type ();
+            while (it != it_end) {
+                real_type u (type_traits<value_type>::norm_2 (*it));
+                t +=  u * u;
+                ++ it;
+            }
+            return t;
+        }
+    };
+
     template<class V>
     struct vector_norm_inf:
         public vector_scalar_real_unary_functor<V> {

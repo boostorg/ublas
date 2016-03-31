@@ -1609,6 +1609,16 @@ namespace boost { namespace numeric { namespace ublas {
         return expression_type (e ());
     }
 
+    // real: norm_2_square v = sum(v [i] * v [i])
+    // complex: norm_2_square v = sum(v [i] * conj (v [i]))
+    template<class E>
+    BOOST_UBLAS_INLINE
+    typename vector_scalar_unary_traits<E, vector_norm_2_square<E> >::result_type
+    norm_2_square (const vector_expression<E> &e) {
+        typedef typename vector_scalar_unary_traits<E, vector_norm_2_square<E> >::expression_type expression_type;
+        return expression_type (e ());
+    }
+
     // real: norm_inf v = maximum (abs (v [i]))
     // complex: norm_inf v = maximum (maximum (abs (real (v [i])), abs (imag (v [i]))))
     template<class E>
