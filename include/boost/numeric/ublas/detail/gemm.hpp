@@ -71,7 +71,7 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
     }
 
     //-- Micro Kernel ----------------------------------------------------------
-#ifdef BOOST_UBLAS_VECTOR_KERNEL
+#if defined(BOOST_UBLAS_VECTOR_KERNEL)
     template <typename Index, typename T, typename TC,
               typename BlockSize>
     typename enable_if_c<is_arithmetic<T>::value
@@ -86,7 +86,30 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         static const unsigned vector_length = BlockSize::vector_length;
         static const Index MR = BlockSize::mr;
         static const Index NR = BlockSize::nr/vector_length;
+        static const Index nr = BlockSize::nr;
+#ifdef BOOST_COMP_INTEL_DETECTION
+        static const Index pl = MR * nr;
 
+        T P[pl] = {};
+
+        for (Index l=0; l<kc; ++l) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<nr; j += vector_length) {
+                    P[i*nr+j:vector_length] += A[i]*B[j:vector_length];
+                }
+            }
+            A += MR;
+            B += nr;
+        }
+
+        if (alpha!=TC(1)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<nr; j += vector_length) {
+                    P[i*nr+j:vector_length] *= alpha;
+                }
+            }
+        }
+#else
 #ifdef BOOST_COMP_CLANG_DETECTION
         typedef T vx __attribute__((ext_vector_type (vector_length)));
 #else
@@ -113,19 +136,19 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
                 }
             }
         }
-
+#endif
         const T *p = (const T *) P;
         if (beta == TC(0)) {
             for (Index i=0; i<MR; ++i) {
-                for (Index j=0; j<NR * vector_length; ++j) {
-                    C[i*incRowC+j*incColC] = p[i*NR * vector_length +j];
+                for (Index j=0; j< nr; ++j) {
+                    C[i*incRowC+j*incColC] = p[i * nr +j];
                 }
             }
         } else {
             for (Index i=0; i<MR; ++i) {
-                for (Index j=0; j<NR * vector_length; ++j) {
+                for (Index j=0; j< nr; ++j) {
                     C[i*incRowC+j*incColC] *= beta;
-                    C[i*incRowC+j*incColC] += p[i*NR * vector_length+j];
+                    C[i*incRowC+j*incColC] += p[i * nr + j];
                 }
             }
         }
@@ -186,7 +209,8 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
             }
         }
     }
-#ifdef BOOST_UBLAS_VECTOR_KERNEL
+
+#if defined(BOOST_UBLAS_VECTOR_KERNEL)
     template <typename Index, typename T, typename TC,
               typename BlockSize>
     typename enable_if_c<is_arithmetic<T>::value
@@ -204,7 +228,37 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
         static const unsigned vector_length = BlockSize::vector_length;
         static const Index MR = BlockSize::mr;
         static const Index NR = BlockSize::nr/vector_length;
+        static const Index nr = BlockSize::nr;
+#ifdef BOOST_COMP_INTEL_DETECTION
+        static const Index pl = MR * nr;
 
+        T Pr[pl] = {};
+        T Pi[pl] = {};
+
+        for (Index l=0; l<kc; ++l) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<nr; j += vector_length) {
+                  Pr[i * nr + j:vector_length] +=
+                      Ar[i] * Br[j:vector_length] - Ai[i] * Bi[j:vector_length];
+                  Pi[i * nr + j:vector_length] +=
+                      Ar[i] * Bi[j:vector_length] + Ai[i] * Br[j:vector_length];
+                }
+            }
+            Ar += MR;
+            Ai += MR;
+            Br += nr;
+            Bi += nr;
+        }
+
+        if (alpha!=TC(1)) {
+            for (Index i=0; i<MR; ++i) {
+                for (Index j=0; j<nr; j += vector_length) {
+                    Pr[i*nr+j:vector_length] *= alpha.real();
+                    Pi[i*nr+j:vector_length] *= alpha.imag();
+                }
+            }
+        }
+#else
 #ifdef BOOST_COMP_CLANG_DETECTION
         typedef T vx __attribute__((ext_vector_type (vector_length)));
 #else
@@ -237,22 +291,22 @@ namespace boost { namespace numeric { namespace ublas { namespace detail {
                 }
             }
         }
-
+#endif
         const T *pr = (const T *) Pr;
         const T *pi = (const T *) Pi;
         if (beta == TC(0)) {
             for (Index i=0; i<MR; ++i) {
-                for (Index j=0; j<NR * vector_length; ++j) {
-                    C[i*incRowC+j*incColC] = 
-                        TC(pr[i*NR * vector_length +j], pi[i*NR * vector_length +j]);
+                for (Index j=0; j< nr; ++j) {
+                    C[i*incRowC+j*incColC] =
+                        TC(pr[i * nr + j], pi[i * nr  + j]);
                 }
             }
         } else {
             for (Index i=0; i<MR; ++i) {
-                for (Index j=0; j<NR * vector_length; ++j) {
+                for (Index j=0; j< nr; ++j) {
                     C[i*incRowC+j*incColC] *= beta;
                     C[i*incRowC+j*incColC] +=
-                          TC(pr[i*NR * vector_length+j], pi[i*NR * vector_length+j]);
+                        TC(pr[i * nr + j], pi[i * nr + j]);
                 }
             }
         }

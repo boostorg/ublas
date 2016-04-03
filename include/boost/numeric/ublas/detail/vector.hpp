@@ -24,9 +24,10 @@
 #define _BOOST_UBLAS_VECTOR_SIZE 1
 #endif
 
-#if (defined(BOOST_COMP_GNUC_DETECTION)                           \
-     && BOOST_COMP_GNUC_DETECTION >= BOOST_VERSION_NUMBER(4,8,0)) \
-    || (defined(BOOST_COMP_CLANG_DETECTION)                       \
+#if defined(BOOST_COMP_INTEL_DETECTION)                              \
+    || (defined(BOOST_COMP_GNUC_DETECTION)                           \
+        && BOOST_COMP_GNUC_DETECTION >= BOOST_VERSION_NUMBER(4,8,0)) \
+    || (defined(BOOST_COMP_CLANG_DETECTION)                          \
         && BOOST_COMP_CLANG_DETECTION >= BOOST_VERSION_NUMBER(3,5,0))
 #define BOOST_UBLAS_VECTOR_KERNEL = _BOOST_UBLAS_VECTOR_SIZE
 #endif
