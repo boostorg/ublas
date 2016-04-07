@@ -189,6 +189,10 @@ test-suite numeric/uBLAS
       ]
       [ run test_complex_norms.cpp
       ]
+      [ run test_scaled_norm.cpp
+       : : :
+           <define>BOOST_UBLAS_SCALED_NORM
+      ]
       [ run test_assignment.cpp
        : : :
            <define>BOOST_UBLAS_COO_ALWAYS_DO_FULL_SORT

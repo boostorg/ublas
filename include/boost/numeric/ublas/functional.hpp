@@ -433,10 +433,10 @@ namespace boost { namespace numeric { namespace ublas {
         template<class E>
         static BOOST_UBLAS_INLINE
         result_type apply (const vector_expression<E> &e) {
-#ifndef BOOST_UBLAS_SCALED_NORM
-            real_type t = real_type ();
             typedef typename E::size_type vector_size_type;
             vector_size_type size (e ().size ());
+#ifndef BOOST_UBLAS_SCALED_NORM
+            real_type t = real_type ();
             for (vector_size_type i = 0; i < size; ++ i) {
                 real_type u (type_traits<value_type>::norm_2 (e () (i)));
                 t +=  u * u;
@@ -445,8 +445,7 @@ namespace boost { namespace numeric { namespace ublas {
 #else
             real_type scale = real_type ();
             real_type sum_squares (1);
-            size_type size (e ().size ());
-            for (size_type i = 0; i < size; ++ i) {
+            for (vector_size_type i = 0; i < size; ++ i) {
                 real_type u (type_traits<value_type>::norm_2 (e () (i)));
                 if ( real_type () /* zero */ == u ) continue;
                 if (scale < u) {
