@@ -11,6 +11,7 @@
 //
 
 #include "test4.hpp"
+#include "utils.hpp"
 
 // Test matrix & vector expression templates
 template<class V, class M, int N>
@@ -45,6 +46,10 @@ struct test_my_matrix_vector {
             std::cout << "prod (m1, v1) = " << v2 << std::endl;
             v2 = ublas::prod (v1, m1);
             std::cout << "prod (v1, m1) = " << v2 << std::endl;
+#else
+            BOOST_UBLAS_NOT_USED(v1);
+            BOOST_UBLAS_NOT_USED(v2);
+            BOOST_UBLAS_NOT_USED(m1);
 #endif
         }
     }

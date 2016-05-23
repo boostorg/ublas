@@ -9,7 +9,7 @@
 #ifndef BOOST_UBLAS_MATRIX_VECTOR_HPP
 #define BOOST_UBLAS_MATRIX_VECTOR_HPP
 
-#include <boost/numeric/ublas/matrix_proxy.hpp>//for matrix_row, matrix_column and matrix_expression
+#include <boost/numeric/ublas/matrix_proxy.hpp> //for matrix_row, matrix_column and matrix_expression
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/range/iterator_range.hpp>
@@ -120,18 +120,18 @@ public:
     typedef typename Matrix::size_type size_type;
 
     BOOST_UBLAS_INLINE
-    matrix_row_vector(Matrix& matrix) :
-        matrix_(matrix) {
+    explicit matrix_row_vector(Matrix& matrix) :
+        matrix_(&matrix) {
     }
 
     BOOST_UBLAS_INLINE
     iterator begin(){
-        return iterator(matrix_, 0);
+        return iterator(*matrix_, 0);
     }
 
     BOOST_UBLAS_INLINE
     const_iterator begin() const {
-        return const_iterator(matrix_, 0);
+        return const_iterator(*matrix_, 0);
     }
 
     BOOST_UBLAS_INLINE
@@ -141,12 +141,12 @@ public:
 
     BOOST_UBLAS_INLINE
     iterator end() {
-        return iterator(matrix_, matrix_.size1());
+        return iterator(*matrix_, matrix_->size1());
     }
 
     BOOST_UBLAS_INLINE
     const_iterator end() const {
-        return const_iterator(matrix_, matrix_.size1());
+        return const_iterator(*matrix_, matrix_->size1());
     }
 
     BOOST_UBLAS_INLINE
@@ -186,12 +186,12 @@ public:
 
     BOOST_UBLAS_INLINE
     value_type operator()(size_type index) {
-        return value_type(matrix_, index);
+        return value_type(*matrix_, index);
     }
 
     BOOST_UBLAS_INLINE
     value_type operator()(size_type index) const {
-        return value_type(matrix_, index);
+        return value_type(*matrix_, index);
     }
 
     BOOST_UBLAS_INLINE
@@ -206,16 +206,16 @@ public:
 
     BOOST_UBLAS_INLINE
     size_type size() const {
-        return matrix_.size1();
+        return matrix_->size1();
     }
 
     BOOST_UBLAS_INLINE
     void resize(size_type size, bool preserve = true) {
-        matrix_.resize(size, matrix_.size2(), preserve);
+        matrix_->resize(size, matrix_->size2(), preserve);
     }
 
 private:
-    Matrix& matrix_;
+    Matrix* matrix_;
 };
 
 
@@ -258,8 +258,7 @@ matrix_row_vector<Matrix const> make_row_vector(matrix_expression<Matrix> const&
  * the underlaying matrix.
  */
 template<class Matrix>
-class matrix_column_vector
-{
+class matrix_column_vector {
 public:
     typedef ublas::matrix_column<Matrix> value_type;
     typedef ublas::matrix_column<Matrix> reference;
@@ -274,18 +273,18 @@ public:
     typedef typename Matrix::size_type size_type;
 
     BOOST_UBLAS_INLINE
-    matrix_column_vector(Matrix& matrix) :
-        matrix_(matrix){
+    explicit matrix_column_vector(Matrix& matrix) :
+        matrix_(&matrix){
     }
 
     BOOST_UBLAS_INLINE
     iterator begin() {
-        return iterator(matrix_, 0);
+        return iterator(*matrix_, 0);
     }
 
     BOOST_UBLAS_INLINE
     const_iterator begin() const {
-        return const_iterator(matrix_, 0);
+        return const_iterator(*matrix_, 0);
     }
 
     BOOST_UBLAS_INLINE
@@ -295,12 +294,12 @@ public:
 
     BOOST_UBLAS_INLINE
     iterator end() {
-        return iterator(matrix_, matrix_.size2());
+        return iterator(*matrix_, matrix_->size2());
     }
 
     BOOST_UBLAS_INLINE
     const_iterator end() const {
-        return const_iterator(matrix_, matrix_.size2());
+        return const_iterator(*matrix_, matrix_->size2());
     }
 
     BOOST_UBLAS_INLINE
@@ -340,12 +339,12 @@ public:
 
     BOOST_UBLAS_INLINE
     value_type operator()(size_type index) {
-        return value_type(matrix_, index);
+        return value_type(*matrix_, index);
     }
 
     BOOST_UBLAS_INLINE
     value_type operator()(size_type index) const {
-        return value_type(matrix_, index);
+        return value_type(*matrix_, index);
     }
 
     BOOST_UBLAS_INLINE
@@ -360,16 +359,16 @@ public:
 
     BOOST_UBLAS_INLINE
     size_type size() const {
-        return matrix_.size2();
+        return matrix_->size2();
     }
 
     BOOST_UBLAS_INLINE
     void resize(size_type size, bool preserve = true) {
-        matrix_.resize(matrix_.size1(), size, preserve);
+        matrix_->resize(matrix_->size1(), size, preserve);
     }
 
 private:
-    Matrix& matrix_;
+    Matrix* matrix_;
 };
 
 

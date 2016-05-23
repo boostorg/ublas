@@ -847,6 +847,11 @@ int main () {
     typename vector_scalar_unary_traits&lt;E, vector_norm_2&lt;typename E::value_type&gt; &gt;::result_type
     norm_2 (const vector_expression&lt;E&gt; &amp;e);
 
+    // norm_2_square v = sum (v [i] * v [i])
+    template&lt;class E&gt;
+    typename vector_scalar_unary_traits&lt;E, vector_norm_2_square&lt;typename E::value_type&gt; &gt;::result_type
+    norm_2_square (const vector_expression&lt;E&gt; &amp;e);
+
     // norm_inf v = max (abs (v [i]))
     template&lt;class E&gt;
     typename vector_scalar_unary_traits&lt;E, vector_norm_inf&lt;typename E::value_type&gt; &gt;::result_type

@@ -787,6 +787,4 @@ int main () {
     BOOST_UBLAS_TEST_DO( test_matrix );
 
     BOOST_UBLAS_TEST_END();
-
-    return EXIT_SUCCESS;
 }

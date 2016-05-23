@@ -313,8 +313,6 @@ int main () {
     BOOST_UBLAS_TEST_DO( test_fixed );
 
     BOOST_UBLAS_TEST_END();
-    return EXIT_SUCCESS;
-
 }
 
 #else
@@ -323,8 +321,5 @@ int main () {
 
     BOOST_UBLAS_TEST_BEGIN();
     BOOST_UBLAS_TEST_END();
-
-    return EXIT_SUCCESS;
-
 }
 #endif // BOOST_UBLAS_CPP_GE_2011
