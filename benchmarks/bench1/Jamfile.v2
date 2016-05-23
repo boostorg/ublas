@@ -7,4 +7,4 @@
 
 exe bench1
     : bench1.cpp bench11.cpp bench12.cpp bench13.cpp
-    ;
+    : : <optimization>speed ;
