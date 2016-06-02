@@ -19,6 +19,10 @@ int main () {
         v (i) = i;
 
     std::cout << sum (v) << std::endl;
+    std::cout << mean (v) << std::endl;
+    std::cout << mean_iterative (v) << std::endl;
+    std::cout << variance (v) << std::endl;
+    std::cout << variance_iterative (v) << std::endl;
     std::cout << norm_1 (v) << std::endl;
     std::cout << norm_2 (v) << std::endl;
     std::cout << norm_inf (v) << std::endl;
