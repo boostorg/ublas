@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_inplace_solve_mvov
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += \
     USE_MAPPED_VECTOR_OF_MAPPED_VECTOR

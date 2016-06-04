@@ -397,7 +397,7 @@ namespace boost { namespace numeric { namespace ublas {
             const_subiterator1_type it1_end (e1_.find (size1 ()));
             const_subiterator2_type it2 (e2_.find (j));
             const_subiterator2_type it2_end (e2_.find (size2 ()));
-            if (it2 == it2_end || (rank == 1 && (it2.index () != j || *it2 == value_type/*zero*/()))) {
+            if (it2 == it2_end || (rank == 1 && (it2.index () != j || *it2 == typename E2::value_type/*zero*/()))) {
                 it1 = it1_end;
                 it2 = it2_end;
             }
@@ -405,7 +405,7 @@ namespace boost { namespace numeric { namespace ublas {
             return const_iterator1 (*this, it1.index (), it2.index ());
 #else
 #ifdef BOOST_UBLAS_USE_INVARIANT_HOISTING
-            return const_iterator1 (*this, it1, it2, it2 != it2_end ? *it2 : value_type/*zero*/());
+            return const_iterator1 (*this, it1, it2, it2 != it2_end ? *it2 : typename E2::value_type/*zero*/());
 #else
             return const_iterator1 (*this, it1, it2);
 #endif
@@ -417,7 +417,7 @@ namespace boost { namespace numeric { namespace ublas {
             const_subiterator2_type it2_end (e2_.find (size2 ()));
             const_subiterator1_type it1 (e1_.find (i));
             const_subiterator1_type it1_end (e1_.find (size1 ()));
-            if (it1 == it1_end || (rank == 1 && (it1.index () != i || *it1 == value_type/*zero*/()))) {
+            if (it1 == it1_end || (rank == 1 && (it1.index () != i || *it1 == typename E1::value_type/*zero*/()))) {
                 it2 = it2_end;
                 it1 = it1_end;
             }
@@ -425,7 +425,7 @@ namespace boost { namespace numeric { namespace ublas {
             return const_iterator2 (*this, it1.index (), it2.index ());
 #else
 #ifdef BOOST_UBLAS_USE_INVARIANT_HOISTING
-            return const_iterator2 (*this, it1, it2, it1 != it1_end ? *it1 : value_type/*zero*/());
+            return const_iterator2 (*this, it1, it2, it1 != it1_end ? *it1 : typename E1::value_type/*zero*/());
 #else
             return const_iterator2 (*this, it1, it2);
 #endif
@@ -2195,13 +2195,13 @@ namespace boost { namespace numeric { namespace ublas {
             }
             BOOST_UBLAS_INLINE
             value_type dereference (packed_random_access_iterator_tag) const {
-                value_type t1 = value_type/*zero*/();
+                typename E1::value_type t1 = typename E1::value_type/*zero*/();
                 if (it1_ != it1_end_) {
                     BOOST_UBLAS_CHECK (it1_.index2 () == j_, internal_logic ());
                     if (it1_.index1 () == i_)
                         t1 = *it1_;
                 }
-                value_type t2 = value_type/*zero*/();
+                typename E2::value_type t2 = typename E2::value_type/*zero*/();
                 if (it2_ != it2_end_) {
                     BOOST_UBLAS_CHECK (it2_.index2 () == j_, internal_logic ());
                     if (it2_.index1 () == i_)
@@ -2271,13 +2271,13 @@ namespace boost { namespace numeric { namespace ublas {
             }
             BOOST_UBLAS_INLINE
             value_type dereference (sparse_bidirectional_iterator_tag) const {
-                value_type t1 = value_type/*zero*/();
+                typename E1::value_type t1 = typename E1::value_type/*zero*/();
                 if (it1_ != it1_end_) {
                     BOOST_UBLAS_CHECK (it1_.index2 () == j_, internal_logic ());
                     if (it1_.index1 () == i_)
                         t1 = *it1_;
                 }
-                value_type t2 = value_type/*zero*/();
+                typename E2::value_type t2 = typename E2::value_type/*zero*/();
                 if (it2_ != it2_end_) {
                     BOOST_UBLAS_CHECK (it2_.index2 () == j_, internal_logic ());
                     if (it2_.index1 () == i_)
@@ -2546,13 +2546,13 @@ namespace boost { namespace numeric { namespace ublas {
             }
             BOOST_UBLAS_INLINE
             value_type dereference (packed_random_access_iterator_tag) const {
-                value_type t1 = value_type/*zero*/();
+                typename E1::value_type t1 = typename E1::value_type/*zero*/();
                 if (it1_ != it1_end_) {
                     BOOST_UBLAS_CHECK (it1_.index1 () == i_, internal_logic ());
                     if (it1_.index2 () == j_)
                         t1 = *it1_;
                 }
-                value_type t2 = value_type/*zero*/();
+                typename E2::value_type t2 = typename E2::value_type/*zero*/();
                 if (it2_ != it2_end_) {
                     BOOST_UBLAS_CHECK (it2_.index1 () == i_, internal_logic ());
                     if (it2_.index2 () == j_)
@@ -2622,13 +2622,13 @@ namespace boost { namespace numeric { namespace ublas {
             }
             BOOST_UBLAS_INLINE
             value_type dereference (sparse_bidirectional_iterator_tag) const {
-                value_type t1 = value_type/*zero*/();
+                typename E1::value_type t1 = typename E1::value_type/*zero*/();
                 if (it1_ != it1_end_) {
                     BOOST_UBLAS_CHECK (it1_.index1 () == i_, internal_logic ());
                     if (it1_.index2 () == j_)
                         t1 = *it1_;
                 }
-                value_type t2 = value_type/*zero*/();
+                typename E2::value_type t2 = typename E2::value_type/*zero*/();
                 if (it2_ != it2_end_) {
                     BOOST_UBLAS_CHECK (it2_.index1 () == i_, internal_logic ());
                     if (it2_.index2 () == j_)
@@ -3411,7 +3411,7 @@ namespace boost { namespace numeric { namespace ublas {
     // (t * m) [i] [j] = t * m [i] [j]
     template<class T1, class E2>
     BOOST_UBLAS_INLINE
-    typename enable_if< is_convertible<T1, typename E2::value_type >,
+    typename boost::enable_if< is_convertible<T1, typename E2::value_type >,
     typename matrix_binary_scalar1_traits<const T1, E2, scalar_multiplies<T1, typename E2::value_type> >::result_type
     >::type
     operator * (const T1 &e1,
@@ -3934,7 +3934,7 @@ namespace boost { namespace numeric { namespace ublas {
     // (m * t) [i] [j] = m [i] [j] * t
     template<class E1, class T2>
     BOOST_UBLAS_INLINE
-    typename enable_if< is_convertible<T2, typename E1::value_type>,
+    typename boost::enable_if< is_convertible<T2, typename E1::value_type>,
     typename matrix_binary_scalar2_traits<E1, const T2, scalar_multiplies<typename E1::value_type, T2> >::result_type
     >::type
     operator * (const matrix_expression<E1> &e1,
@@ -3946,7 +3946,7 @@ namespace boost { namespace numeric { namespace ublas {
     // (m / t) [i] [j] = m [i] [j] / t
     template<class E1, class T2>
     BOOST_UBLAS_INLINE
-    typename enable_if< is_convertible<T2, typename E1::value_type>,
+    typename boost::enable_if< is_convertible<T2, typename E1::value_type>,
     typename matrix_binary_scalar2_traits<E1, const T2, scalar_divides<typename E1::value_type, T2> >::result_type
     >::type
     operator / (const matrix_expression<E1> &e1,

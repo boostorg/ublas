@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = concepts
 
-!include (configuration.pri)
+include (configuration.pri)
 
 DEFINES += \
     EXTERNAL

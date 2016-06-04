@@ -1,7 +1,9 @@
 TEMPLATE = app
 TARGET = comp_mat_erase
 
-!include (configuration.pri)
+win*: QMAKE_CXXFLAGS += /EHa
+
+include (configuration.pri)
 
 SOURCES += \
     ../../../test/comp_mat_erase.cpp

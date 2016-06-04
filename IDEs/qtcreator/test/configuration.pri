@@ -2,6 +2,8 @@ CONFIG -= qt
 CONFIG += \
     depend_includepath \
     debug
+win*: CONFIG += console
+
 QMAKE_CXXFLAGS += -fno-inline
 
 # Create a directory for each test.
@@ -29,13 +31,15 @@ UBLAS_TESTSET_SPARSE_COO = \
 
 DEFINES += BOOST_UBLAS_NO_EXCEPTIONS
 
+win*: DEFINES += _SCL_SECURE_NO_WARNINGS
+
 #Visual age IBM
 xlc: DEFINES += BOOST_UBLAS_NO_ELEMENT_PROXIES
 
 # ublas include and test directory are included
 INCLUDEPATH += \
     ../../../include \
-    ../../test
+    ../../../test
 
 # If ublas tests are build with boost source code then,
 # then boost headers and boost libraries should be used.
@@ -46,6 +50,6 @@ exists(../../../../../../boost-build.jam) {
 }
 
 # Execute test once compiled.
-win32: QMAKE_POST_LINK = ./$${DESTDIR}/$${TARGET}.exe
+win*: QMAKE_POST_LINK = .\\$${DESTDIR}\\$${TARGET}.exe
 else: QMAKE_POST_LINK = ./$${DESTDIR}/$${TARGET}
 
