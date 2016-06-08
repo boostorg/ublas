@@ -465,7 +465,7 @@ template<class V>
             typedef typename E::size_type vector_size_type;
             vector_size_type size (e ().size ());
             for (vector_size_type i = 0; i < size; ++ i) {
-		sum += e () (i);
+                sum += e () (i);
                 sumsq += e () (i) * e () (i);
 	    }
             return (sumsq - (sum * sum) / size) / size ;
@@ -478,8 +478,8 @@ template<class V>
 	    result_type sumsq = result_type (0);
 	    result_type n = result_type (0);
             while (++ n <= size) {
-		sum += *it, 
-                sumsq += *it * *it
+                sum += *it;
+                sumsq += *it * *it;
                 ++ it;
             }
             return (sumsq - (sum * sum) / size) / size ; 
@@ -516,7 +516,7 @@ template<class V>
             typedef typename E::size_type vector_size_type;
             vector_size_type size (e ().size ());
             for (vector_size_type i = 0; i < size; ++ i) {
-		del = e () (i) - mean;
+                del = e () (i) - mean;
                 mean += del / (i + 1);
                 var += del * (e () (i) - mean);
 	    }
@@ -531,7 +531,7 @@ template<class V>
 	    result_type var = result_type (0);
 	    result_type del;
             while (++ n <= size){
-		del = *it - mean;
+                del = *it - mean;
                 mean += del / n;
                 var += del * (*it - mean);
                 ++ it;
@@ -548,7 +548,7 @@ template<class V>
 	    result_type del;
             while (it != it_end)  {
                 ++ n;
-		del = *it - mean;
+                del = *it - mean;
                 mean += del / n;
                 var += del * (*it - mean);
                 ++ it;
