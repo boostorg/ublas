@@ -473,7 +473,7 @@ template<class V>
         // Dense case
         template<class D, class I>
         static BOOST_UBLAS_INLINE
-        result_type apply (D size, I it) { 
+        result_type apply (D size, I it) {
             result_type sum = result_type (0);
 	    result_type sumsq = result_type (0);
 	    result_type n = result_type (0);
@@ -497,7 +497,7 @@ template<class V>
                 sumsq += *it * *it;
                 ++ it;
 	    }  
-            return (sumsq - (sum * sum) / n) / n ; 
+            return (sumsq - (sum * sum) / n) / n ;
         }
     };
 
