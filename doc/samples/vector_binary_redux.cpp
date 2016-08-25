@@ -19,5 +19,6 @@ int main () {
         v1 (i) = v2 (i) = i;
 
     std::cout << inner_prod (v1, v2) << std::endl;
+    std::cout << covariance (v1, v2) << std::endl;
 }
 

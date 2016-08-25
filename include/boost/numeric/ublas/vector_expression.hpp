@@ -1793,6 +1793,21 @@ namespace boost { namespace numeric { namespace ublas {
         return expression_type (e1 (), e2 ());
     }
 
+    // covariance (v1, v2)
+    template<class E1, class E2>
+    BOOST_UBLAS_INLINE
+    typename vector_scalar_binary_traits<E1, E2, vector_covariance<E1, E2,
+                                                                   typename promote_traits<typename E1::value_type,
+                                                                                           typename E2::value_type>::promote_type> >::result_type
+    covariance (const vector_expression<E1> &e1,
+                const vector_expression<E2> &e2) {
+        typedef typename vector_scalar_binary_traits<E1, E2, vector_covariance<E1, E2,
+                                                                   typename promote_traits<typename E1::value_type,
+                                                                                           typename E2::value_type>::promote_type> >::expression_type expression_type;
+        return expression_type (e1 (), e2 ());
+    }
+
+
 }}}
 
 #endif

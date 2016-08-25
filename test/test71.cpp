@@ -112,6 +112,8 @@ struct test_my_vector {
             initialize_vector (v2);
             t = ublas::inner_prod (v1, v2);
             std::cout << "inner_prod (v1, v2) = " << t << std::endl;
+            t = ublas::covariance (v1, v2);
+            std::cout << "covariance (v1, v2) = " << t << std::endl;
         }
     }
     void operator () () const {
