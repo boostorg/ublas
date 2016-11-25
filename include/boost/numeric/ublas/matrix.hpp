@@ -1382,9 +1382,9 @@ namespace boost { namespace numeric {
         // Assignment
 #ifdef BOOST_UBLAS_MOVE_SEMANTICS
 
-        /*! @note "pass by value" the key idea to enable move semantics */
+        /*! @note "rvalue-reference" the key idea to enable move semantics */
         BOOST_UBLAS_INLINE
-        fixed_matrix &operator = (matrix m) {
+        fixed_matrix &operator = (fixed_matrix && m) {
             assign_temporary(m);
             return *this;
         }
