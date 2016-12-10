@@ -18,7 +18,7 @@
 #include <boost/shared_array.hpp>
 #endif
 
-#include <boost/serialization/array.hpp>
+#include <boost/serialization/array_wrapper.hpp>
 #include <boost/serialization/collection_size_type.hpp>
 #include <boost/serialization/nvp.hpp>
 
@@ -328,7 +328,7 @@ namespace boost { namespace numeric { namespace ublas {
             if ( Archive::is_loading::value ) {
                 resize(s);
             }
-            ar & serialization::make_array(data_, s);
+            ar & serialization::array_wrapper<value_type>(data_, s);
         }
 
     private:
@@ -524,7 +524,7 @@ namespace boost { namespace numeric { namespace ublas {
                 if (s > N) bad_size("too large size in bounded_array::load()\n").raise();
                 resize(s);
             }
-            ar & serialization::make_array(data_, s);
+            ar & serialization::array_wrapper<value_type>(data_, s);
         }
 
     private:
