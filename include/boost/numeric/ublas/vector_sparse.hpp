@@ -953,7 +953,9 @@ namespace boost { namespace numeric { namespace ublas {
         BOOST_UBLAS_INLINE
         void resize (size_type size, bool preserve = true) {
             size_ = size;
-            capacity_ = restrict_capacity (capacity_);
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'typename index_array_type::size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            capacity_ = restrict_capacity (static_cast<size_type>(capacity_));
             if (preserve) {
                 index_data_. resize (capacity_, size_type ());
                 value_data_. resize (capacity_, value_type ());
@@ -1041,8 +1043,11 @@ namespace boost { namespace numeric { namespace ublas {
         BOOST_UBLAS_INLINE
         true_reference insert_element (size_type i, const_reference t) {
             BOOST_UBLAS_CHECK (!find_element (i), bad_index ());        // duplicate element
-            if (filled_ >= capacity_)
-                reserve (2 * capacity_, true);
+            if (filled_ >= capacity_) {
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'unsigned long' to 'size_type' (aka 'int')
+                reserve (static_cast<size_type>(2 * capacity_), true);
+            }
             subiterator_type it (detail::lower_bound (index_data_.begin (), index_data_.begin () + filled_, k_based (i), std::less<size_type> ()));
             // ISSUE max_capacity limit due to difference_type
             typename std::iterator_traits<subiterator_type>::difference_type n = it - index_data_.begin ();

@@ -2838,7 +2838,9 @@ namespace boost { namespace numeric { namespace ublas {
             size1_ (0), size2_ (0), capacity_ (restrict_capacity (0)),
             filled1_ (1), filled2_ (0),
             index1_data_ (layout_type::size_M (size1_, size2_) + 1), index2_data_ (capacity_), value_data_ (capacity_) {
-            index1_data_ [filled1_ - 1] = k_based (filled2_);
+			// Silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'array_size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            index1_data_ [filled1_ - 1] = k_based (static_cast<size_type>(filled2_));
             storage_invariants ();
         }
         BOOST_UBLAS_INLINE
@@ -2887,11 +2889,15 @@ namespace boost { namespace numeric { namespace ublas {
        BOOST_UBLAS_INLINE
        compressed_matrix (const matrix_expression<AE> &ae, size_type non_zeros = 0):
             matrix_container<self_type> (),
-            size1_ (ae ().size1 ()), size2_ (ae ().size2 ()), capacity_ (restrict_capacity (non_zeros)),
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            size1_ (static_cast<size_type>(ae ().size1 ())), size2_ (static_cast<size_type>(ae ().size2 ())), capacity_ (restrict_capacity (non_zeros)),
             filled1_ (1), filled2_ (0),
             index1_data_ (layout_type::size_M (ae ().size1 (), ae ().size2 ()) + 1),
             index2_data_ (capacity_), value_data_ (capacity_) {
-            index1_data_ [filled1_ - 1] = k_based (filled2_);
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'array_size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            index1_data_ [filled1_ - 1] = k_based (static_cast<size_type>(filled2_));
             storage_invariants ();
             matrix_assign<scalar_assign> (*this, ae);
         }
@@ -2983,13 +2989,17 @@ namespace boost { namespace numeric { namespace ublas {
             BOOST_UBLAS_CHECK (!preserve, internal_logic ());
             size1_ = size1;
             size2_ = size2;
-            capacity_ = restrict_capacity (capacity_);
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'array_size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            capacity_ = restrict_capacity (static_cast<size_type>(capacity_));
             filled1_ = 1;
             filled2_ = 0;
             index1_data_.resize (layout_type::size_M (size1_, size2_) + 1);
             index2_data_.resize (capacity_);
             value_data_.resize (capacity_);
-            index1_data_ [filled1_ - 1] = k_based (filled2_);
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'array_size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            index1_data_ [filled1_ - 1] = k_based (static_cast<size_type>(filled2_));
             storage_invariants ();
         }
 
@@ -3007,7 +3017,9 @@ namespace boost { namespace numeric { namespace ublas {
                 value_data_.resize (capacity_);
                 filled1_ = 1;
                 filled2_ = 0;
-                index1_data_ [filled1_ - 1] = k_based (filled2_);
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'array_size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                index1_data_ [filled1_ - 1] = k_based (static_cast<size_type>(filled2_));
             }
             storage_invariants ();
        }
@@ -3019,9 +3031,11 @@ namespace boost { namespace numeric { namespace ublas {
         }
         BOOST_UBLAS_INLINE
         const_pointer find_element (size_type i, size_type j) const {
-            size_type element1 (layout_type::index_M (i, j));
-            size_type element2 (layout_type::index_m (i, j));
-            if (filled1_ <= element1 + 1)
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: comparison of integers of different signs: 'const array_size_type' (aka 'const unsigned long') and 'int'
+            size_type element1 (static_cast<size_type>(layout_type::index_M (i, j)));
+            size_type element2 (static_cast<size_type>(layout_type::index_m (i, j)));
+            if (static_cast<size_type>(filled1_) <= element1 + 1)
                 return 0;
             vector_const_subiterator_type itv (index1_data_.begin () + element1);
             const_subiterator_type it_begin (index2_data_.begin () + zero_based (*itv));
@@ -3063,12 +3077,16 @@ namespace boost { namespace numeric { namespace ublas {
         true_reference insert_element (size_type i, size_type j, const_reference t) {
             BOOST_UBLAS_CHECK (!find_element (i, j), bad_index ());        // duplicate element
             if (filled2_ >= capacity_)
-                reserve (2 * filled2_, true);
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'unsigned long' to 'size_type' (aka 'int')
+                reserve (static_cast<size_type>(2 * filled2_), true);
             BOOST_UBLAS_CHECK (filled2_ < capacity_, internal_logic ());
-            size_type element1 = layout_type::index_M (i, j);
-            size_type element2 = layout_type::index_m (i, j);
-            while (filled1_ <= element1 + 1) {
-                index1_data_ [filled1_] = k_based (filled2_);
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            size_type element1 = static_cast<size_type>(layout_type::index_M (i, j));
+            size_type element2 = static_cast<size_type>(layout_type::index_m (i, j));
+            while (static_cast<size_type>(filled1_) <= element1 + 1) {
+                index1_data_ [filled1_] = k_based (static_cast<size_type>(filled2_));
                 ++ filled1_;
             }
             vector_subiterator_type itv (index1_data_.begin () + element1);
@@ -3084,7 +3102,9 @@ namespace boost { namespace numeric { namespace ublas {
             typename value_array_type::iterator itt (value_data_.begin () + n);
             std::copy_backward (itt, value_data_.begin () + filled2_ - 1, value_data_.begin () + filled2_);
             *itt = t;
-            while (element1 + 1 < filled1_) {
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: comparison of integers of different signs: 'int' and 'array_size_type' (aka 'unsigned long')
+            while (element1 + 1 < static_cast<size_type>(filled1_)) {
                 ++ index1_data_ [element1 + 1];
                 ++ element1;
             }
@@ -3124,7 +3144,9 @@ namespace boost { namespace numeric { namespace ublas {
         void clear () {
             filled1_ = 1;
             filled2_ = 0;
-            index1_data_ [filled1_ - 1] = k_based (filled2_);
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'array_size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            index1_data_ [filled1_ - 1] = k_based (static_cast<size_type>(filled2_));
             storage_invariants ();
         }
 
@@ -3147,7 +3169,9 @@ namespace boost { namespace numeric { namespace ublas {
         template<class C>          // Container assignment without temporary
         BOOST_UBLAS_INLINE
         compressed_matrix &operator = (const matrix_container<C> &m) {
-            resize (m ().size1 (), m ().size2 (), false);
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            resize (static_cast<size_type>(m ().size1 ()), static_cast<size_type>(m ().size2 ()), false);
             assign (m);
             return *this;
         }
@@ -3309,10 +3333,14 @@ namespace boost { namespace numeric { namespace ublas {
                 const_subiterator_type it_begin (index2_data_.begin () + zero_based (*itv));
                 const_subiterator_type it_end (index2_data_.begin () + zero_based (*(itv + 1)));
 
-                const_subiterator_type it (detail::lower_bound (it_begin, it_end, k_based (address2), std::less<size_type> ()));
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'array_size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                const_subiterator_type it (detail::lower_bound (it_begin, it_end, k_based (static_cast<size_type>(address2)), std::less<size_type> ()));
                 if (rank == 0)
                     return const_iterator1 (*this, rank, i, j, itv, it);
-                if (it != it_end && zero_based (*it) == address2)
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'array_size_type' (aka 'unsigned long')
+                if (it != it_end && zero_based (*it) == static_cast<size_type>(address2))
                     return const_iterator1 (*this, rank, i, j, itv, it);
                 if (direction > 0) {
                     if (layout_type::fast_i ()) {
@@ -3349,10 +3377,14 @@ namespace boost { namespace numeric { namespace ublas {
                 subiterator_type it_begin (index2_data_.begin () + zero_based (*itv));
                 subiterator_type it_end (index2_data_.begin () + zero_based (*(itv + 1)));
 
-                subiterator_type it (detail::lower_bound (it_begin, it_end, k_based (address2), std::less<size_type> ()));
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'array_size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                subiterator_type it (detail::lower_bound (it_begin, it_end, k_based (static_cast<size_type>(address2)), std::less<size_type> ()));
                 if (rank == 0)
                     return iterator1 (*this, rank, i, j, itv, it);
-                if (it != it_end && zero_based (*it) == address2)
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'array_size_type' (aka 'unsigned long')
+                if (it != it_end && zero_based (*it) == static_cast<size_type>(address2))
                     return iterator1 (*this, rank, i, j, itv, it);
                 if (direction > 0) {
                     if (layout_type::fast_i ()) {
@@ -3389,10 +3421,14 @@ namespace boost { namespace numeric { namespace ublas {
                 const_subiterator_type it_begin (index2_data_.begin () + zero_based (*itv));
                 const_subiterator_type it_end (index2_data_.begin () + zero_based (*(itv + 1)));
 
-                const_subiterator_type it (detail::lower_bound (it_begin, it_end, k_based (address2), std::less<size_type> ()));
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'array_size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                const_subiterator_type it (detail::lower_bound (it_begin, it_end, k_based (static_cast<size_type>(address2)), std::less<size_type> ()));
                 if (rank == 0)
                     return const_iterator2 (*this, rank, i, j, itv, it);
-                if (it != it_end && zero_based (*it) == address2)
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'array_size_type' (aka 'unsigned long')
+                if (it != it_end && zero_based (*it) == static_cast<size_type>(address2))
                     return const_iterator2 (*this, rank, i, j, itv, it);
                 if (direction > 0) {
                     if (layout_type::fast_j ()) {
@@ -3585,8 +3621,10 @@ namespace boost { namespace numeric { namespace ublas {
             size_type index1 () const {
                 BOOST_UBLAS_CHECK (*this != (*this) ().find1 (0, (*this) ().size1 (), j_), bad_index ());
                 if (rank_ == 1) {
-                    BOOST_UBLAS_CHECK (layout_type::index_M (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_)) < (*this) ().size1 (), bad_index ());
-                    return layout_type::index_M (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_));
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                    BOOST_UBLAS_CHECK (static_cast<size_type>(layout_type::index_M (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_))) < (*this) ().size1 (), bad_index ());
+                    return static_cast<size_type>(layout_type::index_M (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_)));
                 } else {
                     return i_;
                 }
@@ -3594,8 +3632,10 @@ namespace boost { namespace numeric { namespace ublas {
             BOOST_UBLAS_INLINE
             size_type index2 () const {
                 if (rank_ == 1) {
-                    BOOST_UBLAS_CHECK (layout_type::index_m (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_)) < (*this) ().size2 (), bad_index ());
-                    return layout_type::index_m (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_));
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: comparison of integers of different signs: 'size_type' (aka 'unsigned long') and 'size_type' (aka 'int')
+                    BOOST_UBLAS_CHECK (static_cast<size_type>(layout_type::index_m (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_))) < (*this) ().size2 (), bad_index ());
+                    return static_cast<size_type>(layout_type::index_m (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_)));
                 } else {
                     return j_;
                 }
@@ -3929,8 +3969,10 @@ namespace boost { namespace numeric { namespace ublas {
             BOOST_UBLAS_INLINE
             size_type index1 () const {
                 if (rank_ == 1) {
-                    BOOST_UBLAS_CHECK (layout_type::index_M (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_)) < (*this) ().size1 (), bad_index ());
-                    return layout_type::index_M (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_));
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                    BOOST_UBLAS_CHECK (static_cast<size_type>(layout_type::index_M (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_))) < (*this) ().size1 (), bad_index ());
+                    return static_cast<size_type>(layout_type::index_M (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_)));
                 } else {
                     return i_;
                 }
@@ -3939,8 +3981,10 @@ namespace boost { namespace numeric { namespace ublas {
             size_type index2 () const {
                 BOOST_UBLAS_CHECK (*this != (*this) ().find2 (0, i_, (*this) ().size2 ()), bad_index ());
                 if (rank_ == 1) {
-                    BOOST_UBLAS_CHECK (layout_type::index_m (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_)) < (*this) ().size2 (), bad_index ());
-                    return layout_type::index_m (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_));
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                    BOOST_UBLAS_CHECK (static_cast<size_type>(layout_type::index_m (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_))) < (*this) ().size2 (), bad_index ());
+                    return static_cast<size_type>(layout_type::index_m (itv_ - (*this) ().index1_data_.begin (), (*this) ().zero_based (*it_)));
                 } else {
                     return j_;
                 }
@@ -4230,7 +4274,9 @@ namespace boost { namespace numeric { namespace ublas {
             BOOST_UBLAS_CHECK (capacity_ == value_data_.size (), internal_logic ());
             BOOST_UBLAS_CHECK (filled1_ > 0 && filled1_ <= layout_type::size_M (size1_, size2_) + 1, internal_logic ());
             BOOST_UBLAS_CHECK (filled2_ <= capacity_, internal_logic ());
-            BOOST_UBLAS_CHECK (index1_data_ [filled1_ - 1] == k_based (filled2_), internal_logic ());
+			// Silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'const array_size_type' (aka 'const unsigned long') to 'size_type' (aka 'int')
+            BOOST_UBLAS_CHECK (index1_data_ [filled1_ - 1] == k_based (static_cast<size_type>(filled2_)), internal_logic ());
         }
         
         size_type size1_;

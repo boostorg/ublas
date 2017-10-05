@@ -17,6 +17,7 @@
 #endif
 
 #include <boost/numeric/ublas/detail/config.hpp>
+#include <type_traits> // needed for make_unsigned
 
 namespace boost { namespace numeric { namespace ublas {
 
@@ -271,8 +272,14 @@ namespace boost { namespace numeric { namespace ublas {
     // We better change the signature instead of libcomo ;-)
     // const T &same_impl_ex (const T &size1, const T &size2, const char *file, int line) {
     T1 same_impl_ex (const T1 &size1, const T2 &size2, const char *file, int line) {
-        BOOST_UBLAS_CHECK_EX (size1 == size2, file, line, bad_argument ());
-        return (size1 < size2)?(size1):(size2);
+		// Use static_cast to silence Xcode 8.2.1:
+		// error: implicit conversion loses integer precision: 'const unsigned long' to 'int'
+		typedef typename std::make_unsigned<T1>::type UT1;
+		typedef typename std::make_unsigned<T2>::type UT2;
+		UT1 usize1 = static_cast<UT1>(size1);
+		UT2 usize2 = static_cast<UT2>(size2);
+        BOOST_UBLAS_CHECK_EX (usize1 == usize2, file, line, bad_argument ());
+        return static_cast<T1>(usize1 < usize2 ? size1 : size2);
     }
     template<class T>
     BOOST_UBLAS_INLINE

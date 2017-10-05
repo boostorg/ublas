@@ -978,8 +978,8 @@ namespace detail {
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-        BOOST_UBLAS_CHECK (m.size1 () == e ().size1 (), bad_size ());
-        BOOST_UBLAS_CHECK (m.size2 () == e ().size2 (), bad_size ());
+        BOOST_UBLAS_CHECK (m.size1 () == static_cast<typename M::size_type>(e ().size1 ()), bad_size ());
+        BOOST_UBLAS_CHECK (m.size2 () == static_cast<typename M::size_type>(e ().size2 ()), bad_size ());
         typedef typename M::value_type value_type;
         // Sparse type has no numeric constraints to check
 
@@ -997,7 +997,9 @@ namespace detail {
             while (it2e != it2e_end) {
                 value_type t (*it2e);
                 if (t != value_type/*zero*/())
-                    m.insert_element (it2e.index1 (), it2e.index2 (), t);
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                    m.insert_element (static_cast<typename M::size_type>(it2e.index1 ()), static_cast<typename M::size_type>(it2e.index2 ()), t);
                 ++ it2e;
             }
             ++ it1e;

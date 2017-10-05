@@ -140,18 +140,29 @@ namespace boost { namespace numeric { namespace ublas {
             const size_type sizem = layout_type::size_m (size1_, size2_);
             data ().resize (sizeM + 1, preserve);
             if (preserve) {
-                for (size_type i = 0; (i <= oldM) && (i < sizeM); ++ i)
-                    ref (data () [i]).resize (sizem, preserve);
-                for (size_type i = oldM+1; i < sizeM; ++ i) // create new vector elements
-                    data_.insert_element (i, vector_data_value_type ()) .resize (sizem, false);
+                for (size_type i = 0; (i <= oldM) && (i < sizeM); ++ i) {
+					// Qualify ref to silence Xcode 8.2.1:
+					// error: call to 'ref' is ambiguous
+					boost::numeric::ublas::ref(data()[i]).resize (static_cast<typename vector_data_value_type::size_type>(sizem), preserve);
+				}
+                for (size_type i = oldM+1; i < sizeM; ++ i) { // create new vector elements
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: implicit conversion loses integer precision: 'const size_type' (aka 'const unsigned long') to 'size_type' (aka 'int')
+                    data_.insert_element (i, vector_data_value_type ()) .resize (static_cast<typename vector_data_value_type::size_type>(sizem), false);
+                }
                 if (sizeM > oldM) {
                     data_.insert_element (sizeM, vector_data_value_type ());
                 } else {
-                    ref (data () [sizeM]).resize (0, false);
+                	// Qualify ref to silence Xcode 8.2.1:
+                	// error: call to 'ref' is ambiguous
+					boost::numeric::ublas::ref (data()[sizeM]).resize (0, false);
                 }
             } else {
-                for (size_type i = 0; i < sizeM; ++ i) 
-                    data_.insert_element (i, vector_data_value_type ()) .resize (sizem, false);
+                for (size_type i = 0; i < sizeM; ++ i) {
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: implicit conversion loses integer precision: 'const size_type' (aka 'const unsigned long') to 'size_type' (aka 'int')
+                    data_.insert_element (i, vector_data_value_type ()) .resize (static_cast<typename vector_data_value_type::size_type>(sizem), false);
+                }
                 data_.insert_element (sizeM, vector_data_value_type ());
             }
             storage_invariants ();
@@ -174,7 +185,9 @@ namespace boost { namespace numeric { namespace ublas {
                 const typename array_type::value_type *pv = data ().find_element (elementM);
                 if (!pv)
                     return 0;
-                return pv->find_element (elementm);
+				// Silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'const size_type' (aka 'const unsigned long') to 'size_type' (aka 'int')
+                return pv->find_element (static_cast<typename vector_data_value_type::size_type>(elementm));
             }
         }
 
@@ -298,9 +311,13 @@ namespace boost { namespace numeric { namespace ublas {
         true_reference insert_element (size_type i, size_type j, const_reference t) {
             const size_type elementM = layout_type::index_M (i, j);
             const size_type elementm = layout_type::index_m (i, j);
-            vector_data_value_type& vd (ref (data () [elementM]));
+            // Qualify ref to silence Xcode 8.2.1:
+            // error: call to 'ref' is ambiguous
+            vector_data_value_type& vd (boost::numeric::ublas::ref (data () [elementM]));
             storage_invariants ();
-            return vd.insert_element (elementm, t);
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'const size_type' (aka 'const unsigned long') to 'size_type' (aka 'int')
+            return vd.insert_element (static_cast<typename vector_data_value_type::size_type>(elementm), t);
         }
         BOOST_UBLAS_INLINE
         void append_element (size_type i, size_type j, const_reference t) {
@@ -322,8 +339,11 @@ namespace boost { namespace numeric { namespace ublas {
         void clear () {
             const size_type sizeM = layout_type::size_M (size1_, size2_);
             // FIXME should clear data () if this is done via value_type/*zero*/() then it is not size preserving
-            for (size_type i = 0; i < sizeM; ++ i)
-                ref (data () [i]).clear ();
+            for (size_type i = 0; i < sizeM; ++ i) {
+            	// Qualify ref to silence Xcode 8.2.1:
+            	// error: call to 'ref' is ambiguous
+				boost::numeric::ublas::ref (data()[i]).clear ();
+			}
             storage_invariants ();
         }
 
@@ -359,11 +379,15 @@ namespace boost { namespace numeric { namespace ublas {
                 if (itv == itv_end)
                     return const_iterator1 (*this, rank, i, j, itv_end, (*(-- itv)).end ());
 
-                const_subiterator_type it ((*itv).find (layout_type::index_m (i, j)));
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                const_subiterator_type it ((*itv).find (static_cast<typename vector_data_value_type::size_type>(layout_type::index_m (i, j))));
                 const_subiterator_type it_end ((*itv).end ());
                 if (rank == 0)
                     return const_iterator1 (*this, rank, i, j, itv, it);
-                if (it != it_end && it.index () == layout_type::index_m (i, j))
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'size_type' (aka 'unsigned long')
+                if (it != it_end && it.index () == static_cast<typename vector_data_value_type::size_type>(layout_type::index_m (i, j)))
                     return const_iterator1 (*this, rank, i, j, itv, it);
                 if (direction > 0) {
                     if (layout_type::fast_i ()) {
@@ -397,11 +421,15 @@ namespace boost { namespace numeric { namespace ublas {
                 if (itv == itv_end)
                     return iterator1 (*this, rank, i, j, itv_end, (*(-- itv)).end ());
 
-                subiterator_type it ((*itv).find (layout_type::index_m (i, j)));
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                subiterator_type it ((*itv).find (static_cast<typename vector_data_value_type::size_type>(layout_type::index_m (i, j))));
                 subiterator_type it_end ((*itv).end ());
                 if (rank == 0)
                     return iterator1 (*this, rank, i, j, itv, it);
-                if (it != it_end && it.index () == layout_type::index_m (i, j))
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'size_type' (aka 'unsigned long')
+                if (it != it_end && it.index () == static_cast<typename vector_data_value_type::size_type>(layout_type::index_m (i, j)))
                     return iterator1 (*this, rank, i, j, itv, it);
                 if (direction > 0) {
                     if (layout_type::fast_i ()) {
@@ -435,11 +463,15 @@ namespace boost { namespace numeric { namespace ublas {
                 if (itv == itv_end)
                     return const_iterator2 (*this, rank, i, j, itv_end, (*(-- itv)).end ());
 
-                const_subiterator_type it ((*itv).find (layout_type::index_m (i, j)));
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                const_subiterator_type it ((*itv).find (static_cast<typename vector_data_value_type::size_type>(layout_type::index_m (i, j))));
                 const_subiterator_type it_end ((*itv).end ());
                 if (rank == 0)
                     return const_iterator2 (*this, rank, i, j, itv, it);
-                if (it != it_end && it.index () == layout_type::index_m (i, j))
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'size_type' (aka 'unsigned long')
+                if (it != it_end && it.index () == static_cast<typename vector_data_value_type::size_type>(layout_type::index_m (i, j)))
                     return const_iterator2 (*this, rank, i, j, itv, it);
                 if (direction > 0) {
                     if (layout_type::fast_j ()) {
@@ -473,11 +505,15 @@ namespace boost { namespace numeric { namespace ublas {
                 if (itv == itv_end)
                     return iterator2 (*this, rank, i, j, itv_end, (*(-- itv)).end ());
 
-                subiterator_type it ((*itv).find (layout_type::index_m (i, j)));
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+                subiterator_type it ((*itv).find (static_cast<typename vector_data_value_type::size_type>(layout_type::index_m (i, j))));
                 subiterator_type it_end ((*itv).end ());
                 if (rank == 0)
                     return iterator2 (*this, rank, i, j, itv, it);
-                if (it != it_end && it.index () == layout_type::index_m (i, j))
+				// Use static_cast to silence Xcode 8.2.1:
+				// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'size_type' (aka 'unsigned long')
+                if (it != it_end && it.index () == static_cast<typename vector_data_value_type::size_type>(layout_type::index_m (i, j)))
                     return iterator2 (*this, rank, i, j, itv, it);
                 if (direction > 0) {
                     if (layout_type::fast_j ()) {
