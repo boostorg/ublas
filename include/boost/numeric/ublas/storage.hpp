@@ -25,6 +25,7 @@
 #include <boost/numeric/ublas/exception.hpp>
 #include <boost/numeric/ublas/traits.hpp>
 #include <boost/numeric/ublas/detail/iterator.hpp>
+#include <memory>
 
 
 namespace boost { namespace numeric { namespace ublas {
@@ -45,8 +46,14 @@ namespace boost { namespace numeric { namespace ublas {
         typedef unbounded_array<T, ALLOC> self_type;
     public:
         typedef ALLOC allocator_type;
+#ifdef BOOST_NO_CXX11_ALLOCATOR
         typedef typename ALLOC::size_type size_type;
         typedef typename ALLOC::difference_type difference_type;
+#else
+        typedef std::allocator_traits<ALLOC> alloc_traits;
+        typedef typename alloc_traits::size_type size_type;
+        typedef typename alloc_traits::difference_type difference_type;
+#endif
         typedef T value_type;
         typedef const T &const_reference;
         typedef T &reference;
@@ -65,7 +72,7 @@ namespace boost { namespace numeric { namespace ublas {
         unbounded_array (size_type size, const ALLOC &a = ALLOC()):
             alloc_(a), size_ (size) {
           if (size_) {
-              data_ = alloc_.allocate (size_);
+              data_ = allocate (size_);
 //Disabled warning C4127 because the conditional expression is constant
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -76,7 +83,7 @@ namespace boost { namespace numeric { namespace ublas {
 #pragma warning(pop)
 #endif
                   for (pointer d = data_; d != data_ + size_; ++d)
-                      alloc_.construct(d, value_type());
+                      construct(d, value_type());
               }
           }
           else
@@ -87,7 +94,7 @@ namespace boost { namespace numeric { namespace ublas {
         unbounded_array (size_type size, const value_type &init, const ALLOC &a = ALLOC()):
             alloc_ (a), size_ (size) {
             if (size_) {
-                data_ = alloc_.allocate (size_);
+                data_ = allocate (size_);
                 std::uninitialized_fill (begin(), end(), init);
             }
             else
@@ -98,7 +105,7 @@ namespace boost { namespace numeric { namespace ublas {
             storage_array<unbounded_array<T, ALLOC> >(),
             alloc_ (c.alloc_), size_ (c.size_) {
             if (size_) {
-                data_ = alloc_.allocate (size_);
+                data_ = allocate (size_);
                 std::uninitialized_copy (c.begin(), c.end(), begin());
             }
             else
@@ -122,7 +129,7 @@ namespace boost { namespace numeric { namespace ublas {
                         iterator_destroy (i); 
                     }
                 }
-                alloc_.deallocate (data_, size_);
+                deallocate (data_, size_);
             }
         }
 
@@ -133,23 +140,23 @@ namespace boost { namespace numeric { namespace ublas {
             if (size != size_) {
                 pointer p_data = data_;
                 if (size) {
-                    data_ = alloc_.allocate (size);
+                    data_ = allocate (size);
                     if (preserve) {
                         pointer si = p_data;
                         pointer di = data_;
                         if (size < size_) {
                             for (; di != data_ + size; ++di) {
-                                alloc_.construct (di, *si);
+                                construct (di, *si);
                                 ++si;
                             }
                         }
                         else {
                             for (; si != p_data + size_; ++si) {
-                                alloc_.construct (di, *si);
+                                construct (di, *si);
                                 ++di;
                             }
                             for (; di != data_ + size; ++di) {
-                                alloc_.construct (di, init);
+                                construct (di, init);
                             }
                         }
                     }
@@ -164,7 +171,7 @@ namespace boost { namespace numeric { namespace ublas {
 #pragma warning(pop)
 #endif
                             for (pointer di = data_; di != data_ + size; ++di)
-                                alloc_.construct (di, value_type());
+                                construct (di, value_type());
                         }
                     }
                 }
@@ -180,9 +187,9 @@ namespace boost { namespace numeric { namespace ublas {
 #pragma warning(pop)
 #endif
                         for (pointer si = p_data; si != p_data + size_; ++si)
-                            alloc_.destroy (si);
+                            destroy (si);
                     }
-                    alloc_.deallocate (p_data, size_);
+                    deallocate (p_data, size_);
                 }
 
                 if (!size)
@@ -332,12 +339,48 @@ namespace boost { namespace numeric { namespace ublas {
         }
 
     private:
+        BOOST_UBLAS_INLINE
+        pointer allocate (size_type size) {
+#ifdef BOOST_NO_CXX11_ALLOCATOR
+            return alloc_.allocate (size);
+#else
+            return alloc_traits::allocate (alloc_, size);
+#endif
+        }
+
+        BOOST_UBLAS_INLINE
+        void deallocate (pointer data, size_type size) {
+#ifdef BOOST_NO_CXX11_ALLOCATOR
+            alloc_.deallocate (data, size);
+#else
+            alloc_traits::deallocate (alloc_, data, size);
+#endif
+        }
+
+        BOOST_UBLAS_INLINE
+        void construct (pointer data, value_type value) {
+#ifdef BOOST_NO_CXX11_ALLOCATOR
+            alloc_.construct (data, value);
+#else
+            alloc_traits::construct (alloc_, data, value);
+#endif
+        }
+
+        BOOST_UBLAS_INLINE
+        void destroy (pointer data) {
+#ifdef BOOST_NO_CXX11_ALLOCATOR
+            alloc_.destroy (data);
+#else
+            alloc_traits::destroy (alloc_, data);
+#endif
+        }
+
         // Handle explict destroy on a (possibly indexed) iterator
         BOOST_UBLAS_INLINE
-        static void iterator_destroy (iterator &i) {
-            (void)(i);
-            (&(*i)) -> ~value_type ();
+        void iterator_destroy (iterator &i) {
+            destroy (&(*i));
         }
+
         ALLOC alloc_;
         size_type size_;
         pointer data_;
@@ -351,8 +394,14 @@ namespace boost { namespace numeric { namespace ublas {
         typedef bounded_array<T, N, ALLOC> self_type;
     public:
         // No allocator_type as ALLOC is not used for allocation
+#ifdef BOOST_NO_CXX11_ALLOCATOR
         typedef typename ALLOC::size_type size_type;
         typedef typename ALLOC::difference_type difference_type;
+#else
+        typedef std::allocator_traits<ALLOC> alloc_traits;
+        typedef typename alloc_traits::size_type size_type;
+        typedef typename alloc_traits::difference_type difference_type;
+#endif
         typedef T value_type;
         typedef const T &const_reference;
         typedef T &reference;

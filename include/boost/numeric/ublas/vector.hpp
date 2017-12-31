@@ -31,6 +31,7 @@
 #include <utility>
 #endif
 #endif
+#include <memory>
 
 // Iterators based on ideas of Jeremy Siek
 
@@ -1691,8 +1692,14 @@ namespace boost { namespace numeric { namespace ublas {
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
 	     using vector_container<self_type>::operator ();
 #endif
-	     typedef typename ALLOC::size_type size_type;
-	     typedef typename ALLOC::difference_type difference_type;
+#ifdef BOOST_NO_CXX11_ALLOCATOR
+         typedef typename ALLOC::size_type size_type;
+         typedef typename ALLOC::difference_type difference_type;
+#else
+         typedef std::allocator_traits<ALLOC> alloc_traits;
+         typedef typename alloc_traits::size_type size_type;
+         typedef typename alloc_traits::difference_type difference_type;
+#endif
 	     typedef T value_type;
 	     typedef const T &const_reference;
 	     typedef T &reference;
@@ -1912,8 +1919,14 @@ namespace boost { namespace numeric { namespace ublas {
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
 	     using vector_container<self_type>::operator ();
 #endif
-	     typedef typename ALLOC::size_type size_type;
-	     typedef typename ALLOC::difference_type difference_type;
+#ifdef BOOST_NO_CXX11_ALLOCATOR
+         typedef typename ALLOC::size_type size_type;
+         typedef typename ALLOC::difference_type difference_type;
+#else
+         typedef std::allocator_traits<ALLOC> alloc_traits;
+         typedef typename alloc_traits::size_type size_type;
+         typedef typename alloc_traits::difference_type difference_type;
+#endif
 	     typedef T value_type;
 	     typedef const T &const_reference;
 	     typedef T &reference;
@@ -2175,8 +2188,14 @@ namespace boost { namespace numeric { namespace ublas {
 #ifdef BOOST_UBLAS_ENABLE_PROXY_SHORTCUTS
 	     using vector_container<self_type>::operator ();
 #endif
-	     typedef typename ALLOC::size_type size_type;
-	     typedef typename ALLOC::difference_type difference_type;
+#ifdef BOOST_NO_CXX11_ALLOCATOR
+         typedef typename ALLOC::size_type size_type;
+         typedef typename ALLOC::difference_type difference_type;
+#else
+         typedef std::allocator_traits<ALLOC> alloc_traits;
+         typedef typename alloc_traits::size_type size_type;
+         typedef typename alloc_traits::difference_type difference_type;
+#endif
 	     typedef T value_type;
 	     typedef const T &const_reference;
 	     typedef T &reference;
