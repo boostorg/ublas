@@ -15,6 +15,7 @@
 
 #include <boost/numeric/ublas/exception.hpp>
 #include <iterator>
+#include <cstddef>
 
 
 namespace boost { namespace numeric { namespace ublas {
@@ -107,8 +108,12 @@ namespace boost { namespace numeric { namespace ublas {
    * via the post increment operator.
    */
     template<class IC, class I, class T>
-    struct forward_iterator_base:
-        public std::iterator<IC, T> {
+    struct forward_iterator_base {
+        typedef IC iterator_category;
+        typedef T value_type;
+        typedef std::ptrdiff_t difference_type;
+        typedef T* pointer;
+        typedef T& reference;
         typedef I derived_iterator_type;
         typedef T derived_value_type;
 
@@ -145,8 +150,12 @@ namespace boost { namespace numeric { namespace ublas {
    * via the post increment and post decrement operator.
    */
     template<class IC, class I, class T>
-    struct bidirectional_iterator_base:
-        public std::iterator<IC, T> {
+    struct bidirectional_iterator_base {
+        typedef IC iterator_category;
+        typedef T value_type;
+        typedef std::ptrdiff_t difference_type;
+        typedef T* pointer;
+        typedef T& reference;
         typedef I derived_iterator_type;
         typedef T derived_value_type;
 
@@ -200,8 +209,12 @@ namespace boost { namespace numeric { namespace ublas {
    */
     template<class IC, class I, class T, class D = std::ptrdiff_t>
     // ISSUE the default for D seems rather dangerous as it can easily be (silently) incorrect
-    struct random_access_iterator_base:
-        public std::iterator<IC, T> {
+    struct random_access_iterator_base {
+        typedef IC iterator_category;
+        typedef T value_type;
+        typedef std::ptrdiff_t difference_type;
+        typedef T* pointer;
+        typedef T& reference;
         typedef I derived_iterator_type;
         typedef T derived_value_type;
         typedef D derived_difference_type;
