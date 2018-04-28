@@ -1,0 +1,50 @@
+# Copyright 2018 Stefan Seefeld
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
+language: cpp
+
+sudo: false
+
+branches:
+  only:
+    - master
+    - develop
+    - doc
+    - ci
+
+matrix:
+  include:
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=c++11
+      addons:
+        apt:
+          packages:
+            - g++-7
+          sources:
+            - ubuntu-toolchain-r-test
+
+    - os: osx
+      env: TOOLSET=clang COMPILER=clang++ CXXSTD=c++11
+
+
+install:
+  - cd ..
+  - git clone -b master --depth 1 https://github.com/boostorg/boost.git boost-root
+  - cd boost-root
+  - git submodule update --init tools/build
+  - git submodule update --init libs/config
+  - git submodule update --init tools/boostdep
+  - mkdir -p libs/numeric/
+  - cp -r $TRAVIS_BUILD_DIR/* libs/numeric/ublas
+  - python tools/boostdep/depinst/depinst.py numeric/ublas
+  - ./bootstrap.sh
+  - ./b2 headers
+
+script:
+  - |-
+    echo "using $TOOLSET : : $COMPILER : <cxxflags>-std=$CXXSTD ;" > ~/user-config.jam
+  - ./b2 libs/numeric/ublas/test toolset=$TOOLSET
+
+notifications:
+  email:
+    on_success: always
