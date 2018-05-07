@@ -3,7 +3,7 @@
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 language: cpp
 
-sudo: false
+sudo: required
 
 branches:
   only:
@@ -11,21 +11,39 @@ branches:
     - develop
     - doc
     - ci
+    - opencl
+
+# env: specifies additional global variables to define per row in build matrix
+env:
+  global:
+    - CLBLAS_PREFIX=${TRAVIS_BUILD_DIR}/CLBLAS/
+    - PATH=${CLBLAS_PREFIX}/bin:$PATH
+    - LD_LIBRARY_PATH=${CLBLAS_PREFIX}/lib:$LD_LIBRARY_PATH
 
 matrix:
   include:
     - os: linux
       env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=c++11
-      addons:
-        apt:
-          packages:
-            - g++-7
-          sources:
-            - ubuntu-toolchain-r-test
 
-    - os: osx
-      env: TOOLSET=clang COMPILER=clang++ CXXSTD=c++11
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-7
+    - libopenblas-base
+    - rpm2cpio
+    - cpio
+    - clinfo
+    - opencl-headers
+    - ocl-icd-opencl-dev
 
+before_install:
+  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then .ci/install-ocl-ubuntu.sh; fi
+  - .ci/install-clblas.sh
+  - cmake --version;
+  - ${CC} --version;
+  - ${CXX} --version;
 
 install:
   - cd ..
@@ -40,9 +58,16 @@ install:
   - ./bootstrap.sh
   - ./b2 headers
 
+# Use before_script: to run configure steps
+before_script:
+
+# use script: to execute build steps
 script:
   - |-
-    echo "using $TOOLSET : : $COMPILER : <cxxflags>-std=$CXXSTD ;" > ~/user-config.jam
+    echo "using $TOOLSET : : $COMPILER : <cxxflags>-std=$CXXSTD ;" >> ~/user-config.jam;
+    echo "using clblas : : <include>${CLBLAS_PREFIX}/include <search>${CLBLAS_PREFIX}/lib ;" >> ~/user-config.jam;
+    cp $TRAVIS_BUILD_DIR/opencl.jam ~/
+    cp $TRAVIS_BUILD_DIR/clblas.jam ~/
   - ./b2 libs/numeric/ublas/test toolset=$TOOLSET
   - ./b2 libs/numeric/ublas/benchmarks toolset=$TOOLSET
 

@@ -1,0 +1,22 @@
+# Boost.uBLAS
+#
+# Copyright (c) 2018 Stefan Seefeld <stefan@seefeld.name>
+#
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE_1_0.txt or
+# copy at http://www.boost.org/LICENSE_1_0.txt)
+
+import ac ;
+
+using opencl ;
+using clblas ;
+
+project boost/ublas/test/opencl
+    : requirements
+      <toolset>gcc:<cxxflags>-Wno-ignored-attributes
+      [ ac.check-library /clblas//clblas : <library>/clblas//clblas <library>/opencl//opencl : <build>no ]
+    ;
+
+test-suite ocl
+  : [ run test.cpp ]
+    ;
