@@ -10,6 +10,7 @@ branches:
   only:
     - master
     - develop
+    - opencl
     - /feature\/.*/
 
 environment:
@@ -20,7 +21,21 @@ environment:
       TOOLSET: msvc-14.1
       CXXSTD: 17
 
+cache:
+  - c:\tools\vcpkg\installed\
+
 install:
+  # Install OpenCL runtime (driver) for Intel / Xeon package
+  - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi"
+  - start /wait msiexec /i opencl_runtime_16.1.1_x64_setup.msi /qn  /l*v msiexec2.log
+  # FIXME: To be removed https://help.appveyor.com/discussions/problems/13000-cmake_toolchain_filevcpkgcmake-conflicts-with-cmake-native-findboostcmake"
+  - ps: 'Write-Host "Installing latest vcpkg.cmake module" -ForegroundColor Magenta'
+  - appveyor DownloadFile https://raw.githubusercontent.com/Microsoft/vcpkg/master/scripts/buildsystems/vcpkg.cmake -FileName "c:\tools\vcpkg\scripts\buildsystems\vcpkg.cmake"
+  - set "TRIPLET=x64-windows"
+  - vcpkg --triplet %TRIPLET% install opencl clblas
+  - set PATH=C:\Tools\vcpkg\installed\%TRIPLET%\bin;%PATH%
+  - set VCPKG_I=C:\Tools\vcpkg\installed\%TRIPLET%\include
+  - set VCPKG_L=C:\Tools\vcpkg\installed\%TRIPLET%\lib
   - set BOOST_BRANCH=develop
   - if "%APPVEYOR_REPO_BRANCH%" == "master" set BOOST_BRANCH=master
   - cd ..
@@ -31,14 +46,27 @@ install:
   - git submodule update --init tools/boostdep
   - xcopy /s /e /q %APPVEYOR_BUILD_FOLDER% libs\numeric\ublas
   - python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
+  - xcopy %APPVEYOR_BUILD_FOLDER%\opencl.jam %USERPROFILE%
+  - xcopy %APPVEYOR_BUILD_FOLDER%\clblas.jam %USERPROFILE%
+  - ps: |
+      # Creating %USERPROFILE%/user-config.jam file
+      @'
+      import os regex toolset ;
+      local toolset = [ regex.split [ os.environ TOOLSET ] "-" ] ;
+      local vcpkg_i = [ os.environ VCPKG_I ] ;
+      local vcpkg_l = [ os.environ VCPKG_L ] ;
+      using $(toolset[1]) : $(toolset[2-]:J="-") : ;
+      using opencl : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
+      using clblas : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
+      '@ | sc "$env:USERPROFILE/user-config.jam"
   - cmd /c bootstrap
   - b2 -d0 headers
 
 build: off
 
 test_script:
-  - PATH=%ADDPATH%%PATH%
+  #- PATH=%ADDPATH%%PATH%
   - if not "%CXXSTD%" == "" set CXXSTD=cxxstd=%CXXSTD%
-  - if not "%ADDRMD%" == "" set ADDRMD=address-model=%ADDRMD%
+  - set ADDRMD=address-model=64
   - b2 -j3 libs/numeric/ublas/test toolset=%TOOLSET% %CXXSTD% %ADDRMD%
   - b2 -j3 libs/numeric/ublas/benchmarks toolset=%TOOLSET% %CXXSTD% %ADDRMD%
