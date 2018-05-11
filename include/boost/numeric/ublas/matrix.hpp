@@ -258,6 +258,30 @@ namespace boost { namespace numeric {
             return at_element (i, j);
         }
 
+	/** Access a matrix element. Here we return a reference
+	 * \param i the first coordinate of the element. By default it's the row
+	 * \param j the second coordinate of the element. By default it's the column
+	 * \return a reference to the element
+	 */
+		BOOST_UBLAS_INLINE
+		reference operator () (size_type i) {
+			return data()[i];
+		}
+
+		BOOST_UBLAS_INLINE
+		const_reference operator () (size_type i) const {
+			return data()[i];
+		}
+
+//		/** Access a matrix element. Here we return a reference
+//		 * \param i the first coordinate of the element. By default it's the row
+//		 * \param j the second coordinate of the element. By default it's the column
+//		 * \return a reference to the element
+//		 */
+//			BOOST_UBLAS_INLINE
+//			const_reference operator () const (size_type i) {
+//				return data()[i];
+//			}
         // Element assignment
 
     /** Change the value of a matrix element. Return back a reference to it

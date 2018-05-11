@@ -305,7 +305,7 @@ private:
 
 };
 
-using extents = basic_extents<std::size_t>;
+using shape = basic_extents<std::size_t>;
 
 }}}
 

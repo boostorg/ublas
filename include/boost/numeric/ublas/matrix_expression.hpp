@@ -88,6 +88,23 @@ namespace boost { namespace numeric { namespace ublas {
         }
 #endif
 
+#ifndef BOOST_UBLAS_REFERENCE_CONST_MEMBER
+		BOOST_UBLAS_INLINE
+		const_reference operator () (size_type i) const {
+			return expression () (i);
+		}
+		BOOST_UBLAS_INLINE
+		reference operator () (size_type i) {
+			return expression () (i);
+		}
+#else
+		BOOST_UBLAS_INLINE
+		reference operator () (size_type i) const {
+			return expression () (i);
+		}
+#endif
+
+
         // Assignment
         BOOST_UBLAS_INLINE
         matrix_reference &operator = (const matrix_reference &m) {
@@ -359,6 +376,8 @@ namespace boost { namespace numeric { namespace ublas {
         const_reference operator () (size_type i, size_type j) const {
             return functor_type::apply (e1_ (i), e2_ (j));
         }
+
+
 
         // Closure comparison
         BOOST_UBLAS_INLINE
@@ -952,6 +971,13 @@ namespace boost { namespace numeric { namespace ublas {
             return functor_type::apply (e_ (i, j));
         }
 
+		// Element access
+		BOOST_UBLAS_INLINE
+		const_reference operator () (size_type i) const {
+			return functor_type::apply (e_ (i));
+		}
+
+
         // Closure comparison
         BOOST_UBLAS_INLINE
         bool same_closure (const matrix_unary1 &mu1) const {
@@ -1503,6 +1529,17 @@ namespace boost { namespace numeric { namespace ublas {
             return e_ (j, i);
         }
 
+		// Element access
+		BOOST_UBLAS_INLINE
+		const_reference operator () (size_type i) const {
+			return functor_type::apply (e_ (i));
+		}
+		BOOST_UBLAS_INLINE
+		reference operator () (size_type i) {
+			BOOST_STATIC_ASSERT ((boost::is_same<functor_type, scalar_identity<value_type > >::value));
+			return e_ (i);
+		}
+
         // Closure comparison
         BOOST_UBLAS_INLINE
         bool same_closure (const matrix_unary2 &mu2) const {
@@ -2028,6 +2065,12 @@ namespace boost { namespace numeric { namespace ublas {
         const_reference operator () (size_type i, size_type j) const {
             return functor_type::apply (e1_ (i, j), e2_ (i, j));
         }
+
+		// Element access
+		BOOST_UBLAS_INLINE
+		const_reference operator () (size_type i) const {
+			return functor_type::apply (e1_ (i), e2_ (i));
+		}
 
         // Closure comparison
         BOOST_UBLAS_INLINE
@@ -2947,6 +2990,12 @@ namespace boost { namespace numeric { namespace ublas {
             return functor_type::apply (expression1_type (e1_), e2_ (i, j));
         }
 
+		// Element access
+		BOOST_UBLAS_INLINE
+		const_reference operator () (size_type i) const {
+			return functor_type::apply (expression1_type (e1_), e2_ (i));
+		}
+
         // Closure comparison
         BOOST_UBLAS_INLINE
         bool same_closure (const matrix_binary_scalar1 &mbs1) const {
@@ -3469,6 +3518,11 @@ namespace boost { namespace numeric { namespace ublas {
         const_reference operator () (size_type i, size_type j) const {
             return functor_type::apply (e1_ (i, j), expression2_type (e2_));
         }
+		// Element access
+		BOOST_UBLAS_INLINE
+		const_reference operator () (size_type i) const {
+			return functor_type::apply (e1_ (i), expression2_type (e2_));
+		}
 
         // Closure comparison
         BOOST_UBLAS_INLINE
@@ -4831,6 +4885,12 @@ namespace boost { namespace numeric { namespace ublas {
         const_reference operator () (size_type i, size_type j) const {
             return functor_type::apply (e1_, e2_, i, j);
         }
+
+		// Element access
+		BOOST_UBLAS_INLINE
+		const_reference operator () (size_type i) const {
+			return functor_type::apply (e1_, e2_, i);
+		}
 
         // Closure comparison
         BOOST_UBLAS_INLINE

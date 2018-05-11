@@ -17,48 +17,49 @@ BOOST_AUTO_TEST_CASE(test_extents_ctor,
 										 *boost::unit_test::label("constructor"))
 {
 	using namespace boost::numeric;
+	using extents = ublas::basic_extents<unsigned>;
 
 
-	ublas::extents      e0{};
+	extents      e0{};
 	BOOST_CHECK       ( e0.empty());
 	BOOST_CHECK_EQUAL ( e0.size(),0);
 
-	ublas::extents      e1{1,1};
+	extents      e1{1,1};
 	BOOST_CHECK       (!e1.empty());
 	BOOST_CHECK_EQUAL ( e1.size(),2);
 
-	ublas::extents      e2{1,2};
+	extents      e2{1,2};
 	BOOST_CHECK       (!e2.empty());
 	BOOST_CHECK_EQUAL ( e2.size(),2);
 
-	ublas::extents       e3{2,1};
+	extents       e3{2,1};
 	BOOST_CHECK        (!e3.empty());
 	BOOST_CHECK_EQUAL  ( e3.size(),2);
 
-	ublas::extents      e4{2,3};
+	extents      e4{2,3};
 	BOOST_CHECK       (!e4.empty());
 	BOOST_CHECK_EQUAL ( e4.size(),2);
 
-	ublas::extents       e5{2,3,1};
+	extents       e5{2,3,1};
 	BOOST_CHECK        (!e5.empty());
 	BOOST_CHECK_EQUAL  ( e5.size(),3);
 
-	ublas::extents      e6{1,2,3}; // 6
+	extents      e6{1,2,3}; // 6
 	BOOST_CHECK       (!e6.empty());
 	BOOST_CHECK_EQUAL ( e6.size(),3);
 
-	ublas::extents      e7{4,2,3};  // 7
+	extents      e7{4,2,3};  // 7
 	BOOST_CHECK       (!e7.empty());
 	BOOST_CHECK_EQUAL ( e7.size(),3);
 
-	BOOST_CHECK_THROW( ublas::extents({1,0}), std::length_error );
-	BOOST_CHECK_THROW( ublas::extents({0}  ), std::length_error );
-	BOOST_CHECK_THROW( ublas::extents({3}  ), std::length_error );
-	BOOST_CHECK_THROW( ublas::extents({0,1}), std::length_error );
+	BOOST_CHECK_THROW( extents({1,0}), std::length_error );
+	BOOST_CHECK_THROW( extents({0}  ), std::length_error );
+	BOOST_CHECK_THROW( extents({3}  ), std::length_error );
+	BOOST_CHECK_THROW( extents({0,1}), std::length_error );
 }
 
 struct fixture {
-	using extents_type = boost::numeric::ublas::extents;
+	using extents_type = boost::numeric::ublas::basic_extents<unsigned>;
 	fixture() : extents{
 								extents_type{},    // 0
 								extents_type{1,1}, // 1
@@ -77,6 +78,7 @@ BOOST_FIXTURE_TEST_CASE(test_extents_access, fixture,
 										 *boost::unit_test::label("access"))
 {
 	using namespace boost::numeric;
+
 	BOOST_REQUIRE_EQUAL(extents.size(),8);
 
 	BOOST_CHECK_EQUAL(extents[0].size(), 0);
