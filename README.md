@@ -16,12 +16,14 @@ Distributed under the [Boost Software License, Version 1.0](http://www.boost.org
 Branch          | Travis | Appveyor | codecov.io | Docs |
 :-------------: | ------ | -------- | ---------- | ---- |
 [`develop`](https://travis-ci.org/boostorg/ublas.svg?branch=develop) | [![Build Status](https://travis-ci.org/boostorg/ublas.svg?branch=develop)](https://travis-ci.org/boostorg/ublas) | [![Build status](https://ci.appveyor.com/api/projects/status/ctu3wnfowa627ful/branch/develop?svg=true)](https://ci.appveyor.com/project/stefanseefeld/ublas/branch/develop) | [![codecov](https://codecov.io/gh/boostorg/uuid/branch/develop/graph/badge.svg)](https://codecov.io/gh/boostorg/uuid/branch/develop) | [![Documentation](https://img.shields.io/badge/docs-develop-brightgreen.svg)](http://www.boost.org/doc/libs/release/libs/numeric)
+[`tensor`](https://travis-ci.org/BoostGSoC18/tensor.svg?branch=tensor) | [![Build Status](https://travis-ci.org/BoostGSoC18/tensor.svg?branch=tensor)](https://travis-ci.org/BoostGSoC18/tensor) | [![Build status](https://ci.appveyor.com/api/projects/status/github/BoostGSoC18/tensor?svg=true)](https://ci.appveyor.com/api/projects/status/github/BoostGSoC18/tensor) | [![codecov](https://codecov.io/gh/boostorg/uuid/branch/develop/graph/badge.svg)](https://codecov.io/gh/boostorg/uuid/branch/develop) | [![Documentation](https://img.shields.io/badge/docs-develop-brightgreen.svg)](http://www.boost.org/doc/libs/release/libs/numeric)
 
 ### Directories
 
 | Name        | Purpose                        |
 | ----------- | ------------------------------ |
 | `doc`       | documentation                  |
+| `examples`  | example files                  |
 | `include`   | headers                        |
 | `test`      | unit tests                     |
 

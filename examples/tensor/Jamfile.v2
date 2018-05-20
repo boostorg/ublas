@@ -1,0 +1,22 @@
+# Boost.uBLAS
+#
+# Copyright (c) 2018 Cem Bassoy
+#
+# Use, modification and distribution is subject to the Boost Software License,
+# Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+# http://www.boost.org/LICENSE_1_0.txt)
+
+
+# Project settings
+project boost-ublas-tensor-example
+    : requirements
+       <define>BOOST_UBLAS_NO_EXCEPTIONS
+       <toolset>vacpp:<define>"BOOST_UBLAS_NO_ELEMENT_PROXIES"
+       <toolset>gcc:<cxxflags>"-Wall -pedantic -Wextra -std=c++17"
+       <toolset>gcc:<cxxflags>"-Wno-unknown-pragmas"
+       <toolset>msvc:<cxxflags>"/W4" # == all
+    ;
+
+exe example01 : example01.cpp ;
+exe example02 : example02.cpp ;
+exe example03 : example03.cpp ;

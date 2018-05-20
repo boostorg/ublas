@@ -1,6 +1,8 @@
 # Copyright 2018 Stefan Seefeld
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
+
+
 language: cpp
 
 sudo: required
@@ -9,6 +11,7 @@ branches:
   only:
     - master
     - develop
+    - tensor
     - doc
     - ci
 
@@ -22,7 +25,7 @@ env:
 matrix:
   include:
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=c++11
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=c++17
 
 addons:
   apt:

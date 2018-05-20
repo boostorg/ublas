@@ -20,6 +20,7 @@
 
 #include <initializer_list>
 
+#include "algorithms.hpp"
 #include "expression.hpp"
 #include "expression_evaluation.hpp"
 #include "extents.hpp"
@@ -78,8 +79,8 @@ class tensor:
 		public detail::tensor_expression<tensor<T, F, A>,tensor<T, F, A>>
 {
 
-	static_assert( std::is_same_v<F,first_order> ||
-								 std::is_same_v<F,last_order >, "boost::numeric::tensor template class only supports first- or last-order storage formats.");
+	static_assert( std::is_same<F,first_order>::value ||
+								 std::is_same<F,last_order >::value, "boost::numeric::tensor template class only supports first- or last-order storage formats.");
 
 	using self_type  = tensor<T, F, A>;
 public:
@@ -309,33 +310,37 @@ public:
 	 *
 	 *  @param v vector to be moved.
 	 */
-//	BOOST_UBLAS_INLINE
-//	tensor (vector_type &&v)
-//		: tensor_expression_type<self_type>()
-//		, extents_ {}
-//		, strides_ {}
-//		, data_    {}
-//	{
-//		if(v.size() != 0){
-//			extents_ = extents_type{v.size(),1};
-//			strides_ = strides_type(extents_);
-//			data_    = std::move(v.data());
-//		}
-//	}
+	BOOST_UBLAS_INLINE
+	tensor (vector_type &&v)
+		: tensor_expression_type<self_type>()
+		, extents_ {}
+		, strides_ {}
+		, data_    {}
+	{
+		if(v.size() != 0){
+			extents_ = extents_type{v.size(),1};
+			strides_ = strides_type(extents_);
+			data_    = std::move(v.data());
+		}
+	}
 
 
-//	/** @brief Copy Constructor of the tensor template class
-//	 *
-//	 *  @param v tensor to be copied.
-//	 */
-//	BOOST_UBLAS_INLINE
-//	template<class other_layout>
-//	tensor (const tensor<value_type, layout_type> &v)
-//		: tensor_container<self_type> ()
-//		, extents_ (v.extents_)
-//		, strides_ (v.strides_)
-//		, data_    (v.data_   )
-//	{}
+	/** @brief Constructs a tensor with another tensor with a different layout
+	 *
+	 * @param other tensor with a different layout to be copied.
+	 */
+	BOOST_UBLAS_INLINE
+	template<class other_layout>
+	tensor (const tensor<value_type, other_layout> &other)
+		: tensor_expression_type<self_type> ()
+		, extents_ (other.extents())
+		, strides_ (other.extents())
+		, data_    (other.extents().product())
+	{
+		copy(this->rank(), this->extents().data(),
+				 this->data(), this->strides().data(),
+				 other.data(), other.strides().data());
+	}
 
 	/** @brief Constructs a tensor with an tensor expression
 	 *
@@ -413,6 +418,11 @@ public:
 		return *this;
 	}
 
+	tensor& operator=(const_reference v)
+	{
+		std::fill(this->begin(), this->end(), v);
+		return *this;
+	}
 
 	/** @brief Returns true if the tensor is empty (\c size==0) */
 	BOOST_UBLAS_INLINE
@@ -504,7 +514,7 @@ public:
 		if constexpr (sizeof...(is) == 0)
 			return this->data_[i];
 		else
-			return this->data_[detail::access<0>(0ul,this->strides_,i,is...)];
+			return this->data_[detail::access<0ul>(size_type(0),this->strides_,i,std::forward<size_types>(is)...)];
 	}
 
 	/** @brief Element access using a multi-index or single-index.
@@ -522,7 +532,7 @@ public:
 		if constexpr (sizeof...(is) == 0)
 			return this->data_[i];
 		else
-			return this->data_[detail::access<0ul>(0ul,this->strides_,i,is...)];
+			return this->data_[detail::access<0ul>(size_type(0),this->strides_,i,std::forward<size_types>(is)...)];
 	}
 
 
@@ -681,9 +691,6 @@ private:
 	strides_type strides_;
 	array_type data_;
 };
-
-
-
 
 }}} // namespaces
 

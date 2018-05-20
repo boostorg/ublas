@@ -15,29 +15,9 @@
 #include <boost/numeric/ublas/tensor/strides.hpp>
 #include <boost/numeric/ublas/tensor/extents.hpp>
 
-BOOST_AUTO_TEST_SUITE(test_strides, * boost::unit_test::depends_on("test_extents"));
+//BOOST_AUTO_TEST_SUITE(test_strides, * boost::unit_test::depends_on("test_extents"));
 
-//template<class layout_type>
-//struct fixture {
-//	using extents_type = boost::numeric::ublas::extents;
-//	using strides_type = boost::numeric::ublas::strides<layout_type>;
-//	fixture() : vstrides{
-//								strides_type{},
-//								strides_type{extents_type{1,1}}, // 1
-//								strides_type{extents_type{1,2}}, // 2
-//								strides_type{extents_type{2,1}}, // 3
-//								strides_type{extents_type{2,3}}, // 4
-//								strides_type{extents_type{2,3,1}}, // 5
-//								strides_type{extents_type{1,2,3}}, // 6
-//								strides_type{extents_type{4,2,3}}}  // 7
-//	{}
-//	std::vector<strides_type> vstrides;
-//};
-
-//,
-//											* boost::unit_test::label("strides")
-//											* boost::unit_test::label("constructor")
-//											* boost::unit_test::depends_on("test_extents")
+BOOST_AUTO_TEST_SUITE(test_strides);
 
 using test_types = std::tuple<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 

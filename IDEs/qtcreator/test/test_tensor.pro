@@ -33,9 +33,13 @@ SOURCES += \
 	../../../test/tensor/test_extents.cpp \
 	../../../test/tensor/test_strides.cpp \
 	../../../test/tensor/test_expression.cpp \
+	../../../test/tensor/test_expression_evaluation.cpp \
+	../../../test/tensor/test_functions.cpp \
 	../../../test/tensor/test_operators_comparison.cpp \	
 	../../../test/tensor/test_operators_arithmetic.cpp \
-    ../../../test/tensor/test_tensor_matrix_vector.cpp
+    ../../../test/tensor/test_tensor_matrix_vector.cpp \
+	../../../test/tensor/test_multiplication.cpp \
+	../../../test/tensor/test_algorithms.cpp
 
 
 INCLUDEPATH += \

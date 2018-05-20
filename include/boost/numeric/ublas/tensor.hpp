@@ -16,10 +16,14 @@
 #ifndef _BOOST_UBLAS_TENSOR_
 #define _BOOST_UBLAS_TENSOR_
 
-#include "tensor/operators_comparison.hpp"
+
+#include "tensor/functions.hpp"
 #include "tensor/operators_arithmetic.hpp"
+#include "tensor/operators_comparison.hpp"
 #include "tensor/extents.hpp"
 #include "tensor/strides.hpp"
+#include "tensor/ostream.hpp"
 #include "tensor/tensor.hpp"
+
 
 #endif

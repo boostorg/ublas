@@ -10,12 +10,11 @@ branches:
   only:
     - master
     - develop
+    - tensor
     - /feature\/.*/
 
 environment:
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      TOOLSET: msvc-14.0
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       TOOLSET: msvc-14.1
       CXXSTD: 17

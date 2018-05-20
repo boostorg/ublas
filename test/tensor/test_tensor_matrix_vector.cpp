@@ -10,7 +10,7 @@
 //  And we acknowledge the support from all contributors.
 
 
-
+#include <iostream>
 #include <random>
 #include <boost/numeric/ublas/tensor.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
@@ -18,8 +18,9 @@
 
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE ( test_tensor_matrix_interoperability, * boost::unit_test::depends_on("test_tensor") ) ;
+// BOOST_AUTO_TEST_SUITE ( test_tensor_matrix_interoperability, * boost::unit_test::depends_on("test_tensor") ) ;
 
+BOOST_AUTO_TEST_SUITE ( test_tensor_matrix_interoperability ) ;
 
 using test_types = zip<int,long,float,double>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 
@@ -434,15 +435,18 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
 		auto Q = tensor_type{e[0],1};
 		auto A = matrix_type(e[0],e[1]);
 		auto b = vector_type(e[1]);
+		auto c = vector_type(e[0]);
 		std::iota(b.data().begin(),b.data().end(), 1);
 		std::fill(A.data().begin(),A.data().end(), 1);
+		std::fill(c.data().begin(),c.data().end(), 2);
 		std::fill(Q.begin(),Q.end(), 2);
 
-		tensor_type T = Q + ublas::prod(A , b) + 2*b + 3*Q; // + 3*FIRST_ORDER_OPERATOR_RIGHTr
+		tensor_type T = Q + (ublas::prod(A , b) + 2*c) + 3*Q;
 
 		BOOST_CHECK_EQUAL (  T.extents().at(0) , Q.extents().at(0) );
 		BOOST_CHECK_EQUAL (  T.extents().at(1) , Q.extents().at(1));
 		BOOST_CHECK_EQUAL (  T.size() , Q.size() );
+		BOOST_CHECK_EQUAL (  T.size() , c.size() );
 		BOOST_CHECK_EQUAL (  T.rank() , Q.rank() );
 		BOOST_CHECK       ( !T.empty()    );
 		BOOST_CHECK_NE    (  T.data() , nullptr);
@@ -450,7 +454,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
 		for(auto i = 0ul; i < T.size(); ++i){
 			auto n = e[1];
 			auto ab = n * (n+1) / 2;
-			BOOST_CHECK_EQUAL( T(i), ab+4*Q(0)+2*b(i)  );
+			BOOST_CHECK_EQUAL( T(i), ab+4*Q(0)+2*c(0)  );
 		}
 
 	};
