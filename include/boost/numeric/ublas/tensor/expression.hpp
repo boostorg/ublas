@@ -40,20 +40,14 @@ namespace numeric {
 namespace ublas   {
 namespace detail  {
 
-///** \brief Base class for Tensor Expression models
-// *
-// * it does not model the Tensor Expression concept but all derived types should.
-// * The class defines a common base type and some common interface for all
-// * statically derived Tensor Expression classes.
-// * We implement the casts to the statically derived type.
-// */
-
-// \brief expression class for expression templates
-//
-// \note implements crtp - no use of virtual function calls
-// 
-// \tparam T element type of matrices and scalars of the expression
-// \tparam D derived type that can be matrices or generic lambda functions. Must support operator()(std::size_t i)
+/** @\brief base class for tensor expressions
+ *
+ * \note implements crtp - no use of virtual function calls
+ *
+ * \tparam T type of the tensor
+ * \tparam E type of the derived expression (crtp)
+ *
+ **/
 template<class T, class E>
 struct tensor_expression
 		: public ublas_expression<E>
@@ -62,19 +56,9 @@ struct tensor_expression
 	using expression_type = E;
 	using type_category = tensor_tag;
 	using tensor_type = T;
-	using derived_type = ublas_expression<E>;
-
-	BOOST_UBLAS_INLINE
-	auto const& derived() const    { return *static_cast<const derived_type*> (this); }
 
 	BOOST_UBLAS_INLINE
 	auto const& operator()() const { return *static_cast<const expression_type*> (this); }
-	BOOST_UBLAS_INLINE
-	auto & operator()()            { return *static_cast<      expression_type*> (this); }
-
-	BOOST_UBLAS_INLINE
-	decltype(auto) operator()(std::size_t i) const { return static_cast<const expression_type&>(*this)(i); }
-
 
 protected :
 	explicit tensor_expression() = default;
@@ -89,29 +73,26 @@ struct binary_tensor_expression
 {
 	using self_type = binary_tensor_expression<T,EL,ER,OP>;
 	using tensor_type  = T;
-
+	using binary_operation = OP;
 	using expression_type_left  = EL;
 	using expression_type_right = ER;
+	using derived_type =  tensor_expression <tensor_type,self_type>;
 
 	using size_type = typename tensor_type::size_type;
 
-	explicit binary_tensor_expression(expression_type_left  const& l, expression_type_right const& r, OP o)
+	explicit binary_tensor_expression(expression_type_left  const& l, expression_type_right const& r, binary_operation o)
 		: el(l) , er(r) , op(o) {}
 	binary_tensor_expression() = delete;
 	binary_tensor_expression(const binary_tensor_expression& l) = delete;
-	binary_tensor_expression(binary_tensor_expression&& l) = delete;
-
-	BOOST_UBLAS_INLINE
-	const auto & derived_left()  const { return *static_cast<const expression_type_left*>  (this); }
-	BOOST_UBLAS_INLINE
-	const auto & derived_right() const { return *static_cast<const expression_type_right*> (this); }
+	binary_tensor_expression(binary_tensor_expression&& l)
+		: el(l.el), er(l.er), op(l.op) {}
 
 	BOOST_UBLAS_INLINE
 	decltype(auto)  operator()(size_type i) const { return op(el(i), er(i)); }
 
 	expression_type_left const& el;
 	expression_type_right const& er;
-	OP op;
+	binary_operation op;
 };
 
 /// @brief helper function to simply instantiation of lambda proxy class
@@ -163,11 +144,8 @@ struct unary_tensor_expression
 	explicit unary_tensor_expression(E const& ee, OP o) : e(ee) , op(o) {}
 	unary_tensor_expression() = delete;
 	unary_tensor_expression(const unary_tensor_expression& l) = delete;
-	unary_tensor_expression(unary_tensor_expression&& l) = delete;
-
-
-	BOOST_UBLAS_INLINE
-	const auto& derived() const { return *static_cast<const derived_type*> (this); }
+	unary_tensor_expression(unary_tensor_expression&& l)
+		: e(l.e), op(op.l) {}
 
 	BOOST_UBLAS_INLINE
 	decltype(auto) operator()(size_type i) const { return op(e(i)); }

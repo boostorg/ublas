@@ -4,4 +4,4 @@ TARGET = texample03
 include (../../configuration.pri)
 
 SOURCES += \
-	../../../../../examples/tensor/example03.cpp
+	../../../../../examples/tensor/example_einstein_notation.cpp

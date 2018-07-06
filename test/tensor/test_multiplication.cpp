@@ -5,9 +5,9 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB in producing this work.
+//  Fraunhofer and Google in producing this work
+//  which started as a Google Summer of Code project.
 //
-//  And we acknowledge the support from all contributors.
 
 
 #include <iostream>
@@ -59,6 +59,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_mtv, value,  test_types, fixture )
 	using vector_type  = std::vector<value_type>;
 	using extents_type = ublas::shape;
 	using extents_type_base = typename extents_type::base_type;
+	using size_type = typename extents_type_base::value_type;
 
 
 	for(auto const& na : extents) {
@@ -68,14 +69,14 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_mtv, value,  test_types, fixture )
 
 		auto a = vector_type(na.product(), value_type{2});
 		auto wa = strides_type(na);
-		for(auto m = 0ul; m < na.size(); ++m){
+		for(auto m = 0u; m < na.size(); ++m){
 			auto nb = extents_type {na[m],1};
 			auto wb = strides_type (nb);
 			auto b  = vector_type  (nb.product(), value_type{1} );
 
-			auto nc_base = extents_type_base(std::max(na.size()-1,2ul),1);
+			auto nc_base = extents_type_base(std::max(na.size()-1, size_type{2}), 1);
 
-			for(auto i = 0ul, j = 0ul; i < na.size(); ++i)
+			for(auto i = 0u, j = 0u; i < na.size(); ++i)
 				if(i != m)
 					nc_base[j++] = na[i];
 
@@ -84,7 +85,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_mtv, value,  test_types, fixture )
 			auto c  = vector_type  (nc.product(), value_type{0});
 
 			ublas::detail::recursive::mtv(
-						m,
+				size_type(m),
 						c.data(), nc.data(), wc.data(),
 						a.data(), na.data(), wa.data(),
 						b.data());
@@ -149,18 +150,19 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttv, value,  test_types, fixture )
 	using vector_type  = std::vector<value_type>;
 	using extents_type = ublas::shape;
 	using extents_type_base = typename extents_type::base_type;
+	using size_type = typename extents_type_base::value_type;
 
 
 	for(auto const& na : extents) {
 
 		auto a = vector_type(na.product(), value_type{2});
 		auto wa = strides_type(na);
-		for(auto m = 0ul; m < na.size(); ++m){
+		for(auto m = 0u; m < na.size(); ++m){
 			auto b  = vector_type  (na[m], value_type{1} );
 			auto nb = extents_type {na[m],1};
 			auto wb = strides_type (nb);
 
-			auto nc_base = extents_type_base(std::max(na.size()-1,2ul),1);
+			auto nc_base = extents_type_base(std::max(na.size()-1, size_type(2)),1);
 
 			for(auto i = 0ul, j = 0ul; i < na.size(); ++i)
 				if(i != m)
@@ -170,7 +172,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttv, value,  test_types, fixture )
 			auto wc = strides_type (nc);
 			auto c  = vector_type  (nc.product(), value_type{0});
 
-			ublas::ttv( m+1, na.size(),
+			ublas::ttv(size_type(m+1), na.size(),
 									c.data(), nc.data(), wc.data(),
 									a.data(), na.data(), wa.data(),
 									b.data(), nb.data(), wb.data());
@@ -192,13 +194,14 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttm, value,  test_types, fixture )
 	using strides_type = ublas::strides<layout_type>;
 	using vector_type  = std::vector<value_type>;
 	using extents_type = ublas::shape;
+	using size_type = typename extents_type::value_type;
 
 
 	for(auto const& na : extents) {
 
 		auto a = vector_type(na.product(), value_type{2});
 		auto wa = strides_type(na);
-		for(auto m = 0ul; m < na.size(); ++m){
+		for(auto m = 0u; m < na.size(); ++m){
 			auto nb = extents_type {na[m], na[m] };
 			auto b  = vector_type  (nb.product(), value_type{1} );
 			auto wb = strides_type (nb);
@@ -208,7 +211,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttm, value,  test_types, fixture )
 			auto wc = strides_type (nc);
 			auto c  = vector_type  (nc.product(), value_type{0});
 
-			ublas::ttm( m+1, na.size(),
+			ublas::ttm(size_type(m+1), na.size(),
 									c.data(), nc.data(), wc.data(),
 									a.data(), na.data(), wa.data(),
 									b.data(), nb.data(), wb.data());
@@ -279,7 +282,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt_permutation, value,  test_type
 
 		// for the number of possible permutations
 		// only permutation tuple pib is changed.
-		for(auto i = 0ul; i < f; ++i) {
+		for(auto i = 0u; i < f; ++i) {
 
 			auto nb = permute_extents( pib, na  );
 			auto wb = strides_type(nb);
@@ -287,19 +290,19 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt_permutation, value,  test_type
 			auto pb = nb.size();
 
 			// the number of contractions is changed.
-			for( auto q = 0ul; q <= pa; ++q) {
+			for( auto q = size_type(0); q <= pa; ++q) {
 
 				auto r  = pa - q;
 				auto s  = pb - q;
 
-				auto pc = r+s > 0 ? std::max(r+s,2ul) : 2ul;
+				auto pc = r+s > 0 ? std::max(r+s,size_type(2)) : size_type(2);
 
 				auto nc_base = std::vector<size_type>( pc , 1 );
 
-				for(auto i = 0ul; i < r; ++i)
+				for(auto i = 0u; i < r; ++i)
 					nc_base[ i ] = na[ pia[i]-1 ];
 
-				for(auto i = 0ul; i < s; ++i)
+				for(auto i = 0u; i < s; ++i)
 					nc_base[ r + i ] = nb[ pib_inv[i]-1 ];
 
 				auto nc = extents_type ( nc_base );
@@ -315,7 +318,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt_permutation, value,  test_type
 
 				auto acc = value_type(1);
 				for(auto i = r; i < pa; ++i)
-					acc *= na[pia[i]-1];
+					acc *= value_type(na[pia[i]-1]);
 
 				for(auto i = 0ul; i < c.size(); ++i)
 					BOOST_CHECK_EQUAL( c[i] , acc * a[0] * b[0] );
@@ -368,19 +371,19 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt, value,  test_types, fixture )
 
 
 		// the number of contractions is changed.
-		for( auto q = 0ul; q <= pa; ++q) { // pa
+		for( auto q = size_type(0); q <= pa; ++q) { // pa
 
 			auto r  = pa - q;
 			auto s  = pb - q;
 
-			auto pc = r+s > 0 ? std::max(r+s,2ul) : 2ul;
+			auto pc = r+s > 0 ? std::max(r+s, size_type(2)) : size_type(2);
 
 			auto nc_base = std::vector<size_type>( pc , 1 );
 
-			for(auto i = 0ul; i < r; ++i)
+			for(auto i = 0u; i < r; ++i)
 				nc_base[ i ] = na[ i ];
 
-			for(auto i = 0ul; i < s; ++i)
+			for(auto i = 0u; i < s; ++i)
 				nc_base[ r + i ] = nb[ i ];
 
 			auto nc = extents_type ( nc_base );
@@ -399,9 +402,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt, value,  test_types, fixture )
 
 			auto acc = value_type(1);
 			for(auto i = r; i < pa; ++i)
-				acc *= na[i];
+				acc *= value_type(na[i]);
 
-			for(auto i = 0ul; i < c.size(); ++i)
+			for(auto i = 0u; i < c.size(); ++i)
 				BOOST_CHECK_EQUAL( c[i] , acc * a[0] * b[0] );
 
 		}

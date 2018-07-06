@@ -12,6 +12,7 @@ branches:
     - master
     - develop
     - tensor
+    - subtensor
     - doc
     - ci
 

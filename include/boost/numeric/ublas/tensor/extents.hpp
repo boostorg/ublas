@@ -278,7 +278,7 @@ public:
 		}
 
 		auto new_extent = basic_extents{};
-		auto insert_iter = std::back_insert_iterator(new_extent._base);
+		auto insert_iter = std::back_insert_iterator<typename basic_extents::base_type>(new_extent._base);
 		std::remove_copy(this->_base.begin(), this->_base.end(), insert_iter ,value_type{1});
 		return new_extent;
 
@@ -296,7 +296,7 @@ public:
 
 	bool operator != (basic_extents const& b) const
 	{
-		return _base != b._base;
+		return !( _base == b._base );
 	}
 
 	const_iterator

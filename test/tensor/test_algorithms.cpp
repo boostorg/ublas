@@ -5,7 +5,8 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB in producing this work.
+//  Fraunhofer and Google in producing this work
+//  which started as a Google Summer of Code project.
 //
 
 
@@ -76,8 +77,118 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy, value,  test_type
 		for(auto i = 1ul; i < c.size(); ++i)
 			BOOST_CHECK_EQUAL( c[i], a[i] );
 
+		using size_type = typename ublas::strides<ublas::first_order>::value_type;
+		size_type const*const p0 = nullptr;
+		BOOST_CHECK_THROW( ublas::copy( n.size(), p0, c.data(), wc.data(), b.data(), wb.data() ), std::runtime_error );
+		BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c.data(), p0, b.data(), wb.data() ), std::runtime_error );
+		BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c.data(), wc.data(), b.data(), p0 ), std::runtime_error );
+
+		value_type* c0 = nullptr;
+		BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c0, wc.data(), b.data(), wb.data() ), std::runtime_error );
+	}
+
+	// special case rank == 0
+	{
+		auto n = ublas::shape{};
+
+		auto a  = vector_type(n.product());
+		auto b  = vector_type(n.product());
+		auto c  = vector_type(n.product());
+
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+		auto wb = ublas::strides<ublas::last_order> (n);
+		auto wc = ublas::strides<ublas::first_order>(n);
+
+		ublas::copy( n.size(), n.data(), b.data(), wb.data(), a.data(), wa.data() );
+		ublas::copy( n.size(), n.data(), c.data(), wc.data(), b.data(), wb.data() );
+
+
+
+		BOOST_CHECK_NO_THROW( ublas::copy( n.size(), n.data(), c.data(), wc.data(), b.data(), wb.data() ) );
+
+	}
+
+
+
+
+
+}
+
+
+
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform, value,  test_types2, fixture )
+{
+	using namespace boost::numeric;
+	using value_type   = value;
+	using vector_type  = std::vector<value_type>;
+
+
+	for(auto const& n : extents) {
+
+		auto a  = vector_type(n.product());
+		auto b  = vector_type(n.product());
+		auto c  = vector_type(n.product());
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+		auto wb = ublas::strides<ublas::last_order> (n);
+		auto wc = ublas::strides<ublas::first_order>(n);
+
+		auto v = value_type{};
+		for(auto i = 0ul; i < a.size(); ++i, v+=1){
+			a[i]=v;
+		}
+
+		ublas::transform( n.size(), n.data(), b.data(), wb.data(), a.data(), wa.data(), [](value_type const& a){ return a + value_type(1);} );
+		ublas::transform( n.size(), n.data(), c.data(), wc.data(), b.data(), wb.data(), [](value_type const& a){ return a - value_type(1);} );
+
+		for(auto i = 1ul; i < c.size(); ++i)
+			BOOST_CHECK_EQUAL( c[i], a[i] );
+
 	}
 }
+
+
+
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  test_types2, fixture )
+{
+	using namespace boost::numeric;
+	using value_type   = value;
+	using vector_type  = std::vector<value_type>;
+
+
+	for(auto const& n : extents) {
+
+		auto const s = n.product();
+
+		auto a  = vector_type(n.product());
+//		auto b  = vector_type(n.product());
+//		auto c  = vector_type(n.product());
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+//		auto wb = ublas::strides<ublas::last_order> (n);
+//		auto wc = ublas::strides<ublas::first_order>(n);
+
+		auto v = value_type{};
+		for(auto i = 0ul; i < a.size(); ++i, v+=value_type(1)){
+			a[i]=v;
+		}
+
+		auto acc = ublas::accumulate( n.size(), n.data(), a.data(), wa.data(), v);
+
+		BOOST_CHECK_EQUAL( acc, value_type( s*(s+1) / 2 )  );
+
+
+		auto acc2 = ublas::accumulate( n.size(), n.data(), a.data(), wa.data(), v,
+									   [](auto const& l, auto const& r){return l + r; });
+
+		BOOST_CHECK_EQUAL( acc2, value_type( s*(s+1) / 2 )  );
+
+	}
+}
+
+
+
 
 template<class V>
 void init(std::vector<V>& a)
@@ -108,7 +219,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans, value,  test_typ
 	using vector_type  = std::vector<value_type>;
 	using strides_type = ublas::strides<layout_type>;
 	using extents_type = ublas::shape;
-	using permutation_type = std::vector<std::size_t>;
+	using size_type = typename extents_type::value_type;
+	using permutation_type = std::vector<size_type>;
+	
 
 	for(auto const& n : extents) {
 
@@ -127,7 +240,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans, value,  test_typ
 		init(a);
 
 		// so wie last-order.
-		for(auto i = 0ul, j = p; i < n.size(); ++i, --j)
+		for(auto i = size_type(0), j = p; i < n.size(); ++i, --j)
 			pi[i] = j;
 
 		auto nc = typename extents_type::base_type (p);

@@ -5,14 +5,14 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB in producing this work.
+//  Fraunhofer and Google in producing this work
+//  which started as a Google Summer of Code project.
 //
-//  And we acknowledge the support from all contributors.
 
 
 
 #include <random>
-#include <boost/numeric/ublas/tensor/tensor.hpp>
+#include <boost/numeric/ublas/tensor/tensor.hpp> 
 
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE TestTensor
@@ -461,12 +461,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_standard_iterator, value,  test_ty
 		BOOST_CHECK_EQUAL( std::distance(t.cbegin(),  t.cend ()), t.size() );
 		BOOST_CHECK_EQUAL( std::distance(t.crbegin(), t.crend()), t.size() );
 
-		BOOST_CHECK(  t.data() ==  std::addressof( *t.begin () )  ) ;
-		BOOST_CHECK(  t.data() ==  std::addressof( *t.cbegin() )  ) ;
-
-		BOOST_CHECK(  (t.data()+t.size()) ==  std::addressof( *t.end () ) ) ;
-		BOOST_CHECK(  (t.data()+t.size()) ==  std::addressof( *t.cend() )  ) ;
-
+		if(t.size() > 0) {
+			BOOST_CHECK(  t.data() ==  std::addressof( *t.begin () )  ) ;
+			BOOST_CHECK(  t.data() ==  std::addressof( *t.cbegin() )  ) ;
+		}
 	}
 }
 

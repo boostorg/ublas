@@ -5,9 +5,9 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB in producing this work.
+//  Fraunhofer and Google in producing this work
+//  which started as a Google Summer of Code project.
 //
-//  And we acknowledge the support from all contributors.
 
 
 
@@ -66,6 +66,17 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
 
 		for(auto i = 0ul; i < t.size(); ++i)
 			BOOST_CHECK_EQUAL ( r(i), 3*t(i) + t2(i) );
+
+
+		r = t2 / (t+3) * (t+1) - t2; // r = ( t2/ ((t+3)*(t+1)) ) - t2
+
+		for(auto i = 0ul; i < t.size(); ++i)
+			BOOST_CHECK_EQUAL ( r(i), t2(i) / (t(i)+3)*(t(i)+1) - t2(i) );
+
+		r = 3+t2 / (t+3) * (t+1) * t - t2; // r = 3+( t2/ ((t+3)*(t+1)*t) ) - t2
+
+		for(auto i = 0ul; i < t.size(); ++i)
+			BOOST_CHECK_EQUAL ( r(i), 3+t2(i) / (t(i)+3)*(t(i)+1)*t(i) - t2(i) );
 
 		r = t2 - t + t2 - t;
 

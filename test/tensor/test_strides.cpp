@@ -5,9 +5,10 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB in producing this work.
+//  Fraunhofer and Google in producing this work
+//  which started as a Google Summer of Code project.
 //
-//  And we acknowledge the support from all contributors.
+
 
 
 

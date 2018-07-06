@@ -1,4 +1,3 @@
-//
 //  Copyright (c) 2018
 //  Cem Bassoy
 //
@@ -7,9 +6,9 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB in producing this work.
+//  Fraunhofer and Google in producing this work
+//  which started as a Google Summer of Code project.
 //
-//  And we acknowledge the support from all contributors.
 
 #ifndef _BOOST_UBLAS_TEST_TENSOR_UTILITY_
 #define _BOOST_UBLAS_TEST_TENSOR_UTILITY_
@@ -48,12 +47,8 @@ template<class ... types>
 using zip = zip_helper<std::tuple<>,types...>;
 
 // creates e.g.
-//using test_types =
-//std::tuple<
-//std::pair<float, boost::numeric::ublas::first_order>,
-//std::pair<float, boost::numeric::ublas::last_order >,
-//std::pair<double,boost::numeric::ublas::first_order>,
-//std::pair<double,boost::numeric::ublas::last_order >
+// using test_types = zip<long,float>::with_t<first_order,last_order>; // equals
+// using test_types = std::tuple< std::pair<float, first_order>, std::pair<float, last_order >, std::pair<double,first_order>, std::pair<double,last_order >
 //>;
 //static_assert(std::is_same< std::tuple_element_t<0,std::tuple_element_t<0,test_types2>>, float>::value,"should be float ");
 //static_assert(std::is_same< std::tuple_element_t<1,std::tuple_element_t<0,test_types2>>, boost::numeric::ublas::first_order>::value,"should be boost::numeric::ublas::first_order ");

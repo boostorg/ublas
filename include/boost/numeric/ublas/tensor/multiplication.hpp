@@ -650,7 +650,7 @@ void ttv(SizeType const m, SizeType const p,
 		detail::recursive::mtv(m-1, c, nc, wc,  a, na, wa,   b);
 	else /*if( p == 1 )*/{
 		auto v = std::remove_pointer_t<std::remove_cv_t<PointerOut>>{};
-		*c = detail::recursive::inner(0ul, na, a, wa, b, wb, v);
+		*c = detail::recursive::inner(SizeType(0), na, a, wa, b, wb, v);
 	}
 
 }

@@ -95,12 +95,12 @@ public:
 
 
 		if constexpr (std::is_same<layout_type,first_order>::value){
-			auto k = 1ul, kend = this->size();
+			size_type k = 1ul, kend = this->size();
 			for(; k < kend; ++k)
 				_base[k] = _base[k-1] * s[k-1];
 		}
 		else {
-			auto k = this->size()-2, kend = 0ul;
+			size_type k = this->size()-2, kend = 0ul;
 			for(; k > kend; --k)
 				_base[k] = _base[k+1] * s[k+1];
 			_base[0] = _base[1] * s[1];
@@ -202,12 +202,13 @@ using strides = basic_strides<std::size_t, layout_type>;
 namespace detail {
 
 
-/** @brief Accesses memory with multi-indices
+/** @brief Returns relative memory index with respect to a multi-index
  *
- * @code auto m = access(0, 3,4,5); @endcode
+ * @code auto j = access(std::vector{3,4,5}, strides{shape{4,2,3},first_order}); @endcode
  *
- * @param[in] i multi-index vector of length p
- * @returns relative memory location depending on \c i
+ * @param[in] i multi-index of length p
+ * @param[in] w stride vector of length p
+ * @returns relative memory location depending on \c i and \c w
 */
 BOOST_UBLAS_INLINE
 template<class size_type, class layout_type>
@@ -220,14 +221,14 @@ auto access(std::vector<size_type> const& i, basic_strides<size_type,layout_type
 	return sum;
 }
 
-/** @brief Accesses memory with multi-indices
+/** @brief Returns relative memory index with respect to a multi-index
  *
- * @code auto m = access(0, 3,4,5); @endcode
+ * @code auto j = access(0, strides{shape{4,2,3},first_order}, 2,3,4); @endcode
  *
  * @param[in] i   first element of the partial multi-index
  * @param[in] is  the following elements of the partial multi-index
- * @param[in] sum the current
- * @returns relative memory location depending on \c i
+ * @param[in] sum the current relative memory index
+ * @returns relative memory location depending on \c i and \c w
 */
 BOOST_UBLAS_INLINE
 template<std::size_t r, class layout_type, class ... size_types>

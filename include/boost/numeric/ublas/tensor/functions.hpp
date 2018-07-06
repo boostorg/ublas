@@ -19,10 +19,12 @@
 #include <algorithm>
 #include <numeric>
 
+
 #include "multiplication.hpp"
 #include "algorithms.hpp"
-
-
+#include "expression.hpp"
+#include "expression_evaluation.hpp"
+#include "storage_traits.hpp"
 
 namespace boost {
 namespace numeric {
@@ -60,9 +62,10 @@ auto prod(tensor<V,F,A1> const& a, vector<V,A2> const& b, const std::size_t m)
 	using extents_type = typename tensor_type::extents_type;
 	using ebase_type   = typename extents_type::base_type;
 	using value_type   = typename tensor_type::value_type;
+	using size_type = typename extents_type::value_type;
 
-	auto const p = a.rank();
-
+	auto const p = std::size_t(a.rank());
+	
 	if( m == 0)
 		throw std::length_error("Error in boost::numeric::ublas::prod: Contraction mode must be greater than zero.");
 
@@ -79,7 +82,7 @@ auto prod(tensor<V,F,A1> const& a, vector<V,A2> const& b, const std::size_t m)
 		throw std::length_error("Error in boost::numeric::ublas::prod: vector should not be empty.");
 
 
-	auto nc = ebase_type(std::max(p-1,2ul) ,1);
+	auto nc = ebase_type(std::max(p-1, size_type(2)) , size_type(1));
 	auto nb = ebase_type{b.size(),1};
 
 
@@ -186,11 +189,12 @@ auto prod(tensor<V,F,A1> const& a, tensor<V,F,A2> const& b,
 	using tensor_type  = tensor<V,F,A1>;
 	using extents_type = typename tensor_type::extents_type;
 	using value_type   = typename tensor_type::value_type;
+	using size_type = typename extents_type::value_type;
 
 	auto const pa = a.rank();
 	auto const pb = b.rank();
 
-	auto const q  = phia.size();
+	auto const q  = size_type(phia.size());
 
 	if(pa == 0ul)
 		throw std::runtime_error("Error in ublas::prod: order of left-hand side tensor must be greater than 0.");
@@ -225,7 +229,7 @@ auto prod(tensor<V,F,A1> const& a, tensor<V,F,A2> const& b,
 	std::iota(phia1.begin(), phia1.end(), 1ul);
 	std::iota(phib1.begin(), phib1.end(), 1ul);
 
-	std::vector<std::size_t> nc( std::max ( r+s , 2ul ), 1ul );
+	std::vector<std::size_t> nc( std::max ( r+s , size_type(2) ), size_type(1) );
 
 	for(auto i = 0ul; i < phia.size(); ++i)
 		* std::remove(phia1.begin(), phia1.end(), phia.at(i)) = phia.at(i);
@@ -261,6 +265,11 @@ auto prod(tensor<V,F,A1> const& a, tensor<V,F,A2> const& b,
 
 	return c;
 }
+
+//template<class V, class F, class A1, class A2, std::size_t N, std::size_t M>
+//auto operator*( tensor_index<V,F,A1,N> const& lhs, tensor_index<V,F,A2,M> const& rhs)
+
+
 
 
 /** @brief Computes the q-mode tensor-times-tensor product
@@ -332,7 +341,7 @@ auto outer_prod(tensor<V,F,A1> const& a, tensor<V,F,A2> const& b)
 	using extents_type = typename tensor_type::extents_type;
 
 	if( a.empty() || b.empty() )
-		throw std::length_error("Error in boost::numeric::ublas::outer_prod: tensors should not be empty.");
+		throw std::runtime_error("Error in boost::numeric::ublas::outer_prod: tensors should not be empty.");
 
 	auto nc = typename extents_type::base_type(a.rank() + b.rank());
 	for(auto i = 0u; i < a.rank(); ++i)
@@ -370,7 +379,7 @@ auto trans(tensor<V,F,A> const& a, std::vector<std::size_t> const& tau)
 //	using strides_type = typename tensor_type::strides_type;
 
 	if( a.empty() )
-		throw std::length_error("Error in boost::numeric::ublas::trans: tensor should not be empty.");
+		return tensor<V,F,A>{};
 
 	auto const   p = a.rank();
 	auto const& na = a.extents();
@@ -388,19 +397,157 @@ auto trans(tensor<V,F,A> const& a, std::vector<std::size_t> const& tau)
 				 c.data(), c.strides().data(),
 				 a.data(), a.strides().data());
 
-
 //	auto wc_pi = typename strides_type::base_type (p);
 //	for(auto i = 0u; i < p; ++i)
 //		wc_pi.at(tau.at(i)-1) = c.strides().at(i);
 
 
-	//copy(a.rank(),
-	//		 a.extents().data(),
-	//		 c.data(), wc_pi.data(),
-	//		 a.data(), a.strides().data() );
+//copy(a.rank(),
+//		 a.extents().data(),
+//		 c.data(), wc_pi.data(),
+//		 a.data(), a.strides().data() );
 
 	return c;
 }
+
+/** @brief Computes the frobenius norm of a tensor expression
+ *
+ * @note evaluates the tensor expression and calls the accumulate function
+ *
+ *
+ * Implements the two-norm with
+ * k = sqrt( sum_(i1,...,ip) A(i1,...,ip)^2 )
+ *
+ * @param[in] a    tensor object of rank p
+ * @returns        the frobenius norm of the tensor
+*/
+//template<class V, class F, class A>
+//auto norm(tensor<V,F,A> const& a)
+template<class T, class D>
+auto norm(detail::tensor_expression<T,D> const& expr)
+{
+
+	using tensor_type = typename detail::tensor_expression<T,D>::tensor_type;
+	using value_type = typename tensor_type::value_type;
+
+	auto a = tensor_type( expr );
+
+	if( a.empty() )
+		throw std::runtime_error("Error in boost::numeric::ublas::norm: tensors should not be empty.");
+
+	return std::sqrt( accumulate( a.order(), a.extents().data(), a.data(), a.strides().data(), value_type{},
+								  [](auto const& l, auto const& r){ return l + r*r; }  ) ) ;
+}
+
+
+
+/** @brief Extract the real component of tensor elements within a tensor expression
+ *
+ * @param[in] lhs tensor expression
+ * @returns   unary tensor expression
+*/
+template<class T, class D>
+auto real(detail::tensor_expression<T,D> const& expr) {
+	return detail::make_unary_tensor_expression<T> (expr(), [] (auto const& l) { return std::real( l ); } );
+}
+
+/** @brief Extract the real component of tensor elements within a tensor expression
+ *
+ * @param[in] lhs tensor expression
+ * @returns   unary tensor expression
+*/
+template<class V, class F, class A, class D>
+auto real(detail::tensor_expression<tensor<std::complex<V>,F,A>,D> const& expr)
+{
+	using tensor_complex_type = tensor<std::complex<V>,F,A>;
+	using tensor_type = tensor<V,F,typename storage_traits<A>::template rebind<V>>;
+
+	if( detail::retrieve_extents( expr  ).empty() )
+		throw std::runtime_error("Error in boost::numeric::ublas::real: tensors should not be empty.");
+
+	auto a = tensor_complex_type( expr );
+	auto c = tensor_type( a.extents() );
+
+	std::transform( a.begin(), a.end(),  c.begin(), [](auto const& l){ return std::real(l) ; }  );
+
+	return c;
+}
+
+
+/** @brief Extract the imaginary component of tensor elements within a tensor expression
+ *
+ * @param[in] lhs tensor expression
+ * @returns   unary tensor expression
+*/
+template<class T, class D>
+auto imag(detail::tensor_expression<T,D> const& lhs) {
+	return detail::make_unary_tensor_expression<T> (lhs(), [] (auto const& l) { return std::imag( l ); } );
+}
+
+
+/** @brief Extract the imag component of tensor elements within a tensor expression
+ *
+ * @param[in] lhs tensor expression
+ * @returns   unary tensor expression
+*/
+template<class V, class A, class F, class D>
+auto imag(detail::tensor_expression<tensor<std::complex<V>,F,A>,D> const& expr)
+{
+	using tensor_complex_type = tensor<std::complex<V>,F,A>;
+	using tensor_type = tensor<V,F,typename storage_traits<A>::template rebind<V>>;
+
+	if( detail::retrieve_extents( expr  ).empty() )
+		throw std::runtime_error("Error in boost::numeric::ublas::real: tensors should not be empty.");
+
+	auto a = tensor_complex_type( expr );
+	auto c = tensor_type( a.extents() );
+
+	std::transform( a.begin(), a.end(),  c.begin(), [](auto const& l){ return std::imag(l) ; }  );
+
+	return c;
+}
+
+/** @brief Computes the complex conjugate component of tensor elements within a tensor expression
+ *
+ * @param[in] expr tensor expression
+ * @returns   complex tensor
+*/
+template<class T, class D>
+auto conj(detail::tensor_expression<T,D> const& expr)
+{
+	using tensor_type = T;
+	using value_type = typename tensor_type::value_type;
+	using layout_type = typename tensor_type::layout_type;
+	using array_type = typename tensor_type::array_type;
+
+	using new_value_type = std::complex<value_type>;
+	using new_array_type = typename storage_traits<array_type>::template rebind<new_value_type>;
+
+	using tensor_complex_type = tensor<new_value_type,layout_type, new_array_type>;
+
+	if( detail::retrieve_extents( expr  ).empty() )
+		throw std::runtime_error("Error in boost::numeric::ublas::conj: tensors should not be empty.");
+
+	auto a = tensor_type( expr );
+	auto c = tensor_complex_type( a.extents() );
+
+	std::transform( a.begin(), a.end(),  c.begin(), [](auto const& l){ return std::conj(l) ; }  );
+
+	return c;
+}
+
+
+/** @brief Computes the complex conjugate component of tensor elements within a tensor expression
+ *
+ * @param[in] lhs tensor expression
+ * @returns   unary tensor expression
+*/
+template<class V, class A, class F, class D>
+auto conj(detail::tensor_expression<tensor<std::complex<V>,F,A>,D> const& expr)
+{
+	return detail::make_unary_tensor_expression<tensor<std::complex<V>,F,A>> (expr(), [] (auto const& l) { return std::conj( l ); } );
+}
+
 
 
 }

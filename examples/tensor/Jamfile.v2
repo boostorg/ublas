@@ -17,6 +17,7 @@ project boost-ublas-tensor-example
        <toolset>msvc:<cxxflags>"/W4" # == all
     ;
 
-exe example01 : example01.cpp ;
-exe example02 : example02.cpp ;
-exe example03 : example03.cpp ;
+exe example_construction_access : example_construction_access.cpp ;
+exe example_simple_expressions : example_simple_expressions.cpp ;
+exe example_prod_expressions : example_prod_expressions.cpp ;
+exe example_einstein_notation : example_einstein_notation.cpp ;

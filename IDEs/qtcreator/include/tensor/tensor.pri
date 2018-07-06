@@ -9,8 +9,7 @@ HEADERS += \
 	$${INCLUDE_DIR}/boost/numeric/ublas/tensor/algorithms.hpp \
 	$${INCLUDE_DIR}/boost/numeric/ublas/tensor/expression_evaluation.hpp \
 	$${INCLUDE_DIR}/boost/numeric/ublas/tensor/operators_comparison.hpp \
-	$${INCLUDE_DIR}/boost/numeric/ublas/tensor/operators_arithmetic.hpp
-
-
-
-#	$${INCLUDE_DIR}/boost/numeric/ublas/tensor/algorithm.hpp
+	$${INCLUDE_DIR}/boost/numeric/ublas/tensor/operators_arithmetic.hpp \
+	$${INCLUDE_DIR}/boost/numeric/ublas/tensor/multi_index.hpp \
+	$${INCLUDE_DIR}/boost/numeric/ublas/tensor/multi_index_utility.hpp \
+	$${INCLUDE_DIR}/boost/numeric/ublas/tensor/index.hpp

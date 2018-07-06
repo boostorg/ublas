@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS = example01 example02 example03
+SUBDIRS = example_construction_access example_simple_expressions example_prod_expressions example_einstein_notation

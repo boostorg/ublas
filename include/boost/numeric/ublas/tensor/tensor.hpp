@@ -1,4 +1,3 @@
-//
 //  Copyright (c) 2018
 //  Cem Bassoy
 //
@@ -7,9 +6,10 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB in producing this work.
+//  Fraunhofer and Google in producing this work
+//  which started as a Google Summer of Code project.
 //
-//  And we acknowledge the support from all contributors.
+
 
 /// \file tensor.hpp Definition for the tensor template class
 
@@ -25,8 +25,7 @@
 #include "expression_evaluation.hpp"
 #include "extents.hpp"
 #include "strides.hpp"
-
-
+#include "index.hpp"
 
 namespace boost { namespace numeric { namespace ublas {
 
@@ -64,6 +63,8 @@ class vector;
 //			return *static_cast<container_type *> (this);
 //	}
 //};
+
+
 
 /** @brief A dense tensor of values of type \c T.
 		*
@@ -130,7 +131,6 @@ public:
 	using vector_type     = vector<value_type,array_type>;
 
 
-
 	/** @brief Constructs a tensor.
 	 *
 	 * @note the tensor is empty.
@@ -174,7 +174,7 @@ public:
 	 * @param s initial tensor dimension extents
 	 */
 	explicit BOOST_UBLAS_INLINE
-	tensor (shape const& s)
+	tensor (extents_type const& s)
 		: tensor_expression_type<self_type>() //tensor_container<self_type>()
 		, extents_ (s)
 		, strides_ (extents_)
@@ -191,7 +191,7 @@ public:
 	 *  @param a container of \c array_type that is copied according to the storage layout
 	 */
 	BOOST_UBLAS_INLINE
-	tensor (shape const& s, const array_type &a)
+	tensor (extents_type const& s, const array_type &a)
 		: tensor_expression_type<self_type>() //tensor_container<self_type>()
 		, extents_ (s)
 		, strides_ (extents_)
@@ -211,7 +211,7 @@ public:
 	 *  @param i initial value of all elements of type \c value_type
 	 */
 	BOOST_UBLAS_INLINE
-	tensor (shape const& e, const value_type &i)
+	tensor (extents_type const& e, const value_type &i)
 		: tensor_expression_type<self_type>() //tensor_container<self_type> ()
 		, extents_ (e)
 		, strides_ (extents_)
@@ -443,9 +443,15 @@ public:
 		return this->extents_.at(r);
 	}
 
-	/** @brief Returns the size of the tensor */
+	/** @brief Returns the number of dimensions/modes of the tensor */
 	BOOST_UBLAS_INLINE
 	size_type rank () const {
+		return this->extents_.size();
+	}
+
+	/** @brief Returns the number of dimensions/modes of the tensor */
+	BOOST_UBLAS_INLINE
+	size_type order () const {
 		return this->extents_.size();
 	}
 
@@ -536,6 +542,8 @@ public:
 	}
 
 
+
+
 	/** @brief Element access using a single index.
 	 *
 	 *
@@ -551,7 +559,6 @@ public:
 
 	/** @brief Element access using a single index.
 	 *
-	 *
 	 *  @code A(i) = a; @endcode
 	 *
 	 *  @param i zero-based index where 0 <= i < this->size()
@@ -560,6 +567,32 @@ public:
 	reference operator()(size_type i){
 		return this->data_[i];
 	}
+
+
+
+
+	/** @brief Generates a tensor index for tensor contraction
+	 *
+	 *
+	 *  @code auto Ai = A(_i,_j,k); @endcode
+	 *
+	 *  @param i placeholder
+	 *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
+	 */
+	BOOST_UBLAS_INLINE
+	template<std::size_t I, class ... index_types>
+	decltype(auto) operator() (index::index_type<I> p, index_types ... ps) const
+	{
+		constexpr auto N = sizeof...(ps)+1;
+		if( N != this->rank() )
+			throw std::runtime_error("Error in boost::numeric::ublas::operator(): size of provided index_types does not match with the rank.");
+
+		return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
+	}
+
+
+
+
 
 	/** @brief Reshapes the tensor
 	 *

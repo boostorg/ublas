@@ -11,6 +11,7 @@ branches:
     - master
     - develop
     - tensor
+    - subtensor
     - /feature\/.*/
 
 environment:

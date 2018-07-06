@@ -5,7 +5,8 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB in producing this work.
+//  Fraunhofer and Google in producing this work
+//  which started as a Google Summer of Code project.
 //
 
 
@@ -67,7 +68,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_expression_access, value,  test_ty
 		const auto& tensor_expression_const = static_cast<tensor_expression_type const&>( t );
 
 		for(auto i = 0ul; i < t.size(); ++i)
-			BOOST_CHECK_EQUAL( tensor_expression_const(i), t(i)  );
+			BOOST_CHECK_EQUAL( tensor_expression_const()(i), t(i)  );
 
 	}
 }
