@@ -1719,6 +1719,7 @@ namespace boost { namespace numeric { namespace ublas {
             BOOST_UBLAS_CHECK (i < size_i, bad_index ());
             BOOST_UBLAS_CHECK (j < size_j, bad_index ());
             BOOST_UBLAS_CHECK (i <= j, bad_index ());
+            boost::ignore_unused(size_i, size_j);
             // FIXME size_type overflow
             // sigma_j (j + 1) = (j + 1) * j / 2
             // j = 0 1 2 3, sigma = 0 1 3 6
