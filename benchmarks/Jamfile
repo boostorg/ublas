@@ -1,0 +1,11 @@
+# Copyright (c) 2018 Stefan Seefeld
+# Use, modification and distribution are subject to the
+# Boost Software License, Version 1.0. (See accompanying file
+# LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+project boost/ublas/benchmarks
+    : requirements <library>/boost/program_options//boost_program_options
+    ;
+
+exe mm_prod : mm_prod.cpp ;
+exe mv_prod : mv_prod.cpp ;
