@@ -30,7 +30,7 @@ install:
   - git submodule update --init libs/config
   - git submodule update --init tools/boostdep
   - xcopy /s /e /q %APPVEYOR_BUILD_FOLDER% libs\numeric\ublas
-  - python tools/boostdep/depinst/depinst.py numeric/ublas
+  - python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
   - cmd /c bootstrap
   - b2 -d0 headers
 
@@ -41,3 +41,4 @@ test_script:
   - if not "%CXXSTD%" == "" set CXXSTD=cxxstd=%CXXSTD%
   - if not "%ADDRMD%" == "" set ADDRMD=address-model=%ADDRMD%
   - b2 -j3 libs/numeric/ublas/test toolset=%TOOLSET% %CXXSTD% %ADDRMD%
+  - b2 -j3 libs/numeric/ublas/benchmarks toolset=%TOOLSET% %CXXSTD% %ADDRMD%
