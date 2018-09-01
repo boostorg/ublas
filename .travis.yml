@@ -36,7 +36,7 @@ install:
   - git submodule update --init tools/boostdep
   - mkdir -p libs/numeric/
   - cp -r $TRAVIS_BUILD_DIR/* libs/numeric/ublas
-  - python tools/boostdep/depinst/depinst.py numeric/ublas
+  - python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
   - ./bootstrap.sh
   - ./b2 headers
 
@@ -44,6 +44,7 @@ script:
   - |-
     echo "using $TOOLSET : : $COMPILER : <cxxflags>-std=$CXXSTD ;" > ~/user-config.jam
   - ./b2 libs/numeric/ublas/test toolset=$TOOLSET
+  - ./b2 libs/numeric/ublas/benchmarks toolset=$TOOLSET
 
 notifications:
   email:
