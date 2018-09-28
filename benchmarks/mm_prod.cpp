@@ -26,7 +26,7 @@ void benchmark(std::string const &type)
 
 int main(int argc, char **argv)
 {
-  po::variables_map vm;        
+  po::variables_map vm;
   try
   {
     po::options_description desc("Matrix product\n"
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     desc.add_options()("type,t", po::value<std::string>(), "select value-type (float, double, fcomplex, dcomplex)");
 
     po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);    
+    po::notify(vm);
 
     if (vm.count("help"))
     {
