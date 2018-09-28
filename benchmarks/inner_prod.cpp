@@ -7,11 +7,37 @@
 // (Consult LICENSE or http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/numeric/ublas/vector.hpp>
-#include <boost/numeric/ublas/matrix.hpp>
 #include <boost/program_options.hpp>
-#include "prod.hpp"
+#include "init.hpp"
+#include "benchmark.hpp"
 #include <complex>
 #include <string>
+
+namespace boost { namespace numeric { namespace ublas { namespace benchmark {
+
+template <typename S> class inner_prod;
+
+template <typename R, typename V1, typename V2>
+class inner_prod<R(V1, V2)> : public benchmark
+{
+public:
+  inner_prod(std::string const &name) : benchmark(name) {}
+  virtual void setup(long l)
+  {
+    init(a, l, 200);
+    init(b, l, 200);
+  }
+  virtual void operation(long l)
+  {
+    c = ublas::inner_prod(a, b);
+  }
+private:
+  V1 a;
+  V2 b;
+  R c;
+};
+
+}}}}
 
 namespace po = boost::program_options;
 namespace ublas = boost::numeric::ublas;
@@ -20,10 +46,9 @@ namespace bm = boost::numeric::ublas::benchmark;
 template <typename T>
 void benchmark(std::string const &type)
 {
-  using matrix = ublas::matrix<T, ublas::basic_row_major<>>;
   using vector = ublas::vector<T>;
-  bm::prod<vector(matrix, vector)> p("prod(matrix<" + type + ">, vector<" + type + ">)");
-  p.run(std::vector<long>({1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096}));
+  bm::inner_prod<T(vector, vector)> p("inner_prod(vector<" + type + ">)");
+  p.run(std::vector<long>({1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536}));
 }
 
 int main(int argc, char **argv)
@@ -31,7 +56,7 @@ int main(int argc, char **argv)
   po::variables_map vm;
   try
   {
-    po::options_description desc("Matrix-vector product\n"
+    po::options_description desc("Inner product\n"
                                  "Allowed options");
     desc.add_options()("help,h", "produce help message");
     desc.add_options()("type,t", po::value<std::string>(), "select value-type (float, double, fcomplex, dcomplex)");

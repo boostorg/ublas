@@ -9,7 +9,7 @@
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/program_options.hpp>
-#include "prod.hpp"
+#include "add.hpp"
 #include <complex>
 #include <string>
 
@@ -20,10 +20,9 @@ namespace bm = boost::numeric::ublas::benchmark;
 template <typename T>
 void benchmark(std::string const &type)
 {
-  using matrix = ublas::matrix<T, ublas::basic_row_major<>>;
   using vector = ublas::vector<T>;
-  bm::prod<vector(matrix, vector)> p("prod(matrix<" + type + ">, vector<" + type + ">)");
-  p.run(std::vector<long>({1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096}));
+  bm::add<vector(vector, vector)> a("add(vector<" + type + ">, vector<" + type + ">)");
+  a.run(std::vector<long>({1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096}));
 }
 
 int main(int argc, char **argv)
@@ -31,7 +30,7 @@ int main(int argc, char **argv)
   po::variables_map vm;
   try
   {
-    po::options_description desc("Matrix-vector product\n"
+    po::options_description desc("Vector-vector addition\n"
                                  "Allowed options");
     desc.add_options()("help,h", "produce help message");
     desc.add_options()("type,t", po::value<std::string>(), "select value-type (float, double, fcomplex, dcomplex)");
