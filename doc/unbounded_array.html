@@ -78,17 +78,17 @@ member inside this model of the concept.</li>
 <th>Where defined</th>
 <th>Description</th>
 </tr>
-<tr><td><code>value_type</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td></tr>
-<tr><td><code>pointer</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>value_type*</code></td></tr>
-<tr><td><code>const_pointer</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>const value_type*</code></td></tr>
-<tr><td><code>reference</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>value_type&amp;</code></td></tr>
-<tr><td><code>const_reference</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>const value_type&amp;</code></td></tr>
-<tr><td><code>size_type</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>Alloc::size_type</code></td></tr>
-<tr><td><code>difference_type</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>Alloc::difference_type</code></td></tr>
-<tr><td><code>iterator</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>pointer</code></td></tr>
-<tr><td><code>const_iterator</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>const_pointer</code></td></tr>
-<tr><td><code>revere_iterator</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>std::reverse_iterator&lt;iterator&gt;</code></td></tr>
-<tr><td><code>const_revere_iterator</code></td><td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td><td>Defined as <code>std::reverse_iterator&lt;const_iterator&gt;</code></td></tr>
+<tr><td><code>value_type</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td></tr>
+<tr><td><code>pointer</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>value_type*</code></td></tr>
+<tr><td><code>const_pointer</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>const value_type*</code></td></tr>
+<tr><td><code>reference</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>value_type&amp;</code></td></tr>
+<tr><td><code>const_reference</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>const value_type&amp;</code></td></tr>
+<tr><td><code>size_type</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>Alloc::size_type</code></td></tr>
+<tr><td><code>difference_type</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>Alloc::difference_type</code></td></tr>
+<tr><td><code>iterator</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>pointer</code></td></tr>
+<tr><td><code>const_iterator</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>const_pointer</code></td></tr>
+<tr><td><code>revere_iterator</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>std::reverse_iterator&lt;iterator&gt;</code></td></tr>
+<tr><td><code>const_revere_iterator</code></td><td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td><td>Defined as <code>std::reverse_iterator&lt;const_iterator&gt;</code></td></tr>
 <tr><td><font color="blue">allocator_type</font></td><td></td><td>Defined as ALLOC</td></tr>
 <tr>
 <td><code><em>explicit</em> unbounded_array (<em>ALLOC &amp;a = ALLOC()</em>)</code></td>
@@ -107,12 +107,12 @@ member inside this model of the concept.</li>
 </tr>
 <tr>
 <td><code>unbounded_array (const unbounded_array &amp;a)</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>The copy constructor.</td>
 </tr>
 <tr>
 <td><code>~unbounded_array ()</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>Deallocates the <code>unbounded_array</code> itself.</td>
 </tr>
 <tr>
@@ -127,22 +127,22 @@ member inside this model of the concept.</li>
 </tr>
 <tr>
 <td><code>size_type size () const</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>Returns the size of the <code>unbounded_array</code>.</td>
 </tr>
 <tr>
 <td><code>const_reference operator [] (size_type i) const</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>Returns a <code>const</code> reference of the <code>i</code> -th element.</td>
 </tr>
 <tr>
 <td><code>reference operator [] (size_type i)</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>Returns a reference of the <code>i</code>-th element.</td>
 </tr>
 <tr>
 <td><code>unbounded_array &amp;operator = (const unbounded_array &amp;a)</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>The assignment operator.</td>
 </tr>
 <tr>
@@ -152,51 +152,51 @@ member inside this model of the concept.</li>
 </tr>
 <tr>
 <td><code>void swap (unbounded_array &amp;a)</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>Swaps the contents of the arrays.</td>
 </tr>
 <tr>
 <td><code>const_iterator begin () const</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>Returns a <code>const_iterator</code> pointing to the beginning
 of the <code>unbounded_array</code>.</td>
 </tr>
 <tr>
 <td><code>const_iterator end () const</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>Returns a <code>const_iterator</code> pointing to the end of
 the <code>unbounded_array</code>.</td>
 </tr>
 <tr>
 <td><code>iterator begin ()</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>Returns a <code>iterator</code> pointing to the beginning of
 the <code>unbounded_array</code>.</td>
 </tr>
 <tr>
 <td><code>iterator end ()</code></td>
-<td><a href="http://www.sgi.com/tech/stl/Container.html">Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/Container.html">Container</a></td>
 <td>Returns a <code>iterator</code> pointing to the end of the
 <code>unbounded_array</code>.</td>
 </tr>
 <tr>
 <td><code>const_reverse_iterator rbegin () const</code></td>
-<td><a href="http://www.sgi.com/tech/stl/ReversibleContainer.html">Reversible Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/ReversibleContainer.html">Reversible Container</a></td>
 <td>Returns a <code>const_reverse_iterator</code> pointing to the beginning of the reversed <code>unbounded_array</code>.</td>
 </tr>
 <tr>
 <td><code>const_reverse_iterator rend () const</code></td>
-<td><a href="http://www.sgi.com/tech/stl/ReversibleContainer.html">Reversible Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/ReversibleContainer.html">Reversible Container</a></td>
 <td>Returns a <code>const_reverse_iterator</code> pointing to the end of the reversed <code>unbounded_array</code>.</td>
 </tr>
 <tr>
 <td><code>reverse_iterator rbegin ()</code></td>
-<td><a href="http://www.sgi.com/tech/stl/ReversibleContainer.html">Reversible Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/ReversibleContainer.html">Reversible Container</a></td>
 <td>Returns a <code>reverse_iterator</code> pointing to the beginning of the reversed <code>unbounded_array</code>.</td>
 </tr>
 <tr>
 <td><code>reverse_iterator rend ()</code></td>
-<td><a href="http://www.sgi.com/tech/stl/ReversibleContainer.html">Reversible Container</a></td>
+<td><a href="http://www.boost.org/sgi/stl/ReversibleContainer.html">Reversible Container</a></td>
 <td>Returns a <code>reverse_iterator</code> pointing to the end of the reversed <code>unbounded_array</code>.</td>
 </tr>
 </tbody>

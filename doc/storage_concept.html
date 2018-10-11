@@ -22,12 +22,12 @@
 the Sequence concept however is that the Storage concept does not require default-initialisation of its
 elements.
 <h4>Refinement of</h4>
-<a href="http://www.sgi.com/tech/stl/RandomAccessContainer.html">Random Access Container</a>
+<a href="http://www.boost.org/sgi/stl/RandomAccessContainer.html">Random Access Container</a>
 and 
-<a href="http://www.sgi.com/tech/stl/DefaultConstructible.html">Default Constructible</a>
+<a href="http://www.boost.org/sgi/stl/DefaultConstructible.html">Default Constructible</a>
 <h4>Associated types</h4>
 No additional types beyond those defined by 
-<a href="http://www.sgi.com/tech/stl/RandomAccessContainer.html">Random Access Container</a>
+<a href="http://www.boost.org/sgi/stl/RandomAccessContainer.html">Random Access Container</a>
 <h4>Notation</h4>
 <table summary="storage types">
 <tr><td><tt>X</tt></td><td>A type that is model of Storage</td></tr>
@@ -38,16 +38,16 @@ No additional types beyond those defined by
 <h4>Definitions</h4>
 <h4>Valid expressions</h4>
 In addition to the expressions defined in 
-<a href="http://www.sgi.com/tech/stl/RandomAccessContainer.html">Random Access Container</a>,
+<a href="http://www.boost.org/sgi/stl/RandomAccessContainer.html">Random Access Container</a>,
 and 
-<a href="http://www.sgi.com/tech/stl/DefaultConstructible.html">Default Constructible</a>
+<a href="http://www.boost.org/sgi/stl/DefaultConstructible.html">Default Constructible</a>
 the following expressions must be valid:
 <table border="1" summary="type requirements">
 <TR><TH>Name</TH><TH>Expression</TH><TH>Type requirements</TH><TH>Return type</TH></TR>
 <TR>
 <td>Size constructor</td>
 <td><tt>X(n)</tt></td>
-<td>T is <a href="http://www.sgi.com/tech/stl/DefaultConstructible.html">DefaultConstructible</a></td>
+<td>T is <a href="http://www.boost.org/sgi/stl/DefaultConstructible.html">DefaultConstructible</a></td>
 <td><tt>X</tt></td>
 </TR>
 <TR>
@@ -59,7 +59,7 @@ the following expressions must be valid:
 <TR>
 <TD>Range constructor</TD>
 <TD><tt>X(i, j)</tt></TD>
-<TD><tt>i</tt> and <tt>j</tt> are <A href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterators</A> whose value type is convertible to <tt>T</tt> </TD>
+<TD><tt>i</tt> and <tt>j</tt> are <A href="http://www.boost.org/sgi/stl/InputIterator.html">Input Iterators</A> whose value type is convertible to <tt>T</tt> </TD>
 <TD><tt>X</tt> </TD>
 </TR>
 <TR>
