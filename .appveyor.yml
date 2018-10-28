@@ -10,7 +10,6 @@ branches:
   only:
     - master
     - develop
-    - opencl
     - /feature\/.*/
 
 environment:
