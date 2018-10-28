@@ -52,6 +52,7 @@ project
        <define>BOOST_UBLAS_NO_EXCEPTIONS
        <toolset>vacpp:<define>"BOOST_UBLAS_NO_ELEMENT_PROXIES"
        <toolset>gcc:<cxxflags>"-Wall -pedantic -Wextra"
+       <toolset>msvc:<cxxflags>/bigobj
        <toolset>msvc:<cxxflags>"/W4" # == all
        #  The define of macros below prevent warnings about the checked versions of SCL and CRT libraries.
        #  Most Boost code does not need these versions (as they are markedly slower).

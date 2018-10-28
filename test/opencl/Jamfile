@@ -18,5 +18,12 @@ project boost/ublas/test/opencl
     ;
 
 test-suite ocl
-  : [ run test.cpp ]
+    : [ run prod_test.cpp ]
+      [ run elementwise_operations_test.cpp ]
+      [ run inner_prod_test.cpp ]
+      [ run outer_prod_test.cpp ]
+      [ run transposition_test.cpp ]
+      [ run norm_test.cpp ]
+      [ run norm2_test.cpp ]
+      [ run elementwise_operations_with_constants_test.cpp ]
     ;
