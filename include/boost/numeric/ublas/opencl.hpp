@@ -1,4 +1,3 @@
-// Boost.uBLAS
 //
 // Copyright (c) 2018 Stefan Seefeld
 //
