@@ -2066,11 +2066,13 @@ namespace boost { namespace numeric { namespace ublas {
         // Element lookup
         BOOST_UBLAS_INLINE
         const_iterator1 find1 (int rank, size_type i, size_type j) const {
-            const_iterator11_type it11 (e1_.find1 (rank, i, j));
-            const_iterator11_type it11_end (e1_.find1 (rank, size1 (), j));
-            const_iterator21_type it21 (e2_.find1 (rank, i, j));
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            const_iterator11_type it11 (e1_.find1 (rank, static_cast<typename expression1_closure_type::size_type>(i), static_cast<typename expression1_closure_type::size_type>(j)));
+            const_iterator11_type it11_end (e1_.find1 (rank, static_cast<typename expression1_closure_type::size_type>(size1 ()), static_cast<typename expression1_closure_type::size_type>(j)));
+            const_iterator21_type it21 (e2_.find1 (rank, static_cast<typename expression2_closure_type::size_type>(i), static_cast<typename expression2_closure_type::size_type>(j)));
             const_iterator21_type it21_end (e2_.find1 (rank, size1 (), j));
-            BOOST_UBLAS_CHECK (rank == 0 || it11 == it11_end || it11.index2 () == j, internal_logic ())
+            BOOST_UBLAS_CHECK (rank == 0 || it11 == it11_end || static_cast<size_type>(it11.index2 ()) == j, internal_logic ())
             BOOST_UBLAS_CHECK (rank == 0 || it21 == it21_end || it21.index2 () == j, internal_logic ())
             i = (std::min) (it11 != it11_end ? it11.index1 () : size1 (),
                           it21 != it21_end ? it21.index1 () : size1 ());
@@ -2082,11 +2084,13 @@ namespace boost { namespace numeric { namespace ublas {
         }
         BOOST_UBLAS_INLINE
         const_iterator2 find2 (int rank, size_type i, size_type j) const {
-            const_iterator12_type it12 (e1_.find2 (rank, i, j));
-            const_iterator12_type it12_end (e1_.find2 (rank, i, size2 ()));
+			// Use static_cast to silence Xcode 8.2.1:
+			// error: implicit conversion loses integer precision: 'size_type' (aka 'unsigned long') to 'size_type' (aka 'int')
+            const_iterator12_type it12 (e1_.find2 (rank, static_cast<typename expression1_closure_type::size_type>(i), static_cast<typename expression1_closure_type::size_type>(j)));
+            const_iterator12_type it12_end (e1_.find2 (rank, static_cast<typename expression1_closure_type::size_type>(i), static_cast<typename expression1_closure_type::size_type>(size2 ())));
             const_iterator22_type it22 (e2_.find2 (rank, i, j));
             const_iterator22_type it22_end (e2_.find2 (rank, i, size2 ()));
-            BOOST_UBLAS_CHECK (rank == 0 || it12 == it12_end || it12.index1 () == i, internal_logic ())
+            BOOST_UBLAS_CHECK (rank == 0 || it12 == it12_end || static_cast<size_type>(it12.index1 ()) == i, internal_logic ())
             BOOST_UBLAS_CHECK (rank == 0 || it22 == it22_end || it22.index1 () == i, internal_logic ())
             j = (std::min) (it12 != it12_end ? it12.index2 () : size2 (),
                           it22 != it22_end ? it22.index2 () : size2 ());
@@ -2215,7 +2219,9 @@ namespace boost { namespace numeric { namespace ublas {
             void increment (sparse_bidirectional_iterator_tag) {
                 size_type index1 = (*this) ().size1 ();
                 if (it1_ != it1_end_) {
-                    if (it1_.index1 () <= i_)
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'size_type' (aka 'unsigned long')
+                    if (static_cast<size_type>(it1_.index1 ()) <= i_)
                         ++ it1_;
                     if (it1_ != it1_end_)
                         index1 = it1_.index1 ();
@@ -2566,7 +2572,9 @@ namespace boost { namespace numeric { namespace ublas {
             void increment (sparse_bidirectional_iterator_tag) {
                 size_type index1 = (*this) ().size2 ();
                 if (it1_ != it1_end_) {
-                    if (it1_.index2 () <= j_)
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'size_type' (aka 'unsigned long')
+                    if (static_cast<size_type>(it1_.index2 ()) <= j_)
                         ++ it1_;
                     if (it1_ != it1_end_)
                         index1 = it1_.index2 ();
@@ -2624,8 +2632,10 @@ namespace boost { namespace numeric { namespace ublas {
             value_type dereference (sparse_bidirectional_iterator_tag) const {
                 typename E1::value_type t1 = typename E1::value_type/*zero*/();
                 if (it1_ != it1_end_) {
-                    BOOST_UBLAS_CHECK (it1_.index1 () == i_, internal_logic ());
-                    if (it1_.index2 () == j_)
+                    BOOST_UBLAS_CHECK (static_cast<size_type>(it1_.index1 ()) == i_, internal_logic ());
+					// Use static_cast to silence Xcode 8.2.1:
+					// error: comparison of integers of different signs: 'size_type' (aka 'int') and 'const size_type' (aka 'const unsigned long')
+                    if (static_cast<size_type>(it1_.index2 ()) == j_)
                         t1 = *it1_;
                 }
                 typename E2::value_type t2 = typename E2::value_type/*zero*/();
