@@ -1,17 +1,17 @@
 //
-//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen Germany
+//  Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
-#ifndef _BOOST_UBLAS_TENSOR_ALGORITHMS_
-#define _BOOST_UBLAS_TENSOR_ALGORITHMS_
+#ifndef _BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
+#define _BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
 
 
 #include <stdexcept>
@@ -38,11 +38,11 @@ namespace ublas {
 */
 template <class	PointerOut, class PointerIn, class SizeType>
 void copy(const SizeType p, SizeType const*const n,
-		  PointerOut c, SizeType const*const wc,
-		  PointerIn a,  SizeType const*const wa)
+          PointerOut c, SizeType const*const wc,
+          PointerIn a,  SizeType const*const wa)
 {
 	static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn>::value,
-								 "Static error in boost::numeric::ublas::copy: Argument types for pointers are not pointer types.");
+	               "Static error in boost::numeric::ublas::copy: Argument types for pointers are not pointer types.");
 	if( p == 0 )
 		return;
 
@@ -88,13 +88,13 @@ void copy(const SizeType p, SizeType const*const n,
 */
 template <class	PointerOut, class PointerIn, class SizeType, class UnaryOp>
 void transform(const SizeType p,
-			   SizeType const*const n,
-			   PointerOut c, SizeType const*const wc,
-			   PointerIn a,  SizeType const*const wa,
-			   UnaryOp op)
+               SizeType const*const n,
+               PointerOut c, SizeType const*const wc,
+               PointerIn a,  SizeType const*const wa,
+               UnaryOp op)
 {
 	static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn>::value,
-								 "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
+	               "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
 	if( p == 0 )
 		return;
 
@@ -137,11 +137,11 @@ void transform(const SizeType p,
 */
 template <class PointerIn, class ValueType, class SizeType>
 ValueType accumulate(SizeType const p, SizeType const*const n,
-					 PointerIn a, SizeType const*const w,
-					 ValueType k)
+                     PointerIn a, SizeType const*const w,
+                     ValueType k)
 {
 	static_assert(std::is_pointer<PointerIn>::value,
-				  "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
+	              "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
 
 	if( p == 0 )
 		return k;
@@ -186,11 +186,11 @@ ValueType accumulate(SizeType const p, SizeType const*const n,
 
 template <class PointerIn, class ValueType, class SizeType, class BinaryOp>
 ValueType accumulate(SizeType const p, SizeType const*const n,
-					 PointerIn a, SizeType const*const w,
-					 ValueType k, BinaryOp op)
+                     PointerIn a, SizeType const*const w,
+                     ValueType k, BinaryOp op)
 {
 	static_assert(std::is_pointer<PointerIn>::value,
-				  "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
+	              "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
 
 
 	if( p == 0 )
@@ -239,12 +239,12 @@ ValueType accumulate(SizeType const p, SizeType const*const n,
 
 template <class PointerOut, class PointerIn, class SizeType>
 void trans( SizeType const p,  SizeType const*const na, SizeType const*const pi,
-			PointerOut c,      SizeType const*const wc,
-			PointerIn a,       SizeType const*const wa)
+            PointerOut c,      SizeType const*const wc,
+            PointerIn a,       SizeType const*const wa)
 {
 
 	static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn>::value,
-				   "Static error in boost::numeric::ublas::trans: Argument types for pointers are not pointer types.");
+	               "Static error in boost::numeric::ublas::trans: Argument types for pointers are not pointer types.");
 
 	if( p < 2)
 		return;
@@ -298,10 +298,10 @@ void trans( SizeType const p,  SizeType const*const na, SizeType const*const pi,
 
 template <class ValueType, class SizeType>
 void trans( SizeType const p,
-			SizeType const*const na,
-			SizeType const*const pi,
-			std::complex<ValueType>* c,  SizeType const*const wc,
-			std::complex<ValueType>* a,  SizeType const*const wa)
+            SizeType const*const na,
+            SizeType const*const pi,
+            std::complex<ValueType>* c,  SizeType const*const wc,
+            std::complex<ValueType>* a,  SizeType const*const wa)
 {
 	if( p < 2)
 		return;

@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -21,7 +21,7 @@
 #include "utility.hpp"
 
 //BOOST_AUTO_TEST_SUITE ( test_tensor, * boost::unit_test::depends_on("test_extents") ) ;
-BOOST_AUTO_TEST_SUITE ( test_tensor ) ;
+BOOST_AUTO_TEST_SUITE ( test_tensor )
 
 using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 
@@ -70,21 +70,23 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_ctor, value,  test_types)
 }
 
 
-struct fixture {
+struct fixture
+{
 	using extents_type = boost::numeric::ublas::basic_extents<std::size_t>;
-	fixture() : extents{
-				extents_type{},    // 0
-				extents_type{1,1}, // 1
-				extents_type{1,2}, // 2
-				extents_type{2,1}, // 3
-				extents_type{2,3}, // 4
-				extents_type{2,3,1}, // 5
-				extents_type{4,1,3}, // 6
-				extents_type{1,2,3}, // 7
-				extents_type{4,2,3}, // 8
-				extents_type{4,2,3,5} // 9
-				}
-	{}
+	fixture()
+	  : extents {
+	      extents_type{},    // 0
+	      extents_type{1,1}, // 1
+	      extents_type{1,2}, // 2
+	      extents_type{2,1}, // 3
+	      extents_type{2,3}, // 4
+	      extents_type{2,3,1}, // 5
+	      extents_type{4,1,3}, // 6
+	      extents_type{1,2,3}, // 7
+	      extents_type{4,2,3}, // 8
+	      extents_type{4,2,3,5}} // 9
+	{
+	}
 	std::vector<extents_type> extents;
 };
 
@@ -355,7 +357,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
 			v+=value_type{1};
 		}
 
-			 if(t.rank() == 1) check1(t);
+		if(t.rank() == 1) check1(t);
 		else if(t.rank() == 2) check2(t);
 		else if(t.rank() == 3) check3(t);
 		else if(t.rank() == 4) check4(t);
@@ -468,4 +470,4 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_standard_iterator, value,  test_ty
 	}
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

@@ -10,6 +10,8 @@
 # Project settings
 project boost-ublas-tensor-example
     : requirements
+    # these tests require C++17
+       <cxxstd>11:<build>no
        <define>BOOST_UBLAS_NO_EXCEPTIONS
        <toolset>vacpp:<define>"BOOST_UBLAS_NO_ELEMENT_PROXIES"
        <toolset>gcc:<cxxflags>"-Wall -pedantic -Wextra -std=c++17"
@@ -17,7 +19,7 @@ project boost-ublas-tensor-example
        <toolset>msvc:<cxxflags>"/W4" # == all
     ;
 
-exe example_construction_access : example_construction_access.cpp ;
-exe example_simple_expressions : example_simple_expressions.cpp ;
-exe example_prod_expressions : example_prod_expressions.cpp ;
-exe example_einstein_notation : example_einstein_notation.cpp ;
+exe construction_access : construction_access.cpp ;
+exe simple_expressions : simple_expressions.cpp ;
+exe prod_expressions : prod_expressions.cpp ;
+exe einstein_notation : einstein_notation.cpp ;

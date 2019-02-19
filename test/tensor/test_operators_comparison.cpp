@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -25,7 +25,8 @@ using test_types = zip<int,long,float,double,double_extended>::with_t<boost::num
 
 struct fixture {
 	using extents_type = boost::numeric::ublas::basic_extents<std::size_t>;
-	fixture() : extents{
+	fixture()
+	  : extents{
 				extents_type{},    // 0
 				extents_type{1,1}, // 1
 				extents_type{1,2}, // 2
@@ -35,13 +36,13 @@ struct fixture {
 				extents_type{4,1,3}, // 6
 				extents_type{1,2,3}, // 7
 				extents_type{4,2,3}, // 8
-				extents_type{4,2,3,5} // 9
-				}
-	{}
+	      extents_type{4,2,3,5}} // 9
+	{
+	}
 	std::vector<extents_type> extents;
 };
 
-BOOST_AUTO_TEST_SUITE(test_tensor_comparison, * boost::unit_test::depends_on("test_tensor"));
+BOOST_AUTO_TEST_SUITE(test_tensor_comparison, * boost::unit_test::depends_on("test_tensor"))
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fixture)
@@ -242,4 +243,4 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 }
 
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

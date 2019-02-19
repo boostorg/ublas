@@ -1,17 +1,17 @@
 //
-//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen Germany
+//  Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
-#ifndef _BOOST_UBLAS_TENSOR_MULTIPLICATION_
-#define _BOOST_UBLAS_TENSOR_MULTIPLICATION_
+#ifndef BOOST_UBLAS_TENSOR_MULTIPLICATION
+#define BOOST_UBLAS_TENSOR_MULTIPLICATION
 
 #include <cassert>
 
@@ -51,11 +51,11 @@ namespace recursive {
 
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void ttt(SizeType const k,
-				 SizeType const r, SizeType const s, SizeType const q,
-				 SizeType const*const phia, SizeType const*const phib,
-				 PointerOut c, SizeType const*const nc, SizeType const*const wc,
-				 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-				 PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         SizeType const r, SizeType const s, SizeType const q,
+         SizeType const*const phia, SizeType const*const phib,
+         PointerOut c, SizeType const*const nc, SizeType const*const wc,
+         PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+         PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 	if(k < r)
 	{
@@ -115,10 +115,10 @@ void ttt(SizeType const k,
 
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void ttt(SizeType const k,
-				 SizeType const r, SizeType const s, SizeType const q,
-				 PointerOut c, SizeType const*const nc, SizeType const*const wc,
-				 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-				 PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         SizeType const r, SizeType const s, SizeType const q,
+         PointerOut c, SizeType const*const nc, SizeType const*const wc,
+         PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+         PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 	if(k < r)
 	{
@@ -168,9 +168,9 @@ void ttt(SizeType const k,
 
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void ttm(SizeType const m,  SizeType const r,
-				 PointerOut c, SizeType const*const nc, SizeType const*const wc,
-				 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-				 PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         PointerOut c, SizeType const*const nc, SizeType const*const wc,
+         PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+         PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 
 	if(r == m) {
@@ -215,9 +215,9 @@ void ttm(SizeType const m,  SizeType const r,
 */
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void ttm0( SizeType const r,
-					 PointerOut c, SizeType const*const nc, SizeType const*const wc,
-					 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-					 PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+           PointerOut c, SizeType const*const nc, SizeType const*const wc,
+           PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+           PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 
 	if(r > 1){
@@ -269,9 +269,9 @@ void ttm0( SizeType const r,
 
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void ttv( SizeType const m, SizeType const r, SizeType const q,
-					PointerOut c, SizeType const*const nc, SizeType const*const wc,
-					PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-					PointerIn2 b)
+          PointerOut c, SizeType const*const nc, SizeType const*const wc,
+          PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+          PointerIn2 b)
 {
 
 	if(r == m) {
@@ -309,9 +309,9 @@ void ttv( SizeType const m, SizeType const r, SizeType const q,
 */
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void ttv0(SizeType const r,
-					PointerOut c, SizeType const*const nc, SizeType const*const wc,
-					PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-					PointerIn2 b)
+          PointerOut c, SizeType const*const nc, SizeType const*const wc,
+          PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+          PointerIn2 b)
 {
 
 	if(r > 1){
@@ -346,9 +346,9 @@ void ttv0(SizeType const r,
 */
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void mtv(SizeType const m,
-				 PointerOut c, SizeType const*const   , SizeType const*const wc,
-				 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-				 PointerIn2 b)
+         PointerOut c, SizeType const*const   , SizeType const*const wc,
+         PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+         PointerIn2 b)
 {
 	// decides whether matrix multiplied with vector or vector multiplied with matrix
 	const auto o = (m == 0) ? 1 : 0;
@@ -379,8 +379,8 @@ void mtv(SizeType const m,
 */
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void mtm(PointerOut c, SizeType const*const nc, SizeType const*const wc,
-				 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-				 PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+         PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 
 	// C(i,j) = A(i,k) * B(k,j)
@@ -424,9 +424,9 @@ void mtm(PointerOut c, SizeType const*const nc, SizeType const*const wc,
 */
 template <class PointerIn1, class PointerIn2, class value_t, class SizeType>
 value_t inner(SizeType const r, SizeType const*const n,
-							PointerIn1  a, SizeType const*const wa,
-							PointerIn2  b, SizeType const*const wb,
-							value_t v)
+              PointerIn1  a, SizeType const*const wa,
+              PointerIn2  b, SizeType const*const wb,
+              value_t v)
 {
 	if(r == 0)
 		for(auto i0 = 0u; i0 < n[0]; a += wa[0], b += wb[0], ++i0)
@@ -440,9 +440,9 @@ value_t inner(SizeType const r, SizeType const*const n,
 
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void outer_2x2(SizeType const pa,
-							 PointerOut c, SizeType const*const   , SizeType const*const wc,
-							 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-							 PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+               PointerOut c, SizeType const*const   , SizeType const*const wc,
+               PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+               PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 	//	assert(rc == 3);
 	//	assert(ra == 1);
@@ -491,9 +491,9 @@ void outer_2x2(SizeType const pa,
 */
 template<class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void outer(SizeType const pa,
-					 SizeType const rc, PointerOut c, SizeType const*const nc, SizeType const*const wc,
-					 SizeType const ra, PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-					 SizeType const rb, PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+           SizeType const rc, PointerOut c, SizeType const*const nc, SizeType const*const wc,
+           SizeType const ra, PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+           SizeType const rb, PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 	if(rb > 1)
 		for(auto ib = 0u; ib < nb[rb]; b += wb[rb], c += wc[rc], ++ib)
@@ -535,11 +535,11 @@ void outer(SizeType const pa,
 
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void outer(SizeType const k,
-					 SizeType const r, SizeType const s,
-					 SizeType const*const phia, SizeType const*const phib,
-					 PointerOut c, SizeType const*const nc, SizeType const*const wc,
-					 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-					 PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+           SizeType const r, SizeType const s,
+           SizeType const*const phia, SizeType const*const phib,
+           PointerOut c, SizeType const*const nc, SizeType const*const wc,
+           PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+           PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 	if(k < r)
 	{
@@ -610,12 +610,12 @@ namespace ublas {
 */
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void ttv(SizeType const m, SizeType const p,
-				 PointerOut c,       SizeType const*const nc, SizeType const*const wc,
-				 const PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-				 const PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         PointerOut c,       SizeType const*const nc, SizeType const*const wc,
+         const PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+         const PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 	static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
-								 "Static error in boost::numeric::ublas::ttv: Argument types for pointers are not pointer types.");
+	               "Static error in boost::numeric::ublas::ttv: Argument types for pointers are not pointer types.");
 
 	if( m == 0)
 		throw std::length_error("Error in boost::numeric::ublas::ttv: Contraction mode must be greater than zero.");
@@ -680,13 +680,13 @@ void ttv(SizeType const m, SizeType const p,
 
 template <class PointerIn1, class PointerIn2, class PointerOut, class SizeType>
 void ttm(SizeType const m, SizeType const p,
-				 PointerOut c,       SizeType const*const nc, SizeType const*const wc,
-				 const PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-				 const PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         PointerOut c,       SizeType const*const nc, SizeType const*const wc,
+         const PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+         const PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 
 	static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
-								 "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
+	               "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
 
 	if( m == 0 )
 		throw std::length_error("Error in boost::numeric::ublas::ttm: Contraction mode must be greater than zero.");
@@ -750,13 +750,13 @@ void ttm(SizeType const m, SizeType const p,
 
 template <class PointerIn1, class PointerIn2, class PointerOut, class SizeType>
 void ttt(SizeType const pa, SizeType const pb, SizeType const q,
-				 SizeType const*const phia, SizeType const*const phib,
-				 PointerOut c, SizeType const*const nc, SizeType const*const wc,
-				 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-				 PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         SizeType const*const phia, SizeType const*const phib,
+         PointerOut c, SizeType const*const nc, SizeType const*const wc,
+         PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+         PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 	static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
-								 "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
+	               "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
 
 	if( pa == 0 || pb == 0)
 		throw std::length_error("Error in boost::numeric::ublas::ttt: tensor order must be greater zero.");
@@ -818,12 +818,12 @@ void ttt(SizeType const pa, SizeType const pb, SizeType const q,
 
 template <class PointerIn1, class PointerIn2, class PointerOut, class SizeType>
 void ttt(SizeType const pa, SizeType const pb, SizeType const q,
-				 PointerOut c, SizeType const*const nc, SizeType const*const wc,
-				 PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-				 PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         PointerOut c, SizeType const*const nc, SizeType const*const wc,
+         PointerIn1 a, SizeType const*const na, SizeType const*const wa,
+         PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 	static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
-								 "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
+	               "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
 
 	if( pa == 0 || pb == 0)
 		throw std::length_error("Error in boost::numeric::ublas::ttt: tensor order must be greater zero.");
@@ -882,12 +882,12 @@ void ttt(SizeType const pa, SizeType const pb, SizeType const q,
 */
 template <class PointerIn1, class PointerIn2, class value_t, class SizeType>
 auto inner(const SizeType    p, SizeType const*const n,
-					 const PointerIn1  a, SizeType const*const wa,
-					 const PointerIn2  b, SizeType const*const wb,
-					 value_t v)
+           const PointerIn1  a, SizeType const*const wa,
+           const PointerIn2  b, SizeType const*const wb,
+           value_t v)
 {
 	static_assert( std::is_pointer<PointerIn1>::value && std::is_pointer<PointerIn2>::value,
-								 "Static error in boost::numeric::ublas::inner: Argument types for pointers must be pointer types.");
+	               "Static error in boost::numeric::ublas::inner: Argument types for pointers must be pointer types.");
 	if(p<2)
 		throw std::length_error("Error in boost::numeric::ublas::inner: Rank must be greater than zero.");
 	if(a == nullptr || b == nullptr)
@@ -919,11 +919,11 @@ auto inner(const SizeType    p, SizeType const*const n,
 */
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void outer(PointerOut c,       SizeType const pc, SizeType const*const nc, SizeType const*const wc,
-					 const PointerIn1 a, SizeType const pa, SizeType const*const na, SizeType const*const wa,
-					 const PointerIn2 b, SizeType const pb, SizeType const*const nb, SizeType const*const wb)
+           const PointerIn1 a, SizeType const pa, SizeType const*const na, SizeType const*const wa,
+           const PointerIn2 b, SizeType const pb, SizeType const*const nb, SizeType const*const wb)
 {
 	static_assert( std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value & std::is_pointer<PointerOut>::value,
-								 "Static error in boost::numeric::ublas::outer: argument types for pointers must be pointer types.");
+	               "Static error in boost::numeric::ublas::outer: argument types for pointers must be pointer types.");
 	if(pa < 2u || pb < 2u)
 		throw std::length_error("Error in boost::numeric::ublas::outer: number of extents of lhs and rhs tensor must be equal or greater than two.");
 	if((pa + pb) != pc)

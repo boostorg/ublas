@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -14,7 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_SUITE ( test_multi_index_utility ) ;
+BOOST_AUTO_TEST_SUITE ( test_multi_index_utility )
 
 
 BOOST_AUTO_TEST_CASE ( test_multi_index_has_index )
@@ -560,5 +560,5 @@ BOOST_AUTO_TEST_CASE ( test_multi_index_array_to_vector )
 
 
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 

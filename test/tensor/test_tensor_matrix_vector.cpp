@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -20,7 +20,7 @@
 
 // BOOST_AUTO_TEST_SUITE ( test_tensor_matrix_interoperability, * boost::unit_test::depends_on("test_tensor") ) ;
 
-BOOST_AUTO_TEST_SUITE ( test_tensor_matrix_interoperability ) ;
+BOOST_AUTO_TEST_SUITE ( test_tensor_matrix_interoperability )
 
 using test_types = zip<int,long,float,double>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 
@@ -95,9 +95,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor, value,  test_types)
 }
 
 
-struct fixture {
+struct fixture
+{
 	using extents_type = boost::numeric::ublas::basic_extents<std::size_t>;
-	fixture() : extents{
+	fixture()
+	  : extents{
 				extents_type{1,1},  // 1
 				extents_type{1,2},  // 2
 				extents_type{2,1},  // 3
@@ -105,9 +107,9 @@ struct fixture {
 				extents_type{9,7},  // 5
 				extents_type{9,11}, // 6
 				extents_type{12,12}, // 7
-				extents_type{15,17}, // 8
-				}
-	{}
+	      extents_type{15,17}} // 8
+	{
+	}
 	std::vector<extents_type> extents;
 };
 
@@ -466,5 +468,5 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
 }
 
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 

@@ -1,12 +1,12 @@
 //
-//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen Germany
+//  Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
@@ -22,7 +22,9 @@
 
 #include <cassert>
 
-namespace boost { namespace numeric { namespace ublas {
+namespace boost {
+namespace numeric {
+namespace ublas {
 
 
 /** @brief Template class for storing tensor extents with runtime variable size.
@@ -51,7 +53,7 @@ public:
 	 * @code auto ex = basic_extents<unsigned>{};
 	 */
 	constexpr explicit basic_extents()
-		: _base{}
+	  : _base{}
 	{
 	}
 
@@ -64,7 +66,7 @@ public:
 	 * @param b one-dimensional std::vector<int_type> container
 	 */
 	explicit basic_extents(base_type const& b)
-		: _base(b)
+	  : _base(b)
 	{
 		if (!this->valid()){
 			throw std::length_error("Error in basic_extents::basic_extents() : shape tuple is not a valid permutation: has zero elements.");
@@ -80,7 +82,7 @@ public:
 	 * @param b one-dimensional container of type std::vector<int_type>
 	 */
 	explicit basic_extents(base_type && b)
-		: _base(std::move(b))
+	  : _base(std::move(b))
 	{
 		if (!this->valid()){
 			throw std::length_error("Error in basic_extents::basic_extents() : shape tuple is not a valid permutation: has zero elements.");
@@ -96,7 +98,7 @@ public:
 	 * @param l one-dimensional list of type std::initializer<int_type>
 	 */
 	basic_extents(std::initializer_list<value_type> l)
-			: basic_extents( base_type(std::move(l)) )
+	  : basic_extents( base_type(std::move(l)) )
 	{
 	}
 
@@ -110,19 +112,19 @@ public:
 	 * @param last iterator pointing to the next position after the last element
 	 */
 	basic_extents(const_iterator first, const_iterator last)
-	    : basic_extents ( base_type( first,last ) )
+	  : basic_extents ( base_type( first,last ) )
 	{
 	}
 
 	/** @brief Copy constructs basic_extents */
 	basic_extents(basic_extents const& l )
-	    : _base(l._base)
+	  : _base(l._base)
 	{
 	}
 
 	/** @brief Move constructs basic_extents */
 	basic_extents(basic_extents && l ) noexcept
-	    : _base(std::move(l._base))
+	  : _base(std::move(l._base))
 	{
 	}
 
@@ -146,9 +148,10 @@ public:
 	*/
 	bool is_scalar() const
 	{
-		return _base.size() != 0 &&
-		       std::all_of(_base.begin(), _base.end(),
-		                   [](const_reference a){ return a == 1;});
+		return
+		    _base.size() != 0 &&
+		    std::all_of(_base.begin(), _base.end(),
+		                [](const_reference a){ return a == 1;});
 	}
 
 	/** @brief Returns true if this has a vector shape
@@ -168,9 +171,10 @@ public:
 		auto greater_one = [](const_reference a){ return a >  1;};
 		auto equal_one   = [](const_reference a){ return a == 1;};
 
-		return  std::any_of(_base.begin(),   _base.begin()+2, greater_one) &&
-		        std::any_of(_base.begin(),   _base.begin()+2, equal_one  ) &&
-		        std::all_of(_base.begin()+2, _base.end(),     equal_one);
+		return
+		    std::any_of(_base.begin(),   _base.begin()+2, greater_one) &&
+		    std::any_of(_base.begin(),   _base.begin()+2, equal_one  ) &&
+		    std::all_of(_base.begin()+2, _base.end(),     equal_one);
 	}
 
 	/** @brief Returns true if this has a matrix shape
@@ -186,8 +190,9 @@ public:
 		auto greater_one = [](const_reference a){ return a >  1;};
 		auto equal_one   = [](const_reference a){ return a == 1;};
 
-		return  std::all_of(_base.begin(),   _base.begin()+2, greater_one) &&
-		        std::all_of(_base.begin()+2, _base.end(),     equal_one  );
+		return
+		    std::all_of(_base.begin(),   _base.begin()+2, greater_one) &&
+		    std::all_of(_base.begin()+2, _base.end(),     equal_one  );
 	}
 
 	/** @brief Returns true if this is has a tensor shape
@@ -244,8 +249,10 @@ public:
 	/** @brief Returns true if size > 1 and all elements > 0 */
 	bool valid() const
 	{
-		return this->size() > 1 && std::none_of(_base.begin(), _base.end(),
-																						[](const_reference a){ return a == value_type(0); });
+		return
+		    this->size() > 1 &&
+		    std::none_of(_base.begin(), _base.end(),
+		                 [](const_reference a){ return a == value_type(0); });
 	}
 
 	/** @brief Returns the number of elements a tensor holds with this */

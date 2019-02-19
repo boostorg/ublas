@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -8,7 +8,7 @@
 #include <boost/numeric/ublas/tensor/extents.hpp>
 #include <vector>
 
-BOOST_AUTO_TEST_SUITE ( test_extents );
+BOOST_AUTO_TEST_SUITE ( test_extents )
 
 
 //*boost::unit_test::label("extents")
@@ -64,23 +64,23 @@ BOOST_AUTO_TEST_CASE(test_extents_ctor)
 struct fixture {
 	using extents_type = boost::numeric::ublas::basic_extents<unsigned>;
 	fixture() : extents{
-								extents_type{},            // 0
+	              extents_type{},            // 0
 
-								extents_type{1,1},         // 1
-								extents_type{1,2},         // 2
-								extents_type{2,1},         // 3
+	              extents_type{1,1},         // 1
+	              extents_type{1,2},         // 2
+	              extents_type{2,1},         // 3
 
-								extents_type{2,3},         // 4
-								extents_type{2,3,1},       // 5
-								extents_type{1,2,3},       // 6
-								extents_type{1,1,2,3},     // 7
-								extents_type{1,2,3,1,1},   // 8
+	              extents_type{2,3},         // 4
+	              extents_type{2,3,1},       // 5
+	              extents_type{1,2,3},       // 6
+	              extents_type{1,1,2,3},     // 7
+	              extents_type{1,2,3,1,1},   // 8
 
-								extents_type{4,2,3},       // 9
-								extents_type{4,2,1,3},     // 10
-								extents_type{4,2,1,3,1},   // 11
-								extents_type{1,4,2,1,3,1}, // 12
-		}  // 13
+	              extents_type{4,2,3},       // 9
+	              extents_type{4,2,1,3},     // 10
+	              extents_type{4,2,1,3,1},   // 11
+	              extents_type{1,4,2,1,3,1}, // 12
+}  // 13
 	{}
 	std::vector<extents_type> extents;
 };
@@ -445,5 +445,5 @@ BOOST_FIXTURE_TEST_CASE(test_extents_product, fixture, *boost::unit_test::label(
 
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 

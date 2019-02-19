@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <complex>
 #include <boost/numeric/ublas/tensor.hpp>
 #include <boost/numeric/ublas/tensor/multi_index.hpp>
 
@@ -20,7 +21,7 @@
 #include "utility.hpp"
 
 
-BOOST_AUTO_TEST_SUITE ( test_multi_index ) ;
+BOOST_AUTO_TEST_SUITE ( test_multi_index )
 
 
 using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
@@ -91,12 +92,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_multi_index_class_generation, value, 
 	using tensor_type  = tensor<value_type,layout_type>;
 
 	auto t = std::make_tuple (
-				index::_a, // 0
-				index::_b, // 1
-				index::_c, // 2
-				index::_d, // 3
-				index::_e  // 4
-				);
+	      index::_a, // 0
+	      index::_b, // 1
+	      index::_c, // 2
+	      index::_d, // 3
+	      index::_e  // 4
+	      );
 
 	{
 		auto a = tensor_type(shape{2,3}, value_type{2});
@@ -141,5 +142,5 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_multi_index_class_generation, value, 
 
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 

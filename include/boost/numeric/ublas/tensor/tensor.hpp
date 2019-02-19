@@ -1,4 +1,4 @@
-//  Copyright (c) 2018
+//  Copyright (c) 2018-2019
 //  Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
@@ -13,8 +13,8 @@
 
 /// \file tensor.hpp Definition for the tensor template class
 
-#ifndef _BOOST_UBLAS_TENSOR_IMPL_
-#define _BOOST_UBLAS_TENSOR_IMPL_
+#ifndef BOOST_UBLAS_TENSOR_IMPL_HPP
+#define BOOST_UBLAS_TENSOR_IMPL_HPP
 
 #include <boost/config.hpp>
 

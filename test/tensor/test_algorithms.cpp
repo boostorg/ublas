@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -22,27 +22,29 @@
 
 
 BOOST_AUTO_TEST_SUITE ( test_tensor_algorithms,
-												* boost::unit_test::depends_on("test_extents")
-												* boost::unit_test::depends_on("test_strides")) ;
+                        * boost::unit_test::depends_on("test_extents")
+                        * boost::unit_test::depends_on("test_strides"))
 
 
 using test_types  = zip<int,long,float,double,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 using test_types2 = std::tuple<int,long,float,double,std::complex<float>>;
 
-struct fixture {
+struct fixture
+{
 	using extents_type = boost::numeric::ublas::shape;
-	fixture() : extents {
-				extents_type{1,1}, // 1
-				extents_type{1,2}, // 2
-				extents_type{2,1}, // 3
-				extents_type{2,3}, // 4
-				extents_type{2,3,1}, // 5
-				extents_type{4,1,3}, // 6
-				extents_type{1,2,3}, // 7
-				extents_type{4,2,3}, // 8
-				extents_type{4,2,3,5} // 9
-				}
-	{}
+	fixture()
+	  : extents {
+	      extents_type{1,1}, // 1
+	      extents_type{1,2}, // 2
+	      extents_type{2,1}, // 3
+	      extents_type{2,3}, // 4
+	      extents_type{2,3,1}, // 5
+	      extents_type{4,1,3}, // 6
+	      extents_type{1,2,3}, // 7
+	      extents_type{4,2,3}, // 8
+	      extents_type{4,2,3,5} } // 9
+	{
+	}
 	std::vector<extents_type> extents;
 };
 
@@ -79,12 +81,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy, value,  test_type
 
 		using size_type = typename ublas::strides<ublas::first_order>::value_type;
 		size_type const*const p0 = nullptr;
-		BOOST_CHECK_THROW( ublas::copy( n.size(), p0, c.data(), wc.data(), b.data(), wb.data() ), std::runtime_error );
-		BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c.data(), p0, b.data(), wb.data() ), std::runtime_error );
-		BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c.data(), wc.data(), b.data(), p0 ), std::runtime_error );
+		BOOST_CHECK_THROW( ublas::copy( n.size(), p0, c.data(), wc.data(), b.data(), wb.data() ), std::length_error );
+		BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c.data(), p0, b.data(), wb.data() ), std::length_error );
+		BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c.data(), wc.data(), b.data(), p0 ), std::length_error );
 
 		value_type* c0 = nullptr;
-		BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c0, wc.data(), b.data(), wb.data() ), std::runtime_error );
+		BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c0, wc.data(), b.data(), wb.data() ), std::length_error );
 	}
 
 	// special case rank == 0
@@ -162,12 +164,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  tes
 		auto const s = n.product();
 
 		auto a  = vector_type(n.product());
-//		auto b  = vector_type(n.product());
-//		auto c  = vector_type(n.product());
+		//		auto b  = vector_type(n.product());
+		//		auto c  = vector_type(n.product());
 
 		auto wa = ublas::strides<ublas::first_order>(n);
-//		auto wb = ublas::strides<ublas::last_order> (n);
-//		auto wc = ublas::strides<ublas::first_order>(n);
+		//		auto wb = ublas::strides<ublas::last_order> (n);
+		//		auto wc = ublas::strides<ublas::first_order>(n);
 
 		auto v = value_type{};
 		for(auto i = 0ul; i < a.size(); ++i, v+=value_type(1)){
@@ -180,7 +182,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  tes
 
 
 		auto acc2 = ublas::accumulate( n.size(), n.data(), a.data(), wa.data(), v,
-									   [](auto const& l, auto const& r){return l + r; });
+		                               [](auto const& l, auto const& r){return l + r; });
 
 		BOOST_CHECK_EQUAL( acc2, value_type( s*(s+1) / 2 )  );
 
@@ -283,5 +285,4 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans, value,  test_typ
 }
 
 
-BOOST_AUTO_TEST_SUITE_END();
-
+BOOST_AUTO_TEST_SUITE_END()

@@ -1,16 +1,16 @@
 //
-//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen Germany
+//  Fraunhofer IOSB, Ettlingen, Germany
 //
 
-#ifndef _BOOST_UBLAS_TENSOR_EXPRESSIONS_
-#define _BOOST_UBLAS_TENSOR_EXPRESSIONS_
+#ifndef BOOST_UBLAS_TENSOR_EXPRESSIONS_HPP
+#define BOOST_UBLAS_TENSOR_EXPRESSIONS_HPP
 
 #include <cstddef>
 #include <boost/numeric/ublas/expression_types.hpp>
@@ -50,9 +50,9 @@ namespace detail  {
  **/
 template<class T, class E>
 struct tensor_expression
-		: public ublas_expression<E>
+    : public ublas_expression<E>
 {
-//	static const unsigned complexity = 0;
+	//	static const unsigned complexity = 0;
 	using expression_type = E;
 	using type_category = tensor_tag;
 	using tensor_type = T;
@@ -69,7 +69,7 @@ protected :
 
 template<class T, class EL, class ER, class OP>
 struct binary_tensor_expression
-		: public tensor_expression <T, binary_tensor_expression<T,EL,ER,OP>>
+    : public tensor_expression <T, binary_tensor_expression<T,EL,ER,OP>>
 {
 	using self_type = binary_tensor_expression<T,EL,ER,OP>;
 	using tensor_type  = T;
@@ -81,11 +81,11 @@ struct binary_tensor_expression
 	using size_type = typename tensor_type::size_type;
 
 	explicit binary_tensor_expression(expression_type_left  const& l, expression_type_right const& r, binary_operation o)
-		: el(l) , er(r) , op(o) {}
+	  : el(l) , er(r) , op(o) {}
 	binary_tensor_expression() = delete;
 	binary_tensor_expression(const binary_tensor_expression& l) = delete;
 	binary_tensor_expression(binary_tensor_expression&& l)
-		: el(l.el), er(l.er), op(l.op) {}
+	  : el(l.el), er(l.er), op(l.op) {}
 
 	BOOST_UBLAS_INLINE
 	decltype(auto)  operator()(size_type i) const { return op(el(i), er(i)); }
@@ -130,7 +130,7 @@ auto make_binary_tensor_expression( tensor_expression<T,EL> const& el, vector_ex
 
 template<class T, class E, class OP>
 struct unary_tensor_expression
-		: public tensor_expression <T, unary_tensor_expression<T,E,OP>>
+    : public tensor_expression <T, unary_tensor_expression<T,E,OP>>
 {
 
 	using self_type = unary_tensor_expression<T,E,OP>;
@@ -145,7 +145,7 @@ struct unary_tensor_expression
 	unary_tensor_expression() = delete;
 	unary_tensor_expression(const unary_tensor_expression& l) = delete;
 	unary_tensor_expression(unary_tensor_expression&& l)
-		: e(l.e), op(op.l) {}
+	  : e(l.e), op(op.l) {}
 
 	BOOST_UBLAS_INLINE
 	decltype(auto) operator()(size_type i) const { return op(e(i)); }

@@ -1,4 +1,4 @@
-//  Copyright (c) 2018
+//  Copyright (c) 2018-2019
 //  Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
@@ -12,10 +12,8 @@
 
 /// \file tensor.hpp Definition for the class vector and its derivative
 
-#ifndef BOOST_NUMERIC_UBLAS_TENSOR
-#define BOOST_NUMERIC_UBLAS_TENSOR
-
-#if __cplusplus >= 201703L
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_HPP
 
 #include "tensor/functions.hpp"
 #include "tensor/operators_arithmetic.hpp"
@@ -25,6 +23,4 @@
 #include "tensor/ostream.hpp"
 #include "tensor/tensor.hpp"
 
-#endif
-
-#endif
+#endif // BOOST_NUMERIC_UBLAS_TENSOR_HPP

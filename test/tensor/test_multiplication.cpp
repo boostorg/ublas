@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -22,7 +22,7 @@
 #include <boost/test/unit_test.hpp>
 
 
-BOOST_AUTO_TEST_SUITE (test_tensor_contraction) ;
+BOOST_AUTO_TEST_SUITE (test_tensor_contraction)
 
 
 using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
@@ -30,21 +30,23 @@ using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost:
 //using test_types = zip<int>::with_t<boost::numeric::ublas::first_order>;
 
 
-struct fixture {
+struct fixture
+{
 	using extents_type = boost::numeric::ublas::shape;
-	fixture() : extents {
-				extents_type{1,1}, // 1
-				extents_type{1,2}, // 2
-				extents_type{2,1}, // 3
-				extents_type{2,3}, // 4
-				extents_type{5,4}, // 5
-				extents_type{2,3,1}, // 6
-				extents_type{4,1,3}, // 7
-				extents_type{1,2,3}, // 8
-				extents_type{4,2,3}, // 9
-				extents_type{4,2,3,5} // 10
-				}
-	{}
+	fixture()
+	  : extents {
+	      extents_type{1,1}, // 1
+	      extents_type{1,2}, // 2
+	      extents_type{2,1}, // 3
+	      extents_type{2,3}, // 4
+	      extents_type{5,4}, // 5
+	      extents_type{2,3,1}, // 6
+	      extents_type{4,1,3}, // 7
+	      extents_type{1,2,3}, // 8
+	      extents_type{4,2,3}, // 9
+	      extents_type{4,2,3,5}} // 10
+	{
+	}
 	std::vector<extents_type> extents;
 };
 
@@ -85,10 +87,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_mtv, value,  test_types, fixture )
 			auto c  = vector_type  (nc.product(), value_type{0});
 
 			ublas::detail::recursive::mtv(
-				size_type(m),
-						c.data(), nc.data(), wc.data(),
-						a.data(), na.data(), wa.data(),
-						b.data());
+			      size_type(m),
+			      c.data(), nc.data(), wc.data(),
+			      a.data(), na.data(), wa.data(),
+			      b.data());
 
 
 			for(auto i = 0u; i < c.size(); ++i)
@@ -107,7 +109,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_mtm, value,  test_types, fixture )
 	using strides_type = ublas::strides<layout_type>;
 	using vector_type  = std::vector<value_type>;
 	using extents_type = ublas::shape;
-//	using extents_type_base = typename extents_type::base_type;
+	//	using extents_type_base = typename extents_type::base_type;
 
 
 	for(auto const& na : extents) {
@@ -119,25 +121,25 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_mtm, value,  test_types, fixture )
 		auto wa = strides_type (na);
 
 		auto nb = extents_type {na[1],na[0]};
-		auto wb = strides_type (nb);
-		auto b  = vector_type  (nb.product(), value_type{1} );
+	auto wb = strides_type (nb);
+	auto b  = vector_type  (nb.product(), value_type{1} );
 
-		auto nc = extents_type {na[0],nb[1]};
-		auto wc = strides_type (nc);
-		auto c  = vector_type  (nc.product());
-
-
-		ublas::detail::recursive::mtm(
-					c.data(), nc.data(), wc.data(),
-					a.data(), na.data(), wa.data(),
-					b.data(), nb.data(), wb.data());
+	auto nc = extents_type {na[0],nb[1]};
+auto wc = strides_type (nc);
+auto c  = vector_type  (nc.product());
 
 
-		for(auto i = 0u; i < c.size(); ++i)
-			BOOST_CHECK_EQUAL( c[i] , value_type(na[1]) * a[0] );
+ublas::detail::recursive::mtm(
+    c.data(), nc.data(), wc.data(),
+    a.data(), na.data(), wa.data(),
+    b.data(), nb.data(), wb.data());
 
 
-	}
+for(auto i = 0u; i < c.size(); ++i)
+BOOST_CHECK_EQUAL( c[i] , value_type(na[1]) * a[0] );
+
+
+}
 }
 
 
@@ -173,9 +175,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttv, value,  test_types, fixture )
 			auto c  = vector_type  (nc.product(), value_type{0});
 
 			ublas::ttv(size_type(m+1), na.size(),
-									c.data(), nc.data(), wc.data(),
-									a.data(), na.data(), wa.data(),
-									b.data(), nb.data(), wb.data());
+			           c.data(), nc.data(), wc.data(),
+			           a.data(), na.data(), wa.data(),
+			           b.data(), nb.data(), wb.data());
 
 
 			for(auto i = 0u; i < c.size(); ++i)
@@ -212,9 +214,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttm, value,  test_types, fixture )
 			auto c  = vector_type  (nc.product(), value_type{0});
 
 			ublas::ttm(size_type(m+1), na.size(),
-									c.data(), nc.data(), wc.data(),
-									a.data(), na.data(), wa.data(),
-									b.data(), nb.data(), wb.data());
+			           c.data(), nc.data(), wc.data(),
+			           a.data(), na.data(), wa.data(),
+			           b.data(), nb.data(), wb.data());
 
 			for(auto i = 0u; i < c.size(); ++i)
 				BOOST_CHECK_EQUAL( c[i] , value_type(na[m]) * a[i] );
@@ -267,7 +269,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt_permutation, value,  test_type
 	// different permutation tuples for
 	// right-hand side
 
-	for(auto const& na : extents) {	
+	for(auto const& na : extents) {
 
 		auto wa = strides_type(na);
 		auto a  = vector_type(na.product(), value_type{2});
@@ -310,10 +312,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt_permutation, value,  test_type
 				auto c  = vector_type  ( nc.product(), value_type(0) );
 
 				ublas::ttt(pa,pb,q,
-									 pia.data(), pib_inv.data(),
-									 c.data(), nc.data(), wc.data(),
-									 a.data(), na.data(), wa.data(),
-									 b.data(), nb.data(), wb.data());
+				           pia.data(), pib_inv.data(),
+				           c.data(), nc.data(), wc.data(),
+				           a.data(), na.data(), wa.data(),
+				           b.data(), nb.data(), wb.data());
 
 
 				auto acc = value_type(1);
@@ -361,13 +363,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt, value,  test_types, fixture )
 		auto b  = vector_type(nb.product(), value_type{3});
 		auto pb = nb.size();
 
-//		std::cout << "na = ";
-//		std::copy(na.begin(), na.end(), std::ostream_iterator<size_type>(std::cout, " "));
-//		std::cout << std::endl;
+		//		std::cout << "na = ";
+		//		std::copy(na.begin(), na.end(), std::ostream_iterator<size_type>(std::cout, " "));
+		//		std::cout << std::endl;
 
-//		std::cout << "nb = ";
-//		std::copy(nb.begin(), nb.end(), std::ostream_iterator<size_type>(std::cout, " "));
-//		std::cout << std::endl;
+		//		std::cout << "nb = ";
+		//		std::copy(nb.begin(), nb.end(), std::ostream_iterator<size_type>(std::cout, " "));
+		//		std::cout << std::endl;
 
 
 		// the number of contractions is changed.
@@ -390,14 +392,14 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt, value,  test_types, fixture )
 			auto wc = strides_type ( nc );
 			auto c  = vector_type  ( nc.product(), value_type{0} );
 
-//			std::cout << "nc = ";
-//			std::copy(nc.begin(), nc.end(), std::ostream_iterator<size_type>(std::cout, " "));
-//			std::cout << std::endl;
+			//			std::cout << "nc = ";
+			//			std::copy(nc.begin(), nc.end(), std::ostream_iterator<size_type>(std::cout, " "));
+			//			std::cout << std::endl;
 
 			ublas::ttt(pa,pb,q,
-								 c.data(), nc.data(), wc.data(),
-								 a.data(), na.data(), wa.data(),
-								 b.data(), nb.data(), wb.data());
+			           c.data(), nc.data(), wc.data(),
+			           a.data(), na.data(), wa.data(),
+			           b.data(), nb.data(), wb.data());
 
 
 			auto acc = value_type(1);
@@ -473,8 +475,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_outer, value,  test_types, fixture
 			auto wc = strides_type(extents_type(nc));
 
 			ublas::outer(c.data(), nc.size(), nc.data(), wc.data(),
-									 a.data(), na.size(), na.data(), wa.data(),
-									 b.data(), nb.size(), nb.data(), wb.data());
+			             a.data(), na.size(), na.data(), wa.data(),
+			             b.data(), nb.size(), nb.data(), wb.data());
 
 			for(auto const& cc : c)
 				BOOST_CHECK_EQUAL( cc , a[0]*b[0] );
@@ -485,5 +487,5 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_outer, value,  test_types, fixture
 }
 
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 

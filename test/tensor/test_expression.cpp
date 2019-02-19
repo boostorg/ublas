@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -25,27 +25,29 @@
 using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 
 
-struct fixture {
+struct fixture
+{
 	using extents_type = boost::numeric::ublas::shape;
-	fixture() : extents{
-								extents_type{},            // 0
+	fixture()
+	  : extents {
+	      extents_type{},            // 0
 
-								extents_type{1,1},         // 1
-								extents_type{1,2},         // 2
-								extents_type{2,1},         // 3
+	      extents_type{1,1},         // 1
+	      extents_type{1,2},         // 2
+	      extents_type{2,1},         // 3
 
-								extents_type{2,3},         // 4
-								extents_type{2,3,1},       // 5
-								extents_type{1,2,3},       // 6
-								extents_type{1,1,2,3},     // 7
-								extents_type{1,2,3,1,1},   // 8
+	      extents_type{2,3},         // 4
+	      extents_type{2,3,1},       // 5
+	      extents_type{1,2,3},       // 6
+	      extents_type{1,1,2,3},     // 7
+	      extents_type{1,2,3,1,1},   // 8
 
-								extents_type{4,2,3},       // 9
-								extents_type{4,2,1,3},     // 10
-								extents_type{4,2,1,3,1},   // 11
-								extents_type{1,4,2,1,3,1}, // 12
-		}  // 13
-	{}
+	      extents_type{4,2,3},       // 9
+	      extents_type{4,2,1,3},     // 10
+	      extents_type{4,2,1,3,1},   // 11
+	      extents_type{1,4,2,1,3,1} }  // 12
+	{
+	}
 	std::vector<extents_type> extents;
 };
 
@@ -80,7 +82,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_expression, value,  test_typ
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;		
+	using tensor_type = ublas::tensor<value_type, layout_type>;
 
 	auto uplus1 = std::bind(  std::plus<value_type>{}, std::placeholders::_1, value_type(1) );
 
@@ -88,7 +90,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_expression, value,  test_typ
 
 		auto t = tensor_type(e);
 		auto v = value_type{};
-		for(auto& tt: t){ tt = v; v+=value_type{1}; }
+		for(auto& tt: t) { tt = v; v+=value_type{1}; }
 
 		const auto uexpr = ublas::detail::make_unary_tensor_expression<tensor_type>( t, uplus1 );
 

@@ -1,16 +1,16 @@
 //
-//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen Germany
+//  Fraunhofer IOSB, Ettlingen, Germany
 //
 
-#ifndef _BOOST_UBLAS_TENSOR_MULTI_INDEX_UTILITY_HPP_
-#define _BOOST_UBLAS_TENSOR_MULTI_INDEX_UTILITY_HPP_
+#ifndef BOOST_UBLAS_TENSOR_MULTI_INDEX_UTILITY_HPP
+#define BOOST_UBLAS_TENSOR_MULTI_INDEX_UTILITY_HPP
 
 
 #include <tuple>
@@ -179,7 +179,7 @@ template<class tuple_left, class tuple_right>
 struct number_equal_indexes
 {
 	static constexpr unsigned value  =
-			detail::number_equal_indexes_impl< std::decay_t<tuple_left>, std::decay_t<tuple_right>>::value;
+	    detail::number_equal_indexes_impl< std::decay_t<tuple_left>, std::decay_t<tuple_right>>::value;
 };
 
 } // namespace ublas
@@ -259,7 +259,7 @@ struct index_position_pairs_impl
 		using get_index_type = index_position<index_type,tuple_right>;
 		using next_type      = index_position_pairs_impl<r+1,m>;
 		if constexpr ( has_index_type::value && index_type::value != 0)
-			out[p++] = std::make_pair(r-1,get_index_type::value);
+		    out[p++] = std::make_pair(r-1,get_index_type::value);
 		next_type::run( out, lhs, rhs, p );
 	}
 };
@@ -274,7 +274,7 @@ struct index_position_pairs_impl<m,m>
 		using has_index_type = has_index<index_type, tuple_right>;
 		using get_index_type = index_position<index_type, tuple_right>;
 		if constexpr ( has_index_type::value && index_type::value != 0 )
-			out[p] = std::make_pair(m-1,get_index_type::value);
+		    out[p] = std::make_pair(m-1,get_index_type::value);
 	}
 };
 
@@ -332,8 +332,8 @@ template<class array_type, std::size_t ... R>
 constexpr auto array_to_vector_impl( array_type const& array, std::index_sequence<R...> )
 {
 	return std::make_pair(
-				std::vector<std::size_t>{std::get<0>( std::get<R>(array) )+1 ...} ,
-				std::vector<std::size_t>{std::get<1>( std::get<R>(array) )+1 ...} );
+	      std::vector<std::size_t>{std::get<0>( std::get<R>(array) )+1 ...} ,
+	      std::vector<std::size_t>{std::get<1>( std::get<R>(array) )+1 ...} );
 }
 
 } // namespace detail

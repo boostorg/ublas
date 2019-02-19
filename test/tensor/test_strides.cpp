@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -18,7 +18,7 @@
 
 //BOOST_AUTO_TEST_SUITE(test_strides, * boost::unit_test::depends_on("test_extents"));
 
-BOOST_AUTO_TEST_SUITE(test_strides);
+BOOST_AUTO_TEST_SUITE(test_strides)
 
 using test_types = std::tuple<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 
@@ -169,4 +169,4 @@ BOOST_AUTO_TEST_CASE( test_strides_ctor_access_last_order)
 }
 
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

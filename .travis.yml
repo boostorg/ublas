@@ -11,8 +11,6 @@ branches:
   only:
     - master
     - develop
-    - tensor
-    - subtensor
     - doc
     - ci
 
@@ -26,8 +24,10 @@ env:
 matrix:
   include:
     - os: linux
-      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=c++17
-
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=11
+    - os: linux
+      env: TOOLSET=gcc COMPILER=g++-7 CXXSTD=17    
+      
 addons:
   apt:
     sources:
@@ -52,27 +52,29 @@ install:
   - cd ..
   - git clone -b master --depth 1 https://github.com/boostorg/boost.git boost-root
   - cd boost-root
-  - git submodule update --init tools/build
-  - git submodule update --init libs/config
-  - git submodule update --init tools/boostdep
+  - git submodule update --init --jobs 8 tools/build
+  - git submodule update --init --jobs 8 libs/config
+  - git submodule update --init --jobs 8 tools/boostdep
   - mkdir -p libs/numeric/
   - cp -r $TRAVIS_BUILD_DIR/* libs/numeric/ublas
   - python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
   - ./bootstrap.sh
-  - ./b2 headers
+  - ./b2 -j 8 headers 
 
 # Use before_script: to run configure steps
 before_script:
 
+
 # use script: to execute build steps
 script:
   - |-
-    echo "using $TOOLSET : : $COMPILER : <cxxflags>-std=$CXXSTD ;" >> ~/user-config.jam;
+    echo "using $TOOLSET : : $COMPILER ;" >> ~/user-config.jam;
     echo "using clblas : : <include>${CLBLAS_PREFIX}/include <search>${CLBLAS_PREFIX}/lib ;" >> ~/user-config.jam;
     cp $TRAVIS_BUILD_DIR/opencl.jam ~/
     cp $TRAVIS_BUILD_DIR/clblas.jam ~/
-  - ./b2 libs/numeric/ublas/test toolset=$TOOLSET
-  - ./b2 libs/numeric/ublas/benchmarks toolset=$TOOLSET
+  - ./b2 -j 8 libs/numeric/ublas/test toolset=$TOOLSET cxxstd=$CXXSTD
+  - ./b2 -j 8 libs/numeric/ublas/benchmarks toolset=$TOOLSET cxxstd=$CXXSTD
+  - ./b2 -j 8 libs/numeric/ublas/examples/tensor toolset=$TOOLSET cxxstd=$CXXSTD
 
 notifications:
   email:

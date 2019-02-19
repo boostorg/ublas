@@ -1,16 +1,16 @@
 //
-//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen Germany
+//  Fraunhofer IOSB, Ettlingen, Germany
 //
 
-#ifndef _BOOST_UBLAS_TENSOR_MULTI_INDEX_HPP_
-#define _BOOST_UBLAS_TENSOR_MULTI_INDEX_HPP_
+#ifndef BOOST_UBLAS_TENSOR_MULTI_INDEX_HPP
+#define BOOST_UBLAS_TENSOR_MULTI_INDEX_HPP
 
 
 #include <cstddef>
@@ -49,17 +49,17 @@ public:
 
 	template<std::size_t I, class ... indexes>
 	constexpr multi_index(index::index_type<I> const& i, indexes ... is )
-			 : _base{i(), is()... }
+	  : _base{i(), is()... }
 	{
 		static_assert( sizeof...(is)+1 == N,
-					   "Static assert in boost::numeric::ublas::multi_index: number of constructor arguments is not equal to the template parameter." );
+		               "Static assert in boost::numeric::ublas::multi_index: number of constructor arguments is not equal to the template parameter." );
 
 		static_assert( valid_multi_index<std::tuple<index::index_type<I>, indexes ...> >::value,
-									 "Static assert in boost::numeric::ublas::multi_index: indexes occur twice in multi-index." );
+		               "Static assert in boost::numeric::ublas::multi_index: indexes occur twice in multi-index." );
 	}
 
 	multi_index(multi_index const& other)
-		: _base(other._base)
+	  : _base(other._base)
 	{
 	}
 
@@ -94,7 +94,7 @@ auto array_to_vector(multi_index<M> const& lhs, multi_index<N> const& rhs)
 		for(auto j = 0u; j < M; ++j)
 			if ( lhs.at(i) == rhs.at(j) && lhs.at(i) != boost::numeric::ublas::index::_())
 				pair_of_vector.first .push_back( i+1 ),
-				pair_of_vector.second.push_back( j+1 );
+				    pair_of_vector.second.push_back( j+1 );
 
 	return pair_of_vector;
 }

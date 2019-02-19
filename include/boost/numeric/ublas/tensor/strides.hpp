@@ -1,18 +1,18 @@
 //
-//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen Germany
+//  Fraunhofer IOSB, Ettlingen, Germany
 //
 /// \file strides.hpp Definition for the basic_strides template class
 
 
-#ifndef _BOOST_UBLAS_TENSOR_STRIDES_
-#define _BOOST_UBLAS_TENSOR_STRIDES_
+#ifndef BOOST_UBLAS_TENSOR_STRIDES_HPP
+#define BOOST_UBLAS_TENSOR_STRIDES_HPP
 
 #include <vector>
 #include <limits>
@@ -20,12 +20,13 @@
 #include <stdexcept>
 #include <initializer_list>
 #include <algorithm>
-
 #include <cassert>
 
 #include <boost/numeric/ublas/functional.hpp>
 
-namespace boost { namespace numeric { namespace ublas {
+namespace boost { 
+namespace numeric { 
+namespace ublas {
 
 using first_order = column_major;
 using last_order = row_major;
@@ -243,6 +244,8 @@ auto access(std::size_t sum, basic_strides<std::size_t, layout_type> const& w, s
 
 }
 
-}}}
+}
+}
+}
 
 #endif

@@ -1,7 +1,3 @@
-OTHER_FILES += \
-    ../../test/README \
-    ../../test/Jamfile.v2
-
 SUBDIRS += \
     begin_end \
     comp_mat_erase \

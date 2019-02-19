@@ -1,4 +1,4 @@
-//  Copyright (c) 2018 Cem Bassoy
+//  Copyright (c) 2018-2019 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -21,7 +21,7 @@
 
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE ( test_tensor_functions, * boost::unit_test::depends_on("test_tensor_contraction") ) ;
+BOOST_AUTO_TEST_SUITE ( test_tensor_functions, * boost::unit_test::depends_on("test_tensor_contraction") )
 
 
 using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
@@ -29,20 +29,22 @@ using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost:
 //using test_types = zip<int>::with_t<boost::numeric::ublas::first_order>;
 
 
-struct fixture {
+struct fixture
+{
 	using extents_type = boost::numeric::ublas::shape;
-	fixture() : extents {
-				extents_type{1,1}, // 1
-				extents_type{1,2}, // 2
-				extents_type{2,1}, // 3
-				extents_type{2,3}, // 4
-				extents_type{2,3,1}, // 5
-				extents_type{4,1,3}, // 6
-				extents_type{1,2,3}, // 7
-				extents_type{4,2,3}, // 8
-				extents_type{4,2,3,5} // 9
-				}
-	{}
+	fixture()
+	  : extents {
+	      extents_type{1,1}, // 1
+	      extents_type{1,2}, // 2
+	      extents_type{2,1}, // 3
+	      extents_type{2,3}, // 4
+	      extents_type{2,3,1}, // 5
+	      extents_type{4,1,3}, // 6
+	      extents_type{1,2,3}, // 7
+	      extents_type{4,2,3}, // 8
+	      extents_type{4,2,3,5}} // 9
+	{
+	}
 	std::vector<extents_type> extents;
 };
 
@@ -186,26 +188,26 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_tensor_2, value,  test_types,
 			auto nb = permute_extents( pi, na  );
 			auto b  = tensor_type( nb, value_type{3} );
 
-		// the number of contractions is changed.
-		for( auto q = 0ul; q <= pa; ++q) { // pa
+			// the number of contractions is changed.
+			for( auto q = 0ul; q <= pa; ++q) { // pa
 
-			auto phia = std::vector<std::size_t> ( q );  // concatenation for a
-			auto phib = std::vector<std::size_t> ( q );  // concatenation for b
+				auto phia = std::vector<std::size_t> ( q );  // concatenation for a
+				auto phib = std::vector<std::size_t> ( q );  // concatenation for b
 
-			std::iota(phia.begin(), phia.end(), 1ul);
-			std::transform(  phia.begin(), phia.end(), phib.begin(),
-											 [&pi] ( std::size_t i ) { return pi.at(i-1); } );
+				std::iota(phia.begin(), phia.end(), 1ul);
+				std::transform(  phia.begin(), phia.end(), phib.begin(),
+				                 [&pi] ( std::size_t i ) { return pi.at(i-1); } );
 
-			auto c = ublas::prod(a, b, phia, phib);
+				auto c = ublas::prod(a, b, phia, phib);
 
-			auto acc = value_type(1);
-			for(auto i = 0ul; i < q; ++i)
-				acc *= a.extents().at(phia.at(i)-1);
+				auto acc = value_type(1);
+				for(auto i = 0ul; i < q; ++i)
+					acc *= a.extents().at(phia.at(i)-1);
 
-			for(auto i = 0ul; i < c.size(); ++i)
-				BOOST_CHECK_EQUAL( c[i] , acc * a[0] * b[0] );
+				for(auto i = 0ul; i < c.size(); ++i)
+					BOOST_CHECK_EQUAL( c[i] , acc * a[0] * b[0] );
 
-		}
+			}
 
 			std::next_permutation(pi.begin(), pi.end());
 		}
@@ -447,5 +449,5 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_trans, value,  test_types, fixture
 }
 
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()
 
