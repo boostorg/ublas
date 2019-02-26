@@ -13,6 +13,10 @@ include(experimental/experimental.pri)
 include(operation/operation.pri)
 include(traits/traits.pri)
 
+include(tensor/tensor.pri)
+
+INCLUDEPATH += $${INCLUDE_DIR}
+
 HEADERS += \
     $${INCLUDE_DIR}/boost/numeric/ublas/vector_sparse.hpp \
     $${INCLUDE_DIR}/boost/numeric/ublas/vector_proxy.hpp \
@@ -44,4 +48,5 @@ HEADERS += \
     $${INCLUDE_DIR}/boost/numeric/ublas/blas.hpp \
     $${INCLUDE_DIR}/boost/numeric/ublas/banded.hpp \
     $${INCLUDE_DIR}/boost/numeric/ublas/assignment.hpp \
-    $${INCLUDE_DIR}/boost/numeric/ublas/matrix_vector.hpp
+    $${INCLUDE_DIR}/boost/numeric/ublas/matrix_vector.hpp \
+    $${INCLUDE_DIR}/boost/numeric/ublas/tensor.hpp

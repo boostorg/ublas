@@ -104,6 +104,16 @@ namespace boost { namespace numeric { namespace ublas {
             else
                 data_ = 0;
         }
+#ifdef BOOST_UBLAS_CPP_GE_2011
+		BOOST_UBLAS_INLINE
+		unbounded_array (unbounded_array &&c) :
+			storage_array<unbounded_array<T, ALLOC> >(),
+			alloc_ (std::move(c.alloc_)), size_ (c.size_), data_(c.data_)
+		{
+			c.size_ = 0;
+			c.data_ = nullptr;
+		}
+#endif
         BOOST_UBLAS_INLINE
         ~unbounded_array () {
             if (size_) {

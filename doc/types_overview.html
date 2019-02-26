@@ -12,7 +12,7 @@
 <title>Types Overview</title>
 </head>
 <body>
-<h1><img src="../../../../boost.png" align="middle" />Overview of Matrix- and Vector-Types </h1>
+<h1><img src="../../../../boost.png" align="middle" />Overview of Tensor, Matrix- and Vector Types </h1>
 <div class="toc" id="toc"></div>
 
 <dl>
@@ -21,6 +21,7 @@
 <dd><a href="#vector_proxies">Vector Proxies</a></dd>
 <dd><a href="#matrices">Matrices</a></dd>
 <dd><a href="#matrix_proxies">Matrix Proxies</a></dd>
+<dd><a href="#tensors">Tensors</a></dd>
 <dd><a href="#storage_layout">Special Storage Layouts</a></dd>
 </dl>
 
@@ -31,15 +32,15 @@
 <tr><td><code>T</code></td> 
 <td>is the data type. For general linear algebra operations this will be a real type e.g. <code>double</code>, ...</td></tr>
 <tr><td><code>F</code></td> 
-<td>is the orientation type (functor), either
-<code>row_major</code> or <code>column_major</code></td></tr>
+<td>is the orientation type, either
+<code>row_major</code> or <code>column_major</code> for matrices and <code>first_order</code> or <code>last_order</code> for tensors</td></tr> 
 <tr><td><code>A, IA, TA</code></td> <td>is an array storage type, e.g. <code>std::vector,
 bounded_array, unbounded_array, ...</code></td></tr>
 <tr><td><code>TRI</code></td> 
 <td>is a triangular functor: <code>lower,
 unit_lower, strict_lower, upper, unit_upper,
 strict_upper</code></td></tr>
-<tr><td><code>M, N</code></td> 
+<tr><td><code>M, N, K</code></td> 
 <td>are unsigned integer sizes 
 (<code>std::size_t</code>)</td></tr>
 <tr><td><code>IB</code></td> 
@@ -49,6 +50,8 @@ strict_upper</code></td></tr>
 <td>is any vector type</td></tr>
 <tr><td><code>MAT</code> </td>
 <td>is any matrix type</td></tr>
+<tr><td><code>TEN</code> </td>
+<td>is any tensor type</td></tr>
 <tr><td><code>[...]</code></td> 
 <td>denote optional arguments - for more details
 look at the section "storage layout".</td></tr>
@@ -331,6 +334,31 @@ the matrix <code>m</code>.</td>
 </tr>
 </tbody>
 </table>
+
+
+
+<h2><a id="tensors">Tensors</a></h2>
+
+<table border="1" summary="tensor types">
+<thead>
+<tr>
+<th width="10%">Definition</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tensor&lt;T [, F, A]&gt;<br />&nbsp;&nbsp; t(size1, size2, ... );</code></td>
+<td>a dense matrix of values of type <code>T</code> of variable
+size. A storage type <code>A</code> can be specified
+which defaults to <code>std::vector&lt;T&gt;</code>.
+The orientation type <code>F</code> defaults to
+<code>first_order</code>.
+Elements are constructed by <code>A</code>, which need not initialise their value.</td>
+</tr>
+</tbody>
+</table>
+
 
 
 

@@ -397,7 +397,7 @@ namespace boost { namespace numeric { namespace ublas {
         }
         // Form Sorted Associative Container concept
         // BOOST_UBLAS_INLINE This function seems to be big. So we do not let the compiler inline it.    
-        iterator insert (iterator hint, const value_type &p) {
+				iterator insert (iterator /*hint*/, const value_type &p) {
             return insert (p).first;
         }
         // BOOST_UBLAS_INLINE This function seems to be big. So we do not let the compiler inline it.    

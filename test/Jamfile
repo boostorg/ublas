@@ -47,11 +47,11 @@ UBLAS_TESTSET_SPARSE_COO ?=
 
 
 # Project settings
-project
+project boost-ublas-test
     : requirements
        <define>BOOST_UBLAS_NO_EXCEPTIONS
        <toolset>vacpp:<define>"BOOST_UBLAS_NO_ELEMENT_PROXIES"
-       <toolset>gcc:<cxxflags>"-Wall -pedantic -Wextra"
+       <toolset>gcc:<cxxflags>"-Wall -Wno-unknown-pragmas"
        <toolset>msvc:<cxxflags>/bigobj
        <toolset>msvc:<cxxflags>"/W4" # == all
        #  The define of macros below prevent warnings about the checked versions of SCL and CRT libraries.
@@ -68,6 +68,8 @@ project
        #<toolset>msvc:<cxxflags>/wd4127 # expression is constant.
        #<toolset>msvc:<cxxflags>/wd4701 # unreachable code - needed for lexical cast - temporary for Boost 1.40 & earlier.
     ;
+
+
 
 
 test-suite numeric/uBLAS
@@ -253,3 +255,4 @@ test-suite numeric/uBLAS
     ;
 
 build-project opencl ;
+build-project tensor ;

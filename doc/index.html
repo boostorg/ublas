@@ -7,6 +7,22 @@
 <link rel="stylesheet" href="ublas.css" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.3.2.min.js" async="async" ></script>
 <script type="text/javascript" src="js/jquery.toc-gw.js" async="async" ></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      extensions: ["tex2jax.js"],
+      "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], scale: "80" },
+      tex2jax: { 
+      	inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+      	displayMath: [ ["$$","$$"], ["\\[", "\\]"] ], 
+      	processEscapes: true, 
+      	ignoreClass: "tex2jax_ignore|dno" },
+      TeX: { noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } } },
+      messageStyle: "none"
+    });
+</script>    
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
 <title>Boost Basic Linear Algebra</title>
 </head>
 <body>
@@ -37,10 +53,10 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 <li><a href="overview.html#functionality">Functionality</a>
 </li>
 
-<li><a href="types_overview.html">Overview of Matrix- and Vector-Types</a>
+<li><a href="types_overview.html">Overview of Tensor, Matrix- and Vector Types</a>
 </li>
 
-<li><a href="operations_overview.html">Overview of Matrix and Vector Operations</a>
+<li><a href="operations_overview.html">Overview of Tensor, Matrix and Vector Operations</a>
 </li>
 
 <li><a href="#further_information">Effective uBLAS and further information</a>
@@ -216,6 +232,29 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 </ul>
 </li>
 
+
+<li><a href="tensor.html">Tensor</a>
+<ul>
+<li><a href="tensor.html#tensor">Tensor</a> </li>
+</ul>
+</li>
+
+<li><a href="tensor/tensor_expression.html">Tensor Expressions</a>
+
+<ul>
+<li><a href="tensor/tensor_expression.html#tensor_expression">Tensor Expression</a>
+</li>
+
+<li><a href="tensor/tensor_expression.html#binary_tensor_expression">Binary Tensor Expression</a>
+</li>
+
+<li><a href="tensor/tensor_expression.html#unary_tensor_expression">Unary Tensor Expression</a>
+</li>
+</ul>
+</li>
+
+
+
 <li>Storage and special containers
 
 <ul>
@@ -230,6 +269,13 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 
 <li><a href="range.html#slice">Slice</a>
 </li>
+
+<li><a href="tensor/extents.html#extents">Extents</a>
+</li>
+
+<li><a href="tensor/strides.html#strides">Strides</a>
+</li>
+
 </ul></li>
 
 <li><a href="storage_sparse.html">Sparse Storage</a>
@@ -262,6 +308,10 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 
 <li><a href="container_concept.html#matrix">Matrix</a>
 </li>
+
+<li><a href="container_concept.html#tensor">Tensor</a>
+</li>
+
 </ul>
 </li>
 

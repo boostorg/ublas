@@ -4,7 +4,10 @@ win*: CONFIG += console
 
 # ublas include directory
 INCLUDEPATH += \
-    ../../../../include
+	../../../../../include
+
+QMAKE_CXXFLAGS += -fno-inline
+QMAKE_CXXFLAGS += -std=c++17
 
 # If ublas tests are build with boost source code then,
 # then boost headers and boost libraries should be used.

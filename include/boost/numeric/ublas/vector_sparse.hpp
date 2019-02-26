@@ -397,7 +397,7 @@ namespace boost { namespace numeric { namespace ublas {
 
         // Reserving
         BOOST_UBLAS_INLINE
-        void reserve (size_type non_zeros = 0, bool preserve = true) {
+				void reserve (size_type non_zeros, bool /*preserve*/ = true) {
             detail::map_reserve (data (), restrict_capacity (non_zeros));
         }
 
