@@ -14,7 +14,7 @@
 <title>uBLAS operations overview</title>
 </head>
 <body>
-<h1><img src="../../../../boost.png" align="middle" />Overview of Matrix and Vector Operations</h1>
+<h1><img src="../../../../boost.png" align="middle" />Overview of Tensor, Matrix and Vector Operations</h1>
 <div class="toc" id="toc"></div>
 
 <dl>
@@ -28,6 +28,8 @@
 <h2>Definitions</h2>
 
 <table style="" summary="notation">
+<tr><td><code>X, Y, Z</code></td>
+<td> are tensors</td></tr>
 <tr><td><code>A, B, C</code></td>
 <td> are matrices</td></tr>
 <tr><td><code>u, v, w</code></td> 
@@ -46,25 +48,26 @@
 
 <h3>standard operations: addition, subtraction, multiplication by a
 scalar</h3>
-
 <pre><code>
+X = Y + Z; X = Y - Z; X = -Y;
 C = A + B; C = A - B; C = -A;
 w = u + v; w = u - v; w = -u;
+X = t * Y; Y = X * t; X = Y / t;
 C = t * A; C = A * t; C = A / t;
 w = t * u; w = u * t; w = u / t;
 </code></pre>
 
 <h3>computed assignments</h3>
-
 <pre><code>
+X += Y; X -= Y; 
 C += A; C -= A; 
 w += u; w -= u; 
+X *= t; X /= t; 
 C *= t; C /= t; 
 w *= t; w /= t;
 </code></pre>
 
 <h3>inner, outer and other products</h3>
-
 <pre><code>
 t = inner_prod(u, v);
 C = outer_prod(u, v);
@@ -74,12 +77,23 @@ w = element_prod(u, v); w = element_div(u, v);
 C = element_prod(A, B); C = element_div(A, B);
 </code></pre>
 
-<h3>transformations</h3>
+<h3>tensor products</h3>
+<pre><code>
+Z = prod(X, v, t);
+Z = prod(X, A, t);
+Z = prod(X, Y, p);
+Z = prod(X, Y, pa, pb);
+t = inner_prod(X, Y);
+Z = outer_prod(X, Y);
+</code></pre>
 
+<h3>transformations</h3>
 <pre><code>
 w = conj(u); w = real(u); w = imag(u);
 C = trans(A); C = conj(A); C = herm(A); C = real(A); C = imag(A);
+Z = trans(X); Z = conj(X); Z = real(X); Z = imag(X);
 </code></pre>
+
 
 <h2><a name="advanced">Advanced functions</a></h2>
 
@@ -87,9 +101,11 @@ C = trans(A); C = conj(A); C = herm(A); C = real(A); C = imag(A);
 
 <pre><code>
 t = norm_inf(v); i = index_norm_inf(v);
-t = norm_1(v);   t = norm_2(v); 
+t = norm_1(v);   t = norm_2(v);
+t = norm_2_square(v);
 t = norm_inf(A); i = index_norm_inf(A);
 t = norm_1(A);   t = norm_frobenius(A); 
+t = norm(X);
 </code></pre>
 
 <h3>products</h3>

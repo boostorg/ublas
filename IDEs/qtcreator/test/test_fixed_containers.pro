@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = test_fixed_containers
 
-!include (configuration.pri)
+include (configuration.pri)
 
 HEADERS += \
     ../../../test/utils.hpp

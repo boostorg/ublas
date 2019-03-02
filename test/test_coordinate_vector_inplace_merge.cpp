@@ -68,12 +68,12 @@ BOOST_UBLAS_TEST_DEF( test_coordinate_vector_inplace_merge_random )
 
       {
         bool sorted = check_sortedness(vector_coord);
-        bool identical = compare_to(vector_coord, vector_dense, TOL);
+        bool identical = compare_distance(vector_coord, vector_dense, TOL);
         if (!(sorted && identical)) {
           print_entries(size_vec, entries);
         }
         BOOST_UBLAS_TEST_CHECK( check_sortedness(vector_coord) );
-        BOOST_UBLAS_TEST_CHECK( compare_to(vector_coord, vector_dense, TOL) );
+        BOOST_UBLAS_TEST_CHECK( compare_distance(vector_coord, vector_dense, TOL) );
       }
 
       for (size_t entry = 0; entry < nr_entries; ++ entry) {
@@ -86,7 +86,7 @@ BOOST_UBLAS_TEST_DEF( test_coordinate_vector_inplace_merge_random )
 
       {
         bool sorted = check_sortedness(vector_coord);
-        bool identical = compare_to(vector_coord, vector_dense, TOL);
+        bool identical = compare_distance(vector_coord, vector_dense, TOL);
         if (!(sorted && identical)) {
           print_entries(size_vec, entries);
         }
@@ -104,6 +104,4 @@ int main()
     BOOST_UBLAS_TEST_DO( test_coordinate_vector_inplace_merge_random );
 
     BOOST_UBLAS_TEST_END();
-
-    return EXIT_SUCCESS;;
 }

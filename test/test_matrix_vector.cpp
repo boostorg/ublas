@@ -70,7 +70,7 @@ bool test_matrix_row_facade() {
         rows(i) = matrix_row<Matrix>(RA, i);
     }
     
-    pass &= compare_to(A, RA);
+    pass &= compare_distance(A, RA);
     }
 
     { // Testing operator[]
@@ -87,7 +87,7 @@ bool test_matrix_row_facade() {
         rows[i] = matrix_row<Matrix>(RA, i);
     }
     
-    pass &= compare_to(A, RA);
+    pass &= compare_distance(A, RA);
     }
     
     { // Testing operator[] const
@@ -101,7 +101,7 @@ bool test_matrix_row_facade() {
             7, 8, 9;
 
     for(typename Matrix::size_type i = 0; i < RA.size1(); i++) {
-      pass &= compare_to(rows[i], matrix_row<Matrix>(RA, i));
+      pass &= compare_distance(rows[i], matrix_row<Matrix>(RA, i));
     }
     }
 
@@ -119,7 +119,7 @@ bool test_matrix_row_facade() {
     for(typename RowVector::const_iterator iter = rows.begin();
 	iter != rows.end();
 	iter++) {
-      pass &= compare_to(*iter, matrix_row<Matrix>(RA, i++));
+      pass &= compare_distance(*iter, matrix_row<Matrix>(RA, i++));
     }
     }
 
@@ -140,7 +140,7 @@ bool test_matrix_row_facade() {
       *iter = matrix_row<Matrix>(RA, i++);
     }
 
-    pass &= compare_to(A, RA);
+    pass &= compare_distance(A, RA);
     }
 
     { // Testing reserse iterator
@@ -160,7 +160,7 @@ bool test_matrix_row_facade() {
       *iter = matrix_row<Matrix>(RA, --i);
     }
 
-    pass &= compare_to(A, RA);
+    pass &= compare_distance(A, RA);
     }
 
     { // Testing const reverse iterator
@@ -177,7 +177,7 @@ bool test_matrix_row_facade() {
     for(typename RowVector::const_reverse_iterator iter = rows.rbegin();
 	iter != rows.rend();
 	iter++) {
-      pass &= compare_to(*iter, matrix_row<Matrix>(RA, --i));
+      pass &= compare_distance(*iter, matrix_row<Matrix>(RA, --i));
     }
     }
 
@@ -224,7 +224,7 @@ bool test_matrix_column_facade() {
         columns(i) = matrix_column<Matrix>(RA, i);
     }
     
-    pass &= compare_to(A, RA);
+    pass &= compare_distance(A, RA);
     }
 
     { // Testing operator[]
@@ -241,7 +241,7 @@ bool test_matrix_column_facade() {
         columns[i] = matrix_column<Matrix>(RA, i);
     }
     
-    pass &= compare_to(A, RA);
+    pass &= compare_distance(A, RA);
     }
     
     { // Testing operator[] const
@@ -255,7 +255,7 @@ bool test_matrix_column_facade() {
             7, 8, 9;
 
     for(typename Matrix::size_type i = 0; i < RA.size2(); i++) {
-      pass &= compare_to(columns[i], matrix_column<Matrix>(RA, i));
+      pass &= compare_distance(columns[i], matrix_column<Matrix>(RA, i));
     }
     }
 
@@ -276,7 +276,7 @@ bool test_matrix_column_facade() {
       *iter = matrix_column<Matrix>(RA, i++);
     }
 
-    pass &= compare_to(A, RA);
+    pass &= compare_distance(A, RA);
     }
 
     { // Testing const iterator
@@ -293,7 +293,7 @@ bool test_matrix_column_facade() {
     for(typename ColumnVector::const_iterator iter = columns.begin();
 	iter != columns.end();
 	iter++) {
-      pass &= compare_to(*iter, matrix_column<Matrix>(RA, i++));
+      pass &= compare_distance(*iter, matrix_column<Matrix>(RA, i++));
     }
     }
 
@@ -314,7 +314,7 @@ bool test_matrix_column_facade() {
       *iter = matrix_column<Matrix>(RA, --i);
     }
 
-    pass &= compare_to(A, RA);
+    pass &= compare_distance(A, RA);
     }
 
     { // Testing const reverse iterator
@@ -331,7 +331,7 @@ bool test_matrix_column_facade() {
     for(typename ColumnVector::const_reverse_iterator iter = columns.rbegin();
 	iter != columns.rend();
 	iter++) {
-      pass &= compare_to(*iter, matrix_column<Matrix>(RA, --i));
+      pass &= compare_distance(*iter, matrix_column<Matrix>(RA, --i));
     }
     }
 
@@ -453,6 +453,4 @@ int main () {
     BOOST_UBLAS_TEST_DO( test_matrix_column_facade );
 
     BOOST_UBLAS_TEST_END();
-
-    return EXIT_SUCCESS;;
 }

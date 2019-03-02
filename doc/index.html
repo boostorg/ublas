@@ -7,6 +7,22 @@
 <link rel="stylesheet" href="ublas.css" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.3.2.min.js" async="async" ></script>
 <script type="text/javascript" src="js/jquery.toc-gw.js" async="async" ></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      extensions: ["tex2jax.js"],
+      "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], scale: "80" },
+      tex2jax: { 
+      	inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+      	displayMath: [ ["$$","$$"], ["\\[", "\\]"] ], 
+      	processEscapes: true, 
+      	ignoreClass: "tex2jax_ignore|dno" },
+      TeX: { noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } } },
+      messageStyle: "none"
+    });
+</script>    
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+
 <title>Boost Basic Linear Algebra</title>
 </head>
 <body>
@@ -37,10 +53,10 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 <li><a href="overview.html#functionality">Functionality</a>
 </li>
 
-<li><a href="types_overview.html">Overview of Matrix- and Vector-Types</a>
+<li><a href="types_overview.html">Overview of Tensor, Matrix- and Vector Types</a>
 </li>
 
-<li><a href="operations_overview.html">Overview of Matrix and Vector Operations</a>
+<li><a href="operations_overview.html">Overview of Tensor, Matrix and Vector Operations</a>
 </li>
 
 <li><a href="#further_information">Effective uBLAS and further information</a>
@@ -216,6 +232,29 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 </ul>
 </li>
 
+
+<li><a href="tensor.html">Tensor</a>
+<ul>
+<li><a href="tensor.html#tensor">Tensor</a> </li>
+</ul>
+</li>
+
+<li><a href="tensor/tensor_expression.html">Tensor Expressions</a>
+
+<ul>
+<li><a href="tensor/tensor_expression.html#tensor_expression">Tensor Expression</a>
+</li>
+
+<li><a href="tensor/tensor_expression.html#binary_tensor_expression">Binary Tensor Expression</a>
+</li>
+
+<li><a href="tensor/tensor_expression.html#unary_tensor_expression">Unary Tensor Expression</a>
+</li>
+</ul>
+</li>
+
+
+
 <li>Storage and special containers
 
 <ul>
@@ -230,6 +269,13 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 
 <li><a href="range.html#slice">Slice</a>
 </li>
+
+<li><a href="tensor/extents.html#extents">Extents</a>
+</li>
+
+<li><a href="tensor/strides.html#strides">Strides</a>
+</li>
+
 </ul></li>
 
 <li><a href="storage_sparse.html">Sparse Storage</a>
@@ -262,6 +308,10 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 
 <li><a href="container_concept.html#matrix">Matrix</a>
 </li>
+
+<li><a href="container_concept.html#tensor">Tensor</a>
+</li>
+
 </ul>
 </li>
 
@@ -299,8 +349,11 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 </ul></li>
 </ul>
 
+<h2>Release notes</h2>
+Release notes can be found <a href="release_notes.html">here</a>.
+
 <a name="further_information" id="further_information"></a>
-<h2>Known limitations:</h2>
+<h2>Known limitations</h2>
 
 <ul type="disc">
 <li>The implementation assumes a linear memory address model.</li>
@@ -310,27 +363,14 @@ and expression templated operations is a mostly <a href="http://www.sgi.com/tech
 
 <h2>Further Information</h2>
 
-<h3>Project Location and Download</h3>
+<ul>
+  <li><a href="https://lists.boost.org/mailman/listinfo.cgi/ublas">uBLAS mailing list</a></li>
+  <li><a href="https://github.com/boostorg/ublas/wiki">uBLAS wiki</a></li>
+  <li><a href="http://www.crystalclearsoftware.com/cgi-bin/boost_wiki/wiki.pl?Effective_UBLAS">Effective uBLAS</a> wiki</li>
+  <li><a href="https://github.com/boostorg/ublas">Code</a></li>
+</ul>
 
-<p>The latest stable release of uBLAS is part of the <a href="http://www.boost.org">Boost</a> libraries.</p>
-
-<h3>Documentation and Discussion</h3>
-
-<p>Visit the <a href="http://www.crystalclearsoftware.com/cgi-bin/boost_wiki/wiki.pl?Effective_UBLAS">Effective
-uBLAS</a> wiki for up to date information and contributions.</p>
-
-<p>There is also an active uBLAS <a href="http://lists.boost.org/">mailing list</a> where uBLAS specific user and
-development questions are answered.</p>
-
-<h3>uBLAS and Boost Project</h3>
-
-<p>There is also an active uBLAS <a href="http://lists.boost.org/">mailing list</a> where uBLAS specific from the
-latest uBLAS project code. You can <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/boost">view</a> the Boost
-CVS archive directly. You will find the library <a href=
-"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/boost/boost/boost/numeric/ublas/">here</a>. Documentation and test
-programs reside <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/boost/boost/libs/numeric/ublas/">here</a>.</p>
-
-<h2>Authors and Credits</h2>
+<h3>Authors and Credits</h3>
 
 <p>uBLAS initially was written by Joerg Walter and Mathias Koch. We would like to thank all, which supported and
 contributed to the development of this library: David Abrahams, Ed Brey, Fernando Cacciola, Juan Jose Gomez Cadenas,
@@ -338,7 +378,8 @@ Beman Dawes, Matt Davies, Bob Fletcher, Kresimir Fresl, Joachim Kessel, Patrick 
 John Maddock, Jens Maurer, Alexei Novakov, Gary Powell, Joachim Pyras, Peter Schmitteckert, Jeremy Siek, Markus Steffl,
 Michael Stevens, Benedikt Weber, Martin Weiser, Gunter Winkler, Marc Zimmermann, Marco Guazzone, Nasos Iliopoulus, the members of <a href="http://www.boost.org">Boost</a> and all others contributors around the world. I promise I will try to add their names to this list.</p>
 <p>
-This library is currently maintained by <a="mailto:david.bellot@gmail.com">David Bellot</a>.
+This library is currently maintained by David Bellot and Stefan Seefeld.
+
 <h2>Frequently Asked Questions</h2>
 
 <p>Q: Should I use uBLAS for new projects?<br/>
