@@ -6,11 +6,12 @@
 # Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 # http://www.boost.org/LICENSE_1_0.txt)
 
+import ../../../../config/checks/config : requires ;
+
 project boost/ublas/test/tensor
     : requirements
-      # these tests require C++17
-      <cxxstd>11:<build>no
       <toolset>gcc:<cxxflags>"-Wall -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable"
+      [ requires cxx17_if_constexpr ]
     ;
 
 alias unit_test_framework
