@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<link rel="stylesheet" href="../../../../boost.css" type="text/css"/>
+<link rel="stylesheet" href="ublas.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.3.2.min.js" async="async" ></script>
+<script type="text/javascript" src="js/jquery.toc-gw.js" async="async" ></script>
+<title>Eigen Solver</title>
+</head>
+<body>
+<h1><img src="../../../../boost.png" align="middle" />Boost uBLAS EigenSolver</h1>
+<div class="toc" id="toc"></div>
+<h2><a name="range"></a>eigen_solver</h2>
+<h4>Description</h4>
+<p>The class <code>eigen_solver</code> is used to compute the eigenvalues and eigenvectors of real matrices. </p>
+<h4>Example</h4>
+<pre>
+#include &lt;boost/numeric/ublas/storage.hpp&gt;
+
+#include &lt;boost/numeric/ublas/matrix.hpp&gt;
+#include &lt;boost/numeric/ublas/io.hpp&gt;
+#include &lt;boost/numeric/ublas/eigen_solver.hpp&gt;
+#include &lt;complex&gt;
+
+int main () {
+    using namespace boost::numeric::ublas;
+    matrix<double> m(3, 3);
+	m <<= 2.0, 3.0, 5.0,
+		2.0, -3.0, 7.0,
+		4.0, 1.0, 1.0;
+	eigen_solver<matrix<double> > es(m,EIGVEC);
+	
+	matrix<double> evals_r = es.get_real_eigenvalues();
+	matrix<double> evals_c = es.get_complex_eigenvalues();
+	matrix<double> evecs_r = es.get_real_eigenvectors();
+	matrix<double> evecs_c = es.get_complex_eigenvectors();
+	
+	std::cout << "Eigenvalues (Real Part)\n";
+	std::cout << evals_r << std::endl;
+	
+	std::cout << "Eigenvalues (Imag. Part)\n";
+	std::cout << evals_c << std::endl;
+	
+	std::cout << "Eigenvectors (Real Part)\n";
+	std::cout << evecs_r << std::endl;
+	
+	std::cout << "Eigenvectors (Imag. Part)\n";
+	std::cout << evecs_c << std::endl;
+	
+	std::cout << "Verification\n";
+	matrix<std::complex<double> > V(3,3);
+	matrix<std::complex<double> > D(3,3);
+	matrix<std::complex<double> > A(3,3);
+	matrix<std::complex<double> > Lambda;
+	for (int i = 0; i < 3; i++){
+		for (int j = 0; j < 3; j++){
+			V(i, j) = std::complex<double>(evecs_r(i, j), evecs_c(i, j));
+			D(i, j) = std::complex<double>(evals_r(i, j), evals_c(i, j));
+			A(i, j) = std::complex<double>(m(i, j), 0.0);
+		}
+	}
+	Lambda = prod(A, V) - prod(V, D);
+	std::cout << Lambda << std::endl;
+}
+
+</pre>
+<h4>Definition</h4>
+<p>Defined in the header eigen_solver.hpp.</p>
+<h4>Model of</h4>
+<p>None.</p>
+<h4>Type requirements</h4>
+<p>Expected to be of type <code>double</code> or <code>float</code>. <code>int</code> may give unexpected results.</p>
+<h4>Public base classes</h4>
+<p>None.</p>
+<h4>Members</h4>
+<table border="1" summary="members">
+<tbody>
+<tr>
+<th>Member</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><code>eigen_solver(M &m, eig_solver_params params = EIGVAL)</code></td>
+<td>Default constructor that takes a object of type <code>M</code> and returns either its eigenvalues or both eigenvalues and eigenvectors</code>.</td>
+</tr>
+<tr>
+<td><code>void compute(eig_solver_params params = EIGVAL)</code></td>
+<td>Mostly internal method that starts the computation of eigenvalues. To be used in case the user wanted EigenValues option in the constructor and then later on wants the Eigenvectors as well, then we should call the <code>compute</code> with the <code>EIGVEC</code> option.</td>
+</tr>
+<tr>
+<td><code>M& get_real_eigenvalues()</code></td>
+<td>Returns the real portion of the Eigenvalues.</td>
+</tr>
+<tr>
+<td><code>M& get_complex_eigenvalues()</code></td>
+<td>Returns the complex portion of the Eigenvalues.</td>
+</tr>
+<tr>
+<td><code>M& get_real_eigenvectors()</code></td>
+<td>Returns the real portion of the Eigenvectors(if computed).</td>
+</tr>
+<tr>
+<td><code>M& get_complex_eigenvectors()</code></td>
+<td>Returns the complex portion of the Eigenvectors(if computed).</td>
+</tr>
+<tr>
+<td><code>bool has_complex_eigenvalues()</code></td>
+<td>Returns if there is any complex portion to the eigen values. </td>
+</tr>
+<tr>
+<td><code>M& get_real_schur_form()</code></td>
+<td>Returns the real schur decomposition of the hessenberg form of the original matrix.</td>
+</tr>
+<tr>
+<td><code>M& get_hessenberg_form()</code></td>
+<td>Returns the hessenberg decomposition of the original matrix.</td>
+</tr>
+</tbody>
+</table>
+<h4><code>eig_solver_params</code> Param Values</h4>
+<ul>
+<li><code>EIGVAL</code> - Just computes the eigenvalues of the matrix.</li>
+<li><code>EIGVEC</code> - Computes the eigenvalues as well as eigenvectors of the matrix.</li>
+</ul>
+
+</ul>
+   <hr/>
+   <p>
+      Copyright (&copy;) 2000-2004 Michael Stevens, Mathias Koch,
+      Joerg Walter, Gunter Winkler<br />
+      Use, modification and distribution are subject to the
+      Boost Software License, Version 1.0.
+      (See accompanying file LICENSE_1_0.txt
+      or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">
+         http://www.boost.org/LICENSE_1_0.txt
+      </a>).
+   </p>
+<script type="text/javascript">
+(function($) {
+    $('#toc').toc();
+})(jQuery);
+</script>
+</body>
+</html>
