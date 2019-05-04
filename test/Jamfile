@@ -245,6 +245,11 @@ test-suite numeric/uBLAS
         :
         :
       ]
+      [ run test_eigensolver.cpp
+      	:
+	:
+	:
+      ]
       [ run test_fixed_containers.cpp
         :
         :
