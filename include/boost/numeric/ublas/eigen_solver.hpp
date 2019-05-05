@@ -22,7 +22,7 @@ namespace boost { namespace numeric { namespace ublas {
 
 //Add some sloppily defined enums here : later on ask mentor how we can use this to 
 //Ask mentor about how to "formally" add them to ublas 
-typedef enum eig_solver_params {EIGVAL,EIGVEC};
+enum eig_solver_params {EIGVAL,EIGVEC};
 
 /** \brief Computes Eigenvalues and Eigenvectors for matrix type M \c T.
 * Given a matrix type \c M, this class computes the EigenValues and (optionally) Eigenvectors. The input matrix is expected to be real. 
