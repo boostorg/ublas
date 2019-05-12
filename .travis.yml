@@ -40,6 +40,7 @@ addons:
     - clinfo
     - opencl-headers
     - ocl-icd-opencl-dev
+    - lcov
 
 before_install:
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then .ci/install-ocl-ubuntu.sh; fi
@@ -56,10 +57,11 @@ install:
   - git submodule update --init --jobs 8 libs/config
   - git submodule update --init --jobs 8 tools/boostdep
   - mkdir -p libs/numeric/
-  - cp -r $TRAVIS_BUILD_DIR/* libs/numeric/ublas
+  - cp -rp $TRAVIS_BUILD_DIR/. libs/numeric/ublas
   - python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
   - ./bootstrap.sh
-  - ./b2 -j 8 headers 
+  - ./b2 -j 8 headers
+  - export BOOST_ROOT="`pwd`"
 
 # Use before_script: to run configure steps
 before_script:
@@ -72,9 +74,19 @@ script:
     echo "using clblas : : <include>${CLBLAS_PREFIX}/include <search>${CLBLAS_PREFIX}/lib ;" >> ~/user-config.jam;
     cp $TRAVIS_BUILD_DIR/opencl.jam ~/
     cp $TRAVIS_BUILD_DIR/clblas.jam ~/
-  - ./b2 -j 8 libs/numeric/ublas/test toolset=$TOOLSET cxxstd=$CXXSTD
-  - ./b2 -j 8 libs/numeric/ublas/benchmarks toolset=$TOOLSET cxxstd=$CXXSTD
-  - ./b2 -j 8 libs/numeric/ublas/examples/tensor toolset=$TOOLSET cxxstd=$CXXSTD
+  - cd libs/numeric/ublas
+  - $BOOST_ROOT/b2 -j 8 test toolset=$TOOLSET cxxstd=$CXXSTD
+  - $BOOST_ROOT/b2 -j 8 benchmarks toolset=$TOOLSET cxxstd=$CXXSTD
+  - $BOOST_ROOT/b2 -j 8 examples/tensor toolset=$TOOLSET cxxstd=$CXXSTD
+
+after_success:
+  - .ci/report_coverage.sh
+  # Uploading to CodeCov
+  # '-f' specifies file(s) to use and disables manual coverage gathering and file search which has already been done above
+  - curl -s https://codecov.io/bash > cov.sh
+  - chmod +x cov.sh
+  - ./cov.sh -f coverage.info || echo "Codecov did not collect coverage reports"
+
 
 notifications:
   email:
