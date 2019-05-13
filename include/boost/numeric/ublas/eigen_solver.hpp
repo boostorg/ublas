@@ -1,5 +1,5 @@
 // Rajaditya Mukherjee
-// 
+//
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
@@ -20,42 +20,42 @@
 
 namespace boost { namespace numeric { namespace ublas {
 
-//Add some sloppily defined enums here : later on ask mentor how we can use this to 
-//Ask mentor about how to "formally" add them to ublas 
+//Add some sloppily defined enums here : later on ask mentor how we can use this to
+//Ask mentor about how to "formally" add them to ublas
 enum eig_solver_params {EIGVAL,EIGVEC};
 
 /** \brief Computes Eigenvalues and Eigenvectors for matrix type M \c T.
-* Given a matrix type \c M, this class computes the EigenValues and (optionally) Eigenvectors. The input matrix is expected to be real. 
-* The output Eigenvalues as well as Eigenvectors can be both real or complex. 
+* Given a matrix type \c M, this class computes the EigenValues and (optionally) Eigenvectors. The input matrix is expected to be real.
+* The output Eigenvalues as well as Eigenvectors can be both real or complex.
 * \tparam M type of the objects stored in the vector. Expected to be a matrix (like matrix<double>)
 */
 
-template <class M> 
+template <class M>
 class eigen_solver {
 private:
 	M matrix;
 	M hessenberg_form;
 	M real_schur_form;
 	M transform_accumulations;
-	bool has_complex_part;
+	bool has_imag_part;
 	bool has_eigenvalues;
 	bool has_eigenvectors;
 	M eigenvalues_real;
-	M eigenvalues_complex;
+	M eigenvalues_imag;
 	M eigenvectors;
 	M eigenvectors_real;
-	M eigenvectors_complex;
+	M eigenvectors_imag;
 	eig_solver_params solver_params;
 public:
-	/// \brief Constructor that takes a matrix and an (optional) argument whether to extract eigenvectors also. 
+	/// \brief Constructor that takes a matrix and an (optional) argument whether to extract eigenvectors also.
 	/// The only argument that it needs is the matrix for which we wish to compute the Eigenvalues (and optionally Eigenvectors). The second option
-	/// specifies whether we wish to compute only the Eigenvalues (EIGVAL) or both Eigenvalues as well as Eigenvectors(EIGVEC). The default option 
-	/// is that it only computes the Eigenvalues. 
-	/// \param m Matrix for which we need to extract the Eigenvalues 
+	/// specifies whether we wish to compute only the Eigenvalues (EIGVAL) or both Eigenvalues as well as Eigenvectors(EIGVEC). The default option
+	/// is that it only computes the Eigenvalues.
+	/// \param m Matrix for which we need to extract the Eigenvalues
 	/// \param params Can have two values EIGVAL or EIGVEC.
-	BOOST_UBLAS_INLINE 
+	BOOST_UBLAS_INLINE
 	explicit eigen_solver(M &m, eig_solver_params params = EIGVAL) :
-	matrix(m), has_complex_part(false), solver_params(params)
+	matrix(m), has_imag_part(false), solver_params(params)
 	{
 		has_eigenvalues = has_eigenvectors = false;
 		hessenberg_form = M(m);
@@ -64,10 +64,10 @@ public:
 
 	/// \brief Method to order the class to (re)compute the Eigenvalues and Eigenvectors.
 	/// Normally the user doesn't need to call this method explicitly as it called with the constructor. However, if initially the second argument
-	/// specified EIGVAL option and then the user wants to compute the Eigenvectors also, he will need to call this to recompute the 
+	/// specified EIGVAL option and then the user wants to compute the Eigenvectors also, he will need to call this to recompute the
 	/// Eigenvectors with the EIGVEC option.
 	/// \param params Can have two values EIGVAL or EIGVEC.
-	BOOST_UBLAS_INLINE 
+	BOOST_UBLAS_INLINE
 	void compute(eig_solver_params params = EIGVAL) {
 		if (params != solver_params) {
 			solver_params = params;
@@ -104,7 +104,7 @@ public:
 		size_type i = size_type(0);
 
 		eigenvalues_real = zero_matrix<value_type>(n,n);
-		eigenvalues_complex = zero_matrix<value_type>(n, n);
+		eigenvalues_imag = zero_matrix<value_type>(n, n);
 
 		while (i < n) {
 			if ((i == n - size_type(1)) || (real_schur_form(i + 1, i) == value_type(0)) || ((std::abs)(real_schur_form(i + 1, i)) <= 1.0e-5)) {
@@ -115,11 +115,11 @@ public:
 				value_type p = value_type(0.5) * (real_schur_form(i, i) - real_schur_form(i + size_type(1), i + size_type(1)));
 				value_type z = (std::sqrt)((std::abs)(p * p + real_schur_form(i + size_type(1), i) * real_schur_form(i, i + size_type(1))));
 				eigenvalues_real(i, i) = real_schur_form(i + size_type(1), i + size_type(1)) + p;
-				eigenvalues_complex(i, i) = z;
+				eigenvalues_imag(i, i) = z;
 				eigenvalues_real(i + size_type(1), i + size_type(1)) = real_schur_form(i + size_type(1), i + size_type(1)) + p;
-				eigenvalues_complex(i + size_type(1), i + size_type(1)) = -z;
+				eigenvalues_imag(i + size_type(1), i + size_type(1)) = -z;
 				i += size_type(2);
-				has_complex_part = true;
+				has_imag_part = true;
 			}
 		}
 
@@ -127,31 +127,31 @@ public:
 	}
 
 	/// \brief Method to get the real portion of the Eigenvalues. Output type same as input type.
-	BOOST_UBLAS_INLINE 
-		M& get_real_eigenvalues() {
+	BOOST_UBLAS_INLINE
+		M& get_eigenvalues_real() {
 		return eigenvalues_real;
 	}
 
 	/// \brief Method to get the imaginary portion of the Eigenvalues. Output type same as input type.
 	BOOST_UBLAS_INLINE
-		M& get_complex_eigenvalues() {
-		return eigenvalues_complex;
+		M& get_eigenvalues_imag() {
+		return eigenvalues_imag;
 	}
 
 	/// \brief Method to get the real portion of the Eigenvectors. Output type same as input type.
-	BOOST_UBLAS_INLINE 
-		M& get_real_eigenvectors() {
+	BOOST_UBLAS_INLINE
+		M& get_eigenvectors_real() {
 		return eigenvectors_real;
 	}
 
 	/// \brief Method to get the imaginary portion of the Eigenvectors. Output type same as input type.
-	BOOST_UBLAS_INLINE 
-		M& get_complex_eigenvectors() {
-		return eigenvectors_complex;
+	BOOST_UBLAS_INLINE
+		M& get_eigenvectors_imag() {
+		return eigenvectors_imag;
 	}
 
 
-	BOOST_UBLAS_INLINE 
+	BOOST_UBLAS_INLINE
 		void extract_eigenvectors() {
 
 		typedef typename M::size_type size_type;
@@ -175,7 +175,7 @@ public:
 		for (size_type k = n; k-- != size_type(0);) {
 
 			value_type p = eigenvalues_real(k, k);
-			value_type q = eigenvalues_complex(k, k);
+			value_type q = eigenvalues_imag(k, k);
 
 			if (q == value_type(0)) {
 
@@ -190,13 +190,13 @@ public:
 					vector<value_type> r_left = project(row(T, i), range(l, k + size_type(1)));
 					vector<value_type> r_right = project(column(T, k), range(l, k + size_type(1)));
 					value_type r = inner_prod(r_left, r_right);
-					if (eigenvalues_complex(i, i) < value_type(0)) {
+					if (eigenvalues_imag(i, i) < value_type(0)) {
 						lastw = w;
 						lastr = r;
 					}
 					else {
 						l = i;
-						if (eigenvalues_complex(i, i) == value_type(0)) {
+						if (eigenvalues_imag(i, i) == value_type(0)) {
 							if (w != value_type(0)) {
 								T(i, k) = -r / w;
 							}
@@ -207,7 +207,7 @@ public:
 						else {
 							value_type x = T(i, i + size_type(1));
 							value_type y = T(i + size_type(1), i);
-							value_type denom = (eigenvalues_real(i, i) - p)*(eigenvalues_real(i, i) - p) + (eigenvalues_complex(i, i))*(eigenvalues_complex(i, i));
+							value_type denom = (eigenvalues_real(i, i) - p)*(eigenvalues_real(i, i) - p) + (eigenvalues_imag(i, i))*(eigenvalues_imag(i, i));
 							value_type t = (x * lastr - lastw * r) / denom;
 							T(i, k) = t;
 							if ((std::abs)(x) > (std::abs)(lastw)) {
@@ -248,8 +248,8 @@ public:
 				T(k, k) = value_type(1);
 
 				for (size_type i = k - size_type(1); i-- != size_type(0);) {
-					
-					vector<value_type> ra_left = project(row(T, i), range(l, k + size_type(1))); 
+
+					vector<value_type> ra_left = project(row(T, i), range(l, k + size_type(1)));
 					vector<value_type> ra_right = project(column(T, k - size_type(1)), range(l, k + size_type(1)));
 					value_type ra = inner_prod(ra_left, ra_right);
 
@@ -258,14 +258,14 @@ public:
 
 					value_type w = T(i, i) - p;
 
-					if (eigenvalues_complex(i, i) < value_type(0)) {
+					if (eigenvalues_imag(i, i) < value_type(0)) {
 						lastw = w;
 						lastra = ra;
 						lastsa = sa;
 					}
 					else {
 						l = i;
-						if (eigenvalues_complex(i, i) == value_type(0)) {
+						if (eigenvalues_imag(i, i) == value_type(0)) {
 							std::complex<value_type> x(-ra, -sa);
 							std::complex<value_type> y(w, q);
 							std::complex<value_type> cc = x / y;
@@ -275,7 +275,7 @@ public:
 						else {
 							value_type x = T(i, i + size_type(1));
 							value_type y = T(i + size_type(1), i);
-							value_type vr = (eigenvalues_real(i, i) - p) * (eigenvalues_real(i, i) - p) + eigenvalues_complex(i, i) * eigenvalues_complex(i, i) - q * q;
+							value_type vr = (eigenvalues_real(i, i) - p) * (eigenvalues_real(i, i) - p) + eigenvalues_imag(i, i) * eigenvalues_imag(i, i) - q * q;
 							value_type vi = (eigenvalues_real(i, i) - p) * value_type(2) * q;
 
 							if (vr == value_type(0) && vi == value_type(0)) {
@@ -328,10 +328,10 @@ public:
 		//std::cout << eigenvectors << "\n";
 
 		eigenvectors_real = zero_matrix<value_type>(n, n);
-		eigenvectors_complex = zero_matrix<value_type>(n, n);
+		eigenvectors_imag = zero_matrix<value_type>(n, n);
 
 		for (size_type j = 0; j < n; j++) {
-			if (j + size_type(1) == n || (eigenvalues_complex(j, j) == value_type(0))){
+			if (j + size_type(1) == n || (eigenvalues_imag(j, j) == value_type(0))){
 				vector<value_type> vj = column(eigenvectors, j);
 				value_type norm_vj = norm_2(vj);
 				vector<value_type> normalized_vj = vj / norm_vj;
@@ -352,10 +352,10 @@ public:
 
 				for (size_type i = 0; i < n; ++i) {
 					eigenvectors_real(i, j) = normalized_ij(i).real();
-					eigenvectors_complex(i, j) = normalized_ij(i).imag();
+					eigenvectors_imag(i, j) = normalized_ij(i).imag();
 
 					eigenvectors_real(i, j+1) = normalized_ijp1(i).real();
-					eigenvectors_complex(i, j+1) = normalized_ijp1(i).imag();
+					eigenvectors_imag(i, j+1) = normalized_ijp1(i).imag();
 				}
 				j++;
 			}
@@ -380,10 +380,10 @@ public:
 			return transform_accumulations;
 		}
 
-		/// \brief Method to check if the given matrix has real or complex Eigenvalues (and hence Eigenvectors). 
-		BOOST_UBLAS_INLINE 
+		/// \brief Method to check if the given matrix has real or complex Eigenvalues (and hence Eigenvectors).
+		BOOST_UBLAS_INLINE
 			bool has_complex_eigenvalues() {
-			return has_complex_part;
+			return has_imag_part;
 		}
 
 };
