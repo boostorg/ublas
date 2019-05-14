@@ -63,10 +63,9 @@ int main() {
 	MATRIX A;
 	MATRIX GT_EVALR;
 	MATRIX GT_EVALI;
-	MATRIX Zero_Matrix = zero_matrix<TYPE>(3,3);
 
 	int numTestCases = 8;
-
+        typedef typename matrix<TYPE>::size_type size_type;
 
 	for (int k = 0; k < numTestCases; k++){
 
@@ -76,6 +75,8 @@ int main() {
 			std::istringstream is(matrix_IN[k]);
 			is >> A;
 		}
+		const size_type n = A.size1();
+                MATRIX Zero_Matrix = zero_matrix<TYPE>(n,n);
 
 		{
 			std::istringstream is(matrix_EVALR[k]);
@@ -98,24 +99,24 @@ int main() {
 		assertTrue("Real portion of Eigen Values Match:", compare_on_tolerance(evals_r, GT_EVALR));
 		assertTrue("Imag portion of Eigen Values Match:", compare_on_tolerance(evals_i, GT_EVALI));
 
-		matrix<std::complex<TYPE> > V(3, 3);
-		matrix<std::complex<TYPE> > D(3, 3);
-		matrix<std::complex<TYPE> > M(3, 3);
+		matrix<std::complex<TYPE> > V(n, n);
+		matrix<std::complex<TYPE> > D(n, n);
+		matrix<std::complex<TYPE> > M(n, n);
 		matrix<std::complex<TYPE> > Lambda;
 
-		MATRIX Lambda_Real(3, 3);
-		MATRIX Lambda_Imag(3, 3);
+		MATRIX Lambda_Real(n, n);
+		MATRIX Lambda_Imag(n, n);
 
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 3; j++){
+		for (int i = 0; i < n; i++){
+			for (int j = 0; j < n; j++){
 				V(i, j) = std::complex<TYPE>(evecs_r(i, j), evecs_i(i, j));
 				D(i, j) = std::complex<TYPE>(evals_r(i, j), evals_i(i, j));
 				M(i, j) = std::complex<TYPE>(A(i, j), 0.0);
 			}
 		}
 		Lambda = prod(M, V) - prod(V, D);
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 3; j++){
+		for (int i = 0; i < n; i++){
+			for (int j = 0; j < n; j++){
 				Lambda_Real(i, j) = Lambda(i, j).real();
 				Lambda_Imag(i, j) = Lambda(i, j).imag();
 			}
