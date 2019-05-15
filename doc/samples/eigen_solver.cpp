@@ -14,41 +14,41 @@
 int main () {
     using namespace boost::numeric::ublas;
     matrix<double> m(3, 3);
-	m <<= 2.0, 3.0, 5.0,
-		2.0, -3.0, 7.0,
-		4.0, 1.0, 1.0;
-	eigen_solver<matrix<double> > es(m,EIGVEC);
+    m <<= 2.0, 3.0, 5.0,
+        2.0, -3.0, 7.0,
+        4.0, 1.0, 1.0;
+    eigen_solver<matrix<double> > es(m,EIGVEC);
 
-	matrix<double> evals_r = es.get_eigenvalues_real();
-	matrix<double> evals_i = es.get_eigenvalues_imag();
-	matrix<double> evecs_r = es.get_eigenvectors_real();
-	matrix<double> evecs_i = es.get_eigenvectors_imag();
+    matrix<double> evals_r = es.get_eigenvalues_real();
+    matrix<double> evals_i = es.get_eigenvalues_imag();
+    matrix<double> evecs_r = es.get_eigenvectors_real();
+    matrix<double> evecs_i = es.get_eigenvectors_imag();
 
-	std::cout << "Eigenvalues (Real Part)\n";
-	std::cout << evals_r << std::endl;
+    std::cout << "Eigenvalues (Real Part)\n";
+    std::cout << evals_r << std::endl;
 
-	std::cout << "Eigenvalues (Imag Part)\n";
-	std::cout << evals_i << std::endl;
+    std::cout << "Eigenvalues (Imag Part)\n";
+    std::cout << evals_i << std::endl;
 
-	std::cout << "Eigenvectors (Real Part)\n";
-	std::cout << evecs_r << std::endl;
+    std::cout << "Eigenvectors (Real Part)\n";
+    std::cout << evecs_r << std::endl;
 
-	std::cout << "Eigenvectors (Imag Part)\n";
-	std::cout << evecs_i << std::endl;
+    std::cout << "Eigenvectors (Imag Part)\n";
+    std::cout << evecs_i << std::endl;
 
-	std::cout << "Verification\n";
-	matrix<std::complex<double> > V(3,3);
-	matrix<std::complex<double> > D(3,3);
-	matrix<std::complex<double> > A(3,3);
-	matrix<std::complex<double> > Lambda;
-	for (int i = 0; i < 3; i++){
-		for (int j = 0; j < 3; j++){
-			V(i, j) = std::complex<double>(evecs_r(i, j), evecs_i(i, j));
-			D(i, j) = std::complex<double>(evals_r(i, j), evals_i(i, j));
-			A(i, j) = std::complex<double>(m(i, j), 0.0);
-		}
-	}
-	Lambda = prod(A, V) - prod(V, D);
-	std::cout << Lambda << std::endl;
+    std::cout << "Verification\n";
+    matrix<std::complex<double> > V(3,3);
+    matrix<std::complex<double> > D(3,3);
+    matrix<std::complex<double> > A(3,3);
+    matrix<std::complex<double> > Lambda;
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 3; j++){
+            V(i, j) = std::complex<double>(evecs_r(i, j), evecs_i(i, j));
+            D(i, j) = std::complex<double>(evals_r(i, j), evals_i(i, j));
+            A(i, j) = std::complex<double>(m(i, j), 0.0);
+        }
+    }
+    Lambda = prod(A, V) - prod(V, D);
+    std::cout << Lambda << std::endl;
 }
 
