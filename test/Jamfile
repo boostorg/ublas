@@ -51,7 +51,7 @@ project boost-ublas-test
     : requirements
        <define>BOOST_UBLAS_NO_EXCEPTIONS
        <toolset>vacpp:<define>"BOOST_UBLAS_NO_ELEMENT_PROXIES"
-       <toolset>gcc:<cxxflags>"-Wall -Wno-unknown-pragmas -O0 --coverage -g" <linkflags>--coverage
+       <toolset>gcc:<cxxflags>"-Wall -Wno-unknown-pragmas"
        <toolset>msvc:<cxxflags>/bigobj
        <toolset>msvc:<cxxflags>"/W4" # == all
        #  The define of macros below prevent warnings about the checked versions of SCL and CRT libraries.
