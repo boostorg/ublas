@@ -11,6 +11,8 @@ branches:
     - master
     - develop
     - /feature\/.*/
+    - expr_template
+    - framework
 
 environment:
   matrix:

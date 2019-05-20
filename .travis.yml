@@ -13,6 +13,8 @@ branches:
     - develop
     - doc
     - ci
+    - expr_template
+    - framework
 
 # env: specifies additional global variables to define per row in build matrix
 env:
