@@ -77,7 +77,7 @@ script:
     cp $TRAVIS_BUILD_DIR/opencl.jam ~/
     cp $TRAVIS_BUILD_DIR/clblas.jam ~/
   - cd libs/numeric/ublas
-  - $BOOST_ROOT/b2 -j 8 test toolset=$TOOLSET cxxstd=$CXXSTD
+  - $BOOST_ROOT/b2 -j 8 test/tensor toolset=$TOOLSET cxxstd=$CXXSTD
   - $BOOST_ROOT/b2 -j 8 benchmarks toolset=$TOOLSET cxxstd=$CXXSTD
   - $BOOST_ROOT/b2 -j 8 examples/tensor toolset=$TOOLSET cxxstd=$CXXSTD
 
