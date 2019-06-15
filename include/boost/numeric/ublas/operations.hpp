@@ -1,26 +1,12 @@
-/**
- * -*- c++ -*-
- *
- * \file operations.hpp
- *
- * \brief This header includes several headers from the operation directory.
- *
- * Copyright (c) 2009, Gunter Winkler
- *
- * Distributed under the Boost Software License, Version 1.0. (See
- * accompanying file LICENSE_1_0.txt or copy at
- * http://www.boost.org/LICENSE_1_0.txt)
- *
- * \author Gunter Winkler (guwi17 at gmx dot de)
- */
+//
+//  Copyright (c) 2019 David Bellot
+//
+//  Distributed under the Boost Software License, Version 1.0. (See
+//  accompanying file LICENSE_1_0.txt or copy at
+//  http://www.boost.org/LICENSE_1_0.txt)
+//
 
-#ifndef BOOST_NUMERIC_UBLAS_OPERATIONS_HPP
-#define BOOST_NUMERIC_UBLAS_OPERATIONS_HPP
+#warning "Do not use #include <boost/numeric/ublas/operations.hpp> anymore. It is now obsolete and will be removed in the future."
+#warning "Use instead the single point of entry of Boost.uBlas #include <boost/ublas.hpp>"
 
-#include <boost/numeric/ublas/operation/begin.hpp>
-#include <boost/numeric/ublas/operation/end.hpp>
-#include <boost/numeric/ublas/operation/num_columns.hpp>
-#include <boost/numeric/ublas/operation/num_rows.hpp>
-#include <boost/numeric/ublas/operation/size.hpp>
-
-#endif
+#include <boost/ublas.hpp>

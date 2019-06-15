@@ -1,16 +1,12 @@
 //
-// Copyright (c) 2018 Stefan Seefeld
+//  Copyright (c) 2019 David Bellot
 //
-// Distributed under the Boost Software License, Version 1.0.
-// (See accompanying file LICENSE_1_0.txt or
-// copy at http://www.boost.org/LICENSE_1_0.txt)
+//  Distributed under the Boost Software License, Version 1.0. (See
+//  accompanying file LICENSE_1_0.txt or copy at
+//  http://www.boost.org/LICENSE_1_0.txt)
+//
 
-#ifndef boost_numeric_ublas_opencl_hpp_
-#define boost_numeric_ublas_opencl_hpp_
+#warning "Do not use #include <boost/numeric/ublas/opencl.hpp> anymore. It is now obsolete and will be removed in the future."
+#warning "Use instead the single point of entry of Boost.uBlas #include <boost/ublas.hpp>"
 
-#include <boost/numeric/ublas/opencl/library.hpp>
-#include <boost/numeric/ublas/opencl/vector.hpp>
-#include <boost/numeric/ublas/opencl/matrix.hpp>
-#include <boost/numeric/ublas/opencl/operations.hpp>
-
-#endif
+#include <boost/ublas.hpp>

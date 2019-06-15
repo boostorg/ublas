@@ -1,26 +1,12 @@
-//  Copyright (c) 2018-2019
-//  Cem Bassoy
+//
+//  Copyright (c) 2019 David Bellot
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
-//  The authors gratefully acknowledge the support of
-//  Fraunhofer and Google in producing this work
-//  which started as a Google Summer of Code project.
-//
 
-/// \file tensor.hpp Definition for the class vector and its derivative
+#warning "Do not use #include <boost/numeric/ublas/tensor.hpp> anymore. It is now obsolete and will be removed in the future."
+#warning "Use instead the single point of entry of Boost.uBlas #include <boost/ublas.hpp>"
 
-#ifndef BOOST_NUMERIC_UBLAS_TENSOR_HPP
-#define BOOST_NUMERIC_UBLAS_TENSOR_HPP
-
-#include "tensor/functions.hpp"
-#include "tensor/operators_arithmetic.hpp"
-#include "tensor/operators_comparison.hpp"
-#include "tensor/extents.hpp"
-#include "tensor/strides.hpp"
-#include "tensor/ostream.hpp"
-#include "tensor/tensor.hpp"
-
-#endif // BOOST_NUMERIC_UBLAS_TENSOR_HPP
+#include <boost/ublas.hpp>

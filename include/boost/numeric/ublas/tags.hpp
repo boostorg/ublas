@@ -1,37 +1,12 @@
-/**
- * -*- c++ -*-
- *
- * \file tags.hpp
- *
- * \brief Tags.
- *
- * Copyright (c) 2009, Marco Guazzone
- *
- * Distributed under the Boost Software License, Version 1.0. (See
- * accompanying file LICENSE_1_0.txt or copy at
- * http://www.boost.org/LICENSE_1_0.txt)
- *
- * \author Marco Guazzone, marco.guazzone@gmail.com
- */
+//
+//  Copyright (c) 2019 David Bellot
+//
+//  Distributed under the Boost Software License, Version 1.0. (See
+//  accompanying file LICENSE_1_0.txt or copy at
+//  http://www.boost.org/LICENSE_1_0.txt)
+//
 
-#ifndef BOOST_NUMERIC_UBLAS_TAG_HPP
-#define BOOST_NUMERIC_UBLAS_TAG_HPP
+#warning "Do not use #include <boost/numeric/ublas/tags.hpp> anymore. It is now obsolete and will be removed in the future."
+#warning "Use instead the single point of entry of Boost.uBlas #include <boost/ublas.hpp>"
 
-
-namespace boost { namespace numeric { namespace ublas { namespace tag {
-
-/// \brief Tag for the major dimension.
-struct major {};
-
-
-/// \brief Tag for the minor dimension.
-struct minor {};
-
-
-/// \brief Tag for the leading dimension.
-struct leading {};
-
-}}}} // Namespace boost::numeric::ublas::tag
-
-
-#endif // BOOST_NUMERIC_UBLAS_TAG_HPP
+#include <boost/ublas.hpp>

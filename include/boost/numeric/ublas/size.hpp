@@ -6,7 +6,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#warning "Do not use #include <boost/numeric/ublas/traits.hpp> anymore. It is now obsolete and will be removed in the future."
+#warning "Do not use #include <boost/numeric/ublas/size.hpp> anymore. It is now obsolete and will be removed in the future."
 #warning "Use instead the single point of entry of Boost.uBlas #include <boost/ublas.hpp>"
 
 #include <boost/ublas.hpp>
