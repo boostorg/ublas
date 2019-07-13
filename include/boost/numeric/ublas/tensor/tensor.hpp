@@ -21,22 +21,15 @@
 #include <initializer_list>
 
 #include "algorithms.hpp"
+#include "storage.hpp"
 #include "expression.hpp"
 #include "expression_evaluation.hpp"
 #include "extents.hpp"
 #include "strides.hpp"
 #include "index.hpp"
+#include "meta_functions.hpp"
 
 namespace boost { namespace numeric { namespace ublas {
-
-template<class T, class F, class A>
-class tensor;
-
-template<class T, class F, class A>
-class matrix;
-
-template<class T, class A>
-class vector;
 
 ///** \brief Base class for Tensor container models
 // *
@@ -75,16 +68,16 @@ class vector;
 	* @tparam T type of the objects stored in the tensor (like int, double, complex,...)
 	* @tparam A The type of the storage array of the tensor. Default is \c unbounded_array<T>. \c <bounded_array<T> and \c std::vector<T> can also be used
 	*/
-template<class T, class F = first_order, class A = std::vector<T,std::allocator<T>> >
+template<class T = float, class E = dynamic_extents<>, class F = first_order, class A = storage::dense_tensor::default_storage_t< T, E ,std::allocator<T>> >
 class tensor:
-		public detail::tensor_expression<tensor<T, F, A>,tensor<T, F, A>>
+		public detail::tensor_expression<tensor<T, E, F, A>,tensor<T, E, F, A>>
 {
 
 	static_assert( std::is_same<F,first_order>::value || 
 				   std::is_same<F,last_order >::value, 
 				   "boost::numeric::tensor template class only supports first- or last-order storage formats.");
 
-	using self_type  = tensor<T, F, A>;
+	using self_type  = tensor<T, E, F, A>;
 public:
 
 
@@ -100,7 +93,7 @@ public:
 
 	using super_type = tensor_expression_type<self_type>;
 
-//	static_assert(std::is_same_v<tensor_expression_type<self_type>, detail::tensor_expression<tensor<T,F,A>,tensor<T,F,A>>>, "tensor_expression_type<self_type>");
+//	static_assert(std::is_same_v<tensor_expression_type<self_type>, detail::tensor_expression<tensor<T,E,F,A>,tensor<T,E,F,A>>>, "tensor_expression_type<self_type>");
 
 	using array_type  = A;
 	using layout_type = F;
@@ -125,11 +118,11 @@ public:
 	using tensor_temporary_type = self_type;
 	using storage_category = dense_tag;
 
-	using strides_type = basic_strides<std::size_t,layout_type>;
-	using extents_type = shape;
+	using strides_type = stride_t<E,layout_type>;
+	using extents_type = E;
 
-	using matrix_type     = matrix<value_type,layout_type,array_type>;
-	using vector_type     = vector<value_type,array_type>;
+	using matrix_type     = matrix<value_type,layout_type,std::vector<T>>;
+	using vector_type     = vector<value_type,std::vector<T>>;
 
 
 	/** @brief Constructs a tensor.
@@ -143,12 +136,14 @@ public:
 		: tensor_expression_type<self_type>() // container_type
 		, extents_()
 		, strides_()
-		, data_()
 	{
+		if constexpr(!detail::is_stl_array<array_type>::value){
+			data_ =  array_type(product(extents_));
+		}
 	}
 
 
-	/** @brief Constructs a tensor with an initializer list
+	/** @brief Constructs a tensor with an initializer list for dynamic_extents
 	 *
 	 * By default, its elements are initialized to 0.
 	 *
@@ -156,15 +151,39 @@ public:
 	 *
 	 * @param l initializer list for setting the dimension extents of the tensor
 	 */
+	template<class U = E, 
+	typename std::enable_if< !detail::is_static_extents<U>::value >::type* = nullptr>
 	explicit BOOST_UBLAS_INLINE
 	tensor (std::initializer_list<size_type> l)
 		: tensor_expression_type<self_type>()
 		, extents_ (std::move(l))
 		, strides_ (extents_)
-		, data_    (extents_.product())
 	{
+		if constexpr(!detail::is_stl_array<array_type>::value){
+			data_ =  array_type(product(extents_));
+		}
 	}
 
+	/** @brief Constructs a tensor with an initializer list for static_extents and dynamic_extents</rank/>
+	 *
+	 * By default, its elements are initialized to 0.
+	 *
+	 * @code tensor<float> A{4,2,3}; @endcode
+	 *
+	 * @param l initializer list for setting the dimension extents of the tensor
+	 */
+	template<class U = E, 
+	typename std::enable_if< detail::is_static_extents<U>::value >::type* = nullptr>
+	explicit BOOST_UBLAS_INLINE
+	tensor (std::initializer_list<size_type> l)
+		: tensor_expression_type<self_type>()
+		, extents_ (l.begin(),l.end())
+		, strides_ (extents_)
+	{
+		if constexpr(!detail::is_stl_array<array_type>::value){
+			data_ =  array_type(product(extents_));
+		}
+	}
 
 	/** @brief Constructs a tensor with a \c shape
 	 *
@@ -179,8 +198,11 @@ public:
 		: tensor_expression_type<self_type>() //tensor_container<self_type>()
 		, extents_ (s)
 		, strides_ (extents_)
-		, data_    (extents_.product())
-	{}
+	{
+		if constexpr(!detail::is_stl_array<array_type>::value){
+			data_ =  array_type(product(extents_));
+		}
+	}
 
 
 	/** @brief Constructs a tensor with a \c shape and initiates it with one-dimensional data
@@ -198,7 +220,7 @@ public:
 		, strides_ (extents_)
 		, data_    (a)
 	{
-		if(this->extents_.product() != this->data_.size())
+		if(product(extents_) != this->data_.size())
 			throw std::runtime_error("Error in boost::numeric::ublas::tensor: size of provided data and specified extents do not match.");
 	}
 
@@ -216,8 +238,29 @@ public:
 		: tensor_expression_type<self_type>() //tensor_container<self_type> ()
 		, extents_ (e)
 		, strides_ (extents_)
-		, data_    (extents_.product(), i)
-	{}
+	{
+		if constexpr(!detail::is_stl_array<array_type>::value){
+			data_ =  array_type(product(extents_),i);
+		}else{
+			std::fill(begin(),end(),i);
+		}
+	}
+
+	// /** @brief Constructs a tensor using a shape tuple and initiates it with a value.
+	//  *
+	//  *  @code tensor<float> A{extents{4,2,3}, 1 }; @endcode
+	//  *
+	//  *  @param e initial tensor dimension extents
+	//  *  @param i initial value of all elements of type \c value_type
+	//  */
+	// template<class U = E>
+	// BOOST_UBLAS_INLINE
+	// tensor (shape_t<typename extents_type::value_type, dynamic_rank> const& e, const value_type &i, typename std::enable_if<detail::is_static_extents<U>::value>::type* = nullptr)
+	// 	: tensor_expression_type<self_type>() //tensor_container<self_type> ()
+	// 	, extents_ (e.begin(),e.end())
+	// 	, strides_ (extents_)
+	// 	, data_    (product(extents_), i)
+	// {}
 
 
 
@@ -259,11 +302,28 @@ public:
 		: tensor_expression_type<self_type>()
 		, extents_ ()
 		, strides_ ()
-		, data_    (v.data())
 	{
-		if(!data_.empty()){
-			extents_ = extents_type{v.size1(),v.size2()};
-			strides_ = strides_type(extents_);
+		auto const sz = v.size1() * v.size2();
+		if(sz){
+			if constexpr(detail::is_static<extents_type>::value){
+				if ( extents_.size() != 2 && ( extents_[0] != v.size1() || extents_[1] != v.size2() ) ){
+					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
+											" : extents not correct, please check!");
+				}
+				auto& ublas_m = v.data(); 
+				for(auto i = 0; i < sz; i++){
+					data_[i] = ublas_m[i];
+				}
+			}else {
+				if ( detail::is_static_extents<extents_type>::value 
+					&& extents_.size() != 2 ){
+					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
+											" : rank of extents not correct, please check!");
+				}
+				extents_ = extents_type{v.size1(),v.size2()};
+				strides_ = strides_type(extents_);
+				data_    = array_type(v.data());
+			}
 		}
 	}
 
@@ -280,10 +340,29 @@ public:
 		, strides_ {}
 		, data_    {}
 	{
-		if(v.size1()*v.size2() != 0){
-			extents_ = extents_type{v.size1(),v.size2()};
-			strides_ = strides_type(extents_);
-			data_    = std::move(v.data());
+
+		auto const sz = v.size1() * v.size2();
+		if(sz){
+			if constexpr (detail::is_static<extents_type>::value){
+				if ( extents_.size() != 2 && ( extents_[0] != v.size1() || extents_[1] != v.size2() ) ){
+					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
+											" : extents not correct, please check!");
+				}
+				auto& ublas_m = v.data();
+				auto const sz = v.size1() * v.size2(); 
+				for(auto i = 0; i < sz; i++){
+					data_[i] = std::move(ublas_m[i]);
+				}
+			}else {
+				if ( detail::is_static_extents<extents_type>::value 
+					&& extents_.size() != 2 ){
+					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
+											" : rank of extents not correct, please check!");
+				}
+				extents_ = extents_type{v.size1(),v.size2()};
+				data_    = std::move(v.data());
+				strides_ = strides_type(extents_);
+			}
 		}
 	}
 
@@ -299,12 +378,30 @@ public:
 		: tensor_expression_type<self_type>()
 		, extents_ ()
 		, strides_ ()
-		, data_    (v.data())
 	{
-		if(!data_.empty()){
-			extents_ = extents_type{data_.size(),1};
-			strides_ = strides_type(extents_);
+		auto const sz = v.size();
+		if(sz){
+			if (detail::is_static<extents_type>::value){
+				if ( extents_.size() != 2 && ( extents_[0] != v.size() || extents_[1] != 1 ) ){
+					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
+											" : extents not correct, please check!");
+				}
+				auto& ublas_v = v.data(); 
+				for(auto i = 0; i < sz; i++){
+					data_[i] = ublas_v[i];
+				}
+			}else{
+				if ( detail::is_static_extents<extents_type>::value 
+					&& extents_.size() != 2 ){
+					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
+											" : rank of extents not correct, please check!");
+				}
+				extents_ = extents_type{v.size(),1};
+				strides_ = strides_type(extents_);
+				data_ = array_type(v.data());
+			}
 		}
+		
 	}
 
 	/** @brief Constructs a tensor using a \c vector
@@ -318,10 +415,27 @@ public:
 		, strides_ {}
 		, data_    {}
 	{
-		if(v.size() != 0){
-			extents_ = extents_type{v.size(),1};
-			strides_ = strides_type(extents_);
-			data_    = std::move(v.data());
+		auto const sz = v.size();
+		if(sz){
+			if (detail::is_static<extents_type>::value){
+				if ( extents_.size() != 2 && ( extents_[0] != v.size() || extents_[1] != 1 ) ){
+					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
+											" : extents not correct, please check!");
+				}
+				auto& ublas_v = v.data(); 
+				for(auto i = 0; i < sz; i++){
+					data_[i] = ublas_v[i];
+				}
+			}else{
+				if ( detail::is_static_extents<extents_type>::value 
+					&& extents_.size() != 2 ){
+					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
+											" : rank of extents not correct, please check!");
+				}
+				extents_ = extents_type{v.size(),1};
+				strides_ = strides_type(extents_);
+				data_    = std::move(v.data());
+			}
 		}
 	}
 
@@ -332,15 +446,28 @@ public:
 	 */
 	BOOST_UBLAS_INLINE
 	template<class other_layout>
-	tensor (const tensor<value_type, other_layout> &other)
+	tensor (const tensor<value_type, extents_type, other_layout> &other)
 		: tensor_expression_type<self_type> ()
 		, extents_ (other.extents())
 		, strides_ (other.extents())
-		, data_    (other.extents().product())
-	{
-		copy(this->rank(), this->extents().data(),
+	{	
+		if constexpr(!detail::is_stl_array<array_type>::value){
+			data_ =  array_type(product(extents_));
+		}
+
+		if constexpr (detail::is_static_extents<extents_type>::value){
+			auto e = this->extents().base(); 
+			auto s = this->strides().base(); 
+			auto o_s = other.strides().base(); 
+			copy(this->rank(), e.data(),
+				 this->data(), s.data(),
+				 other.data(), o_s.data());
+		}else{
+			copy(this->rank(), this->extents().data(),
 				 this->data(), this->strides().data(),
 				 other.data(), other.strides().data());
+		}
+		
 	}
 
 	/** @brief Constructs a tensor with an tensor expression
@@ -358,10 +485,12 @@ public:
 		: tensor_expression_type<self_type> ()
 		, extents_ ( detail::retrieve_extents(expr) )
 		, strides_ ( extents_ )
-		, data_    ( extents_.product() )
 	{
 		static_assert( detail::has_tensor_types<self_type, tensor_expression_type<derived_type>>::value,
 									 "Error in boost::numeric::ublas::tensor: expression does not contain a tensor. cannot retrieve shape.");
+		if constexpr(!detail::is_stl_array<array_type>::value){
+			data_ =  array_type(product(extents_));
+		}
 		detail::eval( *this, expr );
 	}
 
@@ -505,6 +634,9 @@ public:
 		return this->data_[i];
 	}
 
+	void prune(T val = 0){
+		data_.prune(val);
+	}
 
 	/** @brief Element access using a multi-index or single-index.
 	 *
@@ -538,8 +670,10 @@ public:
 	reference at (size_type i, size_types ... is) {
 		if constexpr (sizeof...(is) == 0)
 			return this->data_[i];
-		else
-			return this->data_[detail::access<0ul>(size_type(0),this->strides_,i,std::forward<size_types>(is)...)];
+		else{
+			auto temp = detail::access<0ul>(size_type(0),this->strides_,i,std::forward<size_types>(is)...);
+			return this->data_[temp];
+			}
 	}
 
 
@@ -612,11 +746,13 @@ public:
 	BOOST_UBLAS_INLINE
 	void reshape (extents_type const& e, value_type v = value_type{})
 	{
+		static_assert(detail::is_static_extents<extents_type>::value == false,
+			"Error in boost::numeric::ublas::tensor: static extents cannot be reshaped");
 		this->extents_ = e;
 		this->strides_ = strides_type(this->extents_);
 
-		if(e.product() != this->size())
-			this->data_.resize (this->extents_.product(), v);
+		if(product(e) != this->size())
+			this->data_.resize (product(extents_), v);
 	}
 
 
@@ -719,12 +855,29 @@ public:
 
 
 
-private:
+// private:
 
 	extents_type extents_;
 	strides_type strides_;
 	array_type data_;
 };
+
+#if __cpp_deduction_guides
+
+tensor() -> tensor<float,dynamic_extents<>>;
+
+template<class T, class E,
+	typename std::enable_if< detail::is_extents<E>::value >::type* = nullptr>
+tensor(E const&, T const& ) ->tensor<T,E>;
+
+template<class E,
+	typename std::enable_if< detail::is_extents<E>::value >::type* = nullptr>
+tensor(E const&) ->tensor<float,E>;
+#endif
+
+// deduction guide fails for type alias till c++17
+template<class T = float, class E = dynamic_extents<>, class F = first_order, class A = storage::sparse_tensor::compressed_map<T> >
+using sparse_tensor = tensor<T,E,F,A>;
 
 }}} // namespaces
 

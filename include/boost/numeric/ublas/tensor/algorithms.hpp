@@ -250,10 +250,10 @@ void trans( SizeType const p,  SizeType const*const na, SizeType const*const pi,
 		return;
 
 	if(c == nullptr || a == nullptr)
-		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 	if(na == nullptr)
-		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null.");
+		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null.");
 
 	if(wc == nullptr || wa == nullptr)
 		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");

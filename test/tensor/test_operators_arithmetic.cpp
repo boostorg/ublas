@@ -51,7 +51,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 
 	auto check = [](auto const& e)
@@ -120,7 +120,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 
 	auto check = [](auto const& e)
@@ -183,7 +183,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 
 	auto check = [](auto const& e)

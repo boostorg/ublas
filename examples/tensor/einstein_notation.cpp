@@ -21,18 +21,18 @@ int main()
 
 	using format_t  = column_major;
 	using value_t   = float;
-	using tensor_t = tensor<value_t,format_t>;
+	using tensor_t = tensor<value_t,dynamic_extents<>,format_t>;
 	using matrix_t = matrix<value_t,format_t>;
 	using namespace boost::numeric::ublas::index;
 
 	// Tensor-Vector-Multiplications - Including Transposition
 	{
 
-		auto n = shape{3,4,2};
+		auto n = dynamic_extents<>{3,4,2};
 		auto A = tensor_t(n,1);
 		auto B1 = matrix_t(n[1],n[2],2);
-		auto v1 = tensor_t(shape{n[0],1},2);
-		auto v2 = tensor_t(shape{n[1],1},2);
+		auto v1 = tensor_t(dynamic_extents<>{n[0],1},2);
+		auto v2 = tensor_t(dynamic_extents<>{n[1],1},2);
 //		auto v3 = tensor_t(shape{n[2],1},2);
 
 		// C1(j,k) = B1(j,k) + A(i,j,k)*v1(i);
@@ -65,12 +65,12 @@ int main()
 
 	// Tensor-Matrix-Multiplications - Including Transposition
 	{
-		auto n = shape{3,4,2};
+		auto n = dynamic_extents<>{3,4,2};
 		auto m = 5u;
 		auto A = tensor_t(n,2);
-		auto B  = tensor_t(shape{n[1],n[2],m},2);
-		auto B1 = tensor_t(shape{m,n[0]},1);
-		auto B2 = tensor_t(shape{m,n[1]},1);
+		auto B  = tensor_t(dynamic_extents<>{n[1],n[2],m},2);
+		auto B1 = tensor_t(dynamic_extents<>{m,n[0]},1);
+		auto B2 = tensor_t(dynamic_extents<>{m,n[1]},1);
 
 
 		// C1(l,j,k) = B(j,k,l) + A(i,j,k)*B1(l,i);
@@ -106,12 +106,12 @@ int main()
 
 	// Tensor-Tensor-Multiplications Including Transposition
 	{
-		auto na = shape{3,4,5};
-		auto nb = shape{4,6,3,2};
+		auto na = dynamic_extents<>{3,4,5};
+		auto nb = dynamic_extents<>{4,6,3,2};
 		auto A = tensor_t(na,2);
 		auto B = tensor_t(nb,3);
-		auto T1 = tensor_t(shape{na[2],na[2]},2);
-		auto T2 = tensor_t(shape{na[2],nb[1],nb[3]},2);
+		auto T1 = tensor_t(dynamic_extents<>{na[2],na[2]},2);
+		auto T2 = tensor_t(dynamic_extents<>{na[2],nb[1],nb[3]},2);
 
 
 		// C1(j,l) = T1(j,l) + A(i,j,k)*A(i,j,l) + 5;

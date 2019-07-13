@@ -50,7 +50,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 
 	auto check = [](auto const& e)
@@ -107,7 +107,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 
 	auto check = [](auto const& e)
@@ -178,7 +178,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 
 	auto check = [](auto const& e)

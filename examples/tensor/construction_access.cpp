@@ -42,7 +42,7 @@ int main()
 	// according to the last-order storage format
 	// and initializes it with the default value.
 	using ctype = std::complex<cpp_bin_float_double_extended>;
-	auto B = tensor<ctype,last_order>(shape{5,4,3,2},ctype{});
+	auto B = tensor<ctype,dynamic_extents<>,last_order>(dynamic_extents<>{5,4,3,2},ctype{});
 
 	// initializes the tensor with increasing values along the last-index
 	// using a single-index
@@ -57,7 +57,7 @@ int main()
 
 
 
-	auto C = tensor<ctype,last_order>(B.extents());
+	auto C = tensor<ctype,dynamic_extents<>,last_order>(B.extents());
 	// computes the complex conjugate of elements of B
 	// using multi-index notation.
 	for(auto i = 0u; i < B.size(0); ++i)
@@ -73,7 +73,7 @@ int main()
 
 	// computes the complex conjugate of elements of B
 	// using iterators.
-	auto D = tensor<ctype,last_order>(B.extents());
+	auto D = tensor<ctype,dynamic_extents<>,last_order>(B.extents());
 	std::transform(B.begin(), B.end(), D.begin(), [](auto const& b){ return std::conj(b); });
 	std::cout << "% --------------------------- " << std::endl;
 	std::cout << "% --------------------------- " << std::endl << std::endl;
@@ -82,7 +82,7 @@ int main()
 	// reshaping tensors.
 	auto new_extents = B.extents().base();
 	std::next_permutation( new_extents.begin(), new_extents.end() );
-	D.reshape( shape(new_extents)  );
+	D.reshape( dynamic_extents<>(new_extents)  );
 	std::cout << "% --------------------------- " << std::endl;
 	std::cout << "% --------------------------- " << std::endl << std::endl;
 	std::cout << "newD=" << D << ";" << std::endl << std::endl;

@@ -36,7 +36,7 @@ int main()
 	std::cout << "% --------------------------- " << std::endl << std::endl;
 	std::cout << "A=" << A << ";" << std::endl << std::endl;
 
-	auto n = shape{3,4};
+	auto n = dynamic_extents<>{3,4};
 	auto D = matrixf(n[0],n[1],1);
 	auto e = vectorf(n[1],1);
 	auto f = vectorf(n[0],2);

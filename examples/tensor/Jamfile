@@ -23,3 +23,4 @@ exe construction_access : construction_access.cpp ;
 exe simple_expressions : simple_expressions.cpp ;
 exe prod_expressions : prod_expressions.cpp ;
 exe einstein_notation : einstein_notation.cpp ;
+exe tensor_construction : tensor_construction.cpp ;

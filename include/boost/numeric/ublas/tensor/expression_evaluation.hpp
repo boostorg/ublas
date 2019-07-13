@@ -18,7 +18,7 @@
 
 namespace boost::numeric::ublas {
 
-template<class element_type, class storage_format, class storage_type>
+template<class element_type, class shape_type, class storage_format, class storage_type>
 class tensor;
 
 template<class size_type>
@@ -74,8 +74,8 @@ namespace boost::numeric::ublas::detail {
 /** @brief Retrieves extents of the tensor
  *
 */
-template<class T, class F, class A>
-auto retrieve_extents(tensor<T,F,A> const& t)
+template<class T, class E, class F, class A>
+auto retrieve_extents(tensor<T,E,F,A> const& t)
 {
 	return t.extents();
 }
@@ -152,8 +152,8 @@ auto retrieve_extents(unary_tensor_expression<T,E,OP> const& expr)
 
 namespace boost::numeric::ublas::detail {
 
-template<class T, class F, class A, class S>
-auto all_extents_equal(tensor<T,F,A> const& t, basic_extents<S> const& extents)
+template<class T, class E, class F, class A, class S>
+auto all_extents_equal(tensor<T,E,F,A> const& t, basic_extents<S> const& extents)
 {
 	return extents == t.extents();
 }

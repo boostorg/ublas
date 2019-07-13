@@ -25,13 +25,15 @@ BOOST_AUTO_TEST_SUITE ( test_tensor_algorithms,
                         * boost::unit_test::depends_on("test_extents")
                         * boost::unit_test::depends_on("test_strides"))
 
+// BOOST_AUTO_TEST_SUITE ( test_tensor_algorithms)
+
 
 using test_types  = zip<int,long,float,double,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 using test_types2 = std::tuple<int,long,float,double,std::complex<float>>;
 
 struct fixture
 {
-	using extents_type = boost::numeric::ublas::shape;
+	using extents_type = boost::numeric::ublas::shape<boost::numeric::ublas::dynamic_rank>;
 	fixture()
 	  : extents {
 	      extents_type{1,1}, // 1
@@ -60,9 +62,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy, value,  test_type
 
 	for(auto const& n : extents) {
 
-		auto a  = vector_type(n.product());
-		auto b  = vector_type(n.product());
-		auto c  = vector_type(n.product());
+		auto a  = vector_type(product(n));
+		auto b  = vector_type(product(n));
+		auto c  = vector_type(product(n));
 
 		auto wa = ublas::strides<ublas::first_order>(n);
 		auto wb = ublas::strides<ublas::last_order> (n);
@@ -91,11 +93,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy, value,  test_type
 
 	// special case rank == 0
 	{
-		auto n = ublas::shape{};
+		auto n = ublas::shape<ublas::dynamic_rank>{};
 
-		auto a  = vector_type(n.product());
-		auto b  = vector_type(n.product());
-		auto c  = vector_type(n.product());
+		auto a  = vector_type(product(n));
+		auto b  = vector_type(product(n));
+		auto c  = vector_type(product(n));
 
 
 		auto wa = ublas::strides<ublas::first_order>(n);
@@ -118,6 +120,87 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy, value,  test_type
 }
 
 
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy_exceptions, value,  test_types2, fixture )
+{
+	using namespace boost::numeric;
+	using value_type   = value;
+	using vector_type  = std::vector<value_type>;
+
+	for(auto const& n : extents) {
+
+		value_type* a  = nullptr;
+		auto c  = vector_type(product(n));
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+		auto wc = ublas::strides<ublas::first_order>(n);
+
+		BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c.data(), wc.data(), a, wa.data() ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		value_type* a  = nullptr;
+		value_type* c  = nullptr;
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+		auto wc = ublas::strides<ublas::first_order>(n);
+
+		BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c, wc.data(), a, wa.data() ), std::length_error );
+
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+			value_type* c  = nullptr;
+
+			auto wa = ublas::strides<ublas::first_order>(n);
+			auto wc = ublas::strides<ublas::first_order>(n);
+
+			BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c, wc.data(), a.data(), wa.data() ), std::length_error );
+			
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+			auto c  = vector_type(product(n));
+
+			size_t* wa = nullptr;
+			auto wc = ublas::strides<ublas::first_order>(n);
+
+			BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c.data(), wc.data(), a.data(), wa ), std::length_error );
+			
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+			auto c  = vector_type(product(n));
+
+			size_t* wc = nullptr;
+			auto wa = ublas::strides<ublas::first_order>(n);
+
+			BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c.data(), wc, a.data(), wa.data() ), std::length_error );
+			
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+			auto c  = vector_type(product(n));
+			
+			size_t* m = nullptr;
+			auto wc = ublas::strides<ublas::first_order>(n);
+			auto wa = ublas::strides<ublas::first_order>(n);
+
+			BOOST_REQUIRE_THROW( ublas::copy( n.size(), m, c.data(), wc.data(), a.data(), wa.data() ), std::length_error );
+			
+	}
+}
+
+
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform, value,  test_types2, fixture )
 {
@@ -128,9 +211,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform, value,  test
 
 	for(auto const& n : extents) {
 
-		auto a  = vector_type(n.product());
-		auto b  = vector_type(n.product());
-		auto c  = vector_type(n.product());
+		auto a  = vector_type(product(n));
+		auto b  = vector_type(product(n));
+		auto c  = vector_type(product(n));
 
 		auto wa = ublas::strides<ublas::first_order>(n);
 		auto wb = ublas::strides<ublas::last_order> (n);
@@ -151,6 +234,85 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform, value,  test
 }
 
 
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform_exceptions, value,  test_types2, fixture )
+{
+	using namespace boost::numeric;
+	using value_type   = value;
+	using vector_type  = std::vector<value_type>;
+
+	for(auto const& n : extents) {
+
+		value_type* a  = nullptr;
+		auto c  = vector_type(product(n));
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+		auto wc = ublas::strides<ublas::first_order>(n);
+
+		BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c.data(), wc.data(), a, wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		value_type* a  = nullptr;
+		value_type* c  = nullptr;
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+		auto wc = ublas::strides<ublas::first_order>(n);
+
+		BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c, wc.data(), a, wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::length_error );
+
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+			value_type* c  = nullptr;
+
+			auto wa = ublas::strides<ublas::first_order>(n);
+			auto wc = ublas::strides<ublas::first_order>(n);
+
+			BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c, wc.data(), a.data(), wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::length_error );
+			
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+			auto c  = vector_type(product(n));
+
+			size_t* wa = nullptr;
+			auto wc = ublas::strides<ublas::first_order>(n);
+
+			BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c.data(), wc.data(), a.data(), wa, [](value_type const& a){ return a + value_type(1);} ), std::length_error );
+			
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+			auto c  = vector_type(product(n));
+
+			size_t* wc = nullptr;
+			auto wa = ublas::strides<ublas::first_order>(n);
+
+			BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c.data(), wc, a.data(), wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::length_error );
+			
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+			auto c  = vector_type(product(n));
+			
+			size_t* m = nullptr;
+			auto wc = ublas::strides<ublas::first_order>(n);
+			auto wa = ublas::strides<ublas::first_order>(n);
+
+			BOOST_REQUIRE_THROW( ublas::transform( n.size(), m, c.data(), wc.data(), a.data(), wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::length_error );
+			
+	}
+}
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  test_types2, fixture )
 {
@@ -161,11 +323,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  tes
 
 	for(auto const& n : extents) {
 
-		auto const s = n.product();
+		auto const s = product(n);
 
-		auto a  = vector_type(n.product());
-		//		auto b  = vector_type(n.product());
-		//		auto c  = vector_type(n.product());
+		auto a  = vector_type(product(n));
+		//		auto b  = vector_type(product(n));
+		//		auto c  = vector_type(product(n));
 
 		auto wa = ublas::strides<ublas::first_order>(n);
 		//		auto wb = ublas::strides<ublas::last_order> (n);
@@ -190,6 +352,75 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  tes
 }
 
 
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, value,  test_types2, fixture )
+{
+	using namespace boost::numeric;
+	using value_type   = value;
+	using vector_type  = std::vector<value_type>;
+
+	for(auto const& n : extents) {
+
+		value_type* a  = nullptr;
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+
+		BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), n.data(), a, wa.data(), value_type{0} ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		value_type* a  = nullptr;
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+
+		BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), n.data(), a, wa.data(), value_type{0},[](value_type const& a,value_type const& b){ return a + b;} ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		auto a  = vector_type(product(n));
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+		size_t p = 0u;
+		BOOST_CHECK_EQUAL ( ublas::accumulate( p, n.data(), a.data(), wa.data(), value_type{0} ), value_type{0} );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		auto a  = vector_type(product(n));
+
+		auto wa = ublas::strides<ublas::first_order>(n);
+		size_t p = 0u;
+		BOOST_CHECK_EQUAL( ublas::accumulate( p, n.data(), a.data(), wa.data(), value_type{0}, [](value_type const& a,value_type const& b){ return a + b;} ), value_type{0} );
+		
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+
+			size_t* wa = nullptr;
+
+			BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), n.data(), a.data(), wa, value_type{0} ), std::length_error );
+			
+	}
+
+	for(auto const& n : extents) {
+
+			auto a  = vector_type(product(n));
+
+			auto wa = ublas::strides<ublas::first_order>(n);
+
+			size_t* m = nullptr;
+
+			BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), m, a.data(), wa.data(), value_type{0}, [](value_type const& a,value_type const& b){ return a + b;} ), std::length_error );
+			
+	}
+
+}
 
 
 template<class V>
@@ -220,7 +451,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans, value,  test_typ
 	using layout_type = typename value::second_type;
 	using vector_type  = std::vector<value_type>;
 	using strides_type = ublas::strides<layout_type>;
-	using extents_type = ublas::shape;
+	using extents_type = ublas::shape<ublas::dynamic_rank>;
 	using size_type = typename extents_type::value_type;
 	using permutation_type = std::vector<size_type>;
 	
@@ -228,7 +459,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans, value,  test_typ
 	for(auto const& n : extents) {
 
 		auto p   = n.size();
-		auto s   = n.product();
+		auto s   = product(n);
 
 		auto pi  = permutation_type(p);
 		auto a   = vector_type(s);
@@ -282,6 +513,184 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans, value,  test_typ
 			BOOST_CHECK_EQUAL( a[i], b2[i] );
 
 	}
+}
+
+
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans_exceptions, value,  test_types, fixture )
+{
+	using namespace boost::numeric;
+	using value_type  = typename value::first_type;
+	using layout_type = typename value::second_type;
+	using vector_type  = std::vector<value_type>;
+	using strides_type = ublas::strides<layout_type>;
+	using extents_type = ublas::shape<ublas::dynamic_rank>;
+	using size_type = typename extents_type::value_type;
+	using permutation_type = std::vector<size_type>;
+
+	for(auto const& n : extents) {
+
+		auto p   = n.size();
+		auto s   = product(n);
+
+		auto pi  = permutation_type(p);
+		value_type* a   = nullptr;
+		auto c  = vector_type(s);
+
+		auto wa = strides_type(n);
+
+		auto nc = typename extents_type::base_type (p);
+		auto wc = strides_type(n);
+		auto wc_pi = typename strides_type::base_type (p);
+
+		BOOST_REQUIRE_THROW( ublas::trans( p, nc.data(), pi.data(), a, wa.data(),    c.data(), wc.data() ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		auto p   = n.size();
+		auto s   = product(n);
+
+		auto pi  = permutation_type(p);
+		value_type* a   = nullptr;
+		auto c  = vector_type(s);
+
+		auto wa = strides_type(n);
+		auto nc = typename extents_type::base_type (p);
+			
+		auto wc = strides_type(n);
+
+		BOOST_REQUIRE_THROW( ublas::trans( p, nc.data(), pi.data(), c.data(), wc.data(),    a, wa.data() ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		auto p   = n.size();
+
+		auto pi  = permutation_type(p);
+		value_type* a   = nullptr;
+		value_type* c   = nullptr;
+
+		auto wa = strides_type(n);
+		auto nc = typename extents_type::base_type (p);
+			
+		auto wc = strides_type(n);
+
+		BOOST_REQUIRE_THROW( ublas::trans( p, nc.data(), pi.data(), c, wc.data(),    a, wa.data() ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		auto p   = n.size();
+		auto s   = product(n);
+
+		auto pi  = permutation_type(p);
+		auto a  = vector_type(s);
+		auto c  = vector_type(s);
+
+		auto wa = strides_type(n);
+
+		auto nc = typename extents_type::base_type (p);
+			
+		size_t* wc = nullptr;
+
+		BOOST_REQUIRE_THROW( ublas::trans( p, nc.data(), pi.data(), c.data(), wc,    a.data(), wa.data() ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		auto p   = n.size();
+		auto s   = product(n);
+
+		auto pi  = permutation_type(p);
+		auto a  = vector_type(s);
+		auto c  = vector_type(s);
+
+		auto wc = strides_type(n);
+		auto nc = typename extents_type::base_type (p);
+			
+		size_t* wa = nullptr;
+
+		BOOST_REQUIRE_THROW( ublas::trans( p, nc.data(), pi.data(), c.data(), wc.data(),    a.data(), wa ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		auto p   = n.size();
+		auto s   = product(n);
+
+		auto pi  = permutation_type(p);
+		auto a  = vector_type(s);
+		auto c  = vector_type(s);
+
+		size_t* wc = nullptr;
+
+		auto nc = typename extents_type::base_type (p);
+			
+		size_t* wa = nullptr;
+
+		BOOST_REQUIRE_THROW( ublas::trans( p, nc.data(), pi.data(), c.data(), wc,    a.data(), wa ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		auto p   = n.size();
+		auto s   = product(n);
+
+		size_type* pi  = nullptr;
+		auto a  = vector_type(s);
+		auto c  = vector_type(s);
+
+		auto wa = strides_type(n);
+
+		auto nc = typename extents_type::base_type (p);
+		auto wc = strides_type(n);
+
+		BOOST_REQUIRE_THROW( ublas::trans( p, nc.data(), pi, c.data(), wc.data(),    a.data(), wa.data() ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		auto p   = n.size();
+		auto s   = product(n);
+
+		auto pi  = permutation_type(p);
+		auto a  = vector_type(s);
+		auto c  = vector_type(s);
+
+		auto wa = strides_type(n);
+		size_t* nc = nullptr;
+			
+		auto wc = strides_type(n);
+
+		BOOST_REQUIRE_THROW( ublas::trans( p, nc, pi.data(), c.data(), wc.data(),    a.data(), wa.data() ), std::length_error );
+		
+	}
+
+	for(auto const& n : extents) {
+
+		size_type p   = 1;
+		auto s   = product(n);
+
+		auto pi  = permutation_type(p);
+		auto a  = vector_type(s);
+		auto c  = vector_type(s);
+
+		auto wa = strides_type(n);
+		auto nc = typename extents_type::base_type (p);
+			
+		auto wc = strides_type(n);
+
+		ublas::trans( p, nc.data(), pi.data(), c.data(), wc.data(),    a.data(), wa.data() );
+		
+	}
+
 }
 
 

@@ -13,6 +13,9 @@
 #ifndef _BOOST_UBLAS_TEST_TENSOR_UTILITY_
 #define _BOOST_UBLAS_TEST_TENSOR_UTILITY_
 
+#include <boost/numeric/ublas/tensor/shape_helper.hpp>
+#include <utility>
+
 template<class ... types>
 struct zip_helper;
 
@@ -45,6 +48,85 @@ struct zip_helper<std::tuple<types3...>, type1, types1...>
 
 template<class ... types>
 using zip = zip_helper<std::tuple<>,types...>;
+
+
+template < ptrdiff_t index, typename S >
+struct get_impl;
+
+template < ptrdiff_t el  >
+struct get_impl< 0, boost::numeric::ublas::detail::basic_shape< el > >{
+    constexpr ptrdiff_t operator()() const noexcept{
+        return el;
+    }
+};
+
+template < ptrdiff_t el, ptrdiff_t ...Extents >
+struct get_impl<0, boost::numeric::ublas::detail::basic_shape< el, Extents... >>{
+    constexpr ptrdiff_t operator()() const noexcept{
+        return el;
+    }
+};
+
+template < ptrdiff_t index, ptrdiff_t el, ptrdiff_t ...Extents >
+struct get_impl<index, boost::numeric::ublas::detail::basic_shape< el, Extents... >>{
+    
+    static_assert(boost::numeric::ublas::detail::basic_shape< el, Extents... >::rank > index && index >= 0,"");
+
+    constexpr ptrdiff_t operator()() const noexcept{
+        return get_impl<index - 1, boost::numeric::ublas::detail::basic_shape<Extents...> >()();
+    }
+};
+
+template < ptrdiff_t index, class S >
+ptrdiff_t get(){
+    return get_impl<index, S >()();
+}
+
+
+template<size_t I, class CallBack, class...Ts>
+struct for_each_tuple_impl{
+    auto operator()(std::tuple<Ts...>& t, CallBack call_back){
+        call_back(I,std::get<I>(t));
+        if constexpr(sizeof...(Ts) - 1 > I){
+            for_each_tuple_impl<I + 1,CallBack,Ts...> it;
+            it(t,call_back);
+        }
+    }
+};
+
+template<class CallBack, class... Ts>
+auto for_each_tuple(std::tuple<Ts...>& t, CallBack call_back){
+    for_each_tuple_impl<0,CallBack,Ts...> f;
+    f(t,call_back);
+}
+
+
+template<typename... Ts>
+struct list{
+    static constexpr size_t size = sizeof...(Ts);
+};
+
+template<size_t I, class CallBack, class T, class...Ts>
+struct for_each_list_impl{
+    constexpr decltype(auto) operator()(list<T, Ts...> l, CallBack call_back){
+        using new_list = list<Ts...>;
+        using value_type = T;
+        call_back(I,value_type{});
+        
+        if constexpr(new_list::size != 0){
+            for_each_list_impl<I + 1,CallBack, Ts...> it;
+            it(new_list{},call_back);
+        }
+    }
+};
+
+
+template<class CallBack, class... Ts>
+auto for_each_list(list<Ts...> l, CallBack call_back){
+    for_each_list_impl<0,CallBack,Ts...> f;
+    f(l,call_back);
+}
+
 
 // creates e.g.
 // using test_types = zip<long,float>::with_t<first_order,last_order>; // equals

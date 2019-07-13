@@ -14,14 +14,16 @@
 #include <random>
 #include <boost/numeric/ublas/tensor/tensor.hpp> 
 
-#define BOOST_TEST_DYN_LINK
+#ifndef BOOST_TEST_DYN_LINK
+#define BOOST_TEST_DYN_LINK 
+#endif
 #define BOOST_TEST_MODULE TestTensor
 
 #include <boost/test/unit_test.hpp>
 #include "utility.hpp"
 
-//BOOST_AUTO_TEST_SUITE ( test_tensor, * boost::unit_test::depends_on("test_extents") ) ;
-BOOST_AUTO_TEST_SUITE ( test_tensor )
+BOOST_AUTO_TEST_SUITE ( test_tensor, * boost::unit_test::depends_on("test_extents") ) ;
+// BOOST_AUTO_TEST_SUITE ( test_tensor )
 
 using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 
@@ -31,7 +33,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_ctor, value,  test_types)
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 	auto a1 = tensor_type{};
 	BOOST_CHECK_EQUAL( a1.size() , 0ul );
@@ -96,11 +98,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents, value,  test_types, 
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 	auto check = [](auto const& e) {
 		auto t = tensor_type{e};
-		BOOST_CHECK_EQUAL (  t.size() , e.product() );
+		BOOST_CHECK_EQUAL (  t.size() , product(e) );
 		BOOST_CHECK_EQUAL (  t.rank() , e.size() );
 		if(e.empty()) {
 			BOOST_CHECK       ( t.empty()    );
@@ -122,7 +124,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor, value,  test_types, fix
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 	auto check = [](auto const& e)
 	{
@@ -156,9 +158,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor_layout, value,  test_typ
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type  = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 	using other_layout_type = std::conditional_t<std::is_same<ublas::first_order,layout_type>::value, ublas::last_order, ublas::first_order>;
-	using other_tensor_type = ublas::tensor<value_type, other_layout_type>;
+	using other_tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>, other_layout_type>;
 
 
 	for(auto const& e : extents)
@@ -187,13 +189,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_move_ctor, value,  test_types
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 	auto check = [](auto const& e)
 	{
 		auto r = tensor_type{e};
 		auto t = std::move(r);
-		BOOST_CHECK_EQUAL (  t.size() , e.product() );
+		BOOST_CHECK_EQUAL (  t.size() , product(e) );
 		BOOST_CHECK_EQUAL (  t.rank() , e.size() );
 
 		if(e.empty()) {
@@ -217,7 +219,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_init, value,  test_ty
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 	std::random_device device{};
 	std::minstd_rand0 generator(device());
@@ -240,11 +242,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_array, value,  test_t
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 	using array_type  = typename tensor_type::array_type;
 
 	for(auto const& e : extents) {
-		auto a = array_type(e.product());
+		auto a = array_type(product(e));
 		auto v = value_type {};
 
 		for(auto& aa : a){
@@ -266,7 +268,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_single_index_access, va
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 	for(auto const& e : extents) {
 		auto t = tensor_type{e};
@@ -288,7 +290,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 	auto check1 = [](const tensor_type& t)
 	{
@@ -302,8 +304,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
 	auto check2 = [](const tensor_type& t)
 	{
 		std::array<unsigned,2> k;
-		auto r = std::is_same_v<layout_type,ublas::first_order> ? 1 : 0;
-		auto q = std::is_same_v<layout_type,ublas::last_order > ? 1 : 0;
+		auto r = std::is_same<layout_type,ublas::first_order>::value ? 1 : 0;
+		auto q = std::is_same<layout_type,ublas::last_order >::value ? 1 : 0;
 		auto v = value_type{};
 		for(k[r] = 0ul; k[r] < t.size(r); ++k[r]){
 			for(k[q] = 0ul; k[q] < t.size(q); ++k[q]){
@@ -376,7 +378,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_reshape, value,  test_types, fixtu
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 
 	for(auto const& efrom : extents){
@@ -389,15 +391,15 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_reshape, value,  test_types, fixtu
 				BOOST_CHECK_EQUAL( t[i], v );
 
 			t.reshape(eto);
-			for(auto i = 0ul; i < std::min(efrom.product(),eto.product()); ++i)
+			for(auto i = 0ul; i < std::min(product(efrom),product(eto)); ++i)
 				BOOST_CHECK_EQUAL( t[i], v );
 
-			BOOST_CHECK_EQUAL (  t.size() , eto.product() );
+			BOOST_CHECK_EQUAL (  t.size() , product(eto) );
 			BOOST_CHECK_EQUAL (  t.rank() , eto.size() );
 			BOOST_CHECK ( t.extents() == eto );
 
 			if(efrom != eto){
-				for(auto i = efrom.product(); i < t.size(); ++i)
+				for(auto i = product(efrom); i < t.size(); ++i)
 					BOOST_CHECK_EQUAL( t[i], value_type{} );
 			}
 		}
@@ -412,7 +414,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_swap, value,  test_types, fixture)
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 	for(auto const& e_t : extents){
 		for(auto const& e_r : extents) {
@@ -427,14 +429,14 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_swap, value,  test_types, fixture)
 			for(auto i = 0ul; i < t.size(); ++i)
 				BOOST_CHECK_EQUAL( t[i], w );
 
-			BOOST_CHECK_EQUAL (  t.size() , e_r.product() );
+			BOOST_CHECK_EQUAL (  t.size() , product(e_r) );
 			BOOST_CHECK_EQUAL (  t.rank() , e_r.size() );
 			BOOST_CHECK ( t.extents() == e_r );
 
 			for(auto i = 0ul; i < r.size(); ++i)
 				BOOST_CHECK_EQUAL( r[i], v );
 
-			BOOST_CHECK_EQUAL (  r.size() , e_t.product() );
+			BOOST_CHECK_EQUAL (  r.size() , product(e_t) );
 			BOOST_CHECK_EQUAL (  r.rank() , e_t.size() );
 			BOOST_CHECK ( r.extents() == e_t );
 
@@ -450,7 +452,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_standard_iterator, value,  test_ty
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>,layout_type>;
 
 	for(auto const& e : extents)
 	{

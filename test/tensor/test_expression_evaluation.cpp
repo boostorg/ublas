@@ -24,7 +24,7 @@ using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost:
 
 struct fixture
 {
-	using extents_type = boost::numeric::ublas::shape;
+	using extents_type = boost::numeric::ublas::shape<boost::numeric::ublas::dynamic_rank>;
 	fixture()
 	  : extents{
 	      extents_type{},            // 0
@@ -55,7 +55,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_expression_retrieve_extents, value
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using extents_type  = ublas::shape<ublas::dynamic_rank>;
+	using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
 
 	auto uplus1 = std::bind(  std::plus<value_type>{}, std::placeholders::_1, value_type(1) );
 	auto uplus2 = std::bind(  std::plus<value_type>{}, value_type(2), std::placeholders::_2 );
@@ -146,7 +147,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_expression_all_extents_equal, valu
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, layout_type>;
+	using tensor_type = ublas::tensor<value_type, ublas::shape<ublas::dynamic_rank>, layout_type>;
 
 	auto uplus1 = std::bind(  std::plus<value_type>{}, std::placeholders::_1, value_type(1) );
 	auto uplus2 = std::bind(  std::plus<value_type>{}, value_type(2), std::placeholders::_2 );

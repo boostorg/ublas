@@ -14,6 +14,7 @@
 
 #include <ostream>
 #include <complex>
+#include "extents_functions.hpp"
 
 namespace boost {
 namespace numeric {
@@ -79,7 +80,7 @@ namespace boost {
 namespace numeric {
 namespace ublas {
 
-template<class T, class F, class A>
+template<class T, class E, class F, class A>
 class tensor;
 
 template<class T, class F, class A>
@@ -93,16 +94,16 @@ class vector;
 }
 
 
-template <class V, class F, class A>
-std::ostream& operator << (std::ostream& out, boost::numeric::ublas::tensor<V,F,A> const& t)
+template <class V, class E, class F, class A>
+std::ostream& operator << (std::ostream& out, boost::numeric::ublas::tensor<V,E,F,A> const& t)
 {
 
-	if(t.extents().is_scalar()){
+	if(is_scalar(t.extents())){
 		out << '[';
 		boost::numeric::ublas::detail::print(out,t[0]);
 		out << ']';
 	}
-	else if(t.extents().is_vector()) {
+	else if(is_vector(t.extents())) {
 		const auto& cat = t.extents().at(0) > t.extents().at(1) ? ';' : ',';
 		out << '[';
 		for(auto i = 0u; i < t.size()-1; ++i){
@@ -113,7 +114,13 @@ std::ostream& operator << (std::ostream& out, boost::numeric::ublas::tensor<V,F,
 		out << ']';
 	}
 	else{
-		boost::numeric::ublas::detail::print(out, t.rank()-1, t.data(), t.strides().data(), t.extents().data());
+		if constexpr(boost::numeric::ublas::detail::is_static_extents<E>::value){
+			auto s = t.strides().base();
+			auto e = t.extents().base();
+			boost::numeric::ublas::detail::print(out, t.rank()-1, t.data(), s.data(), e.data());
+		}else{
+			boost::numeric::ublas::detail::print(out, t.rank()-1, t.data(), t.strides().data(), t.extents().data());
+		}
 	}
 	return out;
 }
