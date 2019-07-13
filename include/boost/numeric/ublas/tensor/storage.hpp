@@ -217,24 +217,6 @@ struct compressed_map : sparse_storage {
     return this->at(k);
   }
 
-//   constexpr auto insert(key_type k, value_type v) {
-//     if (v == 0)
-//       return;
-//     data_.emplace(k, v);
-//   }
-
-//   constexpr auto insert(value_type const &p) {
-//     if (p.second == 0)
-//       return;
-//     data_.insert(p);
-//   }
-
-//   constexpr auto insert(value_type &&p) {
-//     if (p.second == 0)
-//       return;
-//     data_.insert(std::move(p));
-//   }
-
 private:
   constexpr auto update_map() noexcept {
     if (k_ != key_type{-1} && v_ != value_type{0} ) {
