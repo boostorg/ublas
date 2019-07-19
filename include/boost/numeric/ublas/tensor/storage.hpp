@@ -145,14 +145,12 @@ struct compressed_map : sparse_storage {
     return data_.cend();
   }
 
-  constexpr pointer data() noexcept {
-    update_map();
-    return data_.data();
-  }
-
-  constexpr const_pointer cdata() noexcept {
-    update_map();
-    return data_.cdata();
+  auto to_vector(){
+    std::vector<T> temp(size_);
+    for(auto i = 0u; i < size_; i++){
+      temp[i] = this->at(i);
+    }
+    return temp;
   }
 
   constexpr auto empty() const noexcept{
