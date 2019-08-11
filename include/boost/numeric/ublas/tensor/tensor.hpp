@@ -381,7 +381,7 @@ public:
 	{
 		auto const sz = v.size();
 		if(sz){
-			if (detail::is_static<extents_type>::value){
+			if constexpr(detail::is_static<extents_type>::value){
 				if ( extents_.size() != 2 && ( extents_[0] != v.size() || extents_[1] != 1 ) ){
 					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
 											" : extents not correct, please check!");
@@ -417,7 +417,7 @@ public:
 	{
 		auto const sz = v.size();
 		if(sz){
-			if (detail::is_static<extents_type>::value){
+			if constexpr(detail::is_static<extents_type>::value){
 				if ( extents_.size() != 2 && ( extents_[0] != v.size() || extents_[1] != 1 ) ){
 					throw std::out_of_range("Error in boost::numeric::ublas::tensor(const matrix_type &v)"
 											" : extents not correct, please check!");
