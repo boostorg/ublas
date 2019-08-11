@@ -112,7 +112,7 @@ struct basic_extents_impl<R, basic_shape<dynamic_extent, E...>>
 
   static constexpr bool IsDynamic = true;
   // stores dynamic extent
-  ptrdiff_t N{-1};
+  ptrdiff_t N{0};
 
   /**
    * @param k index of extent
@@ -148,7 +148,7 @@ struct basic_extents_impl<R, basic_shape<dynamic_extent, E...>>
   constexpr auto empty() const noexcept { return false; }
 
   // default constructor
-  constexpr basic_extents_impl() noexcept : next(), N(0) {}
+  constexpr basic_extents_impl() noexcept : N(0), next() {}
   // copy constructor
   constexpr basic_extents_impl(basic_extents_impl const &other) noexcept =
       default;
@@ -165,7 +165,8 @@ struct basic_extents_impl<R, basic_shape<dynamic_extent, E...>>
   template <typename... IndexType>
   explicit constexpr basic_extents_impl(ptrdiff_t extent,
                                         IndexType... DynamicExtents)
-      : N(extent), next(DynamicExtents...) {
+      : next(DynamicExtents...) {
+        N = extent;
     static_assert(sizeof...(DynamicExtents) + 1 == DynamicRank,
                   "boost::numeric::ublas::detail::basic_extents_impl: number of extents doesnot match the dynamic rank");
     if (extent <= 0) {
@@ -194,7 +195,8 @@ struct basic_extents_impl<R, basic_shape<dynamic_extent, E...>>
   template <typename Iterator>
   constexpr basic_extents_impl(Iterator begin, Iterator end,
                                iterator_tag)
-      : N(*begin), next(std::next(begin), end, iterator_tag{}) {
+      : next(std::next(begin), end, iterator_tag{}) {
+        N = *begin;
     if (*begin <= 0) {
       throw std::runtime_error("boost::numeric::ublas::detail::basic_extents_impl: extent should be greater than 0");
     }

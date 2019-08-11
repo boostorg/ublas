@@ -27,20 +27,11 @@
 #include "storage_traits.hpp"
 #include "extents.hpp"
 #include "strides.hpp"
+#include "fwd.hpp"
 
 namespace boost {
 namespace numeric {
 namespace ublas {
-
-template<class Value, class Shape, class Format, class Allocator>
-class tensor;
-
-template<class Value, class Format, class Allocator>
-class matrix;
-
-template<class Value, class Allocator>
-class vector;
-
 
 
 
@@ -136,9 +127,7 @@ auto prod(tensor<V,E,F,A1> const& a, matrix<V,F,A2> const& b, const std::size_t 
 	using tensor_type  = tensor<V,E,F,A1>;
 	using extents_type = typename tensor_type::extents_type;
 	using dynamic_strides_type = strides<F>;
-	using ebase_type   = typename extents_type::base_type;
 	using value_type   = typename tensor_type::value_type;
-	using size_type = typename extents_type::size_type;
 	using result_tensor_type = tensor_mode_result_t<V,F,A1>;
 
 
@@ -213,7 +202,6 @@ auto prod(tensor<V,E1,F,A1> const& a, tensor<V,E2,F,A2> const& b,
 	using tensor_type  = tensor<V,E1,F,A1>;
 	using extents_type_1 = E1;
 	using extents_type_2 = E2;
-	using ebase_type   = typename extents_type_1::base_type;
 	using value_type   = typename tensor_type::value_type;
 	using size_type = typename extents_type_1::value_type;
 	using result_tensor_type = tensor_mode_result_t<V,F,A1>;
@@ -431,7 +419,6 @@ auto inner_prod(tensor<V,E1,F,A1> const& a, tensor<V,E2,F,A2> const& b)
 template<class V, class E1, class E2, class F, class A1, class A2>
 auto outer_prod(tensor<V,E1,F,A1> const& a, tensor<V,E2,F,A2> const& b)
 {
-	using tensor_type  = tensor<V,E1,F,A1>;
 	using extents_type_1 = E1;
 	using extents_type_2 = E2;
 	using result_tensor_type = tensor_mode_result_t<V,F,A1>;

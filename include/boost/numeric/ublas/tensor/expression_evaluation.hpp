@@ -14,30 +14,7 @@
 
 #include <type_traits>
 #include <stdexcept>
-
-
-namespace boost::numeric::ublas {
-
-template<class element_type, class shape_type, class storage_format, class storage_type>
-class tensor;
-
-template<class size_type>
-class basic_extents;
-
-}
-
-namespace boost::numeric::ublas::detail {
-
-template<class T, class D>
-struct tensor_expression;
-
-template<class T, class EL, class ER, class OP>
-struct binary_tensor_expression;
-
-template<class T, class E, class OP>
-struct unary_tensor_expression;
-
-}
+#include "fwd.hpp"
 
 namespace boost::numeric::ublas::detail {
 

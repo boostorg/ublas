@@ -229,7 +229,7 @@ public:
   auto base() const {
     std::vector<value_type> temp(rank());
     for (auto i = 0u; i < temp.size(); i++) {
-      temp[i] = at(i);
+      temp[i] = this->at(i);
     }
     return temp;
   }
@@ -349,7 +349,7 @@ struct static_strides<basic_static_extents<T, R, Extents...>, last_order>
   auto base() const {
     std::vector<value_type> temp(rank());
     for (auto i = 0u; i < temp.size(); i++) {
-      temp[i] = at(i);
+      temp[i] = this->at(i);
     }
     return temp;
   }

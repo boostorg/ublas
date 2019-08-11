@@ -15,16 +15,12 @@
 
 #include <tuple>
 #include <type_traits>
-
+#include "fwd.hpp"
 
 namespace boost   {
 namespace numeric {
 namespace ublas   {
 namespace detail  {
-
-
-template<class ... index_types>
-struct has_index_impl;
 
 template<class itype_left, class itype_right>
 struct has_index_impl<itype_left, itype_right>
@@ -80,10 +76,6 @@ namespace boost   {
 namespace numeric {
 namespace ublas   {
 namespace detail  {
-
-
-template<class ... index_types>
-struct valid_multi_index_impl;
 
 template<>
 struct valid_multi_index_impl<std::tuple<>>

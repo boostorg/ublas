@@ -25,6 +25,7 @@
 #include <boost/numeric/ublas/functional.hpp>
 #include <boost/numeric/ublas/tensor/static_strides.hpp>
 #include <boost/numeric/ublas/tensor/extents.hpp>
+#include "fwd.hpp"
 
 namespace boost { 
 namespace numeric { 
@@ -32,9 +33,6 @@ namespace ublas {
 
 using first_order = column_major;
 using last_order = row_major;
-
-template<class T>
-class basic_extents;
 
 
 /** @brief Template class for storing tensor strides for iteration with runtime variable size.

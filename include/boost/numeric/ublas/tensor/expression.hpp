@@ -14,19 +14,12 @@
 
 #include <cstddef>
 #include <boost/numeric/ublas/expression_types.hpp>
+#include "fwd.hpp"
 
 
 namespace boost   {
 namespace numeric {
 namespace ublas   {
-
-
-template<class element_type, class shape_type, class storage_format, class storage_type>
-class tensor;
-
-template<class size_type>
-class basic_extents;
-
 
 //TODO: put in fwd.hpp
 struct tensor_tag {};

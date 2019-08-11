@@ -12,12 +12,15 @@
 #ifndef BOOST_NUMERIC_UBLAS_TENSOR_STATIC_EXTENTS_HPP
 #define BOOST_NUMERIC_UBLAS_TENSOR_STATIC_EXTENTS_HPP
 
+#include <boost/config.hpp>
+
 #include <array>
 #include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
 #include <boost/numeric/ublas/tensor/extents_helper.hpp>
 #include <initializer_list>
 #include <vector>
 #include "fwd.hpp"
+
 namespace boost::numeric::ublas {
 
 /** @brief Template class for storing tensor extents for compile time.
@@ -45,8 +48,10 @@ struct basic_static_extents<int_type,R,E...>
 
   //@returns the rank of basic_static_extents
   static constexpr auto size() noexcept { return impl::Rank; }
+  
   //@returns the rank of basic_static_extents
   static constexpr auto rank() noexcept { return impl::Rank; }
+  
   //@returns the dynamic rank of basic_static_extents
   static constexpr auto dynamic_rank() noexcept { return impl::DynamicRank; }
 
@@ -64,8 +69,10 @@ struct basic_static_extents<int_type,R,E...>
 
   // default constructor
   constexpr basic_static_extents() = default;
+ 
   // default copy constructor
   constexpr basic_static_extents(basic_static_extents const &other) = default;
+ 
   // default assign constructor
   constexpr basic_static_extents &operator=(basic_static_extents const &other) = default;
 
@@ -82,7 +89,7 @@ struct basic_static_extents<int_type,R,E...>
   template <class... IndexType>
   constexpr basic_static_extents(IndexType... DynamicExtents)
       : impl(DynamicExtents...) {
-    static_assert(sizeof...(DynamicExtents) == dynamic_rank(),"boost::numeric::ublas::basic_static_extents: number of extents should be equal to rank of extents");
+    static_assert(sizeof...(DynamicExtents) == this->dynamic_rank(),"boost::numeric::ublas::basic_static_extents: number of extents should be equal to rank of extents");
   }
 
   /** @brief assigns the extents to dynamic extents using initializer_list
@@ -116,7 +123,7 @@ struct basic_static_extents<int_type,R,E...>
   constexpr basic_static_extents(I begin, I end)
       : impl(begin, end, detail::iterator_tag_t<I>{}) {
     if constexpr (std::is_same<detail::iterator_tag_t<I>,detail::iterator_tag>::value) {
-      if ( std::distance(begin,end) != dynamic_rank()) {
+      if ( std::distance(begin,end) != this->dynamic_rank()) {
         throw std::runtime_error("boost::numeric::ublas::basic_static_extents: number of extents should be equal to rank of extents");
       }
     }
@@ -126,7 +133,7 @@ struct basic_static_extents<int_type,R,E...>
   auto to_vector() const{
     base_type temp(R);
     for (auto i = 0u; i < R; i++) {
-      temp[i] = at(i);
+      temp[i] = this->at(i);
     }
     return temp;
   }
@@ -140,7 +147,7 @@ struct basic_static_extents<int_type,R,E...>
   constexpr auto to_array() const{
     array_type temp{};
     for (auto i = 0u; i < temp.size(); i++) {
-      temp[i] = at(i);
+      temp[i] = this->at(i);
     }
     return temp;
   }
@@ -155,16 +162,16 @@ struct basic_static_extents<int_type,R,E...>
    * @returns true if rank is 0 else false
    *
    */
-  constexpr auto empty() const noexcept { return size() == size_type{0}; }
+  constexpr auto empty() const noexcept { return this->size() == size_type{0}; }
 
   /** @brief Returns true if both extents are equal else false */
   template <ptrdiff_t rhs_dims, ptrdiff_t... rhs>
   constexpr auto operator==(basic_static_extents<int_type,rhs_dims, rhs...> const &other) const{
-    if (size() != other.size()) {
+    if (this->size() != other.size()) {
       return false;
     }
-    for (auto i = 0u; i < size(); i++) {
-      if (other.at(i) != at(i))
+    for (auto i = 0u; i < this->size(); i++) {
+      if (other.at(i) != this->at(i))
         return false;
     }
     return true;
@@ -212,5 +219,4 @@ template<ptrdiff_t... E>
 using static_extents = basic_static_extents<std::size_t,sizeof...(E),E...>;
 
 } // namespace boost::numeric::ublas
-
 #endif

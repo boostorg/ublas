@@ -15,14 +15,11 @@
 
 #include <vector>
 #include <array>
+#include "fwd.hpp"
 
 namespace boost {
 namespace numeric {
 namespace ublas {
-
-
-template <class A>
-struct storage_traits;
 
 
 template <class V, class A>
