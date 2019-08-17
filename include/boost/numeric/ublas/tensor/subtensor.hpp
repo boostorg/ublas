@@ -15,19 +15,6 @@
 #include "subtensor_helper.hpp"
 #include "fwd.hpp"
 #include "tensor.hpp"
-#include <boost/core/demangle.hpp>
-
-template <typename T>
-void print(T const &c)
-{
-
-	for (auto i = 0ul; i < c.size(); i++)
-	{
-		std::cout << c.at(i) << ' ';
-	}
-	std::cout << '\n';
-}
-
 namespace boost::numeric::ublas
 {
 
