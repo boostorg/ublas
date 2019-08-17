@@ -36,7 +36,7 @@ struct basic_static_extents<int_type,R,E...>
 
   static_assert(sizeof...(E) == 0 || sizeof...(E) == R,
                 "boost::numeric::ublas::basic_static_extents: number of extents should be equal to rank of extents");
-
+  using parent_type = detail::basic_extents_impl<0, detail::make_basic_shape_t<R, E...>>;
   using base_type = std::vector<int_type>;
   using array_type = std::array<int_type,R>;
 	using value_type = typename base_type::value_type;
@@ -47,19 +47,19 @@ struct basic_static_extents<int_type,R,E...>
 	using size_type = std::size_t;
 
   //@returns the rank of basic_static_extents
-  static constexpr auto size() noexcept { return impl::Rank; }
+  TENSOR_STATIC_AUTO_CONSTEXPR_RETURN size() noexcept { return impl::Rank; }
   
   //@returns the rank of basic_static_extents
-  static constexpr auto rank() noexcept { return impl::Rank; }
+  TENSOR_STATIC_AUTO_CONSTEXPR_RETURN rank() noexcept { return impl::Rank; }
   
   //@returns the dynamic rank of basic_static_extents
-  static constexpr auto dynamic_rank() noexcept { return impl::DynamicRank; }
+  TENSOR_STATIC_AUTO_CONSTEXPR_RETURN dynamic_rank() noexcept { return impl::DynamicRank; }
 
   /**
    * @param k pos of extent
    * @returns the element at given pos
    */
-  constexpr auto at(size_type k) const { 
+  TENSOR_AUTO_CONSTEXPR_RETURN at(size_type k) const { 
     if( k >= this->size() ) {
       throw std::out_of_range("boost::numeric::ublas::basic_static_extents: Out Of Bound");
     }else{
@@ -89,7 +89,7 @@ struct basic_static_extents<int_type,R,E...>
   template <class... IndexType>
   constexpr basic_static_extents(IndexType... DynamicExtents)
       : impl(DynamicExtents...) {
-    static_assert(sizeof...(DynamicExtents) == this->dynamic_rank(),"boost::numeric::ublas::basic_static_extents: number of extents should be equal to rank of extents");
+    static_assert(sizeof...(DynamicExtents) == impl::DynamicRank,"boost::numeric::ublas::basic_static_extents: number of extents should be equal to rank of extents");
   }
 
   /** @brief assigns the extents to dynamic extents using initializer_list
@@ -130,7 +130,7 @@ struct basic_static_extents<int_type,R,E...>
   }
 
   /** @brief Returns the std::vector containing extents */
-  auto to_vector() const{
+  TENSOR_AUTO_RETURN to_vector() const{
     base_type temp(R);
     for (auto i = 0u; i < R; i++) {
       temp[i] = this->at(i);
@@ -139,12 +139,12 @@ struct basic_static_extents<int_type,R,E...>
   }
 
   /** @brief Returns the std::vector containing extents */
-  auto base() const {
+  TENSOR_AUTO_RETURN base() const {
     return this->to_vector();
   }
 
   /** @brief Returns the std::array containing extents */
-  constexpr auto to_array() const{
+  TENSOR_AUTO_CONSTEXPR_RETURN to_array() const{
     array_type temp{};
     for (auto i = 0u; i < temp.size(); i++) {
       temp[i] = this->at(i);
@@ -153,7 +153,7 @@ struct basic_static_extents<int_type,R,E...>
   }
 
   /** @brief Returns the basic_extents containing extents */
-  auto to_dynamic_extents() const{
+  TENSOR_AUTO_CONSTEXPR_RETURN to_dynamic_extents() const{
     return basic_extents<value_type>(this->to_vector());
   }
 
@@ -162,11 +162,11 @@ struct basic_static_extents<int_type,R,E...>
    * @returns true if rank is 0 else false
    *
    */
-  constexpr auto empty() const noexcept { return this->size() == size_type{0}; }
+  TENSOR_AUTO_CONSTEXPR_RETURN empty() const noexcept { return this->size() == size_type{0}; }
 
   /** @brief Returns true if both extents are equal else false */
   template <ptrdiff_t rhs_dims, ptrdiff_t... rhs>
-  constexpr auto operator==(basic_static_extents<int_type,rhs_dims, rhs...> const &other) const{
+  TENSOR_AUTO_CONSTEXPR_RETURN operator==(basic_static_extents<int_type,rhs_dims, rhs...> const &other) const{
     if (this->size() != other.size()) {
       return false;
     }
@@ -179,7 +179,7 @@ struct basic_static_extents<int_type,R,E...>
 
   /** @brief Returns false if both extents are equal else true */
   template <ptrdiff_t rhs_dims, ptrdiff_t... rhs>
-  constexpr auto operator!=(basic_static_extents<int_type,rhs_dims, rhs...> const &other) const{
+  TENSOR_AUTO_CONSTEXPR_RETURN operator!=(basic_static_extents<int_type,rhs_dims, rhs...> const &other) const{
     return !(*this == other);
   }
 

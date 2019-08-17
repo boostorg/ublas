@@ -54,7 +54,7 @@ public:
 	static_assert(std::is_same<__layout,first_order>::value || std::is_same<__layout,last_order>::value,
 								"Static error in boost::numeric::ublas::basic_strides: layout type must either first or last order");
 
-
+	using extents_type = basic_extents<__int_type>;
 	using layout_type = __layout;
 	using value_type = typename base_type::value_type;
 	using reference = typename base_type::reference;

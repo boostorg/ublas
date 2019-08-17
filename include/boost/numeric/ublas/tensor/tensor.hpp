@@ -118,7 +118,7 @@ public:
 	using tensor_temporary_type = self_type;
 	using storage_category = dense_tag;
 
-	using strides_type = stride_t<E,layout_type>;
+	using strides_type = strides_t<E,layout_type>;
 	using extents_type = E;
 
 	using matrix_type     = matrix<value_type,layout_type,std::vector<T>>;
@@ -875,7 +875,6 @@ template<class E,
 tensor(E const&) ->tensor<float,E>;
 #endif
 
-// deduction guide fails for type alias till c++17
 template<class T = float, class E = dynamic_extents<>, class F = first_order, class A = storage::sparse_tensor::compressed_map<T> >
 using sparse_tensor = tensor<T,E,F,A>;
 

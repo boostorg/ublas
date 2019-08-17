@@ -16,14 +16,17 @@
 #include <initializer_list>
 #include "meta_functions.hpp"
 
-namespace boost::numeric::ublas::detail {
+namespace boost::numeric::ublas::detail
+{
 
 /** @brief basic_extents_impl specialization for basic_shape
  *
  * tparam R of type ptrdiff_t which stands for Rank
  *
  */
-template <ptrdiff_t R> struct basic_extents_impl<R, basic_shape<>> {
+template <ptrdiff_t R>
+struct basic_extents_impl<R, basic_shape<>>
+{
   // aliases the basic_extents_impl
   using next = basic_extents_impl;
 
@@ -36,31 +39,36 @@ template <ptrdiff_t R> struct basic_extents_impl<R, basic_shape<>> {
   // stores the both static
   static constexpr ptrdiff_t N = 1;
 
-  /**
-   * @returns extent at a given index
-   **/
-  constexpr auto at(int) const noexcept { return ptrdiff_t{1}; }
+  ptrdiff_t S{1};
 
   /**
    * @returns extent at a given index
    **/
-  constexpr auto operator[](int) const noexcept { return at(0); }
+  TENSOR_AUTO_CONSTEXPR_RETURN at(int) const noexcept { return ptrdiff_t{1}; }
+
+  TENSOR_AUTO_CONSTEXPR_RETURN &step(int) noexcept { return this->S; }
+  
+  TENSOR_AUTO_CONSTEXPR_RETURN &step(int) const noexcept { return this->S; }
+  /**
+   * @returns extent at a given index
+   **/
+  TENSOR_AUTO_CONSTEXPR_RETURN operator[](int) const noexcept { return at(0); }
   /**
    * @returns product of extents
    **/
-  constexpr auto product(int) const noexcept { return ptrdiff_t{1}; }
+  TENSOR_AUTO_CONSTEXPR_RETURN product(int) const noexcept { return ptrdiff_t{1}; }
   /**
    * @returns product of extents
    **/
-  constexpr auto product() const noexcept { return ptrdiff_t{1}; }
+  TENSOR_AUTO_CONSTEXPR_RETURN product() const noexcept { return ptrdiff_t{1}; }
 
   //@returns true if empty otherwise false
-  constexpr auto empty() const noexcept { return true; }
+  TENSOR_AUTO_CONSTEXPR_RETURN empty() const noexcept { return true; }
 
   /**
    * @returns Rank of the extents
    **/
-  constexpr auto size() const noexcept { return 0u; }
+  TENSOR_AUTO_CONSTEXPR_RETURN size() const noexcept { return 0u; }
 
   // default constructor
   constexpr basic_extents_impl() noexcept = default;
@@ -93,7 +101,8 @@ template <ptrdiff_t R> struct basic_extents_impl<R, basic_shape<>> {
                                iterator_tag) {}
 
   template <typename Iterator>
-  basic_extents_impl(Iterator, Iterator, invalid_iterator_tag) {
+  basic_extents_impl(Iterator, Iterator, invalid_iterator_tag)
+  {
     throw std::runtime_error("boost::numeric::ublas::detail::basic_extents_impl: invalid iterator type");
   }
 
@@ -102,7 +111,8 @@ template <ptrdiff_t R> struct basic_extents_impl<R, basic_shape<>> {
 
 template <ptrdiff_t R, ptrdiff_t... E>
 struct basic_extents_impl<R, basic_shape<dynamic_extent, E...>>
-    : basic_extents_impl<R + 1, basic_shape<E...>> {
+    : basic_extents_impl<R + 1, basic_shape<E...>>
+{
   using next = basic_extents_impl<R + 1, basic_shape<E...>>;
 
   // store rank
@@ -114,38 +124,50 @@ struct basic_extents_impl<R, basic_shape<dynamic_extent, E...>>
   // stores dynamic extent
   ptrdiff_t N{0};
 
-  /**
-   * @param k index of extent
-   * @returns extent at a given index
-   **/
-  constexpr auto at(int k) const noexcept { return k == R ? N : next::at(k); }
+  ptrdiff_t S{1};
 
   /**
    * @param k index of extent
    * @returns extent at a given index
    **/
-  constexpr auto operator[](int k) const noexcept { return at(k); }
+  TENSOR_AUTO_CONSTEXPR_RETURN at(int k) const noexcept { return k == R ? N : next::at(k); }
+
+  TENSOR_AUTO_CONSTEXPR_RETURN &step(int k) noexcept
+  {
+    return ( k == R ? S : next::step(k) );
+  }
+
+  TENSOR_AUTO_CONSTEXPR_RETURN &step(int k) const noexcept
+  {
+    return ( k == R ? S : next::step(k) );
+  }
+  /**
+   * @param k index of extent
+   * @returns extent at a given index
+   **/
+  TENSOR_AUTO_CONSTEXPR_RETURN operator[](int k) const noexcept { return at(k); }
 
   /**
    * @param k index of extent
    * @returns product of extents
    **/
-  constexpr auto product(int k) const noexcept {
+  TENSOR_AUTO_CONSTEXPR_RETURN product(int k) const noexcept
+  {
     return k == R ? N * next::product() : next::product(k);
   }
 
   /**
    * @returns product of extents
    **/
-  constexpr auto product() const noexcept { return N * next::product(); }
+  TENSOR_AUTO_CONSTEXPR_RETURN product() const noexcept { return N * next::product(); }
 
   /**
    * @returns Rank of the extents
    **/
-  constexpr auto size() const noexcept { return size_t(Rank); }
+  TENSOR_AUTO_CONSTEXPR_RETURN size() const noexcept { return size_t(Rank); }
 
   //@returns true if empty otherwise false
-  constexpr auto empty() const noexcept { return false; }
+  TENSOR_AUTO_CONSTEXPR_RETURN empty() const noexcept { return false; }
 
   // default constructor
   constexpr basic_extents_impl() noexcept : N(0), next() {}
@@ -165,11 +187,13 @@ struct basic_extents_impl<R, basic_shape<dynamic_extent, E...>>
   template <typename... IndexType>
   explicit constexpr basic_extents_impl(ptrdiff_t extent,
                                         IndexType... DynamicExtents)
-      : next(DynamicExtents...) {
-        N = extent;
+      : next(DynamicExtents...)
+  {
+    N = extent;
     static_assert(sizeof...(DynamicExtents) + 1 == DynamicRank,
                   "boost::numeric::ublas::detail::basic_extents_impl: number of extents doesnot match the dynamic rank");
-    if (extent <= 0) {
+    if (extent <= 0)
+    {
       throw std::runtime_error("boost::numeric::ublas::detail::basic_extents_impl: extent should be greater than 0");
     }
   }
@@ -195,15 +219,18 @@ struct basic_extents_impl<R, basic_shape<dynamic_extent, E...>>
   template <typename Iterator>
   constexpr basic_extents_impl(Iterator begin, Iterator end,
                                iterator_tag)
-      : next(std::next(begin), end, iterator_tag{}) {
-        N = *begin;
-    if (*begin <= 0) {
+      : next(std::next(begin), end, iterator_tag{})
+  {
+    N = *begin;
+    if (*begin <= 0)
+    {
       throw std::runtime_error("boost::numeric::ublas::detail::basic_extents_impl: extent should be greater than 0");
     }
   }
 
   template <typename Iterator>
-  basic_extents_impl(Iterator, Iterator, invalid_iterator_tag) {
+  basic_extents_impl(Iterator, Iterator, invalid_iterator_tag)
+  {
     throw std::runtime_error("boost::numeric::ublas::detail::basic_extents_impl: invalid iterator type");
   }
 
@@ -212,7 +239,8 @@ struct basic_extents_impl<R, basic_shape<dynamic_extent, E...>>
 
 template <ptrdiff_t R, ptrdiff_t SE, ptrdiff_t... E>
 struct basic_extents_impl<R, basic_shape<SE, E...>>
-    : basic_extents_impl<R + 1, basic_shape<E...>> {
+    : basic_extents_impl<R + 1, basic_shape<E...>>
+{
 
   using next = basic_extents_impl<R + 1, basic_shape<E...>>;
   // stores the rank
@@ -224,38 +252,50 @@ struct basic_extents_impl<R, basic_shape<SE, E...>>
   // stores the static extent
   static constexpr ptrdiff_t N = SE;
 
+  ptrdiff_t S{1};
   /**
    * @param k index of extent
    * @returns extent at given index
    **/
-  constexpr auto at(int k) const noexcept { return k == R ? N : next::at(k); }
+  TENSOR_AUTO_CONSTEXPR_RETURN at(int k) const noexcept { return k == R ? N : next::at(k); }
+
+  TENSOR_AUTO_CONSTEXPR_RETURN &step(int k) noexcept
+  {
+    return ( k == R ? S : next::step(k) );
+  }
+
+  TENSOR_AUTO_CONSTEXPR_RETURN &step(int k) const noexcept
+  {
+    return ( k == R ? S : next::step(k) );
+  }
 
   /**
    * @param k index of extent
    * @returns extent at a given index
    **/
-  constexpr auto operator[](int k) const noexcept { return at(k); }
+  TENSOR_AUTO_CONSTEXPR_RETURN operator[](int k) const noexcept { return at(k); }
 
   /**
    * @param k index of extent
    * @returns product of extents
    **/
-  constexpr auto product(int k) const noexcept {
+  TENSOR_AUTO_CONSTEXPR_RETURN product(int k) const noexcept
+  {
     return k == R ? N * next::product() : next::product(k);
   }
 
   /**
    * @returns product of extents
    **/
-  constexpr auto product() const noexcept { return N * next::product(); }
+  TENSOR_AUTO_CONSTEXPR_RETURN product() const noexcept { return N * next::product(); }
 
   /**
    * @returns Rank of the extents
    **/
-  constexpr auto size() const noexcept { return size_t(Rank); }
+  TENSOR_AUTO_CONSTEXPR_RETURN size() const noexcept { return size_t(Rank); }
 
   //@returns true if empty otherwise false
-  constexpr auto empty() const noexcept { return false; }
+  TENSOR_AUTO_CONSTEXPR_RETURN empty() const noexcept { return false; }
 
   // default constructor
   constexpr basic_extents_impl() noexcept : next() {}
@@ -274,7 +314,8 @@ struct basic_extents_impl<R, basic_shape<SE, E...>>
    **/
   template <typename... IndexType>
   explicit constexpr basic_extents_impl(IndexType... DynamicExtents)
-      : next(DynamicExtents...) {
+      : next(DynamicExtents...)
+  {
     static_assert(sizeof...(DynamicExtents) == DynamicRank,
                   "boost::numeric::ublas::detail::basic_extents_impl: number of extents doesnot match the dynamic rank");
   }
@@ -303,35 +344,40 @@ struct basic_extents_impl<R, basic_shape<SE, E...>>
       : next(begin, end, iterator_tag{}) {}
 
   template <typename Iterator>
-  basic_extents_impl(Iterator, Iterator, invalid_iterator_tag) {
+  basic_extents_impl(Iterator, Iterator, invalid_iterator_tag)
+  {
     throw std::runtime_error("boost::numeric::ublas::detail::basic_extents_impl: invalid iterator type");
   }
 
   ~basic_extents_impl() = default;
 };
 
-
-  /**
+/**
    * @tparam IndexType type of index
    * @tparam Args parameter pack of indices with different types
    * @param idx index of extent
    * @param args parameter pack of indices
    * @returns true if in bound or false if not
    **/
-  template <size_t depth, class E, class IndexType, class... Args>
-  constexpr bool in_bounds(E const& e, IndexType const &idx, Args... args){
-    if constexpr (sizeof...(args) == 0) {
-      return 0 <= idx && idx < e.at(depth);
-    } else {
-      return 0 <= idx && idx < e.at(depth) && in_bounds<depth + 1>(e,args...);
-    }
+template <size_t depth, class E, class IndexType, class... Args>
+constexpr bool in_bounds(E const &e, IndexType const &idx, Args... args)
+{
+  if constexpr (sizeof...(args) == 0)
+  {
+    return 0 <= idx && idx < e.at(depth);
   }
+  else
+  {
+    return 0 <= idx && idx < e.at(depth) && in_bounds<depth + 1>(e, args...);
+  }
+}
 
-  /**@returns true if nothing is passed*/
-  template <class E>
-  constexpr bool in_bounds(E const& e){
-    return true;
-  }
+/**@returns true if nothing is passed*/
+template <class E>
+constexpr bool in_bounds(E const &e)
+{
+  return true;
+}
 
 } // namespace boost::numeric::ublas::detail
 

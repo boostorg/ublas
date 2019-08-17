@@ -25,7 +25,8 @@
 #include <boost/numeric/ublas/tensor/extents.hpp>
 #include "fwd.hpp"
 
-namespace boost::numeric::ublas {
+namespace boost::numeric::ublas
+{
 
 using first_order = column_major;
 using last_order = row_major;
@@ -40,7 +41,8 @@ using last_order = row_major;
  */
 template <class T, ptrdiff_t R, ptrdiff_t... Extents>
 struct static_strides<basic_static_extents<T, R, Extents...>, first_order>
-    : basic_static_extents<T, R, Extents...> {
+    : basic_static_extents<T, R, Extents...>
+{
 
   using extents_type = basic_static_extents<T, R, Extents...>;
   using base_type = std::vector<T>;
@@ -56,30 +58,32 @@ struct static_strides<basic_static_extents<T, R, Extents...>, first_order>
    * @param k pos of extent
    * @returns the element at given pos
    */
-  constexpr auto at(int k) const {
-    if ((k < 0 || k >= rank()) && !rank()) {
+  TENSOR_AUTO_CONSTEXPR_RETURN at(int k) const
+  {
+    if ((k < 0 || k >= rank()) && !rank())
+    {
       throw std::out_of_range(
           "boost::numeric::ublas::static_strides: Out Of Bound");
     }
     return stride(k);
   }
 
-  constexpr auto operator[](int k) const { return at(k); }
+  TENSOR_AUTO_CONSTEXPR_RETURN operator[](int k) const { return at(k); }
 
-  constexpr auto extent(int k) const noexcept { return impl::at(k); }
-
-  //@returns the rank of basic_static_extents
-  constexpr auto rank() const noexcept { return impl::Rank; }
+  TENSOR_AUTO_CONSTEXPR_RETURN extent(int k) const noexcept { return impl::at(k); }
 
   //@returns the rank of basic_static_extents
-  constexpr auto size() const noexcept { return impl::Rank; }
+  TENSOR_AUTO_CONSTEXPR_RETURN rank() const noexcept { return impl::Rank; }
+
+  //@returns the rank of basic_static_extents
+  TENSOR_AUTO_CONSTEXPR_RETURN size() const noexcept { return impl::Rank; }
 
   /**
    * @param k pos of extent
    * @returns Returns the number of elements a tensor holds with this from k
    * position ownwards
    */
-  constexpr auto product(int k) const noexcept { return impl::product(k); }
+  TENSOR_AUTO_CONSTEXPR_RETURN product(int k) const noexcept { return impl::product(k); }
 
   // default constructor
   constexpr static_strides() noexcept = default;
@@ -123,7 +127,8 @@ struct static_strides<basic_static_extents<T, R, Extents...>, first_order>
                                 class detail::iterator_tag>::value>::type>
   constexpr static_strides(Iterator begin, Iterator end,
                            detail::iterator_tag) noexcept
-      : extents_type(begin, end, detail::iterator_tag{}) {
+      : extents_type(begin, end, detail::iterator_tag{})
+  {
   }
 
   private :
@@ -140,7 +145,8 @@ struct static_strides<basic_static_extents<T, R, Extents...>, first_order>
        */
       template <class E>
       static constexpr value_type
-      stride(E const &e, value_type k) noexcept {
+      stride(E const &e, value_type k) noexcept
+  {
     return k ? (e.N * stride((typename E::next const &)e, k - 1))
              : value_type{1};
   }
@@ -154,7 +160,9 @@ struct static_strides<basic_static_extents<T, R, Extents...>, first_order>
    *
    * @returns the offset when there is only no index left
    */
-  template <class E> static constexpr auto access(E const &) noexcept {
+  template <class E>
+  TENSOR_STATIC_AUTO_CONSTEXPR_RETURN access(E const &) noexcept
+  {
     return 0;
   }
 
@@ -174,8 +182,9 @@ struct static_strides<basic_static_extents<T, R, Extents...>, first_order>
    * @returns the offset or relative memory from given indices
    */
   template <class E, class... IndexType>
-  static constexpr auto access(E const &e, value_type i_el,
-                               IndexType const &... idxs) noexcept {
+  TENSOR_STATIC_AUTO_CONSTEXPR_RETURN access(E const &e, value_type i_el,
+                                             IndexType const &... idxs) noexcept
+  {
     return i_el +
            e.N * static_strides::access((typename E::next const &)e, idxs...);
   }
@@ -189,16 +198,17 @@ public:
    *
    * @returns the stride at position
    */
-  constexpr auto stride(int k) const {
+  TENSOR_AUTO_CONSTEXPR_RETURN stride(int k) const
+  {
     if (this->empty())
       return value_type{1};
 
-    if (!valid(static_cast<extents_type const&>(*this)))
+    if (!valid(static_cast<extents_type const &>(*this)))
       throw std::runtime_error(
           "Error in boost::numeric::ublas::static_strides() : shape is not "
           "valid.");
 
-    if (is_vector(static_cast<extents_type const&>(*this)) || is_scalar(static_cast<extents_type const&>(*this)))
+    if (is_vector(static_cast<extents_type const &>(*this)) || is_scalar(static_cast<extents_type const &>(*this)))
       return value_type{1};
 
     if (this->size() < 2)
@@ -206,7 +216,7 @@ public:
           "Error in boost::numeric::ublas::static_strides() : size of strides "
           "must be greater or equal 2.");
 
-    return stride((impl const &)*this, k);
+    return static_cast<value_type>( stride((impl const &)*this, k) * this->step(k));
   }
 
   // /** @returns 0 if no indices is passed */
@@ -226,9 +236,11 @@ public:
   // }
 
   /** @brief Returns the std::vector containing strides */
-  auto base() const {
+  auto base() const
+  {
     std::vector<value_type> temp(rank());
-    for (auto i = 0u; i < temp.size(); i++) {
+    for (auto i = 0u; i < temp.size(); i++)
+    {
       temp[i] = this->at(i);
     }
     return temp;
@@ -245,9 +257,11 @@ public:
  */
 template <class T, ptrdiff_t R, ptrdiff_t... Extents>
 struct static_strides<basic_static_extents<T, R, Extents...>, last_order>
-    : basic_static_extents<T, R, Extents...> {
+    : basic_static_extents<T, R, Extents...>
+{
 
-  using extents_type = basic_static_extents<T, R, Extents...>;
+  using parent_type = basic_static_extents<T, R, Extents...>;
+  using extents_type = parent_type;
   using base_type = std::vector<T>;
   using layout_type = last_order;
   using value_type = typename base_type::value_type;
@@ -261,23 +275,25 @@ struct static_strides<basic_static_extents<T, R, Extents...>, last_order>
    * @param k pos of extent
    * @returns the element at given pos
    */
-  constexpr auto at(int k) const {
-    if ((k < 0 || k >= rank()) && !rank()) {
+  TENSOR_AUTO_CONSTEXPR_RETURN at(int k) const
+  {
+    if ((k < 0 || k >= rank()) && !rank())
+    {
       throw std::out_of_range(
           "boost::numeric::ublas::static_strides: Out Of Bound");
     }
     return stride(k);
   }
 
-  constexpr auto operator[](int k) const { return at(k); }
+  TENSOR_AUTO_CONSTEXPR_RETURN operator[](int k) const { return at(k); }
 
   //@returns the rank of basic_static_extents
-  constexpr auto rank() const noexcept { return impl::Rank; }
+  TENSOR_AUTO_CONSTEXPR_RETURN rank() const noexcept { return impl::Rank; }
 
   //@returns the rank of basic_static_extents
-  constexpr auto size() const noexcept { return impl::Rank; }
+  TENSOR_AUTO_CONSTEXPR_RETURN size() const noexcept { return impl::Rank; }
 
-  constexpr auto extent(int k) const noexcept { return impl::at(k); }
+  TENSOR_AUTO_CONSTEXPR_RETURN extent(int k) const noexcept { return impl::at(k); }
 
   // default constructor
   constexpr static_strides() noexcept = default;
@@ -321,20 +337,22 @@ struct static_strides<basic_static_extents<T, R, Extents...>, last_order>
                                 class detail::iterator_tag>::value>::type>
   constexpr static_strides(Iterator begin, Iterator end,
                            detail::iterator_tag) noexcept
-      : extents_type(begin, end, detail::iterator_tag{}) {
+      : extents_type(begin, end, detail::iterator_tag{})
+  {
   }
 
-  constexpr auto
-  stride(int k) const {
+  TENSOR_AUTO_CONSTEXPR_RETURN
+  stride(int k) const
+  {
     if (this->empty())
       return value_type{1};
 
-    if (!valid(static_cast<extents_type const&>(*this)))
+    if (!valid(static_cast<extents_type const &>(*this)))
       throw std::runtime_error(
           "Error in boost::numeric::ublas::static_strides() : shape is not "
           "valid.");
 
-    if (is_vector(static_cast<extents_type const&>(*this)) || is_scalar(static_cast<extents_type const&>(*this)))
+    if (is_vector(static_cast<extents_type const &>(*this)) || is_scalar(static_cast<extents_type const &>(*this)))
       return value_type{1};
 
     if (this->size() < 2)
@@ -342,13 +360,15 @@ struct static_strides<basic_static_extents<T, R, Extents...>, last_order>
           "Error in boost::numeric::ublas::static_strides() : size of strides "
           "must be greater or equal 2.");
 
-    return static_cast<value_type>(impl::next::product(k + 1));
+    return static_cast<value_type>(impl::next::product(k + 1) * this->step(k));
   }
 
   /** @brief Returns the std::vector containing strides */
-  auto base() const {
+  auto base() const
+  {
     std::vector<value_type> temp(rank());
-    for (auto i = 0u; i < temp.size(); i++) {
+    for (auto i = 0u; i < temp.size(); i++)
+    {
       temp[i] = this->at(i);
     }
     return temp;
@@ -367,7 +387,8 @@ private:
    * @returns the offset when there is only one index left
    */
   template <class E>
-  static constexpr auto access(E const &, value_type sum) noexcept {
+  TENSOR_STATIC_AUTO_CONSTEXPR_RETURN access(E const &, value_type sum) noexcept
+  {
     return sum;
   }
 
@@ -389,8 +410,9 @@ private:
    * @returns the offset or relative memory from given indices
    */
   template <class E, class... IndexType>
-  static constexpr auto access(E const &e, value_type sum, value_type i_el,
-                               IndexType const &... idxs) noexcept {
+  TENSOR_STATIC_AUTO_CONSTEXPR_RETURN access(E const &e, value_type sum, value_type i_el,
+                                             IndexType const &... idxs) noexcept
+  {
     return static_strides::access((typename E::next const &)e, sum * e.N + i_el,
                                   idxs...);
   }
@@ -427,7 +449,8 @@ private:
  *
  */
 template <class Layout, class T, ptrdiff_t R, ptrdiff_t... Extents>
-struct stride_type<basic_static_extents<T, R, Extents...>, Layout> {
+struct stride_type<basic_static_extents<T, R, Extents...>, Layout>
+{
   using type = static_strides<basic_static_extents<T, R, Extents...>, Layout>;
 };
 
@@ -439,7 +462,9 @@ struct stride_type<basic_static_extents<T, R, Extents...>, Layout> {
  * @tparam T extents type
  *
  */
-template <class Layout, class T> struct stride_type<basic_extents<T>, Layout> {
+template <class Layout, class T>
+struct stride_type<basic_extents<T>, Layout>
+{
   using type = basic_strides<T, Layout>;
 };
 
@@ -451,23 +476,28 @@ template <class Layout, class T> struct stride_type<basic_extents<T>, Layout> {
  *
  */
 template <class E, class Layout>
-using stride_t = typename stride_type<E, Layout>::type;
+using strides_t = typename stride_type<E, Layout>::type;
 
-template<class E, class __layout>
-bool operator==(static_strides<E,__layout> const& lhs, static_strides<E,__layout> const& rhs){
-  if(lhs.size() != rhs.size()){
+template <class E, class __layout>
+bool operator==(static_strides<E, __layout> const &lhs, static_strides<E, __layout> const &rhs)
+{
+  if (lhs.size() != rhs.size())
+  {
     return false;
   }
-  for(auto i = 0u; i < lhs.size(); i++){
-    if(lhs.at(i) != rhs.at(i)){
+  for (auto i = 0u; i < lhs.size(); i++)
+  {
+    if (lhs.at(i) != rhs.at(i))
+    {
       return false;
     }
   }
   return true;
 }
 
-template<class E, class __layout>
-bool operator!=(static_strides<E,__layout> const& lhs, static_strides<E,__layout> const& rhs){
+template <class E, class __layout>
+bool operator!=(static_strides<E, __layout> const &lhs, static_strides<E, __layout> const &rhs)
+{
   return !(lhs == rhs);
 }
 
