@@ -55,7 +55,6 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 	using const_pointer = typename tensor_type::const_pointer;
 
 	using tensor_temporary_type = self_type;
-	// using storage_category = dense_tag;
 
 	using extents_type = typename detail::sub_extents<span_arr>::type;
 	using strides_type = typename detail::sub_strides<span_arr, F>::type;
@@ -128,7 +127,6 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 	TENSOR_CONSTEXPR_RETURN(reference)
 	at(size_type i, size_types... is)
 	{
-		auto start = span::detail::get<0>(spans_,spans_.size() - sizeof...(is) - 1);
 		if constexpr (sizeof...(is) == 0)
 			return this->data_[i];
 		else
@@ -138,6 +136,7 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 		}
 	}
 
+	/** @brief returns the size of subtensor */
 	TENSOR_CONSTEXPR_RETURN(size_type) size() const noexcept{
 		size_type s = 1;
 		for(auto i = 0ul; i < extents_.size(); i++){
@@ -146,6 +145,10 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 		return s;
 	}
 
+	/** @brief returns the extents of subtensor at given index 
+	 * @param i for index
+	 * @return extent of indexed subtensor 
+	*/
 	TENSOR_CONSTEXPR_RETURN(size_type) size(size_type i) const noexcept{
 		return this->extents_[i];
 	}

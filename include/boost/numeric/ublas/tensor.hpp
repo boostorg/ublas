@@ -22,5 +22,6 @@
 #include "tensor/strides.hpp"
 #include "tensor/ostream.hpp"
 #include "tensor/tensor.hpp"
+#include "tensor/subtensor.hpp"
 
 #endif // BOOST_NUMERIC_UBLAS_TENSOR_HPP
