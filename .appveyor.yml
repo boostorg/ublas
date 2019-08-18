@@ -23,10 +23,14 @@ environment:
       TOOLSET: msvc-14.0
       CXXSTD: 11
 
-cache:
-  - c:\tools\vcpkg\installed\
+# cache:
+  # - c:\tools\vcpkg\installed\
 
 install:
+  - cd "C:\Tools\vcpkg"
+  - git pull
+  - .\bootstrap-vcpkg.bat
+  - cd %appveyor_build_folder%
   # Install OpenCL runtime (driver) for Intel / Xeon package
   - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi"
   - start /wait msiexec /i opencl_runtime_16.1.1_x64_setup.msi /qn  /l*v msiexec2.log
