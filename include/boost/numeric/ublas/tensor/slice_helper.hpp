@@ -15,12 +15,16 @@
 #include <iostream>
 #include <vector>
 #include "fwd.hpp"
+#include "slice.hpp"
 
 namespace boost::numeric::ublas::span::detail
 {
 
+template<ptrdiff_t x>
+inline static constexpr auto static_abs = x < 0 ? -x : x;
+
 inline static constexpr auto end = std::numeric_limits<ptrdiff_t>::max();
-template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_, ptrdiff_t sz = ((l_ - f_) / s_ + 1l)>
+template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_, ptrdiff_t sz = ( ( (l_ - f_) / static_abs<s_> ) + 1l)>
 struct normalized_slice
 {
     using type = slice_helper<T, f_, l_, s_, sz>;
@@ -29,7 +33,7 @@ struct normalized_slice
 template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_>
 struct normalized_slice_helper
 {
-    constexpr decltype(auto) operator()() const noexcept
+    constexpr decltype(auto) operator()() const
     {
         if constexpr (f_ == l_)
         {
@@ -38,14 +42,24 @@ struct normalized_slice_helper
         else
         {
             static_assert(s_ != 0, "Error in basic_static_span::basic_static_span : cannot have a s_ equal to zero.");
-            static_assert(f_ < l_, "Error in basic_static_span::basic_static_span: l_ is smaller than f_");
-            if constexpr (l_ == detail::end)
-            {
-                return normalized_slice<T, f_, l_, s_, detail::end>{};
-            }
-            else
-            {
-                return normalized_slice<T, f_, (l_ - (l_ - f_) % s_), s_>{};
+            static_assert( s_ > 0, "Error in basic_static_span::basic_static_span : cannot have a s_ less than 0");
+            if constexpr ( f_ >= 0 && l_ >= 0 ){
+                
+                if constexpr( f_ > l_ && s_ > 0 ){
+                    throw std::out_of_range("Error in basic_static_span::basic_static_span: l_ is smaller than f_");
+                }
+
+                if constexpr (l_ == detail::end)
+                {
+                    return normalized_slice<T, f_, l_, s_, detail::end>{};
+                }
+                else
+                {
+                    return normalized_slice<T, f_, (l_ - (l_ - f_) % static_abs<s_> ), s_>{};
+                }
+
+            }else{
+                return normalized_slice<T, f_, l_, s_, 1l>{};
             }
         }
     }
@@ -181,6 +195,51 @@ TENSOR_AUTO_CONSTEXPR_RETURN get( std::vector< basic_slice<T> > const& v, size_t
     else val = s.step();
     return val;
 }
+
+template<typename... Ts>
+struct slice_common_type;
+
+template<typename T, typename... Ts>
+struct slice_common_type<T, Ts...>{
+    using type = ptrdiff_t;
+};
+
+template<typename U, ptrdiff_t... Args, typename... Ts>
+struct slice_common_type<basic_slice<U,Args...>, Ts...>{
+    using type = std::common_type_t<U, typename slice_common_type<Ts...>::type>;
+};
+
+template<>
+struct slice_common_type<>{
+    using type = typename slice_common_type<int>::type;
+};
+
+template<typename T>
+TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value(T ext, T val) {
+    if ( val < 0 ){
+        auto const ret = ext + val;
+        if ( ret < 0 ){
+            throw std::out_of_range("boost::numeric::ublas::span::detail::normalize_val : invalid slice ");
+        }
+        return ret;
+    }else{
+        return val;
+    }
+} 
+
+
+template<ptrdiff_t ext, ptrdiff_t val>
+TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value() {
+    if constexpr ( val < 0 ){
+        constexpr auto const ret = ext + val;
+        if constexpr ( ret < 0 ){
+            throw std::out_of_range("boost::numeric::ublas::span::detail::normalize_val : invalid slice ");
+        }
+        return ret;
+    }else{
+        return val;
+    }
+} 
 
 } // namespace boost::numeric::ublas::span::detail
 

@@ -241,9 +241,6 @@ struct is_dynamic_basic_shape< basic_shape<> > : std::integral_constant<bool,tru
 template<class S>
 inline constexpr bool is_dynamic_basic_shape_v = is_dynamic_basic_shape<S>::value;
 
-// type alias of make_basic_shape_t<dynamic_rank>
-using dynamic_basic_shape = make_basic_shape_t<dynamic_rank>;
-
 } // namespace boost::numeric::ublas::detail
 
 #endif

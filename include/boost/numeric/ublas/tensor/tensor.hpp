@@ -28,6 +28,7 @@
 #include "strides.hpp"
 #include "index.hpp"
 #include "meta_functions.hpp"
+#include "subtensor.hpp"
 
 namespace boost { namespace numeric { namespace ublas {
 
@@ -755,9 +756,26 @@ public:
 			this->data_.resize (product(extents_), v);
 	}
 
+	template<typename U, ptrdiff_t... Args, typename... Ts>
+	TENSOR_AUTO_RETURN operator()(span::basic_slice<U, Args...> const& s, Ts&&... ss){
+		auto* self = const_cast<self_type*>(this);
+		if constexpr( detail::is_static<extents_type>::value && span::detail::is_static_possible< span::basic_slice<U, Args...> , Ts...>::value ){
+			return subtensor<self_type, span::basic_slice<U, Args...>, Ts...>{*self};
+		}else{			
+			return subtensor<self_type>{*self , s, std::forward<Ts>(ss)...};
+		}
+	}
 
 
-
+	template<typename U, ptrdiff_t... Args, typename... Ts>
+	TENSOR_AUTO_RETURN operator()(span::basic_slice<U, Args...> const& s, Ts&&... ss) const{
+		auto* self = const_cast<self_type*>(this);
+		if constexpr( detail::is_static<extents_type>::value && span::detail::is_static_possible< span::basic_slice<U, Args...> , Ts...>::value ){
+			return subtensor<self_type, span::basic_slice<U, Args...>, Ts...>{*self};
+		}else{			
+			return subtensor<self_type>{*self , s, std::forward<Ts>(ss)...};
+		}
+	}
 
 	friend void swap(tensor& lhs, tensor& rhs) {
 		std::swap(lhs.data_   , rhs.data_   );

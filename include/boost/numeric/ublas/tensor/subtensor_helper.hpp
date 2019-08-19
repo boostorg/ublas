@@ -33,18 +33,20 @@ auto span_strides(strides_type const &strides, span_array const &spans)
     using base_type = typename strides_type::base_type;
     auto span_strides = base_type(spans.size());
     auto new_stride = strides;
+    using extents_type = typename strides_type::extents_type;
+
     for_each_list(spans, [&](auto const &I, auto const &s) {
-        if constexpr (!is_list<span_array>::value)
+        if constexpr (!is_static_extents<extents_type>::value)
         {
-            span_strides[I] = strides[I] * s.step();
+            span_strides[I] = strides[I] * abs( s.step() );
         }
         else
         {
-            new_stride.step(I) = s.step();
+            new_stride.step(I) = abs( s.step() ) ;
         }
     });
-
-    if constexpr (!is_list<span_array>::value)
+    
+    if constexpr ( !is_static_extents<extents_type>::value )
     {
         using value_type = typename strides_type::value_type;
         using layout_type = typename strides_type::layout_type;
@@ -78,12 +80,12 @@ auto transform_span(sp::basic_slice<size_type> const &s, size_type const extent)
 {
     using slice_type = sp::basic_slice<size_type>;
     auto const extent0 = extent - 1;
-    size_type first = s.first();
-    size_type last = s.last();
-    size_type size = s.size();
+    size_type first = sp::detail::noramlize_value( extent, s.first() );
+    size_type last = sp::detail::noramlize_value( extent, s.last() );
     size_type step = s.step();
-    if (size == 0)
-        return slice_type(0, extent0);
+    
+    if (s.empty())
+        return slice_type(0, extent0, step);
     else if (first == detail::end)
         return slice_type(extent0, extent0, step);
     else if (last >= extent)
@@ -95,17 +97,24 @@ auto transform_span(sp::basic_slice<size_type> const &s, size_type const extent)
 template <size_t extent, typename size_type, ptrdiff_t... Args>
 auto transform_span(sp::basic_slice<size_type, Args...> const &s)
 {
-    using slice_type = sp::basic_slice<size_type, Args...>;
+    using slice_type = sp::basic_slice<size_type,Args...>;
     auto constexpr extent0 = extent - 1;
-
+    
     if constexpr (std::is_same_v<slice_type, sp::basic_slice<size_type>>)
-        return sp::slice<0, extent0,1>{};
-    else if constexpr (slice_type::first() == detail::end)
-        return sp::slice<extent0, extent0, slice_type::step()>{};
-    else if constexpr (slice_type::last() >= extent)
-        return sp::slice<slice_type::first(), extent0, slice_type::step()>{};
-    else
-        return sp::slice<slice_type::first(), slice_type::last(), slice_type::step()>{};
+        return sp::basic_slice<size_type, 0, extent0, 1>{};
+    else{
+        auto constexpr first = sp::detail::noramlize_value<extent, slice_type::first()>();
+        auto constexpr last = sp::detail::noramlize_value<extent, slice_type::last()>();
+        auto constexpr step = slice_type::step_;
+
+        if constexpr (first == detail::end)
+            return sp::basic_slice<size_type, extent0, extent0, step>{};
+        else if constexpr (last >= extent0)
+            return sp::basic_slice<size_type, first, extent0, step>{};
+        else
+            return sp::basic_slice<size_type, first, last, step>{};
+    }
+    
 }
 
 struct transform_spans_impl
@@ -125,18 +134,20 @@ struct transform_spans_impl
         }
         else
         {
+            using slice_type = typename span_array::value_type;
+            using value_type = typename slice_type::value_type;
             if constexpr (is_slice<span_type>::value)
             {
-                spans_arr.at(r) = transform_span(s, extents.at(r));
+                spans_arr.at(r) = transform_span(span::basic_slice<value_type>{s.first(),s.last(),s.step()}, static_cast<value_type>( extents.at(r) ));
             }
             else
             {
-                using value_type = typename extents_type::value_type;
-                spans_arr.at(r) = transform_span(sp::basic_slice<value_type>{static_cast<value_type>(s)}, extents.at(r));
+                spans_arr.at(r) = transform_span(slice_type{static_cast<value_type>(s)}, extents.at(r));
             }
             if constexpr (sizeof...(spans) > 0)
                 this->operator()<r + 1>(extents, spans_arr, std::forward<span_types>(spans)...);
         }
+        
     }
 
 private:
@@ -163,18 +174,19 @@ auto generate_span_array(extents_type const &s, span_types &&... spans)
     if (s.size() != n)
         throw std::runtime_error("Error in boost::numeric::ublas::generate_span_vector() when creating subtensor: the number of spans does not match with the tensor rank.");
     transform_spans_impl tr;
-    using value_type = typename extents_type::value_type;
+    
     if constexpr (boost::numeric::ublas::detail::is_static<extents_type>::value && is_slice<span_types...>::value)
     {
         auto l = list{};
         if constexpr (n > 0)
-            return tr.template operator()<n - n>(s, l, std::forward<span_types>(spans)...);
+            return tr.template operator()<0>(s, l, std::forward<span_types>(spans)...);
     }
     else
     {
+        using value_type = typename slice_common_type<span_types...>::type;
         std::vector<sp::basic_slice<value_type>> span_vector(n);
         if constexpr (n > 0)
-            tr.template operator()<n - n>(s, span_vector, std::forward<span_types>(spans)...);
+            tr.template operator()<0>(s, span_vector, std::forward<span_types>(spans)...);
         return span_vector;
     }
 }
@@ -211,7 +223,7 @@ auto extents(span_array const &spans)
     else
     {
         using base_type = typename dynamic_extents<>::base_type;
-        using span_type = sp::slice<>;
+        using span_type = typename span_array::value_type;
         if (spans.empty())
             return dynamic_extents<>{};
         auto extents = base_type(spans.size());
@@ -256,6 +268,12 @@ template <typename T, typename L>
 struct sub_strides
 {
     using type = strides_t<typename sub_extents<T>::type, L>;
+};
+
+template<typename T, typename E, typename L>
+struct sub_span_stride{
+    using type = std::conditional_t<boost::numeric::ublas::span::detail::is_list<T>::value, decltype(span_strides(strides_t<E,L>{},T{})), strides_t<E,L>>;
+
 };
 } // namespace boost::numeric::ublas::detail
 

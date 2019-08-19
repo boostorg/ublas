@@ -14,7 +14,7 @@
 
 #include "subtensor_helper.hpp"
 #include "fwd.hpp"
-#include "tensor.hpp"
+
 namespace boost::numeric::ublas
 {
 
@@ -58,7 +58,7 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 
 	using extents_type = typename detail::sub_extents<span_arr>::type;
 	using strides_type = typename detail::sub_strides<span_arr, F>::type;
-	using span_strides_type = strides_t<E, F>;
+	using span_strides_type = typename detail::sub_span_stride<span_arr,E,layout_type>::type;
 
 	using matrix_type = matrix<value_type, layout_type, array_type>;
 	using vector_type = vector<value_type, array_type>;
@@ -69,10 +69,16 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 		: super_type(), spans_(), data_(t.data())
 	{
 		if constexpr (detail::is_dynamic<extents_type>::value)
-		{
-			extents_ = extents_type(t.extents());
-			strides_ = strides_type(t.strides());
-			span_strides_ = strides_type(t.strides());
+		{	
+			using ex_type = std::decay_t< decltype(t.extents()) >;
+			if constexpr (detail::is_static<ex_type>::value){
+				extents_ = extents_type(t.extents().to_dynamic_extents());
+				strides_ = strides_type(extents_);
+			}else{
+				extents_ = extents_type(t.extents());
+				strides_ = strides_type(t.strides());
+			}
+			span_strides_ = span_strides_type(t.strides());
 		}
 		else
 		{
@@ -81,8 +87,8 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 		}
 	}
 
-	template <typename U, typename... span_types>
-	subtensor(tensor_type &t, U const &span, span_types &&... spans)
+	template <typename U, ptrdiff_t... Args, typename... span_types>
+	subtensor(tensor_type &t, span::basic_slice<U,Args...> const &span, span_types &&... spans)
 		:   super_type()
 		  , spans_(detail::generate_span_array(t.extents(), span, std::forward<span_types>(spans)...))
 		  , extents_(detail::extents(spans_))

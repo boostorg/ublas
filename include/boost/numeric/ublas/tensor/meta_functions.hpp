@@ -299,19 +299,46 @@ struct is_dynamic_slice : std::false_type
 {
 };
 
-template <typename T>
-struct is_static_slice : std::false_type
-{
-};
+
+
+template<typename T>
+struct is_static_slice_impl : std::false_type{};
+
+template<typename T, ptrdiff_t f, ptrdiff_t... Args>
+struct is_static_slice_impl< basic_slice<T, f, Args...> > : std::true_type{};
+
+template<typename T>
+struct is_static_slice_impl< basic_slice<T> > : std::false_type{};
 
 template <typename T>
 struct is_dynamic_slice<basic_slice<T>> : std::true_type
 {
 };
+template<typename... Ts>
+struct is_static_slice;
 
-template <typename T, ptrdiff_t V, ptrdiff_t... Vs>
-struct is_static_slice<basic_slice<T, V, Vs...>> : std::true_type
-{
+template<typename T, typename... Ts>
+struct is_static_slice<T,Ts...>{
+    static constexpr auto value = is_static_slice_impl<T>::value && is_static_slice<Ts...>::value;
+};
+
+template<typename...Ts>
+struct is_static_possible;
+
+template<typename T, typename... Ts>
+struct is_static_possible<T,Ts...>{
+  static constexpr auto value = ( is_static_slice<T>::value ) || is_static_possible<Ts...>::value;
+};
+
+
+template<>
+struct is_static_possible<>{
+  static constexpr auto value = false;
+};
+
+template<>
+struct is_static_slice<>{
+    static constexpr auto value = true;
 };
 
 template <typename... Ts>
