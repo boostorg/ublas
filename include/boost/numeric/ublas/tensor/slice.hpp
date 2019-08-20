@@ -94,7 +94,7 @@ struct basic_slice<T>
     using size_type = size_t;
 
     constexpr explicit basic_slice()
-        : first_{}, last_{}, step_{1}, size_{-1}
+        : first_{}, last_{}, step_{0}, size_{-1}
     {
     }
 
@@ -131,12 +131,14 @@ struct basic_slice<T>
     {
     }
 
-    basic_slice(basic_slice const &other)
+    template<typename U>
+    basic_slice(basic_slice<U> const &other)
         : first_(other.first_), last_(other.last_), step_(other.step_), size_(other.size_)
     {
     }
-
-    basic_slice &operator=(basic_slice const &other)
+    
+    template<typename U>
+    basic_slice &operator=(basic_slice<U> const &other)
     {
         first_ = other.first_;
         last_ = other.last_;

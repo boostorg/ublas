@@ -85,7 +85,7 @@ auto transform_span(sp::basic_slice<size_type> const &s, size_type const extent)
     size_type step = s.step();
     
     if (s.empty())
-        return slice_type(0, extent0, step);
+        return slice_type(0, extent0, 1);
     else if (first == detail::end)
         return slice_type(extent0, extent0, step);
     else if (last >= extent)
@@ -138,7 +138,7 @@ struct transform_spans_impl
             using value_type = typename slice_type::value_type;
             if constexpr (is_slice<span_type>::value)
             {
-                spans_arr.at(r) = transform_span(span::basic_slice<value_type>{s.first(),s.last(),s.step()}, static_cast<value_type>( extents.at(r) ));
+                spans_arr.at(r) = transform_span(s, static_cast<value_type>( extents.at(r) ));
             }
             else
             {
