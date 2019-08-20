@@ -20,20 +20,32 @@
 namespace boost::numeric::ublas::span::detail
 {
 
-template<ptrdiff_t x>
+/** @brief static absolute value */
+template <ptrdiff_t x>
 inline static constexpr auto static_abs = x < 0 ? -x : x;
 
+/** @brief sets the slice to end of extent or index */
 inline static constexpr auto end = std::numeric_limits<ptrdiff_t>::max();
-template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_, ptrdiff_t sz = ( ( (l_ - f_) / static_abs<s_> ) + 1l)>
+
+/** @brief helper struct for storing normalized static slice */
+template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_, ptrdiff_t sz = (((l_ - f_) / static_abs<s_>)+1l)>
 struct normalized_slice
 {
     using type = slice_helper<T, f_, l_, s_, sz>;
 };
 
+/** @brief helps to normalize static slice
+ * 
+ * @tparam T slice type
+ * @tparam f_ starting index of slice
+ * @tparam l_ ending index of slice
+ * @tparam s_ steps for slice
+ * 
+ */
 template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_>
 struct normalized_slice_helper
 {
-    constexpr decltype(auto) operator()() const
+    TENSOR_AUTO_CONSTEXPR_RETURN operator()() const
     {
         if constexpr (f_ == l_)
         {
@@ -42,10 +54,12 @@ struct normalized_slice_helper
         else
         {
             static_assert(s_ != 0, "Error in basic_static_span::basic_static_span : cannot have a s_ equal to zero.");
-            static_assert( s_ > 0, "Error in basic_static_span::basic_static_span : cannot have a s_ less than 0");
-            if constexpr ( f_ >= 0 && l_ >= 0 ){
-                
-                if constexpr( f_ > l_ && s_ > 0 ){
+            static_assert(s_ > 0, "Error in basic_static_span::basic_static_span : cannot have a s_ less than 0");
+            if constexpr (f_ >= 0 && l_ >= 0)
+            {
+
+                if constexpr (f_ > l_ && s_ > 0)
+                {
                     throw std::out_of_range("Error in basic_static_span::basic_static_span: l_ is smaller than f_");
                 }
 
@@ -55,29 +69,41 @@ struct normalized_slice_helper
                 }
                 else
                 {
-                    return normalized_slice<T, f_, (l_ - (l_ - f_) % static_abs<s_> ), s_>{};
+                    return normalized_slice<T, f_, (l_ - (l_ - f_) % static_abs<s_>), s_>{};
                 }
-
-            }else{
+            }
+            else
+            {
                 return normalized_slice<T, f_, l_, s_, 1l>{};
             }
         }
     }
 };
 
+/** @brief type alias for normalized slice*/
 template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_>
 using slice_helper_t = typename decltype(normalized_slice_helper<T, f_, l_, s_>{}())::type;
 
-
+/** @brief type list for storing types such as static slices as it cannot be stored in std::vector
+ * 
+ * @tparam Ts parameter pack containing different types
+ * 
+*/
 template <typename... Ts>
 struct list
 {
+    /** @brief returns the size of parameter pack */
     TENSOR_AUTO_CONSTEXPR_RETURN size() const noexcept
     {
         return sizeof...(Ts);
     }
 };
 
+/** @brief type trait for checking of type is a type list or not
+ * 
+ * @tparam T any type
+ * 
+*/
 template <typename T>
 struct is_list : std::false_type
 {
@@ -88,21 +114,32 @@ struct is_list<list<Ts...>> : std::true_type
 {
 };
 
+/** @brief pushes the type to the front of type list */
 template <typename T, typename... Ts>
-TENSOR_AUTO_CONSTEXPR_RETURN push_front(list<Ts...> , T ) -> list<T, Ts...>;
+TENSOR_AUTO_CONSTEXPR_RETURN push_front(list<Ts...>, T)->list<T, Ts...>;
 
+/** @brief pops the type from the front of type list */
 template <typename T, typename... Ts>
-TENSOR_AUTO_CONSTEXPR_RETURN push_back(list<Ts...>, T)->list<Ts..., T>;
+TENSOR_AUTO_CONSTEXPR_RETURN pop_front(list<T, Ts...>)->list<Ts...>;
 
-template <typename T, typename... Ts>
-TENSOR_AUTO_CONSTEXPR_RETURN pop_front(list<T, Ts...> ) -> list<Ts...>;
-
+/** @brief pops and pushes from the type list 
+ * 
+ * @return std::pair poped type and new type list
+ * 
+*/
 template <typename T, typename... Ts>
 TENSOR_AUTO_RETURN pop_and_get_front(list<T, Ts...>)
 {
     return std::make_pair(T{}, list<Ts...>{});
 }
 
+/** @brief helper function for returns the type at given position from type list
+ * 
+ * @tparam I counter as you go deeper in recursive function
+ * @param of type type list 
+ * @return any type at index I
+ * 
+ */
 template <size_t I, typename T, typename... Ts>
 auto get_helper(list<T, Ts...>)
 {
@@ -116,16 +153,34 @@ auto get_helper(list<T, Ts...>)
     }
 }
 
+/** @brief returns the type at given position from type list
+ * 
+ * @tparam I counter as you go deeper in recursive function
+ * @param l of type type list 
+ * @return any type at index I
+ * 
+ */
 template <size_t I, typename... Ts>
 TENSOR_AUTO_CONSTEXPR_RETURN get(list<Ts...> const &l)
 {
-    if constexpr ( sizeof...(Ts) <= I ){
+    if constexpr (sizeof...(Ts) <= I)
+    {
         throw std::out_of_range("boost::numeric::ublas::span::detail::get() : out of bound");
-    }else{
+    }
+    else
+    {
         return get_helper<I>(l);
     }
 }
 
+/** @brief helper strut or proxy class for iterating over type list or std::vector
+ * 
+ * @tparam I counter as you go deeper in recursive function
+ * @tparam CallBack 
+ * @tparam T type contained in type list
+ * @tparam Ts remaing types in type list
+ * 
+ */
 template <size_t I, class CallBack, class T, class... Ts>
 struct for_each_list_impl
 {
@@ -142,7 +197,7 @@ struct for_each_list_impl
         }
     }
 
-    template<typename U>
+    template <typename U>
     constexpr decltype(auto) operator()(std::vector<basic_slice<U>> const &l, CallBack call_back)
     {
         for (auto i = 0u; i < l.size(); i++)
@@ -152,6 +207,19 @@ struct for_each_list_impl
     }
 };
 
+/** @brief helps to iterate over type list
+ * 
+ * @code 
+ * auto l = list<...>{};
+ * for_each(l,[](auto const& I, auto const& t){...});
+ * @endcode
+ * 
+ * @tparam CallBack 
+ * @tparam Ts parameter pack of types in type list
+ * @param l of type type list
+ * @param call_back of type generic lambda which has function signature func(size_t,auto)
+ * 
+ */
 template <class CallBack, class... Ts>
 auto for_each_list(list<Ts...> const &l, CallBack call_back)
 {
@@ -159,6 +227,19 @@ auto for_each_list(list<Ts...> const &l, CallBack call_back)
     f(l, call_back);
 }
 
+/** @brief helps to iterate over std::vector
+ * 
+ * @code 
+ * auto l = std::vector<...>{...};
+ * for_each(l,[](auto const& I, auto const& t){...});
+ * @endcode
+ * 
+ * @tparam CallBack 
+ * @tparam T type of basic_slice
+ * @param l of type std::vector<basic_slice<T>>
+ * @param call_back of type generic lambda which has function signature func(size_t,auto)
+ * 
+ */
 template <class CallBack, typename T>
 auto for_each_list(std::vector<basic_slice<T>> const &l, CallBack call_back)
 {
@@ -166,80 +247,91 @@ auto for_each_list(std::vector<basic_slice<T>> const &l, CallBack call_back)
     f(l, call_back);
 }
 
-template<size_t I, typename... Ts>
-TENSOR_AUTO_CONSTEXPR_RETURN get( list<Ts...> l, size_t i ){
-    static_assert( I < 3, "boost::numeric::ublas::span::detail::get : invalid index");
-    if ( sizeof...(Ts) <= i) throw std::out_of_range("boost::numeric::ublas::span::detail::get : out of bound");
-    
-    size_t val = end;
-    for_each_list( l, [&]( auto const& j, auto const& s ){
-        if ( i == j ){
-            if constexpr ( I == 0 ) val = s.first();
-            else if constexpr ( I == 1 ) val = s.last();
-            else val = s.step();
-        }
-    });
-    return val;
-}
+// template<size_t I, typename... Ts>
+// TENSOR_AUTO_CONSTEXPR_RETURN get( list<Ts...> l, size_t i ){
+//     static_assert( I < 3, "boost::numeric::ublas::span::detail::get : invalid index");
+//     if ( sizeof...(Ts) <= i) throw std::out_of_range("boost::numeric::ublas::span::detail::get : out of bound");
 
+//     size_t val = end;
+//     for_each_list( l, [&]( auto const& j, auto const& s ){
+//         if ( i == j ){
+//             if constexpr ( I == 0 ) val = s.first();
+//             else if constexpr ( I == 1 ) val = s.last();
+//             else val = s.step();
+//         }
+//     });
+//     return val;
+// }
 
-template<size_t I, typename T>
-TENSOR_AUTO_CONSTEXPR_RETURN get( std::vector< basic_slice<T> > const& v, size_t i ){
-    static_assert( I < 3, "boost::numeric::ublas::span::detail::get : invalid index");
-    if ( v.size() <= i) throw std::out_of_range("boost::numeric::ublas::span::detail::get : out of bound");
-    
-    size_t val = end;
-    auto s = v[i];
-    if constexpr ( I == 0 ) val = s.first();
-    else if constexpr ( I == 1 ) val = s.last();
-    else val = s.step();
-    return val;
-}
+// template<size_t I, typename T>
+// TENSOR_AUTO_CONSTEXPR_RETURN get( std::vector< basic_slice<T> > const& v, size_t i ){
+//     static_assert( I < 3, "boost::numeric::ublas::span::detail::get : invalid index");
+//     if ( v.size() <= i) throw std::out_of_range("boost::numeric::ublas::span::detail::get : out of bound");
 
-template<typename... Ts>
-struct slice_common_type;
+//     size_t val = end;
+//     auto s = v[i];
+//     if constexpr ( I == 0 ) val = s.first();
+//     else if constexpr ( I == 1 ) val = s.last();
+//     else val = s.step();
+//     return val;
+// }
 
-template<typename T, typename... Ts>
-struct slice_common_type<T, Ts...>{
+/** brief type trait contains the common type of basic_slice from the type list */
+template <typename T, typename... Ts>
+struct slice_common_type<T, Ts...>
+{
     using type = ptrdiff_t;
 };
 
-template<typename U, ptrdiff_t... Args, typename... Ts>
-struct slice_common_type<basic_slice<U,Args...>, Ts...>{
+template <typename U, ptrdiff_t... Args, typename... Ts>
+struct slice_common_type<basic_slice<U, Args...>, Ts...>
+{
     using type = std::common_type_t<U, typename slice_common_type<Ts...>::type>;
 };
 
-template<>
-struct slice_common_type<>{
+template <>
+struct slice_common_type<>
+{
     using type = typename slice_common_type<int>::type;
 };
 
-template<typename T>
-TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value(T ext, T val) {
-    if ( val < 0 ){
+/** @brief normalize the dynamic val within bounds of extents*/
+template <typename T>
+TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value(T ext, T val)
+{
+    if (val < 0)
+    {
         auto const ret = ext + val;
-        if ( ret < 0 ){
+        if (ret < 0)
+        {
             throw std::out_of_range("boost::numeric::ublas::span::detail::normalize_val : invalid slice ");
         }
         return ret;
-    }else{
+    }
+    else
+    {
         return val;
     }
-} 
+}
 
-
-template<ptrdiff_t ext, ptrdiff_t val>
-TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value() {
-    if constexpr ( val < 0 ){
+/** @brief normalize the static val within bounds of extents*/
+template <ptrdiff_t ext, ptrdiff_t val>
+TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value()
+{
+    if constexpr (val < 0)
+    {
         constexpr auto const ret = ext + val;
-        if constexpr ( ret < 0 ){
+        if constexpr (ret < 0)
+        {
             throw std::out_of_range("boost::numeric::ublas::span::detail::normalize_val : invalid slice ");
         }
         return ret;
-    }else{
+    }
+    else
+    {
         return val;
     }
-} 
+}
 
 } // namespace boost::numeric::ublas::span::detail
 

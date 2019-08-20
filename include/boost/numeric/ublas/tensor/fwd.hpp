@@ -104,19 +104,6 @@ struct has_index;
 template <class tupe_type>
 struct valid_multi_index;
 
-namespace span
-{
-template <typename T, ptrdiff_t...>
-struct slice_helper;
-
-template <typename T, ptrdiff_t...>
-struct slice_helper;
-
-template <typename T, ptrdiff_t...>
-struct basic_slice;
-
-} // namespace span
-
 template <typename T, typename... S>
 struct subtensor;
 
@@ -261,6 +248,18 @@ struct valid_multi_index_impl;
 template <bool, typename E, typename... S>
 struct default_span_array_impl;
 
+template <typename E, typename... S>
+struct default_span_arary;
+
+template <typename T>
+struct sub_extents;
+
+template <typename T, typename L>
+struct sub_strides;
+
+template <typename T, typename E, typename L>
+struct sub_span_stride;
+
 } // namespace boost::numeric::ublas::detail
 
 namespace boost::numeric::ublas::storage
@@ -305,5 +304,35 @@ namespace boost::numeric::ublas::index
 template <std::size_t I>
 struct index_type;
 }
+
+namespace boost::numeric::ublas::span
+{
+namespace detail
+{
+
+template <typename... Ts>
+struct list;
+
+template <typename... Ts>
+struct slice_common_type;
+
+template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_, ptrdiff_t sz>
+struct normalized_slice;
+
+template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_>
+struct normalized_slice_helper;
+
+} // namespace detail
+
+template <typename T, ptrdiff_t...>
+struct slice_helper;
+
+template <typename T, ptrdiff_t...>
+struct slice_helper;
+
+template <typename T, ptrdiff_t...>
+struct basic_slice;
+
+} // namespace boost::numeric::ublas::span
 
 #endif

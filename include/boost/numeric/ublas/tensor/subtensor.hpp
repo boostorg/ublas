@@ -18,6 +18,7 @@
 namespace boost::numeric::ublas
 {
 
+/** @brief contains a view to the tensor */
 template <typename T, typename E, typename F, typename A, typename... S>
 struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 												 subtensor<tensor<T, E, F, A>, S...>,
@@ -65,6 +66,11 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 
 	subtensor() = delete;
 
+	/** @brief Constructor for constructing subtensor using tensor 
+	 * 
+	 * @param t of type tensor
+	 * 
+	*/
 	subtensor(tensor_type &t)
 		: super_type(), spans_(), data_(t.data())
 	{
@@ -87,6 +93,13 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 		}
 	}
 
+	/** @brief Constructor for constructing subtensor using tensor and slice for dynamic slices 
+	 * 
+	 * @param t of type tensor
+	 * @param span of basis_slice
+	 * @param spans parameter pack of basic_slice
+	 * 
+	*/
 	template <typename U, ptrdiff_t... Args, typename... span_types>
 	subtensor(tensor_type &t, span::basic_slice<U,Args...> const &span, span_types &&... spans)
 		:   super_type()
@@ -98,27 +111,31 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 	{
 		static_assert( !span::detail::is_list<span_arr>::value, "boost::numeric::ublas::subtensor : cannot slice a static sliced subtensor " );
 	}
-
+	/** @brief returns the slices */
 	TENSOR_AUTO_CONSTEXPR_RETURN const &spans() const noexcept
 	{
 		return spans_;
 	}
 
+	/** @brief returns the extents */
 	TENSOR_AUTO_CONSTEXPR_RETURN const &extents() const noexcept
 	{
 		return extents_;
 	}
 
+	/** @brief returns the strides */
 	TENSOR_AUTO_CONSTEXPR_RETURN const &strides() const noexcept
 	{
 		return strides_;
 	}
 
+	/** @brief returns the span strides */
 	TENSOR_AUTO_CONSTEXPR_RETURN const &span_strides() const noexcept
 	{
 		return span_strides_;
 	}
 
+	/** @brief returns the element at given indeces */
 	template <class... size_types>
 	TENSOR_CONSTEXPR_RETURN(const_reference)
 	at(size_type i, size_types... is) const
@@ -129,6 +146,7 @@ struct subtensor<tensor<T, E, F, A>, S...> : public detail::tensor_expression<
 			return this->data_[detail::access<0ul>(size_type(0), this->span_strides_, i , std::forward<size_types>(is)...)];
 	}
 
+	/** @brief returns the element at given indeces */
 	template <class... size_types>
 	TENSOR_CONSTEXPR_RETURN(reference)
 	at(size_type i, size_types... is)

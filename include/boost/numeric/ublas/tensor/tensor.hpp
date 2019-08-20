@@ -756,6 +756,24 @@ public:
 			this->data_.resize (product(extents_), v);
 	}
 
+	/** @brief returns the subtensor with specified slices 
+	 * if all slices have type basic_slice<type> or tensor has dynamic extents then
+	 * subtensor will have dynamic slices 
+	 * if even one slice has type basic_slice<type, ...> and tensor has static extents then
+	 * subtensor will have static slices
+	 * 
+	 * @code
+	 * auto t1 = tensor{static_extents<10,10>{},1.f};
+	 * auto t2 = tensor{dynamic_extents<>{10,10},1.f};
+	 * auto s1 = t1(slice<>{}, slice{}); // dynamic slices
+	 * auto s2 = t2(slice<>{}, slice{}); // dynamic slices
+	 * auto s3 = t1(slice<1,10>{}, slice{}); // static slices
+	 * @endcode
+	 * 
+	 * @param s of type basic_slice
+	 * @param ss parameter pack of type basic_slice
+	 * 
+	*/
 	template<typename U, ptrdiff_t... Args, typename... Ts>
 	TENSOR_AUTO_RETURN operator()(span::basic_slice<U, Args...> const& s, Ts&&... ss){
 		auto* self = const_cast<self_type*>(this);
@@ -767,6 +785,24 @@ public:
 	}
 
 
+	/** @brief returns the subtensor with specified slices 
+	 * if all slices have type basic_slice<type> or tensor has dynamic extents then
+	 * subtensor will have dynamic slices 
+	 * if even one slice has type basic_slice<type, ...> and tensor has static extents then
+	 * subtensor will have static slices
+	 * 
+	 * @code
+	 * auto t1 = tensor{static_extents<10,10>{},1.f};
+	 * auto t2 = tensor{dynamic_extents<>{10,10},1.f};
+	 * auto s1 = t1(slice<>{}, slice{}); // dynamic slices
+	 * auto s2 = t2(slice<>{}, slice{}); // dynamic slices
+	 * auto s3 = t1(slice<1,10>{}, slice{}); // static slices
+	 * @endcode
+	 * 
+	 * @param s of type basic_slice
+	 * @param ss parameter pack of type basic_slice
+	 * 
+	*/
 	template<typename U, ptrdiff_t... Args, typename... Ts>
 	TENSOR_AUTO_RETURN operator()(span::basic_slice<U, Args...> const& s, Ts&&... ss) const{
 		auto* self = const_cast<self_type*>(this);

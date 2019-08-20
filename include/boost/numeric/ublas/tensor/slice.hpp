@@ -18,10 +18,19 @@
 namespace boost::numeric::ublas::span
 {
 
+/** @brief its a helper class for implementing static slice
+ * 
+ * @tparam T slice type
+ * @tparam f_ starting index of slice
+ * @tparam l_ ending index of slice
+ * @tparam s_ steps for slice
+ * @tparam sz_ size of slice
+ * 
+ */
 template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_, ptrdiff_t sz_>
 struct slice_helper<T, f_, l_, s_, sz_>
 {
-    using self_type = slice_helper;
+    using self_type = slice_helper<T,f_,l_,s_,sz_>;
     using value_type = T;
     using size_type = size_t;
 
@@ -30,33 +39,48 @@ struct slice_helper<T, f_, l_, s_, sz_>
     static constexpr value_type step_ = s_;
     static constexpr value_type size_ = sz_;
 
-    static constexpr auto &first() noexcept
+    /** @brief returns the starting of slice */    
+    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN first() noexcept
     {
         return self_type::first_;
     }
 
-    static constexpr auto &last() noexcept
+    /** @brief returns the ending of slice */    
+    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN last() noexcept
     {
         return self_type::last_;
     }
-
-    static constexpr auto &step() noexcept
+    
+    /** @brief returns the step of slice */    
+    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN step() noexcept
     {
         return self_type::step_;
     }
 
-    static constexpr auto &size() noexcept
+    /** @brief returns the size of slice */    
+    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN size() noexcept
     {
         return self_type::size_;
     }
 
-    value_type operator[](std::size_t idx) const
+    /** @brief returns the relative address of next element 
+     *
+     * @param idx index of element
+     *  
+     */    
+    TENSOR_CONSTEXPR_RETURN(value_type) operator[](size_type idx) const noexcept
     {
         return first_ + idx * step_;
     }
 
-    template <ptrdiff_t... Args>
-    constexpr decltype(auto) operator()(basic_slice<T, Args...> const &) const
+
+    /** @brief caluates the next slice
+     *
+     * @param b of type static slice
+     *  
+     */    
+    template <ptrdiff_t f, ptrdiff_t... Args>
+    TENSOR_AUTO_CONSTEXPR_RETURN operator()(basic_slice<T, f, Args...> const & b) const noexcept
     {
         using lhs_type = self_type;
         using rhs_type = typename basic_slice<T, Args...>::self_type;
@@ -66,39 +90,104 @@ struct slice_helper<T, f_, l_, s_, sz_>
                            lhs_type::step() * rhs_type::step()>{};
     }
 
+    /** @brief prints the slice */
     friend std::ostream& operator<<(std::ostream& os, self_type const& rhs){
         os<<"slice( "<<rhs.first()<<", "<<rhs.last()<<", "<<rhs.step()<<" )";
         return os;
     } 
 };
 
+
+/** @brief basic_slice specialization which inherits from slice_helper for static slice
+ * 
+ * @code 
+ * using s1 = slice<0,10,2>; 
+ * using s2 = slice<0,-2,2>;
+ * @endcode
+ * 
+ * @tparam T slice type
+ * @tparam f_ starting index of slice
+ * @tparam l_ ending index of slice
+ * @tparam s_ steps for slice
+ * 
+ */
 template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_>
 struct basic_slice<T, f_, l_, s_> : detail::slice_helper_t<T, f_, l_, s_>
 {
 };
 
+/** @brief basic_slice specialization which inherits from slice_helper for static slice
+ * 
+ * @code 
+ * using s1 = slice<0,10>; 
+ * using s2 = slice<0,-2>;
+ * @endcode
+ * 
+ * @tparam T slice type
+ * @tparam f_ starting index of slice
+ * @tparam l_ ending index of slice
+ * 
+ */
 template <typename T, ptrdiff_t f_, ptrdiff_t l_>
 struct basic_slice<T, f_, l_> : detail::slice_helper_t<T, f_, l_, 1>
 {
 };
 
+/** @brief basic_slice specialization which inherits from slice_helper for static slice
+ * 
+ * @code 
+ * using s1 = slice<0>; 
+ * using s2 = slice<-5>;
+ * @endcode
+ * 
+ * @tparam T slice type
+ * @tparam N start and end of slice with step 1
+ * 
+ */
 template <typename T, ptrdiff_t N>
 struct basic_slice<T, N> : detail::slice_helper_t<T, N, N, 1>
 {
 };
 
+/** @brief basic_slice specialization for dynamic slice
+ * 
+ * @tparam T slice type
+ * 
+ */
 template <typename T>
 struct basic_slice<T>
 {
+    using self_type = basic_slice<T>;
     using value_type = T;
     using size_type = size_t;
 
-    constexpr explicit basic_slice()
-        : first_{}, last_{}, step_{0}, size_{-1}
+
+    /** @brief default constructor for dynamic slice
+     * 
+     * @code
+     * auto s1 = basic_slice<ptrdiff_t>{};
+     * @endcode
+     * 
+     */
+    constexpr basic_slice()
+        : first_{}, last_{}, step_{1}, size_{-1}
     {
     }
 
-    basic_slice(value_type f, value_type l, value_type s = 1)
+
+    /** @brief construct a dynamic slice with first, last and step
+     * 
+     * @code
+     * auto s1 = basic_slice<ptrdiff_t>{0,10,3};
+     * auto s2 = basic_slice<ptrdiff_t>{0,10};
+     * @endcode
+     * 
+     * @param f first or starting index
+     * @param l last or ending index
+     * @param s step which has default value of 1
+     * 
+     */
+    constexpr basic_slice(value_type f, value_type l, value_type s = 1)
         : first_(f), last_(l), step_(s)
     {
         if (f == l)
@@ -121,46 +210,95 @@ struct basic_slice<T>
                 last_ = l - ((l - f) % abs(step_));
                 size_ = ( (last_ - first_) / abs(step_) ) + value_type(1);
             } else{
-                size_ = 1l;
+                size_ = 0l;
             }
+
         }
     }
 
-    basic_slice(value_type n)
+
+
+    /** @brief construct a dynamic slice with single index
+     * 
+     * @code
+     * auto s1 = basic_slice<ptrdiff_t>{3};
+     * auto s2 = basic_slice<ptrdiff_t>{-3};
+     * @endcode
+     * 
+     * @param n index of extent 
+     * 
+     */
+    constexpr basic_slice(value_type n)
         : basic_slice(n, n, 1)
     {
     }
 
+    /** Copy Constructor */
     template<typename U>
-    basic_slice(basic_slice<U> const &other)
+    constexpr basic_slice(basic_slice<U> const &other)
         : first_(other.first_), last_(other.last_), step_(other.step_), size_(other.size_)
     {
     }
     
+    /** Move Constructor */
+    template<typename U>
+    constexpr basic_slice( basic_slice<U>&& other) 
+        : first_(std::move(other.first_))
+        , last_(std::move(other.last_))
+        , step_(std::move(other.step_))
+        , size_(std::move(other.size_))
+        {}
+
     template<typename U>
     basic_slice &operator=(basic_slice<U> const &other)
     {
-        first_ = other.first_;
-        last_ = other.last_;
-        step_ = other.step_;
-        size_ = other.size_;
+        auto temp = self_type(other);
+        swap(*this,temp);
         return *this;
     }
 
+
+    template<typename U>
+    basic_slice &operator=(basic_slice<U>&& other)
+    {
+        auto temp = self_type(std::move(other));
+        swap(*this,temp);
+        return *this;
+    }
+
+    /** @brief returns the starting of slice */ 
     TENSOR_AUTO_CONSTEXPR_RETURN first() const noexcept { return first_; }
+    
+    /** @brief returns the ending of slice */ 
     TENSOR_AUTO_CONSTEXPR_RETURN last() const noexcept { return last_; }
+    
+    /** @brief returns the step of slice */ 
     TENSOR_AUTO_CONSTEXPR_RETURN step() const noexcept { return step_; }
+    
+    /** @brief returns the size of slice */ 
     TENSOR_CONSTEXPR_RETURN(size_type) size() const noexcept { return size_; }
+    
+    /** @brief returns true if slice is empty or false */ 
     TENSOR_AUTO_CONSTEXPR_RETURN empty() const noexcept{ return size_ == -1;}
 
     ~basic_slice() = default;
 
-    value_type operator[](std::size_t idx) const
+    /** @brief returns the relative address of next element 
+     *
+     * @param idx index of element
+     *  
+     */  
+    TENSOR_CONSTEXPR_RETURN(value_type) operator[](size_type idx) const
     {
         return first_ + idx * step_;
     }
 
-    constexpr decltype(auto) operator()(basic_slice<T> const &rhs) const
+    /** @brief caluates the next slice
+     *
+     * @param rhs of type basic_slice<T>
+     *  
+     */ 
+    TENSOR_AUTO_CONSTEXPR_RETURN operator()(basic_slice<T> const &rhs) const
     {
         auto const &lhs = *this;
         return basic_slice<T>{
@@ -169,15 +307,24 @@ struct basic_slice<T>
             lhs.step() * rhs.step()};
     }
 
+    /** @brief prints the slice */
     friend std::ostream& operator<<(std::ostream& os, basic_slice const& rhs){
         os<<"slice( "<<rhs.first()<<", "<<rhs.last()<<", "<<rhs.step()<<" )";
         return os;
     } 
 
+    friend auto swap(basic_slice& lhs, basic_slice& rhs){
+        std::swap( lhs.first_, rhs.first_ );
+        std::swap( lhs.last_, rhs.last_ );
+        std::swap( lhs.step_, rhs.step_ );
+        std::swap( lhs.size_, rhs.size_ );
+    }
+
 private:
     value_type first_, last_, step_, size_;
 };
 
+/** @brief type alias for basic_slice<ptrdiff_t,Args...> */
 template <ptrdiff_t... Args>
 using slice = basic_slice<ptrdiff_t, Args...>;
 
