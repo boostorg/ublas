@@ -22,8 +22,8 @@
 #include <boost/test/unit_test.hpp>
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE ( test_tensor, * boost::unit_test::depends_on("test_extents") ) ;
-// BOOST_AUTO_TEST_SUITE ( test_tensor )
+// BOOST_AUTO_TEST_SUITE ( test_tensor, * boost::unit_test::depends_on("test_extents") ) ;
+BOOST_AUTO_TEST_SUITE ( test_tensor )
 
 using test_types = zip<int,long,float,double,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 

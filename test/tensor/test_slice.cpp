@@ -9,6 +9,8 @@
 #include <boost/test/unit_test.hpp>
 #include <type_traits>
 
+BOOST_AUTO_TEST_SUITE ( test_slice )
+
 namespace sp = boost::numeric::ublas::span;
 using type = ptrdiff_t;
 
@@ -77,3 +79,5 @@ BOOST_AUTO_TEST_CASE(test_slice_basic_slice) {
   BOOST_CHECK_EQUAL( s10.step(), 1 );
   BOOST_CHECK_EQUAL( s10.size(), 1 );
 }
+
+BOOST_AUTO_TEST_SUITE_END()

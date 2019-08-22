@@ -10,6 +10,8 @@
 #include <type_traits>
 #include <vector>
 
+BOOST_AUTO_TEST_SUITE ( test_subtensor_helper )
+
 namespace ub = boost::numeric::ublas;
 namespace sp = ub::span;
 
@@ -334,3 +336,5 @@ BOOST_FIXTURE_TEST_CASE(test_slice_offset, fixture)
 
   }
 }
+
+BOOST_AUTO_TEST_SUITE_END()

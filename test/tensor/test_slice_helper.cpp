@@ -8,6 +8,8 @@
 #include <boost/test/unit_test.hpp>
 #include <type_traits>
 
+BOOST_AUTO_TEST_SUITE ( test_slice_helper )
+
 namespace sp = boost::numeric::ublas::span;
 using type = ptrdiff_t;
 
@@ -160,3 +162,5 @@ BOOST_AUTO_TEST_CASE(test_slice_helper_noramlize_value) {
   BOOST_CHECK_EQUAL( ( sp::detail::noramlize_value<extent,v7>() ), 3 );
   
 }
+
+BOOST_AUTO_TEST_SUITE_END()

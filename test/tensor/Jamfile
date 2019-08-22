@@ -26,10 +26,6 @@ explicit unit_test_framework ;
 test-suite boost-ublas-tensor-test
     :
     [ run test_tensor.cpp 
-          test_subtensor_helper.cpp
-          test_slice.cpp
-          test_slice_helper.cpp
-          test_strides.cpp 
           test_operators_comparison.cpp 
           test_operators_arithmetic.cpp
           test_multiplication.cpp
@@ -46,5 +42,9 @@ test-suite boost-ublas-tensor-test
           test_static_extents.cpp
           test_static_strides.cpp
           test_compressed_map.cpp
+          test_subtensor_helper.cpp
+          test_slice.cpp
+          test_slice_helper.cpp
+          test_strides.cpp 
           unit_test_framework ]
     ;
