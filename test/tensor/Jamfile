@@ -27,24 +27,24 @@ test-suite boost-ublas-tensor-test
     :
     [ run test_tensor.cpp 
           test_subtensor_helper.cpp
-          #test_slice.cpp
-          #test_slice_helper.cpp
-          #test_strides.cpp 
-          #test_operators_comparison.cpp 
-          #test_operators_arithmetic.cpp
-          #test_multiplication.cpp
-          #test_multi_index_utility.cpp
-          #test_multi_index.cpp
-          #test_functions.cpp
-          #test_extents.cpp
-          #test_expression_evaluation.cpp
-          #test_einstein_notation.cpp
-          #test_algorithms.cpp
-          #test_tensor_matrix_vector.cpp
-          #test_extents_helper.cpp
-          #test_basic_shape.cpp
-          #test_static_extents.cpp
-          #test_static_strides.cpp
-          #test_compressed_map.cpp
+          test_slice.cpp
+          test_slice_helper.cpp
+          test_strides.cpp 
+          test_operators_comparison.cpp 
+          test_operators_arithmetic.cpp
+          test_multiplication.cpp
+          test_multi_index_utility.cpp
+          test_multi_index.cpp
+          test_functions.cpp
+          test_extents.cpp
+          test_expression_evaluation.cpp
+          test_einstein_notation.cpp
+          test_algorithms.cpp
+          test_tensor_matrix_vector.cpp
+          test_extents_helper.cpp
+          test_basic_shape.cpp
+          test_static_extents.cpp
+          test_static_strides.cpp
+          test_compressed_map.cpp
           unit_test_framework ]
     ;
