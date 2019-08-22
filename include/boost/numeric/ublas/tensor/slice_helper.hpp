@@ -27,6 +27,84 @@ inline static constexpr auto static_abs = x < 0 ? -x : x;
 /** @brief sets the slice to end of extent or index */
 inline static constexpr auto end = std::numeric_limits<ptrdiff_t>::max();
 
+/** @brief its a helper class for implementing static slice
+ * 
+ * @tparam T slice type
+ * @tparam f_ starting index of slice
+ * @tparam l_ ending index of slice
+ * @tparam s_ steps for slice
+ * @tparam sz_ size of slice
+ * 
+ */
+template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_, ptrdiff_t sz_>
+struct slice_helper<T, f_, l_, s_, sz_>
+{
+    using self_type = slice_helper<T, f_, l_, s_, sz_>;
+    using value_type = T;
+    using size_type = size_t;
+
+    static constexpr value_type first_ = f_;
+    static constexpr value_type last_ = l_;
+    static constexpr value_type step_ = s_;
+    static constexpr value_type size_ = sz_;
+
+    /** @brief returns the starting of slice */
+    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN first() noexcept
+    {
+        return self_type::first_;
+    }
+
+    /** @brief returns the ending of slice */
+    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN last() noexcept
+    {
+        return self_type::last_;
+    }
+
+    /** @brief returns the step of slice */
+    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN step() noexcept
+    {
+        return self_type::step_;
+    }
+
+    /** @brief returns the size of slice */
+    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN size() noexcept
+    {
+        return self_type::size_;
+    }
+
+    // /** @brief returns the relative address of next element
+    //  *
+    //  * @param idx index of element
+    //  *
+    //  */
+    // TENSOR_CONSTEXPR_RETURN(value_type) operator[](size_type idx) const noexcept
+    // {
+    //     return first_ + idx * step_;
+    // }
+
+    // /** @brief caluates the next slice
+    //  *
+    //  * @param b of type static slice
+    //  *
+    //  */
+    // template <ptrdiff_t f, ptrdiff_t... Args>
+    // TENSOR_AUTO_CONSTEXPR_RETURN operator()(basic_slice<T, f, Args...> const & b) const noexcept
+    // {
+    //     using lhs_type = self_type;
+    //     using rhs_type = typename basic_slice<T, Args...>::self_type;
+    //     return basic_slice<T,
+    //                        rhs_type::first() * lhs_type::step() + lhs_type::first(),
+    //                        rhs_type::last() * lhs_type::step() + lhs_type::first(),
+    //                        lhs_type::step() * rhs_type::step()>{};
+    // }
+
+    // /** @brief prints the slice */
+    // friend std::ostream& operator<<(std::ostream& os, self_type const& rhs){
+    //     os<<"slice( "<<rhs.first()<<", "<<rhs.last()<<", "<<rhs.step()<<" )";
+    //     return os;
+    // }
+};
+
 /** @brief helper struct for storing normalized static slice */
 template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_, ptrdiff_t sz = (((l_ - f_) / static_abs<s_>)+1l)>
 struct normalized_slice
@@ -47,7 +125,11 @@ struct normalized_slice_helper
 {
     TENSOR_AUTO_CONSTEXPR_RETURN operator()() const
     {
-        if constexpr (f_ == l_)
+        if constexpr (f_ < 0 && l_ < 0 && s_ > 0)
+        {
+            return normalized_slice<T, f_, l_, s_, 0l>{};
+        }
+        else if constexpr (f_ == l_)
         {
             return normalized_slice<T, f_, l_, s_, 1l>{};
         }
@@ -74,7 +156,7 @@ struct normalized_slice_helper
             }
             else
             {
-                return normalized_slice<T, f_, l_, s_, 1l>{};
+                return normalized_slice<T, f_, l_, s_, 0l>{};
             }
         }
     }
@@ -116,11 +198,15 @@ struct is_list<list<Ts...>> : std::true_type
 
 /** @brief pushes the type to the front of type list */
 template <typename T, typename... Ts>
-TENSOR_AUTO_CONSTEXPR_RETURN push_front(list<Ts...>, T)->list<T, Ts...>;
+TENSOR_AUTO_CONSTEXPR_RETURN push_front(list<Ts...>, T)->list<T, Ts...>{return {};}
 
 /** @brief pops the type from the front of type list */
 template <typename T, typename... Ts>
-TENSOR_AUTO_CONSTEXPR_RETURN pop_front(list<T, Ts...>)->list<Ts...>;
+TENSOR_AUTO_CONSTEXPR_RETURN pop_front(list<T, Ts...>)->list<Ts...>{return {};}
+
+/** @brief pushes the type to the back of type list */
+template <typename T, typename... Ts>
+TENSOR_AUTO_CONSTEXPR_RETURN push_back(list<Ts...>, T)->list<Ts..., T>{return {};}
 
 /** @brief pops and pushes from the type list 
  * 

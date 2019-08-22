@@ -36,7 +36,7 @@ template <class strides_type, class span_array>
 auto span_strides(strides_type const &strides, span_array const &spans)
 {
     if (strides.size() != spans.size())
-        throw std::runtime_error("Error in boost::numeric::ublas::subtensor::span_strides(): tensor strides.size() != spans.size()");
+        throw std::runtime_error("Error in boost::numeric::ublas::detail::span_strides(): tensor strides.size() != spans.size()");
 
     using base_type = typename strides_type::base_type;
     auto span_strides = base_type(spans.size());
@@ -75,7 +75,7 @@ auto span_strides(strides_type const &strides, span_array const &spans)
  * 
 */
 template <class strides_type, class span_array>
-auto offset(strides_type &strides, span_array const &spans)
+auto offset(strides_type const &strides, span_array const &spans)
 {
     if (strides.size() != spans.size())
         throw std::runtime_error("Error in boost::numeric::ublas::subtensor::offset(): tensor strides.size() != spans.size()");
@@ -160,7 +160,10 @@ struct transform_spans_impl
                     span_type const &s,
                     span_types &&... spans)
     {
-        if constexpr (is_list<span_array>::value && boost::numeric::ublas::detail::is_static<extents_type>::value && is_slice<span_type, span_types...>::value)
+        if constexpr (  is_list<span_array>::value 
+                        && boost::numeric::ublas::detail::is_static<extents_type>::value 
+                        && is_slice<span_type, span_types...>::value
+                    )
         {
             return helper<r>(extents, spans_arr, s, std::forward<span_types>(spans)...);
         }
@@ -174,7 +177,7 @@ struct transform_spans_impl
             }
             else
             {
-                spans_arr.at(r) = transform_span(slice_type{static_cast<value_type>(s)}, extents.at(r));
+                spans_arr.at(r) = transform_span(slice_type{static_cast<value_type>(s)}, static_cast<value_type>( extents.at(r) ) );
             }
             if constexpr (sizeof...(spans) > 0)
                 this->operator()<r + 1>(extents, spans_arr, std::forward<span_types>(spans)...);

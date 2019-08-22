@@ -18,86 +18,6 @@
 namespace boost::numeric::ublas::span
 {
 
-/** @brief its a helper class for implementing static slice
- * 
- * @tparam T slice type
- * @tparam f_ starting index of slice
- * @tparam l_ ending index of slice
- * @tparam s_ steps for slice
- * @tparam sz_ size of slice
- * 
- */
-template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_, ptrdiff_t sz_>
-struct slice_helper<T, f_, l_, s_, sz_>
-{
-    using self_type = slice_helper<T,f_,l_,s_,sz_>;
-    using value_type = T;
-    using size_type = size_t;
-
-    static constexpr value_type first_ = f_;
-    static constexpr value_type last_ = l_;
-    static constexpr value_type step_ = s_;
-    static constexpr value_type size_ = sz_;
-
-    /** @brief returns the starting of slice */    
-    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN first() noexcept
-    {
-        return self_type::first_;
-    }
-
-    /** @brief returns the ending of slice */    
-    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN last() noexcept
-    {
-        return self_type::last_;
-    }
-    
-    /** @brief returns the step of slice */    
-    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN step() noexcept
-    {
-        return self_type::step_;
-    }
-
-    /** @brief returns the size of slice */    
-    TENSOR_STATIC_AUTO_CONSTEXPR_RETURN size() noexcept
-    {
-        return self_type::size_;
-    }
-
-    /** @brief returns the relative address of next element 
-     *
-     * @param idx index of element
-     *  
-     */    
-    TENSOR_CONSTEXPR_RETURN(value_type) operator[](size_type idx) const noexcept
-    {
-        return first_ + idx * step_;
-    }
-
-
-    /** @brief caluates the next slice
-     *
-     * @param b of type static slice
-     *  
-     */    
-    template <ptrdiff_t f, ptrdiff_t... Args>
-    TENSOR_AUTO_CONSTEXPR_RETURN operator()(basic_slice<T, f, Args...> const & b) const noexcept
-    {
-        using lhs_type = self_type;
-        using rhs_type = typename basic_slice<T, Args...>::self_type;
-        return basic_slice<T,
-                           rhs_type::first() * lhs_type::step() + lhs_type::first(),
-                           rhs_type::last() * lhs_type::step() + lhs_type::first(),
-                           lhs_type::step() * rhs_type::step()>{};
-    }
-
-    /** @brief prints the slice */
-    friend std::ostream& operator<<(std::ostream& os, self_type const& rhs){
-        os<<"slice( "<<rhs.first()<<", "<<rhs.last()<<", "<<rhs.step()<<" )";
-        return os;
-    } 
-};
-
-
 /** @brief basic_slice specialization which inherits from slice_helper for static slice
  * 
  * @code 
@@ -112,7 +32,7 @@ struct slice_helper<T, f_, l_, s_, sz_>
  * 
  */
 template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_>
-struct basic_slice<T, f_, l_, s_> : detail::slice_helper_t<T, f_, l_, s_>
+struct basic_slice<T, f_, l_, s_> : detail::slice_helper_t < T, f_, l_, s_>
 {
 };
 
@@ -129,7 +49,7 @@ struct basic_slice<T, f_, l_, s_> : detail::slice_helper_t<T, f_, l_, s_>
  * 
  */
 template <typename T, ptrdiff_t f_, ptrdiff_t l_>
-struct basic_slice<T, f_, l_> : detail::slice_helper_t<T, f_, l_, 1>
+struct basic_slice<T, f_, l_> : detail::slice_helper_t <T, f_, l_, 1l>
 {
 };
 
@@ -145,7 +65,7 @@ struct basic_slice<T, f_, l_> : detail::slice_helper_t<T, f_, l_, 1>
  * 
  */
 template <typename T, ptrdiff_t N>
-struct basic_slice<T, N> : detail::slice_helper_t<T, N, N, 1>
+struct basic_slice<T, N> : detail::slice_helper_t <T, N, N, 1l>
 {
 };
 
@@ -276,36 +196,36 @@ struct basic_slice<T>
     TENSOR_AUTO_CONSTEXPR_RETURN step() const noexcept { return step_; }
     
     /** @brief returns the size of slice */ 
-    TENSOR_CONSTEXPR_RETURN(size_type) size() const noexcept { return size_; }
+    TENSOR_CONSTEXPR_RETURN(size_type) size() const noexcept { return size_ == -1 ? 0 : size_; }
     
     /** @brief returns true if slice is empty or false */ 
     TENSOR_AUTO_CONSTEXPR_RETURN empty() const noexcept{ return size_ == -1;}
 
     ~basic_slice() = default;
 
-    /** @brief returns the relative address of next element 
-     *
-     * @param idx index of element
-     *  
-     */  
-    TENSOR_CONSTEXPR_RETURN(value_type) operator[](size_type idx) const
-    {
-        return first_ + idx * step_;
-    }
+    // /** @brief returns the relative address of next element 
+    //  *
+    //  * @param idx index of element
+    //  *  
+    //  */  
+    // TENSOR_CONSTEXPR_RETURN(value_type) operator[](size_type idx) const
+    // {
+    //     return first_ + idx * step_;
+    // }
 
-    /** @brief caluates the next slice
-     *
-     * @param rhs of type basic_slice<T>
-     *  
-     */ 
-    TENSOR_AUTO_CONSTEXPR_RETURN operator()(basic_slice<T> const &rhs) const
-    {
-        auto const &lhs = *this;
-        return basic_slice<T>{
-            rhs.first() * lhs.step() + lhs.first(),
-            rhs.last() * lhs.step() + lhs.first(),
-            lhs.step() * rhs.step()};
-    }
+    // /** @brief caluates the next slice
+    //  *
+    //  * @param rhs of type basic_slice<T>
+    //  *  
+    //  */ 
+    // TENSOR_AUTO_CONSTEXPR_RETURN operator()(basic_slice<T> const &rhs) const
+    // {
+    //     auto const &lhs = *this;
+    //     return basic_slice<T>{
+    //         rhs.first() * lhs.step() + lhs.first(),
+    //         rhs.last() * lhs.step() + lhs.first(),
+    //         lhs.step() * rhs.step()};
+    // }
 
     /** @brief prints the slice */
     friend std::ostream& operator<<(std::ostream& os, basic_slice const& rhs){
@@ -327,6 +247,11 @@ private:
 /** @brief type alias for basic_slice<ptrdiff_t,Args...> */
 template <ptrdiff_t... Args>
 using slice = basic_slice<ptrdiff_t, Args...>;
+
+template<typename T, ptrdiff_t... Args1, ptrdiff_t... Args2> 
+TENSOR_AUTO_CONSTEXPR_RETURN operator==( basic_slice<T,Args1...> const& lhs, basic_slice<T,Args2...> const& rhs ){
+    return lhs.first() == rhs.first() && lhs.last() == rhs.last() && lhs.step() == rhs.step() && lhs.size() == rhs.size();
+}
 
 } // namespace boost::numeric::ublas::span
 

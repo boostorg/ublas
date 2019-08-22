@@ -322,13 +322,11 @@ struct normalized_slice;
 template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_>
 struct normalized_slice_helper;
 
+template <typename T, ptrdiff_t...>
+struct slice_helper;
+
 } // namespace detail
 
-template <typename T, ptrdiff_t...>
-struct slice_helper;
-
-template <typename T, ptrdiff_t...>
-struct slice_helper;
 
 template <typename T, ptrdiff_t...>
 struct basic_slice;
