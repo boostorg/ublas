@@ -98,11 +98,11 @@ struct slice_helper<T, f_, l_, s_, sz_>
     //                        lhs_type::step() * rhs_type::step()>{};
     // }
 
-    // /** @brief prints the slice */
-    // friend std::ostream& operator<<(std::ostream& os, self_type const& rhs){
-    //     os<<"slice( "<<rhs.first()<<", "<<rhs.last()<<", "<<rhs.step()<<" )";
-    //     return os;
-    // }
+    /** @brief prints the slice */
+    friend std::ostream& operator<<(std::ostream& os, self_type const& rhs){
+        os<<"slice( "<<rhs.first()<<", "<<rhs.last()<<", "<<rhs.step()<<" )";
+        return os;
+    }
 };
 
 /** @brief helper struct for storing normalized static slice */
@@ -270,7 +270,7 @@ TENSOR_AUTO_CONSTEXPR_RETURN get(list<Ts...> const &l)
 template <size_t I, class CallBack, class T, class... Ts>
 struct for_each_list_impl
 {
-    constexpr decltype(auto) operator()(list<T, Ts...> const &l, CallBack call_back)
+    constexpr decltype(auto) operator()(list<T, Ts...>, CallBack call_back)
     {
         using new_list = list<Ts...>;
         using value_type = T;
@@ -382,12 +382,11 @@ struct slice_common_type<>
 };
 
 /** @brief normalize the dynamic val within bounds of extents*/
-template <typename T>
-TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value(T ext, T val)
+TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value(size_t ext, ptrdiff_t val)
 {
     if (val < 0)
     {
-        auto const ret = ext + val;
+        auto const ret = static_cast<ptrdiff_t>( ext + val );
         if (ret < 0)
         {
             throw std::out_of_range("boost::numeric::ublas::span::detail::normalize_val : invalid slice ");
@@ -401,12 +400,12 @@ TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value(T ext, T val)
 }
 
 /** @brief normalize the static val within bounds of extents*/
-template <ptrdiff_t ext, ptrdiff_t val>
+template <size_t ext, ptrdiff_t val>
 TENSOR_AUTO_CONSTEXPR_RETURN noramlize_value()
 {
     if constexpr (val < 0)
     {
-        constexpr auto const ret = ext + val;
+        constexpr auto const ret = static_cast<ptrdiff_t>( ext + val );
         if constexpr (ret < 0)
         {
             throw std::out_of_range("boost::numeric::ublas::span::detail::normalize_val : invalid slice ");

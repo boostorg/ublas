@@ -99,7 +99,7 @@ auto offset(strides_type const &strides, span_array const &spans)
  * 
 */
 template <typename size_type>
-auto transform_span(sp::basic_slice<size_type> const &s, size_type const extent)
+auto transform_span(sp::basic_slice<size_type> const &s, size_t const extent)
 {
     using slice_type = sp::basic_slice<size_type>;
     auto const extent0 = extent - 1;
@@ -160,10 +160,7 @@ struct transform_spans_impl
                     span_type const &s,
                     span_types &&... spans)
     {
-        if constexpr (  is_list<span_array>::value 
-                        && boost::numeric::ublas::detail::is_static<extents_type>::value 
-                        && is_slice<span_type, span_types...>::value
-                    )
+        if constexpr (is_list<span_array>::value && boost::numeric::ublas::detail::is_static<extents_type>::value && is_slice<span_type, span_types...>::value)
         {
             return helper<r>(extents, spans_arr, s, std::forward<span_types>(spans)...);
         }
@@ -177,7 +174,7 @@ struct transform_spans_impl
             }
             else
             {
-                spans_arr.at(r) = transform_span(slice_type{static_cast<value_type>(s)}, static_cast<value_type>( extents.at(r) ) );
+                spans_arr.at(r) = transform_span(slice_type{static_cast<value_type>(s)}, static_cast<value_type>(extents.at(r)));
             }
             if constexpr (sizeof...(spans) > 0)
                 this->operator()<r + 1>(extents, spans_arr, std::forward<span_types>(spans)...);

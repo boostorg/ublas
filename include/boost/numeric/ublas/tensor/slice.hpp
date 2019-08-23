@@ -34,6 +34,13 @@ namespace boost::numeric::ublas::span
 template <typename T, ptrdiff_t f_, ptrdiff_t l_, ptrdiff_t s_>
 struct basic_slice<T, f_, l_, s_> : detail::slice_helper_t < T, f_, l_, s_>
 {
+    using self_type = detail::slice_helper_t < T, f_, l_, s_>;
+    template<typename U, ptrdiff_t... Args> 
+    
+    TENSOR_AUTO_CONSTEXPR_RETURN operator==( basic_slice<U,Args...> const& rhs ) const noexcept{
+        return self_type::first() == rhs.first() && self_type::last() == rhs.last() && self_type::step() == rhs.step() && self_type::size() == rhs.size();
+    }
+
 };
 
 /** @brief basic_slice specialization which inherits from slice_helper for static slice
@@ -51,6 +58,11 @@ struct basic_slice<T, f_, l_, s_> : detail::slice_helper_t < T, f_, l_, s_>
 template <typename T, ptrdiff_t f_, ptrdiff_t l_>
 struct basic_slice<T, f_, l_> : detail::slice_helper_t <T, f_, l_, 1l>
 {
+    using self_type = detail::slice_helper_t <T, f_, l_, 1l>;
+    template<typename U, ptrdiff_t... Args> 
+    TENSOR_AUTO_CONSTEXPR_RETURN operator==( basic_slice<U,Args...> const& rhs ) const noexcept{
+        return self_type::first() == rhs.first() && self_type::last() == rhs.last() && self_type::step() == rhs.step() && self_type::size() == rhs.size();
+    }
 };
 
 /** @brief basic_slice specialization which inherits from slice_helper for static slice
@@ -67,6 +79,11 @@ struct basic_slice<T, f_, l_> : detail::slice_helper_t <T, f_, l_, 1l>
 template <typename T, ptrdiff_t N>
 struct basic_slice<T, N> : detail::slice_helper_t <T, N, N, 1l>
 {
+    using self_type = detail::slice_helper_t <T, N, N, 1l>;
+    template<typename U, ptrdiff_t... Args> 
+    TENSOR_AUTO_CONSTEXPR_RETURN operator==( basic_slice<U,Args...>& rhs ) const noexcept{
+        return self_type::first() == rhs.first() && self_type::last() == rhs.last() && self_type::step() == rhs.step() && self_type::size() == rhs.size();
+    }
 };
 
 /** @brief basic_slice specialization for dynamic slice
@@ -233,6 +250,11 @@ struct basic_slice<T>
         return os;
     } 
 
+    template<typename U, ptrdiff_t... Args> 
+    TENSOR_AUTO_CONSTEXPR_RETURN operator==( basic_slice<U,Args...> const& rhs ){
+        return this->first() == rhs.first() && this->last() == rhs.last() && this->step() == rhs.step() && this->size() == rhs.size();
+    }
+
     friend auto swap(basic_slice& lhs, basic_slice& rhs){
         std::swap( lhs.first_, rhs.first_ );
         std::swap( lhs.last_, rhs.last_ );
@@ -247,11 +269,6 @@ private:
 /** @brief type alias for basic_slice<ptrdiff_t,Args...> */
 template <ptrdiff_t... Args>
 using slice = basic_slice<ptrdiff_t, Args...>;
-
-template<typename T, ptrdiff_t... Args1, ptrdiff_t... Args2> 
-TENSOR_AUTO_CONSTEXPR_RETURN operator==( basic_slice<T,Args1...> const& lhs, basic_slice<T,Args2...> const& rhs ){
-    return lhs.first() == rhs.first() && lhs.last() == rhs.last() && lhs.step() == rhs.step() && lhs.size() == rhs.size();
-}
 
 } // namespace boost::numeric::ublas::span
 

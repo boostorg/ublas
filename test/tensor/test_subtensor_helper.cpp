@@ -51,19 +51,19 @@ BOOST_FIXTURE_TEST_CASE(test_slice_generate_span_array, fixture)
 {
   {
     auto sps1 = ub::detail::generate_span_array(dextents[0],sp::slice<>{},sp::slice<>{1});
-    BOOST_CHECK_EQUAL( sps1[0], ( sp::slice<>{0,0,1} ) );
-    BOOST_CHECK_EQUAL( sps1[1], ( sp::slice<>{1,1,1} ) );
+    BOOST_CHECK( ( sps1[0] == sp::slice<>{0,0,1} ) );
+    BOOST_CHECK( ( sps1[1] == sp::slice<>{1,1,1} ) );
 
     sps1 = ub::detail::generate_span_array(dextents[1],sp::slice<>{-1},sp::slice<>{0,-1},sp::slice<>{});
-    BOOST_CHECK_EQUAL( sps1[0], ( sp::slice<>{1,1,1} ) );
-    BOOST_CHECK_EQUAL( sps1[1], ( sp::slice<>{0,2,1} ) );
-    BOOST_CHECK_EQUAL( sps1[2], ( sp::slice<>{0,0,1} ) );
+    BOOST_CHECK( ( sps1[0] == sp::slice<>{1,1,1} ) );
+    BOOST_CHECK( ( sps1[1] == sp::slice<>{0,2,1} ) );
+    BOOST_CHECK( ( sps1[2] == sp::slice<>{0,0,1} ) );
 
     sps1 = ub::detail::generate_span_array(dextents[2],sp::slice<>{-3,-1},sp::slice<>{0,-1, 2},sp::slice<>{},2);
-    BOOST_CHECK_EQUAL( sps1[0], ( sp::slice<>{1,3,1} ) );
-    BOOST_CHECK_EQUAL( sps1[1], ( sp::slice<>{0,0,2} ) );
-    BOOST_CHECK_EQUAL( sps1[2], ( sp::slice<>{0,0,1} ) );
-    BOOST_CHECK_EQUAL( sps1[3], ( sp::slice<>{2,2,1} ) );
+    BOOST_CHECK( ( sps1[0] == sp::slice<>{1,3,1} ) );
+    BOOST_CHECK( ( sps1[1] == sp::slice<>{0,0,2} ) );
+    BOOST_CHECK( ( sps1[2] == sp::slice<>{0,0,1} ) );
+    BOOST_CHECK( ( sps1[3] == sp::slice<>{2,2,1} ) );
 
   }
 
