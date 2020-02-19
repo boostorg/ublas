@@ -14,29 +14,35 @@
 
 #include <iostream>
 
+namespace boost::numeric::ublas {
+
 #define TENSOR_STATIC_AUTO_CONSTEXPR_RETURN [[nodiscard]] static constexpr auto
 #define TENSOR_AUTO_CONSTEXPR_RETURN [[nodiscard]] constexpr auto
 #define TENSOR_CONSTEXPR_RETURN(T) [[nodiscard]] constexpr T
 #define TENSOR_AUTO_RETURN [[nodiscard]] constexpr auto
 #define TENSOR_RETURN(T) [[nodiscard]] T
 
-namespace boost::numeric::ublas
-{
-
 template <class T, ptrdiff_t... E>
 struct basic_static_extents;
 
-template <class T>
-class basic_extents;
+template <class int_type, ptrdiff_t... E> struct basic_static_extents;
 
-template <class T, class L>
-class basic_strides;
+template <class __int_type, class __layout> class basic_strides;
+
+template<class T, class L> class basic_strides;
+
+template <class T> class basic_extents;
+
+template <class T, class L> class basic_strides;
 
 template <class E, typename>
 constexpr bool valid(E const &e);
 
-template <class E, typename>
-constexpr bool is_scalar(E const &e);
+template <class E, typename> constexpr bool is_free_scalar(E const &e);
+
+template <class E, typename> constexpr bool is_vector(E const &e);
+
+template <class E, typename> constexpr bool is_scalar(E const &e);
 
 template <class E, typename>
 constexpr bool is_vector(E const &e);
@@ -47,20 +53,15 @@ constexpr bool is_matrix(E const &e);
 template <class E, typename>
 constexpr bool is_tensor(E const &e);
 
-template <class E, typename>
-auto squeeze(E const &e);
+template <class E, typename> constexpr auto product(E const &e);
 
-template <class E, typename>
-auto product(E const &e);
+template <class E, typename> auto squeeze(E const &e);
 
-template <class E, typename>
-std::string to_string(E const &e);
+template <class E, typename> std::string to_string(E const &e);
 
-template <class int_type, ptrdiff_t... E>
-struct basic_static_extents;
+template <class int_type, ptrdiff_t... E> struct basic_static_extents;
 
-template <class __int_type, class __layout>
-class basic_strides;
+template <class __int_type, class __layout> class basic_strides;
 
 /** @brief Forward declaration of static_strides for specialization
  *
@@ -224,9 +225,6 @@ struct product_helper_impl;
 template <typename E>
 struct product_helper;
 
-template <typename V, typename F, typename A>
-struct tensor_mode_result;
-
 template <class T, class D>
 struct tensor_expression;
 
@@ -236,11 +234,11 @@ struct binary_tensor_expression;
 template <class T, class E, class OP>
 struct unary_tensor_expression;
 
-template <class... index_types>
-struct has_index_impl;
+template <class... index_types> struct has_index_impl;
 
-template <class... index_types>
-struct valid_multi_index_impl;
+template<class ... index_types> struct valid_multi_index_impl;
+
+template <class... index_types> struct valid_multi_index_impl;
 // TODO: Future
 // template <typename V, typename E1, typename E2, typename F, typename A>
 // struct tensor_result;

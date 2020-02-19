@@ -80,9 +80,6 @@ auto offset(strides_type const &strides, span_array const &spans)
     if (strides.size() != spans.size())
         throw std::runtime_error("Error in boost::numeric::ublas::subtensor::offset(): tensor strides.size() != spans.size()");
 
-    using extents_type = typename strides_type::extents_type;
-
-    using base_type = typename strides_type::base_type;
     auto off = 0u;
     for_each_list(spans, [&](auto const &I, auto const &s) {
         off += strides[I] * s.first();
@@ -109,7 +106,7 @@ auto transform_span(sp::basic_slice<size_type> const &s, size_t const extent)
 
     if (s.empty())
         return slice_type(0, extent0, 1);
-    else if (first == detail::end)
+    else if (first == sp::detail::end)
         return slice_type(extent0, extent0, step);
     else if (last >= extent)
         return slice_type(first, extent0, step);
@@ -139,7 +136,7 @@ auto transform_span(sp::basic_slice<size_type, Args...> const &s)
         auto constexpr last = sp::detail::noramlize_value<extent, slice_type::last()>();
         auto constexpr step = slice_type::step_;
 
-        if constexpr (first == detail::end)
+        if constexpr (first == sp::detail::end)
             return sp::basic_slice<size_type, extent0, extent0, step>{};
         else if constexpr (last >= extent0)
             return sp::basic_slice<size_type, first, extent0, step>{};
@@ -312,7 +309,7 @@ struct default_span_array_impl<false, E, S...>
 template <typename E, typename... S>
 struct default_span_arary
 {
-    using type = typename default_span_array_impl<(detail::is_static<E>::value && sizeof...(S) > 0), E, S...>::type;
+    using type = typename default_span_array_impl<(::boost::numeric::ublas::detail::is_static<E>::value && sizeof...(S) > 0), E, S...>::type;
 };
 
 template <typename E, typename... S>

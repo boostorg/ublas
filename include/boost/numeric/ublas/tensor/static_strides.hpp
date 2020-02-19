@@ -124,7 +124,7 @@ struct static_strides<basic_static_extents<T, R, Extents...>, first_order>
    */
   template <class Iterator, class = class std::enable_if<std::is_same<
                                 detail::iterator_tag_t<Iterator>,
-                                class detail::iterator_tag>::value>::type>
+                                detail::iterator_tag>::value>::type>
   constexpr static_strides(Iterator begin, Iterator end,
                            detail::iterator_tag) noexcept
       : extents_type(begin, end, detail::iterator_tag{})
@@ -334,7 +334,7 @@ struct static_strides<basic_static_extents<T, R, Extents...>, last_order>
    */
   template <class Iterator, class = class std::enable_if<std::is_same<
                                 detail::iterator_tag_t<Iterator>,
-                                class detail::iterator_tag>::value>::type>
+                                detail::iterator_tag>::value>::type>
   constexpr static_strides(Iterator begin, Iterator end,
                            detail::iterator_tag) noexcept
       : extents_type(begin, end, detail::iterator_tag{})

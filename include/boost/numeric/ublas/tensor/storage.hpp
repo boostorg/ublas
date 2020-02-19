@@ -22,6 +22,7 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+#include "extents_functions.hpp"
 
 namespace boost::numeric::ublas::storage {
 
@@ -87,7 +88,6 @@ struct compressed_map : sparse_storage {
   }
 
   compressed_map( std::initializer_list<std::pair<key_type, value_type>> l) : size_(l.size()){
-    auto i = 0u;
     for(auto const& v : l){
       if(v.second != value_type{0}){
         data_.insert(v);

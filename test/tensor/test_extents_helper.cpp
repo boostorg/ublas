@@ -485,8 +485,8 @@ BOOST_FIXTURE_TEST_CASE(test_basic_extents_impl_copy_ctor, fixture,
   auto e_c_12 = e12; // {2,3,1}
   auto e_c_13 = e13; // {1,2,3,1,1}
 
-  BOOST_CHECK_EQUAL(e0.size(), 0);
-  BOOST_CHECK(e0.empty());
+  BOOST_CHECK_EQUAL(e_c_0.size(), 0);
+  BOOST_CHECK(e_c_0.empty());
 
   BOOST_REQUIRE_EQUAL(e_c_1.size(), 4);
   BOOST_REQUIRE_EQUAL(e_c_2.size(), 3);

@@ -12,9 +12,9 @@
 #ifndef _BOOST_UBLAS_TENSOR_EXPRESSIONS_EVALUATION_HPP_
 #define _BOOST_UBLAS_TENSOR_EXPRESSIONS_EVALUATION_HPP_
 
+#include "fwd.hpp"
 #include <type_traits>
 #include <stdexcept>
-#include "fwd.hpp"
 
 namespace boost::numeric::ublas::detail {
 

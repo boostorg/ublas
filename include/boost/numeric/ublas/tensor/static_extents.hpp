@@ -123,7 +123,7 @@ struct basic_static_extents<int_type,R,E...>
   constexpr basic_static_extents(I begin, I end)
       : impl(begin, end, detail::iterator_tag_t<I>{}) {
     if constexpr (std::is_same<detail::iterator_tag_t<I>,detail::iterator_tag>::value) {
-      if ( std::distance(begin,end) != this->dynamic_rank()) {
+      if ( std::distance(begin,end) != impl::DynamicRank) {
         throw std::runtime_error("boost::numeric::ublas::basic_static_extents: number of extents should be equal to rank of extents");
       }
     }

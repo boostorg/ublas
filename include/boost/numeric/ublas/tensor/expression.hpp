@@ -12,9 +12,10 @@
 #ifndef BOOST_UBLAS_TENSOR_EXPRESSIONS_HPP
 #define BOOST_UBLAS_TENSOR_EXPRESSIONS_HPP
 
+#include "fwd.hpp"
+#include <vector>
 #include <cstddef>
 #include <boost/numeric/ublas/expression_types.hpp>
-#include "fwd.hpp"
 
 
 namespace boost   {

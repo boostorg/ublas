@@ -20,6 +20,7 @@
 #include <numeric>
 
 
+#include "fwd.hpp"
 #include "multiplication.hpp"
 #include "algorithms.hpp"
 #include "expression.hpp"
@@ -27,7 +28,6 @@
 #include "storage_traits.hpp"
 #include "extents.hpp"
 #include "strides.hpp"
-#include "fwd.hpp"
 
 namespace boost {
 namespace numeric {

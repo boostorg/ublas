@@ -20,19 +20,21 @@
 
 namespace boost::numeric::ublas {
 
-/** @brief Returns true if size > 1 and all elements > 0 */
-template <class E, typename std::enable_if<detail::is_extents<E>::value>::type
-                       * = nullptr>
+/** @brief Returns true if size > 1 and all elements > 0 or size == 1 && e[0] == 1 */
+template <class E, typename std::enable_if<detail::is_extents<E>::value, int>::type = 0>
 constexpr bool valid(E const &e) {
 
+  if (e.size() == 1 && e[0] == 1)
+      return true;
+
   if constexpr (!detail::is_static_extents<E>::value) {
-    return e.size() > typename E::value_type(1) &&
+    return e.size() > typename E::size_type(1) &&
            std::none_of(e.begin(), e.end(), [](auto const &a) {
              return a == typename E::value_type(0);
            });
   } else {
     auto arr = e.to_array();
-    return arr.size() > typename E::value_type(1) &&
+    return arr.size() > typename E::size_type(1) &&
            std::none_of(arr.begin(), arr.end(), [](auto const &a) {
              return a == typename E::value_type(0);
            });
@@ -46,8 +48,7 @@ constexpr bool valid(E const &e) {
  * @returns the string of extents
  */
 
-template <class E, typename std::enable_if<detail::is_extents<E>::value>::type
-                       * = nullptr>
+template <class E, typename std::enable_if<detail::is_extents<E>::value, int>::type = 0>
 std::string to_string(E const &e) {
   if (e.empty()) {
     return "{}";
@@ -66,8 +67,7 @@ std::string to_string(E const &e) {
  *
  * @returns true if (1,1,[1,...,1])
  */
-template <class E, typename std::enable_if<detail::is_extents<E>::value>::type
-                       * = nullptr>
+template <class E, typename std::enable_if<detail::is_extents<E>::value, int>::type = 0>
 constexpr bool is_scalar(E const &e) {
   if (e.size() == typename E::size_type(0)) {
     return false;
@@ -84,12 +84,27 @@ constexpr bool is_scalar(E const &e) {
   }
 }
 
+/**
+ * @brief Returns true if this is a pure scalar. i.e rank=1 and product=1
+ *
+ * @note free scalars are used by expression templates to determine that an
+ * operand is not bounded by shapes. In the following expression `5` has an
+ * extent of free_scalar in the AST
+ *
+ * @code auto expr = 5 * tensor<int>{shape{3,3}}; @endcode
+ *
+ * @returns true if (1)
+ */
+template <class E, typename std::enable_if<detail::is_extents<E>::value, int>::type = 0>
+constexpr bool is_free_scalar(E const &e) {
+  return e.size() == 1 && e[0] == 1;
+}
+
 /** @brief Returns true if this has a vector shape
  *
  * @returns true if (1,n,[1,...,1]) or (n,1,[1,...,1]) with n > 1
  */
-template <class E, typename std::enable_if<detail::is_extents<E>::value>::type
-                       * = nullptr>
+template <class E, typename std::enable_if<detail::is_extents<E>::value, int>::type = 0>
 constexpr bool is_vector(E const &e) {
   if (e.size() == typename E::size_type(0)) {
     return false;
@@ -118,8 +133,7 @@ constexpr bool is_vector(E const &e) {
  *
  * @returns true if (m,n,[1,...,1]) with m > 1 and n > 1
  */
-template <class E, typename std::enable_if<detail::is_extents<E>::value>::type
-                       * = nullptr>
+template <class E, typename std::enable_if<detail::is_extents<E>::value, int>::type = 0>
 constexpr bool is_matrix(E const &e) {
   if (e.size() < typename E::size_type(2)) {
     return false;
@@ -144,8 +158,7 @@ constexpr bool is_matrix(E const &e) {
  *
  * @returns true if !empty() && !is_scalar() && !is_vector() && !is_matrix()
  */
-template <class E, typename std::enable_if<detail::is_extents<E>::value>::type
-                       * = nullptr>
+template <class E, typename std::enable_if<detail::is_extents<E>::value, int>::type = 0>
 constexpr bool is_tensor(E const &e) {
   if (e.size() < typename E::size_type(3)) {
     return false;
@@ -175,8 +188,7 @@ constexpr bool is_tensor(E const &e) {
  *
  * @returns basic_extents<int_type> with squeezed extents
  */
-template <class E, typename std::enable_if<detail::is_extents<E>::value>::type
-                       * = nullptr>
+template <class E, typename std::enable_if<detail::is_extents<E>::value, int>::type = 0>
 auto squeeze(E const &e) {
   if (e.size() <= 2) {
     if constexpr (detail::is_static_extents<E>::value) {
@@ -214,8 +226,7 @@ auto squeeze(E const &e) {
 }
 
 /** @brief Returns the number of elements a tensor holds with this */
-template <class E, typename std::enable_if<detail::is_extents<E>::value>::type
-                       * = nullptr>
+template <class E, typename std::enable_if<detail::is_extents<E>::value, int>::type = 0>
 constexpr auto product(E const &e) {
 
   if (e.empty()) {
@@ -241,6 +252,8 @@ constexpr auto product(E const &e) {
     }
   }
 }
+
+
 
 } // namespace boost::numeric::ublas
 #endif
