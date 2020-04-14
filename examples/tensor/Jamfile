@@ -21,5 +21,7 @@ project boost-ublas-tensor-example
 
 exe construction_access : construction_access.cpp ;
 exe simple_expressions : simple_expressions.cpp ;
-exe prod_expressions : prod_expressions.cpp ;
+exe prod_expressions_1 : prod_expressions_1.cpp ;
+exe prod_expressions_2 : prod_expressions_2.cpp ;
 exe einstein_notation : einstein_notation.cpp ;
+exe tensor_construction : tensor_construction.cpp ;

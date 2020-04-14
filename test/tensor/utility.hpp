@@ -1,17 +1,19 @@
-//  Copyright (c) 2018-2019
-//  Cem Bassoy
+//
+// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer and Google in producing this work
-//  which started as a Google Summer of Code project.
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 #ifndef _BOOST_UBLAS_TEST_TENSOR_UTILITY_
 #define _BOOST_UBLAS_TEST_TENSOR_UTILITY_
+
+#include <utility>
 
 template<class ... types>
 struct zip_helper;
@@ -45,6 +47,68 @@ struct zip_helper<std::tuple<types3...>, type1, types1...>
 
 template<class ... types>
 using zip = zip_helper<std::tuple<>,types...>;
+
+template<size_t I, class CallBack, class...Ts>
+struct for_each_tuple_impl{
+    auto operator()(std::tuple<Ts...>& t, CallBack call_back){
+        call_back(I,std::get<I>(t));
+        if constexpr(sizeof...(Ts) - 1 > I){
+            for_each_tuple_impl<I + 1,CallBack,Ts...> it;
+            it(t,call_back);
+        }
+    }
+};
+
+template<class CallBack, class... Ts>
+auto for_each_tuple(std::tuple<Ts...>& t, CallBack call_back){
+    for_each_tuple_impl<0,CallBack,Ts...> f;
+    f(t,call_back);
+}
+
+
+template<typename... Ts>
+struct list{
+    static constexpr size_t size = sizeof...(Ts);
+};
+
+template<size_t I, class CallBack, class T, class...Ts>
+struct for_each_list_impl{
+    constexpr decltype(auto) operator()(list<T, Ts...> l, CallBack call_back){
+        using new_list = list<Ts...>;
+        using value_type = T;
+        call_back(I,value_type{});
+        
+        if constexpr(new_list::size != 0){
+            for_each_list_impl<I + 1,CallBack, Ts...> it;
+            it(new_list{},call_back);
+        }
+    }
+};
+
+
+template<class CallBack, class... Ts>
+auto for_each_list(list<Ts...> l, CallBack call_back){
+    for_each_list_impl<0,CallBack,Ts...> f;
+    f(l,call_back);
+}
+
+#include <complex>
+
+// To counter msvc warninig C4244
+template<typename T>
+struct inner_type{
+    using type = T;
+};
+
+template<typename T>
+struct inner_type< std::complex<T> >{
+    using type = T;
+};
+
+template<typename T>
+using inner_type_t = typename inner_type<T>::type;
+
+
 
 // creates e.g.
 // using test_types = zip<long,float>::with_t<first_order,last_order>; // equals

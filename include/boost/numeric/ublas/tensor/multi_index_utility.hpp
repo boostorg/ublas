@@ -268,7 +268,7 @@ template<std::size_t m>
 struct index_position_pairs_impl<m,m>
 {
 	template<class array_type, class tuple_left, class tuple_right>
-	static constexpr void run(array_type& out, tuple_left const& , tuple_right const& , std::size_t p)
+	static constexpr void run([[maybe_unused]] array_type& out, tuple_left const& , tuple_right const& , [[maybe_unused]] std::size_t p)
 	{
 		using index_type     = std::tuple_element_t<m-1,tuple_left>;
 		using has_index_type = has_index<index_type, tuple_right>;
