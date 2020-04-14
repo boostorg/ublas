@@ -1,12 +1,13 @@
 //
-//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen, Germany
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
@@ -21,14 +22,14 @@ int main()
 
 	using format_t  = column_major;
 	using value_t   = float; // std::complex<double>;
-	using tensor_t = tensor<value_t,format_t>;
+	using tensor_t = tensor<value_t,dynamic_extents<>,format_t>;;
 	using matrix_t = matrix<value_t,format_t>;
 	using vector_t = vector<value_t>;
 
 	// Tensor-Vector-Multiplications - Including Transposition
 	{
 
-		auto n = shape{3,4,2};
+		auto n = dynamic_extents<>{3,4,2};
 		auto A = tensor_t(n,2);
 		auto q = 0u; // contraction mode
 
@@ -78,14 +79,14 @@ int main()
 	// Tensor-Matrix-Multiplications - Including Transposition
 	{
 
-		auto n = shape{3,4,2};
+		auto n = dynamic_extents<>{3,4,2};
 		auto A = tensor_t(n,2);
 		auto m = 5u;
 		auto q = 0u; // contraction mode
 
 		// C1(l,j,k) = T2(l,j,k) + A(i,j,k)*T1(l,i);
 		q = 1u;
-		tensor_t C1 = tensor_t(shape{m,n[1],n[2]},2) + prod(A,matrix_t(m,n[q-1],1),q);
+		tensor_t C1 = tensor_t(dynamic_extents<>{m,n[1],n[2]},2) + prod(A,matrix_t(m,n[q-1],1),q);
 
 		// C2(i,l,k) = A(i,j,k)*T1(l,j) + 4;
 		q = 2u;
@@ -144,14 +145,14 @@ int main()
 
 		using perm_t = std::vector<std::size_t>;
 
-		auto na = shape{3,4,5};
-		auto nb = shape{4,6,3,2};
+		auto na = dynamic_extents<>{3,4,5};
+		auto nb = dynamic_extents<>{4,6,3,2};
 		auto A = tensor_t(na,2);
 		auto B = tensor_t(nb,3);
 
 
 		// C1(j,l) = T(j,l) + A(i,j,k)*A(i,j,l) + 5;
-		tensor_t C1 = tensor_t(shape{na[2],na[2]},2) + prod(A,A,perm_t{1,2}) + 5;
+		tensor_t C1 = tensor_t(dynamic_extents<>{na[2],na[2]},2) + prod(A,A,perm_t{1,2}) + 5;
 
 		// formatted output
 		std::cout << "% --------------------------- " << std::endl;
@@ -161,7 +162,7 @@ int main()
 
 
 		// C2(k,l,m) = T(k,l,m) + A(i,j,k)*B(j,l,i,m) + 5;
-		tensor_t C2 = tensor_t(shape{na[2],nb[1],nb[3]},2) + prod(A,B,perm_t{1,2},perm_t{3,1}) + 5;
+		tensor_t C2 = tensor_t(dynamic_extents<>{na[2],nb[1],nb[3]},2) + prod(A,B,perm_t{1,2},perm_t{3,1}) + 5;
 
 		// formatted output
 		std::cout << "% --------------------------- " << std::endl;
@@ -171,7 +172,7 @@ int main()
 
 
 		// C3(k,l,m) = T(k,l,m) + A(i,j,k)*trans(B(j,l,i,m),{2,3,1,4})+ 5;
-		tensor_t C3 = tensor_t(shape{na[2],nb[1],nb[3]},2) + prod(A,trans(B,{2,3,1,4}),perm_t{1,2}) + 5;
+		tensor_t C3 = tensor_t(dynamic_extents<>{na[2],nb[1],nb[3]},2) + prod(A,trans(B,{2,3,1,4}),perm_t{1,2}) + 5;
 
 		// formatted output
 		std::cout << "% --------------------------- " << std::endl;

@@ -180,10 +180,10 @@ void ttm(SizeType const m,  SizeType const r,
 		for(auto i0 = 0ul; i0 < nc[0]; c += wc[0], a += wa[0], ++i0) {
 			auto cm = c;
 			auto b0 = b;
-			for(auto i0 = 0ul; i0 < nc[m]; cm += wc[m], b0 += wb[0], ++i0){
+			for(auto i1 = 0ul; i1 < nc[m]; cm += wc[m], b0 += wb[0], ++i1){
 				auto am = a;
 				auto b1 = b0;
-				for(auto i1 = 0ul; i1 < nb[1]; am += wa[m], b1 += wb[1], ++i1)
+				for(auto i2 = 0ul; i2 < nb[1]; am += wa[m], b1 += wb[1], ++i2)
 					*cm += *am * *b1;
 			}
 		}
@@ -233,7 +233,7 @@ void ttm0( SizeType const r,
 
 				auto am = a;
 				auto b1 = b0;
-				for(auto i1 = 0u; i1 < nb[1]; am += wa[0], b1 += wb[1], ++i1){
+				for(auto i2 = 0u; i2 < nb[1]; am += wa[0], b1 += wb[1], ++i2){
 
 					*cm += *am * *b1;
 				}
@@ -452,14 +452,14 @@ void outer_2x2(SizeType const pa,
 		auto c2 = c;
 		auto b0 = b;
 		for(auto ib0 = 0u; ib0 < nb[0]; b0 += wb[0], c2 += wc[pa], ++ib0) {
-			const auto b = *b0;
+			const auto new_b = *b0;
 			auto c1 = c2;
 			auto a1 = a;
 			for(auto ia1 = 0u; ia1 < na[1]; a1 += wa[1], c1 += wc[1], ++ia1) {
 				auto a0 = a1;
 				auto c0 = c1;
 				for(SizeType ia0 = 0u; ia0 < na[0]; a0 += wa[0], c0 += wc[0], ++ia0)
-					*c0 = *a0 * b;
+					*c0 = *a0 * new_b;
 			}
 		}
 	}

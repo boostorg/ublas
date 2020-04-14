@@ -47,13 +47,13 @@ void copy(const SizeType p, SizeType const*const n,
 		return;
 
 	if(c == nullptr || a == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
 
 	if(wc == nullptr || wa == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
 
 	if(n == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
 
 
 	std::function<void(SizeType r, PointerOut c, PointerIn  a)> lambda;
@@ -99,13 +99,13 @@ void transform(const SizeType p,
 		return;
 
 	if(c == nullptr || a == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 	if(wc == nullptr || wa == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 	if(n == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
 	std::function<void(SizeType r, PointerOut c, PointerIn a)> lambda;
@@ -147,13 +147,13 @@ ValueType accumulate(SizeType const p, SizeType const*const n,
 		return k;
 
 	if(a == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 	if(w == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 	if(n == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
 	std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
@@ -197,13 +197,13 @@ ValueType accumulate(SizeType const p, SizeType const*const n,
 		return k;
 
 	if(a == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 	if(w == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 	if(n == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
 	std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
@@ -256,13 +256,13 @@ void trans( SizeType const p,  SizeType const*const na, SizeType const*const pi,
 		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null.");
 
 	if(wc == nullptr || wa == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 	if(na == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 	if(pi == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 
 	std::function<void(SizeType r, PointerOut c, PointerIn a)> lambda;
@@ -307,16 +307,16 @@ void trans( SizeType const p,
 		return;
 
 	if(c == nullptr || a == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 	if(wc == nullptr || wa == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 	if(na == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 	if(pi == nullptr)
-		throw std::length_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+		throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 
 	std::function<void(SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)> lambda;

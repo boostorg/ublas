@@ -1,251 +1,164 @@
 //
-//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen, Germany
+//  Google
 //
 /// \file strides.hpp Definition for the basic_strides template class
 
+#ifndef _BOOST_UBLAS_TENSOR_STRIDES_HPP_
+#define _BOOST_UBLAS_TENSOR_STRIDES_HPP_
 
-#ifndef BOOST_UBLAS_TENSOR_STRIDES_HPP
-#define BOOST_UBLAS_TENSOR_STRIDES_HPP
-
-#include <vector>
-#include <limits>
-#include <numeric>
-#include <stdexcept>
-#include <initializer_list>
 #include <algorithm>
-#include <cassert>
+#include <boost/numeric/ublas/tensor/dynamic_strides.hpp>
+#include <boost/numeric/ublas/tensor/static_strides.hpp>
 
-#include <boost/numeric/ublas/functional.hpp>
+namespace boost::numeric::ublas {
 
-namespace boost { 
-namespace numeric { 
-namespace ublas {
+  template <class LStrides, class RStrides,
+    std::enable_if_t<detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>, int> = 0
+  >
+  constexpr bool operator==(LStrides const &lhs, RStrides const &rhs) {
+    
+    static_assert(detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>,
+      "boost::numeric::ublas::operator==() : invalid type, type should be a strides");
 
-using first_order = column_major;
-using last_order = row_major;
+    if( lhs.size() != rhs.size() ){
+        return false;
+    }else{
+        return std::equal(lhs.begin(), lhs.end(), rhs.begin());
+    }
+  }
 
-template<class T>
-class basic_extents;
+  template <class LStrides, class RStrides,
+    std::enable_if_t<detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>, int> = 0
+  >
+  constexpr bool operator!=(LStrides const &lhs, RStrides const &rhs) {
+    static_assert(detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>,
+      "boost::numeric::ublas::operator!=() : invalid type, type should be a strides");
+    return !(lhs == rhs);
+  }
 
-
-/** @brief Template class for storing tensor strides for iteration with runtime variable size.
- *
- * Proxy template class of std::vector<int_type>.
- *
- */
-template<class __int_type, class __layout>
-class basic_strides
-{
-public:
-
-	using base_type = std::vector<__int_type>;
-
-	static_assert( std::numeric_limits<typename base_type::value_type>::is_integer,
-								 "Static error in boost::numeric::ublas::basic_strides: type must be of type integer.");
-	static_assert(!std::numeric_limits<typename base_type::value_type>::is_signed,
-								"Static error in boost::numeric::ublas::basic_strides: type must be of type unsigned integer.");
-	static_assert(std::is_same<__layout,first_order>::value || std::is_same<__layout,last_order>::value,
-								"Static error in boost::numeric::ublas::basic_strides: layout type must either first or last order");
-
-
-	using layout_type = __layout;
-	using value_type = typename base_type::value_type;
-	using reference = typename base_type::reference;
-	using const_reference = typename base_type::const_reference;
-	using size_type = typename base_type::size_type;
-	using const_pointer = typename base_type::const_pointer;
-	using const_iterator = typename base_type::const_iterator;
+  template <class Strides,
+    std::enable_if_t<detail::is_strides_v<Strides>, int> = 0
+  >
+  std::ostream& operator<<(std::ostream& os, Strides const& s){
+    static_assert(detail::is_strides_v<Strides>,
+      "boost::numeric::ublas::operator<<() : invalid type, type should be a strides");
+    return os<<to_string(s);
+  }
 
 
-	/** @brief Default constructs basic_strides
-	 *
-	 * @code auto ex = basic_strides<unsigned>{};
-	 */
-	constexpr explicit basic_strides()
-		: _base{}
-	{
-	}
 
-	/** @brief Constructs basic_strides from basic_extents for the first- and last-order storage formats
-	 *
-	 * @code auto strides = basic_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
-	 *
-	 */
-	template <class T>
-	basic_strides(basic_extents<T> const& s)
-			: _base(s.size(),1)
-	{
-		if(s.empty())
-			return;
+  template <class Layout, class T> struct strides;
 
-		if(!s.valid())
-			throw std::runtime_error("Error in boost::numeric::ublas::basic_strides() : shape is not valid.");		
+  /** @brief Partial Specialization of strides for basic_static_extents
+   *
+   *
+   * @tparam Layout either first_order or last_order
+   *
+   * @tparam R rank of extents
+   *
+   * @tparam Extents parameter pack of extents
+   *
+   */
+  template <class Layout, class T, T... Extents>
+  struct strides<basic_static_extents<T, Extents...>, Layout>
+  {
+    using type = basic_static_strides<basic_static_extents<T, Extents...>, Layout>;
+  };
 
-		if(s.is_vector() || s.is_scalar())
-			return;
+  /** @brief Partial Specialization of strides for basic_extents
+   *
+   *
+   * @tparam Layout either first_order or last_order
+   *
+   * @tparam T extents type
+   *
+   */
+  template <class Layout, class T>
+  struct strides<basic_extents<T>, Layout>
+  {
+    using type = basic_strides<T, Layout>;
+  };
 
-		if(this->size() < 2)
-			throw std::runtime_error("Error in boost::numeric::ublas::basic_strides() : size of strides must be greater or equal 2.");
+  /** @brief Partial Specialization of strides for basic_fixed_rank_strides
+   *
+   *
+   * @tparam Layout either first_order or last_order
+   *
+   * @tparam T extents type
+   *
+   */
+  template <class Layout, std::size_t N, class T>
+  struct strides<basic_fixed_rank_extents<T,N>, Layout>
+  {
+    using type = basic_fixed_rank_strides<T, N, Layout>;
+  };
 
+  /** @brief type alias of result of strides::type
+   *
+   * @tparam E extents type either basic_extents or basic_static_extents
+   *
+   * @tparam Layout either first_order or last_order
+   *
+   */
+  template <class E, class Layout>
+  using strides_t = typename strides<E, Layout>::type;
 
-		if constexpr (std::is_same<layout_type,first_order>::value){
-			size_type k = 1ul, kend = this->size();
-			for(; k < kend; ++k)
-				_base[k] = _base[k-1] * s[k-1];
-		}
-		else {
-			size_type k = this->size()-2, kend = 0ul;
-			for(; k > kend; --k)
-				_base[k] = _base[k+1] * s[k+1];
-			_base[0] = _base[1] * s[1];
-		}
-	}
-
-	basic_strides(basic_strides const& l)
-	    : _base(l._base)
-	{}
-
-	basic_strides(basic_strides && l )
-	    : _base(std::move(l._base))
-	{}
-
-	basic_strides(base_type const& l )
-	    : _base(l)
-	{}
-
-	basic_strides(base_type && l )
-			: _base(std::move(l))
-	{}
-
-	~basic_strides() = default;
+  namespace detail{
 
 
-	basic_strides& operator=(basic_strides other)
-	{
-		swap (*this, other);
-		return *this;
-	}
+  /** @brief Returns relative memory index with respect to a multi-index
+   *
+   * @code auto j = access(std::vector{3,4,5}, strides{shape{4,2,3},first_order}); @endcode
+   *
+   * @param[in] i multi-index of length p
+   * @param[in] w stride vector of length p
+   * @returns relative memory location depending on \c i and \c w
+  */
+  template<class Stride, class size_type = typename Stride::size_type >
+  auto access(std::vector<size_type> const& i, Stride const& w)
+  {
+    static_assert( is_strides_v<Stride>, 
+      "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
 
-	friend void swap(basic_strides& lhs, basic_strides& rhs) {
-		std::swap(lhs._base   , rhs._base);
-	}
+    const auto p = i.size();
+    size_type sum = 0u;
+    for(auto r = 0u; r < p; ++r)
+      sum += i[r]*w[r];
+    return sum;
+  }
 
-	const_reference operator[] (size_type p) const{
-		return _base[p];
-	}
-
-	const_pointer data() const{
-		return _base.data();
-	}
-
-	const_reference at (size_type p) const{
-		return _base.at(p);
-	}
-
-
-	bool empty() const{
-		return _base.empty();
-	}
-
-	size_type size() const{
-		return _base.size();
-	}
-
-	template<class other_layout>
-	bool operator == (basic_strides<value_type, other_layout> const& b) const{
-		return b.base() == this->base();
-	}
-
-	template<class other_layout>
-	bool operator != (basic_strides<value_type, other_layout> const& b) const{
-		return b.base() != this->base();
-	}
-
-	bool operator == (basic_strides const& b) const{
-		return b._base == _base;
-	}
-
-	bool operator != (basic_strides const& b) const{
-		return b._base != _base;
-	}
-
-	const_iterator begin() const{
-		return _base.begin();
-	}
-
-	const_iterator end() const{
-		return _base.end();
-	}
-
-	void clear() {
-		this->_base.clear();
-	}
-
-	base_type const& base() const{
-		return this->_base;
-	}
+  /** @brief Returns relative memory index with respect to a multi-index
+   *
+   * @code auto j = access(0, strides{shape{4,2,3},first_order}, 2,3,4); @endcode
+   *
+   * @param[in] i   first element of the partial multi-index
+   * @param[in] is  the following elements of the partial multi-index
+   * @param[in] sum the current relative memory index
+   * @returns relative memory location depending on \c i and \c w
+  */
+  template<std::size_t r, class Stride, class ... size_types>
+  auto access(std::size_t sum, Stride const& w, std::size_t i, size_types ... is)
+  {	
+    static_assert( is_strides_v<Stride>, 
+      "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
+    sum += i*w[r];
+    if constexpr (sizeof...(is) == 0)
+      return sum;
+    else
+      return detail::access<r+1>(sum,w,std::forward<size_types>(is)...);
+  }
 
 
-protected:
-	base_type _base;
-};
+} // namespace detail
 
-template<class layout_type>
-using strides = basic_strides<std::size_t, layout_type>;
-
-namespace detail {
-
-
-/** @brief Returns relative memory index with respect to a multi-index
- *
- * @code auto j = access(std::vector{3,4,5}, strides{shape{4,2,3},first_order}); @endcode
- *
- * @param[in] i multi-index of length p
- * @param[in] w stride vector of length p
- * @returns relative memory location depending on \c i and \c w
-*/
-BOOST_UBLAS_INLINE
-template<class size_type, class layout_type>
-auto access(std::vector<size_type> const& i, basic_strides<size_type,layout_type> const& w)
-{
-	const auto p = i.size();
-	size_type sum = 0u;
-	for(auto r = 0u; r < p; ++r)
-		sum += i[r]*w[r];
-	return sum;
-}
-
-/** @brief Returns relative memory index with respect to a multi-index
- *
- * @code auto j = access(0, strides{shape{4,2,3},first_order}, 2,3,4); @endcode
- *
- * @param[in] i   first element of the partial multi-index
- * @param[in] is  the following elements of the partial multi-index
- * @param[in] sum the current relative memory index
- * @returns relative memory location depending on \c i and \c w
-*/
-BOOST_UBLAS_INLINE
-template<std::size_t r, class layout_type, class ... size_types>
-auto access(std::size_t sum, basic_strides<std::size_t, layout_type> const& w, std::size_t i, size_types ... is)
-{
-	sum+=i*w[r];
-	if constexpr (sizeof...(is) == 0)
-		return sum;
-	else
-		return detail::access<r+1>(sum,w,std::forward<size_types>(is)...);
-}
-
-}
-
-}
-}
-}
+} // namespace boost::numeric::ublas
 
 #endif

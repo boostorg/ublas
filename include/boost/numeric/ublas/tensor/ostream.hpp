@@ -14,6 +14,7 @@
 
 #include <ostream>
 #include <complex>
+#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 
 namespace boost {
 namespace numeric {
@@ -79,7 +80,7 @@ namespace boost {
 namespace numeric {
 namespace ublas {
 
-template<class T, class F, class A>
+template<class T, class E, class F, class A>
 class tensor;
 
 template<class T, class F, class A>
@@ -93,16 +94,16 @@ class vector;
 }
 
 
-template <class V, class F, class A>
-std::ostream& operator << (std::ostream& out, boost::numeric::ublas::tensor<V,F,A> const& t)
+template <class V, class E, class F, class A>
+std::ostream& operator << (std::ostream& out, boost::numeric::ublas::tensor<V,E,F,A> const& t)
 {
 
-	if(t.extents().is_scalar()){
+	if(is_scalar(t.extents())){
 		out << '[';
 		boost::numeric::ublas::detail::print(out,t[0]);
 		out << ']';
 	}
-	else if(t.extents().is_vector()) {
+	else if(is_vector(t.extents())) {
 		const auto& cat = t.extents().at(0) > t.extents().at(1) ? ';' : ',';
 		out << '[';
 		for(auto i = 0u; i < t.size()-1; ++i){
