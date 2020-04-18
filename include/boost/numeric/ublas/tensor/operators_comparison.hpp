@@ -16,16 +16,18 @@
 #include <boost/numeric/ublas/tensor/expression_evaluation.hpp>
 #include <type_traits>
 #include <functional>
+#include <vector>
+#include <utility>
 
 namespace boost::numeric::ublas {
-template<class element_type, class storage_format, class storage_type>
+template<class element_type, class shape_type, class storage_format, class storage_type>
 class tensor;
 }
 
 namespace boost::numeric::ublas::detail {
 
-template<class T, class F, class A, class BinaryPred>
-bool compare(tensor<T,F,A> const& lhs, tensor<T,F,A> const& rhs, BinaryPred pred)
+template<class T, class E1, class E2, class F, class A, class BinaryPred>
+bool compare(tensor<T,E1,F,A> const& lhs, tensor<T,E2,F,A> const& rhs, BinaryPred pred)
 {
 
 	if(lhs.extents() != rhs.extents()){
@@ -45,8 +47,8 @@ bool compare(tensor<T,F,A> const& lhs, tensor<T,F,A> const& rhs, BinaryPred pred
 	return true;
 }
 
-template<class T, class F, class A, class UnaryPred>
-bool compare(tensor<T,F,A> const& rhs, UnaryPred pred)
+template<class T, class E, class F, class A, class UnaryPred>
+bool compare(tensor<T,E,F,A> const& rhs, UnaryPred pred)
 {
 	for(auto i = 0u; i < rhs.size(); ++i)
 		if(!pred(rhs(i)))

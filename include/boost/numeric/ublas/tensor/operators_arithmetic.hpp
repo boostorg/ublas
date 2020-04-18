@@ -26,7 +26,7 @@ namespace numeric{
 namespace ublas {
 
 
-template<class element_type, class storage_format, class storage_type>
+template<class element_type, class shape_type, class storage_format, class storage_type>
 class tensor;
 
 template<class E>
@@ -163,26 +163,26 @@ auto& operator /= (T& lhs, const boost::numeric::ublas::detail::tensor_expressio
 
 
 
-template<class E, class F, class A>
-auto& operator += (boost::numeric::ublas::tensor<E,F,A>& lhs, typename boost::numeric::ublas::tensor<E,F,A>::const_reference r) {
+template<class V, class E, class F, class A>
+auto& operator += (boost::numeric::ublas::tensor<V,E,F,A>& lhs, typename boost::numeric::ublas::tensor<V,E,F,A>::const_reference r) {
 	boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l+=r; } );
 	return lhs;
 }
 
-template<class E, class F, class A>
-auto& operator -= (boost::numeric::ublas::tensor<E,F,A>& lhs, typename boost::numeric::ublas::tensor<E,F,A>::const_reference r) {
+template<class V, class E, class F, class A>
+auto& operator -= (boost::numeric::ublas::tensor<V,E,F,A>& lhs, typename boost::numeric::ublas::tensor<V,E,F,A>::const_reference r) {
 	boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l-=r; } );
 	return lhs;
 }
 
-template<class E, class F, class A>
-auto& operator *= (boost::numeric::ublas::tensor<E,F,A>& lhs, typename boost::numeric::ublas::tensor<E,F,A>::const_reference r) {
+template<class V, class E, class F, class A>
+auto& operator *= (boost::numeric::ublas::tensor<V,E,F,A>& lhs, typename boost::numeric::ublas::tensor<V,E,F,A>::const_reference r) {
 	boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l*=r; } );
 	return lhs;
 }
 
-template<class E, class F, class A>
-auto& operator /= (boost::numeric::ublas::tensor<E,F,A>& lhs, typename boost::numeric::ublas::tensor<E,F,A>::const_reference r) {
+template<class V, class E, class F, class A>
+auto& operator /= (boost::numeric::ublas::tensor<V,E,F,A>& lhs, typename boost::numeric::ublas::tensor<V,E,F,A>::const_reference r) {
 	boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l/=r; } );
 	return lhs;
 }

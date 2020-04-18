@@ -1,12 +1,13 @@
-//  Copyright (c) 2018-2019 Cem Bassoy
+//
+// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer and Google in producing this work
-//  which started as a Google Summer of Code project.
+//  Google
 //
 
 
@@ -18,30 +19,29 @@
 #include <boost/multiprecision/cpp_bin_float.hpp>
 #include "utility.hpp"
 
-
-BOOST_AUTO_TEST_SUITE(test_tensor_comparison, * boost::unit_test::depends_on("test_tensor"))
+BOOST_AUTO_TEST_SUITE(test_fixed_rank_tensor_comparison)
 
 using double_extended = boost::multiprecision::cpp_bin_float_double_extended;
 
 using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
 
 struct fixture {
-	using extents_type = boost::numeric::ublas::basic_extents<std::size_t>;
-	fixture()
-	  : extents{
-				extents_type{},    // 0
-				extents_type{1,1}, // 1
-				extents_type{1,2}, // 2
-				extents_type{2,1}, // 3
-				extents_type{2,3}, // 4
-				extents_type{2,3,1}, // 5
-				extents_type{4,1,3}, // 6
-				extents_type{1,2,3}, // 7
-				extents_type{4,2,3}, // 8
-	      extents_type{4,2,3,5}} // 9
-	{
-	}
-	std::vector<extents_type> extents;
+	template<size_t N>
+	using extents_type = boost::numeric::ublas::dynamic_extents<N>;
+
+	std::tuple<
+		extents_type<2>, // 1
+		extents_type<2>, // 2
+		extents_type<3>, // 3
+		extents_type<3>, // 4
+		extents_type<4>  // 5
+	> extents = {  
+	    extents_type<2>{1,1},  
+	    extents_type<2>{2,3}, 
+	    extents_type<3>{4,1,3},
+	    extents_type<3>{4,2,3},
+	    extents_type<4>{4,2,3,5}
+	};
 };
 
 
@@ -50,11 +50,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
 
-
-	auto check = [](auto const& e)
-	{
+	auto check = [](auto const&, auto& e)
+	{	
+		using extents_type = std::decay_t<decltype(e)>;
+		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
 		auto t  = tensor_type (e);
 		auto t2 = tensor_type (e);
 		auto v  = value_type  {};
@@ -80,24 +80,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
 		BOOST_CHECK( t2 >= t );
 	};
 
-	for(auto const& e : extents)
-		check(e);
-
-	auto e0 = extents.at(0);
-	auto e1 = extents.at(1);
-	auto e2 = extents.at(2);
-
-
-	auto b = false;
-	BOOST_CHECK_NO_THROW ( b = (tensor_type(e0) == tensor_type(e0)));
-	BOOST_CHECK_NO_THROW ( b = (tensor_type(e1) == tensor_type(e2)));
-	BOOST_CHECK_NO_THROW ( b = (tensor_type(e0) == tensor_type(e2)));
-	BOOST_CHECK_NO_THROW ( b = (tensor_type(e1) != tensor_type(e2)));
-
-	BOOST_CHECK_THROW    ( b = (tensor_type(e1) >= tensor_type(e2)), std::runtime_error  );
-	BOOST_CHECK_THROW    ( b = (tensor_type(e1) <= tensor_type(e2)), std::runtime_error  );
-	BOOST_CHECK_THROW    ( b = (tensor_type(e1) <  tensor_type(e2)), std::runtime_error  );
-	BOOST_CHECK_THROW    ( b = (tensor_type(e1) >  tensor_type(e2)), std::runtime_error  );
+	for_each_tuple(extents,check);
 
 }
 
@@ -107,11 +90,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
 
 
-	auto check = [](auto const& e)
-	{
+	auto check = [](auto const&, auto& e)
+	{	
+		using extents_type = std::decay_t<decltype(e)>;
+		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
+
 		auto t  = tensor_type (e);
 		auto t2 = tensor_type (e);
 		auto v  = value_type  {};
@@ -141,33 +126,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 
 	};
 
-	for(auto const& e : extents)
-		check(e);
-
-	auto e0 = extents.at(0);
-	auto e1 = extents.at(1);
-	auto e2 = extents.at(2);
-
-	auto b = false;
-	BOOST_CHECK_NO_THROW (b = tensor_type(e0) == (tensor_type(e0) + tensor_type(e0))  );
-	BOOST_CHECK_NO_THROW (b = tensor_type(e1) == (tensor_type(e2) + tensor_type(e2))  );
-	BOOST_CHECK_NO_THROW (b = tensor_type(e0) == (tensor_type(e2) + 2) );
-	BOOST_CHECK_NO_THROW (b = tensor_type(e1) != (2 + tensor_type(e2)) );
-
-	BOOST_CHECK_NO_THROW (b = (tensor_type(e0) + tensor_type(e0)) == tensor_type(e0) );
-	BOOST_CHECK_NO_THROW (b = (tensor_type(e2) + tensor_type(e2)) == tensor_type(e1) );
-	BOOST_CHECK_NO_THROW (b = (tensor_type(e2) + 2)               == tensor_type(e0) );
-	BOOST_CHECK_NO_THROW (b = (2 + tensor_type(e2))               != tensor_type(e1) );
-
-	BOOST_CHECK_THROW    (b = tensor_type(e1) >= (tensor_type(e2) + tensor_type(e2)), std::runtime_error  );
-	BOOST_CHECK_THROW    (b = tensor_type(e1) <= (tensor_type(e2) + tensor_type(e2)), std::runtime_error  );
-	BOOST_CHECK_THROW    (b = tensor_type(e1) <  (tensor_type(e2) + tensor_type(e2)), std::runtime_error  );
-	BOOST_CHECK_THROW    (b = tensor_type(e1) >  (tensor_type(e2) + tensor_type(e2)), std::runtime_error  );
-
-	BOOST_CHECK_THROW    (b = tensor_type(e1) >= (tensor_type(e2) + 2), std::runtime_error  );
-	BOOST_CHECK_THROW    (b = tensor_type(e1) <= (2 + tensor_type(e2)), std::runtime_error  );
-	BOOST_CHECK_THROW    (b = tensor_type(e1) <  (tensor_type(e2) + 3), std::runtime_error  );
-	BOOST_CHECK_THROW    (b = tensor_type(e1) >  (4 + tensor_type(e2)), std::runtime_error  );
+	for_each_tuple(extents,check);
 
 }
 
@@ -178,11 +137,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
 
 
-	auto check = [](auto const& e)
-	{
+	auto check = [](auto const&, auto& e)
+	{	
+		using extents_type = std::decay_t<decltype(e)>;
+		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
 
 		BOOST_CHECK( tensor_type(e,value_type{2}) == tensor_type(e,value_type{2})  );
 		BOOST_CHECK( tensor_type(e,value_type{2}) != tensor_type(e,value_type{1})  );
@@ -237,8 +197,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 
 	};
 
-	for(auto const& e : extents)
-		check(e);
+for_each_tuple(extents,check);
 
 }
 

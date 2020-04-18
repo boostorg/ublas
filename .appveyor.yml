@@ -11,11 +11,16 @@ branches:
     - master
     - develop
     - /feature\/.*/
+    - expr_template
+    - framework
 
 environment:
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      TOOLSET: msvc-14.1
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      TOOLSET: msvc-14.2
+      CXXSTD: latest
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      TOOLSET: msvc-14.2
       CXXSTD: 17
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       TOOLSET: msvc-14.0
@@ -59,7 +64,7 @@ install:
       local toolset = [ regex.split [ os.environ TOOLSET ] "-" ] ;
       local vcpkg_i = [ os.environ VCPKG_I ] ;
       local vcpkg_l = [ os.environ VCPKG_L ] ;
-      using $(toolset[1]) : $(toolset[2-]:J="-") : ;
+      using $(toolset[1]) : $(toolset[2-]:J="-") :  ;
       using opencl : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
       using clblas : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
       '@ | sc "$env:USERPROFILE/user-config.jam"

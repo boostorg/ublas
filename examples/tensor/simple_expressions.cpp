@@ -1,12 +1,13 @@
 //
-//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Fraunhofer IOSB, Ettlingen, Germany
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
@@ -36,7 +37,7 @@ int main()
 	std::cout << "% --------------------------- " << std::endl << std::endl;
 	std::cout << "A=" << A << ";" << std::endl << std::endl;
 
-	auto n = shape{3,4};
+	auto n = dynamic_extents<>{3,4};
 	auto D = matrixf(n[0],n[1],1);
 	auto e = vectorf(n[1],1);
 	auto f = vectorf(n[0],2);
