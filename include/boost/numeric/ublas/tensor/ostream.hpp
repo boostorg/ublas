@@ -94,8 +94,8 @@ class vector;
 }
 
 
-template <class V, class E, class F, class A>
-std::ostream& operator << (std::ostream& out, boost::numeric::ublas::tensor<V,E,F,A> const& t)
+template <typename T>
+std::ostream& operator << (std::ostream& out, boost::numeric::ublas::basic_tensor<T> const& t)
 {
 
 	if(is_scalar(t.extents())){

@@ -106,6 +106,7 @@ inline static constexpr bool const is_resizable_v = is_resizable<T>::value;
 
 #include <boost/numeric/ublas/tensor/detail/type_traits_extents.hpp>
 #include <boost/numeric/ublas/tensor/detail/type_traits_strides.hpp>
+#include <boost/numeric/ublas/tensor/detail/type_traits_tensor.hpp>
 #include <boost/numeric/ublas/tensor/detail/storage_traits.hpp>
 
 #endif

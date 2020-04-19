@@ -16,6 +16,7 @@
 #include "expression_evaluation.hpp"
 #include "multi_index_utility.hpp"
 #include "functions.hpp"
+#include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
 
 #include <type_traits>
 #include <functional>
@@ -26,8 +27,8 @@ namespace numeric{
 namespace ublas {
 
 
-template<class element_type, class shape_type, class storage_format, class storage_type>
-class tensor;
+template<class T>
+class basic_tensor;
 
 template<class E>
 class matrix_expression;
@@ -163,26 +164,38 @@ auto& operator /= (T& lhs, const boost::numeric::ublas::detail::tensor_expressio
 
 
 
-template<class V, class E, class F, class A>
-auto& operator += (boost::numeric::ublas::tensor<V,E,F,A>& lhs, typename boost::numeric::ublas::tensor<V,E,F,A>::const_reference r) {
+template<class TensorType>
+auto& operator += (TensorType& lhs, typename TensorType::const_reference r) {
+	static_assert( boost::numeric::ublas::detail::is_tensor_v<TensorType>, 
+		"boost::numeric::ublas::operator +=() : tensor type should be valid tensor"
+	);
 	boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l+=r; } );
 	return lhs;
 }
 
-template<class V, class E, class F, class A>
-auto& operator -= (boost::numeric::ublas::tensor<V,E,F,A>& lhs, typename boost::numeric::ublas::tensor<V,E,F,A>::const_reference r) {
+template<typename TensorType>
+auto& operator -= (TensorType& lhs, typename TensorType::const_reference r) {
+	static_assert( boost::numeric::ublas::detail::is_tensor_v<TensorType>, 
+		"boost::numeric::ublas::operator -=() : tensor type should be valid tensor"
+	);
 	boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l-=r; } );
 	return lhs;
 }
 
-template<class V, class E, class F, class A>
-auto& operator *= (boost::numeric::ublas::tensor<V,E,F,A>& lhs, typename boost::numeric::ublas::tensor<V,E,F,A>::const_reference r) {
+template<typename TensorType>
+auto& operator *= (TensorType& lhs, typename TensorType::const_reference r) {
+	static_assert( boost::numeric::ublas::detail::is_tensor_v<TensorType>, 
+		"boost::numeric::ublas::operator *=() : tensor type should be valid tensor"
+	);
 	boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l*=r; } );
 	return lhs;
 }
 
-template<class V, class E, class F, class A>
-auto& operator /= (boost::numeric::ublas::tensor<V,E,F,A>& lhs, typename boost::numeric::ublas::tensor<V,E,F,A>::const_reference r) {
+template<typename TensorType>
+auto& operator /= (TensorType& lhs, typename TensorType::const_reference r) {
+	static_assert( boost::numeric::ublas::detail::is_tensor_v<TensorType>, 
+		"boost::numeric::ublas::operator /=() : tensor type should be valid tensor"
+	);
 	boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l/=r; } );
 	return lhs;
 }

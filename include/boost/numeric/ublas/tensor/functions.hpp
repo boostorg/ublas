@@ -28,10 +28,23 @@
 #include <boost/numeric/ublas/tensor/extents.hpp>
 #include <boost/numeric/ublas/tensor/strides.hpp>
 
+namespace boost::numeric::ublas{
+	
+	template<typename T, typename F>
+	struct dynamic_tensor;
+	
+	template<typename T, typename E, typename F>
+	struct static_tensor;
+	
+	template<typename T, std::size_t R, typename F>
+	struct fixed_rank_tensor;
+
+} // namespace boost::numeric::ublas
+
+
 // dynamic_functions
 namespace boost::numeric::ublas
 {
-
 	namespace detail{
 		// MSVC 14.1 bug
 		// cannot use ::_size inside constexpr function
@@ -86,6 +99,15 @@ namespace boost::numeric::ublas
 			return dynamic_extents<>( std::vector<typename E1::value_type>( e1.size() + e2.size(), 1 ) );
 		}
 
+		template<typename T>
+		struct is_complex : std::false_type{};
+
+		template<typename T>
+		struct is_complex< std::complex<T> > : std::true_type{};
+
+		template<typename T>
+		inline static constexpr bool is_complex_v = is_complex<T>::value;
+
 	} // namespace detail
 	
 	/** @brief Computes the m-mode tensor-times-vector product
@@ -100,12 +122,17 @@ namespace boost::numeric::ublas
 	 *
 	 * @returns tensor object C with order p-1, the same storage format and allocator type as A
 	*/
-	template <class V, class E, class F, class A1, class A2>
-	inline decltype(auto) prod(tensor<V, E, F, A1> const &a, vector<V, A2> const &b, const std::size_t m)
+	template <typename TensorType>
+	inline decltype(auto) prod(TensorType const &a, 
+		vector<typename TensorType::value_type, typename TensorType::array_type> const &b, 
+		const std::size_t m)
 	{
-
-		using tensor_type = tensor<V, E, F, A1>;
+		static_assert( detail::is_tensor_v<TensorType>, 
+			"boost::numeric::ublas::prod(ttv) : tensor type should be valid tensor"
+		);
+		using tensor_type = TensorType;
 		using extents_type = typename tensor_type::extents_type;
+		using layout_type = typename tensor_type::layout_type;
 		using value_type = typename tensor_type::value_type;
 		using size_type = typename extents_type::size_type;
 
@@ -133,13 +160,14 @@ namespace boost::numeric::ublas
 
 		auto nc = detail::extents_result_type_tensor_times_vector(a.extents());
 		auto nb = std::vector<typename extents_type::value_type>{b.size(), 1};
+
 		auto a_extents = a.extents();
 		for (auto i = size_type(0), j = size_type(0); i < p; ++i)
 			if (i != m - 1)
 				nc[j++] = a_extents.at(i);
 
 
-		auto c = tensor<value_type, decltype(nc), F, std::vector<V> >(nc, value_type{});
+		auto c = detail::result_tensor_t<value_type, decltype(nc), layout_type>( nc, value_type{} );
 		auto bb = &(b(0));
 		ttv(m, p,
 			c.data(), c.extents().data(), c.strides().data(),
@@ -160,11 +188,18 @@ namespace boost::numeric::ublas
 	 *
 	 * @returns tensor object C with order p, the same storage format and allocator type as A
 	*/
-	template <class V, class E, class F, class A1, class A2>
-	inline decltype(auto) prod(tensor<V, E, F, A1> const &a, matrix<V, F, A2> const &b, const std::size_t m)
+	template <typename TensorType>
+	inline decltype(auto) prod(TensorType const &a, 
+		matrix<typename TensorType::value_type, typename TensorType::layout_type, 
+			typename TensorType::array_type> const &b, 
+		const std::size_t m)
 	{
-		using tensor_type = tensor<V, E, F, A1>;
-		using dynamic_strides_type = strides_t<dynamic_extents<>,F>;
+		static_assert( detail::is_tensor_v<TensorType>, 
+			"boost::numeric::ublas::prod(ttm) : tensor type should be valid tensor"
+		);
+
+		using tensor_type = TensorType;
+		using dynamic_strides_type = strides_t<dynamic_extents<>, typename tensor_type::layout_type>;
 		using value_type = typename tensor_type::value_type;
 
 		auto const p = a.rank();
@@ -223,15 +258,20 @@ namespace boost::numeric::ublas
 	 * @param[in]  b  right-hand side tensor with order s+q
 	 * @result     tensor with order r+s
 	*/
-	template <class V, class E1, class E2, class F, class A1, class A2>
-	inline decltype(auto) prod(tensor<V, E1, F, A1> const &a, tensor<V, E2, F, A2> const &b,
-										std::vector<std::size_t> const &phia, std::vector<std::size_t> const &phib)
+	template <typename TensorType1, typename TensorType2>
+	inline decltype(auto) prod(TensorType1 const &a, TensorType2 const &b,
+								std::vector<std::size_t> const &phia, std::vector<std::size_t> const &phib)
 	{
+		
+		static_assert( detail::is_tensor_v<TensorType1> && detail::is_tensor_v<TensorType2>, 
+			"boost::numeric::ublas::prod(ttt) : tensor type should be valid tensor"
+		);
 
-		using tensor_type = tensor<V, E1, F, A1>;
-		using extents_type_1 = E1;
+		using tensor_type = TensorType1;
+		using extents_type_1 = typename tensor_type::extents_type;
 		using value_type = typename tensor_type::value_type;
-		using size_type = typename extents_type_1::value_type;
+		using layout_type = typename tensor_type::layout_type;
+		using size_type = typename extents_type_1::size_type;
 
 		auto const pa = a.rank();
 		auto const pb = b.rank();
@@ -295,7 +335,7 @@ namespace boost::numeric::ublas
 		assert(phia1.size() == pa);
 		assert(phib1.size() == pb);
 
-		auto c = tensor(dynamic_extents<>(nc), value_type{});
+		auto c = dynamic_tensor<value_type,layout_type>( dynamic_extents<>(nc), value_type{} );//tensor(dynamic_extents<>(nc), value_type{});
 		
 		ttt(pa, pb, q,
 			phia1.data(), phib1.data(),
@@ -324,10 +364,14 @@ namespace boost::numeric::ublas
 	 * @param[in]  b  right-hand side tensor with order s+q
 	 * @result     tensor with order r+s
 	*/
-	template <class V, class E1, class E2, class F, class A1, class A2>
-	inline decltype(auto) prod(tensor<V, E1, F, A1> const &a, tensor<V, E2, F, A2> const &b,
+	template <typename TensorType1, typename TensorType2>
+	inline decltype(auto) prod(TensorType1 const &a, TensorType2 const &b,
 										std::vector<std::size_t> const &phi)
 	{
+		static_assert( detail::is_tensor_v<TensorType1> && detail::is_tensor_v<TensorType2>, 
+			"boost::numeric::ublas::prod(ttt) : tensor type should be valid tensor"
+		);
+
 		return prod(a, b, phi, phi);
 	}
 
@@ -342,10 +386,14 @@ namespace boost::numeric::ublas
 	 *
 	 * @returns a value type.
 	*/
-	template <class V, class E1, class E2, class F, class A1, class A2>
-	inline decltype(auto) inner_prod(tensor<V, E1, F, A1> const &a, tensor<V, E2, F, A2> const &b)
+	template <typename TensorType1, typename TensorType2>
+	inline decltype(auto) inner_prod(TensorType1 const &a, TensorType2 const &b)
 	{
-		using value_type = typename tensor<V, E1, F, A1>::value_type;
+		static_assert( detail::is_tensor_v<TensorType1> && detail::is_tensor_v<TensorType2>, 
+			"boost::numeric::ublas::prod(ttt) : tensor type should be valid tensor"
+		);
+
+		using value_type = typename TensorType1::value_type;
 
 		if (a.rank() != b.rank())
 			throw std::length_error("error in boost::numeric::ublas::inner_prod: Rank of both tensors must be the same.");
@@ -372,14 +420,20 @@ namespace boost::numeric::ublas
 	 *
 	 * @returns tensor object C with the same storage format F and allocator type A1
 	*/
-	template <class V, class E1, class E2, class F, class A1, class A2,
+	template <typename TensorType1, typename TensorType2,
 		std::enable_if_t<
-			!( detail::is_static<E1>::value &&
-			detail::is_static<E2>::value )
+			!( 	detail::is_static<typename TensorType1::extents_type>::value &&
+				detail::is_static<typename TensorType2::extents_type>::value )
 			,int> = 0
 	>
-	inline decltype(auto) outer_prod(tensor<V, E1, F, A1> const &a, tensor<V, E2, F, A2> const &b)
+	inline decltype(auto) outer_prod(TensorType1 const &a, TensorType2 const &b)
 	{
+		using value_type = typename TensorType1::value_type;
+		using layout_type = typename TensorType1::layout_type;
+
+		static_assert( detail::is_tensor_v<TensorType1> && detail::is_tensor_v<TensorType2>, 
+			"boost::numeric::ublas::outer_prod() : tensor type should be valid tensor"
+		);
 
 		if (a.empty() || b.empty())
 			throw std::runtime_error(
@@ -397,7 +451,7 @@ namespace boost::numeric::ublas
 		for(auto i = 0u; i < b.rank(); ++i)
 			nc.at(a.rank()+i) = b_extents.at(i);
 		
-		auto c = tensor(nc, V{});
+		auto c = detail::result_tensor_t<value_type, decltype(nc), layout_type>( nc, value_type{} );
 
 		outer(c.data(), c.rank(), c.extents().data(), c.strides().data(),
 			a.data(), a.rank(), a_extents.data(), a.strides().data(),
@@ -416,10 +470,16 @@ namespace boost::numeric::ublas
 	 * @param[in] tau  one-based permutation tuple of length p
 	 * @returns        a transposed tensor object with the same storage format F and allocator type A
 	*/
-	template <class V, class E, class F, class A>
-	inline decltype(auto) trans(tensor<V, E, F, A> const &a, std::vector<std::size_t> const &tau)
+	template <typename TensorType>
+	inline decltype(auto) trans(TensorType const &a, std::vector<std::size_t> const &tau)
 	{
-		using result_tensor_type = tensor<V, dynamic_extents<>, F, std::vector<V>>;
+		static_assert( detail::is_tensor_v<TensorType>, 
+			"boost::numeric::ublas::trans() : tensor type should be valid tensor"
+		);
+		
+		using value_type = typename TensorType::value_type;
+		using layout_type = typename TensorType::layout_type;
+		using result_tensor_type = dynamic_tensor<value_type,layout_type>;
 		//	using strides_type = typename tensor_type::strides_type;
 
 		if (a.empty())
@@ -465,13 +525,18 @@ namespace boost::numeric::ublas
 	 * @param a the tensor whose norm is expected of rank p.
 	 * @return the frobenius norm of a tensor.
 	 */
-	template <class V, class E, class F, class A>
-	inline decltype(auto) norm(tensor<V, E, F, A> const &a)
+	template <typename TensorType>
+	inline decltype(auto) norm(TensorType const &a)
 	{
-		using tensor_type = tensor<V, E, F, A>;
+		
+		static_assert( detail::is_tensor_v<TensorType>, 
+			"boost::numeric::ublas::norm() : tensor type should be valid tensor"
+		);
+
+		using tensor_type = TensorType;
 		using value_type = typename tensor_type::value_type;
 		
-		static_assert(std::is_default_constructible<V>::value,
+		static_assert(std::is_default_constructible<value_type>::value,
 					"Value type of tensor must be default construct able in order "
 					"to call boost::numeric::ublas::norm");
 		if (a.empty())
@@ -490,10 +555,16 @@ namespace boost::numeric::ublas
 	 * @param[in] lhs tensor expression
 	 * @returns   unary tensor expression
 	*/
-	template<class V, class E, class A, class F, class D>
-	auto conj(detail::tensor_expression<tensor<std::complex<V>,E,F,A>,D> const& expr)
+	template<typename TensorType, class D,
+		std::enable_if_t<detail::is_tensor_v< TensorType >,int> = 0
+	>
+	auto conj(detail::tensor_expression<TensorType,D> const& expr)
 	{
-		return detail::make_unary_tensor_expression<tensor<std::complex<V>,E,F,A>> (expr(), [] (auto const& l) { return std::conj( l ); } );
+		static_assert( detail::is_complex_v< typename TensorType::value_type >, 
+			"boost::numeric::ublas::conj() : tensor value type should be a std::complex type"
+		);
+
+		return detail::make_unary_tensor_expression<TensorType> (expr(), [] (auto const& l) { return std::conj( l ); } );
 	}
 
 	/** @brief Computes the complex conjugate component of tensor elements within a tensor expression
@@ -511,9 +582,9 @@ namespace boost::numeric::ublas
 		using array_type = typename tensor_type::array_type;
 
 		using new_value_type = std::complex<value_type>;
-		using new_array_type = typename storage_traits<array_type>::template rebind<new_value_type>;
-
-		using tensor_complex_type = tensor<new_value_type,extents_type,layout_type, new_array_type>;
+		// using new_array_type = typename storage_traits<array_type>::template rebind<new_value_type>;
+		
+		using tensor_complex_type = detail::tensor_rebind_t<T,new_value_type>;//decltype(ret);
 
 		if( detail::retrieve_extents( expr  ).empty() )
 			throw std::runtime_error("error in boost::numeric::ublas::conj: tensors should not be empty.");
@@ -541,11 +612,25 @@ namespace boost::numeric::ublas
 	 * @param[in] lhs tensor expression
 	 * @returns   unary tensor expression
 	*/
-	template<class V, class E, class A, class F, class D>
-	auto real(detail::tensor_expression<tensor<std::complex<V>,E,F,A>,D> const& expr)
+	template<typename TensorType, class D,
+		std::enable_if_t<detail::is_tensor_v< TensorType >,int> = 0
+	>
+	auto real(detail::tensor_expression<TensorType,D> const& expr)
 	{
-		using tensor_complex_type = tensor<std::complex<V>,E,F,A>;
-		using tensor_type = tensor<V,E,F,typename storage_traits<A>::template rebind<V>>;
+		static_assert( detail::is_tensor_v<TensorType>, 
+			"boost::numeric::ublas::real() : tensor type should be valid tensor"
+		);
+
+		static_assert( detail::is_complex_v< typename TensorType::value_type >, 
+			"boost::numeric::ublas::conj() : tensor value type should be a std::complex type"
+		);
+		
+		using tensor_complex_type = TensorType;
+		using extents_type = typename tensor_complex_type::extents_type;
+		using value_type = typename tensor_complex_type::value_type;
+		using layout_type = typename tensor_complex_type::layout_type;
+		
+		using tensor_type = detail::tensor_rebind_t<TensorType,value_type>;
 
 		if( detail::retrieve_extents( expr  ).empty() )
 			throw std::runtime_error("error in boost::numeric::ublas::real: tensors should not be empty.");
@@ -575,11 +660,26 @@ namespace boost::numeric::ublas
 	 * @param[in] lhs tensor expression
 	 * @returns   unary tensor expression
 	*/
-	template<class V, class E, class A, class F, class D>
-	auto imag(detail::tensor_expression<tensor<std::complex<V>,E,F,A>,D> const& expr)
+	template<typename TensorType, class D,
+		std::enable_if_t<detail::is_tensor_v< TensorType >,int> = 0
+	>
+	auto imag(detail::tensor_expression<TensorType,D> const& expr)
 	{
-		using tensor_complex_type = tensor<std::complex<V>,E,F,A>;
-		using tensor_type = tensor<V,E,F,typename storage_traits<A>::template rebind<V>>;
+		static_assert( detail::is_tensor_v<TensorType>, 
+			"boost::numeric::ublas::imag() : tensor type should be valid tensor"
+		);
+
+		static_assert( detail::is_complex_v< typename TensorType::value_type >, 
+			"boost::numeric::ublas::conj() : tensor value type should be a std::complex type"
+		);
+
+		using tensor_complex_type = TensorType;
+		using extents_type = typename tensor_complex_type::extents_type;
+		using value_type = typename tensor_complex_type::value_type;
+		using layout_type = typename tensor_complex_type::layout_type;
+		
+		using tensor_complex_type = TensorType;
+		using tensor_type = detail::tensor_rebind_t<TensorType,value_type>;
 
 		if( detail::retrieve_extents( expr  ).empty() )
 			throw std::runtime_error("error in boost::numeric::ublas::real: tensors should not be empty.");
@@ -673,15 +773,19 @@ namespace boost::numeric::ublas
 	 *
 	 * @returns tensor object C with order p-1, the same storage format and allocator type as A
 	*/
-	template <size_t M, class V, class E, class F, class A1, class A2, 
-		std::enable_if_t<detail::is_static<E>::value,int> = 0
+	template <size_t M, typename TensorType, 
+		std::enable_if_t<detail::is_static< typename TensorType::extents_type >::value,int> = 0
 	>
-	inline decltype(auto) prod(tensor<V, E, F, A1> const &a, vector<V, A2> const &b)
+	inline decltype(auto) prod(TensorType const &a, vector<typename TensorType::value_type, typename TensorType::array_type> const &b)
 	{
+		static_assert( detail::is_tensor_v<TensorType>, 
+			"boost::numeric::ublas::prod<M>(ttv) : tensor type should be valid tensor"
+		);
 
-		using tensor_type = tensor<V, E, F, A1>;
+		using tensor_type = TensorType;
 		using extents_type = typename tensor_type::extents_type;
 		using value_type = typename tensor_type::value_type;
+		using layout_type = typename tensor_type::layout_type;
 
 		auto const p = std::size_t(a.rank());
 
@@ -705,7 +809,7 @@ namespace boost::numeric::ublas
 		auto nc = detail::extents_result_type_tensor_times_vector<M>(a.extents());
 		auto nb = std::vector<typename extents_type::value_type>{b.size(), 1};
 
-		auto c = tensor(nc, value_type{});
+		auto c = static_tensor<value_type, decltype(nc), layout_type>(value_type{});
 		auto bb = &(b(0));
 
 		auto& a_static_extents = a.extents().base();
@@ -734,13 +838,20 @@ namespace boost::numeric::ublas
 	 *
 	 * @returns tensor object C with order p, the same storage format and allocator type as A
 	*/
-	template <size_t M, size_t MatricRow, class V, class E, class F, class A1, class A2,
-		std::enable_if_t<detail::is_static<E>::value,int> = 0
+	template <size_t M, size_t MatricRow, typename TensorType,
+		std::enable_if_t<detail::is_static< typename TensorType::extents_type >::value,int> = 0
 	>
-	inline decltype(auto) prod(tensor<V, E, F, A1> const &a, matrix<V, F, A2> const &b)
+	inline decltype(auto) prod(TensorType const &a, 
+		matrix<typename TensorType::value_type, typename TensorType::layout_type, typename TensorType::array_type> const &b)
 	{
-		using tensor_type = tensor<V, E, F, A1>;
-		using dynamic_strides_type = strides_t<dynamic_extents<>,F>;
+		static_assert( detail::is_tensor_v<TensorType>, 
+			"boost::numeric::ublas::prod<M,MatricRow>(ttm) : tensor type should be valid tensor"
+		);
+
+		using tensor_type = TensorType;
+		using extents_type = typename tensor_type::extents_type;
+		using layout_type = typename tensor_type::layout_type;
+		using dynamic_strides_type = strides_t<dynamic_extents<>, layout_type>;
 		using value_type = typename tensor_type::value_type;
 
 		auto const p = a.rank();
@@ -749,11 +860,11 @@ namespace boost::numeric::ublas
 				"error in boost::numeric::ublas::prod(ttm): "
 				"contraction mode must be greater than zero.");
 
-		static_assert( E::_size >= M ,
+		static_assert( extents_type::_size >= M ,
 				"error in boost::numeric::ublas::prod(ttm): rank "
 				"of the tensor must be greater equal the modus.");
 
-		static_assert(E::_size,
+		static_assert( extents_type::_size,
 				"error in boost::numeric::ublas::prod(ttm): first "
 				"argument tensor should not be empty.");
 
@@ -767,7 +878,7 @@ namespace boost::numeric::ublas
 
 		auto wb = dynamic_strides_type(nb);
 
-		auto c = tensor(nc, value_type{});
+		auto c = static_tensor<value_type, decltype(nc), layout_type>(value_type{});
 
 		auto bb = &(b(0, 0));
 
@@ -795,27 +906,34 @@ namespace boost::numeric::ublas
 	 *
 	 * @returns tensor object C with the same storage format F and allocator type A1
 	*/
-	template <class V, class E1, class E2, class F, class A1, class A2,
+	template <typename TensorType1, typename TensorType2,
 		std::enable_if_t<
-			detail::is_static<E1>::value &&
-			detail::is_static<E2>::value
+			detail::is_static< typename TensorType1::extents_type >::value &&
+			detail::is_static< typename TensorType2::extents_type >::value
 			,int> = 0
 	>
-	inline decltype(auto) outer_prod(tensor<V, E1, F, A1> const &a, tensor<V, E2, F, A2> const &b)
+	inline decltype(auto) outer_prod(TensorType1 const &a, TensorType2 const &b)
 	{
+		static_assert( detail::is_tensor_v<TensorType1> && detail::is_tensor_v<TensorType2>, 
+			"boost::numeric::ublas::outer_prod() : tensor type should be valid tensor"
+		);
+
 		if (a.empty() || b.empty())
 			throw std::runtime_error(
 				"error in boost::numeric::ublas::outer_prod: "
 				"tensors should not be empty.");
 		using extents_type1 = std::decay_t< decltype(a.extents()) >;
 		using extents_type2 = std::decay_t< decltype(b.extents()) >;
+		using value_type = typename TensorType1::value_type;
+		using layout_type = typename TensorType1::layout_type;
+		
 		auto nc = detail::impl::concat_t<extents_type1, extents_type2>{};
 
 		auto a_extents = a.extents();
 		auto b_extents = b.extents();
 
 		
-		auto c = tensor(nc, V{});
+		auto c = static_tensor<value_type, decltype(nc), layout_type>(value_type{});
 
 		auto& a_static_extents = a_extents.base();
 		auto& a_static_strides = a.strides().base();
