@@ -22,7 +22,7 @@ int main()
 
 	using format_t  = column_major;
 	using value_t   = float; // std::complex<double>;
-	using tensor_t = tensor<value_t,dynamic_extents<>,format_t>;;
+	using tensor_t = dynamic_tensor<value_t,format_t>;;
 	using matrix_t = matrix<value_t,format_t>;
 	using vector_t = vector<value_t>;
 

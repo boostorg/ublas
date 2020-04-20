@@ -217,6 +217,11 @@ namespace boost::numeric::ublas {
 				super_type::data_[i] = std::move(other[i]);
 			}
 		}
+		
+		inline constexpr fixed_rank_tensor& operator=(const_reference v) noexcept{
+			std::fill(super_type::begin(), super_type::end(), v);
+			return *this;
+		}
 	};
 
 	template<typename V, typename E>

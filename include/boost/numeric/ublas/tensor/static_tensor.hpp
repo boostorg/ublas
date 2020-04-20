@@ -207,6 +207,11 @@ namespace boost::numeric::ublas {
 			: static_tensor( vector_type(expr) )
 		{}
 
+		inline constexpr static_tensor& operator=(const_reference v) noexcept{
+			std::fill(super_type::begin(), super_type::end(), v);
+			return *this;
+		}
+
 		void reshape (extents_type const& e, value_type v) = delete;
 	};
 

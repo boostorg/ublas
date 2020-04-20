@@ -747,10 +747,10 @@ namespace boost::numeric::ublas
 	 *
 	 * @returns tensor object C with order p-1, the same storage format and allocator type as A
 	*/
-	template <size_t M, typename TensorType, 
+	template <size_t M, typename TensorType, typename A,
 		std::enable_if_t<detail::is_static< typename TensorType::extents_type >::value,int> = 0
 	>
-	inline decltype(auto) prod(basic_tensor< TensorType > const &a, vector<typename TensorType::value_type, typename TensorType::array_type> const &b)
+	inline decltype(auto) prod(basic_tensor< TensorType > const &a, vector<typename TensorType::value_type, A> const &b)
 	{
 		static_assert( detail::is_tensor_v<TensorType>, 
 			"boost::numeric::ublas::prod<M>(ttv) : tensor type should be valid tensor"
@@ -812,11 +812,11 @@ namespace boost::numeric::ublas
 	 *
 	 * @returns tensor object C with order p, the same storage format and allocator type as A
 	*/
-	template <size_t M, size_t MatricRow, typename TensorType,
+	template <size_t M, size_t MatricRow, typename TensorType, typename A,
 		std::enable_if_t<detail::is_static< typename TensorType::extents_type >::value,int> = 0
 	>
 	inline decltype(auto) prod(basic_tensor< TensorType > const &a, 
-		matrix<typename TensorType::value_type, typename TensorType::layout_type, typename TensorType::array_type> const &b)
+		matrix<typename TensorType::value_type, typename TensorType::layout_type, A> const &b)
 	{
 		static_assert( detail::is_tensor_v<TensorType>, 
 			"boost::numeric::ublas::prod<M,MatricRow>(ttm) : tensor type should be valid tensor"

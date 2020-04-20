@@ -196,6 +196,11 @@ namespace boost::numeric::ublas {
 
 		}
 
+		inline constexpr dynamic_tensor& operator=(const_reference v) noexcept{
+			std::fill(super_type::begin(), super_type::end(), v);
+			return *this;
+		}
+
 	};
 
 	template<typename V>

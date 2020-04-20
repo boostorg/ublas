@@ -25,7 +25,7 @@ int main()
 	// tensor A stores single-precision floating-point number according
 	// to the first-order storage format
 	using ftype = float;
-	auto A = tensor<ftype>{3,4,2};
+	auto A = dynamic_tensor<ftype>{3,4,2};
 
 	// initializes the tensor with increasing values along the first-index
 	// using a single index.
@@ -43,7 +43,7 @@ int main()
 	// according to the last-order storage format
 	// and initializes it with the default value.
 	using ctype = std::complex<cpp_bin_float_double_extended>;
-	auto B = tensor<ctype,dynamic_extents<>,last_order>(dynamic_extents<>{5,4,3,2},ctype{});
+	auto B = dynamic_tensor<ctype,last_order>(dynamic_extents<>{5,4,3,2},ctype{});
 
 	// initializes the tensor with increasing values along the last-index
 	// using a single-index
@@ -58,7 +58,7 @@ int main()
 
 
 
-	auto C = tensor<ctype,dynamic_extents<>,last_order>(B.extents());
+	auto C = dynamic_tensor<ctype,last_order>(B.extents());
 	// computes the complex conjugate of elements of B
 	// using multi-index notation.
 	for(auto i = 0u; i < B.size(0); ++i)
@@ -74,7 +74,7 @@ int main()
 
 	// computes the complex conjugate of elements of B
 	// using iterators.
-	auto D = tensor<ctype,dynamic_extents<>,last_order>(B.extents());
+	auto D = dynamic_tensor<ctype,last_order>(B.extents());
 	std::transform(B.begin(), B.end(), D.begin(), [](auto const& b){ return std::conj(b); });
 	std::cout << "% --------------------------- " << std::endl;
 	std::cout << "% --------------------------- " << std::endl << std::endl;
