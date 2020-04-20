@@ -32,8 +32,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_einstein_multiplication, value,  test_types 
 	using namespace boost::numeric::ublas;
 	using value_type   = typename value::first_type;
 	using layout_type  = typename value::second_type;
-	using extents_type  = dynamic_extents<>;
-	using tensor_type  = tensor<value_type,extents_type,layout_type>;
+	using tensor_type  = dynamic_tensor<value_type,layout_type>;
 	using namespace boost::numeric::ublas::index;
 	
 	{

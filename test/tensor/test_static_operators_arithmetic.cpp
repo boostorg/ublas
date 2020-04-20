@@ -52,10 +52,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
 	auto check = [](auto const&, auto& e)
 	{	
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
-		auto t  = tensor_type (e);
-		auto t2 = tensor_type (e);
-		auto r  = tensor_type (e);
+		using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+		auto t  = tensor_type ();
+		auto t2 = tensor_type ();
+		auto r  = tensor_type ();
 		auto v  = value_type  {};
 
 		std::iota(t.begin(), t.end(), v);
@@ -83,7 +83,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
 			BOOST_CHECK_EQUAL ( r(i), 4 );
 
 
-		r = tensor_type (e,1) + tensor_type (e,1);
+		r = tensor_type (1) + tensor_type (1);
 
 		for(auto i = 0ul; i < r.size(); ++i)
 			BOOST_CHECK_EQUAL ( r(i), 2 );
@@ -114,9 +114,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
 	auto check = [](auto const&, auto& e)
 	{
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
-		auto t  = tensor_type (e);
-		auto t2 = tensor_type (e);
+		using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+		auto t  = tensor_type ();
+		auto t2 = tensor_type ();
 		auto v  = value_type  {};
 
 		std::iota(t.begin(), t.end(), v);
@@ -171,10 +171,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
 	auto check = [](auto const&, auto& e)
 	{
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
-		auto t  = tensor_type (e);
-		auto t2 = tensor_type (e);
-		auto r  = tensor_type (e);
+		using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+		auto t  = tensor_type ();
+		auto t2 = tensor_type ();
+		auto r  = tensor_type ();
 		auto v  = value_type  {};
 
 		std::iota(t.begin(), t.end(), v);

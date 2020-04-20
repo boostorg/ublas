@@ -13,7 +13,7 @@
 
 
 #include <random>
-#include <boost/numeric/ublas/tensor/tensor.hpp> 
+#include <boost/numeric/ublas/tensor.hpp> 
 
 #ifndef BOOST_TEST_DYN_LINK
 #define BOOST_TEST_DYN_LINK 
@@ -35,37 +35,37 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_ctor, value,  test_types)
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
 
-	auto a1 = ublas::tensor<value_type, ublas::dynamic_extents<0>,layout_type>{};
+	auto a1 = ublas::fixed_rank_tensor<value_type, 0,layout_type>{};
 	BOOST_CHECK_EQUAL( a1.size() , 0ul );
 	BOOST_CHECK( a1.empty() );
 	BOOST_CHECK_EQUAL( a1.data() , nullptr);
 
-	auto a2 = ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type>{1,1};
+	auto a2 = ublas::fixed_rank_tensor<value_type, 2,layout_type>{1,1};
 	BOOST_CHECK_EQUAL(  a2.size() , 1 );
 	BOOST_CHECK( !a2.empty() );
 	BOOST_CHECK_NE(  a2.data() , nullptr);
 
-	auto a3 = ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type>{2,1};
+	auto a3 = ublas::fixed_rank_tensor<value_type, 2,layout_type>{2,1};
 	BOOST_CHECK_EQUAL(  a3.size() , 2 );
 	BOOST_CHECK( !a3.empty() );
 	BOOST_CHECK_NE(  a3.data() , nullptr);
 
-	auto a4 = ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type>{1,2};
+	auto a4 = ublas::fixed_rank_tensor<value_type, 2,layout_type>{1,2};
 	BOOST_CHECK_EQUAL(  a4.size() , 2 );
 	BOOST_CHECK( !a4.empty() );
 	BOOST_CHECK_NE(  a4.data() , nullptr);
 
-	auto a5 = ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type>{2,1};
+	auto a5 = ublas::fixed_rank_tensor<value_type, 2,layout_type>{2,1};
 	BOOST_CHECK_EQUAL(  a5.size() , 2 );
 	BOOST_CHECK( !a5.empty() );
 	BOOST_CHECK_NE(  a5.data() , nullptr);
 
-	auto a6 = ublas::tensor<value_type, ublas::dynamic_extents<3>,layout_type>{4,3,2};
+	auto a6 = ublas::fixed_rank_tensor<value_type, 3,layout_type>{4,3,2};
 	BOOST_CHECK_EQUAL(  a6.size() , 4*3*2 );
 	BOOST_CHECK( !a6.empty() );
 	BOOST_CHECK_NE(  a6.data() , nullptr);
 
-	auto a7 = ublas::tensor<value_type, ublas::dynamic_extents<3>,layout_type>{4,1,2};
+	auto a7 = ublas::fixed_rank_tensor<value_type, 3,layout_type>{4,1,2};
 	BOOST_CHECK_EQUAL(  a7.size() , 4*1*2 );
 	BOOST_CHECK( !a7.empty() );
 	BOOST_CHECK_NE(  a7.data() , nullptr);
@@ -102,7 +102,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents, value,  test_types, 
 
 	for_each_tuple(extents, [](auto const&, auto& e){
 		using extents_type = std::decay_t<decltype(e)>;
-		auto t = ublas::tensor<value_type, extents_type, layout_type>{e};
+		auto t = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>{e};
 
 		BOOST_CHECK_EQUAL (  t.size() , product(e) );
 		BOOST_CHECK_EQUAL (  t.rank() , e.size() );
@@ -128,7 +128,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor, value,  test_types, fix
 
 	for_each_tuple(extents, [](auto const&, auto& e){
 		using extents_type = std::decay_t<decltype(e)>;
-		auto r = ublas::tensor<value_type, extents_type, layout_type>{e};
+		auto r = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>{e};
 
 		auto t = r;
 		BOOST_CHECK_EQUAL (  t.size() , r.size() );
@@ -162,9 +162,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor_layout, value,  test_typ
 
 	for_each_tuple(extents, [](auto const&, auto& e){
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;		
 		auto r = tensor_type{e};
-		ublas::tensor<value_type, extents_type, other_layout_type> t = r;
+		ublas::fixed_rank_tensor<value_type, extents_type::_size, other_layout_type> t = r;
 		tensor_type q = t;
 
 		BOOST_CHECK_EQUAL (  t.size() , r.size() );
@@ -192,7 +192,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_move_ctor, value,  test_types
 	auto check = [](auto const&, auto& e)
 	{
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;		
 		auto r = tensor_type{e};
 		auto t = std::move(r);
 		BOOST_CHECK_EQUAL (  t.size() , product(e) );
@@ -227,8 +227,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_init, value,  test_ty
 
 	for_each_tuple(extents, [&](auto const&, auto const& e){
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
-		
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;		
+
 		auto r = value_type( static_cast< inner_type_t<value_type> >(distribution(generator)) );
 		auto t = tensor_type{e,r};
 		for(auto i = 0ul; i < t.size(); ++i)
@@ -247,7 +247,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_array, value,  test_t
 
 	for_each_tuple(extents, [](auto const&, auto& e){
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;		
 		using array_type  = typename tensor_type::array_type;
 		
 		auto a = array_type(product(e));
@@ -276,8 +276,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_single_index_access, va
 
 	for_each_tuple(extents, [](auto const&, auto& e){
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
-		
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;		
+
 		auto t = tensor_type{e};
 		auto v = value_type {};
 		for(auto i = 0ul; i < t.size(); ++i, v+=value_type{1}){
@@ -360,7 +360,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
 
 	auto check = [check1,check2,check3,check4](auto const&, auto const& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;		
 		auto t = tensor_type{e};
 		auto v = value_type {};
 		for(auto i = 0ul; i < t.size(); ++i){
@@ -390,8 +390,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_reshape, value,  test_types, fixtu
 	for_each_tuple(extents,[&](auto const&, auto& efrom){
 		
 		using extents_type = std::decay_t<decltype(efrom)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
-		
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;		
+
 		for_each_tuple(extents,[&](auto const&, auto& eto){
 			
 			if ( efrom.size() == eto.size() ){
@@ -431,8 +431,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_swap, value,  test_types, fixture)
 	for_each_tuple(extents,[&](auto const&, auto& e_t){
 		
 		using extents_type = std::decay_t<decltype(e_t)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
-		
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;		
+
 		for_each_tuple(extents,[&](auto const&, auto& e_r){
 				
 			if ( e_t.size() == e_r.size() ){
@@ -473,8 +473,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_standard_iterator, value,  test_ty
 
 	for_each_tuple(extents,[](auto const&, auto& e){
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
-		
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;		
+
 		auto v = value_type {} + value_type{1};
 		auto t = tensor_type{e, v};
 
@@ -497,7 +497,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_throw, value, test_types, fixture)
   using namespace boost::numeric;
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
-  using tensor_type = ublas::tensor<value_type, ublas::dynamic_extents<2>, layout_type>;
+  using tensor_type = ublas::fixed_rank_tensor<value_type, 2, layout_type>;
 
   std::vector<value_type> vec(30);
   BOOST_CHECK_THROW(tensor_type({5,5},vec), std::runtime_error);

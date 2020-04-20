@@ -15,7 +15,7 @@
 
 #include <type_traits>
 #include <stdexcept>
-#include <boost/numeric/ublas/tensor/detail/type_traits_tensor.hpp>
+#include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
 
 
 namespace boost::numeric::ublas {
@@ -77,7 +77,7 @@ namespace boost::numeric::ublas::detail {
  *
 */
 template<class TensorType>
-auto retrieve_extents(TensorType const& t)
+auto retrieve_extents(basic_tensor<TensorType> const& t)
 {
 	static_assert( detail::is_tensor_v<TensorType>, 
 		"boost::numeric::ublas::detailretrieve_extents() : tensor type should be valid tensor"
@@ -166,20 +166,30 @@ auto retrieve_extents(unary_tensor_expression<T,E,OP> const& expr)
 
 namespace boost::numeric::ublas::detail {
 
-template<class TensorType>
-auto all_extents_equal(TensorType const& t, typename TensorType::extents_type const& extents)
+template<class TensorType, class Extents>
+auto all_extents_equal(basic_tensor<TensorType> const& t, Extents const& extents)
 {
+	static_assert(detail::is_extents_v<Extents>,
+		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
+	);
+
 	static_assert( detail::is_tensor_v<TensorType>, 
 		"boost::numeric::ublas::all_extents_equal() : tensor type should be valid tensor"
 	);
+
 	return extents == t.extents();
 }
 
-template<class T, class D>
-auto all_extents_equal(tensor_expression<T,D> const& expr, typename T::extents_type const& extents)
+template<class T, class D, class Extents>
+auto all_extents_equal(tensor_expression<T,D> const& expr, Extents const& extents)
 {
+	static_assert(detail::is_extents_v<Extents>,
+		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
+	);
+
 	static_assert(detail::has_tensor_types<T,tensor_expression<T,D>>::value,
 	              "Error in boost::numeric::ublas::detail::all_extents_equal: Expression to evaluate should contain tensors.");
+
 	auto const& cast_expr = static_cast<D const&>(expr);
 
 
@@ -195,9 +205,13 @@ auto all_extents_equal(tensor_expression<T,D> const& expr, typename T::extents_t
 
 }
 
-template<class T, class EL, class ER, class OP>
-auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& expr, typename T::extents_type const& extents)
+template<class T, class EL, class ER, class OP, class Extents>
+auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& expr, Extents const& extents)
 {
+	static_assert(detail::is_extents_v<Extents>,
+		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
+	);
+
 	static_assert(detail::has_tensor_types<T,binary_tensor_expression<T,EL,ER,OP>>::value,
 	              "Error in boost::numeric::ublas::detail::all_extents_equal: Expression to evaluate should contain tensors.");
 
@@ -221,19 +235,23 @@ auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& expr, typenam
 }
 
 
-template<class T, class E, class OP>
-auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, typename T::extents_type const& extents)
+template<class T, class E, class OP, class Extents>
+auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, Extents const& extents)
 {
+	static_assert(detail::is_extents_v<Extents>,
+		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
+	);
+
 	static_assert(detail::has_tensor_types<T,unary_tensor_expression<T,E,OP>>::value,
 	              "Error in boost::numeric::ublas::detail::all_extents_equal: Expression to evaluate should contain tensors.");
 
 	if constexpr ( std::is_same<T,E>::value )
 	    if(extents != expr.e.extents())
-	    return false;
+	    	return false;
 
 	if constexpr ( detail::has_tensor_types<T,E>::value )
 	    if(!all_extents_equal(expr.e, extents))
-	    return false;
+	    	return false;
 
 	return true;
 }

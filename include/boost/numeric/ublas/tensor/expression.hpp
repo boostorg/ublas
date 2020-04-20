@@ -88,10 +88,13 @@ struct binary_tensor_expression
 };
 
 /// @brief helper function to simply instantiation of lambda proxy class
-template<class T, class EL, class ER, class OP>
-auto make_binary_tensor_expression( tensor_expression<T,EL> const& el, tensor_expression<T,ER> const& er, OP op)
+template<class T1, class T2, class EL, class ER, class OP>
+auto make_binary_tensor_expression( tensor_expression<T1,EL> const& el, tensor_expression<T2,ER> const& er, OP op)
 {
-	return binary_tensor_expression<T,EL,ER,OP>( el(), er(), op) ;
+	static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
+		"boost::numeric::ublas::make_binary_tensor_expression(T1,T2) : LHS tensor and RHS tensor should have same value type"
+	);
+	return binary_tensor_expression<T1,EL,ER,OP>( el(), er(), op) ;
 }
 
 template<class T, class EL, class ER, class OP>

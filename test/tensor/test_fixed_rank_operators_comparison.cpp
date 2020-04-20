@@ -12,9 +12,7 @@
 
 
 
-#include <boost/numeric/ublas/tensor/operators_comparison.hpp>
-#include <boost/numeric/ublas/tensor/operators_arithmetic.hpp>
-#include <boost/numeric/ublas/tensor/tensor.hpp>
+#include <boost/numeric/ublas/tensor.hpp>
 #include <boost/test/unit_test.hpp>
 #include <boost/multiprecision/cpp_bin_float.hpp>
 #include "utility.hpp"
@@ -54,7 +52,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
 	auto check = [](auto const&, auto& e)
 	{	
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
 		auto t  = tensor_type (e);
 		auto t2 = tensor_type (e);
 		auto v  = value_type  {};
@@ -95,7 +93,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 	auto check = [](auto const&, auto& e)
 	{	
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
 
 		auto t  = tensor_type (e);
 		auto t2 = tensor_type (e);
@@ -142,7 +140,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 	auto check = [](auto const&, auto& e)
 	{	
 		using extents_type = std::decay_t<decltype(e)>;
-		using tensor_type = ublas::tensor<value_type, extents_type, layout_type>;
+		using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
 
 		BOOST_CHECK( tensor_type(e,value_type{2}) == tensor_type(e,value_type{2})  );
 		BOOST_CHECK( tensor_type(e,value_type{2}) != tensor_type(e,value_type{1})  );

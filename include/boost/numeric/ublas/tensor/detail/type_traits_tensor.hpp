@@ -37,6 +37,9 @@ namespace boost::numeric::ublas::detail {
     template<typename V, typename E, typename F>
     using result_tensor_t = typename result_tensor<V,E,F>::type;
 
+    struct dynamic_tag{};
+    struct static_tag{};
+
 } // namespace boost::numeric::ublas::detail
 
 

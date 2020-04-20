@@ -29,30 +29,30 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor, value,  test_types)
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using matrix_type = typename tensor_type::matrix_type;
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a1 = matrix_type();
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a1 = matrix_type();
 	BOOST_CHECK_EQUAL( a1.size() , 0ul );
 	BOOST_CHECK( a1.empty() );
 	BOOST_CHECK_EQUAL( a1.data() , nullptr);
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a2 = matrix_type(1,1);
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a2 = matrix_type(1,1);
 	BOOST_CHECK_EQUAL(  a2.size() , 1 );
 	BOOST_CHECK( !a2.empty() );
 	BOOST_CHECK_NE(  a2.data() , nullptr);
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a3 = matrix_type(2,1);
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a3 = matrix_type(2,1);
 	BOOST_CHECK_EQUAL(  a3.size() , 2 );
 	BOOST_CHECK( !a3.empty() );
 	BOOST_CHECK_NE(  a3.data() , nullptr);
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a4 = matrix_type(1,2);
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a4 = matrix_type(1,2);
 	BOOST_CHECK_EQUAL(  a4.size() , 2 );
 	BOOST_CHECK( !a4.empty() );
 	BOOST_CHECK_NE(  a4.data() , nullptr);
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a5 = matrix_type(2,3);
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a5 = matrix_type(2,3);
 	BOOST_CHECK_EQUAL(  a5.size() , 6 );
 	BOOST_CHECK( !a5.empty() );
 	BOOST_CHECK_NE(  a5.data() , nullptr);
@@ -64,30 +64,30 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor, value,  test_types)
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using vector_type = typename tensor_type::vector_type;
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a1 = vector_type();
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a1 = vector_type();
 	BOOST_CHECK_EQUAL( a1.size() , 0ul );
 	BOOST_CHECK( a1.empty() );
 	BOOST_CHECK_EQUAL( a1.data() , nullptr);
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a2 = vector_type(1);
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a2 = vector_type(1);
 	BOOST_CHECK_EQUAL(  a2.size() , 1 );
 	BOOST_CHECK( !a2.empty() );
 	BOOST_CHECK_NE(  a2.data() , nullptr);
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a3 = vector_type(2);
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a3 = vector_type(2);
 	BOOST_CHECK_EQUAL(  a3.size() , 2 );
 	BOOST_CHECK( !a3.empty() );
 	BOOST_CHECK_NE(  a3.data() , nullptr);
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a4 = vector_type(2);
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a4 = vector_type(2);
 	BOOST_CHECK_EQUAL(  a4.size() , 2 );
 	BOOST_CHECK( !a4.empty() );
 	BOOST_CHECK_NE(  a4.data() , nullptr);
 
-	ublas::tensor<value_type, ublas::dynamic_extents<2>,layout_type> a5 = vector_type(3);
+	ublas::fixed_rank_tensor<value_type, 2,layout_type> a5 = vector_type(3);
 	BOOST_CHECK_EQUAL(  a5.size() , 3 );
 	BOOST_CHECK( !a5.empty() );
 	BOOST_CHECK_NE(  a5.data() , nullptr);
@@ -120,12 +120,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor_extents, value,  
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using matrix_type = typename tensor_type::matrix_type;
 
 	auto check = [](auto const&, auto& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using etensor_type = ublas::tensor<value_type, extents_type,layout_type>;
+		using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
 
 		assert(e.size()==2);
 		etensor_type t = matrix_type{e[0],e[1]};
@@ -144,12 +144,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor_extents, value,  
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using vector_type = typename tensor_type::vector_type;
 
 	auto check = [](auto const&, auto& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using etensor_type = ublas::tensor<value_type, extents_type,layout_type>;
+		using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
 
 		assert(e.size()==2);
 		if(e.empty())
@@ -172,12 +172,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  te
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using matrix_type = typename tensor_type::matrix_type;
 
 	auto check = [](auto const&, auto& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using etensor_type = ublas::tensor<value_type, extents_type,layout_type>;
+		using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
 
 		assert(e.size() == 2);
 		auto t = etensor_type{};
@@ -208,12 +208,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  te
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using vector_type = typename tensor_type::vector_type;
 
 	auto check = [](auto const&, auto& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using etensor_type = ublas::tensor<value_type, extents_type,layout_type>;
+		using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
 
 		assert(e.size() == 2);
 		auto t = etensor_type{};
@@ -241,12 +241,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  te
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using matrix_type = typename tensor_type::matrix_type;
 
 	auto check = [](auto const&, auto& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using etensor_type = ublas::tensor<value_type, extents_type,layout_type>;
+		using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
 
 		assert(e.size() == 2);
 		auto t = etensor_type{};
@@ -280,12 +280,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  te
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using vector_type = typename tensor_type::vector_type;
 
 	auto check = [](auto const&, auto& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using etensor_type = ublas::tensor<value_type, extents_type,layout_type>;
+		using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
 
 		assert(e.size() == 2);
 		auto t = etensor_type{};
@@ -318,12 +318,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using matrix_type = typename tensor_type::matrix_type;
 
 	auto check = [](auto const&, auto& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using etensor_type = ublas::tensor<value_type, extents_type,layout_type>;
+		using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
 
 		assert(e.size() == 2);
 		auto t = etensor_type{};
@@ -378,12 +378,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type  = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 	using vector_type = typename tensor_type::vector_type;
 
 	auto check = [](auto const&, auto& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using etensor_type = ublas::tensor<value_type, extents_type,layout_type>;
+		using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
 
 		assert(e.size() == 2);
 		auto t = etensor_type{};
@@ -434,13 +434,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
 	using namespace boost::numeric;
 	using value_type  = typename value::first_type;
 	using layout_type = typename value::second_type;
-	using tensor_type = ublas::tensor<value_type, ublas::dynamic_extents<>,layout_type>;
+	using tensor_type = ublas::dynamic_tensor<value_type,layout_type>;
 	using matrix_type = typename tensor_type::matrix_type;
 	using vector_type = typename tensor_type::vector_type;
 
 	auto check = [](auto const&, auto& e) {
 		using extents_type = std::decay_t<decltype(e)>;
-		using etensor_type = ublas::tensor<value_type, extents_type,layout_type>;
+		using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
 
 		if(product(e) <= 2)
 			return;

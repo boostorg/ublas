@@ -19,7 +19,6 @@
 #include <initializer_list>
 
 #include <boost/numeric/ublas/tensor/algorithms.hpp>
-#include <boost/numeric/ublas/tensor/storage.hpp>
 #include <boost/numeric/ublas/tensor/expression.hpp>
 #include <boost/numeric/ublas/tensor/expression_evaluation.hpp>
 #include <boost/numeric/ublas/tensor/extents.hpp>
@@ -107,7 +106,7 @@ public:
 	static_assert( std::is_same<layout_type,first_order>::value || 
 				   std::is_same<layout_type,last_order >::value, 
 				   "boost::numeric::basic_tensor template class only supports first- or last-order storage formats.");
-    protected:
+protected:
     
 	/** @brief Constructs a basic_tensor.
 	 *
@@ -136,7 +135,9 @@ public:
 		: tensor_expression_type<self_type>()
 		, extents_ (std::move(l))
 		, strides_ (extents_)
-	{}
+	{
+		resize(extents_);
+	}
 
 	/** @brief Constructs a basic_tensor with a \c shape
 	 *
@@ -151,7 +152,28 @@ public:
 		: tensor_expression_type<self_type>() //tensor_container<self_type>()
 		, extents_ (s)
 		, strides_ (extents_)
-	{}
+	{
+		resize(extents_);
+	}
+
+	/** @brief Constructs a basic_tensor with a \c shape
+	 *
+	 * By default, its elements are initialized to 0.
+	 *
+	 * @code basic_tensor<float> A{extents{4,2,3}}; @endcode
+	 *
+	 * @param s initial basic_tensor dimension extents
+	 * @param i initial basic_tensor with this value
+	 */
+	explicit inline
+	basic_tensor (extents_type const& s, value_type const& i)
+		: tensor_expression_type<self_type>() //tensor_container<self_type>()
+		, extents_ (s)
+		, strides_ (extents_)
+	{
+		resize(extents_);
+		std::fill(begin(),end(),i);
+	}
 
 
 	/** @brief Constructs a basic_tensor with a \c shape and initiates it with one-dimensional data
@@ -167,8 +189,13 @@ public:
 		: tensor_expression_type<self_type>() //tensor_container<self_type>()
 		, extents_ (s)
 		, strides_ (extents_)
-		, data_    (a)
-	{}
+	{
+		if( product(extents_) != a.size() ){
+			throw std::runtime_error("boost::numeric::ublas::basic_tensor(extents_type,array_type): array size mismatch with extents");
+		}
+		resize(extents_);
+		std::copy(a.begin(),a.end(),begin());
+	}
 
 
 	// /** @brief Constructs a basic_tensor using a shape tuple and initiates it with a value.
@@ -188,32 +215,7 @@ public:
 	// {}
 
 
-
-	/** @brief Constructs a basic_tensor from another basic_tensor
-	 *
-	 *  @param v basic_tensor to be copied.
-	 */
-	inline
-	basic_tensor (const basic_tensor &v)
-		: tensor_expression_type<self_type>()
-		, extents_ (v.extents_)
-		, strides_ (v.strides_)
-		, data_    (v.data_   )
-	{}
-
-
-
-	/** @brief Constructs a basic_tensor from another basic_tensor
-	 *
-	 *  @param v basic_tensor to be moved.
-	 */
-	inline
-	basic_tensor (basic_tensor &&v)
-		: tensor_expression_type<self_type>() //tensor_container<self_type> ()
-		, extents_ (std::move(v.extents_))
-		, strides_ (std::move(v.strides_))
-		, data_    (std::move(v.data_   ))
-	{}
+public:
 
 	/** @brief Constructs a basic_tensor with another basic_tensor with a different layout
 	 *
@@ -225,6 +227,7 @@ public:
 		, extents_ (other.extents())
 		, strides_ (other.extents())
 	{	
+		resize(extents_);
 		copy(this->rank(), this->extents().data(),
 				this->data(), this->strides().data(),
 				other.data(), other.strides().data());
@@ -242,34 +245,17 @@ public:
 	 * @param size basic_tensor expression
 	 */
 	template<class derived_type>
-	basic_tensor (const tensor_expression_type<derived_type> &expr, extents_type const& e)
+	basic_tensor (const tensor_expression_type<derived_type> &expr)
 		: tensor_expression_type<self_type> ()
-		, extents_ ( e )
+		, extents_ ( detail::retrieve_extents(expr) )
 		, strides_ ( extents_ )
-		, data_( product(e) )
 	{
 		static_assert( detail::has_tensor_types<self_type, tensor_expression_type<derived_type>>::value,
 									 "Error in boost::numeric::ublas::basic_tensor: expression does not contain a basic_tensor. cannot retrieve shape.");
+		resize(extents_);
 		detail::eval( *this, expr );
 	}
 
-	/** @brief Constructs a basic_tensor with an basic_tensor expression
-	 *
-	 * @code basic_tensor<float> A = B + 3 * C; @endcode
-	 *
-	 * @note type must be specified of basic_tensor must be specified.
-	 * @note dimension extents are extracted from tensors within the expression.
-	 *
-	 * @param expr basic_tensor expression
-	 */
-	template<class derived_type>
-	basic_tensor (const tensor_expression_type<derived_type> &expr)
-		: tensor_expression_type<self_type> ()
-	{
-		static_assert( detail::has_tensor_types<self_type, tensor_expression_type<derived_type>>::value,
-									 "Error in boost::numeric::ublas::basic_tensor: expression does not contain a basic_tensor. cannot retrieve shape.");
-		detail::eval( *this, expr );
-	}
 
 	/** @brief Constructs a basic_tensor with a matrix expression
 	 *
@@ -302,7 +288,31 @@ public:
 	}
 
 
-public:
+	/** @brief Constructs a basic_tensor from another basic_tensor
+	 *
+	 *  @param v basic_tensor to be copied.
+	 */
+	inline
+	basic_tensor (const basic_tensor &v)
+		: tensor_expression_type<self_type>()
+		, extents_ (v.extents_)
+		, strides_ (v.strides_)
+		, data_    (v.data_   )
+	{}
+
+
+
+	/** @brief Constructs a basic_tensor from another basic_tensor
+	 *
+	 *  @param v basic_tensor to be moved.
+	 */
+	inline
+	basic_tensor (basic_tensor &&v)
+		: tensor_expression_type<self_type>() //tensor_container<self_type> ()
+		, extents_ (std::move(v.extents_))
+		, strides_ (std::move(v.strides_))
+		, data_    (std::move(v.data_   ))
+	{}
 
 	/** @brief Evaluates the tensor_expression and assigns the results to the basic_tensor
 	 *
@@ -598,6 +608,18 @@ public:
 
 private:
 
+	inline void resize( size_type sz ){
+		using container_tag = typename detail::tensor_traits<T>::container_tag;
+		
+		if constexpr(  std::is_same_v< container_tag, detail::dynamic_tag > ){
+			data_.resize(sz);;
+		}
+	}
+
+	inline void resize( extents_type const& e ){
+		resize(product(e));
+	}
+
 #if 0
 	// -------------
 	// Serialization
@@ -628,6 +650,12 @@ namespace boost::numeric::ublas::detail{
     
     template<typename T>
     struct is_tensor< basic_tensor<T> > : std::true_type{};
+
+
+    template<typename T, typename...Ts>
+    struct tensor_rebind<basic_tensor<T>,Ts...>{
+        using type = tensor_rebind_t<T,Ts...>;
+    };
 
 } // namespace boost::numeric::ublas::detail
 
