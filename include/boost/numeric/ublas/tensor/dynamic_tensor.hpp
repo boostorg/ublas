@@ -34,7 +34,7 @@ namespace boost::numeric::ublas {
         template<class derived_type>
         using vector_expression_type    = typename super_type::template vector_expression_type<derived_type>;
 
-        using array_type                = typename detail::tensor_traits<self_type>::array_type;//std::vector<T>;
+        using array_type                = typename detail::tensor_traits<self_type>::container_type;
         using layout_type               = typename detail::tensor_traits<self_type>::layout_type;
 
         using size_type                 = typename array_type::size_type;
@@ -81,53 +81,32 @@ namespace boost::numeric::ublas {
         {}
 
         constexpr dynamic_tensor( matrix_type const& v )
+            : super_type( extents_type{v.size1(), v.size2()} )
         {
-            auto const sz = v.size1() * v.size2();
-            if(sz){
-                super_type::extents_ = extents_type{ v.size1(), v.size2() };
-                super_type::strides_ = strides_type( super_type::extents_ );
-                super_type::data_.resize(sz);
-                std::copy(v.data().begin(), v.data().end(),super_type::data_.begin());
-            }
+            std::copy(v.data().begin(), v.data().end(),super_type::data_.begin());
         }
 
         constexpr dynamic_tensor( matrix_type && v )
+            : super_type( extents_type{v.size1(), v.size2()} )
         {
             auto const sz = v.size1() * v.size2();
-            if(sz){
-                super_type::extents_ = extents_type{ v.size1(), v.size2() };
-                super_type::strides_ = strides_type( super_type::extents_ );
-                super_type::data_.resize(sz);
-
-                for(auto i = size_type{}; i < sz; ++i){
-                    super_type::data_[i] = std::move(v.data()[i]);
-                }
+            for(auto i = size_type{}; i < sz; ++i){
+                super_type::data_[i] = std::move(v.data()[i]);
             }
         }
 
         constexpr dynamic_tensor (const vector_type &v)
+            : super_type( extents_type{ v.size(), typename extents_type::value_type{1} } )
         {
-            auto const sz = v.size();
-            if(sz){
-                super_type::extents_ = extents_type{ v.size(), typename extents_type::value_type{1} };
-                super_type::strides_ = strides_type( super_type::extents_ );
-                super_type::data_.resize(sz);
-                std::copy(v.data().begin(), v.data().end(),super_type::data_.begin());
-            }
-
+            std::copy(v.data().begin(), v.data().end(),super_type::data_.begin());
         }
 
         constexpr dynamic_tensor (vector_type &&v)
+            : super_type( extents_type{ v.size(), typename extents_type::value_type{1} } )
         {
             auto const sz = v.size();
-            if(sz){
-                super_type::extents_ = extents_type{ v.size(), typename extents_type::value_type{1} };
-                super_type::strides_ = strides_type( super_type::extents_ );
-                super_type::data_.resize(sz);
-
-                for(auto i = size_type{}; i < sz; ++i){
-                    super_type::data_[i] = std::move(v.data()[i]);
-                }
+            for(auto i = size_type{}; i < sz; ++i){
+                super_type::data_[i] = std::move(v.data()[i]);
             }
 
         }
@@ -215,7 +194,7 @@ namespace boost::numeric::ublas::detail{
 
     template<typename T, typename F>
     struct tensor_traits< dynamic_tensor<T,F> > {
-        using array_type    = std::vector< T >;
+        using container_type= std::vector< T >;
         using extents_type  = dynamic_extents<>;
         using layout_type   = F;
         using strides_type  = strides_t<extents_type,layout_type>;

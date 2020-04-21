@@ -14,18 +14,7 @@
 
 #include <cstddef>
 #include <boost/numeric/ublas/expression_types.hpp>
-
-
-namespace boost   {
-namespace numeric {
-namespace ublas   {
-
-//TODO: put in fwd.hpp
-struct tensor_tag {};
-
-}
-}
-}
+#include <boost/numeric/ublas/tensor/detail/type_traits_tensor.hpp>
 
 namespace boost   {
 namespace numeric {

@@ -34,7 +34,7 @@ namespace boost::numeric::ublas {
         template<class derived_type>
         using vector_expression_type    = typename super_type::template vector_expression_type<derived_type>;
 
-        using array_type                = typename detail::tensor_traits<self_type>::array_type;
+        using array_type                = typename detail::tensor_traits<self_type>::container_type;
         using layout_type               = typename detail::tensor_traits<self_type>::layout_type;
 
         using size_type                 = typename array_type::size_type;
@@ -81,71 +81,47 @@ namespace boost::numeric::ublas {
         {}
 
         constexpr fixed_rank_tensor( matrix_type const& v )
+            : super_type( extents_type{v.size1(), v.size2()} )
         {
             static_assert( R == 2, "Error in boost::numeric::ublas::tensor(const matrix &v)"
                                             " : rank of extents are not correct, please check!");
 
-            auto const sz = v.size1() * v.size2();
-            if(sz){
-                super_type::extents_[0] = v.size1();
-                super_type::extents_[1] = v.size2();
-                super_type::strides_ = strides_type( super_type::extents_ );
-                super_type::data_.resize(sz);
-                std::copy(v.data().begin(), v.data().end(), super_type::begin());
-            }
+            std::copy(v.data().begin(), v.data().end(), super_type::begin());
         }
 
         constexpr fixed_rank_tensor( matrix_type && v )
+            : super_type( extents_type{v.size1(), v.size2()} )
         {
             
             static_assert( R == 2, "Error in boost::numeric::ublas::tensor(matrix &&v)"
                                             " : rank of extents are not correct, please check!");
 
             auto const sz = v.size1() * v.size2();
-            if(sz){
-                super_type::extents_[0] = v.size1();
-                super_type::extents_[1] = v.size2();
-                super_type::strides_ = strides_type( super_type::extents_ );
-                super_type::data_.resize(sz);
-                
-                for(auto i = size_type{}; i < sz; ++i){
-                    super_type::data_[i] = std::move(v.data()[i]);
-                }
+            for(auto i = size_type{}; i < sz; ++i){
+                super_type::data_[i] = std::move(v.data()[i]);
             }
         }
 
         constexpr fixed_rank_tensor (const vector_type &v)
+            : super_type( extents_type{ v.size(), typename extents_type::value_type{1} } )
         {
             static_assert( R == 2, "Error in boost::numeric::ublas::tensor(const vector &v)"
                                             " : rank of extents are not correct, please check!");
 
-            auto const sz = v.size();
-            if(sz){
-                super_type::extents_[0] = v.size();
-                super_type::extents_[1] = typename extents_type::value_type{1};
-                super_type::strides_ = strides_type( super_type::extents_ );
-                super_type::data_.resize(sz);
-                std::copy(v.data().begin(), v.data().end(), super_type::begin());
-            }
+            std::copy(v.data().begin(), v.data().end(), super_type::begin());
             
         }
 
         constexpr fixed_rank_tensor (vector_type &&v)
+            : super_type( extents_type{ v.size(), typename extents_type::value_type{1} } )
         {
             
             static_assert( R == 2, "Error in boost::numeric::ublas::tensor(vector &&v)"
                                             " : rank of extents are not correct, please check!");
 
             auto const sz = v.size();
-            if(sz){
-                super_type::extents_[0] = v.size();
-                super_type::extents_[1] = typename extents_type::value_type{1};
-                super_type::strides_ = strides_type( super_type::extents_ );
-                super_type::data_.resize(sz);
-                
-                for(auto i = size_type{}; i < sz; ++i){
-                    super_type::data_[i] = std::move(v.data()[i]);
-                }
+            for(auto i = size_type{}; i < sz; ++i){
+                super_type::data_[i] = std::move(v.data()[i]);
             }
             
         }
@@ -237,7 +213,7 @@ namespace boost::numeric::ublas::detail{
     
     template<typename T, std::size_t R, typename F>
     struct tensor_traits< fixed_rank_tensor<T, R, F> > {
-        using array_type    = std::vector< T >;
+        using container_type= std::vector< T >;
         using extents_type  = dynamic_extents<R>;
         using layout_type   = F;
         using strides_type  = strides_t<extents_type,layout_type>;

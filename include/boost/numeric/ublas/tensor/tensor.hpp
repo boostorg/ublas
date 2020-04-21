@@ -74,7 +74,7 @@ public:
 
     using super_type                = tensor_expression_type<self_type>;
 
-    using array_type                = typename detail::tensor_traits<T>::array_type;
+    using array_type                = typename detail::tensor_traits<T>::container_type;
     using layout_type               = typename detail::tensor_traits<T>::layout_type;
 
 
@@ -96,6 +96,7 @@ public:
 
     using tensor_temporary_type     = self_type;
     using storage_category          = dense_tag;
+    using container_tag             = typename detail::tensor_traits<T>::container_tag;
 
     using extents_type              = typename detail::tensor_traits<T>::extents_type;
     using strides_type              = typename detail::tensor_traits<T>::strides_type;
@@ -121,6 +122,18 @@ protected:
         , strides_()
     {}
 
+    constexpr basic_tensor( extents_type const& e, dynamic_tag )
+        : tensor_expression_type<self_type>()
+        , extents_(e)
+        , strides_(extents_)
+        , data_( product(extents_) )
+    {}
+
+    constexpr basic_tensor( extents_type const& e, static_tag )
+        : tensor_expression_type<self_type>()
+        , extents_(e)
+        , strides_(extents_)
+    {}
 
     /** @brief Constructs a basic_tensor with an initializer list for dynamic_extents
      *
@@ -132,12 +145,8 @@ protected:
      */
     explicit inline
     basic_tensor (std::initializer_list<size_type> l)
-        : tensor_expression_type<self_type>()
-        , extents_ (std::move(l))
-        , strides_ (extents_)
-    {
-        resize(extents_);
-    }
+        : basic_tensor( std::move(l), container_tag{} )
+    {}
 
     /** @brief Constructs a basic_tensor with a \c shape
      *
@@ -149,12 +158,8 @@ protected:
      */
     explicit inline
     basic_tensor (extents_type const& s)
-        : tensor_expression_type<self_type>() //tensor_container<self_type>()
-        , extents_ (s)
-        , strides_ (extents_)
-    {
-        resize(extents_);
-    }
+        : basic_tensor( s, container_tag{} )
+    {}
 
     /** @brief Constructs a basic_tensor with a \c shape
      *
@@ -167,14 +172,10 @@ protected:
      */
     explicit inline
     basic_tensor (extents_type const& s, value_type const& i)
-        : tensor_expression_type<self_type>() //tensor_container<self_type>()
-        , extents_ (s)
-        , strides_ (extents_)
+        : basic_tensor( s, container_tag{} )
     {
-        resize(extents_);
         std::fill(begin(),end(),i);
     }
-
 
     /** @brief Constructs a basic_tensor with a \c shape and initiates it with one-dimensional data
      *
@@ -184,19 +185,14 @@ protected:
      *  @param s initial basic_tensor dimension extents
      *  @param a container of \c array_type that is copied according to the storage layout
      */
-    inline
     basic_tensor (extents_type const& s, const array_type &a)
-        : tensor_expression_type<self_type>() //tensor_container<self_type>()
-        , extents_ (s)
-        , strides_ (extents_)
+        : basic_tensor( s, container_tag{} )
     {
         if( product(extents_) != a.size() ){
             throw std::runtime_error("boost::numeric::ublas::basic_tensor(extents_type,array_type): array size mismatch with extents");
         }
-        resize(extents_);
         std::copy(a.begin(),a.end(),begin());
     }
-
 
     // /** @brief Constructs a basic_tensor using a shape tuple and initiates it with a value.
     //  *
@@ -221,18 +217,16 @@ public:
      *
      * @param other basic_tensor with a different layout to be copied.
      */
-    template<class OtherTensor>
+    template<typename OtherTensor>
     basic_tensor (const basic_tensor<OtherTensor> &other)
-        : tensor_expression_type<self_type> ()
-        , extents_ (other.extents())
-        , strides_ (other.extents())
+        : basic_tensor( other.extents(), container_tag{} )
     { 
-        resize(extents_);
         copy(this->rank(), this->extents().data(),
                 this->data(), this->strides().data(),
                 other.data(), other.strides().data());
         
     }
+
 
     /** @brief Constructs a basic_tensor with an basic_tensor expression
      *
@@ -244,18 +238,14 @@ public:
      * @param expr basic_tensor expression
      * @param size basic_tensor expression
      */
-    template<class derived_type>
+    template<typename derived_type>
     basic_tensor (const tensor_expression_type<derived_type> &expr)
-        : tensor_expression_type<self_type> ()
-        , extents_ ( detail::retrieve_extents(expr) )
-        , strides_ ( extents_ )
+        : basic_tensor( detail::retrieve_extents(expr), container_tag{} )
     {
         static_assert( detail::has_tensor_types<self_type, tensor_expression_type<derived_type>>::value,
                                      "Error in boost::numeric::ublas::basic_tensor: expression does not contain a basic_tensor. cannot retrieve shape.");
-        resize(extents_);
         detail::eval( *this, expr );
     }
-
 
     /** @brief Constructs a basic_tensor with a matrix expression
      *
@@ -607,18 +597,6 @@ public:
     }
 
 private:
-
-    inline void resize( size_type sz ){
-        using container_tag = typename detail::tensor_traits<T>::container_tag;
-        
-        if constexpr(  std::is_same_v< container_tag, detail::dynamic_tag > ){
-            data_.resize(sz);;
-        }
-    }
-
-    inline void resize( extents_type const& e ){
-        resize(product(e));
-    }
 
 #if 0
     // -------------

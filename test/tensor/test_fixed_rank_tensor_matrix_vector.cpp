@@ -32,11 +32,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor, value,  test_types)
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
-    ublas::fixed_rank_tensor<value_type, 2,layout_type> a1 = matrix_type();
-    BOOST_CHECK_EQUAL( a1.size() , 0ul );
-    BOOST_CHECK( a1.empty() );
-    BOOST_CHECK_EQUAL( a1.data() , nullptr);
-
     ublas::fixed_rank_tensor<value_type, 2,layout_type> a2 = matrix_type(1,1);
     BOOST_CHECK_EQUAL(  a2.size() , 1 );
     BOOST_CHECK( !a2.empty() );
@@ -66,11 +61,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor, value,  test_types)
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
-
-    ublas::fixed_rank_tensor<value_type, 2,layout_type> a1 = vector_type();
-    BOOST_CHECK_EQUAL( a1.size() , 0ul );
-    BOOST_CHECK( a1.empty() );
-    BOOST_CHECK_EQUAL( a1.data() , nullptr);
 
     ublas::fixed_rank_tensor<value_type, 2,layout_type> a2 = vector_type(1);
     BOOST_CHECK_EQUAL(  a2.size() , 1 );

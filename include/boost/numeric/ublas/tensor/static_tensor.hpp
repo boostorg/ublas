@@ -38,7 +38,7 @@ namespace boost::numeric::ublas {
         template<class derived_type>
         using vector_expression_type 	= typename super_type::template vector_expression_type<derived_type>;
 
-        using array_type  				= typename detail::tensor_traits<self_type>::array_type;
+        using array_type  				= typename detail::tensor_traits<self_type>::container_type;
         using layout_type 				= typename detail::tensor_traits<self_type>::layout_type;
 
         using size_type       			= typename array_type::size_type;
@@ -222,7 +222,7 @@ namespace boost::numeric::ublas::detail{
     
     template<typename T, typename E, typename F>
     struct tensor_traits< static_tensor<T,E,F> > {
-        using array_type 	= std::array< T, static_product_v<E> >;
+        using container_type= std::array< T, static_product_v<E> >;
         using extents_type 	= E;
         using layout_type 	= F;
         using strides_type	= strides_t<extents_type,layout_type>;
