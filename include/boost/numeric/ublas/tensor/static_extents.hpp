@@ -1,6 +1,6 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -34,15 +34,15 @@ struct basic_static_extents{
   static constexpr auto _size = sizeof...(E);
   
   using base_type       = std::array<ExtentsType,_size>;
-	using value_type      = typename base_type::value_type;
-	using const_reference = typename base_type::const_reference;
-	using reference       = typename base_type::reference;
-	using const_pointer   = typename base_type::const_pointer;
-	using const_iterator  = typename base_type::const_iterator;
-	using size_type       = typename base_type::size_type;
+  using value_type      = typename base_type::value_type;
+  using const_reference = typename base_type::const_reference;
+  using reference       = typename base_type::reference;
+  using const_pointer   = typename base_type::const_pointer;
+  using const_iterator  = typename base_type::const_iterator;
+  using size_type       = typename base_type::size_type;
 
   static_assert( std::numeric_limits<value_type>::is_integer, "Static error in basic_static_extents: type must be of type integer.");
-	static_assert(!std::numeric_limits<value_type>::is_signed,  "Static error in basic_static_extents: type must be of type unsigned integer.");
+  static_assert(!std::numeric_limits<value_type>::is_signed,  "Static error in basic_static_extents: type must be of type unsigned integer.");
 
   //@returns the rank of basic_static_extents
   [[nodiscard]] inline 

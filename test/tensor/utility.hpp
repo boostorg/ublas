@@ -1,6 +1,6 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -21,28 +21,28 @@ struct zip_helper;
 template<class type1, class ... types3>
 struct zip_helper<std::tuple<types3...>, type1>
 {
-	template<class ... types2>
-	struct with
-	{
-		using type = std::tuple<types3...,std::pair<type1,types2>...>;
-	};
-	template<class ... types2>
-	using with_t = typename with<types2...>::type;
+    template<class ... types2>
+    struct with
+    {
+        using type = std::tuple<types3...,std::pair<type1,types2>...>;
+    };
+    template<class ... types2>
+    using with_t = typename with<types2...>::type;
 };
 
 
 template<class type1, class ... types3, class ... types1>
 struct zip_helper<std::tuple<types3...>, type1, types1...>
 {
-	template<class ... types2>
-	struct with
-	{
-		using next_tuple = std::tuple<types3...,std::pair<type1,types2>...>;
-		using type       = typename zip_helper<next_tuple, types1...>::template with<types2...>::type;
-	};
+    template<class ... types2>
+    struct with
+    {
+        using next_tuple = std::tuple<types3...,std::pair<type1,types2>...>;
+        using type       = typename zip_helper<next_tuple, types1...>::template with<types2...>::type;
+    };
 
-	template<class ... types2>
-	using with_t = typename with<types2...>::type;
+    template<class ... types2>
+    using with_t = typename with<types2...>::type;
 };
 
 template<class ... types>

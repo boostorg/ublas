@@ -1,6 +1,6 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -217,16 +217,16 @@ struct basic_static_strides<basic_static_extents<T,Extents...>, Layout>
   [[nodiscard]] inline 
   constexpr auto size() const noexcept { return _size; }
 
-	value_type back () const{
-		return m_data.back();
-	}
+    value_type back () const{
+        return m_data.back();
+    }
 
   // default constructor
   constexpr basic_static_strides(){
-    		if constexpr( _size == 0 ){
+            if constexpr( _size == 0 ){
           return;
         }else{
-          static_assert( static_traits::is_valid_v<extents_type>, "Error in boost::numeric::ublas::basic_static_strides() : shape is not valid.");		
+          static_assert( static_traits::is_valid_v<extents_type>, "Error in boost::numeric::ublas::basic_static_strides() : shape is not valid."); 	
 
           if constexpr( static_traits::is_vector_v<extents_type> || static_traits::is_scalar_v<extents_type> ){
             return;

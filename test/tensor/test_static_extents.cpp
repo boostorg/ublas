@@ -495,11 +495,11 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_squeeze, fixture, *boost::unit_test:
   auto e_sq4  = squeeze(e4 )  ;//==> {4,2,3}
   auto e_sq5  = squeeze(e5 )  ;//==> {4,2,3}
 
-	BOOST_CHECK( (e_sq2  == extents_type{2,3}) );
-	BOOST_CHECK( (e_sq3  == extents_type{4,2,3}) );
+    BOOST_CHECK( (e_sq2  == extents_type{2,3}) );
+    BOOST_CHECK( (e_sq3  == extents_type{4,2,3}) );
 
-	BOOST_CHECK( (e_sq4  == extents_type{4,2,3}) );
-	BOOST_CHECK( (e_sq5  == extents_type{4,2,3}) );
+    BOOST_CHECK( (e_sq4  == extents_type{4,2,3}) );
+    BOOST_CHECK( (e_sq5  == extents_type{4,2,3}) );
 
 }
 

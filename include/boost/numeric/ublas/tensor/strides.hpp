@@ -1,6 +1,6 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -146,7 +146,7 @@ namespace boost::numeric::ublas {
   */
   template<std::size_t r, class Stride, class ... size_types>
   auto access(std::size_t sum, Stride const& w, std::size_t i, size_types ... is)
-  {	
+  { 
     static_assert( is_strides_v<Stride>, 
       "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
     sum += i*w[r];

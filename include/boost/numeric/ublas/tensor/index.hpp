@@ -31,20 +31,20 @@ namespace index {
 template<std::size_t I>
 struct index_type
 {
-	static constexpr std::size_t value = I;
+    static constexpr std::size_t value = I;
 
-	constexpr bool operator == (std::size_t other) const { return value == other; }
-	constexpr bool operator != (std::size_t other) const { return value != other; }
+    constexpr bool operator == (std::size_t other) const { return value == other; }
+    constexpr bool operator != (std::size_t other) const { return value != other; }
 
-	template <std::size_t K>
-	constexpr bool operator == (index_type<K> /*other*/) const {  return I==K; }
-	template <std::size_t  K>
-	constexpr bool operator != (index_type<K> /*other*/) const {  return I!=K; }
+    template <std::size_t K>
+    constexpr bool operator == (index_type<K> /*other*/) const {  return I==K; }
+    template <std::size_t  K>
+    constexpr bool operator != (index_type<K> /*other*/) const {  return I!=K; }
 
-	constexpr bool operator == (index_type /*other*/) const {  return true;  }
-	constexpr bool operator != (index_type /*other*/) const {  return false; }
+    constexpr bool operator == (index_type /*other*/) const {  return true;  }
+    constexpr bool operator != (index_type /*other*/) const {  return false; }
 
-	constexpr std::size_t operator()() const { return I; }
+    constexpr std::size_t operator()() const { return I; }
 };
 
 /** @brief Proxy classes for the einstein summation notation
