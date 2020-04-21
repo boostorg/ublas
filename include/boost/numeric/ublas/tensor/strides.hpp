@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <boost/numeric/ublas/tensor/dynamic_strides.hpp>
+#include <boost/numeric/ublas/tensor/fixed_rank_strides.hpp>
 #include <boost/numeric/ublas/tensor/static_strides.hpp>
 
 namespace boost::numeric::ublas {

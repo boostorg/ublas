@@ -44,8 +44,8 @@ namespace boost::numeric::ublas{
     
     struct tensor_tag {};
 
-    struct dynamic_tag : tensor_tag{};
-    struct static_tag : tensor_tag{};
+    struct dynamic_tensor_tag : tensor_tag{};
+    struct static_tensor_tag : tensor_tag{};
 
 } // namespace boost::numeric::ublas
 

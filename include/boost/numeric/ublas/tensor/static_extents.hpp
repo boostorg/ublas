@@ -16,6 +16,7 @@
 #include <array>
 #include <initializer_list>
 #include <vector>
+#include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
 
 namespace boost::numeric::ublas {
 
@@ -163,5 +164,19 @@ struct static_product< basic_static_extents<ExtentsType> >{
 };
 
 } // namespace boost::numeric::ublas
+
+namespace boost::numeric::ublas::detail{
+    
+template <class T, T... E>
+struct is_extents< basic_static_extents<T, E...> > : std::true_type {};
+
+template <class T, T... E>
+struct is_static< basic_static_extents<T, E...> > : std::true_type {};
+
+template <class T, std::size_t... E>
+struct is_static_rank< basic_static_extents<T, E...> > : std::true_type {};
+
+} // namespace boost::numeric::ublas
+
 
 #endif

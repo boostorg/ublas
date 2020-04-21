@@ -57,7 +57,7 @@ namespace boost::numeric::ublas {
         using storage_category          = dense_tag;
 
         using extents_type              = typename detail::tensor_traits<self_type>::extents_type;
-        using strides_type              = typename detail::tensor_traits<self_type>::strides_type;
+        using strides_type              = strides_t<extents_type,layout_type>;
 
         using matrix_type               = typename super_type::matrix_type;
         using vector_type               = typename super_type::vector_type;
@@ -187,6 +187,12 @@ namespace boost::numeric::ublas {
 
     dynamic_tensor(dynamic_extents<> const&) -> dynamic_tensor<float,first_order>;
 
+    template<typename T>
+    dynamic_tensor(basic_tensor<T> const&) -> dynamic_tensor< typename T::value_type, typename T::layout_type >;
+
+    template<typename T>
+    dynamic_tensor(basic_tensor<T> &&) -> dynamic_tensor< typename T::value_type, typename T::layout_type >;
+
 } // boost::numeric::ublas
 
 
@@ -197,8 +203,7 @@ namespace boost::numeric::ublas::detail{
         using container_type= std::vector< T >;
         using extents_type  = dynamic_extents<>;
         using layout_type   = F;
-        using strides_type  = strides_t<extents_type,layout_type>;
-        using container_tag = dynamic_tag;
+        using container_tag = dynamic_tensor_tag;
     };
 
     template<typename T, typename F>

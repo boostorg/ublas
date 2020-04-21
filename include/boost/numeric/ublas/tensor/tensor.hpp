@@ -99,7 +99,7 @@ public:
     using container_tag             = typename detail::tensor_traits<T>::container_tag;
 
     using extents_type              = typename detail::tensor_traits<T>::extents_type;
-    using strides_type              = typename detail::tensor_traits<T>::strides_type;
+    using strides_type              = strides_t<extents_type,layout_type>;
 
     using matrix_type               = matrix<value_type,layout_type, std::vector<value_type> >;
     using vector_type               = vector<value_type, std::vector<value_type> >;
@@ -122,14 +122,14 @@ protected:
         , strides_()
     {}
 
-    constexpr basic_tensor( extents_type const& e, dynamic_tag )
+    constexpr basic_tensor( extents_type const& e, dynamic_tensor_tag )
         : tensor_expression_type<self_type>()
         , extents_(e)
         , strides_(extents_)
         , data_( product(extents_) )
     {}
 
-    constexpr basic_tensor( extents_type const& e, static_tag )
+    constexpr basic_tensor( extents_type const& e, static_tensor_tag )
         : tensor_expression_type<self_type>()
         , extents_(e)
         , strides_(extents_)

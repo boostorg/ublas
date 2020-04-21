@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 #include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
+#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
 #include <boost/numeric/ublas/tensor/static_extents.hpp>
 
 namespace boost::numeric::ublas {
@@ -51,6 +52,27 @@ namespace boost::numeric::ublas {
         return os<<to_string(e);
     }
 
+
+    namespace detail{
+        template<std::size_t... N>
+        struct dynamic_extents_impl;
+
+        template <std::size_t N> struct dynamic_extents_impl<N> {
+            using type = basic_fixed_rank_extents<std::size_t, N>;
+        };
+
+        template <> struct dynamic_extents_impl<> {
+            using type = basic_extents<std::size_t>;
+        };
+
+    } // namespace detail
+
+
+    template<std::size_t... E>
+    using dynamic_extents = typename detail::dynamic_extents_impl<E...>::type;
+
+
 }
+
 
 #endif

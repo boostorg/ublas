@@ -29,13 +29,13 @@ namespace boost::numeric::ublas {
         using self_type                 = static_tensor< T, E, F >;
         using super_type				= basic_tensor< self_type >;
 
-        template<class derived_type>
+        template<typename derived_type>
         using tensor_expression_type 	= typename super_type::template tensor_expression_type<derived_type>;
 
-        template<class derived_type>
+        template<typename derived_type>
         using matrix_expression_type 	= typename super_type::template matrix_expression_type<derived_type>;
 
-        template<class derived_type>
+        template<typename derived_type>
         using vector_expression_type 	= typename super_type::template vector_expression_type<derived_type>;
 
         using array_type  				= typename detail::tensor_traits<self_type>::container_type;
@@ -61,7 +61,7 @@ namespace boost::numeric::ublas {
         using storage_category          = dense_tag;
 
         using extents_type              = typename detail::tensor_traits<self_type>::extents_type;
-        using strides_type              = typename detail::tensor_traits<self_type>::strides_type;
+        using strides_type              = strides_t<extents_type,layout_type>;
 
         using matrix_type               = typename super_type::matrix_type;
         using vector_type               = typename super_type::vector_type;
@@ -141,12 +141,12 @@ namespace boost::numeric::ublas {
             
         }
 
-        template<class OtherLayout>
+        template<typename OtherLayout>
         constexpr static_tensor (const static_tensor<value_type, extents_type, OtherLayout> &expr)
             : super_type(static_cast<super_type const&>(expr))
         {}
 
-        template<class OtherTensor>
+        template<typename OtherTensor>
         constexpr static_tensor (const basic_tensor<OtherTensor> & other)
         {
             static_assert( detail::is_tensor_v<OtherTensor>,
@@ -164,7 +164,7 @@ namespace boost::numeric::ublas {
             std::copy(other.begin(), other.end(), super_type::begin());
         }
 
-        template<class OtherTensor>
+        template<typename OtherTensor>
         constexpr static_tensor (basic_tensor<OtherTensor> && other)
         {
             static_assert( detail::is_tensor_v<OtherTensor>,
@@ -184,12 +184,12 @@ namespace boost::numeric::ublas {
             }
         }
 
-        template<class derived_type>
+        template<typename derived_type>
         constexpr static_tensor (const tensor_expression_type<derived_type> &expr)
             : super_type(expr)
         {}
 
-        template<class derived_type>
+        template<typename derived_type>
         constexpr static_tensor& operator= (const tensor_expression_type<derived_type> &expr)
         {
             static_tensor temp( expr );
@@ -197,12 +197,12 @@ namespace boost::numeric::ublas {
             return *this;
         }
 
-        template<class derived_type>
+        template<typename derived_type>
         constexpr static_tensor (const matrix_expression_type<derived_type> &expr)
             : static_tensor( matrix_type(expr) )
         {}
 
-        template<class derived_type>
+        template<typename derived_type>
         constexpr static_tensor (const vector_expression_type<derived_type> &expr)
             : static_tensor( vector_type(expr) )
         {}
@@ -212,7 +212,7 @@ namespace boost::numeric::ublas {
             return *this;
         }
 
-        void reshape (extents_type const& e, value_type v) = delete;
+        void reshape (extents_type const&, value_type) = delete;
     };
 
 } // boost::numeric::ublas
@@ -225,8 +225,7 @@ namespace boost::numeric::ublas::detail{
         using container_type= std::array< T, static_product_v<E> >;
         using extents_type 	= E;
         using layout_type 	= F;
-        using strides_type	= strides_t<extents_type,layout_type>;
-        using container_tag	= static_tag;
+        using container_tag	= static_tensor_tag;
     };
 
     template<typename T, typename E, typename F>

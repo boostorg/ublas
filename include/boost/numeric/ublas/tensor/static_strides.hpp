@@ -22,6 +22,7 @@
 #include <stdexcept>
 #include <vector>
 #include <boost/numeric/ublas/tensor/static_extents.hpp>
+#include <boost/numeric/ublas/tensor/detail/static_extents_traits.hpp>
 
 namespace boost::numeric::ublas{
 
@@ -290,6 +291,19 @@ struct basic_static_strides<basic_static_extents<T,Extents...>, Layout>
 private:
   static constexpr base_type const m_data{ detail::strides_helper_v<layout_type,T,Extents...> };
 };
+
+} // namespace boost::numeric::ublas
+
+namespace boost::numeric::ublas::detail{
+    
+template <class L, class T, T... E>
+struct is_strides< basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};
+
+template <class T, T... E, class L>
+struct is_static< basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};
+
+template <class T, T... E, class L>
+struct is_static_rank< basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};
 
 } // namespace boost::numeric::ublas
 
