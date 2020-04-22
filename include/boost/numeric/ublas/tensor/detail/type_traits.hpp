@@ -16,7 +16,7 @@
 #include <type_traits>
 #include <cstddef>
 
-namespace boost::numeric::ublas::detail {
+namespace boost::numeric::ublas {
   
 /** @brief Checks if the extents or strides is dynamic
  *

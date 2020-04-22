@@ -24,12 +24,14 @@ int main()
     using value_t   = float; // std::complex<double>;
     using matrix_t = matrix<value_t,format_t>;
     using vector_t = vector<value_t>;
+    using extents_3_t = dynamic_extents<3>;
+    using extents_4_t = dynamic_extents<4>;
 
     // Tensor-Vector-Multiplications - Including Transposition
     // dynamic_extents with static rank
     {
 
-        auto n = dynamic_extents<3>{3,4,2};
+        auto n = extents_3_t{3,4,2};
         auto A = fixed_rank_tensor(n,value_t(2));
         using tensor_t = fixed_rank_tensor< value_t, 2>;
         auto q = 0u; // contraction mode
@@ -70,7 +72,7 @@ int main()
     // dynamic_extents with static rank
     {
 
-        auto n = dynamic_extents<3>{3,4,2};
+        auto n = extents_3_t{3,4,2};
         auto A = fixed_rank_tensor(n,value_t(2));
         using tensor_t = decltype(A);
         auto m = 5u;
@@ -78,7 +80,7 @@ int main()
 
         // C1(l,j,k) = T2(l,j,k) + A(i,j,k)*T1(l,i);
         q = 1u;
-        tensor_t C1 = fixed_rank_tensor( dynamic_extents<3>{m,n[1],n[2]},value_t(2) ) + prod(A,matrix_t(m,n[q-1],1),q);
+        tensor_t C1 = fixed_rank_tensor( extents_3_t{m,n[1],n[2]},value_t(2) ) + prod(A,matrix_t(m,n[q-1],1),q);
 
         // C2(i,l,k) = A(i,j,k)*T1(l,j) + 4;
         q = 2u;
@@ -124,8 +126,8 @@ int main()
 
         using perm_t = std::vector<std::size_t>;
 
-        auto na = dynamic_extents<3>{3,4,5};
-        auto nb = dynamic_extents<4>{4,6,3,2};
+        auto na = extents_3_t{3,4,5};
+        auto nb = extents_4_t{4,6,3,2};
         auto A = fixed_rank_tensor(na,value_t(2));
         auto B = fixed_rank_tensor(nb,value_t(3));
         using tensor_t = dynamic_tensor< value_t >;

@@ -357,34 +357,6 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
 
 }
 
-BOOST_FIXTURE_TEST_CASE(test_static_extents_to_functions, fixture, *boost::unit_test::label("static_extents") *boost::unit_test::label("to_functions"))
-{
-
-  for_each_tuple(scalars,[](auto const&, auto& e){
-    if (e.size() > 1){
-      auto d = e.to_dynamic_extents();
-      BOOST_CHECK(d == e);
-    }
-  });
-
-  for_each_tuple(vectors,[](auto const&, auto& e){
-    auto d = e.to_dynamic_extents();
-    BOOST_CHECK(d == e);
-  });
-
-
-  for_each_tuple(matrices,[](auto const&, auto& e){
-    auto d = e.to_dynamic_extents();
-    BOOST_CHECK(d == e);
-  });
-
-  for_each_tuple(tensors,[](auto const&, auto& e){
-    auto d = e.to_dynamic_extents();
-    BOOST_CHECK(d == e);
-  });
-
-}
-
 BOOST_FIXTURE_TEST_CASE(test_static_extents_valid, fixture, *boost::unit_test::label("static_extents") *boost::unit_test::label("valid"))
 {
   using namespace boost::numeric::ublas;

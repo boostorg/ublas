@@ -258,7 +258,7 @@ constexpr auto& operator /= (boost::numeric::ublas::basic_tensor<T>& lhs,
 
 template<class TensorType>
 constexpr auto& operator += (boost::numeric::ublas::basic_tensor<TensorType>& lhs, typename TensorType::const_reference r) {
-    static_assert( boost::numeric::ublas::detail::is_tensor_v<TensorType>, 
+    static_assert( boost::numeric::ublas::is_valid_tensor_v<TensorType>, 
         "boost::numeric::ublas::operator +=() : tensor type should be valid tensor"
     );
     boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l+=r; } );
@@ -267,7 +267,7 @@ constexpr auto& operator += (boost::numeric::ublas::basic_tensor<TensorType>& lh
 
 template<typename TensorType>
 constexpr auto& operator -= (boost::numeric::ublas::basic_tensor<TensorType>& lhs, typename TensorType::const_reference r) {
-    static_assert( boost::numeric::ublas::detail::is_tensor_v<TensorType>, 
+    static_assert( boost::numeric::ublas::is_valid_tensor_v<TensorType>, 
         "boost::numeric::ublas::operator -=() : tensor type should be valid tensor"
     );
     boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l-=r; } );
@@ -276,7 +276,7 @@ constexpr auto& operator -= (boost::numeric::ublas::basic_tensor<TensorType>& lh
 
 template<typename TensorType>
 constexpr auto& operator *= (boost::numeric::ublas::basic_tensor<TensorType>& lhs, typename TensorType::const_reference r) {
-    static_assert( boost::numeric::ublas::detail::is_tensor_v<TensorType>, 
+    static_assert( boost::numeric::ublas::is_valid_tensor_v<TensorType>, 
         "boost::numeric::ublas::operator *=() : tensor type should be valid tensor"
     );
     boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l*=r; } );
@@ -285,7 +285,7 @@ constexpr auto& operator *= (boost::numeric::ublas::basic_tensor<TensorType>& lh
 
 template<typename TensorType>
 constexpr auto& operator /= (boost::numeric::ublas::basic_tensor<TensorType>& lhs, typename TensorType::const_reference r) {
-    static_assert( boost::numeric::ublas::detail::is_tensor_v<TensorType>, 
+    static_assert( boost::numeric::ublas::is_valid_tensor_v<TensorType>, 
         "boost::numeric::ublas::operator /=() : tensor type should be valid tensor"
     );
     boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l/=r; } );

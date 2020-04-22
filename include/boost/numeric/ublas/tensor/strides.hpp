@@ -14,7 +14,6 @@
 #ifndef _BOOST_UBLAS_TENSOR_STRIDES_HPP_
 #define _BOOST_UBLAS_TENSOR_STRIDES_HPP_
 
-#include <algorithm>
 #include <boost/numeric/ublas/tensor/dynamic_strides.hpp>
 #include <boost/numeric/ublas/tensor/fixed_rank_strides.hpp>
 #include <boost/numeric/ublas/tensor/static_strides.hpp>
@@ -22,11 +21,11 @@
 namespace boost::numeric::ublas {
 
   template <class LStrides, class RStrides,
-    std::enable_if_t<detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>, int> = 0
+    std::enable_if_t<is_strides_v<LStrides> && is_strides_v<RStrides>, int> = 0
   >
   constexpr bool operator==(LStrides const &lhs, RStrides const &rhs) {
     
-    static_assert(detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>,
+    static_assert(is_strides_v<LStrides> && is_strides_v<RStrides>,
       "boost::numeric::ublas::operator==() : invalid type, type should be a strides");
 
     if( lhs.size() != rhs.size() ){
@@ -37,19 +36,19 @@ namespace boost::numeric::ublas {
   }
 
   template <class LStrides, class RStrides,
-    std::enable_if_t<detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>, int> = 0
+    std::enable_if_t<is_strides_v<LStrides> && is_strides_v<RStrides>, int> = 0
   >
   constexpr bool operator!=(LStrides const &lhs, RStrides const &rhs) {
-    static_assert(detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>,
+    static_assert(is_strides_v<LStrides> && is_strides_v<RStrides>,
       "boost::numeric::ublas::operator!=() : invalid type, type should be a strides");
     return !(lhs == rhs);
   }
 
   template <class Strides,
-    std::enable_if_t<detail::is_strides_v<Strides>, int> = 0
+    std::enable_if_t<is_strides_v<Strides>, int> = 0
   >
   std::ostream& operator<<(std::ostream& os, Strides const& s){
-    static_assert(detail::is_strides_v<Strides>,
+    static_assert(is_strides_v<Strides>,
       "boost::numeric::ublas::operator<<() : invalid type, type should be a strides");
     return os<<to_string(s);
   }

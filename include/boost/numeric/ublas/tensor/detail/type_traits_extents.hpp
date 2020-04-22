@@ -13,7 +13,7 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_EXTENTS_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_EXTENTS_HPP
 
-namespace boost::numeric::ublas::detail {
+namespace boost::numeric::ublas {
 
 // checks if type is extents or not
 template <class E>

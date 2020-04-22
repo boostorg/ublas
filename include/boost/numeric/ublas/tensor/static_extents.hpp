@@ -15,7 +15,6 @@
 
 #include <array>
 #include <initializer_list>
-#include <vector>
 #include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
 
 namespace boost::numeric::ublas {
@@ -66,14 +65,6 @@ struct basic_static_extents{
   // default constructor
   constexpr basic_static_extents() = default;
 
-  /** @brief Returns the std::vector containing extents */
-  [[nodiscard]] inline
-  auto to_vector() const {
-    std::vector<value_type> temp(_size);
-    std::copy(begin(), end(), temp.begin());
-    return temp;
-  }
-
   /** @brief Returns ref to the std::array containing extents */
   [[nodiscard]] inline
   constexpr base_type const& base() const noexcept{
@@ -84,12 +75,6 @@ struct basic_static_extents{
   [[nodiscard]] inline
   constexpr const_pointer data() const noexcept{
     return m_data.data();
-  }
-
-  /** @brief Returns the basic_extents containing extents */
-  [[nodiscard]] inline
-  auto to_dynamic_extents() const {
-    return basic_extents<value_type>(this->to_vector());
   }
 
   /** @brief Checks if extents is empty or not
@@ -165,7 +150,7 @@ struct static_product< basic_static_extents<ExtentsType> >{
 
 } // namespace boost::numeric::ublas
 
-namespace boost::numeric::ublas::detail{
+namespace boost::numeric::ublas{
     
 template <class T, T... E>
 struct is_extents< basic_static_extents<T, E...> > : std::true_type {};

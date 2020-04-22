@@ -14,13 +14,6 @@
 #ifndef BOOST_UBLAS_TENSOR_STATIC_STRIDES_HPP
 #define BOOST_UBLAS_TENSOR_STATIC_STRIDES_HPP
 
-#include <algorithm>
-#include <cassert>
-#include <initializer_list>
-#include <limits>
-#include <numeric>
-#include <stdexcept>
-#include <vector>
 #include <boost/numeric/ublas/tensor/static_extents.hpp>
 #include <boost/numeric/ublas/tensor/detail/static_extents_traits.hpp>
 
@@ -294,7 +287,7 @@ private:
 
 } // namespace boost::numeric::ublas
 
-namespace boost::numeric::ublas::detail{
+namespace boost::numeric::ublas{
     
 template <class L, class T, T... E>
 struct is_strides< basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};

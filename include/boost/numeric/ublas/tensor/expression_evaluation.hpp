@@ -79,7 +79,7 @@ namespace boost::numeric::ublas::detail {
 template<class TensorType>
 auto retrieve_extents(basic_tensor<TensorType> const& t)
 {
-	static_assert( detail::is_tensor_v<TensorType>, 
+	static_assert( is_valid_tensor_v<TensorType>, 
 		"boost::numeric::ublas::detailretrieve_extents() : tensor type should be valid tensor"
 	);
 	return t.extents();
@@ -169,11 +169,11 @@ namespace boost::numeric::ublas::detail {
 template<class TensorType, class Extents>
 auto all_extents_equal(basic_tensor<TensorType> const& t, Extents const& extents)
 {
-	static_assert(detail::is_extents_v<Extents>,
+	static_assert(is_extents_v<Extents>,
 		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
 	);
 
-	static_assert( detail::is_tensor_v<TensorType>, 
+	static_assert( is_valid_tensor_v<TensorType>, 
 		"boost::numeric::ublas::all_extents_equal() : tensor type should be valid tensor"
 	);
 
@@ -183,7 +183,7 @@ auto all_extents_equal(basic_tensor<TensorType> const& t, Extents const& extents
 template<class T, class D, class Extents>
 auto all_extents_equal(tensor_expression<T,D> const& expr, Extents const& extents)
 {
-	static_assert(detail::is_extents_v<Extents>,
+	static_assert(is_extents_v<Extents>,
 		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
 	);
 
@@ -208,7 +208,7 @@ auto all_extents_equal(tensor_expression<T,D> const& expr, Extents const& extent
 template<class T, class EL, class ER, class OP, class Extents>
 auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& expr, Extents const& extents)
 {
-	static_assert(detail::is_extents_v<Extents>,
+	static_assert(is_extents_v<Extents>,
 		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
 	);
 
@@ -238,7 +238,7 @@ auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& expr, Extents
 template<class T, class E, class OP, class Extents>
 auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, Extents const& extents)
 {
-	static_assert(detail::is_extents_v<Extents>,
+	static_assert(is_extents_v<Extents>,
 		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
 	);
 

@@ -13,7 +13,7 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_STRIDES_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_STRIDES_HPP
 
-namespace boost::numeric::ublas::detail {
+namespace boost::numeric::ublas {
 
 // checks if type is strides or not
 template <class E>

@@ -15,14 +15,6 @@
 #ifndef _BOOST_UBLAS_TENSOR_DYNAMIC_STRIDES_HPP_
 #define _BOOST_UBLAS_TENSOR_DYNAMIC_STRIDES_HPP_
 
-#include <vector>
-#include <limits>
-#include <numeric>
-#include <stdexcept>
-#include <initializer_list>
-#include <algorithm>
-#include <cassert>
-
 #include <boost/numeric/ublas/functional.hpp>
 #include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
 #include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
@@ -212,7 +204,7 @@ protected:
 }
 
 
-namespace boost::numeric::ublas::detail{
+namespace boost::numeric::ublas{
     
 template <class L, class T> 
 struct is_strides<basic_strides<T,L>> : std::true_type {};

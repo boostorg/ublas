@@ -15,17 +15,8 @@
 #ifndef _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
 #define _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
 
-#include <vector>
-#include <limits>
-#include <numeric>
-#include <stdexcept>
-#include <initializer_list>
-#include <algorithm>
-#include <cassert>
-
 #include <boost/numeric/ublas/functional.hpp>
 #include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
-#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 
 namespace boost { 
 namespace numeric { 
@@ -39,28 +30,28 @@ using last_order = row_major;
  * Proxy template class of std::array<int_type,N>.
  *
  */
-template<class __int_type, std::size_t N, class __layout>
+template<class T, std::size_t N, class L>
 class basic_fixed_rank_strides
 {
 public:
 
-    using base_type = std::array<__int_type, N>;
+    using base_type = std::array<T, N>;
 
     static_assert( std::numeric_limits<typename base_type::value_type>::is_integer,
                                  "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type integer.");
     static_assert(!std::numeric_limits<typename base_type::value_type>::is_signed,
                                 "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type unsigned integer.");
-    static_assert(std::is_same<__layout,first_order>::value || std::is_same<__layout,last_order>::value,
+    static_assert(std::is_same<L,first_order>::value || std::is_same<L,last_order>::value,
                                 "Static error in boost::numeric::ublas::basic_fixed_rank_strides: layout type must either first or last order");
 
 
-    using layout_type         = __layout;
-    using value_type         = typename base_type::value_type;
-    using reference         = typename base_type::reference;
-    using const_reference     = typename base_type::const_reference;
-    using size_type         = typename base_type::size_type;
-    using const_pointer     = typename base_type::const_pointer;
-    using const_iterator     = typename base_type::const_iterator;
+    using layout_type           = L;
+    using value_type            = typename base_type::value_type;
+    using reference             = typename base_type::reference;
+    using const_reference       = typename base_type::const_reference;
+    using size_type             = typename base_type::size_type;
+    using const_pointer         = typename base_type::const_pointer;
+    using const_iterator        = typename base_type::const_iterator;
 
 
     /** @brief Default constructs basic_fixed_rank_strides
@@ -77,7 +68,6 @@ public:
      * @code auto strides = basic_fixed_rank_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
      *
      */
-    template <class T>
     basic_fixed_rank_strides(basic_fixed_rank_extents<T,N> const& s)
     {
         _base.fill(value_type(1));
@@ -187,7 +177,7 @@ protected:
 }
 }
 
-namespace boost::numeric::ublas::detail{
+namespace boost::numeric::ublas{
     
 template <class L, class T, std::size_t R>
 struct is_strides< basic_fixed_rank_strides< T, R, L> > : std::true_type {};

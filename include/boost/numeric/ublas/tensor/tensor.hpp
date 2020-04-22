@@ -74,8 +74,8 @@ public:
 
     using super_type                = tensor_expression_type<self_type>;
 
-    using array_type                = typename detail::tensor_traits<T>::container_type;
-    using layout_type               = typename detail::tensor_traits<T>::layout_type;
+    using array_type                = typename tensor_traits<T>::container_type;
+    using layout_type               = typename tensor_traits<T>::layout_type;
 
 
     using size_type                 = typename array_type::size_type;
@@ -96,9 +96,9 @@ public:
 
     using tensor_temporary_type     = self_type;
     using storage_category          = dense_tag;
-    using container_tag             = typename detail::tensor_traits<T>::container_tag;
+    using container_tag             = typename tensor_traits<T>::container_tag;
 
-    using extents_type              = typename detail::tensor_traits<T>::extents_type;
+    using extents_type              = typename tensor_traits<T>::extents_type;
     using strides_type              = strides_t<extents_type,layout_type>;
 
     using matrix_type               = matrix<value_type,layout_type, std::vector<value_type> >;
@@ -507,7 +507,7 @@ public:
     inline
     void reshape (extents_type const& e, value_type v = value_type{})
     {
-        static_assert(detail::is_dynamic_v<extents_type>,
+        static_assert(is_dynamic_v<extents_type>,
             "Error in boost::numeric::ublas::basic_tensor: static extents cannot be reshaped");
         this->extents_ = e;
         this->strides_ = strides_type(this->extents_);
@@ -596,24 +596,6 @@ public:
         return data_.rend();
     }
 
-private:
-
-#if 0
-    // -------------
-    // Serialization
-    // -------------
-
-    /// Serialize a basic_tensor into and archive as defined in Boost
-    /// \param ar Archive object. Can be a flat file, an XML file or any other stream
-    /// \param file_version Optional file version (not yet used)
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int /* file_version */){
-        ar & serialization::make_nvp("data",data_);
-    }
-#endif
-
-
-
 protected:
 
     extents_type extents_;
@@ -624,10 +606,10 @@ protected:
 }}} // namespaces
 
 
-namespace boost::numeric::ublas::detail{
+namespace boost::numeric::ublas{
     
     template<typename T>
-    struct is_tensor< basic_tensor<T> > : std::true_type{};
+    struct is_valid_tensor< basic_tensor<T> > : std::true_type{};
 
 
     template<typename T, typename...Ts>

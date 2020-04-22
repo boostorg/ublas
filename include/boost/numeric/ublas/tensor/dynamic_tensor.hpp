@@ -34,8 +34,8 @@ namespace boost::numeric::ublas {
         template<class derived_type>
         using vector_expression_type    = typename super_type::template vector_expression_type<derived_type>;
 
-        using array_type                = typename detail::tensor_traits<self_type>::container_type;
-        using layout_type               = typename detail::tensor_traits<self_type>::layout_type;
+        using array_type                = typename tensor_traits<self_type>::container_type;
+        using layout_type               = typename tensor_traits<self_type>::layout_type;
 
         using size_type                 = typename array_type::size_type;
         using difference_type           = typename array_type::difference_type;
@@ -56,7 +56,7 @@ namespace boost::numeric::ublas {
         using tensor_temporary_type     = self_type;
         using storage_category          = dense_tag;
 
-        using extents_type              = typename detail::tensor_traits<self_type>::extents_type;
+        using extents_type              = typename tensor_traits<self_type>::extents_type;
         using strides_type              = strides_t<extents_type,layout_type>;
 
         using matrix_type               = typename super_type::matrix_type;
@@ -89,10 +89,7 @@ namespace boost::numeric::ublas {
         constexpr dynamic_tensor( matrix_type && v )
             : super_type( extents_type{v.size1(), v.size2()} )
         {
-            auto const sz = v.size1() * v.size2();
-            for(auto i = size_type{}; i < sz; ++i){
-                super_type::data_[i] = std::move(v.data()[i]);
-            }
+            std::move(v.data().begin(), v.data().end(),super_type::begin());
         }
 
         constexpr dynamic_tensor (const vector_type &v)
@@ -104,11 +101,7 @@ namespace boost::numeric::ublas {
         constexpr dynamic_tensor (vector_type &&v)
             : super_type( extents_type{ v.size(), typename extents_type::value_type{1} } )
         {
-            auto const sz = v.size();
-            for(auto i = size_type{}; i < sz; ++i){
-                super_type::data_[i] = std::move(v.data()[i]);
-            }
-
+            std::move(v.data().begin(), v.data().end(),super_type::begin());
         }
 
         template<class OtherLayout>
@@ -146,7 +139,7 @@ namespace boost::numeric::ublas {
         constexpr dynamic_tensor (const basic_tensor<OtherTensor> & other)
             : super_type(other.extents())
         {
-            static_assert( detail::is_tensor_v<OtherTensor>,
+            static_assert( is_valid_tensor_v<OtherTensor>,
                 "boost::numeric::ublas::dynamic_tensor( const OtherTensor& ) : The OtherTensor should have a tensor type"
             );
 
@@ -161,7 +154,7 @@ namespace boost::numeric::ublas {
         constexpr dynamic_tensor (basic_tensor<OtherTensor> && other)
             : super_type(other.extents())
         {
-            static_assert( detail::is_tensor_v<OtherTensor>,
+            static_assert( is_valid_tensor_v<OtherTensor>,
                 "boost::numeric::ublas::dynamic_tensor( OtherTensor&& ) : The OtherTensor should have a tensor type"
             );
 
@@ -169,9 +162,7 @@ namespace boost::numeric::ublas {
                 "boost::numeric::ublas::dynamic_tensor( OtherTensor&& ) : The tensor should have same value type"
             );
 
-            for( auto i = size_type(0); i < other.size(); ++i ){
-                super_type::data_[i] = std::move(other[i]);
-            }
+            std::move(other.begin(), other.end(), super_type::begin());
 
         }
 
@@ -196,7 +187,7 @@ namespace boost::numeric::ublas {
 } // boost::numeric::ublas
 
 
-namespace boost::numeric::ublas::detail{
+namespace boost::numeric::ublas{
 
     template<typename T, typename F>
     struct tensor_traits< dynamic_tensor<T,F> > {
@@ -207,7 +198,7 @@ namespace boost::numeric::ublas::detail{
     };
 
     template<typename T, typename F>
-    struct is_tensor< dynamic_tensor<T,F> > : std::true_type{};
+    struct is_valid_tensor< dynamic_tensor<T,F> > : std::true_type{};
 
     template<typename T, typename F, typename NewValue>
     struct tensor_rebind< dynamic_tensor<T, F>, NewValue > {

@@ -74,7 +74,17 @@ int main() {
     
     std::cout<<"( exp2 == exp3 ) => "<<( exp2 == exp3 ? "True" : "False")<<'\n';
 
+    /*--------------------------Assignment------------------------------*/
 
+    // Assigning static_tensor into fixed_rank_tensor
+    ub::fixed_rank_tensor<float,5> t4 = st1;
+
+    // Assigning dynamic_tensor into fixed_rank_tensor
+    ub::dynamic_tensor t5 = dt1;
+
+    std::cout<<"( t4 == t3 ) => "<<( t4 == t3 ? "True" : "False")<<'\n';
+    
+    std::cout<<"( t5 == dt1 ) => "<<( t5 == dt1 ? "True" : "False")<<'\n';
 
     return 0;
 }

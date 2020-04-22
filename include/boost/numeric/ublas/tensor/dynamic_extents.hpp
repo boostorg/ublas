@@ -14,18 +14,12 @@
 #ifndef _BOOST_NUMERIC_UBLAS_TENSOR_DYNAMIC_EXTENTS_HPP_
 #define _BOOST_NUMERIC_UBLAS_TENSOR_DYNAMIC_EXTENTS_HPP_
 
-#include <algorithm>
-#include <string>
 #include <initializer_list>
 #include <limits>
-#include <numeric>
 #include <stdexcept>
 #include <vector>
-#include <array>
 #include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
 #include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
-
-#include <cassert>
 
 namespace boost {
 namespace numeric {
@@ -135,15 +129,13 @@ public:
 
     template<typename OtherExtentsType,
         std::enable_if_t< 
-            detail::is_extents<OtherExtentsType>::value
-            && ( !std::is_same_v<basic_extents, OtherExtentsType> )
+            is_extents<OtherExtentsType>::value
             ,int > = 0
     >
-    basic_extents(OtherExtentsType const& e){
-        _base.resize(e.size());
-        for(auto i = size_type(0); i < size(); ++i){
-            _base[i] = e[i];
-        }
+    basic_extents(OtherExtentsType const& e)
+        : _base(e.size())
+    {
+        std::copy(e.begin(),e.end(), _base.begin());
     }
 
     ~basic_extents() = default;
@@ -238,7 +230,7 @@ private:
 } // namespace numeric
 } // namespace boost
 
-namespace boost::numeric::ublas::detail{
+namespace boost::numeric::ublas{
     
 template <class T> 
 struct is_extents< basic_extents<T> > : std::true_type {};

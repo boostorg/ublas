@@ -14,17 +14,12 @@
 #ifndef _BOOST_NUMERIC_UBLAS_TENSOR_FIXED_RANK_EXTENTS_HPP_
 #define _BOOST_NUMERIC_UBLAS_TENSOR_FIXED_RANK_EXTENTS_HPP_
 
-#include <algorithm>
-#include <string>
 #include <initializer_list>
 #include <limits>
-#include <numeric>
 #include <stdexcept>
-#include <vector>
 #include <array>
 #include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
-
-#include <cassert>
+#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 
 namespace boost {
 namespace numeric {
@@ -112,14 +107,11 @@ struct basic_fixed_rank_extents
     
     template<typename OtherExtentsType,
         std::enable_if_t< 
-            detail::is_extents<OtherExtentsType>::value
-            && ( !std::is_same_v<basic_fixed_rank_extents, OtherExtentsType> )
+            is_extents<OtherExtentsType>::value
             ,int > = 0
     >
     constexpr basic_fixed_rank_extents(OtherExtentsType const& e){
-        for(auto i = size_type(0); i < size(); ++i){
-            _base[i] = e[i];
-        }
+        std::copy_n(e.begin(),_size, _base.begin());
     }
     
     constexpr basic_fixed_rank_extents(base_type const& data)
@@ -140,12 +132,6 @@ struct basic_fixed_rank_extents
 
     /** @brief Returns the std::vector containing extents */
     [[nodiscard]] inline
-    auto to_vector() const {
-        return std::vector<value_type>( _base.begin(), _base.end() );
-    }
-
-    /** @brief Returns the std::vector containing extents */
-    [[nodiscard]] inline
     constexpr base_type const& base() const {
         return _base;
     }
@@ -154,12 +140,6 @@ struct basic_fixed_rank_extents
     [[nodiscard]] inline
     constexpr base_type& base() {
         return _base;
-    }
-
-    /** @brief Returns the basic_extents containing extents */
-    [[nodiscard]] inline
-    auto to_dynamic_extents() const {
-        return basic_extents<value_type>(this->to_vector());
     }
 
     /** @brief Checks if extents is empty or not
@@ -222,7 +202,7 @@ private:
 } // namespace boost
 
 
-namespace boost::numeric::ublas::detail{
+namespace boost::numeric::ublas{
     
 template <class T, std::size_t R>
 struct is_extents< basic_fixed_rank_extents<T, R> > : std::true_type {};
