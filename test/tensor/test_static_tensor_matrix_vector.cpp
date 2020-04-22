@@ -457,4 +457,3 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
 
 
 BOOST_AUTO_TEST_SUITE_END()
-

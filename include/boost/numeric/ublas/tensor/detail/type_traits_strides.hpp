@@ -24,5 +24,4 @@ inline static constexpr bool const is_strides_v = is_strides<E>::value;
 
 } // namespace boost::numeric::ublas::detail
 
-
 #endif

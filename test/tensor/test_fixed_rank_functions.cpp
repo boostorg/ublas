@@ -402,4 +402,3 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_outer_prod, value,  tes
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-

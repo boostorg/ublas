@@ -561,4 +561,3 @@ BOOST_AUTO_TEST_CASE ( test_multi_index_array_to_vector )
 
 
 BOOST_AUTO_TEST_SUITE_END()
-

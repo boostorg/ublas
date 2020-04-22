@@ -143,4 +143,3 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_multi_index_class_generation, value, 
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-

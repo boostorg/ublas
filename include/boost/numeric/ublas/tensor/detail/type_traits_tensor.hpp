@@ -49,5 +49,4 @@ namespace boost::numeric::ublas{
 
 } // namespace boost::numeric::ublas
 
-
 #endif
