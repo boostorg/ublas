@@ -86,26 +86,26 @@ int main() {
     auto t6_s = tensor_static_extents_and_static_rank_5.strides();
     auto t7_s = tensor_dynamic_extents_and_dynamic_rank_6.strides();
 
-    std::cout<<"\nExtents: "<<(t1_e)<<'\n';
-    std::cout<<"Strides: "<<(t1_s)<<'\n';
+    std::cout<<"\nExtents: "<<(t1_e)<<std::endl;
+    std::cout<<"Strides: "<<(t1_s)<<std::endl;
     
-    std::cout<<"\nExtents: "<<(t2_e)<<'\n';
-    std::cout<<"Strides: "<<(t2_s)<<'\n';
+    std::cout<<"\nExtents: "<<(t2_e)<<std::endl;
+    std::cout<<"Strides: "<<(t2_s)<<std::endl;
 
-    std::cout<<"\nExtents: "<<(t3_e)<<'\n';
-    std::cout<<"Strides: "<<(t3_s)<<'\n';
+    std::cout<<"\nExtents: "<<(t3_e)<<std::endl;
+    std::cout<<"Strides: "<<(t3_s)<<std::endl;
 
-    std::cout<<"\nExtents: "<<(t4_e)<<'\n';
-    std::cout<<"Strides: "<<(t4_s)<<'\n';
+    std::cout<<"\nExtents: "<<(t4_e)<<std::endl;
+    std::cout<<"Strides: "<<(t4_s)<<std::endl;
 
-    std::cout<<"\nExtents: "<<(t5_e)<<'\n';
-    std::cout<<"Strides: "<<(t5_s)<<'\n';
+    std::cout<<"\nExtents: "<<(t5_e)<<std::endl;
+    std::cout<<"Strides: "<<(t5_s)<<std::endl;
 
-    std::cout<<"\nExtents: "<<(t6_e)<<'\n';
-    std::cout<<"Strides: "<<(t6_s)<<'\n';
+    std::cout<<"\nExtents: "<<(t6_e)<<std::endl;
+    std::cout<<"Strides: "<<(t6_s)<<std::endl;
 
-    std::cout<<"\nExtents: "<<(t7_e)<<'\n';
-    std::cout<<"Strides: "<<(t7_s)<<'\n';
+    std::cout<<"\nExtents: "<<(t7_e)<<std::endl;
+    std::cout<<"Strides: "<<(t7_s)<<std::endl;
 
     return 0;
 }

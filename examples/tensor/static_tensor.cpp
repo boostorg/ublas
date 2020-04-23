@@ -60,9 +60,11 @@ int main() {
 
     s_tensor exp3 = st1 + dt1 * 2 + dt1 * t3;
 
-    std::cout<<"( exp1 == exp2 ) => "<<( exp1 == exp2 ? "True" : "False")<<'\n';
+    std::cout<<std::boolalpha;
+
+    std::cout<<"( exp1 == exp2 ) => "<<( exp1 == exp2)<<std::endl;
     
-    std::cout<<"( exp2 == exp3 ) => "<<( exp2 == exp3 ? "True" : "False")<<'\n';
+    std::cout<<"( exp2 == exp3 ) => "<<( exp2 == exp3)<<std::endl;
 
     /*--------------------------Assignment------------------------------*/
 
@@ -72,9 +74,9 @@ int main() {
     // Assigning dynamic_tensor into static_tensor
     s_tensor t5 = dt1;
 
-    std::cout<<"( t4 == t3 ) => "<<( t4 == t3 ? "True" : "False")<<'\n';
+    std::cout<<"( t4 == t3 ) => "<<( t4 == t3)<<std::endl;
     
-    std::cout<<"( t5 == dt1 ) => "<<( t5 == dt1 ? "True" : "False")<<'\n';
+    std::cout<<"( t5 == dt1 ) => "<<( t5 == dt1)<<std::endl;
 
     return 0;
 }
