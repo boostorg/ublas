@@ -47,9 +47,9 @@ int main() {
     
     using s_tensor = ub::static_tensor<float, ub::static_extents<1,2,3,4,5> >;
     
-    auto t3 = ub::fixed_rank_tensor{ ub::dynamic_extents<5>{1,2,3,4,5}, 5.f };
+    auto t3 = ub::fixed_rank_tensor( ub::dynamic_extents<5>{1,2,3,4,5}, 5.f );
     auto st1 = s_tensor{ 5.f };
-    auto dt1 = ub::dynamic_tensor{ ub::dynamic_extents<>{1,2,3,4,5}, 5.f };
+    auto dt1 = ub::dynamic_tensor( ub::dynamic_extents<>{1,2,3,4,5}, 5.f );
 
     s_tensor exp1 = st1 + st1 * 2 + st1*st1;
     
