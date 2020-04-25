@@ -101,7 +101,8 @@ struct basic_fixed_rank_extents
         }
     }
     
-    void fill( value_type value ){
+    inline
+    constexpr void fill( value_type value ){
         _base.fill(value);
     }
     
@@ -136,12 +137,6 @@ struct basic_fixed_rank_extents
         return _base;
     }
 
-    /** @brief Returns the std::vector containing extents */
-    [[nodiscard]] inline
-    constexpr base_type& base() {
-        return _base;
-    }
-
     /** @brief Checks if extents is empty or not
      *
      * @returns true if rank is 0 else false
@@ -155,26 +150,27 @@ struct basic_fixed_rank_extents
     }
 
     [[nodiscard]] inline
-    const_pointer data() const
+    constexpr const_pointer data() const
     {
         return _base.data();
     }
 
     [[nodiscard]] inline
-    const_iterator
+    constexpr const_iterator
     begin() const
     {
         return _base.begin();
     }
 
     [[nodiscard]] inline
-    const_iterator
+    constexpr const_iterator
     end() const
     {
         return _base.end();
     }
-
-    const_reference back () const
+    
+    [[nodiscard]] inline
+    constexpr const_reference back () const
     {
         return _base.back();
     }

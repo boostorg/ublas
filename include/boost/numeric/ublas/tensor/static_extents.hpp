@@ -85,7 +85,8 @@ struct basic_static_extents{
   [[nodiscard]] inline
   constexpr bool empty() const noexcept { return m_data.empty(); }
 
-  constexpr value_type back() const noexcept{
+  [[nodiscard]] inline
+  constexpr const_reference back() const noexcept{
     return m_data.back();
   }
 

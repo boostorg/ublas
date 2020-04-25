@@ -150,75 +150,89 @@ public:
         std::swap(lhs._base   , rhs._base   );
     }
 
-    const_pointer data() const
+    [[nodiscard]] inline
+    constexpr const_pointer data() const
     {
         return this->_base.data();
     }
 
-    const_reference operator[] (size_type p) const
+    [[nodiscard]] inline
+    constexpr const_reference operator[] (size_type p) const
     {
         return this->_base[p];
     }
 
-    const_reference at (size_type p) const
+    [[nodiscard]] inline
+    constexpr const_reference at (size_type p) const
     {
         return this->_base.at(p);
     }
 
-    reference operator[] (size_type p)
+    [[nodiscard]] inline
+    constexpr reference operator[] (size_type p)
     {
         return this->_base[p];
     }
 
-    reference at (size_type p)
+    [[nodiscard]] inline
+    constexpr reference at (size_type p)
     {
         return this->_base.at(p);
     }
 
-    const_reference back () const
+    [[nodiscard]] inline
+    constexpr const_reference back () const
     {
         return this->_base.back();
     }
 
 
-    bool empty() const
+    [[nodiscard]] inline
+    constexpr bool empty() const
     {
         return this->_base.empty();
     }
 
-    size_type size() const
+    [[nodiscard]] inline
+    constexpr size_type size() const
     {
         return this->_base.size();
     }
 
-    void clear()
+    inline
+    constexpr void clear()
     {
         this->_base.clear();
     }
 
-    bool operator == (basic_extents const& b) const
+    [[nodiscard]] inline
+    constexpr bool operator == (basic_extents const& b) const
     {
         return _base == b._base;
     }
 
-    bool operator != (basic_extents const& b) const
+    [[nodiscard]] inline
+    constexpr bool operator != (basic_extents const& b) const
     {
         return !( _base == b._base );
     }
 
-    const_iterator
+    [[nodiscard]] inline
+    constexpr const_iterator
     begin() const
     {
         return _base.begin();
     }
 
-    const_iterator
+    [[nodiscard]] inline
+    constexpr const_iterator
     end() const
     {
         return _base.end();
     }
 
-    base_type const& base() const { return _base; }
+    [[nodiscard]] inline
+    constexpr base_type const& base() const { return _base; }
 
 private:
 
