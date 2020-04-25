@@ -57,6 +57,9 @@ inline static constexpr bool const is_dynamic_rank_v = is_dynamic_rank<E>::value
 template <class E> 
 struct is_static_rank : std::false_type {};
 
+template <class E> 
+inline static constexpr bool const is_static_rank_v = is_static_rank<E>::value;
+
 } // namespace boost::numeric::ublas::detail
 
 #include <boost/numeric/ublas/tensor/detail/type_traits_extents.hpp>
