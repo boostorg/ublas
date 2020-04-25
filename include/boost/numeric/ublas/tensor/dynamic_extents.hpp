@@ -157,7 +157,7 @@ public:
     }
 
     [[nodiscard]] inline
-    constexpr const_reference operator[] (size_type p) const
+    constexpr const_reference operator[] (size_type p) const noexcept
     {
         return this->_base[p];
     }
