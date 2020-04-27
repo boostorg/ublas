@@ -11,7 +11,6 @@
 //
 
 #include <boost/numeric/ublas/tensor/static_extents.hpp>
-#include <boost/numeric/ublas/tensor/extents.hpp>
 #include <boost/test/unit_test.hpp>
 #include <vector>
 #include "utility.hpp"
@@ -460,18 +459,16 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_comparsion_operator, fixture, *boost
 
 BOOST_FIXTURE_TEST_CASE(test_static_extents_squeeze, fixture, *boost::unit_test::label("static_extents") *boost::unit_test::label("squeeze"))
 {
-  using extents_type = boost::numeric::ublas::basic_extents<unsigned>;
-
   auto e_sq2  = squeeze(e2 )  ;//==> {2,3}
   auto e_sq3  = squeeze(e3 )  ;//==> {4,2,3}
   auto e_sq4  = squeeze(e4 )  ;//==> {4,2,3}
   auto e_sq5  = squeeze(e5 )  ;//==> {4,2,3}
 
-    BOOST_CHECK( (e_sq2  == extents_type{2,3}) );
-    BOOST_CHECK( (e_sq3  == extents_type{4,2,3}) );
+    BOOST_CHECK( (e_sq2  == extents<2,3>{}) );
+    BOOST_CHECK( (e_sq3  == extents<4,2,3>{}) );
 
-    BOOST_CHECK( (e_sq4  == extents_type{4,2,3}) );
-    BOOST_CHECK( (e_sq5  == extents_type{4,2,3}) );
+    BOOST_CHECK( (e_sq4  == extents<4,2,3>{}) );
+    BOOST_CHECK( (e_sq5  == extents<4,2,3>{}) );
 
 }
 

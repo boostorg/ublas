@@ -119,5 +119,14 @@ std::ostream& operator << (std::ostream& out, boost::numeric::ublas::basic_tenso
     return out;
 }
 
+template <class T,
+    std::enable_if_t<
+    boost::numeric::ublas::is_strides_v<T>
+    || boost::numeric::ublas::is_extents_v<T>
+    , int> = 0
+>
+std::ostream& operator<<(std::ostream& os, T const& e){
+    return os<<boost::numeric::ublas::to_string(e);
+}
 
 #endif

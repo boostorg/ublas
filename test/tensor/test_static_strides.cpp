@@ -10,7 +10,9 @@
 //  Google
 //
 
-#include <boost/numeric/ublas/tensor/extents.hpp>
+#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
+#include <boost/numeric/ublas/tensor/static_extents.hpp>
+#include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
 #include <boost/numeric/ublas/tensor/strides.hpp>
 #include <boost/test/unit_test.hpp>
 

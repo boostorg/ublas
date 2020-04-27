@@ -175,16 +175,22 @@ struct basic_fixed_rank_extents
         return _base.back();
     }
 
-    /** @brief Returns true if both extents are equal else false */
+    template <class Extents, std::enable_if_t<is_extents_v<Extents>, int> = 0 >
     [[nodiscard]] inline
-    constexpr bool operator==(basic_fixed_rank_extents const &other) const {
-        return _base == other._base;
+    constexpr bool operator==(Extents const& rhs) const noexcept{
+        static_assert(is_extents_v<Extents>,
+            "boost::numeric::ublas::operator==() : invalid type, type should be an extents");
+       if( this->size() != rhs.size() ){
+            return false;
+        }else{
+            return std::equal(this->begin(), this->end(), rhs.begin());
+        }
     }
 
-    /** @brief Returns false if both extents are equal else true */
+    template <class Extents, std::enable_if_t<is_extents_v<Extents>, int> = 0 >
     [[nodiscard]] inline
-    constexpr bool operator!=(basic_fixed_rank_extents const &other) const {
-        return !(*this == other);
+    constexpr bool operator!=(Extents const& rhs) const noexcept{
+       return !( *this == rhs );
     }
 
     ~basic_fixed_rank_extents() = default;
@@ -200,15 +206,25 @@ private:
 
 namespace boost::numeric::ublas{
     
-template <class T, std::size_t R>
-struct is_extents< basic_fixed_rank_extents<T, R> > : std::true_type {};
+    template <class T, std::size_t R>
+    struct is_extents< basic_fixed_rank_extents<T, R> > : std::true_type {};
 
-template <class T, std::size_t R>
-struct is_dynamic< basic_fixed_rank_extents<T,R> > : std::true_type {};
+    template <class T, std::size_t R>
+    struct is_dynamic< basic_fixed_rank_extents<T,R> > : std::true_type {};
 
-template <class T, std::size_t R>
-struct is_static_rank< basic_fixed_rank_extents<T,R> > : std::true_type {};
+    template <class T, std::size_t R>
+    struct is_static_rank< basic_fixed_rank_extents<T,R> > : std::true_type {};
+
+    namespace detail{
+
+        template <std::size_t N> struct dynamic_extents_impl<N> {
+            using type = basic_fixed_rank_extents<std::size_t, N>;
+        };
+
+    } // namespace detail
 
 } // namespace boost::numeric::ublas
+
+
 
 #endif

@@ -25,7 +25,9 @@
 #include <boost/numeric/ublas/tensor/expression.hpp>
 #include <boost/numeric/ublas/tensor/expression_evaluation.hpp>
 #include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
-#include <boost/numeric/ublas/tensor/extents.hpp>
+#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
+#include <boost/numeric/ublas/tensor/static_extents.hpp>
+#include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
 #include <boost/numeric/ublas/tensor/strides.hpp>
 
 namespace boost::numeric::ublas{

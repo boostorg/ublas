@@ -22,6 +22,16 @@ struct is_extents : std::false_type {};
 template <class E>
 inline static constexpr bool const is_extents_v = is_extents<E>::value;
 
+namespace detail{
+
+    template<std::size_t... N>
+    struct dynamic_extents_impl;
+
+} // detail
+
+template<std::size_t... E>
+using dynamic_extents = typename detail::dynamic_extents_impl<E...>::type;
+
 } // namespace boost::numeric::ublas::detail
 
 

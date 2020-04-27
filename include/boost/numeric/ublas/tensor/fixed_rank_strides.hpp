@@ -127,46 +127,73 @@ public:
         std::swap(lhs._base   , rhs._base);
     }
 
-    const_reference operator[] (size_type p) const{
+    [[nodiscard]] inline
+    constexpr const_reference operator[] (size_type p) const{
         return _base[p];
     }
 
-    const_pointer data() const{
+    [[nodiscard]] inline
+    constexpr const_pointer data() const{
         return _base.data();
     }
 
-    const_reference at (size_type p) const{
+    [[nodiscard]] inline
+    constexpr const_reference at (size_type p) const{
         return _base.at(p);
     }
 
-    const_reference back () const{
+    [[nodiscard]] inline
+    constexpr const_reference back () const{
         return _base[N - 1];
     }
 
-    reference back (){
+    [[nodiscard]] inline
+    constexpr reference back (){
         return _base[N - 1];
     }
 
-    bool empty() const{
+    [[nodiscard]] inline
+    constexpr bool empty() const{
         return _base.empty();
     }
 
-    size_type size() const{
+    [[nodiscard]] inline
+    constexpr size_type size() const{
         return _base.size();
     }
 
-    const_iterator begin() const{
+    [[nodiscard]] inline
+    constexpr const_iterator begin() const{
         return _base.begin();
     }
 
-    const_iterator end() const{
+    [[nodiscard]] inline
+    constexpr const_iterator end() const{
         return _base.end();
     }
     
-    base_type const& base() const{
+    [[nodiscard]] inline
+    constexpr base_type const& base() const{
         return this->_base;
     }
 
+    template <class Strides, std::enable_if_t<is_strides_v<Strides>, int> = 0 >
+    [[nodiscard]] inline
+    constexpr bool operator==(Strides const& rhs) const noexcept{
+        static_assert(is_strides_v<Strides>,
+            "boost::numeric::ublas::operator==() : invalid type, type should be an extents");
+       if( this->size() != rhs.size() ){
+            return false;
+        }else{
+            return std::equal(this->begin(), this->end(), rhs.begin());
+        }
+    }
+
+    template <class Strides, std::enable_if_t<is_strides_v<Strides>, int> = 0 >
+    [[nodiscard]] inline
+    constexpr bool operator!=(Strides const& rhs) const noexcept{
+        return !( *this == rhs );
+    }
 
 protected:
     base_type _base;
@@ -179,14 +206,32 @@ protected:
 
 namespace boost::numeric::ublas{
     
-template <class L, class T, std::size_t R>
-struct is_strides< basic_fixed_rank_strides< T, R, L> > : std::true_type {};
+    template <class L, class T, std::size_t R>
+    struct is_strides< basic_fixed_rank_strides< T, R, L> > : std::true_type {};
 
-template <class T, std::size_t R, class L>
-struct is_dynamic< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
+    template <class T, std::size_t R, class L>
+    struct is_dynamic< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
 
-template <class T, std::size_t R, class L>
-struct is_static_rank< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
+    template <class T, std::size_t R, class L>
+    struct is_static_rank< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
+
+    namespace detail{
+
+        /** @brief Partial Specialization of strides for basic_fixed_rank_strides
+         *
+         *
+         * @tparam Layout either first_order or last_order
+         *
+         * @tparam T extents type
+         *
+         */
+        template <class Layout, std::size_t N, class T>
+        struct strides_impl<basic_fixed_rank_extents<T,N>, Layout>
+        {
+            using type = basic_fixed_rank_strides<T, N, Layout>;
+        };
+        
+    } // detail
 
 } // namespace boost::numeric::ublas
 

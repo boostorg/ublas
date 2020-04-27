@@ -16,6 +16,7 @@
 #include <array>
 #include <initializer_list>
 #include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
+#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 
 namespace boost::numeric::ublas {
 
@@ -90,22 +91,22 @@ struct basic_static_extents{
     return m_data.back();
   }
 
-  /** @brief Returns true if both extents are equal else false */
-  template <ExtentsType... RE>
+  template <class Extents, std::enable_if_t<is_extents_v<Extents>, int> = 0 >
   [[nodiscard]] inline
-  constexpr bool operator==([[maybe_unused]] basic_static_extents<ExtentsType, RE...> const &rhs) const {
-    if constexpr( _size != basic_static_extents<ExtentsType, RE...>::_size ){
-      return false;
+  constexpr bool operator==(Extents const& rhs) const noexcept{
+    static_assert(is_extents_v<Extents>,
+        "boost::numeric::ublas::operator==() : invalid type, type should be an extents");
+    if( this->size() != rhs.size() ){
+        return false;
     }else{
-      return std::equal(begin(), end(), rhs.begin());
+        return std::equal(this->begin(), this->end(), rhs.begin());
     }
   }
 
-  /** @brief Returns false if both extents are equal else true */
-  template <ExtentsType... RE>
+  template <class Extents, std::enable_if_t<is_extents_v<Extents>, int> = 0 >
   [[nodiscard]] inline
-  constexpr bool operator!=(basic_static_extents<ExtentsType, RE...> const &rhs) const {
-    return !(*this == rhs);
+  constexpr bool operator!=(Extents const& rhs) const noexcept{
+    return !( *this == rhs );
   }
 
   [[nodiscard]] inline

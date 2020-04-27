@@ -205,16 +205,22 @@ public:
         this->_base.clear();
     }
 
+    template <class Extents, std::enable_if_t<is_extents_v<Extents>, int> = 0 >
     [[nodiscard]] inline
-    constexpr bool operator == (basic_extents const& b) const
-    {
-        return _base == b._base;
+    constexpr bool operator==(Extents const& rhs) const noexcept{
+        static_assert(is_extents_v<Extents>,
+            "boost::numeric::ublas::operator==() : invalid type, type should be an extents");
+        if( this->size() != rhs.size() ){
+            return false;
+        }else{
+            return std::equal(this->begin(), this->end(), rhs.begin());
+        }
     }
 
+    template <class Extents, std::enable_if_t<is_extents_v<Extents>, int> = 0 >
     [[nodiscard]] inline
-    constexpr bool operator != (basic_extents const& b) const
-    {
-        return !( _base == b._base );
+    constexpr bool operator!=(Extents const& rhs) const noexcept{
+       return !( *this == rhs );
     }
 
     [[nodiscard]] inline
@@ -246,14 +252,23 @@ private:
 
 namespace boost::numeric::ublas{
     
-template <class T> 
-struct is_extents< basic_extents<T> > : std::true_type {};
+    template <class T> 
+    struct is_extents< basic_extents<T> > : std::true_type {};
 
-template <class T>
-struct is_dynamic< basic_extents<T> > : std::true_type {};
+    template <class T>
+    struct is_dynamic< basic_extents<T> > : std::true_type {};
 
-template <class T>
-struct is_dynamic_rank< basic_extents<T> > : std::true_type {};
+    template <class T>
+    struct is_dynamic_rank< basic_extents<T> > : std::true_type {};
+
+
+    namespace detail{
+        
+        template <> struct dynamic_extents_impl<> {
+            using type = basic_extents<std::size_t>;
+        };
+
+    } // namespace detail
 
 } // namespace boost::numeric::ublas
 

@@ -20,7 +20,6 @@
 #include <iostream>
 #include <numeric>
 
-
 namespace boost::numeric::ublas::detail{
 
   template<typename T, T E, T...N>
