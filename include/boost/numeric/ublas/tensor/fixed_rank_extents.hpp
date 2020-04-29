@@ -18,7 +18,7 @@
 #include <limits>
 #include <stdexcept>
 #include <array>
-#include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
+#include <boost/numeric/ublas/tensor/type_traits.hpp>
 #include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 
 namespace boost {
@@ -175,24 +175,6 @@ struct basic_fixed_rank_extents
         return _base.back();
     }
 
-    template <class Extents, std::enable_if_t<is_extents_v<Extents>, int> = 0 >
-    [[nodiscard]] inline
-    constexpr bool operator==(Extents const& rhs) const noexcept{
-        static_assert(is_extents_v<Extents>,
-            "boost::numeric::ublas::operator==() : invalid type, type should be an extents");
-       if( this->size() != rhs.size() ){
-            return false;
-        }else{
-            return std::equal(this->begin(), this->end(), rhs.begin());
-        }
-    }
-
-    template <class Extents, std::enable_if_t<is_extents_v<Extents>, int> = 0 >
-    [[nodiscard]] inline
-    constexpr bool operator!=(Extents const& rhs) const noexcept{
-       return !( *this == rhs );
-    }
-
     ~basic_fixed_rank_extents() = default;
 
 private:
@@ -202,28 +184,6 @@ private:
 } // namespace ublas
 } // namespace numeric
 } // namespace boost
-
-
-namespace boost::numeric::ublas{
-    
-    template <class T, std::size_t R>
-    struct is_extents< basic_fixed_rank_extents<T, R> > : std::true_type {};
-
-    template <class T, std::size_t R>
-    struct is_dynamic< basic_fixed_rank_extents<T,R> > : std::true_type {};
-
-    template <class T, std::size_t R>
-    struct is_static_rank< basic_fixed_rank_extents<T,R> > : std::true_type {};
-
-    namespace detail{
-
-        template <std::size_t N> struct dynamic_extents_impl<N> {
-            using type = basic_fixed_rank_extents<std::size_t, N>;
-        };
-
-    } // namespace detail
-
-} // namespace boost::numeric::ublas
 
 
 

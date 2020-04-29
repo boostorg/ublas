@@ -15,7 +15,7 @@
 
 #include <type_traits>
 #include <stdexcept>
-#include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
+#include <boost/numeric/ublas/tensor/type_traits.hpp>
 
 
 namespace boost::numeric::ublas {
@@ -77,7 +77,8 @@ namespace boost::numeric::ublas::detail {
  *
 */
 template<class TensorType>
-auto retrieve_extents(basic_tensor<TensorType> const& t)
+[[nodiscard]]
+constexpr auto& retrieve_extents(basic_tensor<TensorType> const& t)
 {
 	static_assert( is_valid_tensor_v<TensorType>, 
 		"boost::numeric::ublas::detailretrieve_extents() : tensor type should be valid tensor"
@@ -92,7 +93,8 @@ auto retrieve_extents(basic_tensor<TensorType> const& t)
  * @returns extents of the child expression if it is a basic_tensor or extents of one child of its child.
 */
 template<class T, class D>
-auto retrieve_extents(tensor_expression<T,D> const& expr)
+[[nodiscard]]
+constexpr auto& retrieve_extents(tensor_expression<T,D> const& expr)
 {
 	static_assert(detail::has_tensor_types<T,tensor_expression<T,D>>::value,
 	              "Error in boost::numeric::ublas::detail::retrieve_extents: Expression to evaluate should contain tensors.");
@@ -117,7 +119,8 @@ auto retrieve_extents(tensor_expression<T,D> const& expr)
  * @returns extents of the (left and if necessary then right) child expression if it is a basic_tensor or extents of a child of its (left and if necessary then right) child.
 */
 template<class T, class EL, class ER, class OP>
-auto retrieve_extents(binary_tensor_expression<T,EL,ER,OP> const& expr)
+[[nodiscard]]
+constexpr auto& retrieve_extents(binary_tensor_expression<T,EL,ER,OP> const& expr)
 {
 	static_assert(detail::has_tensor_types<T,binary_tensor_expression<T,EL,ER,OP>>::value,
 	              "Error in boost::numeric::ublas::detail::retrieve_extents: Expression to evaluate should contain tensors.");
@@ -146,7 +149,8 @@ auto retrieve_extents(binary_tensor_expression<T,EL,ER,OP> const& expr)
  * @returns extents of the child expression if it is a basic_tensor or extents of a child of its child.
 */
 template<class T, class E, class OP>
-auto retrieve_extents(unary_tensor_expression<T,E,OP> const& expr)
+[[nodiscard]]
+constexpr auto& retrieve_extents(unary_tensor_expression<T,E,OP> const& expr)
 {
 
 	static_assert(detail::has_tensor_types<T,unary_tensor_expression<T,E,OP>>::value,
@@ -167,7 +171,8 @@ auto retrieve_extents(unary_tensor_expression<T,E,OP> const& expr)
 namespace boost::numeric::ublas::detail {
 
 template<class TensorType, class Extents>
-auto all_extents_equal(basic_tensor<TensorType> const& t, Extents const& extents)
+[[nodiscard]] inline
+constexpr auto all_extents_equal(basic_tensor<TensorType> const& t, Extents const& extents)
 {
 	static_assert(is_extents_v<Extents>,
 		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
@@ -181,7 +186,8 @@ auto all_extents_equal(basic_tensor<TensorType> const& t, Extents const& extents
 }
 
 template<class T, class D, class Extents>
-auto all_extents_equal(tensor_expression<T,D> const& expr, Extents const& extents)
+[[nodiscard]]
+constexpr auto all_extents_equal(tensor_expression<T,D> const& expr, Extents const& extents)
 {
 	static_assert(is_extents_v<Extents>,
 		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
@@ -206,7 +212,8 @@ auto all_extents_equal(tensor_expression<T,D> const& expr, Extents const& extent
 }
 
 template<class T, class EL, class ER, class OP, class Extents>
-auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& expr, Extents const& extents)
+[[nodiscard]]
+constexpr auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& expr, Extents const& extents)
 {
 	static_assert(is_extents_v<Extents>,
 		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."
@@ -236,7 +243,8 @@ auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& expr, Extents
 
 
 template<class T, class E, class OP, class Extents>
-auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, Extents const& extents)
+[[nodiscard]]
+constexpr auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, Extents const& extents)
 {
 	static_assert(is_extents_v<Extents>,
 		"Error in boost::numeric::ublas::detail::all_extents_equal: extents passed should be of extents type."

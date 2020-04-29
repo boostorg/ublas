@@ -177,24 +177,6 @@ public:
         return this->_base;
     }
 
-    template <class Strides, std::enable_if_t<is_strides_v<Strides>, int> = 0 >
-    [[nodiscard]] inline
-    constexpr bool operator==(Strides const& rhs) const noexcept{
-        static_assert(is_strides_v<Strides>,
-            "boost::numeric::ublas::operator==() : invalid type, type should be an extents");
-       if( this->size() != rhs.size() ){
-            return false;
-        }else{
-            return std::equal(this->begin(), this->end(), rhs.begin());
-        }
-    }
-
-    template <class Strides, std::enable_if_t<is_strides_v<Strides>, int> = 0 >
-    [[nodiscard]] inline
-    constexpr bool operator!=(Strides const& rhs) const noexcept{
-        return !( *this == rhs );
-    }
-
 protected:
     base_type _base;
 };
@@ -203,36 +185,5 @@ protected:
 }
 }
 }
-
-namespace boost::numeric::ublas{
-    
-    template <class L, class T, std::size_t R>
-    struct is_strides< basic_fixed_rank_strides< T, R, L> > : std::true_type {};
-
-    template <class T, std::size_t R, class L>
-    struct is_dynamic< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
-
-    template <class T, std::size_t R, class L>
-    struct is_static_rank< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
-
-    namespace detail{
-
-        /** @brief Partial Specialization of strides for basic_fixed_rank_strides
-         *
-         *
-         * @tparam Layout either first_order or last_order
-         *
-         * @tparam T extents type
-         *
-         */
-        template <class Layout, std::size_t N, class T>
-        struct strides_impl<basic_fixed_rank_extents<T,N>, Layout>
-        {
-            using type = basic_fixed_rank_strides<T, N, Layout>;
-        };
-        
-    } // detail
-
-} // namespace boost::numeric::ublas
 
 #endif

@@ -180,6 +180,7 @@ namespace boost::numeric::ublas {
         {}
 
         template<typename derived_type>
+        inline
         constexpr static_tensor& operator= (const tensor_expression_type<derived_type> &expr)
         {
             static_tensor temp( expr );
@@ -197,7 +198,8 @@ namespace boost::numeric::ublas {
             : static_tensor( vector_type(expr) )
         {}
 
-        inline constexpr static_tensor& operator=(const_reference v) noexcept{
+        inline 
+        constexpr static_tensor& operator=(const_reference v) noexcept{
             std::fill(super_type::begin(), super_type::end(), v);
             return *this;
         }
@@ -217,9 +219,6 @@ namespace boost::numeric::ublas{
         using layout_type 	= F;
         using container_tag	= static_tensor_tag;
     };
-
-    template<typename T, typename E, typename F>
-    struct is_valid_tensor< static_tensor<T,E,F> > : std::true_type{};
 
     template<typename T, typename E, typename F, typename NewValue>
     struct tensor_rebind< static_tensor<T, E, F>, NewValue > {

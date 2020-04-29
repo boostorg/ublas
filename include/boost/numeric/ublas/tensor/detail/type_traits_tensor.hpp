@@ -13,13 +13,20 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_TENSOR_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_TENSOR_HPP
 
+#include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
+
+namespace boost::numeric::ublas{
+    template<typename T> class basic_tensor;
+} // namespace boost::numeric::ublas
+
+
 namespace boost::numeric::ublas {
 
     template<typename T>
     struct tensor_traits;
 
     template<typename T>
-    struct is_valid_tensor : std::false_type{};
+    struct is_valid_tensor: std::is_base_of< basic_tensor<T>, T >{};
 
     template<typename T>
     inline static constexpr bool is_valid_tensor_v = is_valid_tensor<T>::value;
@@ -29,7 +36,6 @@ namespace boost::numeric::ublas {
 
     template<typename T, typename...Ts>
     using tensor_rebind_t = typename tensor_rebind<T,Ts...>::type;
-
 
     template<typename V, typename E, typename F>
     struct result_tensor;

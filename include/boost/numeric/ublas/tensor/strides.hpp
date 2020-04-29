@@ -18,6 +18,31 @@
 #include <boost/numeric/ublas/tensor/fixed_rank_strides.hpp>
 #include <boost/numeric/ublas/tensor/static_strides.hpp>
 
+namespace boost::numeric::ublas{
+
+  template <class LStrides, class RStrides, 
+    std::enable_if_t<
+      is_strides_v<LStrides> && is_strides_v<RStrides>
+    , int> = 0 
+  >
+  [[nodiscard]] inline
+  constexpr bool operator==(LStrides const& lhs, RStrides const& rhs) noexcept{
+    return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
+  }
+
+  template <class LStrides, class RStrides, 
+    std::enable_if_t<
+      is_strides_v<LStrides> && is_strides_v<RStrides>
+    , int> = 0 
+  >
+  [[nodiscard]] inline
+  constexpr bool operator!=(LStrides const& lhs, RStrides const& rhs) noexcept{
+    return !( lhs == rhs );
+  }
+  
+} // namespace boost::numeric::ublas
+
+
 namespace boost::numeric::ublas::detail {
 
   /** @brief Returns relative memory index with respect to a multi-index
@@ -29,7 +54,8 @@ namespace boost::numeric::ublas::detail {
    * @returns relative memory location depending on \c i and \c w
   */
   template<class Stride, class size_type = typename Stride::size_type >
-  auto access(std::vector<size_type> const& i, Stride const& w)
+  [[nodiscard]] inline
+  constexpr auto access(std::vector<size_type> const& i, Stride const& w)
   {
     static_assert( is_strides_v<Stride>, 
       "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
@@ -51,7 +77,8 @@ namespace boost::numeric::ublas::detail {
    * @returns relative memory location depending on \c i and \c w
   */
   template<std::size_t r, class Stride, class ... size_types>
-  auto access(std::size_t sum, Stride const& w, std::size_t i, size_types ... is)
+  [[nodiscard]]
+  constexpr auto access(std::size_t sum, Stride const& w, std::size_t i, size_types ... is)
   { 
     static_assert( is_strides_v<Stride>, 
       "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");

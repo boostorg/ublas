@@ -206,7 +206,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
         r  = 2 + t;
         r += t;
         r += 2;
-
+        (void)r;
         for(auto i = 0ul; i < t.size(); ++i)
             BOOST_CHECK_EQUAL ( r(i), 2*t(i) + 4 );
 
@@ -249,6 +249,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
         tensor_type p = +r;
         for(auto i = 0ul; i < t.size(); ++i)
             BOOST_CHECK_EQUAL ( p(i), r(i) );
+        
     };
 
     for(auto const& e : extents)

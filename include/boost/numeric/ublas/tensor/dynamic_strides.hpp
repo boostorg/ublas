@@ -17,7 +17,7 @@
 
 #include <boost/numeric/ublas/functional.hpp>
 #include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
+#include <boost/numeric/ublas/tensor/type_traits.hpp>
 
 namespace boost { 
 namespace numeric { 
@@ -186,25 +186,7 @@ public:
     constexpr base_type const& base() const{
         return this->_base;
     }
-
-    template <class Strides, std::enable_if_t<is_strides_v<Strides>, int> = 0 >
-    [[nodiscard]] inline
-    constexpr bool operator==(Strides const& rhs) const noexcept{
-        static_assert(is_strides_v<Strides>,
-            "boost::numeric::ublas::operator==() : invalid type, type should be an extents");
-       if( this->size() != rhs.size() ){
-            return false;
-        }else{
-            return std::equal(this->begin(), this->end(), rhs.begin());
-        }
-    }
-
-    template <class Strides, std::enable_if_t<is_strides_v<Strides>, int> = 0 >
-    [[nodiscard]] inline
-    constexpr bool operator!=(Strides const& rhs) const noexcept{
-        return !( *this == rhs );
-    }
-
+    
 protected:
     base_type _base;
 };
@@ -212,37 +194,5 @@ protected:
 }
 }
 }
-
-
-namespace boost::numeric::ublas{
-    
-    template <class L, class T> 
-    struct is_strides<basic_strides<T,L>> : std::true_type {};
-
-    template <class T, class L>
-    struct is_dynamic< basic_strides<T,L> > : std::true_type {};
-
-    template <class T, class L>
-    struct is_dynamic_rank< basic_strides<T, L> > : std::true_type {};
-
-    namespace detail{
-        
-        /** @brief Partial Specialization of strides for basic_extents
-         *
-         *
-         * @tparam Layout either first_order or last_order
-         *
-         * @tparam T extents type
-         *
-         */
-        template <class Layout, class T>
-        struct strides_impl<basic_extents<T>, Layout>
-        {
-            using type = basic_strides<T, Layout>;
-        };
-        
-    } // detail
-
-} // namespace boost::numeric::ublas
 
 #endif

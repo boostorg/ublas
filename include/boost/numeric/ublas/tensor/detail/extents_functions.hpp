@@ -13,7 +13,7 @@
 #ifndef _BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_FUNCTIONS_HPP_
 #define _BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_FUNCTIONS_HPP_
 
-#include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
+#include <boost/numeric/ublas/tensor/type_traits.hpp>
 #include <boost/numeric/ublas/tensor/detail/static_extents_traits.hpp>
 #include <algorithm>
 #include <sstream>
@@ -370,5 +370,27 @@ constexpr auto product(ExtentsType const &e) {
 
 }
 
+
+template <class LExtents, class RExtents, 
+  std::enable_if_t<
+    is_extents_v<LExtents> && is_extents_v<RExtents>
+  , int> = 0 
+>
+[[nodiscard]] inline
+constexpr bool operator==(LExtents const& lhs, RExtents const& rhs) noexcept{
+  return ( lhs.size() == rhs.size() ) && std::equal(lhs.begin(), lhs.end(), rhs.begin());
+}
+
+template <class LExtents, class RExtents, 
+  std::enable_if_t<
+    is_extents_v<LExtents> && is_extents_v<RExtents>
+  , int> = 0 
+>
+[[nodiscard]] inline
+constexpr bool operator!=(LExtents const& lhs, RExtents const& rhs) noexcept{
+  return !( lhs == rhs );
+}
+
 } // namespace boost::numeric::ublas
+
 #endif

@@ -26,7 +26,7 @@
 #include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
 #include <boost/numeric/ublas/tensor/strides.hpp>
 #include <boost/numeric/ublas/tensor/index.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
+#include <boost/numeric/ublas/tensor/type_traits.hpp>
 
 namespace boost { namespace numeric { namespace ublas {
 
@@ -609,11 +609,6 @@ protected:
 
 
 namespace boost::numeric::ublas{
-    
-    template<typename T>
-    struct is_valid_tensor< basic_tensor<T> > : std::true_type{};
-
-
     template<typename T, typename...Ts>
     struct tensor_rebind<basic_tensor<T>,Ts...>{
         using type = tensor_rebind_t<T,Ts...>;

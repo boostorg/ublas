@@ -131,6 +131,7 @@ namespace boost::numeric::ublas {
         {}
 
         template<class derived_type>
+        inline
         constexpr fixed_rank_tensor& operator= (const tensor_expression_type<derived_type> &expr)
         {
             fixed_rank_tensor temp( expr );
@@ -186,7 +187,8 @@ namespace boost::numeric::ublas {
             std::move(other.begin(), other.end(), super_type::begin());
         }
         
-        inline constexpr fixed_rank_tensor& operator=(const_reference v) noexcept{
+        inline 
+        constexpr fixed_rank_tensor& operator=(const_reference v) noexcept{
             std::fill(super_type::begin(), super_type::end(), v);
             return *this;
         }
@@ -210,9 +212,6 @@ namespace boost::numeric::ublas{
         using layout_type   = F;
         using container_tag = dynamic_tensor_tag;
     };
-
-    template<typename T, std::size_t R, typename F>
-    struct is_valid_tensor< fixed_rank_tensor<T, R, F> > : std::true_type{};
     
     template<typename T, std::size_t R, typename F, typename NewValue>
     struct tensor_rebind< fixed_rank_tensor<T, R, F>, NewValue > {

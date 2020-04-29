@@ -10,8 +10,8 @@
 //  Google
 //
 
-#ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
-#define BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
+#ifndef BOOST_UBLAS_TENSOR_BASIC_TYPE_TRAITS_HPP
+#define BOOST_UBLAS_TENSOR_BASIC_TYPE_TRAITS_HPP
 
 #include <type_traits>
 #include <cstddef>
@@ -61,10 +61,5 @@ template <class E>
 inline static constexpr bool const is_static_rank_v = is_static_rank<E>::value;
 
 } // namespace boost::numeric::ublas::detail
-
-#include <boost/numeric/ublas/tensor/detail/type_traits_extents.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits_strides.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits_tensor.hpp>
-#include <boost/numeric/ublas/tensor/detail/storage_traits.hpp>
 
 #endif

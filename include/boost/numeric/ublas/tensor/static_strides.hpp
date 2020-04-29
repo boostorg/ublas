@@ -218,17 +218,21 @@ struct basic_static_strides<basic_static_extents<T,Extents...>, Layout>
 
   // default constructor
   constexpr basic_static_strides() noexcept{
-    if constexpr( _size == 0 ){
-      return;
-    }else{
-      static_assert( static_traits::is_valid_v<extents_type>, "Error in boost::numeric::ublas::basic_static_strides() : shape is not valid."); 	
-
-      if constexpr( static_traits::is_vector_v<extents_type> || static_traits::is_scalar_v<extents_type> ){
-        return;
-      }else{
-        static_assert(_size >= 2, "Error in boost::numeric::ublas::basic_static_strides() : size of strides must be greater or equal 2.");
-      }
-    }
+    static_assert( 
+      _size == 0 || 
+      ( static_traits::is_valid_v<extents_type> &&
+        ( static_traits::is_vector_v<extents_type> ||
+          static_traits::is_scalar_v<extents_type> ||
+          _size >= 2 
+        )
+      )
+      , 
+      "Error in boost::numeric::ublas::basic_static_strides() : "
+      "Size can be 0 or Shape should be valid and shape can be vector or shape can be scalar or size should be greater than"
+      " or equal to 2"
+    ); 	
+    
+    
   }
 
   constexpr basic_static_strides(extents_type const&) noexcept{};
@@ -266,60 +270,9 @@ struct basic_static_strides<basic_static_extents<T,Extents...>, Layout>
     return m_data.empty();
   }
 
-  template <class Strides, std::enable_if_t<is_strides_v<Strides>, int> = 0 >
-  [[nodiscard]] inline
-  constexpr bool operator==(Strides const& rhs) const noexcept{
-    static_assert(is_strides_v<Strides>,
-        "boost::numeric::ublas::operator==() : invalid type, type should be an extents");
-    if( this->size() != rhs.size() ){
-        return false;
-    }else{
-        return std::equal(this->begin(), this->end(), rhs.begin());
-    }
-  }
-
-  template <class Strides, std::enable_if_t<is_strides_v<Strides>, int> = 0 >
-  [[nodiscard]] inline
-  constexpr bool operator!=(Strides const& rhs) const noexcept{
-    return !( *this == rhs );
-  }
-
 private:
   static constexpr base_type const m_data{ detail::strides_helper_v<layout_type,T,Extents...> };
 };
-
-} // namespace boost::numeric::ublas
-
-namespace boost::numeric::ublas{
-      
-  template <class L, class T, T... E>
-  struct is_strides< basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};
-
-  template <class T, T... E, class L>
-  struct is_static< basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};
-
-  template <class T, T... E, class L>
-  struct is_static_rank< basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};
-
-  namespace detail{
-
-    /** @brief Partial Specialization of strides for basic_static_extents
-     *
-     *
-     * @tparam Layout either first_order or last_order
-     *
-     * @tparam R rank of extents
-     *
-     * @tparam Extents parameter pack of extents
-     *
-     */
-    template <class Layout, class T, T... Extents>
-    struct strides_impl<basic_static_extents<T, Extents...>, Layout>
-    {
-      using type = basic_static_strides<basic_static_extents<T, Extents...>, Layout>;
-    };
-
-  } // detail
 
 } // namespace boost::numeric::ublas
 

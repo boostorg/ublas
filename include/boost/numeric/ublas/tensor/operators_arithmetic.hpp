@@ -16,7 +16,7 @@
 #include "expression_evaluation.hpp"
 #include "multi_index_utility.hpp"
 #include "functions.hpp"
-#include <boost/numeric/ublas/tensor/detail/type_traits.hpp>
+#include <boost/numeric/ublas/tensor/type_traits.hpp>
 
 #include <type_traits>
 #include <functional>
