@@ -66,14 +66,14 @@ namespace boost::numeric::ublas
         }
         
         template<typename E>
-        constexpr auto extents_result_type_tensor_times_matrix( E const& a ){
+        constexpr auto extents_result_tensor_times_matrix( E const& a ){
             static_assert(is_static_rank<E>::value, 
-                "boost::numeric::ublas::extents_result_type_tensor_times_matrix() : invalid type, type should be an extents");
+                "boost::numeric::ublas::extents_result_tensor_times_matrix() : invalid type, type should be an extents");
             return dynamic_extents<E::_size>(a);
         }
 
         template<typename T>
-        constexpr auto extents_result_type_tensor_times_matrix( basic_extents<T> const& e ){
+        constexpr auto extents_result_tensor_times_matrix( basic_extents<T> const& e ){
             return dynamic_extents<>{ e } ;
         }
 
@@ -222,7 +222,7 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::prod(ttm): second "
                 "argument matrix should not be empty.");
 
-        auto nc = detail::extents_result_type_tensor_times_matrix(a.extents());
+        auto nc = detail::extents_result_tensor_times_matrix(a.extents());
         auto nb = dynamic_extents<>{b.size1(), b.size2()};
 
         auto wb = dynamic_strides_type(nb);
