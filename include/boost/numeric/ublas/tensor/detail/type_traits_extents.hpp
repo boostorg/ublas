@@ -13,8 +13,6 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_EXTENTS_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_EXTENTS_HPP
 
-#include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
-
 namespace boost::numeric::ublas {
 
 // checks if type is extents or not
@@ -35,5 +33,9 @@ template<std::size_t... E>
 using dynamic_extents = typename detail::dynamic_extents_impl<E...>::type;
 
 } // namespace boost::numeric::ublas::detail
+
+#include <boost/numeric/ublas/tensor/detail/type_traits_dynamic_extents.hpp>
+#include <boost/numeric/ublas/tensor/detail/type_traits_static_extents.hpp>
+#include <boost/numeric/ublas/tensor/detail/type_traits_fixed_rank_extents.hpp>
 
 #endif

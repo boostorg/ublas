@@ -15,7 +15,6 @@
 
 #include <array>
 #include <initializer_list>
-#include <boost/numeric/ublas/tensor/type_traits.hpp>
 #include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 
 namespace boost::numeric::ublas {
@@ -133,5 +132,17 @@ struct static_product< basic_static_extents<ExtentsType> >{
 
 } // namespace boost::numeric::ublas
 
+
+namespace boost::numeric::ublas{
+    
+    template<typename T, typename E, typename F>
+    struct tensor_traits< static_tensor<T,E,F> > {
+        using container_type= std::array< T, static_product_v<E> >;
+        using extents_type 	= E;
+        using layout_type 	= F;
+        using container_tag	= static_tensor_tag;
+    };
+
+} // namespace boost::numeric::ublas
 
 #endif

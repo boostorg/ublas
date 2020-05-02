@@ -13,7 +13,6 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_STRIDES_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_STRIDES_HPP
 
-#include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
 namespace boost::numeric::ublas {
 
     // checks if type is strides or not
@@ -38,5 +37,9 @@ namespace boost::numeric::ublas {
     using strides_t = typename detail::strides_impl<E, Layout>::type;
 
 } // namespace boost::numeric::ublas::detail
+
+#include <boost/numeric/ublas/tensor/detail/type_traits_static_strides.hpp>
+#include <boost/numeric/ublas/tensor/detail/type_traits_dynamic_strides.hpp>
+#include <boost/numeric/ublas/tensor/detail/type_traits_fixed_rank_strides.hpp>
 
 #endif

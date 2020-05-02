@@ -13,7 +13,7 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_FIXED_RANK_STRIDES_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_FIXED_RANK_STRIDES_HPP
 
-#include <boost/numeric/ublas/tensor/detail/type_traits_strides.hpp>
+#include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
 
 namespace boost::numeric::ublas{
     

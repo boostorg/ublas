@@ -48,15 +48,11 @@ namespace boost::numeric::ublas{
 namespace boost::numeric::ublas
 {
     namespace detail{
-        // MSVC 14.1 bug
-        // cannot use ::_size inside constexpr function
-        // basic_extents does not contains _size member because of which
-        // it complains about it
-
+        
         template<typename E>
-        constexpr auto extents_result_type_tensor_times_vector( E const& ){
+        constexpr auto extents_result_tensor_times_vector( E const& ){
             static_assert(is_static_rank<E>::value, 
-                "boost::numeric::ublas::extents_result_type_tensor_times_vector() : invalid type, type should be an extents");
+                "boost::numeric::ublas::extents_result_tensor_times_vector() : invalid type, type should be an extents");
             using size_type = typename E::size_type;
             auto ret = dynamic_extents< std::max( size_type( E::_size - 1 ), size_type(2) )>();
             ret.fill(typename E::value_type(1));
@@ -64,7 +60,7 @@ namespace boost::numeric::ublas
         }
 
         template<typename T>
-        constexpr auto extents_result_type_tensor_times_vector( basic_extents<T> const& e ){
+        constexpr auto extents_result_tensor_times_vector( basic_extents<T> const& e ){
             using size_type = typename basic_extents<T>::size_type;
             return dynamic_extents<>{ typename dynamic_extents<>::base_type(std::max( size_type( e.size() - 1), size_type(2) ),1) } ;
         }
@@ -160,7 +156,7 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::prod(ttv): second "
                 "argument vector should not be empty.");
 
-        auto nc = detail::extents_result_type_tensor_times_vector(a.extents());
+        auto nc = detail::extents_result_tensor_times_vector(a.extents());
         auto nb = std::vector<typename extents_type::value_type>{b.size(), 1};
 
         auto a_extents = a.extents();
@@ -678,7 +674,7 @@ namespace boost::numeric::ublas
 
         template<size_t M, size_t I, typename T, T... E, T... R>
         inline
-        constexpr auto extents_result_type_tensor_times_vector(basic_static_extents<T>, 
+        constexpr auto extents_result_tensor_times_vector(basic_static_extents<T>, 
             basic_static_extents<T, E...>, basic_static_extents<T, R...>)
         {
             return basic_static_extents<T, R..., E...>{};
@@ -686,14 +682,14 @@ namespace boost::numeric::ublas
 
         template<size_t M, size_t I, typename T, T E0, T... E, T O0, T... OtherE, T... R>
         inline
-        constexpr auto extents_result_type_tensor_times_vector(basic_static_extents<T,E0,E...>, 
+        constexpr auto extents_result_tensor_times_vector(basic_static_extents<T,E0,E...>, 
             basic_static_extents<T, O0, OtherE...>, basic_static_extents<T, R...> = basic_static_extents<T>{})
         {
             if constexpr(I != M - 1){
-                return extents_result_type_tensor_times_vector<M,I + 1> 
+                return extents_result_tensor_times_vector<M,I + 1> 
                     ( basic_static_extents<T,E...>{}, basic_static_extents<T,OtherE...>{}, basic_static_extents<T, R..., E0>{} );
             }else{
-                return extents_result_type_tensor_times_vector<M,I + 1>
+                return extents_result_tensor_times_vector<M,I + 1>
                     ( basic_static_extents<T,E...>{}, basic_static_extents<T,O0,OtherE...>{}, basic_static_extents<T, R...>{} );
             }
         }
@@ -701,11 +697,11 @@ namespace boost::numeric::ublas
 
         template<size_t M, typename T, T E0, T... E>
         inline
-        constexpr auto extents_result_type_tensor_times_vector(basic_static_extents<T,E0,E...> const& e)
+        constexpr auto extents_result_tensor_times_vector(basic_static_extents<T,E0,E...> const& e)
         {
             using size_type = typename basic_static_extents<T>::size_type;
             auto ones = typename impl::make_sequence_of_ones_t< T, std::max( size_type(2), sizeof...(E) ) >::extents_type{};
-            return extents_result_type_tensor_times_vector<M,0>(e, ones);
+            return extents_result_tensor_times_vector<M,0>(e, ones);
         }
 
         template<size_t I, size_t NE, typename T, T E0, T... E, T... OtherE>
@@ -782,7 +778,7 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::prod(ttv): second "
                 "argument vector should not be empty.");
 
-        auto nc = detail::extents_result_type_tensor_times_vector<M>(a.extents());
+        auto nc = detail::extents_result_tensor_times_vector<M>(a.extents());
         auto nb = std::vector<typename extents_type::value_type>{b.size(), 1};
 
         auto c = static_tensor<value_type, decltype(nc), layout_type>(value_type{});

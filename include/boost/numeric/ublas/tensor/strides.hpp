@@ -27,6 +27,9 @@ namespace boost::numeric::ublas{
   >
   [[nodiscard]] inline
   constexpr bool operator==(LStrides const& lhs, RStrides const& rhs) noexcept{
+    static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
+      "boost::numeric::ublas::operator==(LStrides,RStrides) : LHS value type should be same as RHS value type");
+
     return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
@@ -37,6 +40,8 @@ namespace boost::numeric::ublas{
   >
   [[nodiscard]] inline
   constexpr bool operator!=(LStrides const& lhs, RStrides const& rhs) noexcept{
+    static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
+      "boost::numeric::ublas::operator!=(LStrides,RStrides) : LHS value type should be same as RHS value type");
     return !( lhs == rhs );
   }
   

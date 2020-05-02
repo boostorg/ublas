@@ -13,14 +13,8 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
 
-#include <boost/numeric/ublas/tensor/detail/type_traits_static_extents.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits_static_strides.hpp>
-
-#include <boost/numeric/ublas/tensor/detail/type_traits_dynamic_extents.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits_dynamic_strides.hpp>
-
-#include <boost/numeric/ublas/tensor/detail/type_traits_fixed_rank_extents.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits_fixed_rank_strides.hpp>
+#include <boost/numeric/ublas/tensor/detail/type_traits_extents.hpp>
+#include <boost/numeric/ublas/tensor/detail/type_traits_strides.hpp>
 
 #include <boost/numeric/ublas/tensor/detail/type_traits_tensor.hpp>
 #include <boost/numeric/ublas/tensor/detail/storage_traits.hpp>

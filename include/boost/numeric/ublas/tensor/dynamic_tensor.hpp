@@ -188,7 +188,6 @@ namespace boost::numeric::ublas {
 
 } // boost::numeric::ublas
 
-
 namespace boost::numeric::ublas{
 
     template<typename T, typename F>
@@ -198,36 +197,7 @@ namespace boost::numeric::ublas{
         using layout_type   = F;
         using container_tag = dynamic_tensor_tag;
     };
-
-    template<typename T, typename F, typename NewValue>
-    struct tensor_rebind< dynamic_tensor<T, F>, NewValue > {
-        using type = dynamic_tensor< NewValue, F >;
-    };
-
-    template<typename T, typename F, typename NewValue, typename NewLayout>
-    struct tensor_rebind< dynamic_tensor<T, F>, NewValue, NewLayout > {
-        using type = dynamic_tensor< NewValue, NewLayout >;
-    };
-
-    template<typename T, typename F>
-    struct is_static< dynamic_tensor<T, F> > : std::false_type{};
-
-    template<typename T, typename F>
-    struct is_static_rank< dynamic_tensor<T, F> > : std::false_type{};
-
-    template<typename T, typename F>
-    struct is_dynamic< dynamic_tensor<T, F> > : std::true_type{};
-
-    template<typename T, typename F>
-    struct is_dynamic_rank< dynamic_tensor<T, F> > : std::true_type{};
-
-    template<typename V, typename F>
-    struct result_tensor< V, dynamic_extents<>, F >{
-        using type = dynamic_tensor< V, F >;
-    };
-
-} // namespace boost::numeric::ublas::detail
-
-
+    
+} // boost::numeric::ublas
 
 #endif

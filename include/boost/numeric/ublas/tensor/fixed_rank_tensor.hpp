@@ -202,7 +202,6 @@ namespace boost::numeric::ublas {
 
 } // boost::numeric::ublas
 
-
 namespace boost::numeric::ublas{
     
     template<typename T, std::size_t R, typename F>
@@ -212,41 +211,7 @@ namespace boost::numeric::ublas{
         using layout_type   = F;
         using container_tag = dynamic_tensor_tag;
     };
-    
-    template<typename T, std::size_t R, typename F, typename NewValue>
-    struct tensor_rebind< fixed_rank_tensor<T, R, F>, NewValue > {
-        using type = fixed_rank_tensor< NewValue, R, F >;
-    };
-    
-    template<typename T, std::size_t R, typename F, typename NewValue, typename NewExtents>
-    struct tensor_rebind< fixed_rank_tensor<T, R, F>, NewValue, NewExtents > {
-        using type = fixed_rank_tensor< NewValue, NewExtents::_size, F >;
-    };
-    
-    template<typename T, std::size_t R, typename F, typename NewValue, typename NewExtents, typename NewLayout>
-    struct tensor_rebind< fixed_rank_tensor<T, R, F>, NewValue, NewExtents, NewLayout > {
-        using type = fixed_rank_tensor< NewValue, NewExtents::_size, NewLayout >;
-    };
 
-    template<typename T, std::size_t R, typename F>
-    struct is_static< fixed_rank_tensor<T, R, F> > : std::false_type{};
-    
-    template<typename T, std::size_t R, typename F>
-    struct is_static_rank< fixed_rank_tensor<T, R, F> > : std::true_type{};
-    
-    template<typename T, std::size_t R, typename F>
-    struct is_dynamic< fixed_rank_tensor<T, R, F> > : std::true_type{};
-    
-    template<typename T, std::size_t R, typename F>
-    struct is_dynamic_rank< fixed_rank_tensor<T, R, F> > : std::false_type{};
-
-    template<typename V, typename F, typename T, std::size_t R>
-    struct result_tensor< V, basic_fixed_rank_extents<T,R>, F >{
-        using type = fixed_rank_tensor< V, R, F >;
-    };
-
-} // namespace boost::numeric::ublas::detail
-
-
+} // boost::numeric::ublas
 
 #endif
