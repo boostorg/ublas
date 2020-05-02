@@ -19,6 +19,7 @@
 #include <sstream>
 #include <iostream>
 #include <numeric>
+#include <iterator>
 
 namespace boost::numeric::ublas::detail{
 
