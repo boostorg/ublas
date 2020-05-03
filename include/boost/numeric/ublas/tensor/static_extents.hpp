@@ -1,6 +1,6 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -15,12 +15,11 @@
 
 #include <array>
 #include <initializer_list>
-#include <vector>
+#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 
 namespace boost::numeric::ublas {
 
 template <class ExtentsType, ExtentsType... E> struct basic_static_extents;
-template <class ExtentsType> class basic_extents;
 
 /** @brief Template class for storing tensor extents for compile time.
  *
@@ -34,15 +33,15 @@ struct basic_static_extents{
   static constexpr auto _size = sizeof...(E);
   
   using base_type       = std::array<ExtentsType,_size>;
-	using value_type      = typename base_type::value_type;
-	using const_reference = typename base_type::const_reference;
-	using reference       = typename base_type::reference;
-	using const_pointer   = typename base_type::const_pointer;
-	using const_iterator  = typename base_type::const_iterator;
-	using size_type       = typename base_type::size_type;
+  using value_type      = typename base_type::value_type;
+  using const_reference = typename base_type::const_reference;
+  using reference       = typename base_type::reference;
+  using const_pointer   = typename base_type::const_pointer;
+  using const_iterator  = typename base_type::const_iterator;
+  using size_type       = typename base_type::size_type;
 
   static_assert( std::numeric_limits<value_type>::is_integer, "Static error in basic_static_extents: type must be of type integer.");
-	static_assert(!std::numeric_limits<value_type>::is_signed,  "Static error in basic_static_extents: type must be of type unsigned integer.");
+  static_assert(!std::numeric_limits<value_type>::is_signed,  "Static error in basic_static_extents: type must be of type unsigned integer.");
 
   //@returns the rank of basic_static_extents
   [[nodiscard]] inline 
@@ -65,14 +64,6 @@ struct basic_static_extents{
   // default constructor
   constexpr basic_static_extents() = default;
 
-  /** @brief Returns the std::vector containing extents */
-  [[nodiscard]] inline
-  auto to_vector() const {
-    std::vector<value_type> temp(_size);
-    std::copy(begin(), end(), temp.begin());
-    return temp;
-  }
-
   /** @brief Returns ref to the std::array containing extents */
   [[nodiscard]] inline
   constexpr base_type const& base() const noexcept{
@@ -85,12 +76,6 @@ struct basic_static_extents{
     return m_data.data();
   }
 
-  /** @brief Returns the basic_extents containing extents */
-  [[nodiscard]] inline
-  auto to_dynamic_extents() const {
-    return basic_extents<value_type>(this->to_vector());
-  }
-
   /** @brief Checks if extents is empty or not
    *
    * @returns true if rank is 0 else false
@@ -99,26 +84,9 @@ struct basic_static_extents{
   [[nodiscard]] inline
   constexpr bool empty() const noexcept { return m_data.empty(); }
 
-  constexpr value_type back() const noexcept{
+  [[nodiscard]] inline
+  constexpr const_reference back() const noexcept{
     return m_data.back();
-  }
-
-  /** @brief Returns true if both extents are equal else false */
-  template <ExtentsType... RE>
-  [[nodiscard]] inline
-  constexpr bool operator==([[maybe_unused]] basic_static_extents<ExtentsType, RE...> const &rhs) const {
-    if constexpr( _size != basic_static_extents<ExtentsType, RE...>::_size ){
-      return false;
-    }else{
-      return std::equal(begin(), end(), rhs.begin());
-    }
-  }
-
-  /** @brief Returns false if both extents are equal else true */
-  template <ExtentsType... RE>
-  [[nodiscard]] inline
-  constexpr bool operator!=(basic_static_extents<ExtentsType, RE...> const &rhs) const {
-    return !(*this == rhs);
   }
 
   [[nodiscard]] inline
@@ -161,6 +129,19 @@ template<typename ExtentsType>
 struct static_product< basic_static_extents<ExtentsType> >{
   static constexpr auto const value = ExtentsType(0) ;
 };
+
+} // namespace boost::numeric::ublas
+
+
+namespace boost::numeric::ublas{
+    
+    template<typename T, typename E, typename F>
+    struct tensor_traits< static_tensor<T,E,F> > {
+        using container_type= std::array< T, static_product_v<E> >;
+        using extents_type 	= E;
+        using layout_type 	= F;
+        using container_tag	= static_tensor_tag;
+    };
 
 } // namespace boost::numeric::ublas
 

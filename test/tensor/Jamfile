@@ -43,6 +43,7 @@ test-suite boost-ublas-tensor-test
           test_einstein_notation.cpp
           test_algorithms.cpp
           test_tensor_matrix_vector.cpp
+          test_functions.cpp
           unit_test_framework
     ]
     [ run test_static_tensor.cpp
@@ -52,16 +53,17 @@ test-suite boost-ublas-tensor-test
           test_static_operators_comparison.cpp
           test_static_expression_evaluation.cpp
           test_static_tensor_matrix_vector.cpp
+          test_static_functions.cpp
           unit_test_framework
     ]
     [ run test_fixed_rank_tensor.cpp
+          test_fixed_rank_extents.cpp
+          test_fixed_rank_strides.cpp
           test_fixed_rank_operators_arithmetic.cpp
           test_fixed_rank_operators_comparison.cpp
           test_fixed_rank_expression_evaluation.cpp
           test_fixed_rank_tensor_matrix_vector.cpp
+          test_fixed_rank_functions.cpp
           unit_test_framework 
-    ]
-    [ run test_functions.cpp
-          unit_test_framework
     ]
     ;

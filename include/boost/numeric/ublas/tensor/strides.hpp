@@ -1,6 +1,6 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -14,105 +14,41 @@
 #ifndef _BOOST_UBLAS_TENSOR_STRIDES_HPP_
 #define _BOOST_UBLAS_TENSOR_STRIDES_HPP_
 
-#include <algorithm>
 #include <boost/numeric/ublas/tensor/dynamic_strides.hpp>
+#include <boost/numeric/ublas/tensor/fixed_rank_strides.hpp>
 #include <boost/numeric/ublas/tensor/static_strides.hpp>
 
-namespace boost::numeric::ublas {
+namespace boost::numeric::ublas{
 
-  template <class LStrides, class RStrides,
-    std::enable_if_t<detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>, int> = 0
+  template <class LStrides, class RStrides, 
+    std::enable_if_t<
+      is_strides_v<LStrides> && is_strides_v<RStrides>
+    , int> = 0 
   >
-  constexpr bool operator==(LStrides const &lhs, RStrides const &rhs) {
-    
-    static_assert(detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>,
-      "boost::numeric::ublas::operator==() : invalid type, type should be a strides");
+  [[nodiscard]] inline
+  constexpr bool operator==(LStrides const& lhs, RStrides const& rhs) noexcept{
+    static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
+      "boost::numeric::ublas::operator==(LStrides,RStrides) : LHS value type should be same as RHS value type");
 
-    if( lhs.size() != rhs.size() ){
-        return false;
-    }else{
-        return std::equal(lhs.begin(), lhs.end(), rhs.begin());
-    }
+    return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
-  template <class LStrides, class RStrides,
-    std::enable_if_t<detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>, int> = 0
+  template <class LStrides, class RStrides, 
+    std::enable_if_t<
+      is_strides_v<LStrides> && is_strides_v<RStrides>
+    , int> = 0 
   >
-  constexpr bool operator!=(LStrides const &lhs, RStrides const &rhs) {
-    static_assert(detail::is_strides_v<LStrides> && detail::is_strides_v<RStrides>,
-      "boost::numeric::ublas::operator!=() : invalid type, type should be a strides");
-    return !(lhs == rhs);
+  [[nodiscard]] inline
+  constexpr bool operator!=(LStrides const& lhs, RStrides const& rhs) noexcept{
+    static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
+      "boost::numeric::ublas::operator!=(LStrides,RStrides) : LHS value type should be same as RHS value type");
+    return !( lhs == rhs );
   }
-
-  template <class Strides,
-    std::enable_if_t<detail::is_strides_v<Strides>, int> = 0
-  >
-  std::ostream& operator<<(std::ostream& os, Strides const& s){
-    static_assert(detail::is_strides_v<Strides>,
-      "boost::numeric::ublas::operator<<() : invalid type, type should be a strides");
-    return os<<to_string(s);
-  }
+  
+} // namespace boost::numeric::ublas
 
 
-
-  template <class Layout, class T> struct strides;
-
-  /** @brief Partial Specialization of strides for basic_static_extents
-   *
-   *
-   * @tparam Layout either first_order or last_order
-   *
-   * @tparam R rank of extents
-   *
-   * @tparam Extents parameter pack of extents
-   *
-   */
-  template <class Layout, class T, T... Extents>
-  struct strides<basic_static_extents<T, Extents...>, Layout>
-  {
-    using type = basic_static_strides<basic_static_extents<T, Extents...>, Layout>;
-  };
-
-  /** @brief Partial Specialization of strides for basic_extents
-   *
-   *
-   * @tparam Layout either first_order or last_order
-   *
-   * @tparam T extents type
-   *
-   */
-  template <class Layout, class T>
-  struct strides<basic_extents<T>, Layout>
-  {
-    using type = basic_strides<T, Layout>;
-  };
-
-  /** @brief Partial Specialization of strides for basic_fixed_rank_strides
-   *
-   *
-   * @tparam Layout either first_order or last_order
-   *
-   * @tparam T extents type
-   *
-   */
-  template <class Layout, std::size_t N, class T>
-  struct strides<basic_fixed_rank_extents<T,N>, Layout>
-  {
-    using type = basic_fixed_rank_strides<T, N, Layout>;
-  };
-
-  /** @brief type alias of result of strides::type
-   *
-   * @tparam E extents type either basic_extents or basic_static_extents
-   *
-   * @tparam Layout either first_order or last_order
-   *
-   */
-  template <class E, class Layout>
-  using strides_t = typename strides<E, Layout>::type;
-
-  namespace detail{
-
+namespace boost::numeric::ublas::detail {
 
   /** @brief Returns relative memory index with respect to a multi-index
    *
@@ -123,7 +59,8 @@ namespace boost::numeric::ublas {
    * @returns relative memory location depending on \c i and \c w
   */
   template<class Stride, class size_type = typename Stride::size_type >
-  auto access(std::vector<size_type> const& i, Stride const& w)
+  [[nodiscard]] inline
+  constexpr auto access(std::vector<size_type> const& i, Stride const& w)
   {
     static_assert( is_strides_v<Stride>, 
       "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
@@ -145,8 +82,9 @@ namespace boost::numeric::ublas {
    * @returns relative memory location depending on \c i and \c w
   */
   template<std::size_t r, class Stride, class ... size_types>
-  auto access(std::size_t sum, Stride const& w, std::size_t i, size_types ... is)
-  {	
+  [[nodiscard]]
+  constexpr auto access(std::size_t sum, Stride const& w, std::size_t i, size_types ... is)
+  { 
     static_assert( is_strides_v<Stride>, 
       "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
     sum += i*w[r];
@@ -156,9 +94,6 @@ namespace boost::numeric::ublas {
       return detail::access<r+1>(sum,w,std::forward<size_types>(is)...);
   }
 
-
-} // namespace detail
-
-} // namespace boost::numeric::ublas
+} // namespace boost::numeric::ublas::detail
 
 #endif
