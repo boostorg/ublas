@@ -46,39 +46,39 @@ template<std::size_t N>
 class multi_index
 {
 public:
-	multi_index() = delete;
+    multi_index() = delete;
 
-	template<std::size_t I, class ... indexes>
-	constexpr multi_index(index::index_type<I> const& i, indexes ... is )
-	  : _base{i(), is()... }
-	{
-		static_assert( sizeof...(is)+1 == N,
-		               "Static assert in boost::numeric::ublas::multi_index: number of constructor arguments is not equal to the template parameter." );
+    template<std::size_t I, class ... indexes>
+    constexpr multi_index(index::index_type<I> const& i, indexes ... is )
+      : _base{i(), is()... }
+    {
+        static_assert( sizeof...(is)+1 == N,
+                       "Static assert in boost::numeric::ublas::multi_index: number of constructor arguments is not equal to the template parameter." );
 
-		static_assert( valid_multi_index<std::tuple<index::index_type<I>, indexes ...> >::value,
-		               "Static assert in boost::numeric::ublas::multi_index: indexes occur twice in multi-index." );
-	}
+        static_assert( valid_multi_index<std::tuple<index::index_type<I>, indexes ...> >::value,
+                       "Static assert in boost::numeric::ublas::multi_index: indexes occur twice in multi-index." );
+    }
 
-	multi_index(multi_index const& other)
-	  : _base(other._base)
-	{
-	}
+    multi_index(multi_index const& other)
+      : _base(other._base)
+    {
+    }
 
-	multi_index& operator=(multi_index const& other)
-	{
-		this->_base = other._base;
-		return *this;
-	}
+    multi_index& operator=(multi_index const& other)
+    {
+        this->_base = other._base;
+        return *this;
+    }
 
-	~multi_index() = default;
+    ~multi_index() = default;
 
-	auto const& base() const { return _base; }
-	constexpr auto size() const { return _base.size(); }
-	constexpr auto at(std::size_t i) const { return _base.at(i); }
-	constexpr auto operator[](std::size_t i) const { return _base.at(i); }
+    auto const& base() const { return _base; }
+    constexpr auto size() const { return _base.size(); }
+    constexpr auto at(std::size_t i) const { return _base.at(i); }
+    constexpr auto operator[](std::size_t i) const { return _base.at(i); }
 
 private:
-	std::array<std::size_t, N> _base;
+    std::array<std::size_t, N> _base;
 };
 
 template<std::size_t K, std::size_t N>
@@ -87,17 +87,17 @@ constexpr auto get(multi_index<N> const& m) { return std::get<K>(m.base()); }
 template<std::size_t M, std::size_t N>
 auto array_to_vector(multi_index<M> const& lhs, multi_index<N> const& rhs)
 {
-	using vtype = std::vector<std::size_t>;
+    using vtype = std::vector<std::size_t>;
 
-	auto pair_of_vector = std::make_pair( vtype {}, vtype{}  );
+    auto pair_of_vector = std::make_pair( vtype {}, vtype{}  );
 
-	for(auto i = 0u; i < N; ++i)
-		for(auto j = 0u; j < M; ++j)
-			if ( lhs.at(i) == rhs.at(j) && lhs.at(i) != boost::numeric::ublas::index::_())
-				(void)pair_of_vector.first .push_back( i+1 ),
-				    pair_of_vector.second.push_back( j+1 );
+    for(auto i = 0u; i < N; ++i)
+        for(auto j = 0u; j < M; ++j)
+            if ( lhs.at(i) == rhs.at(j) && lhs.at(i) != boost::numeric::ublas::index::_())
+                (void)pair_of_vector.first .push_back( i+1 ),
+                    pair_of_vector.second.push_back( j+1 );
 
-	return pair_of_vector;
+    return pair_of_vector;
 }
 
 
