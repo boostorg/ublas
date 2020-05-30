@@ -53,7 +53,7 @@ jobs:
         sudo apt-get install -y clang-10
         
     - name: Setup OpenBLAS, CLBLAS and other utilities
-      if: matrix.cxxstd == '17' || matrix.config.cxx == 'g++-9'
+      if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-9'
       # openBLAS, clBLAS will be used and codecoverage will be reported from only gcc-9 with C++17 standards
       # Due to this reason to fasten the build process, we skip this step on all other matrix configuration.
       # This is known fact that any CI offer only 1 openCL device and if we were to test all compilers for openCL
@@ -136,7 +136,7 @@ jobs:
         $BOOST_ROOT/b2 -j 4 test/tensor toolset=${{matrix.config.toolset}} cxxstd=${{matrix.cxxstd}}
 
     - name: Test openCL
-      if: matrix.cxxstd == '17' || matrix.config.cxx == 'g++-9'
+      if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-9'
       # We run openCL tests only on these compiler and standards for resons mentioned above.
       run: |
         cd $BOOST_ROOT
@@ -151,7 +151,7 @@ jobs:
         $BOOST_ROOT/b2 -j 4 test toolset=${{matrix.config.toolset}} cxxstd=${{matrix.cxxstd}}
         
     - name: Report Code coverage
-      if: matrix.config.cc == 'gcc-9' && matrix.cxxstd == '17'
+      if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-9'
       run: |
         ${GITHUB_WORKSPACE}/.ci/report_coverage.sh
         
