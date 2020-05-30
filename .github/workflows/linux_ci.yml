@@ -9,9 +9,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
-      max-parallel: 2
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
-      # We have limited the maximum parallet matrix build to 2 because of avaialablity of openCL devices
       matrix:
         cxxstd: [11, 17, 2a]
         config: 
@@ -39,6 +37,7 @@ jobs:
         
     - name: Install GCC-10
       if: matrix.config.cxx == 'g++-10'
+      # Only run this step if g++-10 is found from matrix strategy
       run: |
          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
          sudo apt update
@@ -46,6 +45,7 @@ jobs:
          
     - name: Install Clang-10
       if: matrix.config.cxx == 'clang++-10' 
+      # Only run this step if clang++-10 is found from matrix strategy
       run: |
         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         sudo apt-get update
@@ -53,7 +53,11 @@ jobs:
         sudo apt-get install -y clang-10
         
     - name: Setup OpenBLAS, CLBLAS and other utilities
-      if: matrix.cxxstd != '2a' || matrix.config.cxx == 'clang++-10' || matrix.config.cxx == 'g++-10'
+      if: matrix.cxxstd == '17' || matrix.config.cxx == 'g++-9'
+      # openBLAS, clBLAS will be used and codecoverage will be reported from only gcc-9 with C++17 standards
+      # Due to this reason to fasten the build process, we skip this step on all other matrix configuration.
+      # This is known fact that any CI offer only 1 openCL device and if we were to test all compilers for openCL
+      # We would have to sequencially run the jobs that would make the build process very very slow.
       run: |
         sudo apt-get install -y lcov
         sudo apt-get install -y rpm2cpio
@@ -71,6 +75,7 @@ jobs:
         
     - name: Prepare BOOST_ROOT
       if: matrix.cxxstd != '2a' || matrix.config.cxx == 'clang++-10' || matrix.config.cxx == 'g++-10'
+      # `2a` flag is only usable for clang-10 and gcc-10, for others skip this process.
       run: |
         cd ${GITHUB_WORKSPACE}
         cd ..
@@ -93,6 +98,7 @@ jobs:
         
     - name: Prepare Build
       if: matrix.cxxstd != '2a' || matrix.config.cxx == 'clang++-10' || matrix.config.cxx == 'g++-10'
+      # `2a` flag is only usable for clang-10 and gcc-10, for others skip this process.
       run: |
         echo $BOOST_ROOT
         cd $BOOST_ROOT
@@ -107,6 +113,7 @@ jobs:
         
     - name: Test Benchmarks
       if: matrix.cxxstd != '2a' || matrix.config.cxx == 'clang++-10' || matrix.config.cxx == 'g++-10'
+      # `2a` flag is only usable for clang-10 and gcc-10, for others skip this process.
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
@@ -114,12 +121,14 @@ jobs:
         
     - name: Test Tensor Examples
       if: matrix.cxxstd != '2a' || matrix.config.cxx == 'clang++-10' || matrix.config.cxx == 'g++-10'
+      # `2a` flag is only usable for clang-10 and gcc-10, for others skip this process.
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=${{matrix.config.toolset}} cxxstd=${{matrix.cxxstd}}
         
     - name: Test Tensor
+      # `2a` flag is only usable for clang-10 and gcc-10, for others skip this process.
       if: matrix.cxxstd != '2a' || matrix.config.cxx == 'clang++-10' || matrix.config.cxx == 'g++-10'
       run: |
         cd $BOOST_ROOT
@@ -127,7 +136,8 @@ jobs:
         $BOOST_ROOT/b2 -j 4 test/tensor toolset=${{matrix.config.toolset}} cxxstd=${{matrix.cxxstd}}
 
     - name: Test openCL
-      if: matrix.cxxstd != '2a' || matrix.config.cxx == 'clang++-10' || matrix.config.cxx == 'g++-10'
+      if: matrix.cxxstd != '17' || matrix.config.cxx == 'g++-9'
+      # We run openCL tests only on these compiler and standards for resons mentioned above.
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
@@ -142,7 +152,6 @@ jobs:
         
     - name: Report Code coverage
       if: matrix.config.cc == 'gcc-9' && matrix.cxxstd == '17'
-      # In future, We might want to change above condition to gcc-10 and cxxstd=2a, since that way we will cover even the 
       run: |
         ${GITHUB_WORKSPACE}/.ci/report_coverage.sh
         
