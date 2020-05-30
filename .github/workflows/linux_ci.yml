@@ -136,7 +136,7 @@ jobs:
         $BOOST_ROOT/b2 -j 4 test/tensor toolset=${{matrix.config.toolset}} cxxstd=${{matrix.cxxstd}}
 
     - name: Test openCL
-      if: matrix.cxxstd != '17' || matrix.config.cxx == 'g++-9'
+      if: matrix.cxxstd == '17' || matrix.config.cxx == 'g++-9'
       # We run openCL tests only on these compiler and standards for resons mentioned above.
       run: |
         cd $BOOST_ROOT
