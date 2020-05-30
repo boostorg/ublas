@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
+      max-parallel: 2
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
+      # We have limited the maximum parallet matrix build to 2 because of avaialablity of openCL devices
       matrix:
         cxxstd: [11, 17, 2a]
         config: 
