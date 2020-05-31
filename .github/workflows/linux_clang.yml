@@ -1,4 +1,4 @@
-name: Linux CI
+name: Linux Clang
 # Trigger on Push to the repository, regardless of the branch.
 # For fine tune, You can add specific branches or tags.
 on: [push, pull_request]
