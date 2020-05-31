@@ -102,13 +102,14 @@ jobs:
          $BOOST_ROOT/b2 -j 4 benchmarks toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test Tensor Examples
+        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
          $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test Tensor
-        if: matrix.config.cxxstd == '17'
+        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
         # Tensor only works under C++17 Standards, So run these tests only for C++17 
         run: |
          cd $BOOST_ROOT
