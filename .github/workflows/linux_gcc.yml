@@ -108,7 +108,7 @@ jobs:
          $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test Tensor
-        if: matrix.cxxstd == '17'
+        if: matrix.config.cxxstd == '17'
         # Tensor only works under C++17 Standards, So run these tests only for C++17 
         run: |
          cd $BOOST_ROOT
@@ -116,7 +116,7 @@ jobs:
          $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}}
 
       - name: Test openCL
-        if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-7'
+        if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
         # We run openCL tests only on these compiler and standards for reasons mentioned above.
         run: |
          cd $BOOST_ROOT
@@ -130,7 +130,7 @@ jobs:
          $BOOST_ROOT/b2 -j 4 test toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Report Code coverage
-        if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-7'
+        if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
         # Report coverage from only one compiler, In this case this has been intentionally chosen because it runs all tests 
         # in uBLAS, including opencl tests.
         run: |
