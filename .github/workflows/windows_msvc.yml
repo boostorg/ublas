@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
         
       - name: Setup openCL
-        shell: powershell
+        shell: cmd
         run: |
           choco install wget
           wget http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi
