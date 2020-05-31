@@ -1,0 +1,86 @@
+name: Linux CI
+# Trigger on Push to the repository, regardless of the branch.
+# For fine tune, You can add specific branches or tags.
+on: [push, pull_request]
+  
+jobs:
+  build:
+    name: "${{matrix.config.cxx}} -std=c++${{matrix.cxxstd}}"
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
+      matrix:
+        cxxstd: [11, 17]
+        config: 
+          - { cc: clang-6.0, cxx: clang++-6.0}
+          - { cc: clang-8, cxx: clang++-8}
+          - { cc: clang-9, cxx: clang++-9}
+            
+    steps:
+    - uses: actions/checkout@v2
+      # Checks out the source code, if not done, runner will not clone the repository
+        
+    - name: Set Environment Variables
+      run: |
+         echo ::set-env name=CC::${{matrix.config.cc}}
+         echo ::set-env name=CXX::${{matrix.config.cxx}}
+        
+    - name: Prepare BOOST_ROOT
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        cd ..
+        
+        git clone -b master --depth 1 https://github.com/boostorg/boost.git boost-root
+        cd boost-root
+        
+        git submodule update --init --jobs 8 tools/build
+        git submodule update --init --jobs 8 libs/config
+        git submodule update --init --jobs 8 tools/boostdep
+        
+        mkdir -p libs/numeric/
+        cp -rp ${GITHUB_WORKSPACE}/. libs/numeric/ublas
+        python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
+        
+        ./bootstrap.sh
+        ./b2 -j 8 headers
+        
+        echo ::set-env name=BOOST_ROOT::${PWD}
+        
+    - name: Prepare Build
+      run: |
+        echo $BOOST_ROOT
+        cd $BOOST_ROOT
+        
+        echo "using clang : : ${{ matrix.config.cxx }} ;" >> ~/user-config.jam;
+        echo "using clblas : : <include>${CLBLAS_PREFIX}/include <search>${CLBLAS_PREFIX}/lib ;" >> ~/user-config.jam;
+        
+        cat ~/user-config.jam
+        
+        cp ${GITHUB_WORKSPACE}/opencl.jam ~/
+        cp ${GITHUB_WORKSPACE}/clblas.jam ~/
+        
+    - name: Test Benchmarks
+      run: |
+        cd $BOOST_ROOT
+        cd libs/numeric/ublas
+        $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.cxxstd}}
+        
+    - name: Test Tensor Examples
+      run: |
+        cd $BOOST_ROOT
+        cd libs/numeric/ublas
+        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
+        
+    - name: Test Tensor
+      if: matrix.cxxstd == '17'
+      run: |
+        cd $BOOST_ROOT
+        cd libs/numeric/ublas
+        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
+        
+    - name: Test uBLAS
+      run: |
+        cd $BOOST_ROOT
+        cd libs/numeric/ublas
+        $BOOST_ROOT/b2 -j 4 test toolset=clang cxxstd=${{matrix.cxxstd}}
