@@ -62,8 +62,7 @@ jobs:
         shell: powershell
         run: |
           echo $env:TOOLSET
-          
-          # Creating %USERPROFILE%/user-config.jam file
+           # Creating %USERPROFILE%/user-config.jam file
           @'
           import os regex toolset ;
           local toolset = [ regex.split [ os.environ TOOLSET ] "-" ] ;
@@ -72,8 +71,7 @@ jobs:
           using $(toolset[1]) : $(toolset[2-]:J="-") :  ;
           using opencl : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
           using clblas : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
-          '@ | sc "$env:USERPROFILE/user-config.jam"
-          
+          '@ | sc "$env:USERPROFILE/user-config.jam"          
       - name: Bootstrap BOOST_ROOT
         shell: cmd
         run: |
