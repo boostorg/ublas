@@ -22,15 +22,82 @@ jobs:
         shell: cmd
         run: |
           choco install wget
-          wget http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi
+          wget -q http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi
           start /wait msiexec /i opencl_runtime_16.1.1_x64_setup.msi /qn  /l*v msiexec2.log
+          
           vcpkg --triplet x64-windows install opencl clblas
           echo ::set-env name=PATH::C:\vcpkg\installed\x64-windows\bin;%PATH%
           echo ::set-env name=VCPKG_I::C:\vcpkg\installed\x64-windows\include
           echo ::set-env name=VCPKG_L::C:\vcpkg\installed\x64-windows\lib
           
-          dir C:\vcpkg\installed\x64-windows\bin
-          dir C:\vcpkg\installed\x64-windows\include
-          dir C:\vcpkg\installed\x64-windows\lib
+          echo ::set-env name=TOOLSET::${{matrix.config.toolset}}-${{matrix.config.version}}
           
+      - name: Setup BOOST_ROOT
+        shell: cmd
+        run: |
+          cd %GITHUB_WORKSPACE%
+          cd ..
+          git clone -b master --depth 1 https://github.com/boostorg/boost.git boost-root
+          cd boost-root
+          git submodule update --init tools/build
+          git submodule update --init libs/config
+          git submodule update --init tools/boostdep
           
+          xcopy /s /e /q %GITHUB_WORKSPACE% libs\numeric\ublas
+          
+          python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
+          xcopy %GITHUB_WORKSPACE%\opencl.jam %USERPROFILE%
+          xcopy %GITHUB_WORKSPACE%\clblas.jam %USERPROFILE%
+          
+          echo ::set-env name=BOOST_ROOT::%cd%
+                    
+      - name: Prepare BOOST_ROOT
+        shell: powershell
+        run: |
+          echo $env:TOOLSET
+          
+          # Creating %USERPROFILE%/user-config.jam file
+          @'
+          import os regex toolset ;
+          local toolset = [ regex.split [ os.environ TOOLSET ] "-" ] ;
+          local vcpkg_i = [ os.environ VCPKG_I ] ;
+          local vcpkg_l = [ os.environ VCPKG_L ] ;
+          using $(toolset[1]) : $(toolset[2-]:J="-") :  ;
+          using opencl : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
+          using clblas : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
+          '@ | sc "$env:USERPROFILE/user-config.jam"
+          
+      - name: Bootstrap BOOST_ROOT
+        shell: cmd
+        run: |
+          cd %BOOST_ROOT%
+          cmd /c bootstrap
+          b2 -j8 headers
+          
+      - name: Test Benchmarks
+        run: |
+          cd %BOOST_ROOT%\libs\numeric\ublas
+          %BOOST_ROOT%\b2 -j 4 benchmarks toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+          
+      - name: Test Tensor Examples
+        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
+        run: |
+          cd %BOOST_ROOT%\libs\numeric\ublas
+          %BOOST_ROOT%\b2 -j 4 examples/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+          
+      - name: Test Tensor
+        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
+        run: |
+          cd %BOOST_ROOT%\libs\numeric\ublas
+          %BOOST_ROOT%\b2 -j 4 test/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+          
+      - name: Test openCL
+        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
+        run: |
+          cd %BOOST_ROOT%\libs\numeric\ublas
+          %BOOST_ROOT%\b2 -j 4 test/opencl toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+          
+      - name: Test uBLAS
+        run: |
+         cd %BOOST_ROOT%\libs\numeric\ublas
+         %BOOST_ROOT%\b2 -j 4 test toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
