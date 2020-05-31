@@ -1,0 +1,32 @@
+name: "Windows MSVC"
+on: [push, pull_request]
+
+jobs:
+  build:
+     name: "${{matrix.config.version}} -std=c++${{matrix.config.cxxstd}}"
+     runs-on: ${{matrix.config.os}}
+     strategy:
+       fail-fast: false
+       matrix:
+         config: 
+           - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11}
+           - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 17}
+           - {os: windows-2019, toolset: msvc, version: 14.25, cxxstd: 11}
+           - {os: windows-2019, toolset: msvc, version: 14.25, cxxstd: 17}
+           - {os: windows-2019, toolset: msvc, version: 14.25, cxxstd: 2a}
+             
+     steps:
+      - uses: actions/checkout@v2
+        
+      - name: Setup openCL
+        shell: powershell
+        run: |
+          choco install wget
+          wget http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi
+          start /wait msiexec /i opencl_runtime_16.1.1_x64_setup.msi /qn  /l*v msiexec2.log
+          vcpkg --triplet x64-windows install opencl clblas
+          echo ::set-env name=PATH::C:\Tools\vcpkg\installed\x64-windows\bin;%PATH%
+          echo ::set-env name=VCPKG_I::C:\Tools\vcpkg\installed\x64-windows\include
+          echo ::set-env name=VCPKG_L::C:\Tools\vcpkg\installed\x64-windows\lib
+          
+          
