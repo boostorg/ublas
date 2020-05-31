@@ -1,0 +1,131 @@
+name: Linux GCC
+# Trigger on Push to the repository, regardless of the branch.
+# For fine tune, You can add specific branches or tags.
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: "${{matrix.config.cxx}} -std=c++${{matrix.cxxstd}}"
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
+      matrix:
+        cxxstd: [11, 17]
+        config:
+          - {cc: gcc-7, cxx: g++-7}
+          - {cc: gcc-8, cxx: g++-8}
+          - {cc: gcc-9, cxx: g++-9}
+          
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set Environment Variables
+        run: |
+         echo ::set-env name=CLBLAS_PREFIX::${GITHUB_WORKSPACE}/CLBLAS
+         echo ::set-env name=PATH::${GITHUB_WORKSPACE}/CLBLAS/bin:${PATH}
+         echo ::set-env name=LD_LIBRARY_PATH::${GITHUB_WORKSPACE}/CLBLAS/lib:${LD_LIBRARY_PATH}
+         
+         echo ::set-env name=CC::${{matrix.config.cc}}
+         echo ::set-env name=CXX::${{matrix.config.cxx}}
+         
+      - name: Setup OpenBLAS, CLBLAS and other utilities
+        if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-7'
+        # openBLAS, clBLAS will be used and codecoverage will be reported from only gcc-7 with C++17 standards
+        # Due to this reason to fasten the build process, we skip this step on all other matrix configuration.
+        # This is known fact that any CI offer only 1 openCL device and if we were to test all compilers for openCL
+        # We would have to sequencially run the jobs that would make the build process very very slow.
+        run: |
+         sudo apt-get install -y lcov
+         sudo apt-get install -y rpm2cpio
+         sudo apt-get install -y libopenblas-base
+         sudo apt-get install -y ocl-icd-opencl-dev
+         sudo apt-get install -y opencl-headers
+         sudo apt-get install -y clinfo
+         sudo apt-get install -y cpio
+        
+        ${GITHUB_WORKSPACE}/.ci/install-ocl-ubuntu.sh
+        ${GITHUB_WORKSPACE}/.ci/install-clblas.sh
+        
+        ${CXX} --version
+        ${CC} --version
+        
+      - name: Prepare BOOST_ROOT
+        run: |
+         cd ${GITHUB_WORKSPACE}
+         cd ..
+        
+         git clone -b master --depth 1 https://github.com/boostorg/boost.git boost-root
+         cd boost-root
+        
+         git submodule update --init --jobs 8 tools/build
+         git submodule update --init --jobs 8 libs/config
+         git submodule update --init --jobs 8 tools/boostdep
+        
+         mkdir -p libs/numeric/
+         cp -rp ${GITHUB_WORKSPACE}/. libs/numeric/ublas
+         python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
+        
+         ./bootstrap.sh
+         ./b2 -j 8 headers
+        
+         echo ::set-env name=BOOST_ROOT::${PWD}
+        
+      - name: Prepare Build
+        run: |
+         echo $BOOST_ROOT
+         cd $BOOST_ROOT
+        
+         echo "using gcc : : ${{ matrix.config.cxx }} ;" >> ~/user-config.jam;
+         echo "using clblas : : <include>${CLBLAS_PREFIX}/include <search>${CLBLAS_PREFIX}/lib ;" >> ~/user-config.jam;
+        
+         cat ~/user-config.jam
+        
+         cp ${GITHUB_WORKSPACE}/opencl.jam ~/
+         cp ${GITHUB_WORKSPACE}/clblas.jam ~/
+
+      - name: Test Benchmarks
+        run: |
+         cd $BOOST_ROOT
+         cd libs/numeric/ublas
+         $BOOST_ROOT/b2 -j 4 benchmarks toolset=gcc cxxstd=${{matrix.cxxstd}}
+        
+      - name: Test Tensor Examples
+        run: |
+         cd $BOOST_ROOT
+         cd libs/numeric/ublas
+         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.cxxstd}}
+        
+      - name: Test Tensor
+        if: matrix.cxxstd == '17'
+        # Tensor only works under C++17 Standards, So run these tests only for C++17 
+        run: |
+         cd $BOOST_ROOT
+         cd libs/numeric/ublas
+         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.cxxstd}}
+
+      - name: Test openCL
+        if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-7'
+        # We run openCL tests only on these compiler and standards for reasons mentioned above.
+        run: |
+         cd $BOOST_ROOT
+         cd libs/numeric/ublas
+         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc cxxstd=${{matrix.cxxstd}}
+        
+      - name: Test uBLAS
+        run: |
+         cd $BOOST_ROOT
+         cd libs/numeric/ublas
+         $BOOST_ROOT/b2 -j 4 test toolset=gcc cxxstd=${{matrix.cxxstd}}
+        
+      - name: Report Code coverage
+        if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-7'
+        # Report coverage from only one compiler, In this case this has been intentionally chosen because it runs all tests 
+        # in uBLAS, including opencl tests.
+        run: |
+         ${GITHUB_WORKSPACE}/.ci/report_coverage.sh
+        
+         curl -s https://codecov.io/bash > cov.sh
+         chmod +x cov.sh
+         ./cov.sh -f coverage.info || echo "Codecov did not collect coverage reports"
+       
