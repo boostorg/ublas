@@ -1,24 +1,35 @@
 name: Linux GCC
 # Trigger on Push to the repository, regardless of the branch.
 # For fine tune, You can add specific branches or tags.
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   build:
-    name: "${{matrix.config.cxx}} -std=c++${{matrix.cxxstd}}"
+    name: "${{matrix.config.cxx}} -std=c++${{matrix.config.cxxstd}}"
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
       matrix:
-        cxxstd: [11, 17]
         config:
-          - {cc: gcc-7, cxx: g++-7}
-          - {cc: gcc-8, cxx: g++-8}
-          - {cc: gcc-9, cxx: g++-9}
-          
+          - {cc: gcc-7, cxx: g++-7, cxxstd: 11}
+          - {cc: gcc-8, cxx: g++-8, cxxstd: 11}
+          - {cc: gcc-9, cxx: g++-9, cxxstd: 11}
+          - {cc: gcc-10, cxx: g++-10, cxxstd: 11}
+          - {cc: gcc-7, cxx: g++-7, cxxstd: 17}
+          - {cc: gcc-8, cxx: g++-8, cxxstd: 17}
+          - {cc: gcc-9, cxx: g++-9, cxxstd: 17}
+          - {cc: gcc-10, cxx: g++-10, cxxstd: 17}
+          - {cc: gcc-10, cxx: g++-10, cxxstd: 2a}          
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Install GCC-10
+        if: matrix.config.cxx == 'g++-10'
+        run: |
+         sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+         sudo apt update
+         sudo apt-get install -y g++-10
       
       - name: Set Environment Variables
         run: |
@@ -30,7 +41,7 @@ jobs:
          echo ::set-env name=CXX::${{matrix.config.cxx}}
          
       - name: Setup OpenBLAS, CLBLAS and other utilities
-        if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-7'
+        if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
         # openBLAS, clBLAS will be used and codecoverage will be reported from only gcc-7 with C++17 standards
         # Due to this reason to fasten the build process, we skip this step on all other matrix configuration.
         # This is known fact that any CI offer only 1 openCL device and if we were to test all compilers for openCL
@@ -88,13 +99,13 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 benchmarks toolset=gcc cxxstd=${{matrix.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 benchmarks toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test Tensor Examples
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test Tensor
         if: matrix.cxxstd == '17'
@@ -102,7 +113,7 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}}
 
       - name: Test openCL
         if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-7'
@@ -110,13 +121,13 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc cxxstd=${{matrix.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test uBLAS
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test toolset=gcc cxxstd=${{matrix.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Report Code coverage
         if: matrix.cxxstd == '17' && matrix.config.cxx == 'g++-7'
