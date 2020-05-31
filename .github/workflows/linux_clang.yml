@@ -1,22 +1,27 @@
 name: Linux Clang
 # Trigger on Push to the repository, regardless of the branch.
 # For fine tune, You can add specific branches or tags.
-on: [pull_request]
+on: [push, pull_request]
   
 jobs:
   build:
-    name: "${{matrix.config.cxx}} -std=c++${{matrix.cxxstd}}"
+    name: "${{matrix.config.cxx}} -std=c++${{matrix.config.cxxstd}}"
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
       matrix:
-        cxxstd: [11, 17]
         config: 
-          - { cc: clang-6.0, cxx: clang++-6.0}
-          - { cc: clang-8, cxx: clang++-8}
-          - { cc: clang-9, cxx: clang++-9}
-            
+          - { cc: clang-6.0, cxx: clang++-6.0, cxxstd: 11}
+          - { cc: clang-8, cxx: clang++-8, cxxstd: 11}
+          - { cc: clang-9, cxx: clang++-9, cxxstd: 11}
+          - { cc: clang-10, cxx: clang++-10, cxxstd: 11}
+          - { cc: clang-6.0, cxx: clang++-6.0, cxxstd: 17}
+          - { cc: clang-8, cxx: clang++-8, cxxstd: 17}
+          - { cc: clang-9, cxx: clang++-9, cxxstd: 17}
+          - { cc: clang-10, cxx: clang++-10, cxxstd: 17}
+          - { cc: clang-10, cxx: clang++-10, cxxstd: 2a}
+         
     steps:
     - uses: actions/checkout@v2
       # Checks out the source code, if not done, runner will not clone the repository
@@ -64,23 +69,24 @@ jobs:
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.cxxstd}}
+        $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.config.cxxstd}}
         
     - name: Test Tensor Examples
+      if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
+        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}}
         
     - name: Test Tensor
-      if: matrix.cxxstd == '17'
+      if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
+        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}}
         
     - name: Test uBLAS
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 test toolset=clang cxxstd=${{matrix.cxxstd}}
+        $BOOST_ROOT/b2 -j 4 test toolset=clang cxxstd=${{matrix.config.cxxstd}}
