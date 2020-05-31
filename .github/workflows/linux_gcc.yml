@@ -44,11 +44,11 @@ jobs:
          sudo apt-get install -y clinfo
          sudo apt-get install -y cpio
         
-        ${GITHUB_WORKSPACE}/.ci/install-ocl-ubuntu.sh
-        ${GITHUB_WORKSPACE}/.ci/install-clblas.sh
+         ${GITHUB_WORKSPACE}/.ci/install-ocl-ubuntu.sh
+         ${GITHUB_WORKSPACE}/.ci/install-clblas.sh
         
-        ${CXX} --version
-        ${CC} --version
+         ${CXX} --version
+         ${CC} --version
         
       - name: Prepare BOOST_ROOT
         run: |
