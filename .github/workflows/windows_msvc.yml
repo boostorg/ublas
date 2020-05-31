@@ -25,8 +25,12 @@ jobs:
           wget http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi
           start /wait msiexec /i opencl_runtime_16.1.1_x64_setup.msi /qn  /l*v msiexec2.log
           vcpkg --triplet x64-windows install opencl clblas
-          echo ::set-env name=PATH::C:\Tools\vcpkg\installed\x64-windows\bin;%PATH%
-          echo ::set-env name=VCPKG_I::C:\Tools\vcpkg\installed\x64-windows\include
-          echo ::set-env name=VCPKG_L::C:\Tools\vcpkg\installed\x64-windows\lib
+          echo ::set-env name=PATH::C:\vcpkg\installed\x64-windows\bin;%PATH%
+          echo ::set-env name=VCPKG_I::C:\vcpkg\installed\x64-windows\include
+          echo ::set-env name=VCPKG_L::C:\vcpkg\installed\x64-windows\lib
+          
+          dir C:\vcpkg\installed\x64-windows\bin
+          dir C:\vcpkg\installed\x64-windows\include
+          dir C:\vcpkg\installed\x64-windows\lib
           
           
