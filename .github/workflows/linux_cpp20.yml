@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
       matrix:
-        cxxstd: [11, 17, 20]
+        cxxstd: [11, 17, 2a]
         config: 
           - { cc: gcc-10, cxx: g++-10, toolset: gcc }
           - { cc: clang-10, cxx: clang++-10, toolset: clang }
