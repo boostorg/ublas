@@ -75,29 +75,39 @@ jobs:
           b2 -j8 headers
           
       - name: Test Benchmarks
+        shell: cmd
         run: |
-          cd %BOOST_ROOT%\libs\numeric\ublas
+          cd %BOOST_ROOT%
+          cd libs\numeric\ublas
           %BOOST_ROOT%\b2 -j 4 benchmarks toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           
       - name: Test Tensor Examples
+        shell: cmd
         if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
         run: |
-          cd %BOOST_ROOT%\libs\numeric\ublas
+          cd %BOOST_ROOT%
+          cd libs\numeric\ublas
           %BOOST_ROOT%\b2 -j 4 examples/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           
       - name: Test Tensor
+        shell: cmd
         if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
         run: |
-          cd %BOOST_ROOT%\libs\numeric\ublas
+          cd %BOOST_ROOT%
+          cd libs\numeric\ublas
           %BOOST_ROOT%\b2 -j 4 test/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           
       - name: Test openCL
+        shell: cmd
         if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
         run: |
-          cd %BOOST_ROOT%\libs\numeric\ublas
+          cd %BOOST_ROOT%
+          cd libs\numeric\ublas
           %BOOST_ROOT%\b2 -j 4 test/opencl toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           
       - name: Test uBLAS
+        shell: cmd
         run: |
-         cd %BOOST_ROOT%\libs\numeric\ublas
+         cd %BOOST_ROOT%
+         cd libs\numeric\ublas
          %BOOST_ROOT%\b2 -j 4 test toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
