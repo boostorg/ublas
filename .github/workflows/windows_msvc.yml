@@ -18,10 +18,14 @@ jobs:
      steps:
       - uses: actions/checkout@v2
         
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.0
+      - name: Enable Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1.2.0
+        with:
+          # VC++ compiler toolset version
+          toolset: ${{matrix.config.version}}
         
       - name: Setup openCL
+        if: matrix.config.cxxstd == '1'
         shell: cmd
         run: |
           choco install wget
