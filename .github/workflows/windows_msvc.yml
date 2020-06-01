@@ -107,6 +107,7 @@ jobs:
           
       - name: Test openCL
         if: matrix.config.version == '14.25' && matrix.config.cxxstd == '17'
+        timeout-minutes: 5
         shell: cmd
         run: |
           cd %BOOST_ROOT%
