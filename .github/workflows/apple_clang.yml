@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: "10.0 -std=c++${{matrix.cxxstd}}"
+    name: "Darwin 11.0 -std=c++${{matrix.cxxstd}}"
     runs-on: macos-latest
     strategy:
       fail-fast: false
