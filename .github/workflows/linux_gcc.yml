@@ -41,11 +41,16 @@ jobs:
          echo ::set-env name=CXX::${{matrix.config.cxx}}
          
       - name: Setup OpenBLAS, CLBLAS and other utilities
-        if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
+        if: matrix.config.cxxstd == '21'
+        # Always failing cxxstd
+          
+        # if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
         # openBLAS, clBLAS will be used and codecoverage will be reported from only gcc-7 with C++17 standards
         # Due to this reason to fasten the build process, we skip this step on all other matrix configuration.
         # This is known fact that any CI offer only 1 openCL device and if we were to test all compilers for openCL
         # We would have to sequencially run the jobs that would make the build process very very slow.
+          
+        # Disable openCL tests after permission from Cem Bassoy
         run: |
          sudo apt-get install -y lcov
          sudo apt-get install -y rpm2cpio
@@ -117,7 +122,8 @@ jobs:
          $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}}
 
       - name: Test openCL
-        if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
+        if: matrix.config.cxxstd == '21'
+        #if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
         # We run openCL tests only on these compiler and standards for reasons mentioned above.
         run: |
          cd $BOOST_ROOT
