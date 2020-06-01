@@ -10,7 +10,7 @@ jobs:
        matrix:
          config: 
            - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11}
-           - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 17}
+           #- {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 17}
            - {os: windows-2019, toolset: msvc, version: 14.25, cxxstd: 11}
            - {os: windows-2019, toolset: msvc, version: 14.25, cxxstd: 17}
            - {os: windows-2019, toolset: msvc, version: 14.25, cxxstd: latest}
@@ -25,6 +25,7 @@ jobs:
           toolset: ${{matrix.config.version}}
         
       - name: Setup openCL
+        if: matrix.config.version == '14.25' && matrix.config.cxxstd == '17'
         shell: cmd
         run: |
           choco install wget
@@ -90,7 +91,7 @@ jobs:
           
       - name: Test Tensor Examples
         shell: cmd
-        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
+        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == 'latest'
         run: |
           cd %BOOST_ROOT%
           cd libs\numeric\ublas
@@ -98,13 +99,14 @@ jobs:
           
       - name: Test Tensor
         shell: cmd
-        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
+        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == 'latest'
         run: |
           cd %BOOST_ROOT%
           cd libs\numeric\ublas
           %BOOST_ROOT%\b2 -j 4 test/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           
       - name: Test openCL
+        if: matrix.config.version == '14.25' && matrix.config.cxxstd == '17'
         shell: cmd
         run: |
           cd %BOOST_ROOT%
