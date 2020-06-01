@@ -65,7 +65,7 @@ jobs:
            # Creating %USERPROFILE%/user-config.jam file
           @'
           import os regex toolset ;
-          local toolset = [ regex.split [ os.environ TOOLSET ] "-" ] ;
+          local toolset = [ regex.split "msvc-${{matrix.config.version}}" "-" ] ;
           local vcpkg_i = [ os.environ VCPKG_I ] ;
           local vcpkg_l = [ os.environ VCPKG_L ] ;
           using $(toolset[1]) : $(toolset[2-]:J="-") :  ;
