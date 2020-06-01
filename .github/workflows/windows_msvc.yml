@@ -18,11 +18,8 @@ jobs:
      steps:
       - uses: actions/checkout@v2
         
-      - name: Enable Developer Command Prompt
-        uses: ilammy/msvc-dev-cmd@v1.2.0
-        with:
-          # VC++ compiler toolset version
-          toolset: ${{matrix.config.version}}
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1
         
       - name: Setup openCL
         if: matrix.config.version == '14.25' && matrix.config.cxxstd == '17'
