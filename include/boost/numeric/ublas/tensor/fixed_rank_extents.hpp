@@ -90,7 +90,7 @@ struct basic_fixed_rank_extents
     }
     
     constexpr basic_fixed_rank_extents(const_iterator begin, const_iterator end){
-        if( std::distance(begin,end) > _size ){
+        if( std::distance(begin,end) < 0 || static_cast<std::size_t>(std::distance(begin,end)) > _size){
             throw std::out_of_range("boost::numeric::ublas::basic_fixed_rank_extents(): initializer list size is greater than _size");
         }
         

@@ -35,7 +35,7 @@ struct fixture
 {
     template<size_t... E>
     using static_extents_type = boost::numeric::ublas::static_extents<E...>;
-    
+
     using dynamic_extents_type = boost::numeric::ublas::dynamic_extents<>;
 
     fixture()
@@ -68,21 +68,21 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_prod_vector, value,  test_t
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
 
-    for_each_tuple(static_extents,[](auto const&, auto& n){                                   
-        using extents_type = typename std::decay<decltype(n)>::type;              
-        using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>; 
-        using vector_type = typename tensor_type::vector_type;                    
+    for_each_tuple(static_extents,[](auto const&, auto& n){
+        using extents_type = typename std::decay<decltype(n)>::type;
+        using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
+        using vector_type = typename tensor_type::vector_type;
         auto a = tensor_type(value_type{2});
-        
-        for (auto m = 0u; m < n.size(); ++m) {                                    
-                                                                                
-        auto b = vector_type(n[m], value_type{1});                               
-                                                                                
-        auto c = ublas::prod(a, b, m + 1);                                       
-                                                                                
-        for (auto i = 0u; i < c.size(); ++i)                                     
-            BOOST_CHECK_EQUAL(c[i], value_type( static_cast< inner_type_t<value_type> >(n[m]) ) * a[i]);                     
-        }                                   
+
+        for (auto m = 0u; m < n.size(); ++m) {
+
+        auto b = vector_type(n[m], value_type{1});
+
+        auto c = ublas::prod(a, b, m + 1);
+
+        for (auto i = 0u; i < c.size(); ++i)
+            BOOST_CHECK_EQUAL(c[i], value_type( static_cast< inner_type_t<value_type> >(n[m]) ) * a[i]);
+        }
     });
 
 }
@@ -93,20 +93,20 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_prod_matrix, value,  test_t
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
 
-    for_each_tuple(static_extents,[](auto const&, auto & n){                                                                   
-        using extents_type = typename std::decay<decltype(n)>::type;             
-        using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>; 
-        using matrix_type = typename tensor_type::matrix_type;                   
-        auto a = tensor_type(value_type{2});                     
-        for (auto m = 0u; m < n.size(); ++m) {                                   
-                                                                                
-            auto b = matrix_type  ( n[m], n[m], value_type{1} );                     
-                                                                                    
-            auto c = ublas::prod(a, b, m + 1);                                       
-                                                                                    
-            for (auto i = 0u; i < c.size(); ++i)                                     
-                BOOST_CHECK_EQUAL(c[i], value_type( static_cast< inner_type_t<value_type> >(n[m]) ) * a[i]);                    
-        }                                   
+    for_each_tuple(static_extents,[](auto const&, auto & n){
+        using extents_type = typename std::decay<decltype(n)>::type;
+        using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
+        using matrix_type = typename tensor_type::matrix_type;
+        auto a = tensor_type(value_type{2});
+        for (auto m = 0u; m < n.size(); ++m) {
+
+            auto b = matrix_type  ( n[m], n[m], value_type{1} );
+
+            auto c = ublas::prod(a, b, m + 1);
+
+            for (auto i = 0u; i < c.size(); ++i)
+                BOOST_CHECK_EQUAL(c[i], value_type( static_cast< inner_type_t<value_type> >(n[m]) ) * a[i]);
+        }
     });
 
 }
@@ -117,67 +117,63 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_prod_tensor_1, value,  test
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
 
-    auto const body = [](auto const& a, auto const& b){                 
-        auto const pa = a.rank();                                                 
-                                                                                
-        for (auto q = 0ul; q <= pa; ++q) {                                        
-                                                                                
-        auto phi = std::vector<std::size_t>(q);                                  
-                                                                                
-        std::iota(phi.begin(), phi.end(), 1ul);                                  
-                                                                                
-        auto c = ublas::prod(a, b, phi);                                         
-                                                                                
-        auto acc = value_type(1);                                                
-        for (auto i = 0ul; i < q; ++i)                                           
+    auto const body = [](auto const& a, auto const& b){
+        auto const pa = a.rank();
+
+        for (auto q = 0ul; q <= pa; ++q) {
+
+        auto phi = std::vector<std::size_t>(q);
+
+        std::iota(phi.begin(), phi.end(), 1ul);
+
+        auto c = ublas::prod(a, b, phi);
+
+        auto acc = value_type(1);
+        for (auto i = 0ul; i < q; ++i)
             acc *= value_type( static_cast< inner_type_t<value_type> >( a.extents().at(phi.at(i) - 1) ) );
-                                                                                
-        for (auto i = 0ul; i < c.size(); ++i)                                    
-            BOOST_CHECK_EQUAL(c[i], acc *a[0] * b[0]);                            
-        }                
+
+        for (auto i = 0ul; i < c.size(); ++i)
+            BOOST_CHECK_EQUAL(c[i], acc *a[0] * b[0]);
+        }
     };
 
+    std::apply (
+    [&body](auto&& ... sextents)
+    {
+      (
+      body(
+        ublas::static_tensor<value_type, std::decay_t<decltype(sextents)>, layout_type>(value_type{2}) ,
+        ublas::static_tensor<value_type, std::decay_t<decltype(sextents)>, layout_type>(value_type{3}) ), ...
+      );
+    },
+      static_extents
+    );
 
-    //static extents and static_extents
-    for_each_tuple(static_extents,[&](auto const&, auto & n){                                                                   
-        auto n1 = n;                                                              
-        auto n2 = n;                                                              
-        using extents_type_1 = typename std::decay<decltype(n1)>::type;           
-        using extents_type_2 = typename std::decay<decltype(n2)>::type;           
-        using tensor_type_1 =                                                     
-            ublas::static_tensor<value_type, extents_type_1, layout_type>;               
-        using tensor_type_2 =                                                     
-            ublas::static_tensor<value_type, extents_type_2, layout_type>;               
-        auto a = tensor_type_1(value_type{2});                                
-        auto b = tensor_type_2(value_type{3});                                
-        body(a,b);      
-    });
 
-    for_each_tuple(static_extents,[&](auto const& I, auto & n){                                                                   
-        auto n1 = n;                                                              
-        auto n2 = extents[I];                                                              
-        using extents_type_1 = typename std::decay<decltype(n1)>::type;                   
-        using tensor_type_1 =                                                     
-            ublas::static_tensor<value_type, extents_type_1, layout_type>;               
-        using tensor_type_2 =                                                     
-            ublas::dynamic_tensor<value_type, layout_type>;               
-        auto a = tensor_type_1(value_type{2});                                
-        auto b = tensor_type_2(n1,value_type{3});                                
-        body(a,b);      
-    });
+    std::apply (
+    [&body](auto&& ... sextents )
+    {
+      (
+      body(
+        ublas::static_tensor <value_type, std::decay_t<decltype(sextents)>, layout_type>(           value_type{2}) ,
+        ublas::dynamic_tensor<value_type,                                   layout_type>((sextents),value_type{3})), ...
+      );
+    },
+      static_extents
+    );
 
-    for_each_tuple(static_extents,[&](auto const& I, auto & n){                                                                   
-        auto n1 = extents[I];                                                              
-        auto n2 = n;                                                              
-        using extents_type_2 = typename std::decay<decltype(n2)>::type;           
-        using tensor_type_1 =                                                     
-            ublas::dynamic_tensor<value_type, layout_type>;               
-        using tensor_type_2 =                                                     
-            ublas::static_tensor<value_type, extents_type_2, layout_type>;               
-        auto a = tensor_type_1(n1,value_type{2});                                
-        auto b = tensor_type_2(value_type{3});                                
-        body(a,b);      
-    });
+
+    std::apply (
+    [&body](auto&& ... sextents )
+    {
+      (
+      body(
+        ublas::dynamic_tensor<value_type,                                   layout_type>((sextents),value_type{2}),
+        ublas::static_tensor <value_type, std::decay_t<decltype(sextents)>, layout_type>(           value_type{3})), ...
+      );
+    },
+      static_extents
+    );
 
 }
 
@@ -213,83 +209,83 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_prod_tensor_2, value,  test
 
 //  static and dynamic
     for_each_tuple(static_extents,[&](auto const&, auto & n){
-        auto na = n;                                                              
-        using extents_type_1 = typename std::decay<decltype(na)>::type;             
-        using tensor_type_1 = ublas::static_tensor<value_type, extents_type_1, layout_type>; 
-        auto a = tensor_type_1(value_type{2});                                  
-        auto const pa = a.rank();                                                 
-                                                                                
-        auto pi = std::vector<std::size_t>(pa);                                   
-        auto fac = compute_factorial(pa);                                         
-        std::iota(pi.begin(), pi.end(), 1);                                       
-                                                                                
-        for (auto f = 0ul; f < fac; ++f) {                                        
-            auto nb = permute_extents_s_1(pi, na); 
-            using tensor_type_2 = ublas::dynamic_tensor<value_type, layout_type>;                                                     
-            auto b = tensor_type_2(nb, value_type{3});                                 
-                                                                                    
-            for (auto q = 0ul; q <= pa; ++q) {                                       
-                                                                                    
-                auto phia = std::vector<std::size_t>(q);                              
-                auto phib = std::vector<std::size_t>(q);                              
-                                                                                    
-                std::iota(phia.begin(), phia.end(), 1ul);                             
-                std::transform(phia.begin(), phia.end(), phib.begin(),                
-                            [&pi](std::size_t i) { return pi.at(i - 1); });         
-                                                                                    
-                auto c = ublas::prod(a, b, phia, phib);                               
-                                                                                    
-                auto acc = value_type(1);                                             
-                for (auto i = 0ul; i < q; ++i)                                        
+        auto na = n;
+        using extents_type_1 = typename std::decay<decltype(na)>::type;
+        using tensor_type_1 = ublas::static_tensor<value_type, extents_type_1, layout_type>;
+        auto a = tensor_type_1(value_type{2});
+        auto const pa = a.rank();
+
+        auto pi = std::vector<std::size_t>(pa);
+        auto fac = compute_factorial(pa);
+        std::iota(pi.begin(), pi.end(), 1);
+
+        for (auto f = 0ul; f < fac; ++f) {
+            auto nb = permute_extents_s_1(pi, na);
+            using tensor_type_2 = ublas::dynamic_tensor<value_type, layout_type>;
+            auto b = tensor_type_2(nb, value_type{3});
+
+            for (auto q = 0ul; q <= pa; ++q) {
+
+                auto phia = std::vector<std::size_t>(q);
+                auto phib = std::vector<std::size_t>(q);
+
+                std::iota(phia.begin(), phia.end(), 1ul);
+                std::transform(phia.begin(), phia.end(), phib.begin(),
+                            [&pi](std::size_t i) { return pi.at(i - 1); });
+
+                auto c = ublas::prod(a, b, phia, phib);
+
+                auto acc = value_type(1);
+                for (auto i = 0ul; i < q; ++i)
                 acc *= value_type( static_cast< inner_type_t<value_type> >( a.extents().at(phia.at(i)-1) ) );
-                                                                                    
-                for (auto i = 0ul; i < c.size(); ++i)                                 
-                BOOST_CHECK_EQUAL(c[i], acc *a[0] * b[0]);                           
-            }                                                                        
-                                                                                    
-            std::next_permutation(pi.begin(), pi.end());                             
-        }  
+
+                for (auto i = 0ul; i < c.size(); ++i)
+                BOOST_CHECK_EQUAL(c[i], acc *a[0] * b[0]);
+            }
+
+            std::next_permutation(pi.begin(), pi.end());
+        }
     });
 
     //static and static
     for_each_tuple(static_extents,[&](auto const&, auto & n){
-        auto na = n;                                                              
-        using extents_type_1 = typename std::decay<decltype(na)>::type;             
-        using tensor_type_1 = ublas::static_tensor<value_type, extents_type_1, layout_type>; 
-        auto a = tensor_type_1(value_type{2});                                  
-        auto const pa = a.rank();                                                 
-                                                                                
-        auto pi = std::vector<std::size_t>(pa);                                   
-        auto fac = compute_factorial(pa);                                         
-        std::iota(pi.begin(), pi.end(), 1);                                       
-                                                                                
-        for (auto f = 0ul; f < fac; ++f) {                                        
-            auto nb = permute_extents_s_2(pi, na); 
-            
-            using tensor_type_2 = ublas::dynamic_tensor<value_type, layout_type>;                                                     
-            auto b = tensor_type_2(nb, value_type{3});                                 
-                                                                                    
-            for (auto q = 0ul; q <= pa; ++q) {                                       
-                                                                                    
-                auto phia = std::vector<std::size_t>(q);                              
-                auto phib = std::vector<std::size_t>(q);                              
-                                                                                    
-                std::iota(phia.begin(), phia.end(), 1ul);                             
-                std::transform(phia.begin(), phia.end(), phib.begin(),                
-                            [&pi](std::size_t i) { return pi.at(i - 1); });         
-                                                                                    
-                auto c = ublas::prod(a, b, phia, phib);                               
-                                                                                    
-                auto acc = value_type(1);                                             
-                for (auto i = 0ul; i < q; ++i)                                        
+        auto na = n;
+        using extents_type_1 = typename std::decay<decltype(na)>::type;
+        using tensor_type_1 = ublas::static_tensor<value_type, extents_type_1, layout_type>;
+        auto a = tensor_type_1(value_type{2});
+        auto const pa = a.rank();
+
+        auto pi = std::vector<std::size_t>(pa);
+        auto fac = compute_factorial(pa);
+        std::iota(pi.begin(), pi.end(), 1);
+
+        for (auto f = 0ul; f < fac; ++f) {
+            auto nb = permute_extents_s_2(pi, na);
+
+            using tensor_type_2 = ublas::dynamic_tensor<value_type, layout_type>;
+            auto b = tensor_type_2(nb, value_type{3});
+
+            for (auto q = 0ul; q <= pa; ++q) {
+
+                auto phia = std::vector<std::size_t>(q);
+                auto phib = std::vector<std::size_t>(q);
+
+                std::iota(phia.begin(), phia.end(), 1ul);
+                std::transform(phia.begin(), phia.end(), phib.begin(),
+                            [&pi](std::size_t i) { return pi.at(i - 1); });
+
+                auto c = ublas::prod(a, b, phia, phib);
+
+                auto acc = value_type(1);
+                for (auto i = 0ul; i < q; ++i)
                 acc *= a.extents().at(phia.at(i) - 1);
-                                                                                    
-                for (auto i = 0ul; i < c.size(); ++i)                                 
-                BOOST_CHECK_EQUAL(c[i], acc *a[0] * b[0]);                           
-            }                                                                        
-                                                                                    
-            std::next_permutation(pi.begin(), pi.end());                             
-        }  
+
+                for (auto i = 0ul; i < c.size(); ++i)
+                BOOST_CHECK_EQUAL(c[i], acc *a[0] * b[0]);
+            }
+
+            std::next_permutation(pi.begin(), pi.end());
+        }
     });
 
 }
@@ -302,17 +298,24 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_inner_prod, value,  test_ty
     using layout_type  = typename value::second_type;
 
     auto const body = [&](auto const& a, auto const& b){
-        auto c = ublas::inner_prod(a, b);
-        auto r = std::inner_product(a.begin(),a.end(), b.begin(),value_type(0));
+      if(a.size() == 0u || b.size() == 0u )
+        return;
 
-        BOOST_CHECK_EQUAL( c , r );
+      auto c = ublas::inner_prod(a, b);
+      auto r = std::inner_product(a.begin(),a.end(), b.begin(),value_type(0));
+
+      BOOST_CHECK_EQUAL( c , r );
     };
 
     for_each_tuple(static_extents,[&](auto const&, auto & n){
-        using extents_type_1 = typename std::decay<decltype(n)>::type;             
-        using extents_type_2 = typename std::decay<decltype(n)>::type;             
+        using extents_type_1 = typename std::decay<decltype(n)>::type;
+        using extents_type_2 = typename std::decay<decltype(n)>::type;
         using tensor_type_1 = ublas::static_tensor<value_type, extents_type_1, layout_type>;
         using tensor_type_2 = ublas::static_tensor<value_type, extents_type_2, layout_type>;
+
+        if constexpr(extents_type_1::_size == 0u || extents_type_2::_size == 0u)
+          return;
+
         auto a  = tensor_type_1(value_type(2));
         auto b  = tensor_type_2(value_type(1));
         body(a,b);
@@ -320,22 +323,42 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_inner_prod, value,  test_ty
     });
 
     for_each_tuple(static_extents,[&](auto const& I, auto & n){
-        using extents_type_1 = typename std::decay<decltype(n)>::type;                     
-        using tensor_type_1 = ublas::static_tensor<value_type, extents_type_1, layout_type>;
-        using tensor_type_2 = ublas::dynamic_tensor<value_type, layout_type>;
-        auto a  = tensor_type_1(value_type(2));
-        auto b  = tensor_type_2(extents[I], value_type(1));
-        body(a,b);
+      if(extents.empty() || std::tuple_size_v<decltype(static_extents)> == 0u)
+        return;
+
+      assert(extents.size() > I);
+
+      using extents_type_1 = typename std::decay<decltype(n)>::type;
+      using tensor_type_1 = ublas::static_tensor<value_type, extents_type_1, layout_type>;
+      using tensor_type_2 = ublas::dynamic_tensor<value_type, layout_type>;
+
+      if constexpr(extents_type_1::_size == 0u)
+        return;
+
+      auto a  = tensor_type_1(value_type(2));
+      auto b  = tensor_type_2(extents[I], value_type(1));
+      body(a,b);
+
 
     });
 
     for_each_tuple(static_extents,[&](auto const& I, auto & n){
-        using extents_type_2 = typename std::decay<decltype(n)>::type;             
-        using tensor_type_1 = ublas::dynamic_tensor<value_type, layout_type>;
-        using tensor_type_2 = ublas::static_tensor<value_type, extents_type_2, layout_type>;
-        auto a  = tensor_type_1(extents[I], value_type(2));
-        auto b  = tensor_type_2(value_type(1));
-        body(a,b);
+
+      if(extents.empty())
+        return;
+
+      using extents_type_2 = typename std::decay<decltype(n)>::type;
+      using tensor_type_1 = ublas::dynamic_tensor<value_type, layout_type>;
+      using tensor_type_2 = ublas::static_tensor<value_type, extents_type_2, layout_type>;
+
+      if constexpr(extents_type_2::_size == 0u)
+        return;
+
+      assert(extents.size() > I);
+
+      auto a  = tensor_type_1(extents[I], value_type(2));
+      auto b  = tensor_type_2(value_type(1));
+      body(a,b);
 
     });
 
@@ -348,27 +371,41 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_outer_prod, value,  test_ty
     using layout_type  = typename value::second_type;
 
     for_each_tuple(static_extents,[&](auto const&, auto const& n1){
-        using extents_type_1 = typename std::decay<decltype(n1)>::type;             
+        using extents_type_1 = typename std::decay<decltype(n1)>::type;
+
+        if constexpr(extents_type_1::_size == 0u)
+          return;
+
         using tensor_type_1 = ublas::static_tensor<value_type, extents_type_1, layout_type>;
         auto a  = tensor_type_1(value_type(2));
-        for_each_tuple(static_extents,[&](auto const& J, auto const& n2){
-            using extents_type_2 = typename std::decay<decltype(n2)>::type;             
+        for_each_tuple(static_extents,[&](auto const& /*J*/, auto const& n2){
+            using extents_type_2 = typename std::decay<decltype(n2)>::type;
             using tensor_type_2 = ublas::static_tensor<value_type, extents_type_2, layout_type>;
+
+            if constexpr(extents_type_2::_size == 0u)
+              return;
+
             auto b  = tensor_type_2(value_type(1));
             auto c  = ublas::outer_prod(a, b);
 
             for(auto const& cc : c)
                 BOOST_CHECK_EQUAL( cc , a[0]*b[0] );
-            
+
         });
 
     });
 
-    for_each_tuple(static_extents,[&](auto const& I, auto const& n1){
+    for_each_tuple(static_extents,[&](auto const& I, auto const& /*n1*/){
         using tensor_type_1 = ublas::dynamic_tensor<value_type, layout_type>;
+
+        if(extents.empty() || std::tuple_size_v<decltype(static_extents)>)
+          return;
+
+        assert(extents.size() > I);
+
         auto a  = tensor_type_1(extents[I], value_type(2));
-        for_each_tuple(static_extents,[&](auto const& J, auto const& n2){
-            using extents_type_2 = typename std::decay<decltype(n2)>::type;             
+        for_each_tuple(static_extents,[&](auto const& /*J*/, auto const& n2){
+            using extents_type_2 = typename std::decay<decltype(n2)>::type;
             using tensor_type_2 = ublas::static_tensor<value_type, extents_type_2, layout_type>;
             auto b  = tensor_type_2(value_type(1));
             auto c  = ublas::outer_prod(a, b);
@@ -380,7 +417,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_outer_prod, value,  test_ty
     });
 
     for_each_tuple(static_extents,[&](auto const&, auto const& n1){
-        using extents_type_1 = typename std::decay<decltype(n1)>::type;             
+        using extents_type_1 = typename std::decay<decltype(n1)>::type;
         using tensor_type_1 = ublas::static_tensor<value_type, extents_type_1, layout_type>;
         auto a  = tensor_type_1(value_type(2));
         for(auto n2 : extents){
@@ -428,9 +465,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_trans, value,  test_types, 
 
         auto pi = std::vector<std::size_t>(p);
         std::iota(pi.begin(), pi.end(), 1);
-        
+
         auto a = ublas::trans( aref, pi );
-        
+
         for(auto i = 0ul; i < a.size(); i++){
             BOOST_CHECK( a[i] == aref[i]  );
         }
