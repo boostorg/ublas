@@ -1,0 +1,28 @@
+name: "Code Format"
+
+on: [push, pull_request]
+
+jobs:
+  format:
+    name: "Code Formatting Check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install clang-format-9"
+        run: |
+          sudo apt-get update
+          sudo apt-get install clang-format-9
+      - name: "Format Codes"
+        run: clang-format-9 -i examples/tensor/*.cpp test/tensor/*.cpp include/boost/numeric/ublas/tensor/*.hpp include/boost/numeric/ublas/tensor/*/*.hpp
+      - name: Check diff
+        run: git diff --exit-code HEAD
+      - name: Create Pull Request
+        if: failure()
+        uses: peter-evans/create-pull-request@v2
+        with:
+          commit-message: "style: Format codes"
+          title: "Automatic Format codes for uBLAS ${{ github.ref }}"
+          labels: "style"
+          assignees: "${{ github.actor }}"
+          reviewers: "${{ github.actor }}"
+          branch: "auto-pr/clang-format/${{ github.ref }}"
