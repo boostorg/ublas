@@ -156,55 +156,18 @@ public:
 
 	/** @brief Constructs a tensor view from a tensor without any range.
 	 *
-	 * @note can be regarded as a pointer to a tensor
+   * @note is similar to a handle to a tensor
 	 */
   explicit
   subtensor (tensor_type const& t)
-    : super_type ()
-    , spans_()
-    , extents_ (t.extents())
-    , strides_ (t.strides())
-    , span_strides_(t.strides())
-    , data_    (t.data())
+    : super_type    ()
+    , spans_        ()
+    , extents_      (t.extents())
+    , strides_      (t.strides())
+    , span_strides_ (t.strides())
+    , data_         (t.data())
   {
   }
-
-#if 0
-	/** @brief Constructs a tensor with a \c shape and initiates it with one-dimensional data
-	 *
-	 * @code tensor<float> A{extents{4,2,3}, array }; @endcode
-	 *
-	 *
-	 *  @param s initial tensor dimension extents
-	 *  @param a container of \c array_type that is copied according to the storage layout
-	 */
-	BOOST_UBLAS_INLINE
-	tensor (extents_type const& s, const array_type &a)
-		: tensor_expression_type<self_type>() //tensor_container<self_type>()
-		, extents_ (s)
-		, strides_ (extents_)
-		, data_    (a)
-	{
-		if(this->extents_.product() != this->data_.size())
-			throw std::runtime_error("Error in boost::numeric::ublas::tensor: size of provided data and specified extents do not match.");
-	}
-
-
-
-	/** @brief Constructs a tensor using a shape tuple and initiates it with a value.
-	 *
-	 *  @code tensor<float> A{extents{4,2,3}, 1 }; @endcode
-	 *
-	 *  @param e initial tensor dimension extents
-	 *  @param i initial value of all elements of type \c value_type
-	 */
-	BOOST_UBLAS_INLINE
-	tensor (extents_type const& e, const value_type &i)
-		: tensor_expression_type<self_type>() //tensor_container<self_type> ()
-		, extents_ (e)
-		, strides_ (extents_)
-		, data_    (extents_.product(), i)
-	{}
 
 
 
@@ -212,14 +175,15 @@ public:
 	 *
 	 *  @param v tensor to be copied.
 	 */
-	BOOST_UBLAS_INLINE
-	tensor (const tensor &v)
-		: tensor_expression_type<self_type>()
-		, extents_ (v.extents_)
-		, strides_ (v.strides_)
-		, data_    (v.data_   )
+  inline
+  subtensor (const subtensor &v)
+    : super_type    ()
+    , spans_        (v.spans_)
+    , extents_      (v.extents_)
+    , strides_      (v.strides_)
+    , span_strides_ (v.span_strides_)
+    , data_         (v.data_)
 	{}
-
 
 
 	/** @brief Constructs a tensor from another tensor
@@ -227,13 +191,16 @@ public:
 	 *  @param v tensor to be moved.
 	 */
 	BOOST_UBLAS_INLINE
-	tensor (tensor &&v)
-		: tensor_expression_type<self_type>() //tensor_container<self_type> ()
-		, extents_ (std::move(v.extents_))
-		, strides_ (std::move(v.strides_))
-		, data_    (std::move(v.data_   ))
+  subtensor (subtensor &&v)
+    : super_type    ()
+    , spans_        (std::move(v.spans_))
+    , extents_      (std::move(v.extents_))
+    , strides_      (std::move(v.strides_))
+    , span_strides_ (std::move(v.span_strides_))
+    , data_         (std::move(v.data_))
 	{}
 
+#if 0
 
 	/** @brief Constructs a tensor with a matrix
 	 *
@@ -415,86 +382,74 @@ public:
 
 
 	/** @brief Returns true if the subtensor is empty (\c size==0) */
-	BOOST_UBLAS_INLINE
-	bool empty () const {
-		return this->size() == size_type(0);
+  inline bool empty () const {
+    return this->size() == 0ul;
 	}
 
 
 	/** @brief Returns the size of the subtensor */
-	BOOST_UBLAS_INLINE
-	size_type size () const {
+  inline size_type size () const {
     return product(this->extents_);
 	}
 
 	/** @brief Returns the size of the subtensor */
-	BOOST_UBLAS_INLINE
-	size_type size (size_type r) const {
+  inline size_type size (size_type r) const {
 		return this->extents_.at(r);
 	}
 
 	/** @brief Returns the number of dimensions/modes of the subtensor */
-	BOOST_UBLAS_INLINE
-	size_type rank () const {
+  inline size_type rank () const {
 		return this->extents_.size();
 	}
 
 	/** @brief Returns the number of dimensions/modes of the subtensor */
-	BOOST_UBLAS_INLINE
-	size_type order () const {
+  inline size_type order () const {
 		return this->extents_.size();
 	}
 
 	/** @brief Returns the strides of the subtensor */
-	BOOST_UBLAS_INLINE
-	auto const& strides () const {
+  inline auto const& strides () const {
 		return this->strides_;
 	}
 
 	/** @brief Returns the span strides of the subtensor */
-	BOOST_UBLAS_INLINE
-	auto const& span_strides () const {
+  inline auto const& span_strides () const {
 		return this->span_strides_;
 	}
 
 	/** @brief Returns the span strides of the subtensor */
-	BOOST_UBLAS_INLINE
-	auto const& spans () const {
+  inline auto const& spans () const {
 		return this->spans_;
 	}
 
 
 	/** @brief Returns the extents of the subtensor */
-	BOOST_UBLAS_INLINE
-	auto const& extents () const {
+  inline auto const& extents () const {
 		return this->extents_;
 	}
 
 
 	/** @brief Returns a \c const reference to the container. */
-	BOOST_UBLAS_INLINE
-	const_pointer data () const {
+  inline const_pointer data () const {
 		return this->data_;
 	}
 
 	/** @brief Returns a \c const reference to the container. */
-	BOOST_UBLAS_INLINE
-	pointer data () {
+  inline pointer data () {
 		return this->data_;
 	}
 
 
 
 
-#if 0
+
 	/** @brief Element access using a single index.
 	 *
 	 *  @code auto a = A[i]; @endcode
 	 *
 	 *  @param i zero-based index where 0 <= i < this->size()
 	 */
-	BOOST_UBLAS_INLINE
-	const_reference operator [] (size_type i) const {
+  inline const_reference operator [] (size_type i) const {
 		return this->data_[i];
 	}
 
@@ -505,13 +460,12 @@ public:
 	 *
 	 *  @param i zero-based index where 0 <= i < this->size()
 	 */
-	BOOST_UBLAS_INLINE
-	reference operator [] (size_type i)
+  inline reference operator [] (size_type i)
 	{
-		return this->data_[i];
+    return this->data_[i];
 	}
 
-
+#if 0
 	/** @brief Element access using a multi-index or single-index.
 	 *
 	 *
