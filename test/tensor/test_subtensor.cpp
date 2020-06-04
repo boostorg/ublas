@@ -21,16 +21,13 @@
 
 
 
-BOOST_AUTO_TEST_SUITE ( subtensor_testsuite/*,
-												*boost::unit_test::depends_on("tensor_testsuite")
-												*boost::unit_test::depends_on("span_testsuite")
-												*boost::unit_test::depends_on("subtensor_utility_testsuite")*/) ;
+BOOST_AUTO_TEST_SUITE ( subtensor_testsuite ) ;
 
 // double,std::complex<float>
 
 
 
-using test_types = zip<int,long,float,double>::with_t<boost::numeric::ublas::tag::first_order, boost::numeric::ublas::tag::last_order>;
+using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::tag::first_order, boost::numeric::ublas::tag::last_order>;
 
 
 
@@ -213,9 +210,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
 
 }
 
-#if 0
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE( subtensor_copy_ctor_test, value,  test_types, fixture_shape )
+
+BOOST_FIXTURE_TEST_CASE_TEMPLATE(subtensor_copy_ctor_test, value,  test_types, fixture_shape )
 {
   namespace ub = boost::numeric::ublas;
   using value_type  = typename value::first_type;
@@ -224,32 +221,55 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( subtensor_copy_ctor_test, value,  test_types, 
   using subtensor_type = ub::subtensor<ub::tag::sliced, tensor_type>;
   using span  = ub::sliced_span;
 
+
+
 	auto check = [](auto const& e)
 	{
-		auto r = tensor_type{e};
-		auto t = r;
-		BOOST_CHECK_EQUAL (  t.size() , r.size() );
-		BOOST_CHECK_EQUAL (  t.rank() , r.rank() );
-		BOOST_CHECK ( t.strides() == r.strides() );
-		BOOST_CHECK ( t.extents() == r.extents() );
+
+    auto A    = tensor_type{e};
+    value_type i{};
+    for(auto & a : A)
+      a = i+=value_type{1};
+
+    auto Asub = subtensor_type( A );
+    auto Bsub = subtensor_type( A );
+
+
+    BOOST_CHECK( Asub.span_strides() == A.strides() );
+    BOOST_CHECK( Asub.strides()      == A.strides() );
+    BOOST_CHECK( Asub.extents()      == A.extents() );
+    BOOST_CHECK( Asub.data()         == A.data() );
+
+    BOOST_CHECK( Bsub.span_strides() == A.strides() );
+    BOOST_CHECK( Bsub.strides()      == A.strides() );
+    BOOST_CHECK( Bsub.extents()      == A.extents() );
+    BOOST_CHECK( Bsub.data()         == A.data()    );
+
+    BOOST_CHECK_EQUAL (  Bsub.size() , A.size() );
+    BOOST_CHECK_EQUAL (  Bsub.rank() , A.rank() );
+
+
 
 		if(e.empty()) {
-			BOOST_CHECK       ( t.empty()    );
-			BOOST_CHECK_EQUAL ( t.data() , nullptr);
+      BOOST_CHECK       ( Bsub.empty()    );
+      BOOST_CHECK_EQUAL ( Bsub.data() , nullptr);
 		}
 		else{
-			BOOST_CHECK       ( !t.empty()    );
-			BOOST_CHECK_NE    (  t.data() , nullptr);
+      BOOST_CHECK       ( !Bsub.empty()    );
+      BOOST_CHECK_NE    (  Bsub.data() , nullptr);
 		}
 
-		for(auto i = 0ul; i < t.size(); ++i)
-			BOOST_CHECK_EQUAL( t[i], r[i]  );
+    for(auto i = 0ul; i < Asub.size(); ++i)
+      BOOST_CHECK_EQUAL( Asub[i], Bsub[i]  );
+
 	};
 
 	for(auto const& e : extents)
 		check(e);
+
 }
 
+#if 0
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor_layout, value,  test_types, fixture_shape )
 {

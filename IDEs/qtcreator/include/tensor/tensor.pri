@@ -42,7 +42,6 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_static_rank.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_dynamic.hpp
 
-
 HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/inner_prod.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/init.hpp \

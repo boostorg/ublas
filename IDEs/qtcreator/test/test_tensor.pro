@@ -37,6 +37,7 @@ HEADERS += \
   $${TEST_DIR}/utility.hpp
 
 SOURCES += \
+  $${TEST_DIR}/test_access.cpp \
   $${TEST_DIR}/test_algorithms.cpp \
   $${TEST_DIR}/test_einstein_notation.cpp \
   $${TEST_DIR}/test_expression.cpp \
