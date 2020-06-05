@@ -1,9 +1,9 @@
 ---
-Checks:                 '-*,modernize-use-nullptr,modernize-use-override,modernize-use-using'
+Checks:                 '-*,modernize-*,performance-*,boost-*'
 WarningsAsErrors:       ''
-HeaderFilterRegex:      'boost\/numeric\/ublas\/.*'
+HeaderFilterRegex:      'boost\/numeric\/ublas\/tensor\/.*'
 AnalyzeTemporaryDtors:  false
-FormatStyle:            Google
+FormatStyle:            file
 User:                   ublas-developers
 CheckOptions:
   - key:                modernize-use-nullptr.NullMacros
