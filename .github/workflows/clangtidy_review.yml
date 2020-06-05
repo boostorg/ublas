@@ -1,3 +1,13 @@
 name: Clang Tidy Code Review
 
 on: [pull_request]
+
+jobs:
+  review:
+    name: Code review by Clang Tidy
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: clang-tidy review
+      - uses: ZedThree/clang-tidy-review@v0.2.0
