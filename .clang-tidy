@@ -1,0 +1,11 @@
+---
+Checks:                 '-*,modernize-use-nullptr,modernize-use-override,modernize-use-using'
+WarningsAsErrors:       ''
+HeaderFilterRegex:      'boost\/numeric\/ublas\/.*'
+AnalyzeTemporaryDtors:  false
+FormatStyle:            Google
+User:                   ublas-developers
+CheckOptions:
+  - key:                modernize-use-nullptr.NullMacros
+    value:              'NULL'
+...
