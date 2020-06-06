@@ -19,7 +19,7 @@ jobs:
           clang-tidy-9 examples/tensor/*.cpp -- -Iinclude -std=c++17 > reports.txt
 
       - name: "Show clang tidy report"
-        if: failure()  
+        if: always()  
         run: |
           cat reports.txt
 
