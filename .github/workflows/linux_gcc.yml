@@ -134,7 +134,7 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test toolset=gcc address-sanitizer=norecover undefined-sanitizer=on cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Report Code coverage
         if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
