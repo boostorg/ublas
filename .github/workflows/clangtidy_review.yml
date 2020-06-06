@@ -8,6 +8,22 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         
-      - name: clang-tidy review
-      - uses: ZedThree/clang-tidy-review@v0.2.0
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-9 clang-tidy-9 libboost-all-dev
+          pip3 install 'unidiff~=0.6.0' --force-reinstall
+          pip3 install 'PyGithub~=1.51' --force-reinstall
+          pip3 install 'requests~=2.23' --force-reinstall
+
+      - name: "Perform code review"
+        run: |
+          python3 .ci/clang-tidy-review.py --repo ${{ github.repository }} --pr ${{ github.event.pull_request.number }} --clang_tidy_binary clang-tidy-9 --token ${{ github.token }} --include "include/boost/numeric/ublas/tensor/*.hpp,include/boost/numeric/ublas/tensor/*/*.hpp,example/tensor/*.cpp"
+      #- name: "Run clang-tidy check"
+      #  run: |
+      #    clang-tidy-9 examples/tensor/*.cpp -- -Iinclude -std=c++17
+
