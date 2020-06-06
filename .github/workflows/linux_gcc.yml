@@ -111,7 +111,7 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc address_sanitizer=norecover undefined_sanitizer=on cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test Tensor
         if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
@@ -119,7 +119,7 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc address_sanitizer=norecover undefined_sanitizer=on cxxstd=${{matrix.config.cxxstd}}
 
       - name: Test openCL
         if: matrix.config.cxxstd == '21'
@@ -128,13 +128,13 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc address_sanitizer=norecover undefined_sanitizer=on cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test uBLAS
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test toolset=gcc cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test toolset=gcc address_sanitizer=norecover undefined_sanitizer=on cxxstd=${{matrix.config.cxxstd}}
         
       - name: Report Code coverage
         if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
