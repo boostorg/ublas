@@ -1,0 +1,24 @@
+name: Clang tidy checks
+
+on: [push]
+
+jobs:
+  check:
+    name: Clang tidy Check 
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-9 clang-tidy-9 libboost-all-dev
+
+      - name: "Run clang-tidy check"
+        run: |
+          clang-tidy-9 examples/tensor/*.cpp -- -Iinclude -std=c++17 > reports.txt
+
+      - name: "Show clang tidy report"
+        run: |
+          cat reports.txt
+
