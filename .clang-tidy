@@ -1,6 +1,6 @@
 ---
 Checks:                 '-*,modernize-*,performance-*,boost-*'
-WarningsAsErrors:       ''
+WarningsAsErrors:       '-*,modernize-*,performance-*,boost-*'
 HeaderFilterRegex:      'boost\/numeric\/ublas\/tensor\/.*'
 AnalyzeTemporaryDtors:  false
 FormatStyle:            file
