@@ -9,7 +9,7 @@ jobs:
        fail-fast: false
        matrix:
          config: 
-           - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11, env: "C:/Program Files (x86)/Microsoft Visual Studio/2016/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
+           - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11, env: "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
            #- {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 17, env: "C:/Program Files (x86)/Microsoft Visual Studio/2016/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
            - {os: windows-2019, toolset: msvc, version: 14.25, cxxstd: 11, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
            - {os: windows-2019, toolset: msvc, version: 14.25, cxxstd: 17, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
