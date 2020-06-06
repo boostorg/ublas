@@ -26,7 +26,7 @@ jobs:
       - name: "Load Visual Studio Environment"
         shell: cmd
         run: |
-         ${{ matrix.config.env }} 
+         "${{ matrix.config.env }}" 
         
       - name: Setup openCL
         if: matrix.config.version == '1'
