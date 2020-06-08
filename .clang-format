@@ -3,69 +3,258 @@ Language:        Cpp
 # BasedOnStyle:  Microsoft
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
-AlignConsecutiveMacros: false
-AlignConsecutiveAssignments: false
+# someLongFunction(argument1,
+#                  argument2);
+#
+AlignConsecutiveMacros: true
+# #define SHORT_NAME       42
+# #define LONGER_NAME      0x007f
+# #define EVEN_LONGER_NAME (2)
+#
+AlignConsecutiveAssignments: true
+# int aaaa = 12;
+# int b    = 23;
+# int ccc  = 23;
+#
 AlignConsecutiveDeclarations: false
-AlignEscapedNewlines: Right
+#
+AlignEscapedNewlines: Left
+# #define A   \
+#   int aaaa; \
+#   int b;    \
+#   int dddddddddd;
+#  
 AlignOperands:   true
+# int aaa = bbbbbbbbbbbbbbb +
+#           ccccccccccccccc;
+#          
 AlignTrailingComments: true
+# int a;     // My comment a
+# int b = 2; // comment  b
+#
 AllowAllArgumentsOnNextLine: true
+# callFunction(
+#    a, b, c, d);
+#
 AllowAllConstructorInitializersOnNextLine: true
+# MyClass::MyClass() :
+#    member0(0),
+#    member1(2) {}
+#
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortBlocksOnASingleLine: false
+# void myFunction(
+#     int a, int b, int c, int d, int e);
+#
+AllowShortBlocksOnASingleLine: true
+# if (a) { return; }
+#
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
+# switch (a) {
+# case 1: x = 1; break;
+# case 2: return;
+# }  
+# 
+AllowShortFunctionsOnASingleLine: All
+# class Foo {
+#   void f() { foo(); }
+# };
+# void f() { bar(); }
+#
 AllowShortLambdasOnASingleLine: All
-AllowShortIfStatementsOnASingleLine: Never
-AllowShortLoopsOnASingleLine: false
-AlwaysBreakAfterDefinitionReturnType: None
+# auto lambda = [](int a) {}
+# auto lambda2 = [](int a) { return a; };
+#
+# Not found in clang 9.0.0
+# AllowShortIfStatementsOnASingleLine: All 
+#
+AllowShortLoopsOnASingleLine: true
+# while (true) continue;
+#
+# Depcrated according to clang 9.0.0
+# AlwaysBreakAfterDefinitionReturnType: None
+#
 AlwaysBreakAfterReturnType: None
-AlwaysBreakBeforeMultilineStrings: false
+# class A {
+#   int f() { return 0; };
+# };
+# int f();
+# int f() { return 1; }
+# 
+AlwaysBreakBeforeMultilineStrings: true
+# aaaa =
+#     "bbbb"
+#     "cccc";
+#
 AlwaysBreakTemplateDeclarations: MultiLine
-BinPackArguments: true
-BinPackParameters: true
+# template <typename T> T foo() {
+# }
+# template <typename T>
+# T foo(int aaaaaaaaaaaaaaaaaaaaa,
+#       int bbbbbbbbbbbbbbbbbbbbb) {
+# }
+#
+BinPackArguments: false
+# void f() {
+#   f(aaaaaaaaaaaaaaaaaaaa,
+#     aaaaaaaaaaaaaaaaaaaa,
+#     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa);
+# }
+#
+BinPackParameters: false
+# void f(int aaaaaaaaaaaaaaaaaaaa,
+#        int aaaaaaaaaaaaaaaaaaaa,
+#        int aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa) {}
+# 
 BraceWrapping:
   AfterCaseLabel:  false
-  AfterClass:      true
-  AfterControlStatement: true
-  AfterEnum:       true
+  AfterClass:      false
+# class foo
+# {
+#   int x;
+# };
+  AfterControlStatement: false
+# if (foo()) {
+# } else {
+# }
+# for (int i = 0; i < 10; ++i) {
+#}
+  AfterEnum:       false
+# enum X : int { B };
   AfterFunction:   true
+# void foo()
+# {
+#   bar();
+#   bar2();
+# }
   AfterNamespace:  true
+# namespace
+# {
+# int foo();
+# int bar();
+# }
   AfterObjCDeclaration: true
   AfterStruct:     true
-  AfterUnion:      false
+# struct foo
+# {
+#   int x;
+# };
+  AfterUnion:      true
+# union foo
+# {
+#   int x;
+# }
   AfterExternBlock: true
+# extern "C"
+# {
+#   int foo();
+# }
   BeforeCatch:     true
+# try {
+#   foo();
+# }
+# catch () {
+# }
   BeforeElse:      true
+# if (foo()) {
+# }
+# else {
+# }
   IndentBraces:    false
-  SplitEmptyFunction: true
-  SplitEmptyRecord: true
-  SplitEmptyNamespace: true
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
 BreakBeforeBinaryOperators: None
-BreakBeforeBraces: Custom
-BreakBeforeInheritanceComma: false
-BreakInheritanceList: BeforeColon
+# LooooooooooongType loooooooooooooooooooooongVariable =
+#     someLooooooooooooooooongFunction();
+# 
+# bool value = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa +
+#                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ==
+#                  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa &&
+#              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa >
+#                  ccccccccccccccccccccccccccccccccccccccccc;
+# 
+BreakBeforeBraces: Stroustrup
+# try {
+#   foo();
+# }
+# catch () {
+# }
+# void foo() { bar(); }
+# class foo {
+# };
+# if (foo()) {
+# }
+# else {
+# }
+#
+# enum X : int { A, B };
+#
+# Not found in clang 9.0.0 
+# BreakBeforeInheritanceComma: false
+BreakInheritanceList: BeforeComma
+# class Foo
+#     : Base1
+#     , Base2
+# {};
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializersBeforeComma: false
-BreakConstructorInitializers: BeforeColon
-BreakAfterJavaFieldAnnotations: false
+# veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongDescription
+#     ? firstValue
+#     : SecondValueVeryVeryVeryVeryLong;
+#
+# Not found in clang 9.0.0
+# BreakConstructorInitializersBeforeComma: false
+BreakConstructorInitializers: BeforeComma
+# Constructor()
+#     : initializer1()
+#     , initializer2()
+#
+# Not found in clang 9.0.0
+# BreakAfterJavaFieldAnnotations: false
+#
 BreakStringLiterals: true
-ColumnLimit:     120
+ColumnLimit: 80
+# the column limit is based on GNU, Google and Mozilla coding style
+# for 1080p two split windows can be shown side by side with font size 10
+#
 CommentPragmas:  '^ IWYU pragma:'
 CompactNamespaces: false
+# namespace Foo {
+# namespace Bar {
+# }
+# }
+# 
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
-ConstructorInitializerIndentWidth: 4
-ContinuationIndentWidth: 4
+# SomeClass::Constructor()
+#     : aaaaaaaa(aaaaaaaa), aaaaaaaa(aaaaaaaa),
+#       aaaaaaaa(aaaaaaaaaaaaaaaaaaaaaaaaa) {
+#   return 0;
+# }
+#
+ConstructorInitializerIndentWidth: 2
+ContinuationIndentWidth: 2
+# int i =         //  VeryVeryVeryVeryVeryLongComment
+#   longFunction( // Again a long comment
+#     arg);
+# 
 Cpp11BracedListStyle: true
 DerivePointerAlignment: false
-DisableFormat:   false
+DisableFormat: false
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
+# namespace a {
+# foo();
+# } // namespace a 
+#
 ForEachMacros:
   - foreach
   - Q_FOREACH
   - BOOST_FOREACH
-IncludeBlocks:   Preserve
+IncludeBlocks:   Regroup
+# #include "b.h"               into      #include "a.h"
+#                                        #include "b.h"
+# #include <lib/main.h>
+# #include "a.h"                         #include <lib/main.h>
+# 
 IncludeCategories:
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
     Priority:        2
@@ -76,15 +265,36 @@ IncludeCategories:
 IncludeIsMainRegex: '(Test)?$'
 IndentCaseLabels: false
 IndentPPDirectives: None
-IndentWidth:     4
+# #if FOO
+# #if BAR
+# #include <foo>
+# #endif
+# #endif
+# 
+IndentWidth: 2
 IndentWrappedFunctionNames: false
+# LoooooooooooooooooooooooooooooooooooooooongReturnType
+# LoooooooooooooooooooooooooooooooongFunctionDeclaration();
 JavaScriptQuotes: Leave
 JavaScriptWrapImports: true
-KeepEmptyLinesAtTheStartOfBlocks: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+# if (foo) {
+#   bar();
+# }
+#
 MacroBlockBegin: ''
 MacroBlockEnd:   ''
-MaxEmptyLinesToKeep: 1
+MaxEmptyLinesToKeep: 0
+# Zero of consecutive empty lines to keep.
+# 
 NamespaceIndentation: None
+# namespace out {
+# int i;
+# namespace in {
+# int i;
+# }
+# }
+# 
 ObjCBinPackProtocolList: Auto
 ObjCBlockIndentWidth: 2
 ObjCSpaceAfterProperty: false
@@ -97,31 +307,88 @@ PenaltyBreakString: 1000
 PenaltyBreakTemplateDeclaration: 10
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 1000
-PointerAlignment: Right
+PointerAlignment: Left
+# int* a;
+#
 ReflowComments:  true
-SortIncludes:    true
-SortUsingDeclarations: true
+# // veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongComment with plenty of
+# // information
+# /* second veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongComment with plenty of
+#  * information */
+#
+SortIncludes: false
+# #include "b.h"
+# #include "a.h"
+#
+SortUsingDeclarations: false
+# using std::cout; 
+# using std::cin;
+#
 SpaceAfterCStyleCast: false
+# (int)i;
+#
 SpaceAfterLogicalNot: false
+# !someExpression();
+#
 SpaceAfterTemplateKeyword: true
+# template <int> void foo();
+#
 SpaceBeforeAssignmentOperators: true
+# int a = 5; 
+# a += 42;
+#
 SpaceBeforeCpp11BracedList: false
+# Foo foo{ bar };
+# Foo{};
+# vector<int>{ 1, 2, 3 };
+# new int[3]{ 1, 2, 3 };
+#
 SpaceBeforeCtorInitializerColon: true
+# Foo::Foo() : a(a) {}
+#
 SpaceBeforeInheritanceColon: true
+# class Foo : Bar {}  
+#
 SpaceBeforeParens: ControlStatements
-SpaceBeforeRangeBasedForLoopColon: true
+# void f() {
+#  if (true) {
+#    f();
+#  }
+# }
+#
+SpaceBeforeRangeBasedForLoopColon: false
+# for(auto v: values) {}
+#
 SpaceInEmptyParentheses: false
-SpacesBeforeTrailingComments: 1
+SpacesBeforeTrailingComments: 3
+# void f() {
+#   if (true) {   // foo1
+#     f();        // bar
+#   }             // foo
+# }
+# 
 SpacesInAngles:  false
-SpacesInContainerLiterals: true
+# static_cast<int>(arg);
+# std::function<void(int)> fct;
+#
+SpacesInContainerLiterals: false
+# var arr = [1, 2, 3];
+# f({a: 1, b: 2, c: 3});
 SpacesInCStyleCastParentheses: false
+# x = (int32)y
+# 
 SpacesInParentheses: false
+# t f(Deleted &) & = delete;
+# 
 SpacesInSquareBrackets: false
-Standard:        Cpp11
+# int a[5];
+#
+Standard: Latest
+# Cpp11, Cpp14, Cpp1z or (newer styles Cpp17 and Cpp20)
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
-TabWidth:        4
+TabWidth:        2
 UseTab:          Never
 ...
 
