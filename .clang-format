@@ -383,7 +383,7 @@ SpacesInParentheses: false
 SpacesInSquareBrackets: false
 # int a[5];
 #
-Standard: Latest
+Standard: Cpp1z
 # Cpp11, Cpp14, Cpp1z or (newer styles Cpp17 and Cpp20)
 StatementMacros:
   - Q_UNUSED
