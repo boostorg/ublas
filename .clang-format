@@ -284,7 +284,7 @@ KeepEmptyLinesAtTheStartOfBlocks: false
 #
 MacroBlockBegin: ''
 MacroBlockEnd:   ''
-MaxEmptyLinesToKeep: 0
+MaxEmptyLinesToKeep: 2
 # Zero of consecutive empty lines to keep.
 # 
 NamespaceIndentation: None
