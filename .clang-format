@@ -383,8 +383,8 @@ SpacesInParentheses: false
 SpacesInSquareBrackets: false
 # int a[5];
 #
-Standard: Cpp1z
-# Cpp11, Cpp14, Cpp1z or (newer styles Cpp17 and Cpp20)
+Standard: Cpp11
+# In Clang 10.0.0:  Cpp11, Cpp14, Cpp17 and Cpp20
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
