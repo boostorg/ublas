@@ -1,6 +1,6 @@
 ---
-Checks:                 '-*,modernize-*,performance-*,boost-*'
-WarningsAsErrors:       '-*,modernize-*,performance-*,boost-*'
+Checks:                 '-*,modernize-*,performance-*,cppcoreguidelines-*,openmp-*,performance-*,portability-*,readability-*'
+WarningsAsErrors:       '-*'
 HeaderFilterRegex:      'boost\/numeric\/ublas\/tensor\/.*'
 AnalyzeTemporaryDtors:  false
 FormatStyle:            file
