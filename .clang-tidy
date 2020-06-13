@@ -1,5 +1,5 @@
 ---
-Checks:                 '-*,modernize-*,performance-*,cppcoreguidelines-*,openmp-*,performance-*,portability-*,readability-*'
+Checks:                 '-*,modernize-*,performance-*,cppcoreguidelines-*,openmp-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type'
 WarningsAsErrors:       '-*'
 HeaderFilterRegex:      'boost\/numeric\/ublas\/tensor\/.*'
 AnalyzeTemporaryDtors:  false
