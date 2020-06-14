@@ -83,13 +83,13 @@ jobs:
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g -fsanitize=memory -fno-omit-frame-pointer" linkflags="-fsanitize=memory"
+        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g -fsanitize=memory -fno-omit-frame-pointer" linkflags="-fsanitize=memory -stdlib=libc++"
         
     - name: Test Tensor
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g -fsanitize=memory -fno-omit-frame-pointer" linkflags="-fsanitize=memory"
+        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g -fsanitize=memory -fno-omit-frame-pointer" linkflags="-fsanitize=memory -stdlib=libc++"
         
     - name: Test uBLAS
       run: |
