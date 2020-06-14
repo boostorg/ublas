@@ -97,7 +97,6 @@ jobs:
           
       - name: Test Tensor Examples
         shell: cmd
-        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == 'latest'
         run: |
           cd %BOOST_ROOT%
           cd libs\numeric\ublas
@@ -105,7 +104,6 @@ jobs:
           
       - name: Test Tensor
         shell: cmd
-        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == 'latest'
         run: |
           cd %BOOST_ROOT%
           cd libs\numeric\ublas

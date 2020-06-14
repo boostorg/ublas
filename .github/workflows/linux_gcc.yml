@@ -107,19 +107,16 @@ jobs:
          $BOOST_ROOT/b2 -j 4 benchmarks toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test Tensor Examples
-        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc address-sanitizer=norecover undefined-sanitizer=on cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-fsanitize=address,undefined -fno-omit-frame-pointer" linkflags="-fsanitize=address,undefined"
         
       - name: Test Tensor
-        if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
-        # Tensor only works under C++17 Standards, So run these tests only for C++17 
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc address-sanitizer=norecover undefined-sanitizer=on cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g --coverage -fsanitize=address,undefined -fno-omit-frame-pointer" linkflags="--coverage -fsanitize=address,undefined"
 
       - name: Test openCL
         if: matrix.config.cxxstd == '21'
@@ -128,7 +125,7 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc address-sanitizer=norecover undefined-sanitizer=on cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test uBLAS
         run: |

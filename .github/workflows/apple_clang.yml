@@ -49,6 +49,7 @@ jobs:
         
         cp ${GITHUB_WORKSPACE}/opencl.jam ~/
         cp ${GITHUB_WORKSPACE}/clblas.jam ~/
+
     - name: Test Benchmarks
       run: |
         cd $BOOST_ROOT
@@ -56,14 +57,12 @@ jobs:
         $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.cxxstd}}
         
     - name: Test Tensor Examples
-      if: matrix.cxxstd == '17' || matrix.cxxstd == '2a'
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
         
     - name: Test Tensor
-      if: matrix.cxxstd == '17' || matrix.cxxstd == '2a'
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas

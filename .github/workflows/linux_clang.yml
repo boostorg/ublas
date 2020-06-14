@@ -80,18 +80,16 @@ jobs:
         $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.config.cxxstd}}
         
     - name: Test Tensor Examples
-      if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang leak-sanitizer=norecover cxxstd=${{matrix.config.cxxstd}}
+        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g -fsanitize=memory -fno-omit-frame-pointer" linkflags="-fsanitize=memory"
         
     - name: Test Tensor
-      if: matrix.config.cxxstd == '17' || matrix.config.cxxstd == '2a'
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang leak-sanitizer=norecover cxxstd=${{matrix.config.cxxstd}}
+        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g -fsanitize=memory -fno-omit-frame-pointer" linkflags="-fsanitize=memory"
         
     - name: Test uBLAS
       run: |

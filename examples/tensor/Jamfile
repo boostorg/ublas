@@ -14,8 +14,8 @@ project boost-ublas-tensor-example
        <cxxstd>11:<build>no
        <define>BOOST_UBLAS_NO_EXCEPTIONS
        <toolset>vacpp:<define>"BOOST_UBLAS_NO_ELEMENT_PROXIES"
-       <toolset>gcc:<cxxflags>"-Wall -pedantic -Wextra -std=c++17"
-       <toolset>gcc:<cxxflags>"-Wno-unknown-pragmas"
+       <toolset>gcc:<cxxflags>"-Wall -pedantic -Wextra -Wno-unknown-pragmas"
+       <toolset>clang:<cxxflags>"-Wall -pedantic -Wextra -Wno-unknown-pragmas"
        <toolset>msvc:<cxxflags>"/W4" # == all
     ;
 
