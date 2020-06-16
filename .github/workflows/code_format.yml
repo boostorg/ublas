@@ -8,12 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: "Install clang-format-9"
+      - name: Install Clang Format 10
         run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo apt-get update
-          sudo apt-get install clang-format-9
+          sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main"
+          sudo apt-get install -y clang-format-10
       - name: "Format Codes"
-        run: clang-format-9 -i examples/tensor/*.cpp test/tensor/*.cpp include/boost/numeric/ublas/tensor/*.hpp include/boost/numeric/ublas/tensor/*/*.hpp
+        run: clang-format-10 -i examples/tensor/*.cpp test/tensor/*.cpp include/boost/numeric/ublas/tensor/*.hpp include/boost/numeric/ublas/tensor/*/*.hpp
       - name: Check diff
         run: git diff --exit-code HEAD
      # - name: Create Pull Request
