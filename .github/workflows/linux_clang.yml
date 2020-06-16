@@ -6,7 +6,7 @@ on: [push, pull_request]
 jobs:
   build:
     name: "${{matrix.config.cxx}} -std=c++${{matrix.config.cxxstd}}"
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
@@ -29,9 +29,7 @@ jobs:
     - name: Install Clang 10
       if: matrix.config.cxx == 'clang++-10'
       run: |
-        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         sudo apt-get update
-        sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main"
         sudo apt-get install -y clang-10
       
     - name: Set Environment Variables
