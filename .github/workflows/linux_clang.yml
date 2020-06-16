@@ -80,17 +80,20 @@ jobs:
         $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.config.cxxstd}}
         
     - name: Test Tensor Examples
+      # To use sanitizers, use this line to invoke B2 instead of the below line 
+      # $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O2 -g -fsanitize=thread" linkflags="-fsanitize=thread" 
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O2 -g -fsanitize=thread" linkflags="-fsanitize=thread" 
+        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} 
         
     - name: Test Tensor
+      # To use thread sanitizers, use this line to invoke B2 instead of the below line 
+      # $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O2 -g -fsanitize=thread" linkflags="-fsanitize=thread"
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O2 -g -fsanitize=thread" linkflags="-fsanitize=thread"
-        
+        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}}
     - name: Test uBLAS
       run: |
         cd $BOOST_ROOT
