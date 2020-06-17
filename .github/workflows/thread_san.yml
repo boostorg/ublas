@@ -60,16 +60,16 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 benchmarks toolset=gcc cxxstd=${{matrix.config.cxxstd}} 
+         $BOOST_ROOT/b2 -j 4 benchmarks toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} 
         
       - name: Test Tensor Examples
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
+         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
         
       - name: Test Tensor
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
+         $BOOST_ROOT/b2 -j 4 test/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
