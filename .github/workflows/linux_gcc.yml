@@ -1,4 +1,4 @@
-name: Linux GCC
+name: Linux GCC Debug
 # Trigger on Push to the repository, regardless of the branch.
 # For fine tune, You can add specific branches or tags.
 on: [push, pull_request]
@@ -109,13 +109,13 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-fsanitize=address,undefined -fno-omit-frame-pointer" linkflags="-fsanitize=address,undefined"
+         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0" 
         
       - name: Test Tensor
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g --coverage -fsanitize=address,undefined -fno-omit-frame-pointer" linkflags="--coverage -fsanitize=address,undefined"
+         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0" 
 
       - name: Test openCL
         if: matrix.config.cxxstd == '21'
@@ -124,13 +124,13 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0"
         
       - name: Test uBLAS
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test toolset=gcc cxxstd=${{matrix.config.cxxstd}}
+         $BOOST_ROOT/b2 -j 4 test toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0"
         
       - name: Report Code coverage
         if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'

@@ -1,4 +1,4 @@
-name: Linux Clang
+name: Linux Clang Release
 # Trigger on Push to the repository, regardless of the branch.
 # For fine tune, You can add specific branches or tags.
 on: [push, pull_request]
@@ -75,7 +75,7 @@ jobs:
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.config.cxxstd}}
+        $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"
         
     - name: Test Tensor Examples
       # To use sanitizers, use this line to invoke B2 instead of the below line 
@@ -83,7 +83,7 @@ jobs:
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} 
+        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3" 
         
     - name: Test Tensor
       # To use thread sanitizers, use this line to invoke B2 instead of the below line 
@@ -91,9 +91,9 @@ jobs:
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}}
+        $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"
     - name: Test uBLAS
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 test toolset=clang cxxstd=${{matrix.config.cxxstd}}
+        $BOOST_ROOT/b2 -j 4 test toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"
