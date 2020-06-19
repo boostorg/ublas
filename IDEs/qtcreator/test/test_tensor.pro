@@ -5,6 +5,8 @@ CONFIG += staticlib depend_includepath console
 CONFIG -= qt
 CONFIG += c++20
 
+CONFIG += c++17
+
 #QMAKE_CXXFLAGS += -fno-inline
 QMAKE_CXXFLAGS  =-std=c++20
 QMAKE_CXXFLAGS +=-Wall -Wpedantic -Wextra
@@ -32,6 +34,9 @@ INCLUDE_DIR=$${BOOST_ROOT}/libs/numeric/ublas/include
 TEST_DIR = ../../../test/tensor
 
 include(../include/tensor/tensor.pri)
+
+HEADERS += \
+  $${TEST_DIR}/utility.hpp
 
 HEADERS += \
   $${TEST_DIR}/utility.hpp
