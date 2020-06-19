@@ -142,7 +142,7 @@ BOOST_FIXTURE_TEST_CASE( transform_strided_span_test, fixture_strided_span )
 struct fixture_shape {
     using shape = boost::numeric::ublas::basic_extents<std::size_t>;
 
-	fixture_shape() : extents{
+  fixture_shape() : extents{
 				shape{},    // 0
 				shape{1,1}, // 1
 				shape{1,2}, // 2
@@ -153,15 +153,15 @@ struct fixture_shape {
 				shape{1,2,3}, // 7
 				shape{4,2,3}, // 8
 				shape{4,2,3,5} // 9
-				}
+        }
 	{}
-	std::vector<shape> extents;
+  std::vector<shape> extents;
 };
 
 BOOST_FIXTURE_TEST_CASE( generate_span_array_test, fixture_shape )
 {
 	using namespace boost::numeric::ublas;
-	using span = sliced_span;
+  using span = sliced_span;
 
 	// shape{}
 	{

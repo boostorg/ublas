@@ -5,6 +5,8 @@ CONFIG += staticlib depend_includepath console
 CONFIG -= qt
 CONFIG += c++20
 
+CONFIG += c++17
+
 #QMAKE_CXXFLAGS += -fno-inline
 QMAKE_CXXFLAGS  =-std=c++20
 QMAKE_CXXFLAGS +=-Wall -Wpedantic -Wextra
@@ -38,6 +40,6 @@ HEADERS += $${TEST_DIR}/utility.hpp
 SOURCES += $${TEST_DIR}/algorithm/test_*.cpp
 SOURCES += $${TEST_DIR}/extents/test_*.cpp
 SOURCES += $${TEST_DIR}/functions/test_*.cpp
-SOURCES += $${TEST_DIR}/multiplicatoin/test_*.cpp
+SOURCES += $${TEST_DIR}/multiplication/test_*.cpp
 SOURCES += $${TEST_DIR}/tensor/test_*.cpp
 SOURCES += $${TEST_DIR}/test_*.cpp
