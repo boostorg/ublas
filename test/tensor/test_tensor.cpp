@@ -13,7 +13,7 @@
 
 
 #include <random>
-#include <boost/numeric/ublas/tensor/dynamic_tensor.hpp> 
+#include <boost/numeric/ublas/tensor.hpp>
 
 #ifndef BOOST_TEST_DYN_LINK
 #define BOOST_TEST_DYN_LINK 
@@ -486,7 +486,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_throw, value, test_types, fixture)
 
   auto t = tensor_type{{5,5}};
   auto i = ublas::index::index_type<4>{};
-  BOOST_CHECK_THROW(t.operator()(i,i,i), std::runtime_error);
+  BOOST_CHECK_THROW((void)t.operator()(i,i,i), std::runtime_error);
 
 }
 

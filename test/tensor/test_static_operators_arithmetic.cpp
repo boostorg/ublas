@@ -83,7 +83,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
             BOOST_CHECK_EQUAL ( r(i), 4 );
 
 
-        r = tensor_type (1) + tensor_type (1);
+        r = tensor_type (e,1) + tensor_type (e,1);
 
         for(auto i = 0ul; i < r.size(); ++i)
             BOOST_CHECK_EQUAL ( r(i), 2 );
