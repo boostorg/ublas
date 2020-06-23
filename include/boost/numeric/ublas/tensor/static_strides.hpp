@@ -205,14 +205,14 @@ struct basic_static_strides<basic_static_extents<T,Extents...>, Layout>
   }
 
   [[nodiscard]] inline 
-  constexpr const_reference operator[](size_type k) const noexcept { return m_data[k]; }
+  constexpr const_reference operator[](size_type k) const { return m_data[k]; }
 
   //@returns the rank of basic_static_extents
   [[nodiscard]] inline 
   constexpr size_type size() const noexcept { return static_cast<size_type>(_size); }
 
   [[nodiscard]] inline
-  constexpr const_reference back () const noexcept{
+  constexpr const_reference back () const{
       return m_data.back();
   }
 
