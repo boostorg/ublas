@@ -56,12 +56,17 @@ struct basic_static_extents{
   }
 
   [[nodiscard]] inline
-  constexpr const_reference operator[](size_type k) const noexcept{ 
+  constexpr const_reference operator[](size_type k) const{ 
     return m_data[k]; 
   }
 
-  // default constructor
   constexpr basic_static_extents() = default;
+
+  constexpr basic_static_extents(basic_static_extents const&) = default;
+  constexpr basic_static_extents(basic_static_extents &&) = default;
+  
+  constexpr basic_static_extents& operator=(basic_static_extents const&) = default;
+  constexpr basic_static_extents& operator=(basic_static_extents &&) = default;
 
   /** @brief Returns ref to the std::array containing extents */
   [[nodiscard]] inline
@@ -84,7 +89,7 @@ struct basic_static_extents{
   constexpr bool empty() const noexcept { return m_data.empty(); }
 
   [[nodiscard]] inline
-  constexpr const_reference back() const noexcept{
+  constexpr const_reference back() const{
     return m_data.back();
   }
 
@@ -105,6 +110,7 @@ private:
   static constexpr base_type const m_data{E...};
 };
 
+
 template<std::size_t... E>
 using static_extents = basic_static_extents<std::size_t,E...>;
 
@@ -114,20 +120,15 @@ template<typename T> struct static_product;
 template<typename T> 
 inline static constexpr auto const static_product_v = static_product<T>::value;
 
-template<typename ExtentsType, ExtentsType E0, ExtentsType... E>
-struct static_product< basic_static_extents<ExtentsType, E0, E...> >{
-  static constexpr auto const value = E0 * static_product_v< basic_static_extents<ExtentsType, E...> >;
-};
-
-template<typename ExtentsType, ExtentsType E0>
-struct static_product< basic_static_extents<ExtentsType, E0> >{
-  static constexpr auto const value = E0 ;
-};
+template<typename ExtentsType, ExtentsType... Es>
+struct static_product< basic_static_extents<ExtentsType, Es...> >
+  : std::integral_constant< ExtentsType, (... * Es) >
+{};
 
 template<typename ExtentsType>
-struct static_product< basic_static_extents<ExtentsType> >{
-  static constexpr auto const value = ExtentsType(0) ;
-};
+struct static_product< basic_static_extents<ExtentsType> >
+  : std::integral_constant< ExtentsType, ExtentsType(0) >
+{};
 
 } // namespace boost::numeric::ublas
 #endif
