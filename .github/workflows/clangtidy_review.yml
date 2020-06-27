@@ -1,10 +1,10 @@
-name: Clang tidy checks
+name: Clang tidy Review
 
-on: [push]
+on: [pull_request]
 
 jobs:
   check:
-    name: Clang tidy Check 
+    name: Clang tidy Review 
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -22,12 +22,19 @@ jobs:
           ./b2 headers
           sudo cp -r -L boost /usr/include
           rm -rf boost
-      
+
+      - uses: actions/setup-python@v2
+
       - name: "Run clang-tidy check"
         run: |
           clang-tidy-10 examples/tensor/*.cpp -- -Iinclude -std=c++17 > reports.txt
 
-      - name: "Show clang tidy report"
-        if: always()  
+      - name: "Post review comments"
+        if: always()
         run: |
-          cat reports.txt
+          pip3 install 'unidiff~=0.6.0' --force-reinstall
+          pip3 install 'PyGithub~=1.51' --force-reinstall
+          pip3 install 'requests~=2.23' --force-reinstall
+
+          python ./.ci/post_review.py --repository ${{ github.repository }} --token ${{ github.token}} --pr ${{ github.event.pull_request.number }} --path reports.txt
+
