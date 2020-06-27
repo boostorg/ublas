@@ -33,7 +33,7 @@ Distributed under the [Boost Software License, Version 1.0](http://www.boost.org
 |      Operating System       |      Compiler       |  [`master`](https://github.com/boostorg/ublas/tree/master)   | [`develop`](https://github.com/boostorg/ublas/tree/develop)  | [`github-actions`](https://github.com/BoostGSoC20/ublas/tree/github-actions) |
 | :-------------------------: | :-----------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | Linux (Ubuntu 20.04 x86_64) |  gcc-{7, 8, 9, 10}  | [![Linux GCC Debug](https://github.com/BoostGSoC20/ublas/workflows/Linux%20GCC%20Debug/badge.svg?branch=master)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Linux+GCC%22+branch%3Amaster) | [![Linux GCC Debug](https://github.com/BoostGSoC20/ublas/workflows/Linux%20GCC%20Debug/badge.svg?branch=develop)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Linux+GCC%22+branch%3Adevelop) | [![Linux GCC](https://github.com/BoostGSoC20/ublas/workflows/Linux%20GCC%20Debug/badge.svg?branch=github-actions)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Linux+GCC+Debug%22+branch%3Agithub-actions) |
-| Linux (Ubuntu 20.04 x86_64) | clang-{6, 8, 9, 10} | [![Linux Clang Release](https://github.com/BoostGSoC20/ublas/workflows/Linux%20Clang%20Release/badge.svg?branch=master)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Linux+Clang%22+branch%3Amaster) | [![Linux Clang Release](https://github.com/BoostGSoC20/ublas/workflows/Linux%20Clang%20Release/badge.svg?branch=develop)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Linux+Clang%22+branch%3Adevelop) | ![Linux Clang Release](https://github.com/BoostGSoC20/ublas/workflows/Linux%20Clang%20Release/badge.svg?branch=github-actions) |
+| Linux (Ubuntu 20.04 x86_64) | clang-{6, 8, 9, 10} | [![Linux Clang Release](https://github.com/BoostGSoC20/ublas/workflows/Linux%20Clang%20Release/badge.svg?branch=master)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Linux+Clang%22+branch%3Amaster) | [![Linux Clang Release](https://github.com/BoostGSoC20/ublas/workflows/Linux%20Clang%20Release/badge.svg?branch=develop)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Linux+Clang%22+branch%3Adevelop) | [![Linux Clang Release](https://github.com/BoostGSoC20/ublas/workflows/Linux%20Clang%20Release/badge.svg?branch=github-actions)]((https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Linux+Clang%22+branch%3Agithub-actions)) |
 |     Windows 10 (x86_64)     | msvc-{14.16, 14.26} | [![Windows MSVC](https://github.com/BoostGSoC20/ublas/workflows/Windows%20MSVC/badge.svg?branch=master)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Windows+MSVC%22+branch%3Amaster) | [![Windows MSVC](https://github.com/BoostGSoC20/ublas/workflows/Windows%20MSVC/badge.svg?branch=develop)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Windows+MSVC%22+branch%3Adevelop) | [![Windows MSVC](https://github.com/BoostGSoC20/ublas/workflows/Windows%20MSVC/badge.svg?branch=github-actions)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Windows+MSVC%22+branch%3Agithub-actions) |
 |   MacOS Catalina (x86_64)   |      clang-11       | [![Apple Clang](https://github.com/BoostGSoC20/ublas/workflows/Apple%20Clang/badge.svg?branch=master)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Apple+Clang%22+branch%3Amaster) | [![Apple Clang](https://github.com/BoostGSoC20/ublas/workflows/Apple%20Clang/badge.svg?branch=develop)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Apple+Clang%22+branch%3Adevelop) | [![Apple Clang](https://github.com/BoostGSoC20/ublas/workflows/Apple%20Clang/badge.svg?branch=github-actions)](https://github.com/BoostGSoC20/ublas/actions?query=workflow%3A%22Apple+Clang%22+branch%3Agithub-actions) |
 
@@ -50,17 +50,17 @@ Distributed under the [Boost Software License, Version 1.0](http://www.boost.org
 
 #### Build Information
 
-|         OS         |    Toolchain    |                  Compiler Flags                   |      Linker  Flag      |
-| :----------------: | :-------------: | :-----------------------------------------------: | :--------------------: |
-| Linux Ubuntu 20.04 |       GCC       |                       `-O0`                       |    No special Flags    |
-| Linux Ubuntu 20.04 |      Clang      |                       `-O3`                       |    No Special Flags    |
-|     Windows 10     |      MSVC       |                 No Special Flags                  |    No Special Flags    |
-|   MacOS Catalina   |      Clang      |                 No Special Flags                  |    No Special Flags    |
-|    UB Sanitizer    |  GCC and Clang  |            `"-g -fsanitize=undefined"`            | `-fsanitize=undefined` |
-|    TH Sanitizer    |  GCC and Clang  |           `"-g -fsanitize=thread -O2"`            |  `-fsanitize=thread`   |
-|   ADD Sanitizer    |  GCC and Clang  | `"-g -fsanitize=address -fno-omit-frame-pointer"` |  `-fsanitize=address`  |
-|     Clang Tidy     |  Clang-Tidy-10  |         [Configuration File](.clang-tidy)         |          N/A           |
-|    Clang Format    | Clang-Format-10 |        [Configuration File](.clang-format)        |          N/A           |
+|         OS         |    Toolchain    |                  Compiler Flags                   |
+| :----------------: | :-------------: | :-----------------------------------------------: |
+| Linux Ubuntu 20.04 |       GCC       |                       `-O0`                       |
+| Linux Ubuntu 20.04 |      Clang      |                       `-O3`                       |
+|     Windows 10     |      MSVC       |                 No Special Flags                  |
+|   MacOS Catalina   |      Clang      |                 No Special Flags                  |
+|    UB Sanitizer    |  GCC and Clang  |            `"-g -fsanitize=undefined"`            |
+|    TH Sanitizer    |  GCC and Clang  |           `"-g -fsanitize=thread -O2"`            |
+|   ADD Sanitizer    |  GCC and Clang  | `"-g -fsanitize=address -fno-omit-frame-pointer"` |
+|     Clang Tidy     |  Clang-Tidy-10  |         [Configuration File](.clang-tidy)         |
+|    Clang Format    | Clang-Format-10 |        [Configuration File](.clang-format)        |
 
 
 
