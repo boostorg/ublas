@@ -10,7 +10,6 @@ jobs:
        matrix:
          config: 
            - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11, env: "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
-           #- {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 17, env: "C:/Program Files (x86)/Microsoft Visual Studio/2016/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
            - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: 11, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
            - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: 17, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
            - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: latest, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
@@ -23,23 +22,6 @@ jobs:
         with:
           toolset: ${{matrix.config.version}}
       
-      # - name: "Load Visual Studio Environment"
-      #   shell: cmd
-      #   run: |
-      #    "${{ matrix.config.env }}" 
-        
-      - name: Setup openCL
-        if: matrix.config.version == '1'
-        # Always failing openCL Test
-        #if: matrix.config.version == '14.25' && matrix.config.cxxstd == '17'
-        shell: cmd
-        run: |
-          choco install wget
-          wget -q http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi
-          start /wait msiexec /i opencl_runtime_16.1.1_x64_setup.msi /qn  /l*v msiexec2.log
-          
-          vcpkg --triplet x64-windows install opencl clblas
-                    
       - name: Setup BOOST_ROOT
         shell: cmd
         run: |
@@ -54,19 +36,10 @@ jobs:
           xcopy /s /e /q %GITHUB_WORKSPACE% libs\numeric\ublas
           
           python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
-          xcopy %GITHUB_WORKSPACE%\opencl.jam %USERPROFILE%
-          xcopy %GITHUB_WORKSPACE%\clblas.jam %USERPROFILE%
           
           echo ::set-env name=BOOST_ROOT::%cd%
-          
-      - name: Setup Environment Variable
-        shell: cmd
-        run: |
-          echo ::set-env name=PATH::C:\vcpkg\installed\x64-windows\bin;%PATH%
-          echo ::set-env name=VCPKG_I::C:\vcpkg\installed\x64-windows\include
-          echo ::set-env name=VCPKG_L::C:\vcpkg\installed\x64-windows\lib
           echo ::set-env name=TOOLSET::${{matrix.config.toolset}}-${{matrix.config.version}}    
-                    
+          
       - name: Prepare BOOST_ROOT
         shell: powershell
         run: |
@@ -75,12 +48,9 @@ jobs:
           @'
           import os regex toolset ;
           local toolset = [ regex.split [ os.environ TOOLSET ] "-" ] ;
-          local vcpkg_i = [ os.environ VCPKG_I ] ;
-          local vcpkg_l = [ os.environ VCPKG_L ] ;
           using $(toolset[1]) : $(toolset[2-]:J="-") :  ;
-          using opencl : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
-          using clblas : : <include>$(vcpkg_i) <search>$(vcpkg_l) ;
           '@ | sc "$env:USERPROFILE/user-config.jam"          
+      
       - name: Bootstrap BOOST_ROOT
         shell: cmd
         run: |
@@ -108,16 +78,6 @@ jobs:
           cd %BOOST_ROOT%
           cd libs\numeric\ublas
           %BOOST_ROOT%\b2 -j 4 test/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
-          
-      - name: Test openCL
-        if: matrix.config.version == '1'
-        #if: matrix.config.version == '14.25' && matrix.config.cxxstd == '17'
-        timeout-minutes: 5
-        shell: cmd
-        run: |
-          cd %BOOST_ROOT%
-          cd libs\numeric\ublas
-          %BOOST_ROOT%\b2 -j 4 test/opencl toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           
       - name: Test uBLAS
         shell: cmd

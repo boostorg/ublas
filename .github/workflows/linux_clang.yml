@@ -24,7 +24,6 @@ jobs:
          
     steps:
     - uses: actions/checkout@v2
-      # Checks out the source code, if not done, runner will not clone the repository
     
     - name: Install Clang 10
       if: matrix.config.cxx == 'clang++-10'
@@ -32,11 +31,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y clang-10
       
-    - name: Set Environment Variables
-      run: |
-         echo ::set-env name=CC::${{matrix.config.cc}}
-         echo ::set-env name=CXX::${{matrix.config.cxx}}
-        
     - name: Prepare BOOST_ROOT
       run: |
         cd ${GITHUB_WORKSPACE}
@@ -64,12 +58,6 @@ jobs:
         cd $BOOST_ROOT
         
         echo "using clang : : ${{ matrix.config.cxx }} ;" >> ~/user-config.jam;
-        echo "using clblas : : <include>${CLBLAS_PREFIX}/include <search>${CLBLAS_PREFIX}/lib ;" >> ~/user-config.jam;
-        
-        cat ~/user-config.jam
-        
-        cp ${GITHUB_WORKSPACE}/opencl.jam ~/
-        cp ${GITHUB_WORKSPACE}/clblas.jam ~/
         
     - name: Test Benchmarks
       run: |
@@ -78,20 +66,17 @@ jobs:
         $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"
         
     - name: Test Tensor Examples
-      # To use sanitizers, use this line to invoke B2 instead of the below line 
-      # $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O2 -g -fsanitize=thread" linkflags="-fsanitize=thread" 
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3" 
         
     - name: Test Tensor
-      # To use thread sanitizers, use this line to invoke B2 instead of the below line 
-      # $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O2 -g -fsanitize=thread" linkflags="-fsanitize=thread"
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"
+    
     - name: Test uBLAS
       run: |
         cd $BOOST_ROOT

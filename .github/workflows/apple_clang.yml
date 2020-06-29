@@ -35,21 +35,13 @@ jobs:
         
         echo ::set-env name=BOOST_ROOT::${PWD}
         
-        clang++ --version
-        
     - name: Prepare Build
       run: |
         echo $BOOST_ROOT
         cd $BOOST_ROOT
         
         echo "using clang : : clang++ ;" >> ~/user-config.jam;
-        echo "using clblas : : <include>${CLBLAS_PREFIX}/include <search>${CLBLAS_PREFIX}/lib ;" >> ~/user-config.jam;
         
-        cat ~/user-config.jam
-        
-        cp ${GITHUB_WORKSPACE}/opencl.jam ~/
-        cp ${GITHUB_WORKSPACE}/clblas.jam ~/
-
     - name: Test Benchmarks
       run: |
         cd $BOOST_ROOT

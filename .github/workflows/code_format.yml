@@ -18,14 +18,3 @@ jobs:
      
       - name: Check diff
         run: git diff --exit-code HEAD
-     
-     # - name: Create Pull Request
-     #   if: failure()
-     #   uses: peter-evans/create-pull-request@v2
-     #   with:
-     #     commit-message: "style: Format codes"
-     #     title: "Automatic Format codes for uBLAS ${{ github.ref }}"
-     #     labels: "style"
-     #     assignees: "${{ github.actor }}"
-     #     reviewers: "${{ github.actor }}"
-     #     branch: "auto-pr/clang-format/${{ github.ref }}"

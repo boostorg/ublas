@@ -29,42 +29,7 @@ jobs:
         run: |
          sudo apt update
          sudo apt-get install -y g++-10
-      
-      - name: Set Environment Variables
-        run: |
-         echo ::set-env name=CLBLAS_PREFIX::${GITHUB_WORKSPACE}/CLBLAS
-         echo ::set-env name=PATH::${GITHUB_WORKSPACE}/CLBLAS/bin:${PATH}
-         echo ::set-env name=LD_LIBRARY_PATH::${GITHUB_WORKSPACE}/CLBLAS/lib:${LD_LIBRARY_PATH}
-         
-         echo ::set-env name=CC::${{matrix.config.cc}}
-         echo ::set-env name=CXX::${{matrix.config.cxx}}
-         
-      - name: Setup OpenBLAS, CLBLAS and other utilities
-        if: matrix.config.cxxstd == '21'
-        # Always failing cxxstd
-          
-        # if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
-        # openBLAS, clBLAS will be used and codecoverage will be reported from only gcc-7 with C++17 standards
-        # Due to this reason to fasten the build process, we skip this step on all other matrix configuration.
-        # This is known fact that any CI offer only 1 openCL device and if we were to test all compilers for openCL
-        # We would have to sequencially run the jobs that would make the build process very very slow.
-          
-        # Disable openCL tests after permission from Cem Bassoy
-        run: |
-         sudo apt-get install -y lcov
-         sudo apt-get install -y rpm2cpio
-         sudo apt-get install -y libopenblas-base
-         sudo apt-get install -y ocl-icd-opencl-dev
-         sudo apt-get install -y opencl-headers
-         sudo apt-get install -y clinfo
-         sudo apt-get install -y cpio
-        
-         ${GITHUB_WORKSPACE}/.ci/install-ocl-ubuntu.sh
-         ${GITHUB_WORKSPACE}/.ci/install-clblas.sh
-        
-         ${CXX} --version
-         ${CC} --version
-        
+       
       - name: Prepare BOOST_ROOT
         run: |
          cd ${GITHUB_WORKSPACE}
@@ -92,12 +57,6 @@ jobs:
          cd $BOOST_ROOT
         
          echo "using gcc : : ${{ matrix.config.cxx }} ;" >> ~/user-config.jam;
-         echo "using clblas : : <include>${CLBLAS_PREFIX}/include <search>${CLBLAS_PREFIX}/lib ;" >> ~/user-config.jam;
-        
-         cat ~/user-config.jam
-        
-         cp ${GITHUB_WORKSPACE}/opencl.jam ~/
-         cp ${GITHUB_WORKSPACE}/clblas.jam ~/
 
       - name: Test Benchmarks
         run: |
@@ -117,15 +76,6 @@ jobs:
          cd libs/numeric/ublas
          $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g --coverage" linkflags="--coverage"
 
-      - name: Test openCL
-        if: matrix.config.cxxstd == '21'
-        #if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
-        # We run openCL tests only on these compiler and standards for reasons mentioned above.
-        run: |
-         cd $BOOST_ROOT
-         cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/opencl toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0"
-        
       - name: Test uBLAS
         run: |
          cd $BOOST_ROOT
@@ -134,8 +84,6 @@ jobs:
         
       - name: Report Code coverage
         if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-7'
-        # Report coverage from only one compiler, In this case this has been intentionally chosen because it runs all tests 
-        # in uBLAS, including opencl tests.
         run: |
          ${GITHUB_WORKSPACE}/.ci/report_coverage.sh
         

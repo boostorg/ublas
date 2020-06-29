@@ -17,11 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Set Environment Variables
-        run: |
-         echo ::set-env name=CC::${{matrix.config.cc}}
-         echo ::set-env name=CXX::${{matrix.config.cxx}}
-         
       - name: Prepare BOOST_ROOT
         run: |
          cd ${GITHUB_WORKSPACE}
@@ -49,12 +44,6 @@ jobs:
          cd $BOOST_ROOT
         
          echo "using ${{matrix.config.name}} : : ${{ matrix.config.cxx }} ;" >> ~/user-config.jam;
-         echo "using clblas : : <include>${CLBLAS_PREFIX}/include <search>${CLBLAS_PREFIX}/lib ;" >> ~/user-config.jam;
-        
-         cat ~/user-config.jam
-        
-         cp ${GITHUB_WORKSPACE}/opencl.jam ~/
-         cp ${GITHUB_WORKSPACE}/clblas.jam ~/
 
       - name: Test Benchmarks
         run: |
