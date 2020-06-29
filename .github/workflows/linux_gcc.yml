@@ -115,7 +115,7 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0" 
+         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g --coverage" linkflags="--coverage"
 
       - name: Test openCL
         if: matrix.config.cxxstd == '21'
