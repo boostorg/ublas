@@ -29,13 +29,13 @@ jobs:
           cd ..
           git clone -b master --depth 1 https://github.com/boostorg/boost.git boost-root
           cd boost-root
-          git submodule update --init tools/build
-          git submodule update --init libs/config
-          git submodule update --init tools/boostdep
+          git submodule update --init --depth=1 tools/build
+          git submodule update --init --depth=1 libs/config
+          git submodule update --init --depth=1 tools/boostdep
           
           xcopy /s /e /q %GITHUB_WORKSPACE% libs\numeric\ublas
           
-          python tools/boostdep/depinst/depinst.py -I benchmarks numeric/ublas
+          python tools/boostdep/depinst/depinst.py -g " --depth=1" -I benchmarks numeric/ublas
           
           echo ::set-env name=BOOST_ROOT::%cd%
           echo ::set-env name=TOOLSET::${{matrix.config.toolset}}-${{matrix.config.version}}    
