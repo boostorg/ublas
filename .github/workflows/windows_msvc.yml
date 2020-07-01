@@ -1,0 +1,87 @@
+name: "Windows MSVC"
+on: [push, pull_request]
+
+jobs:
+  build:
+     name: "${{matrix.config.version}} -std=c++${{matrix.config.cxxstd}}"
+     runs-on: ${{matrix.config.os}}
+     strategy:
+       fail-fast: false
+       matrix:
+         config: 
+           - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11, env: "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
+           - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: 11, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
+           - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: 17, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
+           - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: latest, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
+             
+     steps:
+      - uses: actions/checkout@v2
+        
+      - name: Enable Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1.2.0
+        with:
+          toolset: ${{matrix.config.version}}
+      
+      - name: Setup BOOST_ROOT
+        shell: cmd
+        run: |
+          cd %GITHUB_WORKSPACE%
+          cd ..
+          git clone -b master --depth 1 https://github.com/boostorg/boost.git boost-root
+          cd boost-root
+          git submodule update --init --depth=1 tools/build
+          git submodule update --init --depth=1 libs/config
+          git submodule update --init --depth=1 tools/boostdep
+          
+          xcopy /s /e /q %GITHUB_WORKSPACE% libs\numeric\ublas
+          
+          python tools/boostdep/depinst/depinst.py -g " --depth=1" -I benchmarks numeric/ublas
+          
+          echo ::set-env name=BOOST_ROOT::%cd%
+          echo ::set-env name=TOOLSET::${{matrix.config.toolset}}-${{matrix.config.version}}    
+          
+      - name: Prepare BOOST_ROOT
+        shell: powershell
+        run: |
+          echo $env:TOOLSET
+           # Creating %USERPROFILE%/user-config.jam file
+          @'
+          import os regex toolset ;
+          local toolset = [ regex.split [ os.environ TOOLSET ] "-" ] ;
+          using $(toolset[1]) : $(toolset[2-]:J="-") :  ;
+          '@ | sc "$env:USERPROFILE/user-config.jam"          
+      
+      - name: Bootstrap BOOST_ROOT
+        shell: cmd
+        run: |
+          cd %BOOST_ROOT%
+          cmd /c bootstrap
+          b2 -j8 headers
+          
+      - name: Test Benchmarks
+        shell: cmd
+        run: |
+          cd %BOOST_ROOT%
+          cd libs\numeric\ublas
+          %BOOST_ROOT%\b2 -j 4 benchmarks toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+          
+      - name: Test Tensor Examples
+        shell: cmd
+        run: |
+          cd %BOOST_ROOT%
+          cd libs\numeric\ublas
+          %BOOST_ROOT%\b2 -j 4 examples/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+          
+      - name: Test Tensor
+        shell: cmd
+        run: |
+          cd %BOOST_ROOT%
+          cd libs\numeric\ublas
+          %BOOST_ROOT%\b2 -j 4 test/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+          
+      - name: Test uBLAS
+        shell: cmd
+        run: |
+         cd %BOOST_ROOT%
+         cd libs\numeric\ublas
+         %BOOST_ROOT%\b2 -j 4 test toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64

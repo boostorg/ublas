@@ -254,5 +254,3 @@ test-suite numeric/uBLAS
       ]
     ;
 
-build-project opencl ;
-build-project tensor ;
