@@ -1,3 +1,7 @@
+# Copyright (c) 2020 Mohammad Ashar Khan
+# Distributed under Boost Software License, Version 1.0
+# (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
+
 name: "Windows MSVC"
 on: [push, pull_request]
 
@@ -9,10 +13,10 @@ jobs:
        fail-fast: false
        matrix:
          config: 
-           - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11, env: "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
-           - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: 11, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
-           - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: 17, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
-           - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: latest, env: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"}
+           - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11} 
+           - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: 11}
+           - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: 17}
+           - {os: windows-2019, toolset: msvc, version: 14.26, cxxstd: latest}
              
      steps:
       - uses: actions/checkout@v2

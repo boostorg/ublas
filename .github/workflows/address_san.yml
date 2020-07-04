@@ -1,3 +1,7 @@
+# Copyright (c) 2020 Mohammad Ashar Khan
+# Distributed under Boost Software License, Version 1.0
+# (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
+
 name: Address Sanitizer 
 # Trigger on Push to the repository, regardless of the branch.
 # For fine tune, You can add specific branches or tags.
