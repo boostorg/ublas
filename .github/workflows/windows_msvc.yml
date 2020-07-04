@@ -79,9 +79,3 @@ jobs:
           cd libs\numeric\ublas
           %BOOST_ROOT%\b2 -j 4 test/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           
-      - name: Test uBLAS
-        shell: cmd
-        run: |
-         cd %BOOST_ROOT%
-         cd libs\numeric\ublas
-         %BOOST_ROOT%\b2 -j 4 test toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64

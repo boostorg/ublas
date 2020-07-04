@@ -76,9 +76,3 @@ jobs:
         cd $BOOST_ROOT
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j 4 test/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"
-    
-    - name: Test uBLAS
-      run: |
-        cd $BOOST_ROOT
-        cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 test toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"

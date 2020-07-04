@@ -76,12 +76,6 @@ jobs:
          cd libs/numeric/ublas
          $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g --coverage" linkflags="--coverage"
 
-      - name: Test uBLAS
-        run: |
-         cd $BOOST_ROOT
-         cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0"
-        
       - name: Report Code coverage
         if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-9'
         run: |
