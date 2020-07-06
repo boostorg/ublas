@@ -645,12 +645,6 @@ void ttv(SizeType const m, SizeType const p,
     }
   }
 
-  for(auto i = m; i < p; ++i){
-    if(na[i] != nc[i-1]){
-      throw std::length_error("Error in boost::numeric::ublas::ttv: Extents (except of dimension mode) of A and C must be equal.");
-    }
-  }
-
   const auto max = std::max(nb[0], nb[1]);
   if(  na[m-1] != max){
     throw std::length_error("Error in boost::numeric::ublas::ttv: Extent of dimension mode of A and b must be equal.");

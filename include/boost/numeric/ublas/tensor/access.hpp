@@ -18,6 +18,16 @@
 #include <numeric>
 #include <functional>
 
+#include <boost/numeric/ublas/functional.hpp>
+
+
+namespace boost::numeric::ublas {
+
+using first_order = column_major;
+using last_order = row_major;
+
+}
+
 namespace boost::numeric::ublas::detail{
 
 
@@ -57,65 +67,64 @@ constexpr inline auto compute_single_index(InputIt1 i, InputIt1 /*ip*/, InputIt2
  * @param wp end input iterator to a container with tensor or subtensor strides of length std::distance(begin,end)
  * @param i begin output iterator to a container with tensor or subtensor indices length std::distance(begin,end) or greater
 */
+template<typename InputIt1, typename OutputIt, typename LayoutType>
+constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i, LayoutType l);
+
+
 template<typename InputIt1, typename OutputIt>
-constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i)
+constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i, first_order )
 {
     if(w == wp)
         return;
-    auto p = std::distance(w,wp);
-    auto kq = j;
-    //auto q = 0ul;
 
+    auto wr  = std::make_reverse_iterator( w );
+    auto wrp = std::make_reverse_iterator( wp );
+    auto ir  = std::make_reverse_iterator( i+std::distance(w,wp) );
 
-
-    for(int r = p-1; r >= 0; --r)
-    {
-        //q  = l[r]-1;
-        i[r] = kq/w[r];
-        kq -= w[r]*i[r];
-    }
-
-  //std::transform(w,wp,i, [&j](auto v) { auto k=j/v; j-=v*k; return k; } );
+    std::transform(wrp,wr,ir, [&j](auto v) { auto k=j/v; j-=v*k; return k; } );
 }
 
-
 template<typename InputIt1, typename OutputIt>
-constexpr inline void compute_multi_index_first(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i)
+constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i, last_order )
 {
     if(w == wp)
         return;
-    auto p = std::distance(w,wp);
-    auto kq = j;
-    //auto q = 0ul;
-
-
-
-//    for(int r = p-1; r >= 0; --r)
-//    {
-//        //q  = l[r]-1;
-//        i[r] = kq/w[r];
-//        kq -= w[r]*i[r];
-//    }
 
     std::transform(w,wp,i, [&j](auto v) { auto k=j/v; j-=v*k; return k; } );
 }
 
-template<typename InputIt1, typename OutputIt>
-constexpr inline void compute_multi_index_last(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i)
-{
-    if(w == wp)
-        return;
-    auto p = std::distance(w,wp);
-    auto kq = j;
 
-    for(unsigned r = 0ul; r < p; ++r) {
-        i[r] = kq/w[r];
-        kq -= w[r]*i[r];
-    }
 
-    //std::transform(w,wp,i, [&j](auto v) { auto k=j/v; j-=v*k; return k; } );
-}
 
+//template<typename InputIt1, typename OutputIt>
+//constexpr inline void compute_multi_index_last(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i)
+//{
+//    if(w == wp)
+//        return;
+////    for(unsigned r = 0ul; r < p; ++r) {
+////        i[r] = kq/w[r];
+////        kq -= w[r]*i[r];
+////    }
+//    std::transform(w,wp,i, [&j](auto v) { auto k=j/v; j-=v*k; return k; } );
+//}
+
+//template<typename InputIt1, typename OutputIt>
+//constexpr inline void compute_multi_index_first(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i)
+//{
+//    if(w == wp)
+//        return;
+
+////    for(int r = p-1; r >= 0; --r) {
+////        i[r] = kq/w[r];
+////        kq -= w[r]*i[r];
+////    }
+
+//    auto wr  = std::make_reverse_iterator( w );
+//    auto wrp = std::make_reverse_iterator( wp );
+//    auto ir  = std::make_reverse_iterator( i+std::distance(w,wp) );
+
+//    std::transform(wrp,wr,ir, [&j](auto v) { auto k=j/v; j-=v*k; return k; } );
+//}
 
 
 /** @brief Computes a single index from a multi-index of a dense tensor or subtensor
@@ -124,13 +133,37 @@ constexpr inline void compute_multi_index_last(std::size_t j, InputIt1 w, InputI
  * @param w begin input iterator to a container with strides of length p
  * @param i begin input iterator to a container with indices of length p or greater
 */
+template<unsigned p, typename InputIt1, typename OutputIt, typename LayoutType>
+constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 /*wp*/, OutputIt i, LayoutType);
+
+
 template<unsigned p, typename InputIt1, typename OutputIt>
-constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 /*wp*/, OutputIt i)
+constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 /*wp*/, OutputIt i, first_order o)
 {
-       if constexpr (p==0u) return;
-  else if constexpr (p >1u) {i[p-1]=j/w[p-1]; compute_multi_index<p-1>(j-w[p-1]*i[p-1],w,w,i); }
-  else                      {i[p-1]=j/w[p-1]; }
+    if constexpr (p==0u) return;
+    else if constexpr (p >1u) {i[p-1]=j/w[p-1]; compute_multi_index<p-1>(j-w[p-1]*i[p-1],w,w,i,o); }
+    else                      {i[p-1]=j/w[p-1]; }
 }
+
+
+
+template<unsigned p, unsigned k = 0, typename InputIt1, typename OutputIt>
+constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 /*wp*/, OutputIt i, last_order o)
+{
+    if constexpr (p == 0u ) { return; }
+    else if constexpr (k+1 == p) {i[k]=j/w[k]; }
+    else                         {i[k]=j/w[k]; compute_multi_index<p,k+1>(j-w[k]*i[k],w,w,i,o); }
+}
+
+
+
+//template<unsigned p, typename InputIt1, typename OutputIt, unsigned k = 0>
+//constexpr inline void compute_multi_index_last(std::size_t j, InputIt1 w, InputIt1 /*wp*/, OutputIt i)
+//{
+//    if constexpr (p == 0u ) return;
+//    else if constexpr (k+1 == p) {i[k]=j/w[k]; }
+//    else                         {i[k]=j/w[k]; compute_multi_index_last<p,k+1>(j-w[k]*i[k],w,w,i); }
+//}
 
 
 /** @brief Computes a single (relative memory) index of a dense tensor from a single index of one of its subtensor
