@@ -17,7 +17,7 @@
 
 namespace boost::numeric::ublas{
     
-template <class ExtentsType, std::size_t N> struct basic_fixed_rank_extents;
+template <class ExtentsType, std::size_t N> class basic_fixed_rank_extents;
 
 template<class T, std::size_t N, class L> class basic_fixed_rank_strides;
 

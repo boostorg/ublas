@@ -15,15 +15,9 @@
 #ifndef _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
 #define _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
 
-#include <boost/numeric/ublas/functional.hpp>
 #include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
 
-namespace boost { 
-namespace numeric { 
-namespace ublas {
-
-using first_order = column_major;
-using last_order = row_major;
+namespace boost::numeric::ublas {
 
 /** @brief Template class for storing tensor strides for iteration with runtime variable size.
  *
@@ -35,17 +29,8 @@ class basic_fixed_rank_strides
 {
 public:
 
-    using base_type = std::array<T, N>;
-
-    static_assert( std::numeric_limits<typename base_type::value_type>::is_integer,
-                                 "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type integer.");
-    static_assert(!std::numeric_limits<typename base_type::value_type>::is_signed,
-                                "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type unsigned integer.");
-    static_assert(std::is_same<L,first_order>::value || std::is_same<L,last_order>::value,
-                                "Static error in boost::numeric::ublas::basic_fixed_rank_strides: layout type must either first or last order");
-
-
     using layout_type           = L;
+    using base_type             = std::array<T, N>;
     using value_type            = typename base_type::value_type;
     using reference             = typename base_type::reference;
     using const_reference       = typename base_type::const_reference;
@@ -53,36 +38,54 @@ public:
     using const_pointer         = typename base_type::const_pointer;
     using const_iterator        = typename base_type::const_iterator;
 
+    static_assert( std::numeric_limits<value_type>::is_integer,
+                                 "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type integer.");
+    static_assert(!std::numeric_limits<value_type>::is_signed,
+                                "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type unsigned integer.");
+    static_assert(std::is_same<L,first_order>::value || std::is_same<L,last_order>::value,
+                                "Static error in boost::numeric::ublas::basic_fixed_rank_strides: layout type must either first or last order");
 
     /** @brief Default constructs basic_fixed_rank_strides
      *
      * @code auto ex = basic_fixed_rank_strides<unsigned>{};
      */
-    constexpr explicit basic_fixed_rank_strides()
-        : _base{}
-    {
-    }
+    constexpr basic_fixed_rank_strides() noexcept = default;
 
     /** @brief Constructs basic_fixed_rank_strides from basic_extents for the first- and last-order storage formats
      *
      * @code auto strides = basic_fixed_rank_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
      *
      */
-    basic_fixed_rank_strides(basic_fixed_rank_extents<T,N> const& s)
+    template<typename ExtentsType>
+    basic_fixed_rank_strides(ExtentsType const& s)
     {
+        if ( s.size() != size() ){
+            throw std::length_error("boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
+                "ExentsType size should be equal to the size of basic_fixed_rank_strides"
+            );
+        }
+        
+        static_assert( is_extents_v<ExtentsType>, "boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
+            "ExtentsType is not a tensor extents"
+        );
+
         _base.fill(value_type(1));
 
         if( s.empty() )
             return;
 
         if( !valid(s) )
-            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides() : shape is not valid.");        
+            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : "
+                "shape is not valid."
+            );
 
         if( is_vector(s) || is_scalar(s) )
             return;
 
         if( this->size() < 2 )
-            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides() : size of strides must be greater or equal 2.");
+            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : "
+                "size of strides must be greater or equal 2."
+            );
 
 
         if constexpr (std::is_same<layout_type,first_order>::value){
@@ -118,12 +121,15 @@ public:
 
 
     basic_fixed_rank_strides& operator=(basic_fixed_rank_strides other)
+        noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);
         return *this;
     }
 
-    friend void swap(basic_fixed_rank_strides& lhs, basic_fixed_rank_strides& rhs) {
+    friend void swap(basic_fixed_rank_strides& lhs, basic_fixed_rank_strides& rhs) 
+        noexcept(std::is_nothrow_swappable_v<base_type>)
+    {
         std::swap(lhs._base   , rhs._base);
     }
 
@@ -153,37 +159,35 @@ public:
     }
 
     [[nodiscard]] inline
-    constexpr bool empty() const{
+    constexpr bool empty() const noexcept{
         return _base.empty();
     }
 
     [[nodiscard]] inline
-    constexpr size_type size() const{
+    constexpr size_type size() const noexcept{
         return _base.size();
     }
 
     [[nodiscard]] inline
-    constexpr const_iterator begin() const{
+    constexpr const_iterator begin() const noexcept{
         return _base.begin();
     }
 
     [[nodiscard]] inline
-    constexpr const_iterator end() const{
+    constexpr const_iterator end() const noexcept{
         return _base.end();
     }
     
     [[nodiscard]] inline
-    constexpr base_type const& base() const{
+    constexpr base_type const& base() const noexcept{
         return this->_base;
     }
 
-protected:
+private:
     base_type _base;
 };
 
 
-}
-}
-}
+} // namespace boost::numeric::ublass
 
 #endif

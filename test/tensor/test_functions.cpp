@@ -93,9 +93,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_vector_exception )
     using namespace boost::numeric;
     using value_type   = float;
     using layout_type  = ublas::first_order;
-    using s_extents_type = ublas::static_extents<1,2,3>;
     using d_tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
-    using s_tensor_type  = ublas::static_tensor<value_type,s_extents_type,layout_type>;
     using vector_type  = typename d_tensor_type::vector_type;
 
     auto t1 = d_tensor_type{ublas::dynamic_extents<>{},1.f};
@@ -104,13 +102,6 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_vector_exception )
     BOOST_REQUIRE_THROW(prod(t1,v1,0),std::length_error);
     BOOST_REQUIRE_THROW(prod(t1,v1,1),std::length_error);
     BOOST_REQUIRE_THROW(prod(t1,v1,3),std::length_error);
-
-    auto t2 = s_tensor_type{};
-    BOOST_REQUIRE_THROW(prod(t2,v1,2),std::length_error);
-
-    auto t3 = s_tensor_type{value_type{1}};
-    auto v2 = vector_type{0,value_type{1}};
-    BOOST_REQUIRE_THROW(prod(t3,v2,2),std::length_error);
 }
 
 
@@ -160,9 +151,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_matrix_exception )
     using value_type   = float;
     using layout_type  = ublas::first_order;
     using d_extents_type = ublas::dynamic_extents<>;
-    using s_extents_type = ublas::static_extents<1,2,3>;
     using d_tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
-    using s_tensor_type  = ublas::static_tensor<value_type,s_extents_type,layout_type>;
     using matrix_type  = typename d_tensor_type::matrix_type;
 
     auto t1 = d_tensor_type{d_extents_type{},1.f};
@@ -172,14 +161,6 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_matrix_exception )
     BOOST_REQUIRE_THROW(prod(t1,m1,0),std::length_error);
     BOOST_REQUIRE_THROW(prod(t1,m1,1),std::length_error);
     BOOST_REQUIRE_THROW(prod(t1,m1,3),std::length_error);
-
-    auto t2 = s_tensor_type{};
-
-    BOOST_REQUIRE_THROW(prod(t2,m1,2),std::length_error);
-
-    auto t3 = s_tensor_type{value_type{1}};
-    auto m2 = matrix_type{0,0,value_type{1}};
-    BOOST_REQUIRE_THROW(prod(t3,m2,2),std::length_error);
 }
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_tensor_1, value,  test_types, fixture )
@@ -225,17 +206,11 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_tensor_1_exception )
     using value_type   = float;
     using layout_type  = ublas::first_order;
     using d_extents_type = ublas::dynamic_extents<>;
-    using s_extents_type = ublas::static_extents<1,2,3>;
     using d_tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
-    using s_tensor_type  = ublas::static_tensor<value_type,s_extents_type,layout_type>;
 
     auto t1 = d_tensor_type{};
-    auto t2 = s_tensor_type{1.f};
     std::vector<std::size_t> phia = {1,2,3};
     std::vector<std::size_t> phib = {1,2,3,4,5};
-
-    BOOST_REQUIRE_THROW(prod(t1,t2,phia,phib),std::runtime_error);
-    BOOST_REQUIRE_THROW(prod(t2,t1,phia,phib),std::runtime_error);
 
 
     auto t3 = d_tensor_type{d_extents_type{1,2},1.f};
@@ -370,17 +345,11 @@ BOOST_AUTO_TEST_CASE( test_tensor_inner_prod_exception )
     using value_type   = float;
     using layout_type  = ublas::first_order;
     using d_extents_type = ublas::dynamic_extents<>;
-    using s_extents_type = ublas::static_extents<1,2,3>;
     using d_tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
-    using s_tensor_type  = ublas::static_tensor<value_type,s_extents_type,layout_type>;
 
     auto t1 = d_tensor_type{d_extents_type{1,2},1.f};
     auto t2 = d_tensor_type{d_extents_type{1,2,3},1.f};
     BOOST_REQUIRE_THROW( ublas::inner_prod(t1, t2), std::length_error);
-
-    auto t3 = s_tensor_type{1.f};
-    auto t4 = d_tensor_type{d_extents_type{1,2,4,5},1.f};
-    BOOST_REQUIRE_THROW( ublas::inner_prod(t3, t4), std::length_error);
 }
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_norm, value,  test_types, fixture )
@@ -580,7 +549,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_trans, value,  test_types, fixture
             auto pi_inv = inverse(pi);
             a = ublas::trans( a, pi_inv );
         }
-                bool res2 = a == aref; // it was an expression. so evaluate into bool
+        bool res2 = a == aref; // it was an expression. so evaluate into bool
         BOOST_CHECK( res2 );
 
     }

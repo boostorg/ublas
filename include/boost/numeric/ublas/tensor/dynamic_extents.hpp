@@ -127,37 +127,39 @@ public:
     }
 
 
-    template<typename OtherExtentsType,
-        std::enable_if_t< 
-            is_extents<OtherExtentsType>::value
-            ,int > = 0
-    >
-    basic_extents(OtherExtentsType const& e)
+    template<typename OtherExtents>
+    basic_extents(OtherExtents const& e)
         : _base(e.size())
     {
+        static_assert( is_extents_v<OtherExtents>, "boost::numeric::ublas::basic_extents(OtherExtents const&) : " 
+            "OtherExtents should be a valid tensor extents"
+        );
         std::copy(e.begin(),e.end(), _base.begin());
     }
 
     ~basic_extents() = default;
 
-    basic_extents& operator=(basic_extents other) noexcept
+    basic_extents& operator=(basic_extents other) 
+        noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);
         return *this;
     }
 
-    friend void swap(basic_extents& lhs, basic_extents& rhs) {
+    friend void swap(basic_extents& lhs, basic_extents& rhs) 
+        noexcept(std::is_nothrow_swappable_v<base_type>)
+    {
         std::swap(lhs._base   , rhs._base   );
     }
 
     [[nodiscard]] inline
-    constexpr const_pointer data() const
+    constexpr const_pointer data() const noexcept
     {
         return this->_base.data();
     }
 
     [[nodiscard]] inline
-    constexpr const_reference operator[] (size_type p) const noexcept
+    constexpr const_reference operator[] (size_type p) const
     {
         return this->_base[p];
     }
@@ -188,39 +190,39 @@ public:
 
 
     [[nodiscard]] inline
-    constexpr bool empty() const
+    constexpr bool empty() const noexcept
     {
         return this->_base.empty();
     }
 
     [[nodiscard]] inline
-    constexpr size_type size() const
+    constexpr size_type size() const noexcept
     {
         return this->_base.size();
     }
 
     inline
-    constexpr void clear()
+    constexpr void clear() noexcept
     {
         this->_base.clear();
     }
 
     [[nodiscard]] inline
     constexpr const_iterator
-    begin() const
+    begin() const noexcept
     {
         return _base.begin();
     }
 
     [[nodiscard]] inline
     constexpr const_iterator
-    end() const
+    end() const noexcept
     {
         return _base.end();
     }
 
     [[nodiscard]] inline
-    constexpr base_type const& base() const { return _base; }
+    constexpr base_type const& base() const noexcept { return _base; }
 
 private:
 

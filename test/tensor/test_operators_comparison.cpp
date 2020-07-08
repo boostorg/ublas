@@ -13,7 +13,7 @@
 
 #include <boost/numeric/ublas/tensor/operators_comparison.hpp>
 #include <boost/numeric/ublas/tensor/operators_arithmetic.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_tensor.hpp>
+#include <boost/numeric/ublas/tensor.hpp>
 #include <boost/test/unit_test.hpp>
 #include <boost/multiprecision/cpp_bin_float.hpp>
 #include "utility.hpp"

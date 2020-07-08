@@ -80,8 +80,8 @@ namespace boost {
 namespace numeric {
 namespace ublas {
 
-template<class T, class E, class F, class A>
-class tensor;
+template<class T>
+class tensor_core;
 
 template<class T, class F, class A>
 class matrix;
@@ -95,7 +95,7 @@ class vector;
 
 
 template <typename T>
-std::ostream& operator << (std::ostream& out, boost::numeric::ublas::basic_tensor<T> const& t)
+std::ostream& operator << (std::ostream& out, boost::numeric::ublas::tensor_core<T> const& t)
 {
 
     if(is_scalar(t.extents())){

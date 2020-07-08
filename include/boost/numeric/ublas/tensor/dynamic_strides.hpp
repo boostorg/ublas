@@ -73,21 +73,28 @@ public:
      * @code auto strides = basic_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
      *
      */
-    template <class T>
-    basic_strides(basic_extents<T> const& s)
+    template <typename ExtentsType>
+    basic_strides(ExtentsType const& s)
             : _base(s.size(),1)
     {
+        static_assert( is_extents_v<ExtentsType>, "boost::numeric::ublas::basic_strides(ExtentsType const&) : " 
+            "ExtentsType is not a tensor extents"
+        );
         if( s.empty() )
             return;
 
         if( !valid(s) )
-            throw std::runtime_error("Error in boost::numeric::ublas::basic_strides() : shape is not valid.");        
+            throw std::runtime_error("Error in boost::numeric::ublas::basic_strides(ExtentsType const&) : "
+                "shape is not valid."
+            );
 
         if( is_vector(s) || is_scalar(s) )
             return;
 
         if( this->size() < 2 )
-            throw std::runtime_error("Error in boost::numeric::ublas::basic_strides() : size of strides must be greater or equal 2.");
+            throw std::runtime_error("Error in boost::numeric::ublas::basic_strides(ExtentsType const&) : "
+                "size of strides must be greater or equal 2."
+            );
 
 
         if constexpr (std::is_same<layout_type,first_order>::value){
@@ -122,13 +129,16 @@ public:
     ~basic_strides() = default;
 
 
-    basic_strides& operator=(basic_strides other)
+    basic_strides& operator=(basic_strides other) 
+        noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);
         return *this;
     }
 
-    friend void swap(basic_strides& lhs, basic_strides& rhs) {
+    friend void swap(basic_strides& lhs, basic_strides& rhs) 
+        noexcept(std::is_nothrow_swappable_v<base_type>) 
+    {
         std::swap(lhs._base   , rhs._base);
     }
 
@@ -149,41 +159,41 @@ public:
 
     [[nodiscard]] inline
     constexpr const_reference back () const{
-        return _base[_base.size() - 1];
+        return _base.back();
     }
 
     [[nodiscard]] inline
     constexpr reference back (){
-        return _base[_base.size() - 1];
+        return _base.back();
     }
 
     [[nodiscard]] inline
-    constexpr bool empty() const{
+    constexpr bool empty() const noexcept{
         return _base.empty();
     }
 
     [[nodiscard]] inline
-    constexpr size_type size() const{
+    constexpr size_type size() const noexcept{
         return _base.size();
     }
 
     [[nodiscard]] inline
-    constexpr const_iterator begin() const{
+    constexpr const_iterator begin() const noexcept{
         return _base.begin();
     }
 
     [[nodiscard]] inline
-    constexpr const_iterator end() const{
+    constexpr const_iterator end() const noexcept{
         return _base.end();
     }
 
     inline
-    constexpr void clear() {
+    constexpr void clear() noexcept{
         this->_base.clear();
     }
 
     [[nodiscard]] inline
-    constexpr base_type const& base() const{
+    constexpr base_type const& base() const noexcept{
         return this->_base;
     }
     
