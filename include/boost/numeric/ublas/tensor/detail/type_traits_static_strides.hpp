@@ -17,9 +17,9 @@
 
 namespace boost::numeric::ublas{
     
-template <class ExtentsType, ExtentsType... E> struct basic_static_extents;
+template <class ExtentsType, ExtentsType... E> class basic_static_extents;
 
-template <class E, class L> struct basic_static_strides;
+template <class E, class L> class basic_static_strides;
 
 } // namespace boost::numeric::ublas
 

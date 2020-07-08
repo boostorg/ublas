@@ -15,15 +15,9 @@
 #ifndef _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
 #define _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
 
-#include <boost/numeric/ublas/functional.hpp>
 #include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
 
-namespace boost { 
-namespace numeric { 
-namespace ublas {
-
-using first_order = column_major;
-using last_order = row_major;
+namespace boost::numeric::ublas {
 
 /** @brief Template class for storing tensor strides for iteration with runtime variable size.
  *
@@ -194,8 +188,6 @@ private:
 };
 
 
-}
-}
-}
+} // namespace boost::numeric::ublass
 
 #endif

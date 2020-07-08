@@ -22,7 +22,7 @@ namespace boost::numeric::ublas{
   using first_order = column_major;
   using last_order = row_major;
 
-  template <class E, class L> struct basic_static_strides;
+  template <class E, class L> class basic_static_strides;
 
 } // boost::numeric::ublas
 
@@ -179,8 +179,10 @@ namespace boost::numeric::ublas
  *
  */
 template <class Layout, class T, T... Extents>
-struct basic_static_strides<basic_static_extents<T,Extents...>, Layout>
+class basic_static_strides<basic_static_extents<T,Extents...>, Layout>
 {
+
+public:
 
   static constexpr std::size_t const _size = sizeof...(Extents);
 

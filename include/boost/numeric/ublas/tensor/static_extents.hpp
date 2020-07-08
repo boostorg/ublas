@@ -19,7 +19,7 @@
 
 namespace boost::numeric::ublas {
 
-template <class ExtentsType, ExtentsType... E> struct basic_static_extents;
+template <class ExtentsType, ExtentsType... E> class basic_static_extents;
 
 /** @brief Template class for storing tensor extents for compile time.
  *
@@ -28,7 +28,9 @@ template <class ExtentsType, ExtentsType... E> struct basic_static_extents;
  *
  */
 template <class ExtentsType, ExtentsType... E>
-struct basic_static_extents{
+class basic_static_extents{
+
+public:
 
   static constexpr auto _size = sizeof...(E);
   
