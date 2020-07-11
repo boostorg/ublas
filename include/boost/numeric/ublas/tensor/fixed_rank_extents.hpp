@@ -78,16 +78,26 @@ public:
         : _base(other._base)
     {}
     
-    constexpr basic_fixed_rank_extents(basic_fixed_rank_extents && other)
+    constexpr basic_fixed_rank_extents(basic_fixed_rank_extents && other) noexcept
         : _base( std::move(other._base) )
     {}
     
-    constexpr basic_fixed_rank_extents& operator=(basic_fixed_rank_extents other)
+    constexpr basic_fixed_rank_extents& operator=(basic_fixed_rank_extents const& other)
+        noexcept(std::is_nothrow_swappable_v<base_type>)
+    {
+        basic_fixed_rank_extents temp(other);
+        swap(*this,temp);
+        return *this;
+    }
+    
+    constexpr basic_fixed_rank_extents& operator=(basic_fixed_rank_extents && other)
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap(*this,other);
         return *this;
     }
+
+    ~basic_fixed_rank_extents() = default;
     
     constexpr basic_fixed_rank_extents(std::initializer_list<value_type> li){
         if( li.size() > _size ){
@@ -204,8 +214,6 @@ public:
     {
         return _base.back();
     }
-
-    ~basic_fixed_rank_extents() = default;
 
 private:
     base_type _base{};

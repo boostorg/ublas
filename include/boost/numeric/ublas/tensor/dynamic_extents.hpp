@@ -139,10 +139,17 @@ public:
 
     ~basic_extents() = default;
 
-    basic_extents& operator=(basic_extents other) 
+    basic_extents& operator=(basic_extents && other)
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);
+        return *this;
+    }
+    basic_extents& operator=(basic_extents const& other) 
+        noexcept(std::is_nothrow_swappable_v<base_type>)
+    {
+        basic_extents temp(other);
+        swap (*this, temp);
         return *this;
     }
 

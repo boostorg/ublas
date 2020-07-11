@@ -64,11 +64,13 @@ public:
 
   constexpr basic_static_extents() = default;
 
-  constexpr basic_static_extents(basic_static_extents const&) = default;
-  constexpr basic_static_extents(basic_static_extents &&) = default;
+  constexpr basic_static_extents(basic_static_extents const&) noexcept = default;
+  constexpr basic_static_extents(basic_static_extents &&) noexcept = default;
   
-  constexpr basic_static_extents& operator=(basic_static_extents const&) = default;
-  constexpr basic_static_extents& operator=(basic_static_extents &&) = default;
+  constexpr basic_static_extents& operator=(basic_static_extents const&) noexcept = default;
+  constexpr basic_static_extents& operator=(basic_static_extents &&) noexcept = default;
+
+  ~basic_static_extents() = default;
 
   /** @brief Returns ref to the std::array containing extents */
   [[nodiscard]] inline
@@ -104,9 +106,6 @@ public:
   constexpr const_iterator end() const noexcept{
     return m_data.end();
   }
-
-  ~basic_static_extents() = default;
-
 
 private:
   static constexpr base_type const m_data{E...};

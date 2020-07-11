@@ -241,9 +241,16 @@ public:
 
   // default copy constructor
   constexpr basic_static_strides(basic_static_strides const &other) noexcept = default;
+  constexpr basic_static_strides(basic_static_strides &&other) noexcept = default;
+  
   // default assign constructor
   constexpr basic_static_strides &
   operator=(basic_static_strides const &other) noexcept = default;
+  
+  constexpr basic_static_strides &
+  operator=(basic_static_strides &&other) noexcept = default;
+
+  ~basic_static_strides() = default;
 
    /** @brief Returns ref to the std::array containing extents */
   [[nodiscard]] inline

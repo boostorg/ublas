@@ -104,14 +104,14 @@ public:
         }
     }
 
-    constexpr tensor_core( extents_type e, storage_resizable_container_tag )
+    constexpr tensor_core( extents_type e, [[maybe_unused]] storage_resizable_container_tag t )
         : tensor_expression_type<self_type>()
         , extents_(std::move(e))
         , strides_(extents_)
         , data_( product(extents_) )
     {}
 
-    constexpr tensor_core( extents_type e, storage_static_container_tag )
+    constexpr tensor_core( extents_type e, [[maybe_unused]] storage_static_container_tag t )
         : tensor_expression_type<self_type>()
         , extents_(std::move(e))
         , strides_(extents_)
@@ -384,12 +384,15 @@ public:
      *  @param v tensor_core to be moved.
      */
     inline
-    tensor_core (tensor_core &&v)
+    tensor_core (tensor_core &&v) noexcept
         : tensor_expression_type<self_type>() //tensor_container<self_type> ()
         , extents_ (std::move(v.extents_))
         , strides_ (std::move(v.strides_))
         , data_    (std::move(v.data_   ))
     {}
+
+    /// @brief Default destructor
+    ~tensor_core() = default;
 
     /** @brief Evaluates the tensor_expression and assigns the results to the tensor_core
      *
