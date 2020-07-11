@@ -51,32 +51,32 @@ public:
     using vector_expression_type    = vector_expression<derived_type>;
 
     using super_type                = tensor_expression_type<self_type>;
-    using storage_traits            = typename tensor_traits::storage_traits;
+    using storage_traits_type       = typename tensor_traits::storage_traits_type;
 
-    using array_type                = typename storage_traits::array_type;
+    using array_type                = typename storage_traits_type::array_type;
     using layout_type               = typename tensor_traits::layout_type;
 
 
-    using size_type                 = typename storage_traits::size_type;
-    using difference_type           = typename storage_traits::difference_type;
-    using value_type                = typename storage_traits::value_type;
+    using size_type                 = typename storage_traits_type::size_type;
+    using difference_type           = typename storage_traits_type::difference_type;
+    using value_type                = typename storage_traits_type::value_type;
 
-    using reference                 = typename storage_traits::reference;
-    using const_reference           = typename storage_traits::const_reference;
+    using reference                 = typename storage_traits_type::reference;
+    using const_reference           = typename storage_traits_type::const_reference;
 
-    using pointer                   = typename storage_traits::pointer;
-    using const_pointer             = typename storage_traits::const_pointer;
+    using pointer                   = typename storage_traits_type::pointer;
+    using const_pointer             = typename storage_traits_type::const_pointer;
 
-    using iterator                  = typename storage_traits::iterator;
-    using const_iterator            = typename storage_traits::const_iterator;
+    using iterator                  = typename storage_traits_type::iterator;
+    using const_iterator            = typename storage_traits_type::const_iterator;
 
-    using reverse_iterator          = typename storage_traits::reverse_iterator;
-    using const_reverse_iterator    = typename storage_traits::const_reverse_iterator;
+    using reverse_iterator          = typename storage_traits_type::reverse_iterator;
+    using const_reverse_iterator    = typename storage_traits_type::const_reverse_iterator;
 
     using tensor_temporary_type     = self_type;
     using storage_category          = dense_tag;
-    using container_tag             = typename storage_traits::container_tag;
-    using resizable_tag             = typename storage_traits::resizable_tag;
+    using container_tag             = typename storage_traits_type::container_tag;
+    using resizable_tag             = typename storage_traits_type::resizable_tag;
 
     using extents_type              = typename tensor_traits::extents_type;
     using strides_type              = typename tensor_traits::strides_type;
