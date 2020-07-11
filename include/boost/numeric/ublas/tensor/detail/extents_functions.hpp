@@ -30,7 +30,10 @@ namespace boost::numeric::ublas::detail{
   constexpr auto push_front(basic_static_extents<T, N...>) -> basic_static_extents<T, E, N...>;
 
   template <typename T, T E0, T... E, T... N>
-  constexpr auto squeeze_impl_remove_one( basic_static_extents<T, E0, E...>, basic_static_extents<T, N...> num = basic_static_extents<T>{} ){
+  constexpr auto squeeze_impl_remove_one( 
+    [[maybe_unused]] basic_static_extents<T, E0, E...> e, 
+    basic_static_extents<T, N...> num = basic_static_extents<T>{} 
+  ){
     // executed when basic_static_extents is size of 1
     // @code basic_static_extents<T, E0> @endcode
     if constexpr( sizeof...(E) == 0ul ){
@@ -225,7 +228,7 @@ constexpr bool is_vector(ExtentsType const &e) {
   auto greater_one = [](auto const &a) { return a > 1u; };
   auto equal_one = [](auto const &a) { return a == 1u; };
 
-  if      (e.size() == 0u) return false;
+  if      (e.empty()) return false;
   else if (e.size() == 1u) return e[0] > 1u;
   else  return  std::any_of(e.begin(), e.begin() + 2, greater_one) &&
                 std::any_of(e.begin(), e.begin() + 2, equal_one) &&

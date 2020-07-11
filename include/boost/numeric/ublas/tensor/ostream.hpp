@@ -44,7 +44,7 @@ void print(std::ostream& out, size_type r, const value_type* p, const size_type*
 
         for(auto row = 0u; row < n[0]; p += w[0], ++row) // iterate over one column
         {
-            auto p1 = p;
+            auto const* p1 = p;
             for(auto col = 0u; col < n[1]; p1 += w[1], ++col) // iterate over first row
             {
                 print(out,*p1);

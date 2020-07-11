@@ -233,7 +233,7 @@ public:
 
 private:
 
-    base_type _base;
+    base_type _base{};
 
 };
 
