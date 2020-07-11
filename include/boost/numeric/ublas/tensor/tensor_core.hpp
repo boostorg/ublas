@@ -391,6 +391,18 @@ public:
         , data_    (std::move(v.data_   ))
     {}
 
+
+    /** @brief Move assignsment operator
+     *
+     *  @param v tensor_core to be moved.
+     */
+    inline
+    tensor_core& operator=(tensor_core &&v)
+    {
+        swap(*this,v);
+        return *this;
+    }
+
     /// @brief Default destructor
     ~tensor_core() = default;
 
@@ -409,9 +421,10 @@ public:
         return *this;
     }
 
-    tensor_core& operator=(tensor_core other)
+    tensor_core& operator=(tensor_core const& other)
     {
-        swap (*this, other);
+        tensor_core temp(other);
+        swap (*this, temp);
         return *this;
     }
 
