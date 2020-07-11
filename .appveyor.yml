@@ -11,8 +11,6 @@ branches:
     - master
     - develop
     - /feature\/.*/
-    - expr_template
-    - framework
 
 environment:
   matrix:
@@ -25,9 +23,6 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       TOOLSET: msvc-14.0
       CXXSTD: 11
-
-# cache:
-  # - c:\tools\vcpkg\installed\
 
 install:
   - cd "C:\Tools\vcpkg"
@@ -74,9 +69,6 @@ install:
 build: off
 
 test_script:
-  #- PATH=%ADDPATH%%PATH%
   - if not "%CXXSTD%" == "" set CXXSTD=cxxstd=%CXXSTD%
   - set ADDRMD=address-model=64
   - b2 -j3 libs/numeric/ublas/test toolset=%TOOLSET% %CXXSTD% %ADDRMD%
-  - b2 -j3 libs/numeric/ublas/benchmarks toolset=%TOOLSET% %CXXSTD% %ADDRMD%
-  - b2 -j3 libs/numeric/ublas/examples/tensor toolset=%TOOLSET% %CXXSTD% %ADDRMD%

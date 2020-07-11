@@ -17,6 +17,7 @@ project boost/ublas/benchmarks/opencl
     : requirements
       <library>/boost/program_options//boost_program_options
       <toolset>gcc:<cxxflags>-Wno-ignored-attributes
+      <toolset>clang:<cxxflags>-Wno-ignored-attributes
       [ ac.check-library /clblas//clblas : <library>/clblas//clblas <library>/opencl//opencl : <build>no ]
     ;
 

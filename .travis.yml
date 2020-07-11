@@ -15,8 +15,6 @@ branches:
     - develop
     - doc
     - ci
-    - expr_template
-    - framework
 
 # env: specifies additional global variables to define per row in build matrix
 env:
@@ -55,7 +53,6 @@ addons:
     - clinfo
     - opencl-headers
     - ocl-icd-opencl-dev
-    - lcov
 
 before_install:
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then .ci/install-ocl-ubuntu.sh; fi
@@ -78,10 +75,6 @@ install:
   - ./b2 -j 8 headers
   - export BOOST_ROOT="`pwd`"
 
-# Use before_script: to run configure steps
-before_script:
-
-
 # use script: to execute build steps
 script:
   - |-
@@ -90,18 +83,7 @@ script:
     cp $TRAVIS_BUILD_DIR/opencl.jam ~/
     cp $TRAVIS_BUILD_DIR/clblas.jam ~/
   - cd libs/numeric/ublas
-  - travis_wait 120 sleep infinity & $BOOST_ROOT/b2 -j 8 test/tensor toolset=$TOOLSET cxxstd=$CXXSTD
-  - $BOOST_ROOT/b2 -j 8 benchmarks toolset=$TOOLSET cxxstd=$CXXSTD
-  - $BOOST_ROOT/b2 -j 8 examples/tensor toolset=$TOOLSET cxxstd=$CXXSTD
-
-after_success:
-  - .ci/report_coverage.sh
-  # Uploading to CodeCov
-  # '-f' specifies file(s) to use and disables manual coverage gathering and file search which has already been done above
-  - curl -s https://codecov.io/bash > cov.sh
-  - chmod +x cov.sh
-  - ./cov.sh -f coverage.info || echo "Codecov did not collect coverage reports"
-
+  - $BOOST_ROOT/b2 -j 8 test toolset=$TOOLSET cxxstd=$CXXSTD
 
 notifications:
   email:
