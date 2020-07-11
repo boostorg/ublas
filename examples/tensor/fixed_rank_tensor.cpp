@@ -82,7 +82,7 @@ int main() {
     ub::fixed_rank_tensor<float,5> t4 = st1;
 
     // Assigning dynamic_tensor into fixed_rank_tensor
-    ub::dynamic_tensor<float> t5 = dt1;
+    ub::dynamic_tensor<float> const& t5 = dt1;
 
     std::cout<<"( t4 == t3 ) => "<<( t4 == t3 )<<std::endl;
     

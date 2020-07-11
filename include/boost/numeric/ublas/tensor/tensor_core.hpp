@@ -397,7 +397,7 @@ public:
      *  @param v tensor_core to be moved.
      */
     inline
-    tensor_core& operator=(tensor_core &&v)
+    tensor_core& operator=(tensor_core &&v) noexcept
     {
         swap(*this,v);
         return *this;

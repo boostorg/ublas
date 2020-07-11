@@ -81,9 +81,11 @@ namespace boost::numeric::ublas::detail{
   // @returns the static_stride_list containing strides
   // It is a helper function or implementation
   template<typename L, typename T, T E0, T... E, T... R, T... P>
-  constexpr auto make_static_strides_helper( static_stride_list<T, E0, E...>, 
-    static_stride_list<T, R...>, static_stride_list<T, P...>)
-  {
+  constexpr auto make_static_strides_helper( 
+    [[maybe_unused]] static_stride_list<T, E0, E...> e1, 
+    [[maybe_unused]] static_stride_list<T, R...> e2, 
+    [[maybe_unused]] static_stride_list<T, P...> e3
+  ){
       if constexpr(sizeof...(E) == 0ul ){
         
         if constexpr( std::is_same_v<last_order, L> ){
@@ -117,7 +119,7 @@ namespace boost::numeric::ublas::detail{
 
   // @returns the static_stride_list containing strides for last order
   template<typename L, typename T, T E0, T... E>
-  constexpr auto make_static_strides( static_stride_list<T, E0, E...> )
+  constexpr auto make_static_strides( [[maybe_unused]] static_stride_list<T, E0, E...> e )
   {
     using extents_type = typename static_stride_list<T, E0, E...>::extents_type;
     // checks if extents are vector or scalar
@@ -150,7 +152,7 @@ namespace boost::numeric::ublas::detail{
   
   // if extents are empty return empty list
   template<typename L, typename T>
-  constexpr auto make_static_strides( static_stride_list<T> )
+  constexpr auto make_static_strides( [[maybe_unused]] static_stride_list<T> e )
   {
     return static_stride_list<T>{};
   }

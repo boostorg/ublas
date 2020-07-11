@@ -802,8 +802,10 @@ namespace boost::numeric::ublas
 
         template<size_t M, size_t I, typename T, T... E, T... R>
         inline
-        constexpr auto extents_result_tensor_times_vector(basic_static_extents<T>, 
-            basic_static_extents<T, E...>, basic_static_extents<T, R...>)
+        constexpr auto extents_result_tensor_times_vector(
+            [[maybe_unused]] basic_static_extents<T> e, 
+            [[maybe_unused]] basic_static_extents<T, E...> te1, 
+            [[maybe_unused]] basic_static_extents<T, R...> te2)
         {
             return basic_static_extents<T, R..., E...>{};
         }
@@ -834,8 +836,10 @@ namespace boost::numeric::ublas
 
         template<size_t I, size_t NE, typename T, T E0, T... E, T... OtherE>
         inline
-        constexpr auto static_extents_set_at
-            ( basic_static_extents<T,E0,E...> const&, basic_static_extents<T,OtherE...> = basic_static_extents<T>{}){
+        constexpr auto static_extents_set_at( 
+            [[maybe_unused]] basic_static_extents<T,E0,E...> const& e1, 
+            [[maybe_unused]] basic_static_extents<T,OtherE...> e2 = basic_static_extents<T>{}
+        ){
             static_assert( I < sizeof...(E) + 1, "boost::numeric::ublas::detail::static_extents_set_at(): out of bound");
             if constexpr( sizeof...(E) == 0 ){
                 if constexpr( I == 0 ){

@@ -114,7 +114,7 @@ public:
         : _base(l._base)
     {}
 
-    basic_strides(basic_strides && l )
+    basic_strides(basic_strides && l ) noexcept
         : _base(std::move(l._base))
     {}
 
@@ -204,8 +204,8 @@ public:
         return this->_base;
     }
     
-protected:
-    base_type _base;
+private:
+    base_type _base{};
 };
 
 }

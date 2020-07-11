@@ -41,6 +41,10 @@ struct tensor_expression
 
     inline
     auto const& operator()() const { return *static_cast<const expression_type*> (this); }
+    
+    ~tensor_expression() = default;
+    tensor_expression(tensor_expression&&) = default;
+    tensor_expression& operator=(tensor_expression&&) = default;
 
 protected :
     explicit tensor_expression() = default;
@@ -66,8 +70,11 @@ struct binary_tensor_expression
       : el(l) , er(r) , op(o) {}
     binary_tensor_expression() = delete;
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
-    binary_tensor_expression(binary_tensor_expression&& l)
+    binary_tensor_expression(binary_tensor_expression&& l) noexcept
       : el(l.el), er(l.er), op(l.op) {}
+    binary_tensor_expression& operator=(binary_tensor_expression&& l) = default;
+
+    ~binary_tensor_expression() = default;
 
     inline
     decltype(auto)  operator()(size_type i) const { return op(el(i), er(i)); }

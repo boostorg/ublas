@@ -89,7 +89,7 @@ constexpr auto operator+( boost::numeric::ublas::detail::tensor_expression<T1,L>
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){
-        auto e = boost::numeric::ublas::detail::retrieve_extents(rhs);
+        auto const& e = boost::numeric::ublas::detail::retrieve_extents(rhs);
         
         if( !boost::numeric::ublas::detail::all_extents_equal(lhs,e) ){
             throw std::runtime_error("operator+() : LHS tensor and RHS tensor should have equal extents");
@@ -128,7 +128,7 @@ constexpr auto operator*( boost::numeric::ublas::detail::tensor_expression<T1,L>
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){
-        auto e = boost::numeric::ublas::detail::retrieve_extents(rhs);
+        auto const& e = boost::numeric::ublas::detail::retrieve_extents(rhs);
 
         if( !boost::numeric::ublas::detail::all_extents_equal(lhs,e) ){
             throw std::runtime_error("operator+() : LHS tensor and RHS tensor should have equal extents");
