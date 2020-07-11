@@ -1,0 +1,11 @@
+---
+Checks:                 '-*,modernize-*,cppcoreguidelines-*,openmp-*,bugprone-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-uppercase-literal-suffix,-readability-braces-around-statements'
+WarningsAsErrors:       '-*,modernize-*,cppcoreguidelines-*,openmp-*,bugprone-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-uppercase-literal-suffix,-readability-braces-around-statements'
+HeaderFilterRegex:      'boost\/numeric\/ublas\/tensor\/.*'
+AnalyzeTemporaryDtors:  false
+FormatStyle:            file
+User:                   ublas-developers
+CheckOptions:
+  - key:                modernize-use-nullptr.NullMacros
+    value:              'NULL'
+...

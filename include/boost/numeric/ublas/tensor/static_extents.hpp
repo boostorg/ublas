@@ -6,8 +6,7 @@
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
-//  The authors gratefully acknowledge the support of
-//  Google
+//  The authors gratefully acknowledge the support of Google
 //
 
 #ifndef _BOOST_NUMERIC_UBLAS_TENSOR_STATIC_EXTENTS_HPP_

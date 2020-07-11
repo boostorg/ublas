@@ -50,19 +50,25 @@ using zip = zip_helper<std::tuple<>,types...>;
 
 template<size_t I, class CallBack, class...Ts>
 struct for_each_tuple_impl{
-    auto operator()(std::tuple<Ts...>& t, CallBack call_back){
-        call_back(I,std::get<I>(t));
-        if constexpr(sizeof...(Ts) - 1 > I){
-            for_each_tuple_impl<I + 1,CallBack,Ts...> it;
-            it(t,call_back);
-        }
-    }
+  static_assert(sizeof...(Ts) > I, "Static Assert in boost::numeric::ublas::detail::for_each_tuple");
+  auto operator()(std::tuple<Ts...>& t, CallBack call_back)
+  {
+      call_back(I,std::get<I>(t));
+      if constexpr(sizeof...(Ts) - 1 > I){
+          for_each_tuple_impl<I + 1,CallBack,Ts...> it;
+          it(t,call_back);
+      }
+  }
 };
 
 template<class CallBack, class... Ts>
 auto for_each_tuple(std::tuple<Ts...>& t, CallBack call_back){
-    for_each_tuple_impl<0,CallBack,Ts...> f;
-    f(t,call_back);
+  if constexpr (std::tuple_size_v<std::tuple<Ts...>> == 0u )
+    return;
+
+  for_each_tuple_impl<0,CallBack,Ts...> f;
+  f(t,call_back);
+
 }
 
 
