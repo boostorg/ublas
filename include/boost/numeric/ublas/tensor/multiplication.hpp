@@ -346,7 +346,7 @@ void ttv0(SizeType const r,
 */
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void mtv(SizeType const m,
-         PointerOut c, SizeType const*const   , SizeType const*const wc,
+         PointerOut c, [[maybe_unused]] SizeType const*const nc, SizeType const*const wc,
          PointerIn1 a, SizeType const*const na, SizeType const*const wa,
          PointerIn2 b)
 {
@@ -440,7 +440,7 @@ value_t inner(SizeType const r, SizeType const*const n,
 
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void outer_2x2(SizeType const pa,
-               PointerOut c, SizeType const*const   , SizeType const*const wc,
+               PointerOut c, [[maybe_unused]] SizeType const*const nc, SizeType const*const wc,
                PointerIn1 a, SizeType const*const na, SizeType const*const wa,
                PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {

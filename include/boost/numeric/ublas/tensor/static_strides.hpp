@@ -239,7 +239,7 @@ public:
     
   }
 
-  constexpr basic_static_strides(extents_type const&) noexcept{};
+  constexpr basic_static_strides(extents_type const& e) noexcept{ (void)e; };
 
   // default copy constructor
   constexpr basic_static_strides(basic_static_strides const &other) noexcept = default;

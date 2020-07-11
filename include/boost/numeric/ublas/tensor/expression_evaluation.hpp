@@ -339,7 +339,7 @@ void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& 
  * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
 */
 template<class tensor_type, class unary_fn>
-void eval(tensor_type& lhs, unary_fn const fn)
+void eval(tensor_type& lhs, unary_fn const& fn)
 {
 #pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)

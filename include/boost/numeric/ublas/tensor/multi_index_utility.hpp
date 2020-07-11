@@ -268,8 +268,12 @@ template<std::size_t m>
 struct index_position_pairs_impl<m,m>
 {
     template<class array_type, class tuple_left, class tuple_right>
-    static constexpr void run([[maybe_unused]] array_type& out, tuple_left const& , tuple_right const& , [[maybe_unused]] std::size_t p)
-    {
+    static constexpr void run( 
+        [[maybe_unused]] array_type& out, 
+        [[maybe_unused]] tuple_left const& t1 , 
+        [[maybe_unused]] tuple_right const& t2, 
+        [[maybe_unused]] std::size_t p
+    ){
         using index_type     = std::tuple_element_t<m-1,tuple_left>;
         using has_index_type = has_index<index_type, tuple_right>;
         using get_index_type = index_position<index_type, tuple_right>;
@@ -282,8 +286,12 @@ template<std::size_t r>
 struct index_position_pairs_impl<r,0>
 {
     template<class array_type, class tuple_left, class tuple_right>
-    static constexpr void run(array_type&, tuple_left const& , tuple_right const& , std::size_t)
-    {}
+    static constexpr void run(
+        [[maybe_unused]] array_type& a, 
+        [[maybe_unused]] tuple_left const& t1, 
+        [[maybe_unused]] tuple_right const& t2, 
+        [[maybe_unused]] std::size_t sz
+    ){}
 };
 
 
@@ -329,7 +337,7 @@ namespace ublas   {
 namespace detail  {
 
 template<class array_type, std::size_t ... R>
-constexpr auto array_to_vector_impl( array_type const& array, std::index_sequence<R...> )
+constexpr auto array_to_vector_impl( array_type const& array, [[maybe_unused]] std::index_sequence<R...> sq)
 {
     return std::make_pair(
           std::vector<std::size_t>{std::get<0>( std::get<R>(array) )+1 ...} ,
