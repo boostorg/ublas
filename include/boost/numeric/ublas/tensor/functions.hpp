@@ -560,10 +560,10 @@ namespace boost::numeric::ublas
         using extents_type  = typename tensor_type::extents_type;
         
         static_assert(
-            !is_static< extents_type >::value,
+            !is_static_rank_v< extents_type > ,
             "error in boost::numeric::ublas::trans(tensor_core< TensorEngine > const &a, "
             "std::vector<std::size_t> const &tau): "
-            "Tensor should not have static extents"
+            "Tensor should have dynamic extents"
         );
 
         using t_engine = tensor_engine< 
