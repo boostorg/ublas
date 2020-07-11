@@ -162,7 +162,7 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::prod(ttv): first "
                 "argument tensor should not be empty.");
 
-        if (b.size() == 0)
+        if (b.empty())
             throw std::length_error(
                 "error in boost::numeric::ublas::prod(ttv): second "
                 "argument vector should not be empty.");
@@ -366,10 +366,11 @@ namespace boost::numeric::ublas
             if (na.at(phia.at(i) - 1) != nb.at(phib.at(i) - 1))
                 throw std::runtime_error("error in ublas::prod: permutations of the extents are not correct.");
 
-        auto const r = pa - q;
-        auto const s = pb - q;
+        std::size_t const r = pa - q;
+        std::size_t const s = pb - q;
 
-        std::vector<std::size_t> phia1(pa), phib1(pb);
+        std::vector<std::size_t> phia1(pa);
+        std::vector<std::size_t> phib1(pb);
         std::iota(phia1.begin(), phia1.end(), 1ul);
         std::iota(phib1.begin(), phib1.end(), 1ul);
 
@@ -812,8 +813,10 @@ namespace boost::numeric::ublas
 
         template<size_t M, size_t I, typename T, T E0, T... E, T O0, T... OtherE, T... R>
         inline
-        constexpr auto extents_result_tensor_times_vector(basic_static_extents<T,E0,E...>, 
-            basic_static_extents<T, O0, OtherE...>, basic_static_extents<T, R...> = basic_static_extents<T>{})
+        constexpr auto extents_result_tensor_times_vector(
+            [[maybe_unused]] basic_static_extents<T,E0,E...> e1, 
+            [[maybe_unused]] basic_static_extents<T, O0, OtherE...> e2, 
+            [[maybe_unused]] basic_static_extents<T, R...> e3 = basic_static_extents<T>{})
         {
             if constexpr(I != M - 1){
                 return extents_result_tensor_times_vector<M,I + 1> 

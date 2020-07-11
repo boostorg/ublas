@@ -43,13 +43,14 @@ struct tensor_expression
     auto const& operator()() const { return *static_cast<const expression_type*> (this); }
     
     ~tensor_expression() = default;
-    tensor_expression(tensor_expression&&) = default;
-    tensor_expression& operator=(tensor_expression&&) = default;
+    tensor_expression(const tensor_expression&) = delete;
+    tensor_expression(tensor_expression&&) noexcept = delete;
+    tensor_expression& operator=(const tensor_expression&) = delete;
+    tensor_expression& operator=(tensor_expression&&) noexcept = delete;
+
 
 protected :
     explicit tensor_expression() = default;
-    tensor_expression(const tensor_expression&) = delete;
-    tensor_expression& operator=(const tensor_expression&) = delete;
 };
 
 
@@ -66,13 +67,19 @@ struct binary_tensor_expression
 
     using size_type = typename tensor_type::size_type;
 
-    explicit binary_tensor_expression(expression_type_left  const& l, expression_type_right const& r, binary_operation o)
+    explicit constexpr binary_tensor_expression(expression_type_left  const& l, expression_type_right const& r, binary_operation o)
       : el(l) , er(r) , op(o) {}
     binary_tensor_expression() = delete;
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
-    binary_tensor_expression(binary_tensor_expression&& l) noexcept
+    constexpr binary_tensor_expression(binary_tensor_expression&& l) noexcept
       : el(l.el), er(l.er), op(l.op) {}
-    binary_tensor_expression& operator=(binary_tensor_expression&& l) = default;
+    constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept{
+        el(l.el);
+        er(l.er);
+        op(l.op);
+    }
+    
+    binary_tensor_expression& operator=(binary_tensor_expression const& l) noexcept = delete;
 
     ~binary_tensor_expression() = default;
 
@@ -133,12 +140,20 @@ struct unary_tensor_expression
 
     using size_type = typename tensor_type::size_type;
 
-    explicit unary_tensor_expression(E const& ee, OP o) : e(ee) , op(o) {}
-    unary_tensor_expression() = delete;
+    explicit constexpr  unary_tensor_expression(E const& ee, OP o) : e(ee) , op(o) {}
+    constexpr unary_tensor_expression() = delete;
     unary_tensor_expression(const unary_tensor_expression& l) = delete;
-    unary_tensor_expression(unary_tensor_expression&& l)
-      : e(l.e), op(op.l) {}
+    constexpr unary_tensor_expression(unary_tensor_expression&& l) noexcept
+      : e(l.e), op(l.op) {}
 
+    constexpr unary_tensor_expression& operator=(unary_tensor_expression&& l) noexcept{
+        e(l.e);
+        op(l.op);
+    }
+    
+    unary_tensor_expression& operator=(unary_tensor_expression const& l) noexcept = delete;
+    ~unary_tensor_expression() = default;
+    
     inline
     decltype(auto) operator()(size_type i) const { return op(e(i)); }
 

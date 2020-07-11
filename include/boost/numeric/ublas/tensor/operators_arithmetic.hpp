@@ -43,7 +43,7 @@ class vector_expression;
 
 #define FIRST_ORDER_OPERATOR_RIGHT(OP, EXPR_TYPE_L, EXPR_TYPE_R) \
 template<class T, class L, class R> \
-auto operator OP ( boost::numeric::ublas:: EXPR_TYPE_L <T,L> const& lhs, boost::numeric::ublas:: EXPR_TYPE_R <R> const& rhs) { \
+constexpr auto operator OP ( boost::numeric::ublas:: EXPR_TYPE_L <T,L> const& lhs, boost::numeric::ublas:: EXPR_TYPE_R <R> const& rhs) { \
     return boost::numeric::ublas::detail::make_binary_tensor_expression<T> (lhs(), rhs(), \
       [](auto const& l, auto const& r){ return l OP r; }); \
 } \
@@ -61,7 +61,7 @@ FIRST_ORDER_OPERATOR_RIGHT (/, detail:: tensor_expression , matrix_expression)
 
 #define FIRST_ORDER_OPERATOR_LEFT(OP, EXPR_TYPE_L, EXPR_TYPE_R) \
 template<class T, class L, class R> \
-auto operator OP ( boost::numeric::ublas:: EXPR_TYPE_L <L> const& lhs, boost::numeric::ublas:: EXPR_TYPE_R <T,R> const& rhs) { \
+constexpr auto operator OP ( boost::numeric::ublas:: EXPR_TYPE_L <L> const& lhs, boost::numeric::ublas:: EXPR_TYPE_R <T,R> const& rhs) { \
     return boost::numeric::ublas::detail::make_binary_tensor_expression<T> (lhs(), rhs(), \
       [](auto const& l, auto const& r){ return l OP r; }); \
 } \

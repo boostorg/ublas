@@ -50,10 +50,7 @@ public:
      *
      * @code auto ex = basic_extents<unsigned>{};
      */
-    basic_extents()
-      : _base{}
-    {
-    }
+    basic_extents() = default;
 
     /** @brief Copy constructs basic_extents from a one-dimensional container
      *
@@ -61,25 +58,9 @@ public:
      *
      * @note checks if size > 1 and all elements > 0
      *
-     * @param b one-dimensional std::vector<int_type> container
-     */
-    explicit basic_extents(base_type const& b)
-      : _base(b)
-    {
-        if ( !valid(*this) ){
-            throw std::length_error("Error in basic_extents::basic_extents() : shape tuple is not a valid permutation: has zero elements.");
-        }
-    }
-
-    /** @brief Move constructs basic_extents from a one-dimensional container
-     *
-     * @code auto ex = basic_extents<unsigned>(  std::vector<unsigned>(3u,3u) );
-     *
-     * @note checks if size > 1 and all elements > 0
-     *
      * @param b one-dimensional container of type std::vector<int_type>
      */
-    explicit basic_extents(base_type && b)
+    explicit basic_extents(base_type b)
       : _base(std::move(b))
     {
         if (!valid(*this)){
