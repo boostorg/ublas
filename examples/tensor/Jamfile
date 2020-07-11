@@ -23,7 +23,6 @@ exe construction_access : construction_access.cpp ;
 exe simple_expressions : simple_expressions.cpp ;
 exe dynamic_prod_expressions : dynamic_prod_expressions.cpp ;
 exe fixed_rank_prod_expressions : fixed_rank_prod_expressions.cpp ;
-exe static_prod_expressions : static_prod_expressions.cpp ;
 exe fixed_rank_tensor : fixed_rank_tensor.cpp ;
 exe static_tensor : static_tensor.cpp ;
 exe einstein_notation : einstein_notation.cpp ;
