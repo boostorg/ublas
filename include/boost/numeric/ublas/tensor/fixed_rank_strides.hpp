@@ -105,7 +105,7 @@ public:
         : _base(l._base)
     {}
 
-    basic_fixed_rank_strides(basic_fixed_rank_strides && l )
+    basic_fixed_rank_strides(basic_fixed_rank_strides && l ) noexcept
         : _base(std::move(l._base))
     {}
 
@@ -120,7 +120,15 @@ public:
     ~basic_fixed_rank_strides() = default;
 
 
-    basic_fixed_rank_strides& operator=(basic_fixed_rank_strides other)
+    basic_fixed_rank_strides& operator=(basic_fixed_rank_strides const& other)
+        noexcept(std::is_nothrow_swappable_v<base_type>)
+    {
+        basic_fixed_rank_strides temp(other);
+        swap (*this, temp);
+        return *this;
+    }
+
+    basic_fixed_rank_strides& operator=(basic_fixed_rank_strides && other)
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);

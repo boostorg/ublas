@@ -122,17 +122,24 @@ public:
         : _base(l)
     {}
 
-    basic_strides(base_type && l )
-            : _base(std::move(l))
+    basic_strides(base_type && l ) noexcept
+        : _base(std::move(l))
     {}
 
     ~basic_strides() = default;
 
-
-    basic_strides& operator=(basic_strides other) 
+    basic_strides& operator=(basic_strides&& other) 
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);
+        return *this;
+    }
+
+    basic_strides& operator=(basic_strides const& other) 
+        noexcept(std::is_nothrow_swappable_v<base_type>)
+    {
+        basic_strides temp(other);
+        swap (*this, temp);
         return *this;
     }
 

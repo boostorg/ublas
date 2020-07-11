@@ -22,7 +22,7 @@ namespace boost::numeric::ublas
     namespace detail{
         
         template<typename E>
-        constexpr auto extents_result_tensor_times_vector( E const& ){
+        constexpr auto extents_result_tensor_times_vector( [[maybe_unused]] E const& e){
             static_assert(is_static_rank<E>::value, 
                 "boost::numeric::ublas::extents_result_tensor_times_vector() : invalid type, type should be an extents");
             using size_type = typename E::size_type;
@@ -50,17 +50,26 @@ namespace boost::numeric::ublas
         }
 
         template<typename T, T... E1, T... E2>
-        constexpr auto extents_result_type_outer_prod( basic_static_extents<T,E1...> const&, basic_static_extents<T,E2...> const& ){
+        constexpr auto extents_result_type_outer_prod( 
+            [[maybe_unused]] basic_static_extents<T,E1...> const& e1, 
+            [[maybe_unused]] basic_static_extents<T,E2...> const& e2 
+        ){
             return dynamic_extents<sizeof...(E1) + sizeof...(E2)>();
         }
 
         template<typename T, T... E, size_t R>
-        constexpr auto extents_result_type_outer_prod( basic_static_extents<T,E...> const&, basic_fixed_rank_extents<T,R> const& ){
+        constexpr auto extents_result_type_outer_prod( 
+            [[maybe_unused]] basic_static_extents<T,E...> const& e1, 
+            [[maybe_unused]] basic_fixed_rank_extents<T,R> const& e2
+        ){
             return dynamic_extents<sizeof...(E) + R>();
         }
 
         template<typename T, T... E, size_t R>
-        constexpr auto extents_result_type_outer_prod( basic_fixed_rank_extents<T,R> const&, basic_static_extents<T,E...> const& ){
+        constexpr auto extents_result_type_outer_prod( 
+            [[maybe_unused]] basic_fixed_rank_extents<T,R> const& e1, 
+            [[maybe_unused]] basic_static_extents<T,E...> const& e2 
+        ){
             return dynamic_extents<R + sizeof...(E)>();
         }
 
@@ -71,10 +80,10 @@ namespace boost::numeric::ublas
 
         template< typename T ,std::size_t N, std::size_t R1, std::size_t R2, typename A>
         constexpr auto extents_result_tensor_prod( 
-            basic_fixed_rank_extents<T,R1> const&,
-            basic_fixed_rank_extents<T,R2> const&,
-            std::array<std::size_t, N> const&, 
-            std::vector<std::size_t,A> const&
+            [[maybe_unused]] basic_fixed_rank_extents<T,R1> const& e1,
+            [[maybe_unused]] basic_fixed_rank_extents<T,R2> const& e2,
+            [[maybe_unused]] std::array<std::size_t, N> const& a1, 
+            [[maybe_unused]] std::vector<std::size_t,A> const& a2
         ){
             constexpr auto const size = R1 + R2 - 2 * N;
             auto e = dynamic_extents<std::max(size, std::size_t(2))>();
@@ -95,7 +104,7 @@ namespace boost::numeric::ublas
         template< typename E1, typename E2, typename A1, typename A2>
         auto extents_result_tensor_prod( 
             E1 const& e1, E2 const& e2,
-            A1 const& a, A2 const&
+            A1 const& a, [[maybe_unused]] A2 const& ta
         ){
             auto const size = e1.size() + e2.size() - 2 * a.size();
             return dynamic_extents<>( typename dynamic_extents<>::base_type( std::max(size, std::size_t(2)), typename E1::value_type(1) ) );
