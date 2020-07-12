@@ -4,7 +4,7 @@
 
 name: Clang tidy checks
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   check:

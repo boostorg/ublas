@@ -229,8 +229,8 @@ constexpr bool is_vector(ExtentsType const &e) {
   auto equal_one = [](auto const &a) { return a == 1u; };
 
   if      (e.empty()) return false;
-  else if (e.size() == 1u) return e[0] > 1u;
-  else  return  std::any_of(e.begin(), e.begin() + 2, greater_one) &&
+  if (e.size() == 1u) return e[0] > 1u;
+  return  std::any_of(e.begin(), e.begin() + 2, greater_one) &&
                 std::any_of(e.begin(), e.begin() + 2, equal_one) &&
                 std::all_of(e.begin() + 2, e.end(), equal_one);
 
@@ -297,7 +297,7 @@ constexpr auto product(ExtentsType const &e) {
   static_assert(is_extents_v<ExtentsType>, "boost::numeric::ublas::product() : invalid type, type should be an extents");
   
   if ( e.empty() ) return 0u;
-  else return std::accumulate(e.begin(), e.end(), 1u, std::multiplies<>()) ;
+  return std::accumulate(e.begin(), e.end(), 1u, std::multiplies<>()) ;
 }
 
 
