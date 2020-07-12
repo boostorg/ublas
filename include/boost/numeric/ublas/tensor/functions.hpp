@@ -392,8 +392,9 @@ namespace boost::numeric::ublas
             nc[r + i] = nb[phib1[i] - 1];
 
         // std::copy( phib.begin(), phib.end(), phib1.end()  );
-
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(phia1.size() == pa);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(phib1.size() == pb);
 
         using c_extents_type = std::decay_t< decltype(nc) >;
