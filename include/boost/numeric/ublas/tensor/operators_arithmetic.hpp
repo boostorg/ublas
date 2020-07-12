@@ -41,42 +41,152 @@ class vector_expression;
 }
 }
 
-#define FIRST_ORDER_OPERATOR_RIGHT(OP, EXPR_TYPE_L, EXPR_TYPE_R) \
-template<class T, class L, class R> \
-constexpr auto operator OP ( boost::numeric::ublas:: EXPR_TYPE_L <T,L> const& lhs, boost::numeric::ublas:: EXPR_TYPE_R <R> const& rhs) { \
-    return boost::numeric::ublas::detail::make_binary_tensor_expression<T> (lhs(), rhs(), \
-      [](auto const& l, auto const& r){ return l OP r; }); \
-} \
+template <class T, class L, class R>
+constexpr auto operator*(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::vector_expression<R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l * r; });
+}
 
-FIRST_ORDER_OPERATOR_RIGHT (*, detail:: tensor_expression , vector_expression)
-FIRST_ORDER_OPERATOR_RIGHT (+, detail:: tensor_expression , vector_expression)
-FIRST_ORDER_OPERATOR_RIGHT (-, detail:: tensor_expression , vector_expression)
-FIRST_ORDER_OPERATOR_RIGHT (/, detail:: tensor_expression , vector_expression)
+template <class T, class L, class R>
+constexpr auto operator+(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::vector_expression<R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l + r; });
+}
 
-FIRST_ORDER_OPERATOR_RIGHT (*, detail:: tensor_expression , matrix_expression)
-FIRST_ORDER_OPERATOR_RIGHT (+, detail:: tensor_expression , matrix_expression)
-FIRST_ORDER_OPERATOR_RIGHT (-, detail:: tensor_expression , matrix_expression)
-FIRST_ORDER_OPERATOR_RIGHT (/, detail:: tensor_expression , matrix_expression)
+template <class T, class L, class R>
+constexpr auto operator-(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::vector_expression<R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l - r; });
+}
+
+template <class T, class L, class R>
+constexpr auto operator/(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::vector_expression<R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l / r; });
+}
 
 
-#define FIRST_ORDER_OPERATOR_LEFT(OP, EXPR_TYPE_L, EXPR_TYPE_R) \
-template<class T, class L, class R> \
-constexpr auto operator OP ( boost::numeric::ublas:: EXPR_TYPE_L <L> const& lhs, boost::numeric::ublas:: EXPR_TYPE_R <T,R> const& rhs) { \
-    return boost::numeric::ublas::detail::make_binary_tensor_expression<T> (lhs(), rhs(), \
-      [](auto const& l, auto const& r){ return l OP r; }); \
-} \
+template <class T, class L, class R>
+constexpr auto operator*(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::matrix_expression<R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l * r; });
+}
 
-FIRST_ORDER_OPERATOR_LEFT (*, vector_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (+, vector_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (-, vector_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (/, vector_expression, detail:: tensor_expression)
+template <class T, class L, class R>
+constexpr auto operator+(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::matrix_expression<R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l + r; });
+}
 
-FIRST_ORDER_OPERATOR_LEFT (*, matrix_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (+, matrix_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (-, matrix_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (/, matrix_expression, detail:: tensor_expression)
+template <class T, class L, class R>
+constexpr auto operator-(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::matrix_expression<R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l - r; });
+}
+
+template <class T, class L, class R>
+constexpr auto operator/(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::matrix_expression<R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l / r; });
+}
 
 
+template <class T, class L, class R>
+constexpr auto operator*(
+  boost ::numeric ::ublas ::vector_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l * r; });
+}
+
+template <class T, class L, class R>
+constexpr auto operator+(
+  boost ::numeric ::ublas ::vector_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l + r; });
+}
+
+template <class T, class L, class R>
+constexpr auto operator-(
+  boost ::numeric ::ublas ::vector_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l - r; });
+}
+
+template <class T, class L, class R>
+constexpr auto operator/(
+  boost ::numeric ::ublas ::vector_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l / r; });
+}
+
+
+template <class T, class L, class R>
+constexpr auto operator*(
+  boost ::numeric ::ublas ::matrix_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l * r; });
+}
+
+template <class T, class L, class R>
+constexpr auto operator+(
+  boost ::numeric ::ublas ::matrix_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l + r; });
+}
+
+template <class T, class L, class R>
+constexpr auto operator-(
+  boost ::numeric ::ublas ::matrix_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l - r; });
+}
+
+template <class T, class L, class R>
+constexpr auto operator/(
+  boost ::numeric ::ublas ::matrix_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs)
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), [](auto const& l, auto const& r) { return l / r; });
+}
 
 
 template<class T1, class T2, class L, class R>
