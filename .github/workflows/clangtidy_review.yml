@@ -10,7 +10,7 @@ jobs:
   check:
     name: Clang tidy Review 
     runs-on: ubuntu-20.04
-    if: ${{ github.repository }} == "boostorg/ublas"
+    if: ${{ github.event.pull_request.head.repo.fork }} == false
     steps:
       - uses: actions/checkout@v2  
       - name: "Install dependencies"
