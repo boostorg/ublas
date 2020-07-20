@@ -22,8 +22,8 @@ namespace boost::numeric::ublas{
     template<typename...>
     struct tensor_engine;
 
-    template<typename ExtentsType, typename LayoutType, typename ShapeType, typename StorageType>
-    struct tensor_engine<ExtentsType, LayoutType, ShapeType, StorageType>{
+    template<typename ExtentsType, typename LayoutType, typename StrideType, typename StorageType>
+    struct tensor_engine<ExtentsType, LayoutType, StrideType, StorageType>{
         using extents_type 	        = ExtentsType;
         
         static_assert(is_extents_v<extents_type>,
@@ -31,7 +31,7 @@ namespace boost::numeric::ublas{
         );
 
         using layout_type 	        = LayoutType;
-        using strides_type 	        = typename ShapeType::template type<layout_type>;
+        using strides_type 	        = typename StrideType::template type<layout_type>;
 
         static_assert(is_strides_v<strides_type>,
             "boost::numeric::ublas::tensor_engine : please provide valid tensor layout type"
