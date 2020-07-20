@@ -83,11 +83,6 @@ public:
 
     using matrix_type               = matrix<value_type,layout_type, std::vector<value_type> >;
     using vector_type               = vector<value_type, std::vector<value_type> >;
-
-
-    static_assert( std::is_same<layout_type,first_order>::value || 
-                   std::is_same<layout_type,last_order >::value, 
-                   "boost::numeric::tensor_core template class only supports first- or last-order storage formats.");
     
     /** @brief Constructs a tensor_core.
      *

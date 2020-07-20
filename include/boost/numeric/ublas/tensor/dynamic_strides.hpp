@@ -18,13 +18,11 @@
 #include <boost/numeric/ublas/functional.hpp>
 #include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
 #include <boost/numeric/ublas/tensor/type_traits.hpp>
+#include <boost/numeric/ublas/tensor/layout.hpp>
 
 namespace boost { 
 namespace numeric { 
 namespace ublas {
-
-using first_order = column_major;
-using last_order = row_major;
 
 template<class T>
 class basic_extents;
@@ -46,7 +44,7 @@ public:
                                  "Static error in boost::numeric::ublas::basic_strides: type must be of type integer.");
     static_assert(!std::numeric_limits<typename base_type::value_type>::is_signed,
                                 "Static error in boost::numeric::ublas::basic_strides: type must be of type unsigned integer.");
-    static_assert(std::is_same<__layout,first_order>::value || std::is_same<__layout,last_order>::value,
+    static_assert(std::is_same<__layout,layout::first_order>::value || std::is_same<__layout,layout::last_order>::value,
                                 "Static error in boost::numeric::ublas::basic_strides: layout type must either first or last order");
 
 
@@ -94,7 +92,7 @@ public:
             );
 
 
-        if constexpr (std::is_same<layout_type,first_order>::value){
+        if constexpr (std::is_same<layout_type,layout::first_order>::value){
             size_type k = 1ul;
             size_type kend = this->size();
             for(; k < kend; ++k)

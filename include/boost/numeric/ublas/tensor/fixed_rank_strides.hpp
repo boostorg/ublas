@@ -16,6 +16,7 @@
 #define _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
 
 #include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
+#include <boost/numeric/ublas/tensor/layout.hpp>
 
 namespace boost::numeric::ublas {
 
@@ -42,7 +43,7 @@ public:
                                  "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type integer.");
     static_assert(!std::numeric_limits<value_type>::is_signed,
                                 "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type unsigned integer.");
-    static_assert(std::is_same<L,first_order>::value || std::is_same<L,last_order>::value,
+    static_assert(std::is_same<L,layout::first_order>::value || std::is_same<L,layout::last_order>::value,
                                 "Static error in boost::numeric::ublas::basic_fixed_rank_strides: layout type must either first or last order");
 
     /** @brief Default constructs basic_fixed_rank_strides
@@ -88,7 +89,7 @@ public:
             );
 
 
-        if constexpr (std::is_same<layout_type,first_order>::value){
+        if constexpr (std::is_same<layout_type,layout::first_order>::value){
             size_type k = 1ul;
             size_type kend = this->size();
             for(; k < kend; ++k)

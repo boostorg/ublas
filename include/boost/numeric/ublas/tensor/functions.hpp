@@ -179,11 +179,8 @@ namespace boost::numeric::ublas
 
         using t_engine = tensor_engine< 
             c_extents_type,  
-            std::conditional_t< 
-                std::is_same_v< layout_type, first_order >,
-                layout::first_order<c_extents_type>,
-                layout::last_order<c_extents_type>
-            >,
+            layout_type,
+            strides<c_extents_type>,
             rebind_storage_t<c_extents_type,array_type,value_type>
         >;
         
@@ -263,11 +260,8 @@ namespace boost::numeric::ublas
 
         using t_engine = tensor_engine< 
             c_extents_type,  
-            std::conditional_t< 
-                std::is_same_v< layout_type, first_order >,
-                layout::first_order<c_extents_type>,
-                layout::last_order<c_extents_type>
-            >,
+            layout_type,
+            strides<c_extents_type>,
             rebind_storage_t<c_extents_type,array_type,value_type>
         >;
 
@@ -401,11 +395,8 @@ namespace boost::numeric::ublas
 
         using t_engine = tensor_engine< 
             c_extents_type,
-            std::conditional_t< 
-                std::is_same_v< layout_type, first_order >,
-                layout::first_order<c_extents_type>,
-                layout::last_order<c_extents_type>
-            >,
+            layout_type,
+            strides<c_extents_type>,
             rebind_storage_t<c_extents_type,array_type,value_type>
         >;
 
@@ -533,11 +524,8 @@ namespace boost::numeric::ublas
 
         using t_engine = tensor_engine< 
             c_extents_type,  
-            std::conditional_t< 
-                std::is_same_v< layout_type, first_order >,
-                layout::first_order<c_extents_type>,
-                layout::last_order<c_extents_type>
-            >,
+            layout_type,
+            strides<c_extents_type>,
             rebind_storage_t<c_extents_type,array_type,value_type>
         >;
 
@@ -579,11 +567,8 @@ namespace boost::numeric::ublas
 
         using t_engine = tensor_engine< 
             extents_type,
-            std::conditional_t< 
-                std::is_same_v< layout_type, first_order >,
-                layout::first_order<extents_type>,
-                layout::last_order<extents_type>
-            >,
+            layout_type,
+            strides<extents_type>,
             rebind_storage_t<extents_type,array_type,value_type>
         >;
 
@@ -670,11 +655,8 @@ namespace boost::numeric::ublas
     
         using t_engine = tensor_engine< 
             extents_type,
-            std::conditional_t< 
-                std::is_same_v< layout_type, first_order >,
-                layout::first_order<extents_type>,
-                layout::last_order<extents_type>
-            >,
+            layout_type,
+            strides<extents_type>,
             rebind_storage_t<extents_type,array_type,new_value_type>
         >;
 
@@ -721,11 +703,8 @@ namespace boost::numeric::ublas
         
         using t_engine = tensor_engine< 
             extents_type,
-            std::conditional_t< 
-                std::is_same_v< layout_type, first_order >,
-                layout::first_order<extents_type>,
-                layout::last_order<extents_type>
-            >,
+            layout_type,
+            strides<extents_type>,
             rebind_storage_t<extents_type,array_type,value_type>
         >;
 
@@ -773,11 +752,8 @@ namespace boost::numeric::ublas
         
         using t_engine = tensor_engine<
             extents_type,
-            std::conditional_t< 
-                std::is_same_v< layout_type, first_order >,
-                layout::first_order<extents_type>,
-                layout::last_order<extents_type>
-            >,
+            layout_type,
+            strides<extents_type>,
             rebind_storage_t<extents_type,array_type,value_type>
         >;
 

@@ -22,9 +22,8 @@ namespace boost::numeric::ublas {
     template <class E>
     inline static constexpr bool const is_strides_v = is_strides<E>::value;
 
-    namespace detail{
-        template <class Layout, class T> struct strides_impl;
-    } // detail
+    template<typename ExtentsType>
+    struct strides;
 
     /** @brief type alias of result of strides::type
      *
@@ -34,7 +33,7 @@ namespace boost::numeric::ublas {
      *
      */
     template <class E, class Layout>
-    using strides_t = typename detail::strides_impl<E, Layout>::type;
+    using strides_t = typename strides<E>::template type<Layout>;
 
 } // namespace boost::numeric::ublas::detail
 

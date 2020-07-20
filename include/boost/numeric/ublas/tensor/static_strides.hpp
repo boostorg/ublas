@@ -15,12 +15,10 @@
 #define BOOST_UBLAS_TENSOR_STATIC_STRIDES_HPP
 
 #include <boost/numeric/ublas/tensor/static_extents.hpp>
+#include <boost/numeric/ublas/tensor/layout.hpp>
 #include <boost/numeric/ublas/tensor/detail/static_extents_traits.hpp>
 
 namespace boost::numeric::ublas{
-
-  using first_order = column_major;
-  using last_order = row_major;
 
   template <class E, class L> class basic_static_strides;
 
@@ -88,7 +86,7 @@ namespace boost::numeric::ublas::detail{
   ){
       if constexpr(sizeof...(E) == 0ul ){
         
-        if constexpr( std::is_same_v<last_order, L> ){
+        if constexpr( std::is_same_v<layout::last_order, L> ){
 
           return static_stride_list<T, P..., E0>{};
           
@@ -105,7 +103,7 @@ namespace boost::numeric::ublas::detail{
 
         // result list containing the strides
         // on each iteration calculate the product
-        if constexpr( std::is_same_v<last_order, L> ){
+        if constexpr( std::is_same_v<layout::last_order, L> ){
           auto np = static_stride_list< T, P..., static_product_v< basic_static_extents<T, E..., E0> > >{};
           return make_static_strides_helper<L>( static_stride_list<T, E...>{}, n, np );
         }else{
@@ -131,7 +129,7 @@ namespace boost::numeric::ublas::detail{
 
       }else{
         
-        if constexpr( std::is_same_v<L, first_order > ){
+        if constexpr( std::is_same_v<L, layout::first_order > ){
           
           using ret_type = decltype( make_static_strides_helper<L>(static_stride_list<T, E0, E...>{}, static_stride_list<T>{}, static_stride_list<T>{}) );
           return impl::concat_t< static_stride_list<T, T(1)>, ret_type>{};
@@ -172,9 +170,9 @@ namespace boost::numeric::ublas::detail{
 
 namespace boost::numeric::ublas
 {
-/** @brief Partial Specialization for first_order or column_major
+/** @brief Partial Specialization for layout::first_order or column_major
  *
- * @code basic_static_strides<basic_static_extents<4,1,2,3,4>, first_order> s @endcode
+ * @code basic_static_strides<basic_static_extents<4,1,2,3,4>, layout::first_order> s @endcode
  *
  * @tparam R rank of basic_static_extents
  * @tparam Extents paramerter pack of extents

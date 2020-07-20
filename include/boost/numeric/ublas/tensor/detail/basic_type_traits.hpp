@@ -15,12 +15,8 @@
 
 #include <type_traits>
 #include <cstddef>
-#include <boost/numeric/ublas/functional.hpp>
 
 namespace boost::numeric::ublas {
-
-using first_order = column_major;
-using last_order = row_major;
   
 /** @brief Checks if the extents or strides is dynamic
  *

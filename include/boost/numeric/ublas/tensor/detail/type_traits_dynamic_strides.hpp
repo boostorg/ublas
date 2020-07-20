@@ -35,23 +35,12 @@ namespace boost::numeric::ublas{
     template <class T, class L>
     struct is_dynamic_rank< basic_strides<T, L> > : std::true_type {};
 
-    namespace detail{
-        
-        /** @brief Partial Specialization of strides for basic_extents
-         *
-         *
-         * @tparam Layout either first_order or last_order
-         *
-         * @tparam T extents type
-         *
-         */
-        template <class Layout, class T>
-        struct strides_impl<basic_extents<T>, Layout>
-        {
-            using type = basic_strides<T, Layout>;
-        };
-        
-    } // detail
+    template <class T>
+    struct strides<basic_extents<T>>
+    {
+        template<typename Layout>
+        using type = basic_strides<T, Layout>;
+    };
 
 } // namespace boost::numeric::ublas
 
