@@ -115,7 +115,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor, value,  test_types, fix
 
     for_each_tuple(extents, [](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
-        auto r = ublas::static_tensor<value_type, extents_type, layout_type>{extents_type{},0};
+        auto r = ublas::static_tensor<value_type, extents_type, layout_type>{0};
 
         auto t = r;
         BOOST_CHECK_EQUAL (  t.size() , r.size() );
@@ -148,7 +148,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor_layout, value,  test_typ
     for_each_tuple(extents, [](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
-        auto r = tensor_type{e,0};
+        auto r = tensor_type{0};
         ublas::static_tensor<value_type, extents_type, other_layout_type> t = r;
         tensor_type q = t;
 
@@ -213,7 +213,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_init, value,  test_ty
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
         
         auto r = value_type( static_cast< inner_type_t<value_type> >(distribution(generator)) );
-        auto t = tensor_type{e,r};
+        auto t = tensor_type{r};
         for(auto i = 0ul; i < t.size(); ++i)
             BOOST_CHECK_EQUAL( t[i], r );
 
@@ -240,7 +240,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_array, value,  test_t
             aa = v;
             v += value_type{1};
         }
-        auto t = tensor_type{e,a};
+        auto t = tensor_type{a};
         v = value_type{};
 
         for(auto i = 0ul; i < t.size(); ++i, v+=value_type{1})
@@ -372,7 +372,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_standard_iterator, value,  test_ty
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
         
         auto v = value_type {} + value_type{1};
-        auto t = tensor_type{e,v};
+        auto t = tensor_type{v};
 
         BOOST_CHECK_EQUAL( std::distance(t.begin(),  t.end ()), t.size()  );
         BOOST_CHECK_EQUAL( std::distance(t.rbegin(), t.rend()), t.size()  );

@@ -126,6 +126,9 @@ public:
      *
      * @param l initializer list for setting the dimension extents of the tensor_core
      */
+    template<typename U = extents_type,
+        typename = std::enable_if_t<is_dynamic_v<U>>
+    >
     explicit inline
     tensor_core (std::initializer_list<size_type> l)
         : tensor_core( std::move(l), resizable_tag{} )
@@ -139,6 +142,9 @@ public:
      *
      * @param s initial tensor_core dimension extents
      */
+    template<typename U = extents_type,
+        typename = std::enable_if_t<is_dynamic_v<U>>
+    >
     explicit inline
     tensor_core (extents_type const& s)
         : tensor_core( s, resizable_tag{} )
@@ -153,9 +159,30 @@ public:
      * @param s initial tensor_core dimension extents
      * @param i initial tensor_core with this value
      */
+    template<typename U = extents_type,
+        typename = std::enable_if_t<is_dynamic_v<U>>
+    >
     explicit inline
     tensor_core (extents_type const& s, value_type const& i)
         : tensor_core( s, resizable_tag{} )
+    {
+        std::fill_n(begin(),size(),i);
+    }
+
+    /** @brief Constructs a tensor_core with a \c shape
+     *
+     * By default, its elements are initialized to 0.
+     *
+     * @code tensor_core<float> A{}; @endcode
+     *
+     * @param i initial tensor_core with this value
+     */
+    template<typename U = extents_type,
+        typename = std::enable_if_t<is_static_v<U>>
+    >
+    explicit inline
+    tensor_core (value_type const& i)
+        : tensor_core()
     {
         std::fill_n(begin(),size(),i);
     }
@@ -168,9 +195,33 @@ public:
      *  @param s initial tensor_core dimension extents
      *  @param a container of \c array_type that is copied according to the storage layout
      */
+    template<typename U = extents_type,
+        typename = std::enable_if_t<is_dynamic_v<U>>
+    >
     inline
     tensor_core (extents_type const& s, const array_type &a)
         : tensor_core( s, resizable_tag{} )
+    {
+        if( size() != a.size() ){
+            throw std::runtime_error("boost::numeric::ublas::tensor_core(extents_type,array_type): "
+                "array size mismatch with extents"
+            );
+        }
+        std::copy_n(a.begin(),size(),begin());
+    }
+
+    /** @brief Constructs a tensor_core with a \c shape and initiates it with one-dimensional data
+     *
+     * @code tensor_core<float> A{ array }; @endcode
+     *
+     *  @param a container of \c array_type that is copied according to the storage layout
+     */
+    template<typename U = extents_type,
+        typename = std::enable_if_t<is_static_v<U>>
+    >
+    inline
+    tensor_core (const array_type &a)
+        : tensor_core()
     {
         if( size() != a.size() ){
             throw std::runtime_error("boost::numeric::ublas::tensor_core(extents_type,array_type): "
