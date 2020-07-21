@@ -195,6 +195,7 @@ public:
   using size_type       = typename base_type::size_type;
   using const_pointer   = typename base_type::const_pointer;
   using const_iterator  = typename base_type::const_iterator;
+  using const_reverse_iterator = typename base_type::const_reverse_iterator;
 
   /**
    * @param k pos of extent
@@ -277,6 +278,20 @@ public:
   [[nodiscard]] inline
   constexpr bool empty() const noexcept{
     return m_data.empty();
+  }
+
+  [[nodiscard]] inline
+  constexpr const_reverse_iterator
+  rbegin() const noexcept
+  {
+      return m_data.rbegin();
+  }
+
+  [[nodiscard]] inline
+  constexpr const_reverse_iterator
+  rend() const noexcept
+  {
+      return m_data.rend();
   }
 
 private:

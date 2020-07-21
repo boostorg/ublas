@@ -44,6 +44,7 @@ public:
     using size_type = typename base_type::size_type;
     using const_pointer = typename base_type::const_pointer;
     using const_iterator = typename base_type::const_iterator;
+    using const_reverse_iterator = typename base_type::const_reverse_iterator;
 
 
     /** @brief Default constructs basic_extents
@@ -207,6 +208,20 @@ public:
     end() const noexcept
     {
         return _base.end();
+    }
+
+    [[nodiscard]] inline
+    constexpr const_reverse_iterator
+    rbegin() const noexcept
+    {
+        return _base.rbegin();
+    }
+
+    [[nodiscard]] inline
+    constexpr const_reverse_iterator
+    rend() const noexcept
+    {
+        return _base.rend();
     }
 
     [[nodiscard]] inline

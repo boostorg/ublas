@@ -55,6 +55,7 @@ public:
     using size_type = typename base_type::size_type;
     using const_pointer = typename base_type::const_pointer;
     using const_iterator = typename base_type::const_iterator;
+    using const_reverse_iterator = typename base_type::const_reverse_iterator;
 
 
     /** @brief Default constructs basic_strides
@@ -93,17 +94,9 @@ public:
 
 
         if constexpr (std::is_same<layout_type,layout::first_order>::value){
-            size_type k = 1ul;
-            size_type kend = this->size();
-            for(; k < kend; ++k)
-                _base[k] = _base[k-1] * s[k-1];
-        }
-        else {
-            size_type k = this->size()-2;
-            size_type kend = 0ul;
-            for(; k > kend; --k)
-                _base[k] = _base[k+1] * s[k+1];
-            _base[0] = _base[1] * s[1];
+            std::transform(s.begin(), s.end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<std::size_t>{});
+        }else {
+            std::transform(s.rbegin(), s.rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<std::size_t>{});
         }
     }
 
@@ -199,6 +192,20 @@ public:
     [[nodiscard]] inline
     constexpr base_type const& base() const noexcept{
         return this->_base;
+    }
+
+    [[nodiscard]] inline
+    constexpr const_reverse_iterator
+    rbegin() const noexcept
+    {
+        return _base.rbegin();
+    }
+
+    [[nodiscard]] inline
+    constexpr const_reverse_iterator
+    rend() const noexcept
+    {
+        return _base.rend();
     }
     
 private:

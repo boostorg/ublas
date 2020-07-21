@@ -35,11 +35,12 @@ public:
   
   using base_type       = std::array<ExtentsType,_size>;
   using value_type      = typename base_type::value_type;
-  using const_reference = typename base_type::const_reference;
+  using size_type       = typename base_type::size_type;
   using reference       = typename base_type::reference;
+  using const_reference = typename base_type::const_reference;
   using const_pointer   = typename base_type::const_pointer;
   using const_iterator  = typename base_type::const_iterator;
-  using size_type       = typename base_type::size_type;
+  using const_reverse_iterator = typename base_type::const_reverse_iterator;
 
   static_assert( std::numeric_limits<value_type>::is_integer, "Static error in basic_static_extents: type must be of type integer.");
   static_assert(!std::numeric_limits<value_type>::is_signed,  "Static error in basic_static_extents: type must be of type unsigned integer.");
@@ -105,6 +106,20 @@ public:
   [[nodiscard]] inline
   constexpr const_iterator end() const noexcept{
     return m_data.end();
+  }
+
+  [[nodiscard]] inline
+  constexpr const_reverse_iterator
+  rbegin() const noexcept
+  {
+      return m_data.rbegin();
+  }
+
+  [[nodiscard]] inline
+  constexpr const_reverse_iterator
+  rend() const noexcept
+  {
+      return m_data.rend();
   }
 
 private:
