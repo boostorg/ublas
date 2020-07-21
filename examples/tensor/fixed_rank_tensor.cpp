@@ -27,7 +27,7 @@ int main() {
 
     /**
      * fixed rank tensor with 
-     * Layout: first_order by default if not 
+     * Layout: layout::first_order by default if not 
      * provided
      * Value Type: float
      * Extents Type: dynamic_extents<5>{1,2,3,4,5}
@@ -36,16 +36,16 @@ int main() {
 
     /**
      * fixed rank tensor using deduction guide
-     * Layout: last_order 
+     * Layout: layout::last_order 
      * provided
      * Value Type: float
      * Extents Type: dynamic_extents<5>{1,2,2,3,4}
     **/
-    auto t12 = ub::fixed_rank_tensor<float,5,ub::last_order>{ ub::dynamic_extents<5>{1,2,2,3,4}, 5.f };
+    auto t12 = ub::fixed_rank_tensor<float,5,ub::layout::last_order>{ ub::dynamic_extents<5>{1,2,2,3,4}, 5.f };
 
     /**
      * fixed rank tensor using deduction guide
-     * Layout: first_order by default if not 
+     * Layout: layout::first_order by default if not 
      * provided
      * Value Type: float
      * Extents Type: dynamic_extents<5>{1,2,2,3,4}

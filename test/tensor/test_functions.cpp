@@ -26,9 +26,9 @@
 BOOST_AUTO_TEST_SUITE ( test_tensor_functions)
 
 
-using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
+using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
-//using test_types = zip<int>::with_t<boost::numeric::ublas::first_order>;
+//using test_types = zip<int>::with_t<boost::numeric::ublas::layout::first_order>;
 
 
 struct fixture
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_vector_exception )
 {
     using namespace boost::numeric;
     using value_type   = float;
-    using layout_type  = ublas::first_order;
+    using layout_type  = ublas::layout::first_order;
     using d_tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using vector_type  = typename d_tensor_type::vector_type;
 
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_matrix_exception )
 {
     using namespace boost::numeric;
     using value_type   = float;
-    using layout_type  = ublas::first_order;
+    using layout_type  = ublas::layout::first_order;
     using d_extents_type = ublas::dynamic_extents<>;
     using d_tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using matrix_type  = typename d_tensor_type::matrix_type;
@@ -204,7 +204,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_tensor_1_exception )
 {
     using namespace boost::numeric;
     using value_type   = float;
-    using layout_type  = ublas::first_order;
+    using layout_type  = ublas::layout::first_order;
     using d_extents_type = ublas::dynamic_extents<>;
     using d_tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 
@@ -343,7 +343,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_inner_prod_exception )
 {
     using namespace boost::numeric;
     using value_type   = float;
-    using layout_type  = ublas::first_order;
+    using layout_type  = ublas::layout::first_order;
     using d_extents_type = ublas::dynamic_extents<>;
     using d_tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
 
@@ -389,7 +389,7 @@ BOOST_FIXTURE_TEST_CASE( test_tensor_real_imag_conj, fixture )
     using namespace boost::numeric;
     using value_type   = float;
     using complex_type = std::complex<value_type>;
-    using layout_type  = ublas::first_order;
+    using layout_type  = ublas::layout::first_order;
 
     using tensor_complex_type  = ublas::dynamic_tensor<complex_type, layout_type>;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;

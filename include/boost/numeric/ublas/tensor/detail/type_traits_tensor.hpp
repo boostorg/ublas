@@ -19,8 +19,6 @@
 #include <boost/numeric/ublas/functional.hpp>
 
 namespace boost::numeric::ublas{
-    using first_order   = column_major;
-    using last_order    = row_major;
     
     template<typename T> class tensor_core;
 

@@ -27,7 +27,7 @@ int main() {
 
     /**
      * static rank tensor with 
-     * Layout: first_order by default if not 
+     * Layout: layout::first_order by default if not 
      * provided
      * Value Type: float
      * Extents Type: dynamic_extents<5>{1,2,3,4,5}
@@ -36,12 +36,12 @@ int main() {
 
     /**
      * static rank tensor with 
-     * Layout: first_order by default if not 
+     * Layout: layout::first_order by default if not 
      * provided
      * Value Type: float
      * Extents Type: dynamic_extents<5>{1,2,3,4,5}
     **/
-    auto t2 = ub::static_tensor<float,ub::static_extents<1,2,3,4,5>, ub::last_order >{5.f};
+    auto t2 = ub::static_tensor<float,ub::static_extents<1,2,3,4,5>, ub::layout::last_order >{5.f};
 
     /*--------------------------Expressions------------------------------*/
     

@@ -88,7 +88,7 @@ public:
 
         if( this->size() < 2 )
             throw std::runtime_error("Error in boost::numeric::ublas::basic_strides(ExtentsType const&) : "
-                "size of strides must be greater or equal 2."
+                "size of strides must be greater or equal to 2."
             );
 
 

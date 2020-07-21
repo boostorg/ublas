@@ -46,7 +46,7 @@ namespace boost::numeric::ublas{
         : tensor_engine< ExtentsType, LayoutType, strides<ExtentsType>, StorageType >
     {};
     
-    template<typename ValueType, typename Layout = first_order>
+    template<typename ValueType, typename Layout = layout::first_order>
     using dynamic_tensor = tensor_core< 
         tensor_engine<
             dynamic_extents<>,
@@ -57,7 +57,7 @@ namespace boost::numeric::ublas{
     >;
     
 
-    template<typename ValueType, typename ExtentsType, typename Layout = first_order>
+    template<typename ValueType, typename ExtentsType, typename Layout = layout::first_order>
     using static_tensor = tensor_core<
         tensor_engine< 
             ExtentsType,
@@ -67,7 +67,7 @@ namespace boost::numeric::ublas{
         > 
     >;
 
-    template<typename ValueType, std::size_t N, typename Layout = first_order>
+    template<typename ValueType, std::size_t N, typename Layout = layout::first_order>
     using fixed_rank_tensor = tensor_core< 
         tensor_engine<
             dynamic_extents<N>,

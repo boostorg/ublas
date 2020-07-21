@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE ( test_tensor_algorithms,
 // BOOST_AUTO_TEST_SUITE ( test_tensor_algorithms)
 
 
-using test_types  = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
+using test_types  = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 using test_types2 = std::tuple<int,long,float,double,std::complex<float>>;
 
 struct fixture
@@ -69,9 +69,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy, value,  test_type
         auto b  = vector_type(product(n));
         auto c  = vector_type(product(n));
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-        auto wb = ublas::strides_t<ublas::dynamic_extents<>,ublas::last_order> (n);
-        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+        auto wb = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::last_order> (n);
+        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         auto v = value_type{};
         for(auto i = 0ul; i < a.size(); ++i, v+=1){
@@ -84,7 +84,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy, value,  test_type
         for(auto i = 1ul; i < c.size(); ++i)
             BOOST_CHECK_EQUAL( c[i], a[i] );
 
-        using size_type = typename ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>::value_type;
+        using size_type = typename ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>::value_type;
         size_type const*const p0 = nullptr;
         BOOST_CHECK_THROW( ublas::copy( n.size(), p0, c.data(), wc.data(), b.data(), wb.data() ), std::runtime_error );
         BOOST_CHECK_THROW( ublas::copy( n.size(), n.data(), c.data(), p0, b.data(), wb.data() ), std::runtime_error );
@@ -103,9 +103,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy, value,  test_type
         auto c  = vector_type(product(n));
 
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-        auto wb = ublas::strides_t<ublas::dynamic_extents<>,ublas::last_order> (n);
-        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+        auto wb = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::last_order> (n);
+        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         ublas::copy( n.size(), n.data(), b.data(), wb.data(), a.data(), wa.data() );
         ublas::copy( n.size(), n.data(), c.data(), wc.data(), b.data(), wb.data() );
@@ -134,8 +134,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy_exceptions, value,
         value_type* a  = nullptr;
         auto c  = vector_type(product(n));
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c.data(), wc.data(), a, wa.data() ), std::runtime_error );
         
@@ -146,8 +146,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy_exceptions, value,
         value_type* a  = nullptr;
         value_type* c  = nullptr;
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c, wc.data(), a, wa.data() ), std::runtime_error );
 
@@ -158,8 +158,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy_exceptions, value,
             auto a  = vector_type(product(n));
             value_type* c  = nullptr;
 
-            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
             BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c, wc.data(), a.data(), wa.data() ), std::runtime_error );
             
@@ -171,7 +171,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy_exceptions, value,
             auto c  = vector_type(product(n));
 
             size_t* wa = nullptr;
-            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
             BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c.data(), wc.data(), a.data(), wa ), std::runtime_error );
             
@@ -183,7 +183,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy_exceptions, value,
             auto c  = vector_type(product(n));
 
             size_t* wc = nullptr;
-            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
             BOOST_REQUIRE_THROW( ublas::copy( n.size(), n.data(), c.data(), wc, a.data(), wa.data() ), std::runtime_error );
             
@@ -195,8 +195,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_copy_exceptions, value,
             auto c  = vector_type(product(n));
             
             size_t* m = nullptr;
-            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
             BOOST_REQUIRE_THROW( ublas::copy( n.size(), m, c.data(), wc.data(), a.data(), wa.data() ), std::runtime_error );
             
@@ -218,9 +218,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform, value,  test
         auto b  = vector_type(product(n));
         auto c  = vector_type(product(n));
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-        auto wb = ublas::strides_t<ublas::dynamic_extents<>,ublas::last_order> (n);
-        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+        auto wb = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::last_order> (n);
+        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         auto v = value_type{};
         for(auto i = 0ul; i < a.size(); ++i, v+=1){
@@ -230,7 +230,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform, value,  test
         ublas::transform( n.size(), n.data(), b.data(), wb.data(), a.data(), wa.data(), [](value_type const& a){ return a + value_type(1);} );
         ublas::transform( n.size(), n.data(), c.data(), wc.data(), b.data(), wb.data(), [](value_type const& a){ return a - value_type(1);} );
 
-        using size_type = typename ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>::value_type;
+        using size_type = typename ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>::value_type;
 
         size_type zero = 0;
         ublas::transform(zero, n.data(), c.data(), wc.data(), b.data(), wb.data(), [](value_type const& a){ return a + value_type(1);} );
@@ -262,8 +262,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform_exceptions, v
         value_type* a  = nullptr;
         auto c  = vector_type(product(n));
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c.data(), wc.data(), a, wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::runtime_error );
         
@@ -274,8 +274,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform_exceptions, v
         value_type* a  = nullptr;
         value_type* c  = nullptr;
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+        auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c, wc.data(), a, wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::runtime_error );
 
@@ -286,8 +286,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform_exceptions, v
             auto a  = vector_type(product(n));
             value_type* c  = nullptr;
 
-            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
             BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c, wc.data(), a.data(), wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::runtime_error );
             
@@ -299,7 +299,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform_exceptions, v
             auto c  = vector_type(product(n));
 
             size_t* wa = nullptr;
-            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
             BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c.data(), wc.data(), a.data(), wa, [](value_type const& a){ return a + value_type(1);} ), std::runtime_error );
             
@@ -311,7 +311,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform_exceptions, v
             auto c  = vector_type(product(n));
 
             size_t* wc = nullptr;
-            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
             BOOST_REQUIRE_THROW( ublas::transform( n.size(), n.data(), c.data(), wc, a.data(), wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::runtime_error );
             
@@ -323,8 +323,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform_exceptions, v
             auto c  = vector_type(product(n));
             
             size_t* m = nullptr;
-            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+            auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
             BOOST_REQUIRE_THROW( ublas::transform( n.size(), m, c.data(), wc.data(), a.data(), wa.data(), [](value_type const& a){ return a + value_type(1);} ), std::runtime_error );
             
@@ -346,9 +346,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  tes
         //  auto b  = vector_type(product(n));
         //  auto c  = vector_type(product(n));
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
-        //  auto wb = ublas::strides_t<ublas::dynamic_extents<>,ublas::last_order> (n);
-        //  auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
+        //  auto wb = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::last_order> (n);
+        //  auto wc = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         auto v = value_type{};
         for(auto i = 0ul; i < a.size(); ++i, v+=value_type(1)){
@@ -359,7 +359,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  tes
 
         BOOST_CHECK_EQUAL( acc, value_type( static_cast< inner_type_t<value_type> >( s*(s+1) / 2 ) )  );
 
-                using size_type = typename ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>::value_type;
+                using size_type = typename ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>::value_type;
                 size_type zero = 0;
                 ublas::accumulate(zero, n.data(), a.data(), wa.data(),v);
 
@@ -396,7 +396,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, 
 
         value_type* a  = nullptr;
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), n.data(), a, wa.data(), value_type{0} ), std::runtime_error );
         
@@ -406,7 +406,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, 
 
         value_type* a  = nullptr;
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
         BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), n.data(), a, wa.data(), value_type{0},[](value_type const& a,value_type const& b){ return a + b;} ), std::runtime_error );
         
@@ -416,7 +416,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, 
 
         auto a  = vector_type(product(n));
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
         size_t p = 0u;
         BOOST_CHECK_EQUAL ( ublas::accumulate( p, n.data(), a.data(), wa.data(), value_type{0} ), value_type{0} );
         
@@ -426,7 +426,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, 
 
         auto a  = vector_type(product(n));
 
-        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+        auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
         size_t p = 0u;
         BOOST_CHECK_EQUAL( ublas::accumulate( p, n.data(), a.data(), wa.data(), value_type{0}, [](value_type const& a,value_type const& b){ return a + b;} ), value_type{0} );
         
@@ -446,7 +446,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, 
 
             auto a  = vector_type(product(n));
 
-            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::first_order>(n);
+            auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
             size_t* m = nullptr;
 
