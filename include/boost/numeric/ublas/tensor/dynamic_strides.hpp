@@ -94,9 +94,9 @@ public:
 
 
         if constexpr (std::is_same<layout_type,layout::first_order>::value){
-            std::transform(s.begin(), s.end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<std::size_t>{});
+            std::transform(s.begin(), s.end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<value_type>{});
         }else {
-            std::transform(s.rbegin(), s.rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<std::size_t>{});
+            std::transform(s.rbegin(), s.rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<value_type>{});
         }
     }
 

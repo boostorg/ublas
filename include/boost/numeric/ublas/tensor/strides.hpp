@@ -58,18 +58,15 @@ namespace boost::numeric::ublas::detail {
    * @param[in] w stride vector of length p
    * @returns relative memory location depending on \c i and \c w
   */
-  template<class Stride, class size_type = typename Stride::size_type >
+  template<class Stride>
   [[nodiscard]] inline
-  constexpr auto access(std::vector<size_type> const& i, Stride const& w)
+  constexpr auto access(std::vector<typename Stride::value_type> const& i, Stride const& w)
   {
     static_assert( is_strides_v<Stride>, 
       "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
-
-    const auto p = i.size();
-    size_type sum = 0u;
-    for(auto r = 0u; r < p; ++r)
-      sum += i[r]*w[r];
-    return sum;
+    
+    using value_type = typename Stride::value_type;
+    return std::inner_product(i.begin(), i.end(), w.begin(), value_type{});
   }
 
   /** @brief Returns relative memory index with respect to a multi-index
@@ -81,17 +78,16 @@ namespace boost::numeric::ublas::detail {
    * @param[in] sum the current relative memory index
    * @returns relative memory location depending on \c i and \c w
   */
-  template<std::size_t r, class Stride, class ... size_types>
-  [[nodiscard]]
-  constexpr auto access(std::size_t sum, Stride const& w, std::size_t i, size_types ... is)
+  template<class Stride, class ... Indices>
+  [[nodiscard]] inline
+  constexpr auto access(Stride const& w, Indices ... is)
   { 
     static_assert( is_strides_v<Stride>, 
       "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
-    sum += i*w[r];
-    if constexpr (sizeof...(is) == 0)
-      return sum;
-    else
-      return detail::access<r+1>(sum,w,std::forward<size_types>(is)...);
+    
+    using value_type = typename Stride::value_type;
+    std::array<value_type, sizeof...(is)> i = {is...};
+    return std::inner_product(i.begin(), i.end(), w.begin(), value_type{});
   }
 
 } // namespace boost::numeric::ublas::detail

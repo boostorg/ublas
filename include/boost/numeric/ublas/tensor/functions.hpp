@@ -294,8 +294,8 @@ namespace boost::numeric::ublas
     */
     template <typename TensorEngine1, typename TensorEngine2, typename PermuType,
         std::enable_if_t<
-            !(  is_static<typename tensor_core< TensorEngine1 >::extents_type>::value &&
-                is_static<typename tensor_core< TensorEngine2 >::extents_type>::value )
+            !(  is_static_v<typename tensor_core< TensorEngine1 >::extents_type> &&
+                is_static_v<typename tensor_core< TensorEngine2 >::extents_type> )
         ,int> = 0
     >
     inline decltype(auto) prod(tensor_core< TensorEngine1 > const &a, tensor_core< TensorEngine2 > const &b,
@@ -319,16 +319,23 @@ namespace boost::numeric::ublas
             >,
             "error in boost::numeric::ublas::prod(tensor_core const&, tensor_core const&, "
             "PermuType const&, PermuType const& ): "
-            "Both tensor storage should have the same type of storage and both should be resizable"
+            "Both the tensor storage should have the same type of storage and both should be resizable"
         );
 
         static_assert(
             !(  is_static< extents_type_1 >::value &&
                 is_static< typename tensor_core< TensorEngine2 >::extents_type >::value 
              ),
-            "error in boost::numeric::ublas::trans(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&, "
+            "error in boost::numeric::ublas::prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&, "
             "PermuType const&, PermuType const&): "
-            "Both tensor should not have static extents"
+            "Both the tensor should not have static extents"
+        );
+
+        static_assert(
+            std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
+            "error in boost::numeric::ublas::prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&, "
+            "PermuType const&, PermuType const&): "
+            "Both the tensor should have same value_type"
         );
 
         auto const pa = a.rank();
@@ -452,9 +459,15 @@ namespace boost::numeric::ublas
 
 
         using value_type = typename tensor_core< TensorEngine1 >::value_type;
+        
+        static_assert(
+            std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
+            "error in boost::numeric::ublas::inner_prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&): "
+            "Both the tensor should have same value_type"
+        );
 
         if (a.rank() != b.rank())
-            throw std::length_error("error in boost::numeric::ublas::inner_prod: Rank of both tensors must be the same.");
+            throw std::length_error("error in boost::numeric::ublas::inner_prod: Rank of both the tensors must be the same.");
 
         if (a.empty() || b.empty())            
             throw std::length_error("error in boost::numeric::ublas::inner_prod: Tensors should not be empty.");
@@ -480,8 +493,8 @@ namespace boost::numeric::ublas
     */
     template <typename TensorEngine1, typename TensorEngine2,
         std::enable_if_t<
-            !(  is_static<typename tensor_core< TensorEngine1 >::extents_type>::value &&
-                is_static<typename tensor_core< TensorEngine2 >::extents_type>::value )
+            !(  is_static_v<typename tensor_core< TensorEngine1 >::extents_type> &&
+                is_static_v<typename tensor_core< TensorEngine2 >::extents_type> )
             ,int> = 0
     >
     inline decltype(auto) outer_prod(tensor_core< TensorEngine1 > const &a, tensor_core< TensorEngine2 > const &b)
@@ -501,7 +514,13 @@ namespace boost::numeric::ublas
                 storage_resizable_container_tag 
             >,
             "error in boost::numeric::ublas::outer_prod(tensor_core const&, tensor_core const&): "
-            "Both tensor storage should have the same type of storage and both should be resizable"
+            "Both the tensor storage should have the same type of storage and both should be resizable"
+        );
+
+        static_assert(
+            std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
+            "error in boost::numeric::ublas::outer_prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&): "
+            "Both the tensor should have same value_type"
         );
 
         if (a.empty() || b.empty())
@@ -857,16 +876,11 @@ namespace boost::numeric::ublas
      *
      * @returns tensor object C with order p-1, the same storage format and allocator type as A
     */
-    template <size_t M, typename TensorType, typename A,
-        std::enable_if_t<is_static< typename tensor_core< TensorType >::extents_type >::value,int> = 0
-    >
-    inline decltype(auto) prod(tensor_core< TensorType > const &a, vector<typename TensorType::value_type, A> const &b)
+    template <size_t M, typename TensorType, typename A>
+    inline decltype(auto) prod(tensor_core< TensorType > const &a
+        , vector<typename tensor_core< TensorType >::value_type, A> const &b)
     {
-        static_assert( is_valid_tensor_v<TensorType>, 
-            "boost::numeric::ublas::prod<M>(ttv) : tensor type should be valid tensor"
-        );
-
-        using tensor_type = TensorType;
+        using tensor_type = tensor_core< TensorType >;
         using extents_type = typename tensor_type::extents_type;
         using value_type = typename tensor_type::value_type;
         using layout_type = typename tensor_type::layout_type;
@@ -922,22 +936,16 @@ namespace boost::numeric::ublas
      *
      * @returns tensor object C with order p, the same storage format and allocator type as A
     */
-    template <size_t M, size_t MatricRow, typename TensorType, typename A,
-        std::enable_if_t<is_static< typename tensor_core< TensorType >::extents_type >::value,int> = 0
-    >
+    template <size_t M, size_t MatricRow, typename TensorType, typename A>
     inline decltype(auto) prod(tensor_core< TensorType > const &a, 
-        matrix<typename TensorType::value_type, typename TensorType::layout_type, A> const &b)
+        matrix<typename tensor_core< TensorType >::value_type, typename tensor_core< TensorType >::layout_type, A> const &b)
     {
-        static_assert( is_valid_tensor_v<TensorType>, 
-            "boost::numeric::ublas::prod<M,MatricRow>(ttm) : tensor type should be valid tensor"
-        );
-
-        using tensor_type = TensorType;
+        using tensor_type = tensor_core< TensorType >;
         using extents_type = typename tensor_type::extents_type;
         using layout_type = typename tensor_type::layout_type;
         using dynamic_strides_type = strides_t<dynamic_extents<>, layout_type>;
         using value_type = typename tensor_type::value_type;
-
+        
         auto const p = a.rank();
 
         static_assert(M != 0,
@@ -990,26 +998,28 @@ namespace boost::numeric::ublas
      *
      * @returns tensor object C with the same storage format F and allocator type A1
     */
-    template <typename TensorType1, typename TensorType2,
+    template <typename TensorEngine1, typename TensorEngine2,
         std::enable_if_t<
-            is_static< typename TensorType1::extents_type >::value &&
-            is_static< typename TensorType2::extents_type >::value
+            is_static_v< typename tensor_core< TensorEngine1 >::extents_type > &&
+            is_static_v< typename tensor_core< TensorEngine2 >::extents_type >
             ,int> = 0
     >
-    inline decltype(auto) outer_prod(tensor_core< TensorType1 > const &a, tensor_core< TensorType2 > const &b)
+    inline decltype(auto) outer_prod(tensor_core< TensorEngine1 > const &a, tensor_core< TensorEngine2 > const &b)
     {
-        static_assert( is_valid_tensor_v<TensorType1> && is_valid_tensor_v<TensorType2>, 
-            "boost::numeric::ublas::outer_prod() : tensor type should be valid tensor"
-        );
-
         if (a.empty() || b.empty())
             throw std::runtime_error(
                 "error in boost::numeric::ublas::outer_prod: "
                 "tensors should not be empty.");
         using extents_type1 = std::decay_t< decltype(a.extents()) >;
         using extents_type2 = std::decay_t< decltype(b.extents()) >;
-        using value_type = typename TensorType1::value_type;
-        using layout_type = typename TensorType1::layout_type;
+        using value_type = typename tensor_core< TensorEngine1 >::value_type;
+        using layout_type = typename tensor_core< TensorEngine1 >::layout_type;
+
+        static_assert(
+            std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
+            "error in boost::numeric::ublas::outer_prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&): "
+            "Both the tensor should have same value_type"
+        );
         
         auto nc = detail::impl::concat_t<extents_type1, extents_type2>{};
 

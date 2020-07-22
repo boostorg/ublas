@@ -589,13 +589,16 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-    template<class ... size_types>
+    template<class ... Indices>
     [[nodiscard]] inline
-    constexpr const_reference at (size_type i, size_types ... is) const {
-        if constexpr (sizeof...(is) == 0)
-            return this->data_[i];
-        else
-            return this->data_[detail::access<0ul>(size_type(0),this->strides_,i,std::forward<size_types>(is)...)];
+    constexpr const_reference at (typename strides_type::value_type i, Indices ... is) const {
+        if constexpr( sizeof...(is) == 0ul ){
+            return this->data_.at(i);
+        }else{
+            using strides_value_type = typename strides_type::value_type;
+            auto const idx = detail::access(this->strides_, i, static_cast<strides_value_type>(is)...);
+            return this->data_.at(idx);
+        }
     }
 
     /** @brief Element access using a multi-index or single-index.
@@ -607,14 +610,15 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-    template<class ... size_types>
+    template<class ... Indices>
     [[nodiscard]] inline
-    constexpr reference at (size_type i, size_types ... is) {
-        if constexpr (sizeof...(is) == 0)
-            return this->data_[i];
-        else{
-            auto temp = detail::access<0ul>(size_type(0),this->strides_,i,std::forward<size_types>(is)...);
-            return this->data_[temp];
+    constexpr reference at (typename strides_type::value_type i, Indices ... is) {
+        if constexpr( sizeof...(is) == 0ul ){
+            return this->data_.at(i);
+        }else{
+            using strides_value_type = typename strides_type::value_type;
+            auto const idx = detail::access(this->strides_, i, static_cast<strides_value_type>(is)...);
+            return this->data_.at(idx);
         }
     }
 
