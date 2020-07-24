@@ -25,6 +25,7 @@ namespace boost::numeric::ublas{
 
 namespace boost::numeric::ublas::static_traits{
 
+  /** @brief Type-traits true if size > 1 and all elements > 0 or size == 1 && e[0] == 1 */
   template<typename T> 
   struct is_valid : std::integral_constant<bool, false>{};
 
@@ -47,7 +48,9 @@ namespace boost::numeric::ublas::static_traits{
       && is_valid_v< basic_static_extents<ExtentsType, E1, E2, E...> >;
   };
 
-
+  /** @brief Type-traits true if this has a scalar shape
+   * true if (1,1,[1,...,1])
+   */
   template<typename T> 
   struct is_scalar : std::integral_constant<bool, false>{};
 
@@ -67,6 +70,9 @@ namespace boost::numeric::ublas::static_traits{
   template<typename ExtentsType>
   struct is_scalar< basic_static_extents<ExtentsType> > : std::false_type{};
 
+  /** @brief Type-traits true if this has a vector shape
+   * true if (1,n,[1,...,1]) or (n,1,[1,...,1]) with n > 1
+   */
   template<typename T> 
   struct is_vector : std::integral_constant<bool, false>{};
 
@@ -92,6 +98,9 @@ namespace boost::numeric::ublas::static_traits{
     static constexpr bool const value = ( E0 > ExtentsType(1) );
   };
 
+  /** @brief Type-traits true if this has a matrix shape
+   * true if (m,n,[1,...,1]) with m > 1 and n > 1
+   */
   template<typename T> 
   struct is_matrix : std::integral_constant<bool, false>{};
 
@@ -113,6 +122,7 @@ namespace boost::numeric::ublas::static_traits{
     static constexpr bool const value = ( E0 > ExtentsType(1) && E1 > ExtentsType(1) );
   };
 
+  /** @brief Type-traits true if this has a any extent greater than 1 */
   template<typename T> 
   struct is_any_greater_than_one : std::integral_constant<bool, false>{};
 
@@ -132,6 +142,9 @@ namespace boost::numeric::ublas::static_traits{
     static constexpr bool const value = is_any_greater_than_one_v< basic_static_extents<ExtentsType, E0> > || is_any_greater_than_one_v< basic_static_extents<ExtentsType, E... > >;
   };
 
+  /** @brief Type-traits true if this is has a tensor shape
+   * true if !empty() && !is_scalar() && !is_vector() && !is_matrix()
+   */
   template<typename T> 
   struct is_tensor : std::integral_constant<bool, false>{};
 

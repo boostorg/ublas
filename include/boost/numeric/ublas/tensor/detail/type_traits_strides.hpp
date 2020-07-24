@@ -15,7 +15,7 @@
 
 namespace boost::numeric::ublas {
 
-    // checks if type is strides or not
+    /// @brief checks if the type is tensor strides or not
     template <class E>
     struct is_strides : std::false_type {};
 
@@ -35,7 +35,7 @@ namespace boost::numeric::ublas {
     template <class E, class Layout>
     using strides_t = typename strides<E>::template type<Layout>;
 
-} // namespace boost::numeric::ublas::detail
+} // namespace boost::numeric::ublas
 
 #include <boost/numeric/ublas/tensor/detail/type_traits_static_strides.hpp>
 #include <boost/numeric/ublas/tensor/detail/type_traits_dynamic_strides.hpp>

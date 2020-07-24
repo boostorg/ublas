@@ -83,7 +83,7 @@ namespace boost::numeric::ublas
             [[maybe_unused]] basic_fixed_rank_extents<T,R1> const& e1,
             [[maybe_unused]] basic_fixed_rank_extents<T,R2> const& e2,
             [[maybe_unused]] std::array<std::size_t, N> const& a1, 
-            [[maybe_unused]] std::vector<std::size_t,A> const& a2
+            [[maybe_unused]] std::array<std::size_t, N> const& a2
         ){
             constexpr auto const size = R1 + R2 - 2 * N;
             auto e = dynamic_extents<std::max(size, std::size_t(2))>();
@@ -91,20 +91,10 @@ namespace boost::numeric::ublas
             return e;
         }
 
-        template< typename T ,std::size_t N, std::size_t R1, std::size_t R2, typename A>
-        constexpr auto extents_result_tensor_prod( 
-            basic_fixed_rank_extents<T,R1> const& e1,
-            basic_fixed_rank_extents<T,R2> const& e2,
-            std::vector<std::size_t,A> const& a1, 
-            std::array<std::size_t, N> const& a2
-        ){
-            return extents_result_tensor_prod(e1,e2,a2,a1);
-        }
-
-        template< typename E1, typename E2, typename A1, typename A2>
+        template< typename E1, typename E2, typename A>
         auto extents_result_tensor_prod( 
             E1 const& e1, E2 const& e2,
-            A1 const& a, [[maybe_unused]] A2 const& ta
+            A const& a, [[maybe_unused]] A const& ta
         ){
             auto const size = e1.size() + e2.size() - 2 * a.size();
             return dynamic_extents<>( typename dynamic_extents<>::base_type( std::max(size, std::size_t(2)), typename E1::value_type(1) ) );
@@ -294,7 +284,7 @@ namespace boost::numeric::ublas
     */
     template <typename TensorEngine1, typename TensorEngine2, typename PermuType,
         std::enable_if_t<
-            !(  is_static_v<typename tensor_core< TensorEngine1 >::extents_type> &&
+            !(  is_static_v<typename tensor_core< TensorEngine1 >::extents_type> ||
                 is_static_v<typename tensor_core< TensorEngine2 >::extents_type> )
         ,int> = 0
     >
@@ -320,15 +310,6 @@ namespace boost::numeric::ublas
             "error in boost::numeric::ublas::prod(tensor_core const&, tensor_core const&, "
             "PermuType const&, PermuType const& ): "
             "Both the tensor storage should have the same type of storage and both should be resizable"
-        );
-
-        static_assert(
-            !(  is_static< extents_type_1 >::value &&
-                is_static< typename tensor_core< TensorEngine2 >::extents_type >::value 
-             ),
-            "error in boost::numeric::ublas::prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&, "
-            "PermuType const&, PermuType const&): "
-            "Both the tensor should not have static extents"
         );
 
         static_assert(
@@ -493,7 +474,7 @@ namespace boost::numeric::ublas
     */
     template <typename TensorEngine1, typename TensorEngine2,
         std::enable_if_t<
-            !(  is_static_v<typename tensor_core< TensorEngine1 >::extents_type> &&
+            !(  is_static_v<typename tensor_core< TensorEngine1 >::extents_type> ||
                 is_static_v<typename tensor_core< TensorEngine2 >::extents_type> )
             ,int> = 0
     >

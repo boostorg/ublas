@@ -27,6 +27,7 @@ namespace boost::numeric::ublas{
 
 namespace boost::numeric::ublas {
 
+    /// @brief Checks if the type is valid tensor
     template<typename T>
     struct is_valid_tensor: std::false_type{};
     

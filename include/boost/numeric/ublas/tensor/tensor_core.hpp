@@ -166,7 +166,7 @@ public:
     tensor_core (extents_type const& s, value_type const& i)
         : tensor_core( s, resizable_tag{} )
     {
-        std::fill_n(begin(),size(),i);
+        std::fill(begin(),end(),i);
     }
 
     /** @brief Constructs a tensor_core with a \c shape
@@ -184,7 +184,7 @@ public:
     tensor_core (value_type const& i)
         : tensor_core()
     {
-        std::fill_n(begin(),size(),i);
+        std::fill(begin(),end(),i);
     }
 
     /** @brief Constructs a tensor_core with a \c shape and initiates it with one-dimensional data
@@ -207,7 +207,7 @@ public:
                 "array size mismatch with extents"
             );
         }
-        std::copy_n(a.begin(),size(),begin());
+        std::copy(a.begin(),a.end(),begin());
     }
 
     /** @brief Constructs a tensor_core with a \c shape and initiates it with one-dimensional data
@@ -228,7 +228,7 @@ public:
                 "array size mismatch with extents"
             );
         }
-        std::copy_n(a.begin(),size(),begin());
+        std::copy(a.begin(),a.end(),begin());
     }
 
 
@@ -580,7 +580,7 @@ public:
         return this->data_[i];
     }
 
-    /** @brief Element access using a multi-index or single-index.
+    /** @brief Element access using a multi-index or single-index with bound checking.
      *
      *
      *  @code auto a = A.at(i,j,k); @endcode or
@@ -591,17 +591,25 @@ public:
      */
     template<class ... Indices>
     [[nodiscard]] inline
-    constexpr const_reference at (typename strides_type::value_type i, Indices ... is) const {
+    constexpr const_reference at (size_type i, Indices ... is) const {
         if constexpr( sizeof...(is) == 0ul ){
             return this->data_.at(i);
         }else{
+            static_assert(
+                std::conjunction_v< std::is_convertible<Indices,size_type>... >,
+                "boost::numeric::ublas::tensor_core::at(size_type,Indices...) : "
+                "provided varadic argument is not convertible to tensor size_type"
+            );
             using strides_value_type = typename strides_type::value_type;
-            auto const idx = detail::access(this->strides_, i, static_cast<strides_value_type>(is)...);
+            auto const idx = detail::access(this->strides_, 
+                                            static_cast<strides_value_type>(i), 
+                                            static_cast<strides_value_type>(is)...
+                                            );
             return this->data_.at(idx);
         }
     }
 
-    /** @brief Element access using a multi-index or single-index.
+    /** @brief Element access using a multi-index or single-index with bound checking.
      *
      *
      *  @code A.at(i,j,k) = a; @endcode or
@@ -612,13 +620,79 @@ public:
      */
     template<class ... Indices>
     [[nodiscard]] inline
-    constexpr reference at (typename strides_type::value_type i, Indices ... is) {
+    constexpr reference at (size_type i, Indices ... is) {
         if constexpr( sizeof...(is) == 0ul ){
             return this->data_.at(i);
         }else{
+            static_assert(
+                std::conjunction_v< std::is_convertible<Indices,size_type>... >,
+                "boost::numeric::ublas::tensor_core::at(size_type,Indices...) : "
+                "provided varadic argument is not convertible to tensor size_type"
+            );
             using strides_value_type = typename strides_type::value_type;
-            auto const idx = detail::access(this->strides_, i, static_cast<strides_value_type>(is)...);
+            auto const idx = detail::access(this->strides_, 
+                                            static_cast<strides_value_type>(i), 
+                                            static_cast<strides_value_type>(is)...
+                                            );
             return this->data_.at(idx);
+        }
+    }
+
+    /** @brief Element access using a multi-index or single-index with no bound checking.
+     *
+     *
+     *  @code auto a = A(i,j,k); @endcode or
+     *  @code auto a = A(i);     @endcode
+     *
+     *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
+     *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
+     */
+    template<class ... Indices>
+    [[nodiscard]] inline
+    constexpr const_reference operator() (size_type i, Indices ... is) const {
+        if constexpr( sizeof...(is) == 0ul ){
+            return this->data_[i];
+        }else{
+            static_assert(
+                std::conjunction_v< std::is_convertible<Indices,size_type>... >,
+                "boost::numeric::ublas::tensor_core::operator()(size_type,Indices...) : "
+                "provided varadic argument is not convertible to tensor size_type"
+            );
+            using strides_value_type = typename strides_type::value_type;
+            auto const idx = detail::access(this->strides_, 
+                                            static_cast<strides_value_type>(i), 
+                                            static_cast<strides_value_type>(is)...
+                                            );
+            return this->data_[idx];
+        }
+    }
+
+    /** @brief Element access using a multi-index or single-index with no bound checking.
+     *
+     *
+     *  @code A(i,j,k) = a; @endcode or
+     *  @code A(i) = a;     @endcode
+     *
+     *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
+     *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
+     */
+    template<class ... Indices>
+    [[nodiscard]] inline
+    constexpr reference operator() (size_type i, Indices ... is) {
+        if constexpr( sizeof...(is) == 0ul ){
+            return this->data_[i];
+        }else{
+            static_assert(
+                std::conjunction_v< std::is_convertible<Indices,size_type>... >,
+                "boost::numeric::ublas::tensor_core::operator()(size_type,Indices...) : "
+                "provided varadic argument is not convertible to tensor size_type"
+            );
+            using strides_value_type = typename strides_type::value_type;
+            auto const idx = detail::access(this->strides_, 
+                                            static_cast<strides_value_type>(i), 
+                                            static_cast<strides_value_type>(is)...
+                                            );
+            return this->data_[idx];
         }
     }
 

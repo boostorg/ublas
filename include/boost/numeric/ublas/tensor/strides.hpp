@@ -71,10 +71,9 @@ namespace boost::numeric::ublas::detail {
 
   /** @brief Returns relative memory index with respect to a multi-index
    *
-   * @code auto j = access(0, strides{shape{4,2,3},first_order}, 2,3,4); @endcode
+   * @code auto j = access(strides{shape{4,2,3},first_order}, 2,3,4); @endcode
    *
-   * @param[in] i   first element of the partial multi-index
-   * @param[in] is  the following elements of the partial multi-index
+   * @param[in] is  the elements of the partial multi-index
    * @param[in] sum the current relative memory index
    * @returns relative memory location depending on \c i and \c w
   */
@@ -85,6 +84,11 @@ namespace boost::numeric::ublas::detail {
     static_assert( is_strides_v<Stride>, 
       "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
     
+    if constexpr( is_static_v<Stride> ){
+      static_assert( Stride::_size >= sizeof...(is), 
+        "boost::numeric::ublas::detail::access() : number of indices exceeds the strides size");
+    }
+
     using value_type = typename Stride::value_type;
     std::array<value_type, sizeof...(is)> i = {is...};
     return std::inner_product(i.begin(), i.end(), w.begin(), value_type{});
