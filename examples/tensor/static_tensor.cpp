@@ -17,54 +17,58 @@
 
 namespace ub = boost::numeric::ublas;
 
-int main() {
+int main()
+{
+  /** @brief How to create static_tensor
+   *
+   * static_tensor< / Value Type, / Extents /, / Layout Type / >( ... );
+   *
+   **/
 
-    /** @brief How to create static_tensor
-     *  
-     * static_tensor< / Value Type, / Extents /, / Layout Type / >( ... );
-     * 
-    **/
+  /**
+   * static rank tensor with
+   * Layout: layout::first_order by default if not
+   * provided
+   * Value Type: float
+   * Extents Type: dynamic_extents<5>{1,2,3,4,5}
+   **/
+  auto t1 = ub::static_tensor<float, ub::static_extents<1, 2, 3, 4, 5>>{5.f};
 
-    /**
-     * static rank tensor with 
-     * Layout: layout::first_order by default if not 
-     * provided
-     * Value Type: float
-     * Extents Type: dynamic_extents<5>{1,2,3,4,5}
-    **/
-    auto t1 = ub::static_tensor<float,ub::static_extents<1,2,3,4,5> >{5.f};
+  /**
+   * static rank tensor with
+   * Layout: layout::first_order by default if not
+   * provided
+   * Value Type: float
+   * Extents Type: dynamic_extents<5>{1,2,3,4,5}
+   **/
+  auto t2 = ub::static_tensor<float,
+                              ub::static_extents<1, 2, 3, 4, 5>,
+                              ub::layout::last_order>{5.f};
 
-    /**
-     * static rank tensor with 
-     * Layout: layout::first_order by default if not 
-     * provided
-     * Value Type: float
-     * Extents Type: dynamic_extents<5>{1,2,3,4,5}
-    **/
-    auto t2 = ub::static_tensor<float,ub::static_extents<1,2,3,4,5>, ub::layout::last_order >{5.f};
+  /*--------------------------Expressions------------------------------*/
 
-    /*--------------------------Expressions------------------------------*/
-    
-    using s_tensor = ub::static_tensor<float, ub::static_extents<1,2,3,4,5> >;
-    
-    auto t3 = ub::fixed_rank_tensor<float,5>( ub::dynamic_extents<5>{1,2,3,4,5}, 5.f );
-    auto st1 = s_tensor{ 5.f };
-    auto dt1 = ub::dynamic_tensor<float>( ub::dynamic_extents<>{1,2,3,4,5}, 5.f );
+  using s_tensor = ub::static_tensor<float, ub::static_extents<1, 2, 3, 4, 5>>;
 
-    s_tensor exp1 = st1 + st1 * 2 + st1*st1;
-    
-    // type of the expression will be whichever
-    // tensor type is present at the start of the
-    // expression
-    s_tensor exp2 = st1 + t3 * 2 + t3 * st1;
+  auto t3 =
+    ub::fixed_rank_tensor<float, 5>(ub::dynamic_extents<5>{1, 2, 3, 4, 5}, 5.f);
+  auto st1 = s_tensor{5.f};
+  auto dt1 =
+    ub::dynamic_tensor<float>(ub::dynamic_extents<>{1, 2, 3, 4, 5}, 5.f);
 
-    s_tensor exp3 = st1 + dt1 * 2 + dt1 * t3;
+  s_tensor exp1 = st1 + st1 * 2 + st1 * st1;
 
-    std::cout<<std::boolalpha;
+  // type of the expression will be whichever
+  // tensor type is present at the start of the
+  // expression
+  s_tensor exp2 = st1 + t3 * 2 + t3 * st1;
 
-    std::cout<<"( exp1 == exp2 ) => "<<( exp1 == exp2)<<std::endl;
-    
-    std::cout<<"( exp2 == exp3 ) => "<<( exp2 == exp3)<<std::endl;
+  s_tensor exp3 = st1 + dt1 * 2 + dt1 * t3;
 
-    return 0;
+  std::cout << std::boolalpha;
+
+  std::cout << "( exp1 == exp2 ) => " << (exp1 == exp2) << std::endl;
+
+  std::cout << "( exp2 == exp3 ) => " << (exp2 == exp3) << std::endl;
+
+  return 0;
 }

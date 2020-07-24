@@ -26,62 +26,68 @@ template <class ExtentsType, ExtentsType... E> class basic_static_extents;
  * @tparam E parameter pack of extents
  *
  */
-template <class ExtentsType, ExtentsType... E>
-class basic_static_extents{
-
+template <class ExtentsType, ExtentsType... E> class basic_static_extents {
 public:
-
   static constexpr auto _size = sizeof...(E);
-  
-  using base_type       = std::array<ExtentsType,_size>;
-  using value_type      = typename base_type::value_type;
-  using size_type       = typename base_type::size_type;
-  using reference       = typename base_type::reference;
-  using const_reference = typename base_type::const_reference;
-  using const_pointer   = typename base_type::const_pointer;
-  using const_iterator  = typename base_type::const_iterator;
+
+  using base_type              = std::array<ExtentsType, _size>;
+  using value_type             = typename base_type::value_type;
+  using size_type              = typename base_type::size_type;
+  using reference              = typename base_type::reference;
+  using const_reference        = typename base_type::const_reference;
+  using const_pointer          = typename base_type::const_pointer;
+  using const_iterator         = typename base_type::const_iterator;
   using const_reverse_iterator = typename base_type::const_reverse_iterator;
 
-  static_assert( std::numeric_limits<value_type>::is_integer, "Static error in basic_static_extents: type must be of type integer.");
-  static_assert(!std::numeric_limits<value_type>::is_signed,  "Static error in basic_static_extents: type must be of type unsigned integer.");
+  static_assert(
+    std::numeric_limits<value_type>::is_integer,
+    "Static error in basic_static_extents: type must be of type integer.");
+  static_assert(!std::numeric_limits<value_type>::is_signed,
+                "Static error in basic_static_extents: type must be of type "
+                "unsigned integer.");
 
   //@returns the rank of basic_static_extents
-  [[nodiscard]] inline 
-  constexpr size_type size() const noexcept { return _size; }
-  
+  [[nodiscard]] inline constexpr size_type size() const noexcept
+  {
+    return _size;
+  }
+
   /**
    * @param k pos of extent
    * @returns the element at given pos
    */
-  [[nodiscard]] inline
-  static constexpr const_reference at(size_type k){
-    return m_data.at(k); 
+  [[nodiscard]] inline static constexpr const_reference at(size_type k)
+  {
+    return m_data.at(k);
   }
 
-  [[nodiscard]] inline
-  constexpr const_reference operator[](size_type k) const{ 
-    return m_data[k]; 
+  [[nodiscard]] inline constexpr const_reference operator[](size_type k) const
+  {
+    return m_data[k];
   }
 
   constexpr basic_static_extents() = default;
 
-  constexpr basic_static_extents(basic_static_extents const&) noexcept = default;
-  constexpr basic_static_extents(basic_static_extents &&) noexcept = default;
-  
-  constexpr basic_static_extents& operator=(basic_static_extents const&) noexcept = default;
-  constexpr basic_static_extents& operator=(basic_static_extents &&) noexcept = default;
+  constexpr basic_static_extents(basic_static_extents const&) noexcept =
+    default;
+  constexpr basic_static_extents(basic_static_extents&&) noexcept = default;
+
+  constexpr basic_static_extents& operator=(
+    basic_static_extents const&) noexcept = default;
+  constexpr basic_static_extents& operator=(basic_static_extents&&) noexcept =
+    default;
 
   ~basic_static_extents() = default;
 
   /** @brief Returns ref to the std::array containing extents */
-  [[nodiscard]] inline
-  constexpr base_type const& base() const noexcept{
+  [[nodiscard]] inline constexpr base_type const& base() const noexcept
+  {
     return m_data;
   }
 
   /** @brief Returns pointer to the std::array containing extents */
-  [[nodiscard]] inline
-  constexpr const_pointer data() const noexcept{
+  [[nodiscard]] inline constexpr const_pointer data() const noexcept
+  {
     return m_data.data();
   }
 
@@ -90,36 +96,34 @@ public:
    * @returns true if rank is 0 else false
    *
    */
-  [[nodiscard]] inline
-  constexpr bool empty() const noexcept { return m_data.empty(); }
+  [[nodiscard]] inline constexpr bool empty() const noexcept
+  {
+    return m_data.empty();
+  }
 
-  [[nodiscard]] inline
-  constexpr const_reference back() const{
+  [[nodiscard]] inline constexpr const_reference back() const
+  {
     return m_data.back();
   }
 
-  [[nodiscard]] inline
-  constexpr const_iterator begin() const noexcept{
+  [[nodiscard]] inline constexpr const_iterator begin() const noexcept
+  {
     return m_data.begin();
   }
 
-  [[nodiscard]] inline
-  constexpr const_iterator end() const noexcept{
+  [[nodiscard]] inline constexpr const_iterator end() const noexcept
+  {
     return m_data.end();
   }
 
-  [[nodiscard]] inline
-  constexpr const_reverse_iterator
-  rbegin() const noexcept
+  [[nodiscard]] inline constexpr const_reverse_iterator rbegin() const noexcept
   {
-      return m_data.rbegin();
+    return m_data.rbegin();
   }
 
-  [[nodiscard]] inline
-  constexpr const_reverse_iterator
-  rend() const noexcept
+  [[nodiscard]] inline constexpr const_reverse_iterator rend() const noexcept
   {
-      return m_data.rend();
+    return m_data.rend();
   }
 
 private:
@@ -127,24 +131,24 @@ private:
 };
 
 
-template<std::size_t... E>
-using static_extents = basic_static_extents<std::size_t,E...>;
+template <std::size_t... E>
+using static_extents = basic_static_extents<std::size_t, E...>;
 
-  
-template<typename T> struct static_product;
 
-template<typename T> 
+template <typename T> struct static_product;
+
+template <typename T>
 inline static constexpr auto const static_product_v = static_product<T>::value;
 
-template<typename ExtentsType, ExtentsType... Es>
-struct static_product< basic_static_extents<ExtentsType, Es...> >
-  : std::integral_constant< ExtentsType, (... * Es) >
-{};
+template <typename ExtentsType, ExtentsType... Es>
+struct static_product<basic_static_extents<ExtentsType, Es...>>
+  : std::integral_constant<ExtentsType, (... * Es)> {
+};
 
-template<typename ExtentsType>
-struct static_product< basic_static_extents<ExtentsType> >
-  : std::integral_constant< ExtentsType, ExtentsType(0) >
-{};
+template <typename ExtentsType>
+struct static_product<basic_static_extents<ExtentsType>>
+  : std::integral_constant<ExtentsType, ExtentsType(0)> {
+};
 
-} // namespace boost::numeric::ublas
+}   // namespace boost::numeric::ublas
 #endif

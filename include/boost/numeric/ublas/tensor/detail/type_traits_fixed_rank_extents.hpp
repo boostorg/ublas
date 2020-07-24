@@ -15,31 +15,34 @@
 
 #include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
 
-namespace boost::numeric::ublas{
-    
+namespace boost::numeric::ublas {
+
 template <class ExtentsType, std::size_t N> class basic_fixed_rank_extents;
 
-} // namespace boost::numeric::ublas
+}   // namespace boost::numeric::ublas
 
-namespace boost::numeric::ublas{
-    
-    template <class T, std::size_t R>
-    struct is_extents< basic_fixed_rank_extents<T, R> > : std::true_type {};
+namespace boost::numeric::ublas {
 
-    template <class T, std::size_t R>
-    struct is_dynamic< basic_fixed_rank_extents<T,R> > : std::true_type {};
+template <class T, std::size_t R>
+struct is_extents<basic_fixed_rank_extents<T, R>> : std::true_type {
+};
 
-    template <class T, std::size_t R>
-    struct is_static_rank< basic_fixed_rank_extents<T,R> > : std::true_type {};
+template <class T, std::size_t R>
+struct is_dynamic<basic_fixed_rank_extents<T, R>> : std::true_type {
+};
 
-    namespace detail{
+template <class T, std::size_t R>
+struct is_static_rank<basic_fixed_rank_extents<T, R>> : std::true_type {
+};
 
-        template <std::size_t N> struct dynamic_extents_impl<N> {
-            using type = basic_fixed_rank_extents<std::size_t, N>;
-        };
+namespace detail {
 
-    } // namespace detail
+template <std::size_t N> struct dynamic_extents_impl<N> {
+  using type = basic_fixed_rank_extents<std::size_t, N>;
+};
 
-} // namespace boost::numeric::ublas
+}   // namespace detail
+
+}   // namespace boost::numeric::ublas
 
 #endif

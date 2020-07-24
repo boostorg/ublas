@@ -4,21 +4,37 @@
 
 name: "Code Format"
 
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - '*.md'
 
 jobs:
-  format:
-    name: "Code Formatting Check"
+  build:
+    name: "Auto Clang Format"
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-     
-      - name: Install Clang Format 10
-        run: |
-          sudo apt-get install -y clang-format-10
-     
-      - name: "Format Codes"
-        run: clang-format-10 -i examples/tensor/*.cpp test/tensor/*.cpp include/boost/numeric/ublas/tensor/*.hpp include/boost/numeric/ublas/tensor/*/*.hpp
-     
-      - name: Check diff
-        run: git diff --exit-code HEAD
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+
+    - name: "Install clang-format-10"
+      run: |
+        sudo apt-get update
+        sudo apt-get install clang-format-10
+    
+    - name: "Format Codes"
+      run: |
+        clang-format-10 -i examples/tensor/*.cpp test/tensor/*.cpp include/boost/numeric/ublas/tensor/*.hpp include/boost/numeric/ublas/tensor/*/*.hpp
+
+    - name: Commit files
+      run: |
+        git config --local user.email "ublasbot@boost.com"
+        git config --local user.name "ublas-format-bot"
+        git diff --exit-code HEAD || git commit -a --amend --no-edit
+
+    - name: Push changes
+      run: |
+        git remote add token https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+        git push token HEAD:${GITHUB_REF} --force-with-lease=${GITHUB_REF}:${GITHUB_SHA}
+

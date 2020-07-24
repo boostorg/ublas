@@ -15,32 +15,34 @@
 
 #include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
 
-namespace boost::numeric::ublas{
-    
+namespace boost::numeric::ublas {
+
 template <class ExtentsType, std::size_t N> class basic_fixed_rank_extents;
 
-template<class T, std::size_t N, class L> class basic_fixed_rank_strides;
+template <class T, std::size_t N, class L> class basic_fixed_rank_strides;
 
-} // namespace boost::numeric::ublas
+}   // namespace boost::numeric::ublas
 
-namespace boost::numeric::ublas{
-    
-    template <class L, class T, std::size_t R>
-    struct is_strides< basic_fixed_rank_strides< T, R, L> > : std::true_type {};
+namespace boost::numeric::ublas {
 
-    template <class T, std::size_t R, class L>
-    struct is_dynamic< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
+template <class L, class T, std::size_t R>
+struct is_strides<basic_fixed_rank_strides<T, R, L>> : std::true_type {
+};
 
-    template <class T, std::size_t R, class L>
-    struct is_static_rank< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
+template <class T, std::size_t R, class L>
+struct is_dynamic<basic_fixed_rank_strides<T, R, L>> : std::true_type {
+};
 
-    template <std::size_t N, class T>
-    struct strides<basic_fixed_rank_extents<T,N>>
-    {
-        template<typename Layout>
-        using type = basic_fixed_rank_strides<T, N, Layout>;
-    };
+template <class T, std::size_t R, class L>
+struct is_static_rank<basic_fixed_rank_strides<T, R, L>> : std::true_type {
+};
 
-} // namespace boost::numeric::ublas
+template <std::size_t N, class T>
+struct strides<basic_fixed_rank_extents<T, N>> {
+  template <typename Layout>
+  using type = basic_fixed_rank_strides<T, N, Layout>;
+};
+
+}   // namespace boost::numeric::ublas
 
 #endif

@@ -15,12 +15,12 @@
 
 #include <boost/numeric/ublas/functional.hpp>
 
-namespace boost::numeric::ublas::layout{
-    
-    using first_order = column_major;
-    using last_order = row_major;
+namespace boost::numeric::ublas::layout {
 
-} // namespace boost::numeric::ublas::layout
+using first_order = column_major;
+using last_order  = row_major;
+
+}   // namespace boost::numeric::ublas::layout
 
 
-#endif // BOOST_UBLAS_TENSOR_LAYOUT_HPP
+#endif   // BOOST_UBLAS_TENSOR_LAYOUT_HPP

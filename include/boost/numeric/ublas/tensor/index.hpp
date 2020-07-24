@@ -27,41 +27,45 @@ namespace index {
  * @note index::index_type<K> for 0<=K<=16 is used in tensor::operator()
  *
  * @tparam I wrapped integer
-*/
-template<std::size_t I>
-struct index_type
-{
-    static constexpr std::size_t value = I;
+ */
+template <std::size_t I> struct index_type {
+  static constexpr std::size_t value = I;
 
-    constexpr bool operator == (std::size_t other) const { return value == other; }
-    constexpr bool operator != (std::size_t other) const { return value != other; }
+  constexpr bool operator==(std::size_t other) const { return value == other; }
+  constexpr bool operator!=(std::size_t other) const { return value != other; }
 
-    template <std::size_t K>
-    constexpr bool operator == (index_type<K> /*other*/) const {  return I==K; }
-    template <std::size_t  K>
-    constexpr bool operator != (index_type<K> /*other*/) const {  return I!=K; }
+  template <std::size_t K>
+  constexpr bool operator==(index_type<K> /*other*/) const
+  {
+    return I == K;
+  }
+  template <std::size_t K>
+  constexpr bool operator!=(index_type<K> /*other*/) const
+  {
+    return I != K;
+  }
 
-    constexpr bool operator == (index_type /*other*/) const {  return true;  }
-    constexpr bool operator != (index_type /*other*/) const {  return false; }
+  constexpr bool operator==(index_type /*other*/) const { return true; }
+  constexpr bool operator!=(index_type /*other*/) const { return false; }
 
-    constexpr std::size_t operator()() const { return I; }
+  constexpr std::size_t operator()() const { return I; }
 };
 
 /** @brief Proxy classes for the einstein summation notation
  *
  * @note index::_a ... index::_z is used in tensor::operator()
-*/
+ */
 
-static constexpr index_type< 0> _;
-static constexpr index_type< 1> _a;
-static constexpr index_type< 2> _b;
-static constexpr index_type< 3> _c;
-static constexpr index_type< 4> _d;
-static constexpr index_type< 5> _e;
-static constexpr index_type< 6> _f;
-static constexpr index_type< 7> _g;
-static constexpr index_type< 8> _h;
-static constexpr index_type< 9> _i;
+static constexpr index_type<0> _;
+static constexpr index_type<1> _a;
+static constexpr index_type<2> _b;
+static constexpr index_type<3> _c;
+static constexpr index_type<4> _d;
+static constexpr index_type<5> _e;
+static constexpr index_type<6> _f;
+static constexpr index_type<7> _g;
+static constexpr index_type<8> _h;
+static constexpr index_type<9> _i;
 static constexpr index_type<10> _j;
 static constexpr index_type<11> _k;
 static constexpr index_type<12> _l;
@@ -80,10 +84,10 @@ static constexpr index_type<24> _x;
 static constexpr index_type<25> _y;
 static constexpr index_type<26> _z;
 
-} // namespace indices
+}   // namespace index
 
-}
-}
-}
+}   // namespace ublas
+}   // namespace numeric
+}   // namespace boost
 
-#endif // _BOOST_UBLAS_TENSOR_INDEX_HPP_
+#endif   // _BOOST_UBLAS_TENSOR_INDEX_HPP_

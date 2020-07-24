@@ -15,32 +15,32 @@
 
 #include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
 
-namespace boost::numeric::ublas{
-    
-template<class int_type> class basic_extents;
+namespace boost::numeric::ublas {
 
-} // namespace boost::numeric::ublas
+template <class int_type> class basic_extents;
 
-namespace boost::numeric::ublas{
-    
-    template <class T> 
-    struct is_extents< basic_extents<T> > : std::true_type {};
+}   // namespace boost::numeric::ublas
 
-    template <class T>
-    struct is_dynamic< basic_extents<T> > : std::true_type {};
+namespace boost::numeric::ublas {
 
-    template <class T>
-    struct is_dynamic_rank< basic_extents<T> > : std::true_type {};
+template <class T> struct is_extents<basic_extents<T>> : std::true_type {
+};
+
+template <class T> struct is_dynamic<basic_extents<T>> : std::true_type {
+};
+
+template <class T> struct is_dynamic_rank<basic_extents<T>> : std::true_type {
+};
 
 
-    namespace detail{
-        
-        template <> struct dynamic_extents_impl<> {
-            using type = basic_extents<std::size_t>;
-        };
+namespace detail {
 
-    } // namespace detail
+template <> struct dynamic_extents_impl<> {
+  using type = basic_extents<std::size_t>;
+};
 
-} // namespace boost::numeric::ublas
+}   // namespace detail
+
+}   // namespace boost::numeric::ublas
 
 #endif

@@ -16,23 +16,22 @@
 namespace boost::numeric::ublas {
 
 // checks if type is extents or not
-template <class E>
-struct is_extents : std::false_type {};
+template <class E> struct is_extents : std::false_type {
+};
 
 template <class E>
 inline static constexpr bool const is_extents_v = is_extents<E>::value;
 
-namespace detail{
+namespace detail {
 
-    template<std::size_t... N>
-    struct dynamic_extents_impl;
+template <std::size_t... N> struct dynamic_extents_impl;
 
-} // detail
+}   // namespace detail
 
-template<std::size_t... E>
+template <std::size_t... E>
 using dynamic_extents = typename detail::dynamic_extents_impl<E...>::type;
 
-} // namespace boost::numeric::ublas::detail
+}   // namespace boost::numeric::ublas
 
 #include <boost/numeric/ublas/tensor/detail/type_traits_dynamic_extents.hpp>
 #include <boost/numeric/ublas/tensor/detail/type_traits_static_extents.hpp>

@@ -15,27 +15,26 @@
 
 namespace boost::numeric::ublas {
 
-    // checks if type is strides or not
-    template <class E>
-    struct is_strides : std::false_type {};
+// checks if type is strides or not
+template <class E> struct is_strides : std::false_type {
+};
 
-    template <class E>
-    inline static constexpr bool const is_strides_v = is_strides<E>::value;
+template <class E>
+inline static constexpr bool const is_strides_v = is_strides<E>::value;
 
-    template<typename ExtentsType>
-    struct strides;
+template <typename ExtentsType> struct strides;
 
-    /** @brief type alias of result of strides::type
-     *
-     * @tparam E extents type either basic_extents or basic_static_extents
-     *
-     * @tparam Layout either first_order or last_order
-     *
-     */
-    template <class E, class Layout>
-    using strides_t = typename strides<E>::template type<Layout>;
+/** @brief type alias of result of strides::type
+ *
+ * @tparam E extents type either basic_extents or basic_static_extents
+ *
+ * @tparam Layout either first_order or last_order
+ *
+ */
+template <class E, class Layout>
+using strides_t = typename strides<E>::template type<Layout>;
 
-} // namespace boost::numeric::ublas::detail
+}   // namespace boost::numeric::ublas
 
 #include <boost/numeric/ublas/tensor/detail/type_traits_static_strides.hpp>
 #include <boost/numeric/ublas/tensor/detail/type_traits_dynamic_strides.hpp>

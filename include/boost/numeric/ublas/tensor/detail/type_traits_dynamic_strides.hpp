@@ -15,33 +15,32 @@
 
 #include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
 
-namespace boost::numeric::ublas{
-    
-template<class int_type> class basic_extents;
+namespace boost::numeric::ublas {
 
-template<class T, class L>
-class basic_strides;
+template <class int_type> class basic_extents;
 
-} // namespace boost::numeric::ublas
+template <class T, class L> class basic_strides;
 
-namespace boost::numeric::ublas{
-    
-    template <class L, class T> 
-    struct is_strides<basic_strides<T,L>> : std::true_type {};
+}   // namespace boost::numeric::ublas
 
-    template <class T, class L>
-    struct is_dynamic< basic_strides<T,L> > : std::true_type {};
+namespace boost::numeric::ublas {
 
-    template <class T, class L>
-    struct is_dynamic_rank< basic_strides<T, L> > : std::true_type {};
+template <class L, class T>
+struct is_strides<basic_strides<T, L>> : std::true_type {
+};
 
-    template <class T>
-    struct strides<basic_extents<T>>
-    {
-        template<typename Layout>
-        using type = basic_strides<T, Layout>;
-    };
+template <class T, class L>
+struct is_dynamic<basic_strides<T, L>> : std::true_type {
+};
 
-} // namespace boost::numeric::ublas
+template <class T, class L>
+struct is_dynamic_rank<basic_strides<T, L>> : std::true_type {
+};
+
+template <class T> struct strides<basic_extents<T>> {
+  template <typename Layout> using type = basic_strides<T, Layout>;
+};
+
+}   // namespace boost::numeric::ublas
 
 #endif

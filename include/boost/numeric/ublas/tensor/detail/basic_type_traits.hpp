@@ -17,15 +17,16 @@
 #include <cstddef>
 
 namespace boost::numeric::ublas {
-  
+
 /** @brief Checks if the extents or strides is dynamic
  *
  * @tparam E of type basic_extents or basic_static_extents
  *
  */
-template <class E> struct is_dynamic : std::false_type {};
+template <class E> struct is_dynamic : std::false_type {
+};
 
-template <class E> 
+template <class E>
 inline static constexpr bool const is_dynamic_v = is_dynamic<E>::value;
 
 /** @brief Checks if the extents or strides is static
@@ -33,9 +34,10 @@ inline static constexpr bool const is_dynamic_v = is_dynamic<E>::value;
  * @tparam E of type basic_extents or basic_static_extents
  *
  */
-template <class E> struct is_static : std::false_type {};
+template <class E> struct is_static : std::false_type {
+};
 
-template <class E> 
+template <class E>
 inline static constexpr bool const is_static_v = is_static<E>::value;
 
 /** @brief Checks if the extents or strides has dynamic rank
@@ -43,23 +45,24 @@ inline static constexpr bool const is_static_v = is_static<E>::value;
  * @tparam E of type basic_extents or basic_static_extents
  *
  */
-template <class E> 
-struct is_dynamic_rank : std::false_type {};
+template <class E> struct is_dynamic_rank : std::false_type {
+};
 
-template <class E> 
-inline static constexpr bool const is_dynamic_rank_v = is_dynamic_rank<E>::value;
+template <class E>
+inline static constexpr bool const is_dynamic_rank_v =
+  is_dynamic_rank<E>::value;
 
 /** @brief Checks if the extents or strides has static rank
  *
  * @tparam E of type basic_extents or basic_static_extents
  *
  */
-template <class E> 
-struct is_static_rank : std::false_type {};
+template <class E> struct is_static_rank : std::false_type {
+};
 
-template <class E> 
+template <class E>
 inline static constexpr bool const is_static_rank_v = is_static_rank<E>::value;
 
-} // namespace boost::numeric::ublas::detail
+}   // namespace boost::numeric::ublas
 
 #endif

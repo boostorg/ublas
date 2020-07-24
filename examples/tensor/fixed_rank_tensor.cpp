@@ -17,76 +17,81 @@
 
 namespace ub = boost::numeric::ublas;
 
-int main() {
+int main()
+{
+  /** @brief How to create fixed_rank_tensor
+   *
+   * fixed_rank_tensor< / Value Type, / Extents Size /, / Layout Type / >( ...
+   *);
+   *
+   **/
 
-    /** @brief How to create fixed_rank_tensor
-     *  
-     * fixed_rank_tensor< / Value Type, / Extents Size /, / Layout Type / >( ... );
-     * 
-    **/
+  /**
+   * fixed rank tensor with
+   * Layout: layout::first_order by default if not
+   * provided
+   * Value Type: float
+   * Extents Type: dynamic_extents<5>{1,2,3,4,5}
+   **/
+  auto t11 = ub::fixed_rank_tensor<float, 5>{1, 2, 3, 4, 5};
 
-    /**
-     * fixed rank tensor with 
-     * Layout: layout::first_order by default if not 
-     * provided
-     * Value Type: float
-     * Extents Type: dynamic_extents<5>{1,2,3,4,5}
-    **/
-    auto t11 = ub::fixed_rank_tensor<float,5>{1,2,3,4,5};
+  /**
+   * fixed rank tensor using deduction guide
+   * Layout: layout::last_order
+   * provided
+   * Value Type: float
+   * Extents Type: dynamic_extents<5>{1,2,2,3,4}
+   **/
+  auto t12 = ub::fixed_rank_tensor<float, 5, ub::layout::last_order>{
+    ub::dynamic_extents<5>{1, 2, 2, 3, 4}, 5.f};
 
-    /**
-     * fixed rank tensor using deduction guide
-     * Layout: layout::last_order 
-     * provided
-     * Value Type: float
-     * Extents Type: dynamic_extents<5>{1,2,2,3,4}
-    **/
-    auto t12 = ub::fixed_rank_tensor<float,5,ub::layout::last_order>{ ub::dynamic_extents<5>{1,2,2,3,4}, 5.f };
+  /**
+   * fixed rank tensor using deduction guide
+   * Layout: layout::first_order by default if not
+   * provided
+   * Value Type: float
+   * Extents Type: dynamic_extents<5>{1,2,2,3,4}
+   **/
+  auto t2 =
+    ub::fixed_rank_tensor<float, 5>(ub::dynamic_extents<5>{1, 2, 2, 3, 4}, 5.f);
 
-    /**
-     * fixed rank tensor using deduction guide
-     * Layout: layout::first_order by default if not 
-     * provided
-     * Value Type: float
-     * Extents Type: dynamic_extents<5>{1,2,2,3,4}
-    **/
-    auto t2 = ub::fixed_rank_tensor<float,5>( ub::dynamic_extents<5>{1,2,2,3,4}, 5.f );
+  /*--------------------------Expressions------------------------------*/
 
-    /*--------------------------Expressions------------------------------*/
-    
-    using f_tensor = ub::fixed_rank_tensor<float,5>;
-    using s_tensor = ub::static_tensor<float, ub::static_extents<1,2,3,4,5> >;
-    
-    auto t3 = ub::fixed_rank_tensor<float,5>( ub::dynamic_extents<5>{1,2,3,4,5}, 5.f );
-    auto st1 = s_tensor{ 5.f };
-    auto dt1 = ub::dynamic_tensor<float>( ub::dynamic_extents<>{1,2,3,4,5}, 5.f );
+  using f_tensor = ub::fixed_rank_tensor<float, 5>;
+  using s_tensor = ub::static_tensor<float, ub::static_extents<1, 2, 3, 4, 5>>;
 
-    f_tensor exp1 = t3 + t3 * 2 + t3*t3;
-    
-    // type of the expression will be whichever
-    // tensor type is present at the start of the
-    // expression
-    f_tensor exp2 = t3 + st1 * 2 + st1 * t3;
+  auto t3 =
+    ub::fixed_rank_tensor<float, 5>(ub::dynamic_extents<5>{1, 2, 3, 4, 5}, 5.f);
+  auto st1 = s_tensor{5.f};
+  auto dt1 =
+    ub::dynamic_tensor<float>(ub::dynamic_extents<>{1, 2, 3, 4, 5}, 5.f);
 
-    f_tensor exp3 = t3 + dt1 * 2 + dt1 * t3;
+  f_tensor exp1 = t3 + t3 * 2 + t3 * t3;
 
-    std::cout<<std::boolalpha;
+  // type of the expression will be whichever
+  // tensor type is present at the start of the
+  // expression
+  f_tensor exp2 = t3 + st1 * 2 + st1 * t3;
 
-    std::cout<<"( exp1 == exp2 ) => "<<( exp1 == exp2 )<<std::endl;
-    
-    std::cout<<"( exp2 == exp3 ) => "<<( exp2 == exp3 )<<std::endl;
+  f_tensor exp3 = t3 + dt1 * 2 + dt1 * t3;
 
-    /*--------------------------Assignment------------------------------*/
+  std::cout << std::boolalpha;
 
-    // Assigning static_tensor into fixed_rank_tensor
-    ub::fixed_rank_tensor<float,5> t4 = st1;
+  std::cout << "( exp1 == exp2 ) => " << (exp1 == exp2) << std::endl;
 
-    // Assigning dynamic_tensor into fixed_rank_tensor
-    ub::dynamic_tensor<float> const& t5 = dt1;
+  std::cout << "( exp2 == exp3 ) => " << (exp2 == exp3) << std::endl;
 
-    std::cout<<"( t4 == t3 ) => "<<( t4 == t3 )<<std::endl;
-    
-    std::cout<<"( t5 == dt1 ) => "<<( t5 == dt1 )<<std::endl;
+  /*--------------------------Assignment------------------------------*/
 
-    return 0;
+  // Assigning static_tensor into fixed_rank_tensor
+  ub::fixed_rank_tensor<float, 5> t4 = st1;
+
+  // Assigning dynamic_tensor into fixed_rank_tensor
+  ub::dynamic_tensor<float> const& t5 = dt1;
+
+  std::cout << "( t4 == t3 ) => " << (t4 == t3) << std::endl;
+
+  std::cout << "( t5 == dt1 ) => " << (t5 == dt1) << std::endl;
+
+  return 0;
 }
