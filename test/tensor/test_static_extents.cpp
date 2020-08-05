@@ -100,19 +100,19 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_product, fixture,
   
   using namespace boost::numeric::ublas;
 
-  auto p0   = product( e0);   // {}
-  auto p1   = product( e1);   // {1,2,3,4}
-  auto p2   = product( e2);   // {1,2,3}
-  auto p3   = product( e3);   // {4,2,3}
-  auto p4   = product( e4);   // {4,2,1,3}
-  auto p5   = product( e5);   // {1,4,2,1,3,1}
+  auto p0   = product(e0);   // {}
+  auto p1   = product(e1);   // {1,2,3,4}
+  auto p2   = product(e2);   // {1,2,3}
+  auto p3   = product(e3);   // {4,2,3}
+  auto p4   = product(e4);   // {4,2,1,3}
+  auto p5   = product(e5);   // {1,4,2,1,3,1}
   
-  auto sp0   = static_product_v< std::decay_t<decltype(e0)> >;   // {}
-  auto sp1   = static_product_v< std::decay_t<decltype(e1)> >;   // {1,2,3,4}
-  auto sp2   = static_product_v< std::decay_t<decltype(e2)> >;   // {1,2,3}
-  auto sp3   = static_product_v< std::decay_t<decltype(e3)> >;   // {4,2,3}
-  auto sp4   = static_product_v< std::decay_t<decltype(e4)> >;   // {4,2,1,3}
-  auto sp5   = static_product_v< std::decay_t<decltype(e5)> >;   // {1,4,2,1,3,1}
+  auto sp0   = product(e0);   // {}
+  auto sp1   = product(e1);   // {1,2,3,4}
+  auto sp2   = product(e2);   // {1,2,3}
+  auto sp3   = product(e3);   // {4,2,3}
+  auto sp4   = product(e4);   // {4,2,1,3}
+  auto sp5   = product(e5);   // {1,4,2,1,3,1}
 
   BOOST_CHECK_EQUAL(p0, 0);
   BOOST_CHECK_EQUAL(p1, 24);

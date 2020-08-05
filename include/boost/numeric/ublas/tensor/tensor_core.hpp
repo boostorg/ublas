@@ -13,8 +13,8 @@
 
 /// \file tensor_core.hpp Definition for the tensor template class
 
-#ifndef BOOST_UBLAS_tensor_core_IMPL_HPP
-#define BOOST_UBLAS_tensor_core_IMPL_HPP
+#ifndef BOOST_UBLAS_TENSOR_CORE_IMPL_HPP
+#define BOOST_UBLAS_TENSOR_CORE_IMPL_HPP
 
 #include <initializer_list>
 
@@ -131,7 +131,7 @@ public:
     >
     explicit inline
     tensor_core (std::initializer_list<size_type> l)
-        : tensor_core( std::move(l), resizable_tag{} )
+        : tensor_core( std::move( extents_type( std::move(l) ) ), resizable_tag{} )
     {}
 
     /** @brief Constructs a tensor_core with a \c shape
@@ -146,8 +146,8 @@ public:
         typename = std::enable_if_t<is_dynamic_v<U>>
     >
     explicit inline
-    tensor_core (extents_type const& s)
-        : tensor_core( s, resizable_tag{} )
+    tensor_core (extents_type s)
+        : tensor_core( std::move(s), resizable_tag{} )
     {}
 
     /** @brief Constructs a tensor_core with a \c shape
@@ -163,8 +163,8 @@ public:
         typename = std::enable_if_t<is_dynamic_v<U>>
     >
     explicit inline
-    tensor_core (extents_type const& s, value_type const& i)
-        : tensor_core( s, resizable_tag{} )
+    tensor_core (extents_type s, value_type const& i)
+        : tensor_core( std::move(s), resizable_tag{} )
     {
         std::fill(begin(),end(),i);
     }
@@ -199,8 +199,8 @@ public:
         typename = std::enable_if_t<is_dynamic_v<U>>
     >
     inline
-    tensor_core (extents_type const& s, const array_type &a)
-        : tensor_core( s, resizable_tag{} )
+    tensor_core (extents_type s, const array_type &a)
+        : tensor_core( std::move(s), resizable_tag{} )
     {
         if( size() != a.size() ){
             throw std::runtime_error("boost::numeric::ublas::tensor_core(extents_type,array_type): "

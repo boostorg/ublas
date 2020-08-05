@@ -104,10 +104,10 @@ namespace boost::numeric::ublas::detail{
         // result list containing the strides
         // on each iteration calculate the product
         if constexpr( std::is_same_v<layout::last_order, L> ){
-          auto np = static_stride_list< T, P..., static_product_v< basic_static_extents<T, E..., E0> > >{};
+          auto np = static_stride_list< T, P..., product( basic_static_extents<T, E..., E0>{} ) >{};
           return make_static_strides_helper<L>( static_stride_list<T, E...>{}, n, np );
         }else{
-          auto np = static_stride_list< T, P..., static_product_v< basic_static_extents<T, R..., E0> > >{};
+          auto np = static_stride_list< T, P..., product( basic_static_extents<T, R..., E0>{} ) >{};
           return make_static_strides_helper<L>( static_stride_list<T, E...>{}, n, np );
         }
       }

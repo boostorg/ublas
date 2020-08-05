@@ -130,21 +130,5 @@ private:
 template<std::size_t... E>
 using static_extents = basic_static_extents<std::size_t,E...>;
 
-  
-template<typename T> struct static_product;
-
-template<typename T> 
-inline static constexpr auto const static_product_v = static_product<T>::value;
-
-template<typename ExtentsType, ExtentsType... Es>
-struct static_product< basic_static_extents<ExtentsType, Es...> >
-  : std::integral_constant< ExtentsType, (... * Es) >
-{};
-
-template<typename ExtentsType>
-struct static_product< basic_static_extents<ExtentsType> >
-  : std::integral_constant< ExtentsType, ExtentsType(0) >
-{};
-
 } // namespace boost::numeric::ublas
 #endif

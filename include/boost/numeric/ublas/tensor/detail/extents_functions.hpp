@@ -300,6 +300,14 @@ constexpr auto product(ExtentsType const &e) {
   return std::accumulate(e.begin(), e.end(), 1u, std::multiplies<>()) ;
 }
 
+/** @brief Returns the product of static extents at compile-time */
+template <class T, T... Es>
+[[nodiscard]] inline
+constexpr auto product( basic_static_extents<T,Es...> const &e) noexcept {
+  if constexpr( sizeof...(Es) == 0 ) return T(0);
+  else return T( (Es * ...) );
+}
+
 
 template <class LExtents, class RExtents, 
   std::enable_if_t<
