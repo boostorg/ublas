@@ -70,7 +70,7 @@ public:
      *
      */
     template <typename ExtentsType>
-    basic_strides(ExtentsType const& s)
+    constexpr basic_strides(ExtentsType const& s)
             : _base(s.size(),1)
     {
         static_assert( is_extents_v<ExtentsType>, "boost::numeric::ublas::basic_strides(ExtentsType const&) : " 
@@ -100,32 +100,32 @@ public:
         }
     }
 
-    basic_strides(basic_strides const& l)
+    constexpr basic_strides(basic_strides const& l)
         : _base(l._base)
     {}
 
-    basic_strides(basic_strides && l ) noexcept
+    constexpr basic_strides(basic_strides && l ) noexcept
         : _base(std::move(l._base))
     {}
 
-    basic_strides(base_type const& l )
+    constexpr basic_strides(base_type const& l )
         : _base(l)
     {}
 
-    basic_strides(base_type && l ) noexcept
+    constexpr basic_strides(base_type && l ) noexcept
         : _base(std::move(l))
     {}
 
     ~basic_strides() = default;
 
-    basic_strides& operator=(basic_strides&& other) 
+    constexpr basic_strides& operator=(basic_strides&& other) 
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);
         return *this;
     }
 
-    basic_strides& operator=(basic_strides const& other) 
+    constexpr basic_strides& operator=(basic_strides const& other) 
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         basic_strides temp(other);

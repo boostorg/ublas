@@ -51,7 +51,7 @@ public:
      *
      * @code auto ex = basic_extents<unsigned>{};
      */
-    basic_extents() = default;
+    constexpr basic_extents() = default;
 
     /** @brief Copy constructs basic_extents from a one-dimensional container
      *
@@ -91,26 +91,26 @@ public:
      * @param first iterator pointing to the first element
      * @param last iterator pointing to the next position after the last element
      */
-    basic_extents(const_iterator first, const_iterator last)
+    constexpr basic_extents(const_iterator first, const_iterator last)
       : basic_extents ( base_type( first,last ) )
     {
     }
 
     /** @brief Copy constructs basic_extents */
-    basic_extents(basic_extents const& l )
+    constexpr basic_extents(basic_extents const& l )
       : _base(l._base)
     {
     }
 
     /** @brief Move constructs basic_extents */
-    basic_extents(basic_extents && l ) noexcept
+    constexpr basic_extents(basic_extents && l ) noexcept
       : _base(std::move(l._base))
     {
     }
 
 
     template<typename OtherExtents>
-    basic_extents(OtherExtents const& e)
+    constexpr basic_extents(OtherExtents const& e)
         : _base(e.size())
     {
         static_assert( is_extents_v<OtherExtents>, "boost::numeric::ublas::basic_extents(OtherExtents const&) : " 
@@ -121,13 +121,13 @@ public:
 
     ~basic_extents() = default;
 
-    basic_extents& operator=(basic_extents && other)
+    constexpr basic_extents& operator=(basic_extents && other)
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);
         return *this;
     }
-    basic_extents& operator=(basic_extents const& other) 
+    constexpr basic_extents& operator=(basic_extents const& other) 
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         basic_extents temp(other);

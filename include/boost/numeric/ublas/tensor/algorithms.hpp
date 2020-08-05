@@ -37,7 +37,7 @@ namespace ublas {
  * @param[in] wa pointer to the strides of input tensor a
 */
 template <class PointerOut, class PointerIn, class SizeType>
-void copy(const SizeType p, SizeType const*const n,
+constexpr void copy(const SizeType p, SizeType const*const n,
           PointerOut c, SizeType const*const wc,
           PointerIn a,  SizeType const*const wa)
 {
@@ -87,7 +87,7 @@ void copy(const SizeType p, SizeType const*const n,
  * @param[in] op unary operation
 */
 template <class PointerOut, class PointerIn, class SizeType, class UnaryOp>
-void transform(const SizeType p,
+constexpr void transform(const SizeType p,
                SizeType const*const n,
                PointerOut c, SizeType const*const wc,
                PointerIn a,  SizeType const*const wa,
@@ -136,7 +136,8 @@ void transform(const SizeType p,
  * @param[in] k  accumulated value
 */
 template <class PointerIn, class ValueType, class SizeType>
-ValueType accumulate(SizeType const p, SizeType const*const n,
+[[nodiscard]]
+constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
                      PointerIn a, SizeType const*const w,
                      ValueType k)
 {
@@ -185,7 +186,8 @@ ValueType accumulate(SizeType const p, SizeType const*const n,
 */
 
 template <class PointerIn, class ValueType, class SizeType, class BinaryOp>
-ValueType accumulate(SizeType const p, SizeType const*const n,
+[[nodiscard]]
+constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
                      PointerIn a, SizeType const*const w,
                      ValueType k, BinaryOp op)
 {
@@ -238,7 +240,7 @@ ValueType accumulate(SizeType const p, SizeType const*const n,
 */
 
 template <class PointerOut, class PointerIn, class SizeType>
-void trans( SizeType const p,  SizeType const*const na, SizeType const*const pi,
+constexpr void trans( SizeType const p,  SizeType const*const na, SizeType const*const pi,
             PointerOut c,      SizeType const*const wc,
             PointerIn a,       SizeType const*const wa)
 {
@@ -297,7 +299,7 @@ void trans( SizeType const p,  SizeType const*const na, SizeType const*const pi,
 */
 
 template <class ValueType, class SizeType>
-void trans( SizeType const p,
+constexpr void trans( SizeType const p,
             SizeType const*const na,
             SizeType const*const pi,
             std::complex<ValueType>* c,  SizeType const*const wc,

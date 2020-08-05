@@ -59,7 +59,7 @@ public:
      *
      */
     template<typename ExtentsType>
-    basic_fixed_rank_strides(ExtentsType const& s)
+    constexpr basic_fixed_rank_strides(ExtentsType const& s)
     {
         if ( s.size() != size() ){
             throw std::length_error("boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
@@ -97,19 +97,19 @@ public:
         }
     }
 
-    basic_fixed_rank_strides(basic_fixed_rank_strides const& l)
+    constexpr basic_fixed_rank_strides(basic_fixed_rank_strides const& l)
         : _base(l._base)
     {}
 
-    basic_fixed_rank_strides(basic_fixed_rank_strides && l ) noexcept
+    constexpr basic_fixed_rank_strides(basic_fixed_rank_strides && l ) noexcept
         : _base(std::move(l._base))
     {}
 
-    basic_fixed_rank_strides(base_type const& l )
+    constexpr basic_fixed_rank_strides(base_type const& l )
         : _base(l)
     {}
 
-    basic_fixed_rank_strides(base_type && l )
+    constexpr basic_fixed_rank_strides(base_type && l )
             : _base(std::move(l))
     {}
 

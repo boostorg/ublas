@@ -361,14 +361,14 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  tes
 
                 using size_type = typename ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>::value_type;
                 size_type zero = 0;
-                ublas::accumulate(zero, n.data(), a.data(), wa.data(),v);
+                (void)ublas::accumulate(zero, n.data(), a.data(), wa.data(),v);
 
                 value_type* c0 = nullptr;
                 size_type const*const p0 = nullptr;
 
-                BOOST_CHECK_THROW(ublas::accumulate( n.size(), n.data(), c0, wa.data(), v), std::runtime_error);
-                BOOST_CHECK_THROW(ublas::accumulate( n.size(), n.data(), a.data(), p0, v), std::runtime_error);
-                BOOST_CHECK_THROW(ublas::accumulate( n.size(), p0, a.data(), wa.data(), v), std::runtime_error);
+                BOOST_CHECK_THROW((void)ublas::accumulate( n.size(), n.data(), c0, wa.data(), v), std::runtime_error);
+                BOOST_CHECK_THROW((void)ublas::accumulate( n.size(), n.data(), a.data(), p0, v), std::runtime_error);
+                BOOST_CHECK_THROW((void)ublas::accumulate( n.size(), p0, a.data(), wa.data(), v), std::runtime_error);
 
 
                 auto acc2 = ublas::accumulate( n.size(), n.data(), a.data(), wa.data(), v,
@@ -376,11 +376,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  tes
 
                 BOOST_CHECK_EQUAL( acc2, value_type( static_cast< inner_type_t<value_type> >( s*(s+1) / 2 ) )  );
 
-                ublas::accumulate(zero, n.data(), a.data(), wa.data(), v, [](auto const& l, auto const& r){return l + r; });
+                (void)ublas::accumulate(zero, n.data(), a.data(), wa.data(), v, [](auto const& l, auto const& r){return l + r; });
 
-                BOOST_CHECK_THROW(ublas::accumulate( n.size(), n.data(), c0, wa.data(), v,[](auto const& l, auto const& r){return l + r; }), std::runtime_error);
-                BOOST_CHECK_THROW(ublas::accumulate( n.size(), n.data(), a.data(), p0, v, [](auto const& l, auto const& r){return l + r; }), std::runtime_error);
-                BOOST_CHECK_THROW(ublas::accumulate( n.size(), p0, a.data(), wa.data(),v, [](auto const& l, auto const& r){return l + r; }), std::runtime_error);
+                BOOST_CHECK_THROW((void)ublas::accumulate( n.size(), n.data(), c0, wa.data(), v,[](auto const& l, auto const& r){return l + r; }), std::runtime_error);
+                BOOST_CHECK_THROW((void)ublas::accumulate( n.size(), n.data(), a.data(), p0, v, [](auto const& l, auto const& r){return l + r; }), std::runtime_error);
+                BOOST_CHECK_THROW((void)ublas::accumulate( n.size(), p0, a.data(), wa.data(),v, [](auto const& l, auto const& r){return l + r; }), std::runtime_error);
 
     }
 }
@@ -398,7 +398,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, 
 
         auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
-        BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), n.data(), a, wa.data(), value_type{0} ), std::runtime_error );
+        BOOST_REQUIRE_THROW( (void)ublas::accumulate( n.size(), n.data(), a, wa.data(), value_type{0} ), std::runtime_error );
         
     }
 
@@ -408,7 +408,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, 
 
         auto wa = ublas::strides_t<ublas::dynamic_extents<>,ublas::layout::first_order>(n);
 
-        BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), n.data(), a, wa.data(), value_type{0},[](value_type const& a,value_type const& b){ return a + b;} ), std::runtime_error );
+        BOOST_REQUIRE_THROW( (void)ublas::accumulate( n.size(), n.data(), a, wa.data(), value_type{0},[](value_type const& a,value_type const& b){ return a + b;} ), std::runtime_error );
         
     }
 
@@ -438,7 +438,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, 
 
             size_t* wa = nullptr;
 
-            BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), n.data(), a.data(), wa, value_type{0} ), std::runtime_error );
+            BOOST_REQUIRE_THROW( (void)ublas::accumulate( n.size(), n.data(), a.data(), wa, value_type{0} ), std::runtime_error );
             
     }
 
@@ -450,7 +450,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate_exceptions, 
 
             size_t* m = nullptr;
 
-            BOOST_REQUIRE_THROW( ublas::accumulate( n.size(), m, a.data(), wa.data(), value_type{0}, [](value_type const& a,value_type const& b){ return a + b;} ), std::runtime_error );
+            BOOST_REQUIRE_THROW( (void)ublas::accumulate( n.size(), m, a.data(), wa.data(), value_type{0}, [](value_type const& a,value_type const& b){ return a + b;} ), std::runtime_error );
             
     }
 
