@@ -76,7 +76,7 @@ namespace boost { namespace numeric { namespace ublas {
 #pragma warning(pop)
 #endif
                   for (pointer d = data_; d != data_ + size_; ++d)
-#if __cplusplus >= 201703L
+#if __cplusplus >= 201103L
                       std::allocator_traits<ALLOC>::construct (alloc_, d, value_type());
 #else
                       alloc_.construct(d, value_type());
@@ -153,7 +153,7 @@ namespace boost { namespace numeric { namespace ublas {
                         pointer di = data_;
                         if (size < size_) {
                             for (; di != data_ + size; ++di) {
-#if __cplusplus >= 201703L
+#if __cplusplus >= 201103L
                                 std::allocator_traits<ALLOC>::construct (alloc_, di, *si);
 #else
                                 alloc_.construct (di, *si);
@@ -163,7 +163,7 @@ namespace boost { namespace numeric { namespace ublas {
                         }
                         else {
                             for (; si != p_data + size_; ++si) {
-#if __cplusplus >= 201703L
+#if __cplusplus >= 201103L
                                 std::allocator_traits<ALLOC>::construct (alloc_, di, *si);
 #else
                                 alloc_.construct (di, *si);
@@ -171,7 +171,7 @@ namespace boost { namespace numeric { namespace ublas {
                                 ++di;
                             }
                             for (; di != data_ + size; ++di) {
-#if __cplusplus >= 201703L
+#if __cplusplus >= 201103L
                                 std::allocator_traits<ALLOC>::construct (alloc_, di, init);
 #else
                                 alloc_.construct (di, init);
@@ -190,7 +190,7 @@ namespace boost { namespace numeric { namespace ublas {
 #pragma warning(pop)
 #endif
                             for (pointer di = data_; di != data_ + size; ++di)
-#if __cplusplus >= 201703L
+#if __cplusplus >= 201103L
                                 std::allocator_traits<ALLOC>::construct(alloc_, di, value_type());
 #else
                                 alloc_.construct (di, value_type());
@@ -210,7 +210,7 @@ namespace boost { namespace numeric { namespace ublas {
 #pragma warning(pop)
 #endif
                         for (pointer si = p_data; si != p_data + size_; ++si)
-#if __cplusplus >= 201703L
+#if __cplusplus >= 201103L
                             std::allocator_traits<ALLOC>::destroy (alloc_, si);
 #else
                             alloc_.destroy (si);
