@@ -37,7 +37,7 @@ namespace boost::numeric::ublas{
             "boost::numeric::ublas::tensor_engine : please provide valid tensor layout type"
         );
 
-        using storage_traits_type        = storage_traits<StorageType>;
+        using storage_traits_type   = storage_traits<StorageType>;
         
     };
 

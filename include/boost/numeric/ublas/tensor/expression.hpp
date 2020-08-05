@@ -73,12 +73,7 @@ struct binary_tensor_expression
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
     constexpr binary_tensor_expression(binary_tensor_expression&& l) noexcept
       : el(l.el), er(l.er), op(l.op) {}
-    constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept{
-        el(l.el);
-        er(l.er);
-        op(l.op);
-    }
-    
+    constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept = default;
     binary_tensor_expression& operator=(binary_tensor_expression const& l) noexcept = delete;
 
     ~binary_tensor_expression() = default;
@@ -146,10 +141,7 @@ struct unary_tensor_expression
     constexpr unary_tensor_expression(unary_tensor_expression&& l) noexcept
       : e(l.e), op(l.op) {}
 
-    constexpr unary_tensor_expression& operator=(unary_tensor_expression&& l) noexcept{
-        e(l.e);
-        op(l.op);
-    }
+    constexpr unary_tensor_expression& operator=(unary_tensor_expression&& l) noexcept = default;
     
     unary_tensor_expression& operator=(unary_tensor_expression const& l) noexcept = delete;
     ~unary_tensor_expression() = default;

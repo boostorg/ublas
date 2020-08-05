@@ -595,10 +595,15 @@ public:
         if constexpr( sizeof...(is) == 0ul ){
             return this->data_.at(i);
         }else{
+            if( sizeof...(is) + 1 > strides_.size() ){
+                throw std::runtime_error("Error in boost::numeric::ublas::at(size_type, Indices...): "
+                    "number of variadic argument exceeds the strides size."
+                );
+            }
             static_assert(
                 std::conjunction_v< std::is_convertible<Indices,size_type>... >,
                 "boost::numeric::ublas::tensor_core::at(size_type,Indices...) : "
-                "provided varadic argument is not convertible to tensor size_type"
+                "provided variadic argument is not convertible to tensor size_type"
             );
             using strides_value_type = typename strides_type::value_type;
             auto const idx = detail::access(this->strides_, 
@@ -624,10 +629,15 @@ public:
         if constexpr( sizeof...(is) == 0ul ){
             return this->data_.at(i);
         }else{
+            if( sizeof...(is) + 1 > strides_.size() ){
+                throw std::runtime_error("Error in boost::numeric::ublas::at(size_type, Indices...): "
+                    "number of variadic argument exceeds the strides size."
+                );
+            }
             static_assert(
                 std::conjunction_v< std::is_convertible<Indices,size_type>... >,
                 "boost::numeric::ublas::tensor_core::at(size_type,Indices...) : "
-                "provided varadic argument is not convertible to tensor size_type"
+                "provided variadic argument is not convertible to tensor size_type"
             );
             using strides_value_type = typename strides_type::value_type;
             auto const idx = detail::access(this->strides_, 
@@ -656,7 +666,7 @@ public:
             static_assert(
                 std::conjunction_v< std::is_convertible<Indices,size_type>... >,
                 "boost::numeric::ublas::tensor_core::operator()(size_type,Indices...) : "
-                "provided varadic argument is not convertible to tensor size_type"
+                "provided variadic argument is not convertible to tensor size_type"
             );
             using strides_value_type = typename strides_type::value_type;
             auto const idx = detail::access(this->strides_, 
@@ -685,7 +695,7 @@ public:
             static_assert(
                 std::conjunction_v< std::is_convertible<Indices,size_type>... >,
                 "boost::numeric::ublas::tensor_core::operator()(size_type,Indices...) : "
-                "provided varadic argument is not convertible to tensor size_type"
+                "provided variadic argument is not convertible to tensor size_type"
             );
             using strides_value_type = typename strides_type::value_type;
             auto const idx = detail::access(this->strides_, 
