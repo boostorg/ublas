@@ -1,4 +1,4 @@
-Boost Linear and Multilinear Algebra Library 
+oost Linear and Multilinear Algebra Library 
 =====
 
 [![Language](https://img.shields.io/badge/C%2B%2B-11-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization)
