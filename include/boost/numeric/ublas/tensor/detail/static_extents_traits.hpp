@@ -27,137 +27,101 @@ namespace boost::numeric::ublas::static_traits{
 
   /** @brief Type-traits true if size > 1 and all elements > 0 or size == 1 && e[0] == 1 */
   template<typename T> 
-  struct is_valid : std::integral_constant<bool, false>{};
+  struct is_valid : std::false_type{};
 
   template<typename T> 
   inline static constexpr bool const is_valid_v = is_valid<T>::value;
 
-  template<typename ExtentsType, ExtentsType E0>
-  struct is_valid< basic_static_extents<ExtentsType, E0> >{
-    static constexpr bool const value = ( E0 == ExtentsType(1) );
-  };
-
-  template<typename ExtentsType, ExtentsType E0, ExtentsType E1>
-  struct is_valid< basic_static_extents<ExtentsType, E0, E1 > >{
-    static constexpr bool const value = ( E0 > ExtentsType(0) ) && ( E1 > ExtentsType(0) );
-  };
-
-  template<typename ExtentsType, ExtentsType E0, ExtentsType E1, ExtentsType E2, ExtentsType... E>
-  struct is_valid< basic_static_extents<ExtentsType, E0, E1, E2, E...> >{
-    static constexpr bool const value = ( E0 > ExtentsType(0) ) 
-      && is_valid_v< basic_static_extents<ExtentsType, E1, E2, E...> >;
-  };
+  template<typename ExtentsType, ExtentsType... Es>
+  struct is_valid< basic_static_extents<ExtentsType, Es...> >
+    : std::integral_constant<bool,
+        ( ( sizeof...(Es) == 1ul ) && ( ( Es == ExtentsType(1) ) && ... ) ) || 
+        ( ( sizeof...(Es) > 1ul ) && ( ( Es > ExtentsType(0) ) && ... ) )
+    >
+  {};
 
   /** @brief Type-traits true if this has a scalar shape
    * true if (1,1,[1,...,1])
    */
   template<typename T> 
-  struct is_scalar : std::integral_constant<bool, false>{};
+  struct is_scalar : std::false_type{};
 
   template<typename T> 
   inline static constexpr bool const is_scalar_v = is_scalar<T>::value;
 
-  template<typename ExtentsType, ExtentsType E0, ExtentsType E1, ExtentsType... E>
-  struct is_scalar< basic_static_extents<ExtentsType, E0, E1, E...> >{
-    static constexpr bool const value = is_scalar_v< basic_static_extents<ExtentsType, E0> > && is_scalar_v< basic_static_extents<ExtentsType, E1, E...> >;
-  };
-
-  template<typename ExtentsType, ExtentsType E0>
-  struct is_scalar< basic_static_extents<ExtentsType, E0> >{
-    static constexpr bool const value = (E0 == 1);
-  };
-
-  template<typename ExtentsType>
-  struct is_scalar< basic_static_extents<ExtentsType> > : std::false_type{};
+  template<typename ExtentsType, ExtentsType... Es>
+  struct is_scalar< basic_static_extents<ExtentsType, Es...> >
+    : std::integral_constant<bool,
+      ( sizeof...(Es) && ( ( Es == ExtentsType(1) ) && ... ) )
+    >
+  {};
 
   /** @brief Type-traits true if this has a vector shape
    * true if (1,n,[1,...,1]) or (n,1,[1,...,1]) with n > 1
    */
   template<typename T> 
-  struct is_vector : std::integral_constant<bool, false>{};
+  struct is_vector : std::false_type{};
 
   template<typename T> 
   inline static constexpr bool const is_vector_v = is_vector<T>::value;
 
-  template<typename ExtentsType, ExtentsType E0, ExtentsType E1, ExtentsType E2, ExtentsType... E>
-  struct is_vector< basic_static_extents<ExtentsType, E0, E1, E2, E...> >{
-    static constexpr bool const value = 
-      is_vector_v< basic_static_extents<ExtentsType, E0, E1> > && 
-      is_scalar_v< basic_static_extents<ExtentsType, E2, E...> >;
-  };
-
-  template<typename ExtentsType, ExtentsType E0, ExtentsType E1>
-  struct is_vector< basic_static_extents<ExtentsType, E0, E1 > >{
-    static constexpr bool const value = 
-         ( E0 > ExtentsType(1) || E1 > ExtentsType(1) ) 
-      && ( E0 == ExtentsType(1) || E1 == ExtentsType(1) );
-  };
+  template<typename ExtentsType, ExtentsType E0, ExtentsType E1, ExtentsType... Es>
+  struct is_vector< basic_static_extents<ExtentsType, E0, E1, Es...> >
+    : std::integral_constant<bool,
+        ( ( E0 > ExtentsType(1) ) ^ ( E1 > ExtentsType(1) ) ) &&
+        ( ( sizeof...(Es) == 0 ) || is_scalar_v< basic_static_extents<ExtentsType, Es...> > )
+    >
+  {};
 
   template<typename ExtentsType, ExtentsType E0>
-  struct is_vector< basic_static_extents<ExtentsType, E0> >{
-    static constexpr bool const value = ( E0 > ExtentsType(1) );
-  };
+  struct is_vector< basic_static_extents<ExtentsType, E0> >
+    : std::integral_constant<bool, ( E0 > ExtentsType(1) )>
+  {};
 
   /** @brief Type-traits true if this has a matrix shape
    * true if (m,n,[1,...,1]) with m > 1 and n > 1
    */
   template<typename T> 
-  struct is_matrix : std::integral_constant<bool, false>{};
+  struct is_matrix : std::false_type{};
 
   template<typename T> 
   inline static constexpr bool const is_matrix_v = is_matrix<T>::value;
 
-  template<typename ExtentsType, ExtentsType... E>
-  struct is_matrix< basic_static_extents<ExtentsType, E...> > : std::false_type{};
-
-  template<typename ExtentsType, ExtentsType E0, ExtentsType E1, ExtentsType E2, ExtentsType... E>
-  struct is_matrix< basic_static_extents<ExtentsType, E0, E1, E2, E...> >{
-    static constexpr bool const value = 
-      is_matrix_v< basic_static_extents<ExtentsType, E0, E1> > && 
-      is_scalar_v< basic_static_extents<ExtentsType, E2, E...> >;
-  };
-
-  template<typename ExtentsType, ExtentsType E0, ExtentsType E1>
-  struct is_matrix< basic_static_extents<ExtentsType, E0, E1> >{
-    static constexpr bool const value = ( E0 > ExtentsType(1) && E1 > ExtentsType(1) );
-  };
+  template<typename ExtentsType, ExtentsType E0, ExtentsType E1, ExtentsType... Es>
+  struct is_matrix< basic_static_extents<ExtentsType, E0, E1, Es...> >
+    : std::integral_constant<bool,
+      ( ( E0 > ExtentsType(1) ) && ( E1 > ExtentsType(1) )  ) &&
+      ( ( sizeof...(Es) == 0 ) || is_scalar_v< basic_static_extents<ExtentsType, Es...> > )
+    >
+  {};
 
   /** @brief Type-traits true if this has a any extent greater than 1 */
   template<typename T> 
-  struct is_any_greater_than_one : std::integral_constant<bool, false>{};
+  struct is_any_greater_than_one : std::false_type{};
 
   template<typename T> 
   inline static constexpr bool const is_any_greater_than_one_v = is_any_greater_than_one<T>::value;
 
-  template<typename ExtentsType, ExtentsType... E>
-  struct is_any_greater_than_one< basic_static_extents<ExtentsType, E... > > : std::false_type{};
-
-  template<typename ExtentsType, ExtentsType E0>
-  struct is_any_greater_than_one< basic_static_extents<ExtentsType, E0> > {
-    static constexpr bool const value = ( E0 > ExtentsType(1) );
-  };
-
-  template<typename ExtentsType, ExtentsType E0, ExtentsType... E>
-  struct is_any_greater_than_one< basic_static_extents<ExtentsType, E0, E... > > {
-    static constexpr bool const value = is_any_greater_than_one_v< basic_static_extents<ExtentsType, E0> > || is_any_greater_than_one_v< basic_static_extents<ExtentsType, E... > >;
-  };
+  template<typename ExtentsType, ExtentsType... Es>
+  struct is_any_greater_than_one< basic_static_extents<ExtentsType, Es... > > 
+    : std::integral_constant<bool,
+      sizeof...(Es) && ( ( Es > ExtentsType(1) ) || ... )
+    >
+    {};
 
   /** @brief Type-traits true if this is has a tensor shape
    * true if !empty() && !is_scalar() && !is_vector() && !is_matrix()
    */
   template<typename T> 
-  struct is_tensor : std::integral_constant<bool, false>{};
+  struct is_tensor : std::false_type{};
 
   template<typename T> 
   inline static constexpr bool const is_tensor_v = is_tensor<T>::value;
 
-  template<typename ExtentsType, ExtentsType... E>
-  struct is_tensor< basic_static_extents<ExtentsType, E... > > : std::false_type{};
-
-  template<typename ExtentsType, ExtentsType E0, ExtentsType E1, ExtentsType E2, ExtentsType... E>
-  struct is_tensor< basic_static_extents<ExtentsType, E0, E1, E2, E...> >{
-    static constexpr bool const value = is_any_greater_than_one_v< basic_static_extents<ExtentsType, E2, E...> >;
-  };
+  template<typename ExtentsType, ExtentsType E0, ExtentsType E1, ExtentsType... Es>
+  struct is_tensor< basic_static_extents<ExtentsType, E0, E1, Es...> >
+    : is_any_greater_than_one< basic_static_extents<ExtentsType, Es...> >
+  {};
 
 } // namespace boost::numeric::ublas::static_traits
 #endif
