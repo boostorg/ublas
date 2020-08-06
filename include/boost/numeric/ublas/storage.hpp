@@ -18,6 +18,7 @@
 #include <boost/shared_array.hpp>
 #endif
 
+#include <boost/core/allocator_access.hpp>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/collection_size_type.hpp>
 #include <boost/serialization/nvp.hpp>
@@ -45,8 +46,8 @@ namespace boost { namespace numeric { namespace ublas {
         typedef unbounded_array<T, ALLOC> self_type;
     public:
         typedef ALLOC allocator_type;
-        typedef typename ALLOC::size_type size_type;
-        typedef typename ALLOC::difference_type difference_type;
+        typedef typename boost::allocator_size_type<ALLOC>::type size_type;
+        typedef typename boost::allocator_difference_type<ALLOC>::type difference_type;
         typedef T value_type;
         typedef const T &const_reference;
         typedef T &reference;
@@ -76,11 +77,7 @@ namespace boost { namespace numeric { namespace ublas {
 #pragma warning(pop)
 #endif
                   for (pointer d = data_; d != data_ + size_; ++d)
-#if __cplusplus >= 201703L
-                      std::allocator_traits<ALLOC>::construct (alloc_, d, value_type());
-#else
-                      alloc_.construct(d, value_type());
-#endif
+                      boost::allocator_construct(alloc_, d);
               }
           }
           else
@@ -153,29 +150,17 @@ namespace boost { namespace numeric { namespace ublas {
                         pointer di = data_;
                         if (size < size_) {
                             for (; di != data_ + size; ++di) {
-#if __cplusplus >= 201703L
-                                std::allocator_traits<ALLOC>::construct (alloc_, di, *si);
-#else
-                                alloc_.construct (di, *si);
-#endif
+                                boost::allocator_construct(alloc_, di, *si);
                                 ++si;
                             }
                         }
                         else {
                             for (; si != p_data + size_; ++si) {
-#if __cplusplus >= 201703L
-                                std::allocator_traits<ALLOC>::construct (alloc_, di, *si);
-#else
-                                alloc_.construct (di, *si);
-#endif
+                                boost::allocator_construct(alloc_, di, *si);
                                 ++di;
                             }
                             for (; di != data_ + size; ++di) {
-#if __cplusplus >= 201703L
-                                std::allocator_traits<ALLOC>::construct (alloc_, di, init);
-#else
-                                alloc_.construct (di, init);
-#endif
+                                boost::allocator_construct(alloc_, di, init);
                             }
                         }
                     }
@@ -190,11 +175,7 @@ namespace boost { namespace numeric { namespace ublas {
 #pragma warning(pop)
 #endif
                             for (pointer di = data_; di != data_ + size; ++di)
-#if __cplusplus >= 201703L
-                                std::allocator_traits<ALLOC>::construct(alloc_, di, value_type());
-#else
-                                alloc_.construct (di, value_type());
-#endif
+                                boost::allocator_construct(alloc_, di);
                         }
                     }
                 }
@@ -210,11 +191,7 @@ namespace boost { namespace numeric { namespace ublas {
 #pragma warning(pop)
 #endif
                         for (pointer si = p_data; si != p_data + size_; ++si)
-#if __cplusplus >= 201703L
-                            std::allocator_traits<ALLOC>::destroy (alloc_, si);
-#else
-                            alloc_.destroy (si);
-#endif
+                            boost::allocator_destroy(alloc_, si);
                     }
                     alloc_.deallocate (p_data, size_);
                 }
@@ -237,7 +214,7 @@ namespace boost { namespace numeric { namespace ublas {
         // Random Access Container
         BOOST_UBLAS_INLINE
         size_type max_size () const {
-            return ALLOC ().max_size();
+            return boost::allocator_max_size(alloc_);
         }
         
         BOOST_UBLAS_INLINE
@@ -385,8 +362,8 @@ namespace boost { namespace numeric { namespace ublas {
         typedef bounded_array<T, N, ALLOC> self_type;
     public:
         // No allocator_type as ALLOC is not used for allocation
-        typedef typename ALLOC::size_type size_type;
-        typedef typename ALLOC::difference_type difference_type;
+        typedef typename boost::allocator_size_type<ALLOC>::type size_type;
+        typedef typename boost::allocator_difference_type<ALLOC>::type difference_type;
         typedef T value_type;
         typedef const T &const_reference;
         typedef T &reference;
