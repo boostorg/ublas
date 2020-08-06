@@ -30,6 +30,8 @@ class basic_fixed_rank_strides
 {
 public:
 
+    static constexpr std::size_t const _size = N;
+
     using layout_type           = L;
     using base_type             = std::array<T, N>;
     using value_type            = typename base_type::value_type;

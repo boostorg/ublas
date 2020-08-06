@@ -269,7 +269,7 @@ namespace boost::numeric::ublas::detail {
  * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
 */
 template<class tensor_type, class derived_type>
-void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& expr)
+inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& expr)
 {
 	if constexpr (detail::has_tensor_types<tensor_type, tensor_expression<tensor_type,derived_type> >::value )
 	    if(!detail::all_extents_equal(expr, lhs.extents() ))
@@ -287,7 +287,7 @@ void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& 
  * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
 */
 template<typename tensor_type, typename other_tensor_type, typename derived_type>
-void eval(tensor_type& lhs, tensor_expression<other_tensor_type, derived_type> const& expr)
+inline void eval(tensor_type& lhs, tensor_expression<other_tensor_type, derived_type> const& expr)
 {
 
 	static_assert(is_valid_tensor_v<tensor_type> && is_valid_tensor_v<other_tensor_type>,
@@ -303,7 +303,7 @@ void eval(tensor_type& lhs, tensor_expression<other_tensor_type, derived_type> c
 	if ( !detail::all_extents_equal(expr, lhs.extents() ) ){
 		throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
 	}   	
-
+	
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
 		lhs(i) = expr()(i);
@@ -317,12 +317,12 @@ void eval(tensor_type& lhs, tensor_expression<other_tensor_type, derived_type> c
  * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
 */
 template<class tensor_type, class derived_type, class unary_fn>
-void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& expr, unary_fn const fn)
+inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& expr, unary_fn const fn)
 {
 
 	if constexpr (detail::has_tensor_types< tensor_type, tensor_expression<tensor_type,derived_type> >::value )
 	    if(!detail::all_extents_equal( expr, lhs.extents() ))
-	    throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
+	    	throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
 
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
@@ -339,7 +339,7 @@ void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& 
  * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
 */
 template<class tensor_type, class unary_fn>
-void eval(tensor_type& lhs, unary_fn const& fn)
+inline void eval(tensor_type& lhs, unary_fn const& fn)
 {
 #pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)

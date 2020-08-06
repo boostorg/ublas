@@ -368,10 +368,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
             v+=value_type{1};
         }
 
-        if(t.rank() == 1) check1(t);
-        else if(t.rank() == 2) check2(t);
-        else if(t.rank() == 3) check3(t);
-        else if(t.rank() == 4) check4(t);
+        if constexpr(extents_type::_size == 1) check1(t);
+        else if constexpr(extents_type::_size == 2) check2(t);
+        else if constexpr(extents_type::_size == 3) check3(t);
+        else if constexpr(extents_type::_size == 4) check4(t);
 
     };
 

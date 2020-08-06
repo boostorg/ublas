@@ -40,7 +40,7 @@ struct tensor_expression
     using tensor_type = T;
 
     inline
-    auto const& operator()() const { return *static_cast<const expression_type*> (this); }
+    constexpr auto const& operator()() const noexcept { return *static_cast<const expression_type*> (this); }
     
     ~tensor_expression() = default;
     tensor_expression(const tensor_expression&) = delete;
@@ -72,14 +72,14 @@ struct binary_tensor_expression
     binary_tensor_expression() = delete;
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
     constexpr binary_tensor_expression(binary_tensor_expression&& l) noexcept
-      : el(l.el), er(l.er), op(l.op) {}
+      : el(l.el), er(l.er), op(std::move(l.op)) {}
     constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept = default;
     binary_tensor_expression& operator=(binary_tensor_expression const& l) noexcept = delete;
 
     ~binary_tensor_expression() = default;
 
-    inline
-    decltype(auto)  operator()(size_type i) const { return op(el(i), er(i)); }
+    [[nodiscard]] inline 
+    constexpr decltype(auto) operator()(size_type i) const { return op(el(i), er(i)); }
 
     expression_type_left const& el;
     expression_type_right const& er;
@@ -88,7 +88,8 @@ struct binary_tensor_expression
 
 /// @brief helper function to simply instantiation of lambda proxy class
 template<class T1, class T2, class EL, class ER, class OP>
-auto make_binary_tensor_expression( tensor_expression<T1,EL> const& el, tensor_expression<T2,ER> const& er, OP op)
+[[nodiscard]] inline
+constexpr auto make_binary_tensor_expression( tensor_expression<T1,EL> const& el, tensor_expression<T2,ER> const& er, OP op) noexcept
 {
     static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
         "boost::numeric::ublas::make_binary_tensor_expression(T1,T2) : LHS tensor and RHS tensor should have same value type"
@@ -97,25 +98,29 @@ auto make_binary_tensor_expression( tensor_expression<T1,EL> const& el, tensor_e
 }
 
 template<class T, class EL, class ER, class OP>
-auto make_binary_tensor_expression( matrix_expression<EL> const& el, tensor_expression<T,ER> const& er, OP op)
+[[nodiscard]] inline
+constexpr auto make_binary_tensor_expression( matrix_expression<EL> const& el, tensor_expression<T,ER> const& er, OP op) noexcept
 {
     return binary_tensor_expression<T,EL,ER,OP>( el(), er(), op) ;
 }
 
 template<class T, class EL, class ER, class OP>
-auto make_binary_tensor_expression( tensor_expression<T,EL> const& el, matrix_expression<ER> const& er, OP op)
+[[nodiscard]] inline
+constexpr auto make_binary_tensor_expression( tensor_expression<T,EL> const& el, matrix_expression<ER> const& er, OP op) noexcept
 {
     return binary_tensor_expression<T,EL,ER,OP>( el(), er(), op) ;
 }
 
 template<class T, class EL, class ER, class OP>
-auto make_binary_tensor_expression( vector_expression<EL> const& el, tensor_expression<T,ER> const& er, OP op)
+[[nodiscard]] inline
+constexpr auto make_binary_tensor_expression( vector_expression<EL> const& el, tensor_expression<T,ER> const& er, OP op) noexcept
 {
     return binary_tensor_expression<T,EL,ER,OP>( el(), er(), op) ;
 }
 
 template<class T, class EL, class ER, class OP>
-auto make_binary_tensor_expression( tensor_expression<T,EL> const& el, vector_expression<ER> const& er, OP op)
+[[nodiscard]] inline
+constexpr auto make_binary_tensor_expression( tensor_expression<T,EL> const& el, vector_expression<ER> const& er, OP op) noexcept
 {
     return binary_tensor_expression<T,EL,ER,OP>( el(), er(), op) ;
 }
@@ -139,15 +144,15 @@ struct unary_tensor_expression
     constexpr unary_tensor_expression() = delete;
     unary_tensor_expression(const unary_tensor_expression& l) = delete;
     constexpr unary_tensor_expression(unary_tensor_expression&& l) noexcept
-      : e(l.e), op(l.op) {}
+      : e(l.e), op(std::move(l.op)) {}
 
     constexpr unary_tensor_expression& operator=(unary_tensor_expression&& l) noexcept = default;
     
     unary_tensor_expression& operator=(unary_tensor_expression const& l) noexcept = delete;
     ~unary_tensor_expression() = default;
     
-    inline
-    decltype(auto) operator()(size_type i) const { return op(e(i)); }
+    [[nodiscard]] inline
+    constexpr decltype(auto) operator()(size_type i) const { return op(e(i)); }
 
     E const& e;
     OP op;
@@ -155,19 +160,22 @@ struct unary_tensor_expression
 
 // \brief helper function to simply instantiation of lambda proxy class
 template<class T, class E, class OP>
-auto make_unary_tensor_expression( tensor_expression<T,E> const& e, OP op)
+[[nodiscard]] inline
+constexpr auto make_unary_tensor_expression( tensor_expression<T,E> const& e, OP op) noexcept
 {
     return unary_tensor_expression<T,E,OP>( e() , op);
 }
 
 template<class T, class E, class OP>
-auto make_unary_tensor_expression( matrix_expression<E> const& e, OP op)
+[[nodiscard]] inline
+constexpr auto make_unary_tensor_expression( matrix_expression<E> const& e, OP op) noexcept
 {
     return unary_tensor_expression<T,E,OP>( e() , op);
 }
 
 template<class T, class E, class OP>
-auto make_unary_tensor_expression( vector_expression<E> const& e, OP op)
+[[nodiscard]] inline
+constexpr auto make_unary_tensor_expression( vector_expression<E> const& e, OP op) noexcept
 {
     return unary_tensor_expression<T,E,OP>( e() , op);
 }

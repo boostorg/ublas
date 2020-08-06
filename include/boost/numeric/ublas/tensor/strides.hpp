@@ -84,7 +84,7 @@ namespace boost::numeric::ublas::detail {
     static_assert( is_strides_v<Stride>, 
       "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
     
-    if constexpr( is_static_v<Stride> ){
+    if constexpr( is_static_rank_v<Stride> ){
       static_assert( Stride::_size >= sizeof...(is), 
         "boost::numeric::ublas::detail::access() : number of indices exceeds the strides size");
     }

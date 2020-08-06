@@ -476,7 +476,7 @@ public:
 
     constexpr tensor_core& operator=(const_reference v)
     {
-        std::fill_n(this->begin(), size(), v);
+        std::fill_n(this->begin(), this->size(), v);
         return *this;
     }
 
@@ -706,30 +706,6 @@ public:
         }
     }
 
-    /** @brief Element access using a single index.
-     *
-     *
-     *  @code A(i) = a; @endcode
-     *
-     *  @param i zero-based index where 0 <= i < this->size()
-     */
-    [[nodiscard]] inline
-    constexpr const_reference operator()(size_type i) const {
-        return this->data_[i];
-    }
-
-
-    /** @brief Element access using a single index.
-     *
-     *  @code A(i) = a; @endcode
-     *
-     *  @param i zero-based index where 0 <= i < this->size()
-     */
-    [[nodiscard]] inline
-    constexpr reference operator()(size_type i){
-        return this->data_[i];
-    }
-
     /** @brief Generates a tensor_core index for tensor_core contraction
      *
      *
@@ -779,7 +755,7 @@ public:
             this->data_.resize (p, v);
     }
 
-    friend void swap(tensor_core& lhs, tensor_core& rhs) noexcept{
+    friend void swap(tensor_core& lhs, tensor_core& rhs){
         std::swap(lhs.data_   , rhs.data_   );
         std::swap(lhs.extents_, rhs.extents_);
         std::swap(lhs.strides_, rhs.strides_);
