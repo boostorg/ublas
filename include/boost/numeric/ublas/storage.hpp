@@ -57,7 +57,7 @@ namespace boost { namespace numeric { namespace ublas {
 
         // Construction and destruction
         explicit BOOST_UBLAS_INLINE
-        unbounded_array (const allocator_type &a = alloactor_type())
+        unbounded_array (const allocator_type &a = allocator_type())
             : allocator_ (a)
             , size_ (0u)
             , data_ (0)
