@@ -252,5 +252,6 @@ test-suite numeric/uBLAS
       ]
       [ run test_matrix_vector.cpp
       ]
+      [ compile minimal_allocator_test.cpp ]
     ;
 
