@@ -3,8 +3,15 @@
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
 name: "Windows MSVC"
-on: [push, pull_request]
-
+on: 
+  push:
+    paths-ignore: 
+      - '**.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore: 
+      - '**.md'
+      - 'doc/**'
 jobs:
   build:
      name: "${{matrix.config.version}} -std=c++${{matrix.config.cxxstd}}"

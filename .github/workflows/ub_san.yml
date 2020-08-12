@@ -5,8 +5,15 @@
 name: Undefined Behaviour Sanitizer 
 # Trigger on Push to the repository, regardless of the branch.
 # For fine tune, You can add specific branches or tags.
-on: [push, pull_request]
-
+on: 
+  push:
+    paths-ignore: 
+      - '**.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore: 
+      - '**.md'
+      - 'doc/**'
 jobs:
   build:
     name: "${{matrix.config.cxx}} -std=c++${{matrix.config.cxxstd}}"
