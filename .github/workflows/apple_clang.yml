@@ -4,8 +4,15 @@
 
 name: Apple Clang
 
-on: [push, pull_request]
-
+on: 
+  push:
+    paths-ignore: 
+      - '**.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore: 
+      - '**.md'
+      - 'doc/**'
 jobs:
   build:
     name: "Darwin 11.0 -std=c++${{matrix.cxxstd}}"
