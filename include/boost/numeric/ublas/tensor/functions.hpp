@@ -282,7 +282,7 @@ namespace boost::numeric::ublas
      * input tensor b can be of type std::vector<std::size_t> or std::array<std::size_t,N>
      * @result     tensor with order r+s
     */
-    template <typename TensorEngine1, typename TensorEngine2, typename PermuType,
+    template <typename TensorEngine1, typename TensorEngine2, typename PermuType = std::vector<size_t>,
         std::enable_if_t<
             !(  is_static_v<typename tensor_core< TensorEngine1 >::extents_type> ||
                 is_static_v<typename tensor_core< TensorEngine2 >::extents_type> )
@@ -417,7 +417,7 @@ namespace boost::numeric::ublas
      * tensors can be of type std::vector<std::size_t> or std::array<std::size_t,N>
      * @result     tensor with order r+s
     */
-    template <typename TensorEngine1, typename TensorEngine2, typename PermuType>
+    template <typename TensorEngine1, typename TensorEngine2, typename PermuType = std::vector<size_t>>
     inline decltype(auto) prod(tensor_core< TensorEngine1 > const &a, tensor_core< TensorEngine2 > const &b,
                                         PermuType const &phi)
     {
@@ -548,8 +548,8 @@ namespace boost::numeric::ublas
      * @param[in] tau  one-based permutation tuple of length p
      * @returns        a transposed tensor object with the same storage format F and allocator type A
     */
-    template <typename TensorEngine>
-    inline decltype(auto) trans(tensor_core< TensorEngine > const &a, std::vector<std::size_t> const &tau)
+    template <typename TensorEngine,typename PermuType = std::vector<std::size_t> >
+    inline decltype(auto) trans(tensor_core< TensorEngine > const &a, PermuType const &tau)
     {
 
         using tensor_type   = tensor_core< TensorEngine >;
@@ -559,9 +559,9 @@ namespace boost::numeric::ublas
         using extents_type  = typename tensor_type::extents_type;
         
         static_assert(
-            !is_static_rank_v< extents_type > ,
+            is_dynamic_v< extents_type > ,
             "error in boost::numeric::ublas::trans(tensor_core< TensorEngine > const &a, "
-            "std::vector<std::size_t> const &tau): "
+            "PermuType const &tau): "
             "Tensor should have dynamic extents"
         );
 
@@ -574,7 +574,12 @@ namespace boost::numeric::ublas
 
         auto const p = a.rank();
         auto const &na = a.extents();
-        auto nc = typename extents_type::base_type(p);
+        typename extents_type::base_type nc;
+
+        if constexpr( is_dynamic_rank_v<extents_type> ){
+            nc.resize(p);
+        }
+
         for (auto i = 0u; i < p; ++i)
             nc.at(tau.at(i) - 1) = na.at(i);
 

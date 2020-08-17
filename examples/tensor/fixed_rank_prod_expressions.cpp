@@ -124,7 +124,7 @@ int main()
     // dynamic_extents with static rank
     {
 
-        using perm_t = std::vector<std::size_t>;
+        using perm_t = std::array<std::size_t,2>;
 
         auto na = extents_3_t{3,4,5};
         auto nb = extents_4_t{4,6,3,2};
@@ -155,6 +155,16 @@ int main()
         std::cout << "% --------------------------- " << std::endl << std::endl;
         std::cout << "%  C2(k,l,m) = T(k,l,m) + A(i,j,k)*B(j,l,i,m) + 5;" << std::endl << std::endl;
         std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
+
+         // C3(k,l,m) = T(k,l,m) + A(i,j,k)*trans(B(j,l,i,m),{2,3,1,4})+ 5;
+         // Similar Problem as above
+         tensor_t C3 = dynamic_tensor<float>(dynamic_extents<>{na[2],nb[1],nb[3]},value_t(2)) + prod(A,trans(B,{2,3,1,4}),perm_t{1,2}) + 5;
+
+         // formatted output
+         std::cout << "% --------------------------- " << std::endl;
+         std::cout << "% --------------------------- " << std::endl << std::endl;
+         std::cout << "%  C3(k,l,m) = T(k,l,m) + A(i,j,k)*trans(B(j,l,i,m),{2,3,1,4})+ 5;" << std::endl << std::endl;
+         std::cout << "C3=" << C3 << ";" << std::endl << std::endl;
 
     }
 }
