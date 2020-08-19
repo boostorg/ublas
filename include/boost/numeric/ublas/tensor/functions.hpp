@@ -171,7 +171,7 @@ namespace boost::numeric::ublas
             c_extents_type,  
             layout_type,
             strides<c_extents_type>,
-            rebind_storage_t<c_extents_type,array_type,value_type>
+            array_type
         >;
         
         auto c = tensor_core<t_engine>( nc, value_type{} );
@@ -252,7 +252,7 @@ namespace boost::numeric::ublas
             c_extents_type,  
             layout_type,
             strides<c_extents_type>,
-            rebind_storage_t<c_extents_type,array_type,value_type>
+            array_type
         >;
 
         auto c = tensor_core<t_engine>(nc, value_type{});
@@ -385,7 +385,7 @@ namespace boost::numeric::ublas
             c_extents_type,
             layout_type,
             strides<c_extents_type>,
-            rebind_storage_t<c_extents_type,array_type,value_type>
+            array_type
         >;
 
         auto c = tensor_core<t_engine>( nc, value_type{} );
@@ -526,7 +526,7 @@ namespace boost::numeric::ublas
             c_extents_type,  
             layout_type,
             strides<c_extents_type>,
-            rebind_storage_t<c_extents_type,array_type,value_type>
+            array_type
         >;
 
         auto c = tensor_core<t_engine>( nc, value_type{} );
@@ -553,7 +553,6 @@ namespace boost::numeric::ublas
     {
 
         using tensor_type   = tensor_core< TensorEngine >;
-        using value_type    = typename tensor_type::value_type;
         using layout_type   = typename tensor_type::layout_type;
         using array_type    = typename tensor_type::array_type;
         using extents_type  = typename tensor_type::extents_type;
@@ -569,7 +568,7 @@ namespace boost::numeric::ublas
             extents_type,
             layout_type,
             strides<extents_type>,
-            rebind_storage_t<extents_type,array_type,value_type>
+            array_type
         >;
 
         auto const p = a.rank();
@@ -657,12 +656,13 @@ namespace boost::numeric::ublas
         using extents_type  = typename old_tensor_type::extents_type;
 
         using new_value_type = std::complex<value_type>;
-    
+        using storage_traits_t = storage_traits<array_type>;
+
         using t_engine = tensor_engine< 
             extents_type,
             layout_type,
             strides<extents_type>,
-            rebind_storage_t<extents_type,array_type,new_value_type>
+            typename storage_traits_t::template rebind<new_value_type>
         >;
 
         using tensor_type = tensor_core<t_engine>;
@@ -705,12 +705,13 @@ namespace boost::numeric::ublas
         using layout_type   = typename old_tensor_type::layout_type;
         using array_type    = typename old_tensor_type::array_type;
         using extents_type  = typename old_tensor_type::extents_type;
+        using storage_traits_t = storage_traits<array_type>;
         
         using t_engine = tensor_engine< 
             extents_type,
             layout_type,
             strides<extents_type>,
-            rebind_storage_t<extents_type,array_type,value_type>
+            typename storage_traits_t::template rebind<value_type>
         >;
 
         using tensor_type = tensor_core<t_engine>;
@@ -754,12 +755,13 @@ namespace boost::numeric::ublas
         using layout_type   = typename old_tensor_type::layout_type;
         using array_type    = typename old_tensor_type::array_type;
         using extents_type  = typename old_tensor_type::extents_type;
+        using storage_traits_t = storage_traits<array_type>;
         
         using t_engine = tensor_engine<
             extents_type,
             layout_type,
             strides<extents_type>,
-            rebind_storage_t<extents_type,array_type,value_type>
+            typename storage_traits_t::template rebind<value_type>
         >;
 
         using tensor_type = tensor_core<t_engine>;
@@ -856,7 +858,7 @@ namespace boost::numeric::ublas
      *
      * @note calls ublas::ttv
      *
-     * @tparam    m contraction dimension with 1 <= m <= p
+     * @tparam    M contraction dimension with 1 <= m <= p
      * @param[in] a tensor object A with order p
      * @param[in] b vector object B
      *
@@ -866,10 +868,11 @@ namespace boost::numeric::ublas
     inline decltype(auto) prod(tensor_core< TensorType > const &a
         , vector<typename tensor_core< TensorType >::value_type, A> const &b)
     {
-        using tensor_type = tensor_core< TensorType >;
-        using extents_type = typename tensor_type::extents_type;
-        using value_type = typename tensor_type::value_type;
-        using layout_type = typename tensor_type::layout_type;
+        using tensor_type   = tensor_core< TensorType >;
+        using array_type    = typename tensor_type::array_type;
+        using extents_type  = typename tensor_type::extents_type;
+        using value_type    = typename tensor_type::value_type;
+        using layout_type   = typename tensor_type::layout_type;
 
         auto const p = std::size_t(a.rank());
 
@@ -892,8 +895,16 @@ namespace boost::numeric::ublas
 
         auto nc = detail::extents_result_tensor_times_vector<M>(a.extents());
         auto nb = std::vector<typename extents_type::value_type>{b.size(), 1};
-
-        auto c = static_tensor<value_type, decltype(nc), layout_type>(value_type{});
+        using c_extents_type = std::decay_t<decltype(nc)>;
+        
+        using t_engine = tensor_engine<
+            c_extents_type,
+            layout_type,
+            strides<c_extents_type>,
+            rebind_storage_size_t<c_extents_type,array_type>
+        >;
+        
+        auto c = t_engine(value_type{});
         auto bb = &(b(0));
 
         auto& a_static_extents = a.extents().base();
@@ -916,21 +927,23 @@ namespace boost::numeric::ublas
      *
      * @note calls ublas::ttm
      *
-     * @tparam    m contraction dimension with 1 <= m <= p
+     * @tparam    M contraction dimension with 1 <= M <= p
+     * @tparam    MatrixDimension is a non contracting dimension
      * @param[in] a tensor object A with order p
      * @param[in] b vector object B
      *
      * @returns tensor object C with order p, the same storage format and allocator type as A
     */
-    template <size_t M, size_t MatricRow, typename TensorType, typename A>
+    template <size_t M, size_t MatrixDimension, typename TensorType, typename A>
     inline decltype(auto) prod(tensor_core< TensorType > const &a, 
         matrix<typename tensor_core< TensorType >::value_type, typename tensor_core< TensorType >::layout_type, A> const &b)
     {
-        using tensor_type = tensor_core< TensorType >;
-        using extents_type = typename tensor_type::extents_type;
-        using layout_type = typename tensor_type::layout_type;
+        using tensor_type   = tensor_core< TensorType >;
+        using extents_type  = typename tensor_type::extents_type;
+        using layout_type   = typename tensor_type::layout_type;
+        using value_type    = typename tensor_type::value_type;
+        using array_type    = typename tensor_type::array_type;
         using dynamic_strides_type = strides_t<dynamic_extents<>, layout_type>;
-        using value_type = typename tensor_type::value_type;
         
         auto const p = a.rank();
 
@@ -951,12 +964,20 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::prod(ttm): second "
                 "argument matrix should not be empty.");
 
-        auto nc = detail::static_extents_set_at< M - 1, MatricRow >( a.extents() );
+        auto nc = detail::static_extents_set_at< M - 1, MatrixDimension >( a.extents() );
         auto nb = dynamic_extents<>{b.size1(), b.size2()};
 
         auto wb = dynamic_strides_type(nb);
-
-        auto c = static_tensor<value_type, decltype(nc), layout_type>(value_type{});
+        
+        using c_extents_type = std::decay_t<decltype(nc)>;
+        
+        using t_engine = tensor_engine<
+            c_extents_type,
+            layout_type,
+            strides<c_extents_type>,
+            rebind_storage_size_t<c_extents_type,array_type>
+        >;
+        auto c = t_engine(value_type{});
 
         auto bb = &(b(0, 0));
 
@@ -996,10 +1017,12 @@ namespace boost::numeric::ublas
             throw std::runtime_error(
                 "error in boost::numeric::ublas::outer_prod: "
                 "tensors should not be empty.");
+
         using extents_type1 = std::decay_t< decltype(a.extents()) >;
         using extents_type2 = std::decay_t< decltype(b.extents()) >;
-        using value_type = typename tensor_core< TensorEngine1 >::value_type;
-        using layout_type = typename tensor_core< TensorEngine1 >::layout_type;
+        using array_type    = typename tensor_core< TensorEngine1 >::array_type;
+        using value_type    = typename tensor_core< TensorEngine1 >::value_type;
+        using layout_type   = typename tensor_core< TensorEngine1 >::layout_type;
 
         static_assert(
             std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
@@ -1011,9 +1034,18 @@ namespace boost::numeric::ublas
 
         auto a_extents = a.extents();
         auto b_extents = b.extents();
-
         
-        auto c = static_tensor<value_type, decltype(nc), layout_type>(value_type{});
+        
+        using c_extents_type = std::decay_t<decltype(nc)>;
+        
+        using t_engine = tensor_engine<
+            c_extents_type,
+            layout_type,
+            strides<c_extents_type>,
+            rebind_storage_size_t<c_extents_type,array_type>
+        >;
+
+        auto c = t_engine(value_type{});
 
         auto& a_static_extents = a_extents.base();
         auto& a_static_strides = a.strides().base();

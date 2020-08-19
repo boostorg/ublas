@@ -91,5 +91,36 @@ struct storage_traits<std::array<V,N>>
 } // numeric
 } // boost
 
+namespace boost::numeric::ublas
+{
+    namespace detail{
+        template<typename E, typename A, typename Tag>
+        struct rebind_storage_size_helper{
+            using type = A;
+        };
+
+        template<typename T, typename A, T E0,T... Es>
+        struct rebind_storage_size_helper<basic_static_extents<T,E0,Es...>, A, storage_static_container_tag>{
+            using type = typename storage_traits<A>::template rebind_size< E0 * (Es * ...) >;
+        };
+
+        template<typename T, typename A>
+        struct rebind_storage_size_helper<basic_static_extents<T>, A, storage_static_container_tag>{
+            using type = typename storage_traits<A>::template rebind_size< 0 >;
+        };
+    }
+
+    template<typename E, typename A>
+    struct rebind_storage_size
+        : detail::rebind_storage_size_helper<E,A,
+            typename storage_traits<A>::resizable_tag
+        >
+    {};
+
+    template<typename E, typename A>
+    using rebind_storage_size_t = typename rebind_storage_size<E,A>::type;
+    
+} // namespace boost::numeric::ublas
+
 
 #endif // BOOST_UBLAS_TRAITS_STORAGE_HPP
