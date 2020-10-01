@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_multi_index_class_generation, value, 
           );
 
     {
-        auto a = tensor_type(dynamic_extents<>{2,3}, value_type{2});
+        auto a = tensor_type(extents<>{2,3}, value_type{2});
         auto a_ind = a( std::get<0>(t), std::get<2>(t)  );
 
         BOOST_CHECK_EQUAL ( std::addressof( a_ind.first ), std::addressof( a ) ) ;
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_multi_index_class_generation, value, 
     }
 
     {
-        auto a = tensor_type(dynamic_extents<>{2,3}, value_type{2});
+        auto a = tensor_type(extents<>{2,3}, value_type{2});
         auto a_ind = a( std::get<2>(t), std::get<0>(t)  );
 
         BOOST_CHECK_EQUAL ( std::addressof( a_ind.first ), std::addressof( a ) ) ;
@@ -120,7 +120,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_multi_index_class_generation, value, 
     }
 
     {
-        auto a = tensor_type(dynamic_extents<>{2,3}, value_type{2});
+        auto a = tensor_type(extents<>{2,3}, value_type{2});
         auto a_ind = a( std::get<2>(t), std::get<3>(t)  );
 
         BOOST_CHECK_EQUAL (std::addressof(  a_ind.first ), std::addressof( a ) ) ;
@@ -130,7 +130,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_multi_index_class_generation, value, 
     }
 
     {
-        auto a = tensor_type(dynamic_extents<>{2,3,4}, value_type{2});
+        auto a = tensor_type(extents<>{2,3,4}, value_type{2});
         auto a_ind = a( std::get<2>(t), std::get<3>(t), std::get<0>(t)  );
 
         BOOST_CHECK_EQUAL (std::addressof(  a_ind.first ), std::addressof( a ) ) ;

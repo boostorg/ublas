@@ -13,7 +13,7 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_STTAIC_EXTENTS_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_STTAIC_EXTENTS_HPP
 
-#include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
+#include <boost/numeric/ublas/tensor/traits/basic_type_traits.hpp>
 
 namespace boost::numeric::ublas{
     

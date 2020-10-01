@@ -33,21 +33,21 @@ int main() {
      * Layout: layout::first_order
      * Initial Value: 0
     **/
-    auto tensor_dynamic_extents_and_static_rank_1   = ub::fixed_rank_tensor<value_type,4>{ub::dynamic_extents<4>{1,2,3,4}};
+    auto tensor_dynamic_extents_and_static_rank_1   = ub::fixed_rank_tensor<value_type,4>{ub::extents<4>{1,2,3,4}};
 
     /** Dynamic extents but dynamic rank
      * Storage Type: std::vector
      * Layout: layout::first_order
      * Initial Value: 0
     **/
-    auto tensor_dynamic_extents_and_dynamic_rank_2  = ub::dynamic_tensor<value_type>{ub::dynamic_extents<>{1,2,3,4}};
+    auto tensor_dynamic_extents_and_dynamic_rank_2  = ub::dynamic_tensor<value_type>{ub::extents<>{1,2,3,4}};
 
     /** Dynamic extents but dynamic rank
      * Storage Type: std::vector
      * Layout: layout::first_order
      * Initial Value: 0.1f
     **/
-    auto tensor_dynamic_extents_and_dynamic_rank_3  = ub::dynamic_tensor<value_type>{ub::dynamic_extents<>{1,2,3,4},0.1};
+    auto tensor_dynamic_extents_and_dynamic_rank_3  = ub::dynamic_tensor<value_type>{ub::extents<>{1,2,3,4},0.1};
 
     /** Static extents but static rank
      * Storage Type: std::array

@@ -19,7 +19,7 @@
 #include <stdexcept>
 #include <array>
 #include <boost/numeric/ublas/tensor/type_traits.hpp>
-#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
+#include <boost/numeric/ublas/tensor/extents_functions.hpp>
 
 namespace boost::numeric::ublas {
 

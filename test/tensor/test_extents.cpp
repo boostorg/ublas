@@ -71,50 +71,50 @@ BOOST_AUTO_TEST_CASE(test_static_rank_extents_ctor)
     namespace ub = boost::numeric::ublas;
 
 
-    auto e0 = ub::dynamic_extents<0>{};
+    auto e0 = ub::extents<0>{};
     BOOST_CHECK( e0.empty());
     BOOST_CHECK ( e0.size() == 0);
 
-    auto e1 = ub::dynamic_extents<2>{1,1};
+    auto e1 = ub::extents<2>{1,1};
     BOOST_CHECK(!e1.empty());
     BOOST_CHECK ( e1.size() == 2);
 
-    auto e2 = ub::dynamic_extents<2>{1,2};
+    auto e2 = ub::extents<2>{1,2};
     BOOST_CHECK(!e2.empty());
     BOOST_CHECK ( e2.size() == 2);
 
-    auto e3 = ub::dynamic_extents<2>{2,1};
+    auto e3 = ub::extents<2>{2,1};
     BOOST_CHECK (!e3.empty());
     BOOST_CHECK ( e3.size() == 2);
 
-    auto e4 = ub::dynamic_extents<2>{2,3};
+    auto e4 = ub::extents<2>{2,3};
     BOOST_CHECK(!e4.empty());
     BOOST_CHECK ( e4.size() == 2);
 
-    auto e5 = ub::dynamic_extents<3>{2,3,1};
+    auto e5 = ub::extents<3>{2,3,1};
     BOOST_CHECK (!e5.empty());
     BOOST_CHECK  ( e5.size() == 3);
 
-    auto e6 = ub::dynamic_extents<3>{1,2,3}; // 6
+    auto e6 = ub::extents<3>{1,2,3}; // 6
     BOOST_CHECK(!e6.empty());
     BOOST_CHECK ( e6.size() == 3);
 
-    auto e7 = ub::dynamic_extents<3>{4,2,3};  // 7
+    auto e7 = ub::extents<3>{4,2,3};  // 7
     BOOST_CHECK(!e7.empty());
     BOOST_CHECK ( e7.size() == 3);
 
-    BOOST_CHECK_THROW( ub::dynamic_extents<2>({1,0}), 	std::length_error);
-    BOOST_CHECK_THROW( ub::dynamic_extents<1>({0}  ), 	std::length_error);
-    BOOST_CHECK_THROW( ub::dynamic_extents<1>({3}  ), 	std::length_error);
-    BOOST_CHECK_THROW( ub::dynamic_extents<2>({0,1}), 	std::length_error);
-    BOOST_CHECK_THROW( ub::dynamic_extents<2>({1,1,2}), std::out_of_range);
+    BOOST_CHECK_THROW( ub::extents<2>({1,0}), 	std::length_error);
+    BOOST_CHECK_THROW( ub::extents<1>({0}  ), 	std::length_error);
+    BOOST_CHECK_THROW( ub::extents<1>({3}  ), 	std::length_error);
+    BOOST_CHECK_THROW( ub::extents<2>({0,1}), 	std::length_error);
+    BOOST_CHECK_THROW( ub::extents<2>({1,1,2}), std::out_of_range);
 }
 
 
 struct fixture {
-    using extents_type = boost::numeric::ublas::dynamic_extents<>;
+    using extents_type = boost::numeric::ublas::extents<>;
     template<size_t N>
-    using static_rank_extents_type = boost::numeric::ublas::dynamic_extents<N>;
+    using static_rank_extents_type = boost::numeric::ublas::extents<N>;
 
     fixture() : extents{
                   extents_type{},            // 0
@@ -576,16 +576,16 @@ BOOST_FIXTURE_TEST_CASE(test_extents_comparison, fixture, *boost::unit_test::lab
     auto s2 = ublas::static_extents<1,4,2,1,3,1>{};
     auto s3 = ublas::static_extents<1,4,2,1,1,1>{};
     
-    auto d0 = ublas::dynamic_extents<0>{};
-    auto d1 = ublas::dynamic_extents<2>{1,1};
-    auto d2 = ublas::dynamic_extents<6>{1,4,2,1,3,1};
-    auto d3 = ublas::dynamic_extents<6>{1,4,2,1,1,1};
+    auto d0 = ublas::extents<0>{};
+    auto d1 = ublas::extents<2>{1,1};
+    auto d2 = ublas::extents<6>{1,4,2,1,3,1};
+    auto d3 = ublas::extents<6>{1,4,2,1,1,1};
 
     auto e0  = extents[ 0]; // {}
     auto e1  = extents[ 1]; // {1,1}
     auto e2	 = extents[12]; // {1,4,2,1,3,1}
     
-    // static_extents<...> == dynamic_extents<>
+    // static_extents<...> == extents<>
     BOOST_TEST( s0 == e0 );
     BOOST_TEST( s1 == e1 );
     BOOST_TEST( s2 == e2 );
@@ -614,7 +614,7 @@ BOOST_FIXTURE_TEST_CASE(test_extents_comparison, fixture, *boost::unit_test::lab
     BOOST_TEST( e1 != s3 );
     BOOST_TEST( e2 != s3 );
     
-    // dynamic_extents<N> == dynamic_extents<>
+    // extents<N> == extents<>
     BOOST_TEST( d0 == e0 );
     BOOST_TEST( d1 == e1 );
     BOOST_TEST( d2 == e2 );
@@ -643,7 +643,7 @@ BOOST_FIXTURE_TEST_CASE(test_extents_comparison, fixture, *boost::unit_test::lab
     BOOST_TEST( e1 != d3 );
     BOOST_TEST( e2 != d3 );
     
-    // static_extents<...> == dynamic_extents<N>
+    // static_extents<...> == extents<N>
     
     BOOST_TEST( s0 == d0 );
     BOOST_TEST( s1 == d1 );

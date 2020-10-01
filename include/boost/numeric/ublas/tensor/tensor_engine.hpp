@@ -15,7 +15,7 @@
 
 #include <boost/numeric/ublas/tensor/tensor_core.hpp>
 #include <boost/numeric/ublas/tensor/layout.hpp>
-#include <boost/numeric/ublas/tensor/detail/storage_traits.hpp>
+#include <boost/numeric/ublas/tensor/traits/storage_traits.hpp>
 
 namespace boost::numeric::ublas{
     

@@ -26,7 +26,7 @@ using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ub
 struct fixture
 {
     template<size_t N>
-    using extents_type = boost::numeric::ublas::dynamic_extents<N>;
+    using extents_type = boost::numeric::ublas::extents<N>;
 
     std::tuple<
         extents_type<0>, // 0

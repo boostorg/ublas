@@ -43,7 +43,7 @@ int main()
     // according to the last-order storage format
     // and initializes it with the default value.
     using ctype = std::complex<cpp_bin_float_double_extended>;
-    auto B = dynamic_tensor<ctype,layout::last_order>(dynamic_extents<>{5,4,3,2},ctype{});
+    auto B = dynamic_tensor<ctype,layout::last_order>(extents<>{5,4,3,2},ctype{});
 
     // initializes the tensor with increasing values along the last-index
     // using a single-index
@@ -83,7 +83,7 @@ int main()
     // reshaping tensors.
     auto new_extents = B.extents().base();
     std::next_permutation( new_extents.begin(), new_extents.end() );
-    D.reshape( dynamic_extents<>(new_extents)  );
+    D.reshape( extents<>(new_extents)  );
     std::cout << "% --------------------------- " << std::endl;
     std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "newD=" << D << ";" << std::endl << std::endl;

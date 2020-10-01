@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_ctor, value,  test_types)
 struct fixture
 {
     template<size_t N>
-    using extents_type = boost::numeric::ublas::dynamic_extents<N>;
+    using extents_type = boost::numeric::ublas::extents<N>;
 
     std::tuple<
         extents_type<2>, // 1

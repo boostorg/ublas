@@ -14,7 +14,6 @@
 #define _BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_FUNCTIONS_HPP_
 
 #include <boost/numeric/ublas/tensor/type_traits.hpp>
-#include <boost/numeric/ublas/tensor/detail/static_extents_traits.hpp>
 #include <algorithm>
 #include <sstream>
 #include <iostream>
@@ -28,6 +27,15 @@ namespace boost::numeric::ublas::detail{
 
   template<typename T, T E, T...N>
   constexpr auto push_front(basic_static_extents<T, N...>) -> basic_static_extents<T, E, N...>;
+
+  template<typename T, T E, T...N>
+  constexpr auto pop_front(basic_static_extents<T, E, N...>) -> basic_static_extents<T, N...>;
+
+  template<typename T, T...Es>
+  constexpr auto any_extents_greater_than_one([[maybe_unused]] basic_static_extents<T, Es...> const& e) noexcept{
+    constexpr auto sz = sizeof...(Es);
+    return sz && ( ( Es > T(1) ) || ... );
+  }
 
   template <typename T, T E0, T... E, T... N>
   constexpr auto squeeze_impl_remove_one( 
@@ -171,6 +179,19 @@ constexpr bool valid(ExtentsType const &e) {
   return !e.empty() && std::all_of(e.begin(), e.end(), greater_than_zero );
 }
 
+/** @brief Returns true if size > 1 and all elements > 0 or size == 1 && e[0] == 1 */
+template <class T, T... Es>
+[[nodiscard]] inline 
+constexpr bool valid( [[maybe_unused]] basic_static_extents<T,Es...> const &e) noexcept {
+  constexpr auto sz = sizeof...(Es);
+   /// if number of extents is 1 then extents at 0th pos should be 1
+   /// else if number of extents is greater than 1 then all the extents
+   /// should be greater than 0
+   /// else return false
+  return  ( ( sz == 1ul ) && ( ( T(1) == Es ) && ... ) ) || 
+          ( ( sz > 1ul ) && ( ( T(0) < Es ) && ... ) );
+}
+
 /**
  * @code static_extents<4,1,2,3,4> s;
  * std::cout<<to_string(extents); // {1,2,3,4}
@@ -215,6 +236,19 @@ constexpr bool is_scalar(ExtentsType const &e) {
   return !e.empty() && std::all_of(e.begin(), e.end(), equal_one);
 }
 
+/** @brief Returns true if this has a scalar shape
+ *
+ * @returns true if (1,1,[1,...,1])
+ */
+template <class T, T... Es>
+[[nodiscard]] inline 
+constexpr bool is_scalar( [[maybe_unused]] basic_static_extents<T,Es...> const &e) noexcept {
+  constexpr auto sz = sizeof...(Es);
+  /// if number of extents is greater than 1 then all the extents should be 1
+  /// else return false;
+  return sz && ( ( T(1) == Es ) && ... );
+}
+
 /** @brief Returns true if this has a vector shape
  *
  * @returns true if (1,n,[1,...,1]) or (n,1,[1,...,1]) with n > 1
@@ -236,6 +270,34 @@ constexpr bool is_vector(ExtentsType const &e) {
 
 }
 
+/** @brief Returns true if this has a vector shape
+ *
+ * @returns true if (1,n,[1,...,1]) or (n,1,[1,...,1]) with n > 1
+ */
+template <class T, T... Es>
+[[nodiscard]] inline 
+constexpr bool is_vector( [[maybe_unused]] basic_static_extents<T,Es...> const &e) noexcept {
+  using extents_type = basic_static_extents<T,Es...>;
+  
+  if constexpr (sizeof... (Es) == 1ul) return extents_type::at(0) > T(1);
+  else if constexpr (sizeof... (Es) >= 2ul){
+    /// first two elements of the extents cannot be greater than 1 at the
+    /// same time which xor operation keeps in check
+    /// example: 0 xor 1 => 1, 1 xor 1 => 0, 1 xor 0 => 1, and 0 xor 0 => 0
+    constexpr bool first_two_extents = ( extents_type::at(0) > T(1) ) ^ ( extents_type::at(1) > T(1) );
+
+    /// poping first two elements from the extents and checking is_scalar
+    /// basic_static_extents<T,E0,E1,Es...> after poping two times becomes
+    /// basic_static_extents<T,Es...>
+    using extents_after_removing_the_first_element = decltype( detail::pop_front( e ) );
+    using extents_after_removing_the_second_element = decltype( detail::pop_front( extents_after_removing_the_first_element{} ) );
+    return first_two_extents && 
+      ( extents_after_removing_the_second_element::_size == 0ul || 
+        is_scalar(extents_after_removing_the_second_element{}) 
+      );
+  } else return false;
+}
+
 /** @brief Returns true if this has a matrix shape
  *
  * @returns true if (m,n,[1,...,1]) with m > 1 and n > 1
@@ -253,6 +315,32 @@ constexpr bool is_matrix(ExtentsType const &e) {
           std::all_of(e.begin() + 2, e.end(), equal_one);
 }
 
+/** @brief Returns true if this has a matrix shape
+ *
+ * @returns true if (m,n,[1,...,1]) with m > 1 and n > 1
+ */
+template <class T, T... Es>
+[[nodiscard]] inline 
+constexpr bool is_matrix( [[maybe_unused]] basic_static_extents<T,Es...> const &e) noexcept {
+  using extents_type = basic_static_extents<T,Es...>;
+  
+  if constexpr (sizeof... (Es) >= 2ul){
+    /// first two elements of the extents should be greater than 1 at the
+    /// same time and remaing range should be scalar or empty
+    constexpr bool first_two_extents = ( extents_type::at(0) > T(1) ) && ( extents_type::at(1) > T(1) );
+
+    /// poping first two elements from the extents and checking is_scalar
+    /// basic_static_extents<T,E0,E1,Es...> after poping two times becomes
+    /// basic_static_extents<T,Es...>
+    using extents_after_removing_the_first_element = decltype( detail::pop_front( e ) );
+    using extents_after_removing_the_second_element = decltype( detail::pop_front( extents_after_removing_the_first_element{} ) );
+    return first_two_extents && 
+      ( extents_after_removing_the_second_element::_size == 0ul || 
+        is_scalar(extents_after_removing_the_second_element{}) 
+      );
+  } else return false;
+}
+
 /** @brief Returns true if this is has a tensor shape
  *
  * @returns true if !empty() && !is_scalar() && !is_vector() && !is_matrix()
@@ -266,6 +354,25 @@ constexpr bool is_tensor(ExtentsType const &e) {
   auto greater_one = [](auto const &a) { return a > 1u;};
   
   return  ( e.size() >= 3u ) && std::any_of(e.begin() + 2, e.end(), greater_one);
+}
+
+/** @brief Returns true if this is has a tensor shape
+ *
+ * @returns true if !empty() && !is_scalar() && !is_vector() && !is_matrix()
+ */
+template <class T, T... Es>
+[[nodiscard]] inline 
+constexpr bool is_tensor( [[maybe_unused]] basic_static_extents<T,Es...> const &e) noexcept {
+  if constexpr( sizeof...(Es) >= 3ul ){
+    /// poping first two elements from the extents and checking the remaining
+    /// extent, if any extent is greater than 1
+    /// basic_static_extents<T,E0,E1,Es...> after poping two times becomes
+    /// basic_static_extents<T,Es...>
+    using extents_after_removing_the_first_element = decltype( detail::pop_front( e ) );
+    using extents_after_removing_the_second_element = decltype( detail::pop_front( extents_after_removing_the_first_element{} ) );
+    return detail::any_extents_greater_than_one(extents_after_removing_the_second_element{});
+
+  } else return false;
 }
 
 /** @brief Eliminates singleton dimensions when size > 2

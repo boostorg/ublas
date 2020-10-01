@@ -13,10 +13,10 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
 
-#include <boost/numeric/ublas/tensor/detail/type_traits_extents.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits_strides.hpp>
+#include <boost/numeric/ublas/tensor/traits/type_traits_extents.hpp>
+#include <boost/numeric/ublas/tensor/traits/type_traits_strides.hpp>
 
-#include <boost/numeric/ublas/tensor/detail/type_traits_tensor.hpp>
-#include <boost/numeric/ublas/tensor/detail/storage_traits.hpp>
+#include <boost/numeric/ublas/tensor/traits/type_traits_tensor.hpp>
+#include <boost/numeric/ublas/tensor/traits/storage_traits.hpp>
 
 #endif

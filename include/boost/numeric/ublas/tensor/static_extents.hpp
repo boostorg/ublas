@@ -14,7 +14,7 @@
 
 #include <array>
 #include <initializer_list>
-#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
+#include <boost/numeric/ublas/tensor/extents_functions.hpp>
 
 namespace boost::numeric::ublas {
 

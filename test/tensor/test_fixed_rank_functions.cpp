@@ -34,9 +34,9 @@ using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ub
 struct fixture
 {
     template<size_t R>
-    using fixed_rank_extents_type = boost::numeric::ublas::dynamic_extents<R>;
+    using fixed_rank_extents_type = boost::numeric::ublas::extents<R>;
     
-    using dynamic_extents_type = boost::numeric::ublas::dynamic_extents<>;
+    using dynamic_extents_type = boost::numeric::ublas::extents<>;
     fixture()
       : extents {
           dynamic_extents_type{1,1}, // 1
@@ -204,7 +204,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_prod_tensor_2, value,  
 
     auto permute_extents_s_1 = [](auto const& pi, auto const& na){
 
-        auto nb = ublas::dynamic_extents<>(na);
+        auto nb = ublas::extents<>(na);
         assert(pi.size() == na.size());
         for(auto j = 0u; j < pi.size(); ++j)
             nb[pi[j]-1] = na[j];
@@ -215,7 +215,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_prod_tensor_2, value,  
         assert(pi.size() == na.size());
         for(auto j = 0u; j < pi.size(); ++j)
             tempn[pi[j]-1] = na[j];
-        return ublas::dynamic_extents<std::decay<decltype(na)>::type::_size>(tempn.begin(),tempn.end());
+        return ublas::extents<std::decay<decltype(na)>::type::_size>(tempn.begin(),tempn.end());
     };
 
     for_each_tuple(fixed_rank_extents,[&](auto const&, auto & n){

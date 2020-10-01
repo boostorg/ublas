@@ -26,72 +26,72 @@ BOOST_AUTO_TEST_CASE(test_fixed_rank_extents_ctor)
     namespace ub = boost::numeric::ublas;
 
 
-    auto e0 = ub::dynamic_extents<0>{};
+    auto e0 = ub::extents<0>{};
     BOOST_CHECK( e0.empty());
     BOOST_CHECK ( e0.size() == 0);
 
-    auto e1 = ub::dynamic_extents<2>{1,1};
+    auto e1 = ub::extents<2>{1,1};
     BOOST_CHECK(!e1.empty());
     BOOST_CHECK ( e1.size() == 2);
 
-    auto e2 = ub::dynamic_extents<2>{1,2};
+    auto e2 = ub::extents<2>{1,2};
     BOOST_CHECK(!e2.empty());
     BOOST_CHECK ( e2.size() == 2);
 
-    auto e3 = ub::dynamic_extents<2>{2,1};
+    auto e3 = ub::extents<2>{2,1};
     BOOST_CHECK (!e3.empty());
     BOOST_CHECK ( e3.size() == 2);
 
-    auto e4 = ub::dynamic_extents<2>{2,3};
+    auto e4 = ub::extents<2>{2,3};
     BOOST_CHECK(!e4.empty());
     BOOST_CHECK ( e4.size() == 2);
 
-    auto e5 = ub::dynamic_extents<3>{2,3,1};
+    auto e5 = ub::extents<3>{2,3,1};
     BOOST_CHECK (!e5.empty());
     BOOST_CHECK  ( e5.size() == 3);
 
-    auto e6 = ub::dynamic_extents<3>{1,2,3}; // 6
+    auto e6 = ub::extents<3>{1,2,3}; // 6
     BOOST_CHECK(!e6.empty());
     BOOST_CHECK ( e6.size() == 3);
 
-    auto e7 = ub::dynamic_extents<3>{4,2,3};  // 7
+    auto e7 = ub::extents<3>{4,2,3};  // 7
     BOOST_CHECK(!e7.empty());
     BOOST_CHECK ( e7.size() == 3);
 
-    BOOST_CHECK_THROW( ub::dynamic_extents<2>({1,0}), 	std::length_error);
-    BOOST_CHECK_THROW( ub::dynamic_extents<1>({0}  ), 	std::length_error);
-    BOOST_CHECK_THROW( ub::dynamic_extents<1>({3}  ), 	std::length_error);
-    BOOST_CHECK_THROW( ub::dynamic_extents<2>({0,1}), 	std::length_error);
-    BOOST_CHECK_THROW( ub::dynamic_extents<2>({1,1,2}), std::out_of_range);
+    BOOST_CHECK_THROW( ub::extents<2>({1,0}), 	std::length_error);
+    BOOST_CHECK_THROW( ub::extents<1>({0}  ), 	std::length_error);
+    BOOST_CHECK_THROW( ub::extents<1>({3}  ), 	std::length_error);
+    BOOST_CHECK_THROW( ub::extents<2>({0,1}), 	std::length_error);
+    BOOST_CHECK_THROW( ub::extents<2>({1,1,2}), std::out_of_range);
 }
 
 
 struct fixture {
     template<size_t N>
-    using dynamic_extents = boost::numeric::ublas::dynamic_extents<N>;
+    using extents = boost::numeric::ublas::extents<N>;
 
-    dynamic_extents<0> de0{};            // 0
+    extents<0> de0{};            // 0
 
-    dynamic_extents<2> de1{1,1};         // 1
-    dynamic_extents<2> de2{1,2};         // 2
-    dynamic_extents<2> de3{2,1};         // 3
+    extents<2> de1{1,1};         // 1
+    extents<2> de2{1,2};         // 2
+    extents<2> de3{2,1};         // 3
 
-    dynamic_extents<2> de4{2,3};         // 4
-    dynamic_extents<3> de5{2,3,1};       // 5
-    dynamic_extents<3> de6{1,2,3};       // 6
-    dynamic_extents<4> de7{1,1,2,3};     // 7
-    dynamic_extents<5> de8{1,2,3,1,1};   // 8
+    extents<2> de4{2,3};         // 4
+    extents<3> de5{2,3,1};       // 5
+    extents<3> de6{1,2,3};       // 6
+    extents<4> de7{1,1,2,3};     // 7
+    extents<5> de8{1,2,3,1,1};   // 8
 
-    dynamic_extents<3> de9{4,2,3};       // 9
-    dynamic_extents<4> de10{4,2,1,3};    // 10
-    dynamic_extents<5> de11{4,2,1,3,1};  // 11
-    dynamic_extents<6> de12{1,4,2,1,3,1};// 12
+    extents<3> de9{4,2,3};       // 9
+    extents<4> de10{4,2,1,3};    // 10
+    extents<5> de11{4,2,1,3,1};  // 11
+    extents<6> de12{1,4,2,1,3,1};// 12
     
-    dynamic_extents<3> de13{1,4,1}; 	   // 13
-    dynamic_extents<4> de14{1,1,1,1};    // 14
-    dynamic_extents<5> de15{1,4,1,1,1};  // 15
-    dynamic_extents<6> de16{1,1,2,1,1,1};// 16
-    dynamic_extents<6> de17{1,1,2,3,1,1};// 17
+    extents<3> de13{1,4,1}; 	   // 13
+    extents<4> de14{1,1,1,1};    // 14
+    extents<5> de15{1,4,1,1,1};  // 15
+    extents<6> de16{1,1,2,1,1,1};// 16
+    extents<6> de17{1,1,2,3,1,1};// 17
 };
 
 BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_access, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("access"))
@@ -485,26 +485,26 @@ BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_squeeze, fixture, *boost::unit_t
     auto e16 = squeeze(de16); // {2,1}
     auto e17 = squeeze(de17); // {2,3}
 
-    BOOST_CHECK( (e1  == dynamic_extents<2>{1,1}) );
-    BOOST_CHECK( (e2  == dynamic_extents<2>{1,2}) );
-    BOOST_CHECK( (e3  == dynamic_extents<2>{2,1}) );
+    BOOST_CHECK( (e1  == extents<2>{1,1}) );
+    BOOST_CHECK( (e2  == extents<2>{1,2}) );
+    BOOST_CHECK( (e3  == extents<2>{2,1}) );
 
-    BOOST_CHECK( (e4  == dynamic_extents<2>{2,3}) );
-    BOOST_CHECK( (e5  == dynamic_extents<2>{2,3}) );
-    BOOST_CHECK( (e6  == dynamic_extents<2>{2,3}) );
-    BOOST_CHECK( (e7  == dynamic_extents<2>{2,3}) );
-    BOOST_CHECK( (e8  == dynamic_extents<2>{2,3}) );
+    BOOST_CHECK( (e4  == extents<2>{2,3}) );
+    BOOST_CHECK( (e5  == extents<2>{2,3}) );
+    BOOST_CHECK( (e6  == extents<2>{2,3}) );
+    BOOST_CHECK( (e7  == extents<2>{2,3}) );
+    BOOST_CHECK( (e8  == extents<2>{2,3}) );
 
-    BOOST_CHECK( (e9  == dynamic_extents<3>{4,2,3}) );
-    BOOST_CHECK( (e10 == dynamic_extents<3>{4,2,3}) );
-    BOOST_CHECK( (e11 == dynamic_extents<3>{4,2,3}) );
-    BOOST_CHECK( (e12 == dynamic_extents<3>{4,2,3}) );
+    BOOST_CHECK( (e9  == extents<3>{4,2,3}) );
+    BOOST_CHECK( (e10 == extents<3>{4,2,3}) );
+    BOOST_CHECK( (e11 == extents<3>{4,2,3}) );
+    BOOST_CHECK( (e12 == extents<3>{4,2,3}) );
 
-    BOOST_CHECK( (e13 == dynamic_extents<2>{1,4}) );
-    BOOST_CHECK( (e14 == dynamic_extents<2>{1,1}) );
-    BOOST_CHECK( (e15 == dynamic_extents<2>{1,4}) );
-    BOOST_CHECK( (e16 == dynamic_extents<2>{2,1}) );
-    BOOST_CHECK( (e17 == dynamic_extents<2>{2,3}) );
+    BOOST_CHECK( (e13 == extents<2>{1,4}) );
+    BOOST_CHECK( (e14 == extents<2>{1,1}) );
+    BOOST_CHECK( (e15 == extents<2>{1,4}) );
+    BOOST_CHECK( (e16 == extents<2>{2,1}) );
+    BOOST_CHECK( (e17 == extents<2>{2,3}) );
 
 }
 

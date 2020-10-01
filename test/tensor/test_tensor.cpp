@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_ctor, value,  test_types)
 
 struct fixture
 {
-    using extents_type = boost::numeric::ublas::dynamic_extents<>;
+    using extents_type = boost::numeric::ublas::extents<>;
     fixture()
       : extents {
           extents_type{},    // 0

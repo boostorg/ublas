@@ -16,7 +16,7 @@
 
 #include <boost/numeric/ublas/tensor/static_extents.hpp>
 #include <boost/numeric/ublas/tensor/layout.hpp>
-#include <boost/numeric/ublas/tensor/detail/static_extents_traits.hpp>
+#include <boost/numeric/ublas/tensor/extents_functions.hpp>
 
 namespace boost::numeric::ublas{
 
@@ -121,7 +121,7 @@ namespace boost::numeric::ublas::detail{
   {
     using extents_type = typename static_stride_list<T, E0, E...>::extents_type;
     // checks if extents are vector or scalar
-    if constexpr( !( static_traits::is_scalar_v<extents_type> || static_traits::is_vector_v<extents_type> ) ){
+    if constexpr( !( is_scalar(extents_type{}) || is_vector(extents_type{}) ) ){
       // if extent contains only one element return static_stride_list<T,T(1)>
       if constexpr( sizeof...(E) == 0 ){
         
@@ -223,9 +223,9 @@ public:
   constexpr basic_static_strides() noexcept{
     static_assert( 
       _size == 0 || 
-      ( static_traits::is_valid_v<extents_type> &&
-        ( static_traits::is_vector_v<extents_type> ||
-          static_traits::is_scalar_v<extents_type> ||
+      ( valid(extents_type{}) &&
+        ( is_vector(extents_type{}) ||
+          is_scalar(extents_type{}) ||
           _size >= 2 
         )
       )

@@ -27,7 +27,7 @@ using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ub
 
 struct fixture
 {
-    using extents_type = boost::numeric::ublas::dynamic_extents<>;
+    using extents_type = boost::numeric::ublas::extents<>;
     fixture()
       : extents {
           extents_type{},            // 0

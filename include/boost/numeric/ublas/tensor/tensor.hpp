@@ -15,16 +15,15 @@
 
 #include <boost/numeric/ublas/tensor/tensor_engine.hpp>
 #include <boost/numeric/ublas/tensor/layout.hpp>
-#include <boost/numeric/ublas/tensor/detail/storage_traits.hpp>
 
 namespace boost::numeric::ublas{
 
     template<typename ValueType, typename Layout = layout::first_order>
     using dynamic_tensor = tensor_core< 
         tensor_engine<
-            dynamic_extents<>,
+            extents<>,
             Layout,
-            strides< dynamic_extents<> >,
+            strides< extents<> >,
             std::vector< ValueType, std::allocator<ValueType> >
         > 
     >;
@@ -43,9 +42,9 @@ namespace boost::numeric::ublas{
     template<typename ValueType, std::size_t N, typename Layout = layout::first_order>
     using fixed_rank_tensor = tensor_core< 
         tensor_engine<
-            dynamic_extents<N>,
+            extents<N>,
             Layout,
-            strides< dynamic_extents<N> >,
+            strides< extents<N> >,
             std::vector< ValueType, std::allocator<ValueType> >
         > 
     >;
