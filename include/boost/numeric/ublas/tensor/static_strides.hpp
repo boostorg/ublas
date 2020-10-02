@@ -86,7 +86,9 @@ namespace boost::numeric::ublas::detail{
       return impl::extents_to_array_v< basic_static_extents<T,Es...>  >;
     }else{
       using res_type = basic_static_extents<T,Es...>;
-      using nextents = decltype( detail::push_back< T, E::at(I) * res_type::at(I) >(res_type{}) );
+
+      constexpr auto prod = E::at(I) * res_type::at(I);
+      using nextents = basic_static_extents<T, Es..., prod>;
       return make_static_strides_first_order<E,I + 1>(e, nextents{});
     }
   }
@@ -97,9 +99,11 @@ namespace boost::numeric::ublas::detail{
       return impl::extents_to_array_v< basic_static_extents<T,Es...>  >;
     }else{
       using res_type = basic_static_extents<T,Es...>;
+      
       constexpr auto J = E::_size - I - 1ul;
       constexpr auto K = res_type::_size - I - 1ul;
-      using nextents = decltype( detail::push_front< T, E::at(J) * res_type::at(K) >(res_type{}) );
+      constexpr auto prod = E::at(J) * res_type::at(K);
+      using nextents = basic_static_extents<T, prod, Es...>;
       return make_static_strides_last_order<E,I + 1>(e, nextents{});
     }
   }
