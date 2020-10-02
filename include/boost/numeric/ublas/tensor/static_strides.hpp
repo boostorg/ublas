@@ -157,14 +157,17 @@ namespace boost::numeric::ublas::detail{
 
   // It is use for first order to
   // get std::array containing strides
-  template<typename Layout, typename T, T... E>
+  template<typename Layout, typename ExtentsType>
   struct strides_helper{
-    using type = decltype( make_static_strides<Layout>(static_stride_list<T, E...>{}) );
+    static_assert( is_extents_v<ExtentsType>, "boost::numeric::ublas::detail::strides_helper: "
+      "ExtentsType must be type of tensor extents" 
+    );
+    using type = decltype( make_static_strides<Layout>(ExtentsType{}) );
     static constexpr auto value = type::value;
   };
 
-  template<typename Layout, typename T, T... E>
-  inline static constexpr auto strides_helper_v = strides_helper<Layout, T, E...>::value;
+  template<typename Layout, typename ExtentsType>
+  inline static constexpr auto strides_helper_v = strides_helper<Layout, ExtentsType>::value;
 
 } // namespace boost::numeric::ublas::detail
 
@@ -295,7 +298,7 @@ public:
   }
 
 private:
-  static constexpr base_type const m_data{ detail::strides_helper_v<layout_type,T,Extents...> };
+  static constexpr base_type const m_data{ detail::strides_helper_v<layout_type,extents_type> };
 };
 
 } // namespace boost::numeric::ublas
