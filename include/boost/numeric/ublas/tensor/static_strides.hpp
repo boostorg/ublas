@@ -82,12 +82,12 @@ namespace boost::numeric::ublas::detail{
 
   template<typename E, std::size_t I = 0ul, typename T, T... Es>
   constexpr auto make_static_strides_first_order( [[maybe_unused]] E const& e, [[maybe_unused]] basic_static_extents<T,Es...> const& res ){
-    if constexpr( I ==  E::_size - 1ul ){
+    if constexpr( I >=  E::_size - 1ul ){
       return impl::extents_to_array_v< basic_static_extents<T,Es...>  >;
     }else{
       using res_type = basic_static_extents<T,Es...>;
 
-      constexpr auto prod = E::at(I) * res_type::at(I);
+      constexpr auto prod = E::template get<I>().value * res_type::template get<I>().value;
       using nextents = basic_static_extents<T, Es..., prod>;
       return make_static_strides_first_order<E,I + 1>(e, nextents{});
     }
@@ -95,14 +95,14 @@ namespace boost::numeric::ublas::detail{
 
   template<typename E, std::size_t I = 0ul, typename T, T... Es>
   constexpr auto make_static_strides_last_order( [[maybe_unused]] E const& e, [[maybe_unused]] basic_static_extents<T,Es...> const& res ){
-    if constexpr( I ==  E::_size - 1ul ){
+    if constexpr( I >=  E::_size - 1ul ){
       return impl::extents_to_array_v< basic_static_extents<T,Es...>  >;
     }else{
       using res_type = basic_static_extents<T,Es...>;
-      
+
       constexpr auto J = E::_size - I - 1ul;
       constexpr auto K = res_type::_size - I - 1ul;
-      constexpr auto prod = E::at(J) * res_type::at(K);
+      constexpr auto prod = E::template get<J>().value * res_type::template get<K>().value;
       using nextents = basic_static_extents<T, prod, Es...>;
       return make_static_strides_last_order<E,I + 1>(e, nextents{});
     }
@@ -111,7 +111,9 @@ namespace boost::numeric::ublas::detail{
   template<typename L, typename E>
   constexpr auto make_static_strides( [[maybe_unused]] E const& e ){
     using value_type = typename E::value_type;
-    if constexpr( is_scalar(E{}) || is_vector(E{}) ){
+    if constexpr( E::_size == 0 ){
+      return impl::extents_to_array_v<E>;
+    }else if constexpr( is_scalar(E{}) || is_vector(E{}) ){
       using extents_with_ones = make_sequence_of_ones_t<value_type, E::_size>;
       return impl::extents_to_array_v<extents_with_ones>;
     }else{
