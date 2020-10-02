@@ -845,13 +845,6 @@ namespace boost::numeric::ublas
             }
         }
 
-        namespace impl{
-            template<typename T, T... E1, T... E2>
-            struct concat< basic_static_extents<T, E1...>, basic_static_extents<T, E2...> >{
-                using type = basic_static_extents<T, E1..., E2...>;
-            };
-        }
-
     } // namespace detail
     
     /** @brief Computes the m-mode tensor-times-vector product
