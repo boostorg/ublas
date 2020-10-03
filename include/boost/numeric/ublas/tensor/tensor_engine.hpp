@@ -14,8 +14,6 @@
 #define BOOST_UBLAS_TENSOR_ENGINE_IMPL_HPP
 
 #include <boost/numeric/ublas/tensor/tensor_core.hpp>
-#include <boost/numeric/ublas/tensor/layout.hpp>
-#include <boost/numeric/ublas/tensor/traits/storage_traits.hpp>
 
 namespace boost::numeric::ublas{
     
