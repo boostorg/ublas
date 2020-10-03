@@ -64,7 +64,7 @@ public:
     explicit basic_extents(base_type b)
       : _base(std::move(b))
     {
-        if (!valid(*this)){
+        if (!is_valid(*this)){
             throw std::length_error("Error in basic_extents::basic_extents() : shape tuple is not a valid permutation: has zero elements.");
         }
     }

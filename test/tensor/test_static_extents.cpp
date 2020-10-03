@@ -360,42 +360,42 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_valid, fixture, *boost::unit_test::l
 {
   using namespace boost::numeric::ublas;
   for_each_tuple(rank_0_extents,[](auto const&, auto& e){
-    BOOST_CHECK(!valid(e));
-    BOOST_CHECK(!valid(e));
+    BOOST_CHECK(!is_valid(e));
+    BOOST_CHECK(!is_valid(e));
   });
 
   for_each_tuple(rank_1_extents,[](auto const& I, auto const& e){
     if( I== 0 ){
-      BOOST_CHECK(valid(e));
+      BOOST_CHECK(is_valid(e));
     }else{
-      BOOST_CHECK(!valid(e));
-      BOOST_CHECK(!valid(e));
+      BOOST_CHECK(!is_valid(e));
+      BOOST_CHECK(!is_valid(e));
     }
   });
 
   for_each_tuple(rank_2_extents,[](auto const&, auto& e){
-      BOOST_CHECK(valid(e));
-      BOOST_CHECK(valid(e));
+      BOOST_CHECK(is_valid(e));
+      BOOST_CHECK(is_valid(e));
   });
   
   for_each_tuple(scalars,[](auto const&, auto& e){
-      BOOST_CHECK(valid(e));
-      BOOST_CHECK(valid(e));
+      BOOST_CHECK(is_valid(e));
+      BOOST_CHECK(is_valid(e));
   });
   
   for_each_tuple(vectors,[](auto const&, auto& e){
-      BOOST_CHECK(valid(e));
-      BOOST_CHECK(valid(e));
+      BOOST_CHECK(is_valid(e));
+      BOOST_CHECK(is_valid(e));
   });
   
   for_each_tuple(matrices,[](auto const&, auto& e){
-      BOOST_CHECK(valid(e));
-      BOOST_CHECK(valid(e));
+      BOOST_CHECK(is_valid(e));
+      BOOST_CHECK(is_valid(e));
   });
   
   for_each_tuple(tensors,[](auto const&, auto& e){
-      BOOST_CHECK(valid(e));
-      BOOST_CHECK(valid(e));
+      BOOST_CHECK(is_valid(e));
+      BOOST_CHECK(is_valid(e));
   });
 }
 

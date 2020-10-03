@@ -15,7 +15,14 @@
 #define _BOOST_UBLAS_TENSOR_FUNCTIONS_HPP_
 
 #include <boost/numeric/ublas/tensor/multiplication.hpp>
-#include <boost/numeric/ublas/tensor/tensor.hpp>
+#include <boost/numeric/ublas/tensor/tensor_engine.hpp>
+
+namespace boost::numeric::ublas{
+    
+    template<typename T> class tensor_core;
+
+} // namespace boost::numeric::ublas
+
 
 namespace boost::numeric::ublas
 {

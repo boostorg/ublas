@@ -169,9 +169,9 @@ namespace boost::numeric::ublas {
 /** @brief Returns true if size > 1 and all elements > 0 or size == 1 && e[0] == 1 */
 template <class ExtentsType>
 [[nodiscard]] inline 
-constexpr bool valid(ExtentsType const &e) {
+constexpr bool is_valid(ExtentsType const &e) {
   
-  static_assert(is_extents_v<ExtentsType>, "boost::numeric::ublas::valid() : invalid type, type should be an extents");
+  static_assert(is_extents_v<ExtentsType>, "boost::numeric::ublas::is_valid() : invalid type, type should be an extents");
 
   auto greater_than_zero = [](auto const& a){ return a > 0u; };
 
@@ -182,7 +182,7 @@ constexpr bool valid(ExtentsType const &e) {
 /** @brief Returns true if size > 1 and all elements > 0 or size == 1 && e[0] == 1 */
 template <class T, T... Es>
 [[nodiscard]] inline 
-constexpr bool valid( [[maybe_unused]] basic_static_extents<T,Es...> const &e) noexcept {
+constexpr bool is_valid( [[maybe_unused]] basic_static_extents<T,Es...> const &e) noexcept {
   constexpr auto sz = sizeof...(Es);
    /// if number of extents is 1 then extents at 0th pos should be 1
    /// else if number of extents is greater than 1 then all the extents

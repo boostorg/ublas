@@ -187,7 +187,7 @@ public:
   constexpr basic_static_strides() noexcept{
     static_assert( 
       _size == 0 || 
-      ( valid(extents_type{}) &&
+      ( is_valid(extents_type{}) &&
         ( is_vector(extents_type{}) ||
           is_scalar(extents_type{}) ||
           _size >= 2 

@@ -79,7 +79,7 @@ public:
         if( s.empty() )
             return;
 
-        if( !valid(s) )
+        if( !is_valid(s) )
             throw std::runtime_error("Error in boost::numeric::ublas::basic_strides(ExtentsType const&) : "
                 "shape is not valid."
             );

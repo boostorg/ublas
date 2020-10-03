@@ -109,7 +109,7 @@ public:
         
         std::copy(li.begin(), li.end(), _base.begin());
 
-        if ( !valid(*this) ){
+        if ( !is_valid(*this) ){
             throw std::length_error("Error in basic_fixed_rank_extents::basic_fixed_rank_extents() : "
                 "shape tuple is not a valid permutation: has zero elements."
             );
@@ -123,7 +123,7 @@ public:
         
         std::copy(begin, end, _base.begin());
 
-        if ( !valid(*this) ){
+        if ( !is_valid(*this) ){
             throw std::length_error("Error in basic_fixed_rank_extents::basic_fixed_rank_extents(const_iterator,const_iterator) : "
                 "shape tuple is not a valid permutation: has zero elements."
             );
@@ -153,7 +153,7 @@ public:
     constexpr basic_fixed_rank_extents(base_type const& data)
         : _base(data)
     {
-        if ( !valid(*this) ){
+        if ( !is_valid(*this) ){
             throw std::length_error("Error in basic_fixed_rank_extents::basic_fixed_rank_extents(base_type const&) : "
                 "shape tuple is not a valid permutation: has zero elements."
             );
@@ -163,7 +163,7 @@ public:
     constexpr basic_fixed_rank_extents(base_type&& data)
         : _base(std::move(data))
     {
-        if ( !valid(*this) ){
+        if ( !is_valid(*this) ){
             throw std::length_error("Error in basic_fixed_rank_extents::basic_fixed_rank_extents(base_type &&) : "
                 "shape tuple is not a valid permutation: has zero elements."
             );
