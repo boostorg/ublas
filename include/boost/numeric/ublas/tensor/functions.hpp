@@ -27,85 +27,6 @@ namespace boost::numeric::ublas{
 namespace boost::numeric::ublas
 {
     namespace detail{
-        
-        template<typename E>
-        constexpr auto extents_result_tensor_times_vector( [[maybe_unused]] E const& e){
-            static_assert(is_static_rank<E>::value, 
-                "boost::numeric::ublas::extents_result_tensor_times_vector() : invalid type, type should be an extents");
-            using size_type = typename E::size_type;
-            auto ret = extents< std::max( size_type( E::_size - 1 ), size_type(2) )>();
-            ret.fill(typename E::value_type(1));
-            return ret;
-        }
-
-        template<typename T>
-        constexpr auto extents_result_tensor_times_vector( basic_extents<T> const& e ){
-            using size_type = typename basic_extents<T>::size_type;
-            return extents<>{ typename extents<>::base_type(std::max( size_type( e.size() - 1), size_type(2) ),1) } ;
-        }
-        
-        template<typename E>
-        constexpr auto extents_result_tensor_times_matrix( E const& a ){
-            static_assert(is_static_rank<E>::value, 
-                "boost::numeric::ublas::extents_result_tensor_times_matrix() : invalid type, type should be an extents");
-            return extents<E::_size>(a);
-        }
-
-        template<typename T>
-        constexpr auto extents_result_tensor_times_matrix( basic_extents<T> const& e ){
-            return extents<>{ e } ;
-        }
-
-        template<typename T, T... E1, T... E2>
-        constexpr auto extents_result_type_outer_prod( 
-            [[maybe_unused]] basic_static_extents<T,E1...> const& e1, 
-            [[maybe_unused]] basic_static_extents<T,E2...> const& e2 
-        ){
-            return extents<sizeof...(E1) + sizeof...(E2)>();
-        }
-
-        template<typename T, T... E, size_t R>
-        constexpr auto extents_result_type_outer_prod( 
-            [[maybe_unused]] basic_static_extents<T,E...> const& e1, 
-            [[maybe_unused]] basic_fixed_rank_extents<T,R> const& e2
-        ){
-            return extents<sizeof...(E) + R>();
-        }
-
-        template<typename T, T... E, size_t R>
-        constexpr auto extents_result_type_outer_prod( 
-            [[maybe_unused]] basic_fixed_rank_extents<T,R> const& e1, 
-            [[maybe_unused]] basic_static_extents<T,E...> const& e2 
-        ){
-            return extents<R + sizeof...(E)>();
-        }
-
-        template<typename E1, typename E2>
-        auto extents_result_type_outer_prod( E1 const& e1, E2 const& e2){
-            return extents<>( typename extents<>::base_type( e1.size() + e2.size(), typename E1::value_type(1) ) );
-        }
-
-        template< typename T ,std::size_t N, std::size_t R1, std::size_t R2, typename A>
-        constexpr auto extents_result_tensor_prod( 
-            [[maybe_unused]] basic_fixed_rank_extents<T,R1> const& e1,
-            [[maybe_unused]] basic_fixed_rank_extents<T,R2> const& e2,
-            [[maybe_unused]] std::array<std::size_t, N> const& a1, 
-            [[maybe_unused]] std::array<std::size_t, N> const& a2
-        ){
-            constexpr auto const size = R1 + R2 - 2 * N;
-            auto e = extents<std::max(size, std::size_t(2))>();
-            e.fill(T(1ul));
-            return e;
-        }
-
-        template< typename E1, typename E2, typename A>
-        auto extents_result_tensor_prod( 
-            E1 const& e1, E2 const& e2,
-            A const& a, [[maybe_unused]] A const& ta
-        ){
-            auto const size = e1.size() + e2.size() - 2 * a.size();
-            return extents<>( typename extents<>::base_type( std::max(size, std::size_t(2)), typename E1::value_type(1) ) );
-        }
 
         template<typename T>
         struct is_complex : std::false_type{};
@@ -115,6 +36,35 @@ namespace boost::numeric::ublas
 
         template<typename T>
         inline static constexpr bool is_complex_v = is_complex<T>::value;
+
+        /// To check if the type is the std::array or not.
+        /// Can be extented by providing specialization.
+        /// Point to Remember: C-Style arrays are not supported.
+        template<typename T>
+        struct is_bounded_array : std::false_type{};
+
+        template<typename T>
+        inline static constexpr bool is_bounded_array_v = is_bounded_array<T>::value;
+
+        template<typename T, std::size_t N>
+        struct is_bounded_array<std::array<T,N>> : std::true_type{};
+        
+        /// Gives the extent of rank one std::array.
+        /// Similar to is_bounded_array, it can also be
+        /// extented using specialization.
+        /// Custom Type should have similar APIs to 
+        /// std::array.
+        /// Point to Remember: C-Style arrays are not supported.
+        template<typename T>
+        struct extent_of_rank_one_array;
+        
+        template<typename T, std::size_t N>
+        struct extent_of_rank_one_array<std::array<T,N>> 
+            : std::integral_constant<std::size_t,N>
+        {};
+
+        template<typename T>
+        inline static constexpr bool extent_of_rank_one_array_v = extent_of_rank_one_array<T>::value;
 
     } // namespace detail
     
@@ -144,6 +94,21 @@ namespace boost::numeric::ublas
 
         auto const p = a.rank();
 
+        static_assert(  
+            std::is_same_v< 
+                typename tensor_core<TensorEngine>::resizable_tag, 
+                storage_resizable_container_tag 
+            >,
+            "error in boost::numeric::ublas::prod(tensor_core const&, vector const& ): "
+            "tensor container should be resizable"
+        );
+
+        static_assert(  
+            is_dynamic_v<extents_type>,
+            "error in boost::numeric::ublas::prod(tensor_core const&, vector const& ): "
+            "extents type should be dynamic"
+        );
+
         if (m == 0ul)
             throw std::length_error(
                 "error in boost::numeric::ublas::prod(ttv): "
@@ -166,10 +131,29 @@ namespace boost::numeric::ublas
 
         using extents_value_type = typename extents_type::value_type;
 
-        auto nc = detail::extents_result_tensor_times_vector(a.extents());
+        auto a_extents = a.extents();
+
+        auto extents_result = [&a_extents](){
+            using size_type = typename extents_type::size_type;
+            if constexpr( is_static_rank_v<extents_type> ){
+                // To disable warning for unused variable;
+                (void)a_extents;
+                constexpr size_type esz = extents_type::_size - 1u;
+                constexpr auto sz = std::max( esz, size_type(2) );
+                auto ret = extents< sz >();
+                ret.fill(1u);
+                return ret;
+            }else{
+                using extents_base_type = typename extents_type::base_type;
+                auto const sz = std::max( a_extents.size() - 1, size_type(2) );
+                auto arr = extents_base_type(sz,1);
+                return extents_type{ std::move(arr) } ;
+            }
+        };
+
+        auto nc = extents_result();
         auto nb = std::vector<extents_value_type>{b.size(), extents_value_type(1)};
 
-        auto a_extents = a.extents();
         for (auto i = size_type(0), j = size_type(0); i < p; ++i)
             if (i != m - 1)
                 nc[j++] = a_extents.at(i);
@@ -211,6 +195,7 @@ namespace boost::numeric::ublas
     {
 
         using tensor_type   = tensor_core< TensorEngine >;
+        using extents_type  = typename tensor_type::extents_type;
         using value_type    = typename tensor_type::value_type;
         using layout_type   = typename tensor_type::layout_type;
         using array_type    = typename tensor_type::array_type;
@@ -224,6 +209,12 @@ namespace boost::numeric::ublas
             >,
             "error in boost::numeric::ublas::prod(tensor_core const&, matrix const& ): "
             "tensor container should be resizable"
+        );
+
+        static_assert(  
+            is_dynamic_v<extents_type>,
+            "error in boost::numeric::ublas::prod(tensor_core const&, matrix const& ): "
+            "extents type should be dynamic"
         );
 
         auto const p = a.rank();
@@ -248,7 +239,7 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::prod(ttm): second "
                 "argument matrix should not be empty.");
 
-        auto nc = detail::extents_result_tensor_times_matrix(a.extents());
+        auto nc = a.extents();
         auto nb = extents<>{b.size1(), b.size2()};
 
         auto wb = dynamic_strides_type(nb);
@@ -301,10 +292,10 @@ namespace boost::numeric::ublas
                                 PermuType const &phia, PermuType const &phib)
     {
         using tensor_type       = tensor_core< TensorEngine1 >;
-        using extents_type_1    = typename tensor_type::extents_type;       
+        using extents_type      = typename tensor_type::extents_type;       
         using value_type        = typename tensor_type::value_type;
         using layout_type       = typename tensor_type::layout_type;
-        using size_type         = typename extents_type_1::size_type;
+        using extents_size_type = typename extents_type::size_type;
         using array_type        = typename tensor_type::array_type;
 
         static_assert( 
@@ -331,7 +322,7 @@ namespace boost::numeric::ublas
         auto const pa = a.rank();
         auto const pb = b.rank();
 
-        auto const q = static_cast<size_type>(phia.size());
+        auto const q = static_cast<extents_size_type>(phia.size());
 
         if (pa == 0ul)
             throw std::runtime_error("error in ublas::prod: order of left-hand side tensor must be greater than 0.");
@@ -365,7 +356,29 @@ namespace boost::numeric::ublas
         std::iota(phia1.begin(), phia1.end(), 1ul);
         std::iota(phib1.begin(), phib1.end(), 1ul);
 
-        auto nc = detail::extents_result_tensor_prod(na,nb,phia,phib);
+        auto extents_result = [&e1 = na, &e2 = nb, &a1 = phia, &a2 = phib](){
+            using lextents_type = std::decay_t< decltype(e1) >;
+            using rextents_type = std::decay_t< decltype(e2) >;
+            using array_type    = std::decay_t< decltype(a1) >;
+            if constexpr( 
+                detail::is_bounded_array_v<array_type> && 
+                is_static_rank_v<lextents_type> &&
+                is_static_rank_v<rextents_type>
+            ){
+                constexpr auto const N = detail::extent_of_rank_one_array_v<array_type>;
+                constexpr auto const sz = lextents_type::_size + rextents_type::_size - 2 * N;
+                auto res = extents<std::max(sz, extents_size_type(2))>();
+                res.fill(1u);
+                return res;
+            }else{
+                extents_size_type const size = ( e1.size() + e2.size() ) - ( a1.size() + a2.size() );
+                using extents_base_type = typename extents<>::base_type;
+                auto arr = extents_base_type( std::max(size, extents_size_type(2)), 1u );
+                return extents<>(std::move(arr));
+            }
+        };
+
+        auto nc = extents_result();
 
         for (auto i = 0ul; i < phia.size(); ++i)
             *std::remove(phia1.begin(), phia1.end(), phia.at(i)) = phia.at(i);
@@ -518,7 +531,20 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::outer_prod: "
                 "tensors should not be empty.");
 
-        auto nc = detail::extents_result_type_outer_prod(a.extents(), b.extents());
+        auto extents_result = [&e1 = a.extents(), &e2 = b.extents()](){
+            using lextents_type = std::decay_t< decltype(e1) >;
+            using rextents_type = std::decay_t< decltype(e2) >;
+
+            if constexpr( is_static_rank_v<lextents_type> && is_static_rank_v<rextents_type> ){
+                return extents< lextents_type::_size + rextents_type::_size >{};
+            }else {
+                using extents_base_type = typename extents<>::base_type;
+                auto arr = extents_base_type( e1.size() + e2.size(), 1 );
+                return extents<>{std::move(arr)};
+            }
+        };
+
+        auto nc = extents_result();
 
         auto a_extents = a.extents();        
         auto b_extents = b.extents();
