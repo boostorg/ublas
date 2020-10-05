@@ -63,15 +63,23 @@ public:
     template<typename ExtentsType>
     constexpr basic_fixed_rank_strides(ExtentsType const& s)
     {
-        if ( s.size() != size() ){
-            throw std::length_error("boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
-                "ExentsType size should be equal to the size of basic_fixed_rank_strides"
-            );
-        }
-        
         static_assert( is_extents_v<ExtentsType>, "boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
             "ExtentsType is not a tensor extents"
         );
+
+        if constexpr( is_static_rank_v< ExtentsType > ){
+            static_assert( ExtentsType::_size == _size, 
+                "boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
+                "ExentsType size should be equal to the size of basic_fixed_rank_strides"
+            );
+        }else{
+            if ( s.size() != size() ){
+                throw std::length_error(
+                    "boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
+                    "ExentsType size should be equal to the size of basic_fixed_rank_strides"
+                );
+            }
+        }
 
         _base.fill(value_type(1));
 

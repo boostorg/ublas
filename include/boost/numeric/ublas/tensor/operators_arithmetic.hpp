@@ -212,7 +212,7 @@ constexpr auto operator+( boost::numeric::ublas::detail::tensor_expression<T1,L>
 {
     
     static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
-        "operator+() : LHS tensor and RHS tensor should have same value type"
+        "operator+() : LHS tensor and RHS tensor should have the same value type"
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){
@@ -232,7 +232,7 @@ constexpr auto operator-( boost::numeric::ublas::detail::tensor_expression<T1,L>
 {
     
     static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
-        "operator-() : LHS tensor and RHS tensor should have same value type"
+        "operator-() : LHS tensor and RHS tensor should have the same value type"
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){
@@ -253,7 +253,7 @@ constexpr auto operator*( boost::numeric::ublas::detail::tensor_expression<T1,L>
 {
         
     static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
-        "operator*() : LHS tensor and RHS tensor should have same value type"
+        "operator*() : LHS tensor and RHS tensor should have the same value type"
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){
@@ -273,7 +273,7 @@ constexpr auto operator/( boost::numeric::ublas::detail::tensor_expression<T1,L>
 {
         
     static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
-        "operator/() : LHS tensor and RHS tensor should have same value type"
+        "operator/() : LHS tensor and RHS tensor should have the same value type"
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){

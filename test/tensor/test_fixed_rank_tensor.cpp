@@ -393,8 +393,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_reshape, value,  test_types, fixtu
         using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;  
 
         for_each_tuple(extents,[&](auto const&, auto& eto){
-            
-            if ( efrom.size() == eto.size() ){
+            using extents_type = std::decay_t<decltype(efrom)>;
+            using to_extents_type = std::decay_t<decltype(eto)>;
+            if constexpr( extents_type::_size == to_extents_type::_size ){
                 
                 auto v = value_type {};
                 v+=value_type{1};
@@ -434,8 +435,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_swap, value,  test_types, fixture)
         using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;  
 
         for_each_tuple(extents,[&](auto const&, auto& e_r){
-                
-            if ( e_t.size() == e_r.size() ){
+            using extents_type = std::decay_t<decltype(e_t)>;
+            using r_extents_type = std::decay_t<decltype(e_r)>;
+            if constexpr( extents_type::_size == r_extents_type::_size ){
                 
                 auto v = value_type {} + value_type{1};
                 auto w = value_type {} + value_type{2};

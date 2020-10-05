@@ -118,7 +118,7 @@ public:
     
     constexpr basic_fixed_rank_extents(const_iterator begin, const_iterator end){
         if( std::distance(begin,end) < 0 || static_cast<std::size_t>(std::distance(begin,end)) > _size){
-            throw std::out_of_range("boost::numeric::ublas::basic_fixed_rank_extents(): initializer list size is greater than _size");
+            throw std::out_of_range("boost::numeric::ublas::basic_fixed_rank_extents(): initializer list size is greater than the rank");
         }
         
         std::copy(begin, end, _base.begin());
@@ -141,10 +141,17 @@ public:
             "OtherExtents should be a valid tensor extents"
         );
 
-        if( e.size() != size() ){
-            throw std::length_error("Error in basic_fixed_rank_extents::basic_fixed_rank_extents(OtherExtents const&) : "
-                "LHS extents should have the same number of elements as RHS does"
+        if constexpr( is_static_rank_v< OtherExtents > ){
+            static_assert( OtherExtents::_size == _size, 
+                "basic_fixed_rank_extents::basic_fixed_rank_extents(OtherExtents const&) : "
+                "unequal rank found, rank should be equal"
             );
+        }else{
+            if( e.size() != size() ){
+                throw std::length_error("Error in basic_fixed_rank_extents::basic_fixed_rank_extents(OtherExtents const&) : "
+                    "unequal rank found, rank should be equal"
+                );
+            }
         }
 
         std::copy_n(e.begin(),_size, _base.begin());

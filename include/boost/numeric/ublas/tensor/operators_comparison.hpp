@@ -32,12 +32,16 @@ template<class T1, class T2, class BinaryPred>
 constexpr bool compare(tensor_core<T1> const& lhs, tensor_core<T2> const& rhs, BinaryPred pred)
 {
     static_assert( std::is_same_v<typename tensor_core<T1>::value_type, typename tensor_core<T2>::value_type>,
-        "boost::numeric::ublas::detail::compare() : LHS and RHS both should have same value type"
+        "boost::numeric::ublas::detail::compare(tensor_core<T1> const&, tensor_core<T2> const&, BinaryPred) : "
+        "LHS and RHS both should have the same value type"
     );
 
     if(lhs.extents() != rhs.extents()){
         if constexpr(!std::is_same<BinaryPred,std::equal_to<>>::value && !std::is_same<BinaryPred,std::not_equal_to<>>::value)
-            throw std::runtime_error("Error in boost::numeric::ublas::detail::compare: cannot compare tensors with different shapes.");
+            throw std::runtime_error(
+                "boost::numeric::ublas::detail::compare(tensor_core<T1> const&, tensor_core<T2> const&, BinaryPred) : "
+                "cannot compare tensors with different shapes."
+            );
         else
             return false;
     }

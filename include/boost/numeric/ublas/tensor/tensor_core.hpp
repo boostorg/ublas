@@ -282,18 +282,25 @@ public:
             swap(*this,temp);
         }
 
-        if( extents_.size() != 2ul ){
-            throw std::runtime_error(
+        if constexpr( is_static_rank_v<extents_type> ){
+            static_assert( extents_type::_size == 2ul, 
                 "boost::numeric::ublas::tensor_core(const matrix &v)"
-                " : order of extents are not correct, please check!"
+                " : the rank of extents is not correct, it should be of the rank 2"
             );
+        }else{
+            if( extents_.size() != 2ul ){
+                throw std::runtime_error(
+                    "boost::numeric::ublas::tensor_core(const matrix &v)"
+                    " : the rank of extents is not correct, it should be of the rank 2"
+                );
+            }
         }
+
 
         if( extents_[0] != v.size1() || extents_[1] != v.size2() ){
             throw std::runtime_error(
                 "boost::numeric::ublas::tensor_core(const matrix &v)"
-                " : please check the extents it is not set properly, "
-                "if extents is static please set the extents while specifying type"
+                " : please set the extents properly, the extents should contain the row and col of the matrix"
             );
         }
 
@@ -308,18 +315,24 @@ public:
             swap(*this,temp);
         }
 
-        if( extents_.size() != 2ul ){
-            throw std::runtime_error(
+        if constexpr( is_static_rank_v<extents_type> ){
+            static_assert( extents_type::_size == 2ul, 
                 "boost::numeric::ublas::tensor_core(matrix &&v)"
-                " : order of extents are not correct, please check!"
+                " : the rank of extents is not correct, it should be of the rank 2"
             );
+        }else{
+            if( extents_.size() != 2ul ){
+                throw std::runtime_error(
+                    "boost::numeric::ublas::tensor_core(matrix &&v)"
+                    " : the rank of extents is not correct, it should be of the rank 2"
+                );
+            }
         }
 
         if( extents_[0] != v.size1() || extents_[1] != v.size2() ){
             throw std::runtime_error(
                 "boost::numeric::ublas::tensor_core(matrix &&v)"
-                " : please check the extents it is not set properly, "
-                "if extents is static please set the extents while specifying type"
+                " : please set the extents properly, the extents should contain the row and col of the matrix"
             );
         }
 
@@ -334,18 +347,24 @@ public:
             swap(*this,temp);
         }
 
-        if( extents_.size() != 2ul ){
-            throw std::runtime_error(
+        if constexpr( is_static_rank_v<extents_type> ){
+            static_assert( extents_type::_size == 2ul, 
                 "boost::numeric::ublas::tensor_core(const vector_type &v)"
-                " : order of extents are not correct, please check!"
+                " : the rank of extents is not correct, it should be of the rank 2"
             );
+        }else{
+            if( extents_.size() != 2ul ){
+                throw std::runtime_error(
+                    "boost::numeric::ublas::tensor_core(const vector_type &v)"
+                    " : the rank of extents is not correct, it should be of the rank 2"
+                );
+            }
         }
 
         if( extents_[0] != v.size() || extents_[1] != 1ul ){
             throw std::runtime_error(
                 "boost::numeric::ublas::tensor_core(const vector_type &v)"
-                " : please check the extents it is not set properly, "
-                "if extents is static please set the extents while specifying type"
+                " : please set the extents properly, the first extent should be the size of the vector and 1 for the second extent"
             );
         }
 
@@ -361,18 +380,24 @@ public:
             swap(*this,temp);
         }
         
-        if( extents_.size() != 2ul ){
-            throw std::runtime_error(
+        if constexpr( is_static_rank_v<extents_type> ){
+            static_assert( extents_type::_size == 2ul, 
                 "boost::numeric::ublas::tensor_core(vector_type &&v)"
-                " : order of extents are not correct, please check!"
+                " : the rank of extents is not correct, it should be of the rank 2"
             );
+        }else{
+            if( extents_.size() != 2ul ){
+                throw std::runtime_error(
+                    "boost::numeric::ublas::tensor_core(vector_type &&v)"
+                    " : the rank of extents is not correct, it should be of the rank 2"
+                );
+            }
         }
 
         if( extents_[0] != v.size() || extents_[1] != 1ul ){
             throw std::runtime_error(
                 "boost::numeric::ublas::tensor_core(vector_type &&v)"
-                " : please check the extents it is not set properly, "
-                "if extents is static please set the extents while specifying type"
+                " : please set the extents properly, the first extent should be the size of the vector and 1 for the second extent"
             );
         }
 
@@ -580,8 +605,8 @@ public:
         return this->data_[i];
     }
 
-    /** @brief Element access using a multi-index or single-index with bound checking.
-     *
+    /** @brief Element access using a multi-index or single-index with bound checking
+     *  and it throws the exception.
      *
      *  @code auto a = A.at(i,j,k); @endcode or
      *  @code auto a = A.at(i);     @endcode
@@ -614,7 +639,8 @@ public:
         }
     }
 
-    /** @brief Element access using a multi-index or single-index with bound checking.
+    /** @brief Element access using a multi-index or single-index with bound checking
+     *  and it throws the exception.
      *
      *
      *  @code A.at(i,j,k) = a; @endcode or
@@ -648,7 +674,8 @@ public:
         }
     }
 
-    /** @brief Element access using a multi-index or single-index with no bound checking.
+    /** @brief Element access using a multi-index or single-index with no bound checking
+     *  and it does not throw.
      *
      *
      *  @code auto a = A(i,j,k); @endcode or
@@ -677,7 +704,8 @@ public:
         }
     }
 
-    /** @brief Element access using a multi-index or single-index with no bound checking.
+    /** @brief Element access using a multi-index or single-index with no bound checking
+     *  and it does not throw.
      *
      *
      *  @code A(i,j,k) = a; @endcode or
@@ -745,14 +773,26 @@ public:
     inline
     void reshape (extents_type const& e, value_type v = value_type{})
     {
-        static_assert(is_dynamic_v<extents_type>,
-            "Error in boost::numeric::ublas::basic_tensor: static extents cannot be reshaped");
+        static_assert(is_dynamic_v<extents_type> && is_dynamic_v<strides_type>,
+            "Error in boost::numeric::ublas::basic_tensor::reshape(extents_type const&,value_type) : "
+            "static extents or static strides cannot used inside reshape function"
+        );
+
         this->extents_ = e;
         this->strides_ = strides_type(this->extents_);
 
         auto p = product(extents_);
-        if(p != this->size())
-            this->data_.resize (p, v);
+        if constexpr( !std::is_same_v< resizable_tag, storage_resizable_container_tag > ){
+            if( p != this->size() ){
+                throw std::runtime_error(
+                    "boost::numeric::ublas::basic_tensor::reshape(extents_type const&,value_type) : "
+                    "cannot resize the non-resizable container, change the extents such a way that the product does not change"
+                );
+            }
+        }else{
+            if(p != this->size())
+                this->data_.resize (p, v);
+        }
     }
 
     friend void swap(tensor_core& lhs, tensor_core& rhs){

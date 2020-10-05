@@ -28,7 +28,7 @@ namespace boost::numeric::ublas{
   [[nodiscard]] inline
   constexpr bool operator==(LStrides const& lhs, RStrides const& rhs) noexcept{
     static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
-      "boost::numeric::ublas::operator==(LStrides,RStrides) : LHS value type should be same as RHS value type");
+      "boost::numeric::ublas::operator==(LStrides,RStrides) : LHS value type should be the same as the RHS value type");
 
     return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
@@ -41,7 +41,7 @@ namespace boost::numeric::ublas{
   [[nodiscard]] inline
   constexpr bool operator!=(LStrides const& lhs, RStrides const& rhs) noexcept{
     static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
-      "boost::numeric::ublas::operator!=(LStrides,RStrides) : LHS value type should be same as RHS value type");
+      "boost::numeric::ublas::operator!=(LStrides,RStrides) : LHS value type should be the same as the RHS value type");
     return !( lhs == rhs );
   }
   
@@ -63,7 +63,7 @@ namespace boost::numeric::ublas::detail {
   constexpr auto access(std::vector<typename Stride::value_type> const& i, Stride const& w)
   {
     static_assert( is_strides_v<Stride>, 
-      "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
+      "boost::numeric::ublas::detail::access() : invalid type, the type should be a strides");
     
     using value_type = typename Stride::value_type;
     return std::inner_product(i.begin(), i.end(), w.begin(), value_type{});
@@ -82,11 +82,11 @@ namespace boost::numeric::ublas::detail {
   constexpr auto access(Stride const& w, Indices ... is)
   { 
     static_assert( is_strides_v<Stride>, 
-      "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
+      "boost::numeric::ublas::detail::access() : invalid type, the type should be a strides");
     
     if constexpr( is_static_rank_v<Stride> ){
       static_assert( Stride::_size >= sizeof...(is), 
-        "boost::numeric::ublas::detail::access() : number of indices exceeds the strides size");
+        "boost::numeric::ublas::detail::access() : number of indices exceeds the size of the stride");
     }
 
     using value_type = typename Stride::value_type;

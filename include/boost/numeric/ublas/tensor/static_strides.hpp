@@ -195,7 +195,7 @@ public:
       )
       , 
       "Error in boost::numeric::ublas::basic_static_strides() : "
-      "Size can be 0 or Shape should be valid and shape can be vector or shape can be scalar or size should be greater than"
+      "Size cannot be 0 or Shape should be valid and shape can be vector or shape can be scalar or size should be greater than"
       " or equal to 2"
     ); 	
     

@@ -136,7 +136,7 @@ namespace boost::numeric::ublas
         auto extents_result = [&a_extents](){
             using size_type = typename extents_type::size_type;
             if constexpr( is_static_rank_v<extents_type> ){
-                // To disable warning for unused variable;
+                // To disable the warning for unused variable;
                 (void)a_extents;
                 constexpr size_type esz = extents_type::_size - 1u;
                 constexpr auto sz = std::max( esz, size_type(2) );
@@ -316,7 +316,7 @@ namespace boost::numeric::ublas
             std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
             "error in boost::numeric::ublas::prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&, "
             "PermuType const&, PermuType const&): "
-            "Both the tensor should have same value_type"
+            "Both the tensor should have the same value_type"
         );
 
         auto const pa = a.rank();
@@ -466,7 +466,7 @@ namespace boost::numeric::ublas
         static_assert(
             std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
             "error in boost::numeric::ublas::inner_prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&): "
-            "Both the tensor should have same value_type"
+            "Both the tensor should have the same value_type"
         );
 
         if (a.rank() != b.rank())
@@ -523,7 +523,7 @@ namespace boost::numeric::ublas
         static_assert(
             std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
             "error in boost::numeric::ublas::outer_prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&): "
-            "Both the tensor should have same value_type"
+            "Both the tensor should have the same value_type"
         );
 
         if (a.empty() || b.empty())
@@ -1057,7 +1057,7 @@ namespace boost::numeric::ublas
         static_assert(
             std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
             "error in boost::numeric::ublas::outer_prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&): "
-            "Both the tensor should have same value_type"
+            "Both the tensor should have the same value_type"
         );
         
         auto nc = detail::impl::concat_t<extents_type1, extents_type2>{};
