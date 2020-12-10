@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Mohammad Ashar Khan
+# Copyright (c) 2020 Mohammad Ashar Khan, Cem Bassoy
 # Distributed under Boost Software License, Version 1.0
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
@@ -60,7 +60,8 @@ jobs:
          ./bootstrap.sh
          ./b2 -j 8 headers
         
-         echo ::set-env name=BOOST_ROOT::${PWD}
+         #echo ::set-env name=BOOST_ROOT::${PWD}
+         echo "BOOST_ROOT=${PWD}" >> $GITHUB_ENV
         
       - name: Prepare Build
         run: |
