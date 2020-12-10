@@ -68,7 +68,8 @@ jobs:
         ./bootstrap.sh
         ./b2 -j 8 headers
         
-        echo ::set-env name=BOOST_ROOT::${PWD}
+        #echo ::set-env name=BOOST_ROOT::${PWD}
+        echo "BOOST_ROOT=${PWD}" >> ${GITHUB_ENV}
         
     - name: Prepare Build
       run: |
