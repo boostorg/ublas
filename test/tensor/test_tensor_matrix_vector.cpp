@@ -23,7 +23,7 @@
 
 BOOST_AUTO_TEST_SUITE ( test_tensor_matrix_interoperability )
 
-using test_types = zip<int,float>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
+using test_types = zip<int,float>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor, value,  test_types)
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor, value,  test_types)
 
 struct fixture
 {
-    using extents_type = boost::numeric::ublas::dynamic_extents<>;
+    using extents_type = boost::numeric::ublas::extents<>;
     fixture()
       : extents{
                 extents_type{1,1},  // 1

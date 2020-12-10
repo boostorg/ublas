@@ -59,24 +59,28 @@ void ttt(SizeType const k,
 {
     if(k < r)
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(nc[k] == na[phia[k]-1]);
         for(size_t ic = 0u; ic < nc[k]; a += wa[phia[k]-1], c += wc[k], ++ic)
             ttt(k+1, r, s, q,  phia,phib,  c, nc, wc,   a, na, wa,   b, nb, wb);
     }
     else if(k < r+s)
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(nc[k] == nb[phib[k-r]-1]);
         for(size_t ic = 0u; ic < nc[k]; b += wb[phib[k-r]-1], c += wc[k], ++ic)
             ttt(k+1, r, s, q,  phia, phib,    c, nc, wc,   a, na, wa,   b, nb, wb);
     }
     else if(k < r+s+q-1)
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay) 
         assert(na[phia[k-s]-1] == nb[phib[k-r]-1]);
         for(size_t ia = 0u; ia < na[phia[k-s]-1]; a += wa[phia[k-s]-1], b += wb[phib[k-r]-1], ++ia)
             ttt(k+1, r, s, q,  phia, phib,  c, nc, wc,   a, na, wa,   b, nb, wb);
     }
     else
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(na[phia[k-s]-1] == nb[phib[k-r]-1]);
         for(size_t ia = 0u; ia < na[phia[k-s]-1]; a += wa[phia[k-s]-1], b += wb[phib[k-r]-1], ++ia)
             *c += *a * *b;
@@ -122,24 +126,28 @@ void ttt(SizeType const k,
 {
     if(k < r)
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(nc[k] == na[k]);
         for(size_t ic = 0u; ic < nc[k]; a += wa[k], c += wc[k], ++ic)
             ttt(k+1, r, s, q,  c, nc, wc,   a, na, wa,   b, nb, wb);
     }
     else if(k < r+s)
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(nc[k] == nb[k-r]);
         for(size_t ic = 0u; ic < nc[k]; b += wb[k-r], c += wc[k], ++ic)
             ttt(k+1, r, s, q,  c, nc, wc,   a, na, wa,   b, nb, wb);
     }
     else if(k < r+s+q-1)
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(na[k-s] == nb[k-r]);
         for(size_t ia = 0u; ia < na[k-s]; a += wa[k-s], b += wb[k-r], ++ia)
             ttt(k+1, r, s, q,  c, nc, wc,   a, na, wa,   b, nb, wb);
     }
     else
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(na[k-s] == nb[k-r]);
         for(size_t ia = 0u; ia < na[k-s]; a += wa[k-s], b += wb[k-r], ++ia)
             *c += *a * *b;
@@ -346,7 +354,7 @@ void ttv0(SizeType const r,
 */
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void mtv(SizeType const m,
-         PointerOut c, SizeType const*const   , SizeType const*const wc,
+         PointerOut c, [[maybe_unused]] SizeType const*const nc, SizeType const*const wc,
          PointerIn1 a, SizeType const*const na, SizeType const*const wa,
          PointerIn2 b)
 {
@@ -384,9 +392,11 @@ void mtm(PointerOut c, SizeType const*const nc, SizeType const*const wc,
 {
 
     // C(i,j) = A(i,k) * B(k,j)
-
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
     assert(nc[0] == na[0]);
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay) 
     assert(nc[1] == nb[1]);
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
     assert(na[1] == nb[0]);
 
     auto cj = c; auto bj = b;
@@ -440,7 +450,7 @@ value_t inner(SizeType const r, SizeType const*const n,
 
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void outer_2x2(SizeType const pa,
-               PointerOut c, SizeType const*const   , SizeType const*const wc,
+               PointerOut c, [[maybe_unused]] SizeType const*const nc, SizeType const*const wc,
                PointerIn1 a, SizeType const*const na, SizeType const*const wa,
                PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
@@ -543,18 +553,22 @@ void outer(SizeType const k,
 {
     if(k < r)
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(nc[k] == na[phia[k]-1]);
         for(size_t ic = 0u; ic < nc[k]; a += wa[phia[k]-1], c += wc[k], ++ic)
             outer(k+1, r, s,   phia,phib,  c, nc, wc,   a, na, wa,   b, nb, wb);
     }
     else if(k < r+s-1)
     {
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(nc[k] == nb[phib[k-r]-1]);
         for(size_t ic = 0u; ic < nc[k]; b += wb[phib[k-r]-1], c += wc[k], ++ic)
             outer(k+1, r, s, phia, phib,    c, nc, wc,   a, na, wa,   b, nb, wb);
     }
     else
     {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         assert(nc[k] == nb[phib[k-r]-1]);
         for(size_t ic = 0u; ic < nc[k]; b += wb[phib[k-r]-1], c += wc[k], ++ic)
             *c = *a * *b;

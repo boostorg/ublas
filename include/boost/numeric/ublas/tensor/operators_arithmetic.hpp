@@ -28,7 +28,7 @@ namespace ublas {
 
 
 template<class T>
-class basic_tensor;
+class tensor_core;
 
 template<class E>
 class matrix_expression;
@@ -41,55 +41,182 @@ class vector_expression;
 }
 }
 
-#define FIRST_ORDER_OPERATOR_RIGHT(OP, EXPR_TYPE_L, EXPR_TYPE_R) \
-template<class T, class L, class R> \
-auto operator OP ( boost::numeric::ublas:: EXPR_TYPE_L <T,L> const& lhs, boost::numeric::ublas:: EXPR_TYPE_R <R> const& rhs) { \
-    return boost::numeric::ublas::detail::make_binary_tensor_expression<T> (lhs(), rhs(), \
-      [](auto const& l, auto const& r){ return l OP r; }); \
-} \
+template <class T, class L, class R>
+inline
+constexpr auto operator*(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::vector_expression<R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::multiplies<>{});
+}
 
-FIRST_ORDER_OPERATOR_RIGHT (*, detail:: tensor_expression , vector_expression)
-FIRST_ORDER_OPERATOR_RIGHT (+, detail:: tensor_expression , vector_expression)
-FIRST_ORDER_OPERATOR_RIGHT (-, detail:: tensor_expression , vector_expression)
-FIRST_ORDER_OPERATOR_RIGHT (/, detail:: tensor_expression , vector_expression)
+template <class T, class L, class R>
+inline
+constexpr auto operator+(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::vector_expression<R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::plus<>{});
+}
 
-FIRST_ORDER_OPERATOR_RIGHT (*, detail:: tensor_expression , matrix_expression)
-FIRST_ORDER_OPERATOR_RIGHT (+, detail:: tensor_expression , matrix_expression)
-FIRST_ORDER_OPERATOR_RIGHT (-, detail:: tensor_expression , matrix_expression)
-FIRST_ORDER_OPERATOR_RIGHT (/, detail:: tensor_expression , matrix_expression)
+template <class T, class L, class R>
+inline
+constexpr auto operator-(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::vector_expression<R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::minus<>{});
+}
+
+template <class T, class L, class R>
+inline
+constexpr auto operator/(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::vector_expression<R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::divides<>{});
+}
 
 
-#define FIRST_ORDER_OPERATOR_LEFT(OP, EXPR_TYPE_L, EXPR_TYPE_R) \
-template<class T, class L, class R> \
-auto operator OP ( boost::numeric::ublas:: EXPR_TYPE_L <L> const& lhs, boost::numeric::ublas:: EXPR_TYPE_R <T,R> const& rhs) { \
-    return boost::numeric::ublas::detail::make_binary_tensor_expression<T> (lhs(), rhs(), \
-      [](auto const& l, auto const& r){ return l OP r; }); \
-} \
+template <class T, class L, class R>
+inline
+constexpr auto operator*(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::matrix_expression<R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::multiplies<>{});
+}
 
-FIRST_ORDER_OPERATOR_LEFT (*, vector_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (+, vector_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (-, vector_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (/, vector_expression, detail:: tensor_expression)
+template <class T, class L, class R>
+inline
+constexpr auto operator+(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::matrix_expression<R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::plus<>{});
+}
 
-FIRST_ORDER_OPERATOR_LEFT (*, matrix_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (+, matrix_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (-, matrix_expression, detail:: tensor_expression)
-FIRST_ORDER_OPERATOR_LEFT (/, matrix_expression, detail:: tensor_expression)
+template <class T, class L, class R>
+inline
+constexpr auto operator-(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::matrix_expression<R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::minus<>{});
+}
+
+template <class T, class L, class R>
+inline
+constexpr auto operator/(
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, L> const& lhs,
+  boost ::numeric ::ublas ::matrix_expression<R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::divides<>{});
+}
 
 
+template <class T, class L, class R>
+inline
+constexpr auto operator*(
+  boost ::numeric ::ublas ::vector_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::multiplies<>{});
+}
+
+template <class T, class L, class R>
+inline
+constexpr auto operator+(
+  boost ::numeric ::ublas ::vector_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::plus<>{});
+}
+
+template <class T, class L, class R>
+inline
+constexpr auto operator-(
+  boost ::numeric ::ublas ::vector_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::minus<>{});
+}
+
+template <class T, class L, class R>
+inline
+constexpr auto operator/(
+  boost ::numeric ::ublas ::vector_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::divides<>{});
+}
+
+
+template <class T, class L, class R>
+inline
+constexpr auto operator*(
+  boost ::numeric ::ublas ::matrix_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::multiplies<>{});
+}
+
+template <class T, class L, class R>
+inline
+constexpr auto operator+(
+  boost ::numeric ::ublas ::matrix_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::plus<>{});
+}
+
+template <class T, class L, class R>
+inline
+constexpr auto operator-(
+  boost ::numeric ::ublas ::matrix_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::minus<>{});
+}
+
+template <class T, class L, class R>
+inline
+constexpr auto operator/(
+  boost ::numeric ::ublas ::matrix_expression<L> const& lhs,
+  boost ::numeric ::ublas ::detail ::tensor_expression<T, R> const& rhs) noexcept
+{
+  return boost ::numeric ::ublas ::detail ::make_binary_tensor_expression<T>(
+    lhs(), rhs(), std::divides<>{});
+}
 
 
 template<class T1, class T2, class L, class R>
+inline
 constexpr auto operator+( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs, 
     boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) 
 {
     
     static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
-        "operator+() : LHS tensor and RHS tensor should have same value type"
+        "operator+() : LHS tensor and RHS tensor should have the same value type"
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){
-        auto e = boost::numeric::ublas::detail::retrieve_extents(rhs);
+        auto const& e = boost::numeric::ublas::detail::retrieve_extents(rhs);
         
         if( !boost::numeric::ublas::detail::all_extents_equal(lhs,e) ){
             throw std::runtime_error("operator+() : LHS tensor and RHS tensor should have equal extents");
@@ -99,12 +226,13 @@ constexpr auto operator+( boost::numeric::ublas::detail::tensor_expression<T1,L>
     return boost::numeric::ublas::detail::make_binary_tensor_expression<T1> (lhs(), rhs(), [](auto const& l, auto const& r){ return l + r; });
 }
 template<class T1, class T2, class L, class R>
+inline
 constexpr auto operator-( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs, 
     boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) 
 {
     
     static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
-        "operator-() : LHS tensor and RHS tensor should have same value type"
+        "operator-() : LHS tensor and RHS tensor should have the same value type"
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){
@@ -119,16 +247,17 @@ constexpr auto operator-( boost::numeric::ublas::detail::tensor_expression<T1,L>
 //	return boost::numeric::ublas::detail::make_lambda<T>([&lhs,&rhs](std::size_t i){ return lhs(i) - rhs(i);});
 }
 template<class T1, class T2, class L, class R>
+inline
 constexpr auto operator*( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs, 
     boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) 
 {
         
     static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
-        "operator*() : LHS tensor and RHS tensor should have same value type"
+        "operator*() : LHS tensor and RHS tensor should have the same value type"
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){
-        auto e = boost::numeric::ublas::detail::retrieve_extents(rhs);
+        auto const& e = boost::numeric::ublas::detail::retrieve_extents(rhs);
 
         if( !boost::numeric::ublas::detail::all_extents_equal(lhs,e) ){
             throw std::runtime_error("operator+() : LHS tensor and RHS tensor should have equal extents");
@@ -138,12 +267,13 @@ constexpr auto operator*( boost::numeric::ublas::detail::tensor_expression<T1,L>
     return boost::numeric::ublas::detail::make_binary_tensor_expression<T1> (lhs(), rhs(), [](auto const& l, auto const& r){ return l * r; });
 }
 template<class T1, class T2, class L, class R>
+inline
 constexpr auto operator/( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs, 
     boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) 
 {
         
     static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
-        "operator/() : LHS tensor and RHS tensor should have same value type"
+        "operator/() : LHS tensor and RHS tensor should have the same value type"
     );
 
     if constexpr( !std::is_same_v<T1,T2> ){
@@ -154,100 +284,111 @@ constexpr auto operator/( boost::numeric::ublas::detail::tensor_expression<T1,L>
         }
     }
 
-    return boost::numeric::ublas::detail::make_binary_tensor_expression<T1> (lhs(), rhs(), [](auto const& l, auto const& r){ return l / r; });
+    return boost::numeric::ublas::detail::make_binary_tensor_expression<T1> (lhs(), rhs(), std::divides<>{});
 }
 
 
 // Overloaded Arithmetic Operators with Scalars
 template<class T, class R>
-constexpr auto operator+(typename T::const_reference lhs, 
-    boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,R> const& rhs) 
+inline
+constexpr auto operator+(typename boost::numeric::ublas::tensor_core<T>::const_reference lhs, 
+    boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,R> const& rhs) noexcept
 {
-    using basic_tensor_type = boost::numeric::ublas::basic_tensor<T>;
-    return boost::numeric::ublas::detail::make_unary_tensor_expression<basic_tensor_type> (rhs(), [lhs](auto const& r){ return lhs + r; });
-    //return boost::numeric::ublas::detail::make_lambda<T>( [&lhs,&rhs](std::size_t i) {return lhs + rhs(i); } );
+    using tensor_core_type = boost::numeric::ublas::tensor_core<T>;
+    return boost::numeric::ublas::detail::make_unary_tensor_expression<tensor_core_type> (rhs(), [lhs](auto const& r){ return lhs + r; });
 }
 template<class T, class R>
-constexpr auto operator-(typename T::const_reference lhs, 
-    boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,R> const& rhs) 
+inline
+constexpr auto operator-(typename boost::numeric::ublas::tensor_core<T>::const_reference lhs, 
+    boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,R> const& rhs) noexcept
 {
-    using basic_tensor_type = boost::numeric::ublas::basic_tensor<T>;
-    return boost::numeric::ublas::detail::make_unary_tensor_expression<basic_tensor_type> (rhs(), [lhs](auto const& r){ return lhs - r; });
+    using tensor_core_type = boost::numeric::ublas::tensor_core<T>;
+    return boost::numeric::ublas::detail::make_unary_tensor_expression<tensor_core_type> (rhs(), [lhs](auto const& r){ return lhs - r; });
 }
 template<class T, class R>
-constexpr auto operator*(typename T::const_reference lhs, 
-    boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,R> const& rhs) 
+inline
+constexpr auto operator*(typename boost::numeric::ublas::tensor_core<T>::const_reference lhs, 
+    boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,R> const& rhs) noexcept
 {
-    using basic_tensor_type = boost::numeric::ublas::basic_tensor<T>;
-    return boost::numeric::ublas::detail::make_unary_tensor_expression<basic_tensor_type> (rhs(), [lhs](auto const& r){ return lhs * r; });
+    using tensor_core_type = boost::numeric::ublas::tensor_core<T>;
+    return boost::numeric::ublas::detail::make_unary_tensor_expression<tensor_core_type> (rhs(), [lhs](auto const& r){ return lhs * r; });
 }
 template<class T, class R>
-constexpr auto operator/(typename T::const_reference lhs, 
-    boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,R> const& rhs) 
+inline
+constexpr auto operator/(typename boost::numeric::ublas::tensor_core<T>::const_reference lhs, 
+    boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,R> const& rhs) noexcept
 {
-    using basic_tensor_type = boost::numeric::ublas::basic_tensor<T>;
-    return boost::numeric::ublas::detail::make_unary_tensor_expression<basic_tensor_type> (rhs(), [lhs](auto const& r){ return lhs / r; });
+    using tensor_core_type = boost::numeric::ublas::tensor_core<T>;
+    return boost::numeric::ublas::detail::make_unary_tensor_expression<tensor_core_type> (rhs(), [lhs](auto const& r){ return lhs / r; });
 }
 
 
 template<class T, class L>
-constexpr auto operator+(boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,L> const& lhs, 
-    typename T::const_reference rhs) 
+inline
+constexpr auto operator+(boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,L> const& lhs, 
+    typename boost::numeric::ublas::tensor_core<T>::const_reference rhs) noexcept
 {
-    using basic_tensor_type = boost::numeric::ublas::basic_tensor<T>;
-    return boost::numeric::ublas::detail::make_unary_tensor_expression<basic_tensor_type> (lhs(), [rhs] (auto const& l) { return l + rhs; } );
+    using tensor_core_type = boost::numeric::ublas::tensor_core<T>;
+    return boost::numeric::ublas::detail::make_unary_tensor_expression<tensor_core_type> (lhs(), [rhs] (auto const& l) { return l + rhs; } );
 }
 template<class T, class L>
-constexpr auto operator-(boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,L> const& lhs, 
-    typename T::const_reference rhs) 
+inline
+constexpr auto operator-(boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,L> const& lhs, 
+    typename boost::numeric::ublas::tensor_core<T>::const_reference rhs) noexcept
 {
-    using basic_tensor_type = boost::numeric::ublas::basic_tensor<T>;
-    return boost::numeric::ublas::detail::make_unary_tensor_expression<basic_tensor_type> (lhs(), [rhs] (auto const& l) { return l - rhs; } );
+    using tensor_core_type = boost::numeric::ublas::tensor_core<T>;
+    return boost::numeric::ublas::detail::make_unary_tensor_expression<tensor_core_type> (lhs(), [rhs] (auto const& l) { return l - rhs; } );
 }
 template<class T, class L>
-constexpr auto operator*(boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,L> const& lhs, 
-    typename T::const_reference rhs) 
+inline
+constexpr auto operator*(boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,L> const& lhs, 
+    typename boost::numeric::ublas::tensor_core<T>::const_reference rhs) noexcept
 {
-    using basic_tensor_type = boost::numeric::ublas::basic_tensor<T>;
-    return boost::numeric::ublas::detail::make_unary_tensor_expression<basic_tensor_type> (lhs(), [rhs] (auto const& l) { return l * rhs; } );
+    using tensor_core_type = boost::numeric::ublas::tensor_core<T>;
+    return boost::numeric::ublas::detail::make_unary_tensor_expression<tensor_core_type> (lhs(), [rhs] (auto const& l) { return l * rhs; } );
 }
 template<class T, class L>
-constexpr auto operator/(boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,L> const& lhs, 
-    typename T::const_reference rhs) 
+inline
+constexpr auto operator/(boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,L> const& lhs, 
+    typename boost::numeric::ublas::tensor_core<T>::const_reference rhs) noexcept
 {
-    using basic_tensor_type = boost::numeric::ublas::basic_tensor<T>;
-    return boost::numeric::ublas::detail::make_unary_tensor_expression<basic_tensor_type> (lhs(), [rhs] (auto const& l) { return l / rhs; } );
+    using tensor_core_type = boost::numeric::ublas::tensor_core<T>;
+    return boost::numeric::ublas::detail::make_unary_tensor_expression<tensor_core_type> (lhs(), [rhs] (auto const& l) { return l / rhs; } );
 }
 
 
 
 template<class T, class D>
-constexpr auto& operator += (boost::numeric::ublas::basic_tensor<T>& lhs, 
-    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,D> &expr) 
+inline
+constexpr auto& operator += (boost::numeric::ublas::tensor_core<T>& lhs, 
+    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> &expr)
 {
     boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l+=r; } );
     return lhs;
 }
 
 template<class T, class D>
-constexpr auto& operator -= (boost::numeric::ublas::basic_tensor<T>& lhs, 
-    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,D> &expr) 
+inline
+constexpr auto& operator -= (boost::numeric::ublas::tensor_core<T>& lhs, 
+    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> &expr)
 {
     boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l-=r; } );
     return lhs;
 }
 
 template<class T, class D>
-constexpr auto& operator *= (boost::numeric::ublas::basic_tensor<T>& lhs, 
-    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,D> &expr) 
+inline
+constexpr auto& operator *= (boost::numeric::ublas::tensor_core<T>& lhs, 
+    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> &expr)
 {
     boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l*=r; } );
     return lhs;
 }
 
 template<class T, class D>
-constexpr auto& operator /= (boost::numeric::ublas::basic_tensor<T>& lhs, 
-    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::basic_tensor<T>,D> &expr) 
+inline
+constexpr auto& operator /= (boost::numeric::ublas::tensor_core<T>& lhs, 
+    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> &expr)
 {
     boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l/=r; } );
     return lhs;
@@ -256,39 +397,38 @@ constexpr auto& operator /= (boost::numeric::ublas::basic_tensor<T>& lhs,
 
 
 
-template<class TensorType>
-constexpr auto& operator += (boost::numeric::ublas::basic_tensor<TensorType>& lhs, typename TensorType::const_reference r) {
-    static_assert( boost::numeric::ublas::is_valid_tensor_v<TensorType>, 
-        "boost::numeric::ublas::operator +=() : tensor type should be valid tensor"
-    );
+template<class TensorEngine>
+inline
+constexpr auto& operator += (boost::numeric::ublas::tensor_core<TensorEngine>& lhs, 
+    typename boost::numeric::ublas::tensor_core<TensorEngine>::const_reference r)
+{
     boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l+=r; } );
     return lhs;
 }
 
-template<typename TensorType>
-constexpr auto& operator -= (boost::numeric::ublas::basic_tensor<TensorType>& lhs, typename TensorType::const_reference r) {
-    static_assert( boost::numeric::ublas::is_valid_tensor_v<TensorType>, 
-        "boost::numeric::ublas::operator -=() : tensor type should be valid tensor"
-    );
+template<typename TensorEngine>
+inline
+constexpr auto& operator -= (boost::numeric::ublas::tensor_core<TensorEngine>& lhs, 
+    typename boost::numeric::ublas::tensor_core<TensorEngine>::const_reference r)
+{
     boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l-=r; } );
     return lhs;
 }
 
-template<typename TensorType>
-constexpr auto& operator *= (boost::numeric::ublas::basic_tensor<TensorType>& lhs, typename TensorType::const_reference r) {
-    static_assert( boost::numeric::ublas::is_valid_tensor_v<TensorType>, 
-        "boost::numeric::ublas::operator *=() : tensor type should be valid tensor"
-    );
+template<typename TensorEngine>
+inline
+constexpr auto& operator *= (boost::numeric::ublas::tensor_core<TensorEngine>& lhs, 
+    typename boost::numeric::ublas::tensor_core<TensorEngine>::const_reference r)
+{
     boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l*=r; } );
     return lhs;
 }
 
-template<typename TensorType>
-constexpr auto& operator /= (boost::numeric::ublas::basic_tensor<TensorType>& lhs, typename TensorType::const_reference r) {
-    static_assert( boost::numeric::ublas::is_valid_tensor_v<TensorType>, 
-        "boost::numeric::ublas::operator /=() : tensor type should be valid tensor"
-    );
-    boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l/=r; } );
+template<typename TensorEngine>
+constexpr auto& operator /= (boost::numeric::ublas::tensor_core<TensorEngine>& lhs, 
+    typename boost::numeric::ublas::tensor_core<TensorEngine>::const_reference r)
+{
+    boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l/=r; } );    
     return lhs;
 }
 
@@ -298,13 +438,15 @@ constexpr auto& operator /= (boost::numeric::ublas::basic_tensor<TensorType>& lh
 
 
 template<class T, class D>
-constexpr auto const& operator +(const boost::numeric::ublas::detail::tensor_expression<T,D>& lhs) {
+inline
+constexpr auto const& operator +(const boost::numeric::ublas::detail::tensor_expression<T,D>& lhs) noexcept{
     return lhs;
 }
 
 template<class T, class D>
+inline
 constexpr auto operator -(boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs) {
-    return boost::numeric::ublas::detail::make_unary_tensor_expression<T> (lhs(), [] (auto const& l) { return -l; } );
+    return boost::numeric::ublas::detail::make_unary_tensor_expression<T> (lhs(), std::negate<>{} );
 }
 
 

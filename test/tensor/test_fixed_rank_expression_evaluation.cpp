@@ -7,7 +7,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Google
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
@@ -20,13 +20,13 @@
 
 BOOST_AUTO_TEST_SUITE(test_fixed_rank_tensor_expression);
 
-using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
+using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 
 struct fixture
 {
     template<size_t N>
-    using extents_type = boost::numeric::ublas::dynamic_extents<N>;
+    using extents_type = boost::numeric::ublas::extents<N>;
 
     std::tuple<
         extents_type<0>, // 0
@@ -68,7 +68,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
     for_each_tuple(extents, [&](auto const&, auto & e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
-        using basic_tensor_type = typename tensor_type::super_type;
+        
 
         auto t = tensor_type(e);
         auto v = value_type{};
@@ -79,26 +79,26 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
 
         // uexpr1 = t+1
         // uexpr2 = 2+t
-        auto uexpr1 = ublas::detail::make_unary_tensor_expression<basic_tensor_type>( t, uplus1 );
-        auto uexpr2 = ublas::detail::make_unary_tensor_expression<basic_tensor_type>( t, uplus2 );
+        auto uexpr1 = ublas::detail::make_unary_tensor_expression<tensor_type>( t, uplus1 );
+        auto uexpr2 = ublas::detail::make_unary_tensor_expression<tensor_type>( t, uplus2 );
 
         BOOST_CHECK( ublas::detail::retrieve_extents( uexpr1 ) == e );
         BOOST_CHECK( ublas::detail::retrieve_extents( uexpr2 ) == e );
 
         // bexpr_uexpr = (t+1) + (2+t)
-        auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<basic_tensor_type>( uexpr1, uexpr2, bplus );
+        auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type>( uexpr1, uexpr2, bplus );
 
         BOOST_CHECK( ublas::detail::retrieve_extents( bexpr_uexpr ) == e );
 
 
         // bexpr_bexpr_uexpr = ((t+1) + (2+t)) - t
-        auto bexpr_bexpr_uexpr = ublas::detail::make_binary_tensor_expression<basic_tensor_type>( bexpr_uexpr, t, bminus );
+        auto bexpr_bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type>( bexpr_uexpr, t, bminus );
 
         BOOST_CHECK( ublas::detail::retrieve_extents( bexpr_bexpr_uexpr ) == e );
 
     });
 
-    for_each_tuple(extents, [&](auto const& I, auto& e1){
+    for_each_tuple(extents, [&](auto I, auto& e1){
 
         if ( I >= std::tuple_size_v<decltype(extents)> - 1 ){
             return;
@@ -106,16 +106,15 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
         
         using extents_type1 = std::decay_t<decltype(e1)>;
         using tensor_type1 = ublas::fixed_rank_tensor<value_type, extents_type1::_size, layout_type>;
-        using basic_tensor_type1 = typename tensor_type1::super_type;
 
-        for_each_tuple(extents, [&](auto const& J, auto& e2){
+        for_each_tuple(extents, [&](auto J, auto& e2){
+
             if( J != I + 1 ){
                 return;
             }
 
             using extents_type2 = std::decay_t<decltype(e2)>;
             using tensor_type2 = ublas::fixed_rank_tensor<value_type, extents_type2::_size, layout_type>;
-            using basic_tensor_type2 = typename tensor_type2::super_type;
 
             auto v = value_type{};
 
@@ -129,8 +128,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
 
             // uexpr1 = t1+1
             // uexpr2 = 2+t2
-            auto uexpr1 = ublas::detail::make_unary_tensor_expression<basic_tensor_type1>( t1, uplus1 );
-            auto uexpr2 = ublas::detail::make_unary_tensor_expression<basic_tensor_type2>( t2, uplus2 );
+            auto uexpr1 = ublas::detail::make_unary_tensor_expression<tensor_type1>( t1, uplus1 );
+            auto uexpr2 = ublas::detail::make_unary_tensor_expression<tensor_type2>( t2, uplus2 );
 
             BOOST_CHECK( ublas::detail::retrieve_extents( t1 )     == ublas::detail::retrieve_extents( uexpr1 ) );
             BOOST_CHECK( ublas::detail::retrieve_extents( t2 )     == ublas::detail::retrieve_extents( uexpr2 ) );
@@ -138,19 +137,19 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
 
             if constexpr( extents_type1::_size == extents_type2::_size ){
                 // bexpr_uexpr = (t1+1) + (2+t2)
-                auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<basic_tensor_type1>( uexpr1, uexpr2, bplus );
+                auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type1>( uexpr1, uexpr2, bplus );
 
                 BOOST_CHECK( ublas::detail::retrieve_extents( bexpr_uexpr ) == ublas::detail::retrieve_extents(t1) );
 
 
                 // bexpr_bexpr_uexpr = ((t1+1) + (2+t2)) - t2
-                auto bexpr_bexpr_uexpr1 = ublas::detail::make_binary_tensor_expression<basic_tensor_type1>( bexpr_uexpr, t2, bminus );
+                auto bexpr_bexpr_uexpr1 = ublas::detail::make_binary_tensor_expression<tensor_type1>( bexpr_uexpr, t2, bminus );
 
                 BOOST_CHECK( ublas::detail::retrieve_extents( bexpr_bexpr_uexpr1 ) == ublas::detail::retrieve_extents(t2) );
 
 
                 // bexpr_bexpr_uexpr = t2 - ((t1+1) + (2+t2))
-                auto bexpr_bexpr_uexpr2 = ublas::detail::make_binary_tensor_expression<basic_tensor_type1>( t2, bexpr_uexpr, bminus );
+                auto bexpr_bexpr_uexpr2 = ublas::detail::make_binary_tensor_expression<tensor_type1>( t2, bexpr_uexpr, bminus );
 
                 BOOST_CHECK( ublas::detail::retrieve_extents( bexpr_bexpr_uexpr2 ) == ublas::detail::retrieve_extents(t2) );
             }
@@ -179,7 +178,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
     for_each_tuple(extents, [&](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
-        using basic_tensor_type = typename tensor_type::super_type;
+        
 
         auto t = tensor_type(e);
         auto v = value_type{};
@@ -191,27 +190,27 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
 
         // uexpr1 = t+1
         // uexpr2 = 2+t
-        auto uexpr1 = ublas::detail::make_unary_tensor_expression<basic_tensor_type>( t, uplus1 );
-        auto uexpr2 = ublas::detail::make_unary_tensor_expression<basic_tensor_type>( t, uplus2 );
+        auto uexpr1 = ublas::detail::make_unary_tensor_expression<tensor_type>( t, uplus1 );
+        auto uexpr2 = ublas::detail::make_unary_tensor_expression<tensor_type>( t, uplus2 );
 
         BOOST_CHECK( ublas::detail::all_extents_equal( uexpr1, e ) );
         BOOST_CHECK( ublas::detail::all_extents_equal( uexpr2, e ) );
 
         // bexpr_uexpr = (t+1) + (2+t)
-        auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<basic_tensor_type>( uexpr1, uexpr2, bplus );
+        auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type>( uexpr1, uexpr2, bplus );
 
         BOOST_CHECK( ublas::detail::all_extents_equal( bexpr_uexpr, e ) );
 
 
         // bexpr_bexpr_uexpr = ((t+1) + (2+t)) - t
-        auto bexpr_bexpr_uexpr = ublas::detail::make_binary_tensor_expression<basic_tensor_type>( bexpr_uexpr, t, bminus );
+        auto bexpr_bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type>( bexpr_uexpr, t, bminus );
 
         BOOST_CHECK( ublas::detail::all_extents_equal( bexpr_bexpr_uexpr , e ) );
 
     });
 
 
-    for_each_tuple(extents, [&](auto const& I, auto& e1){
+    for_each_tuple(extents, [&](auto I, auto& e1){
 
         if ( I >= std::tuple_size_v<decltype(extents)> - 1){
             return;
@@ -219,16 +218,15 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
         
         using extents_type1 = std::decay_t<decltype(e1)>;
         using tensor_type1 = ublas::fixed_rank_tensor<value_type, extents_type1::_size, layout_type>;
-        using basic_tensor_type1 = typename tensor_type1::super_type;
 
-        for_each_tuple(extents, [&](auto const& J, auto& e2){
+        for_each_tuple(extents, [&](auto J, auto& e2){
+
             if( J != I + 1 ){
                 return;
             }
 
             using extents_type2 = std::decay_t<decltype(e2)>;
             using tensor_type2 = ublas::fixed_rank_tensor<value_type, extents_type2::_size, layout_type>;
-            using basic_tensor_type2 = typename tensor_type2::super_type;
 
             auto v = value_type{};
 
@@ -243,40 +241,40 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
 
             // uexpr1 = t1+1
             // uexpr2 = 2+t2
-            auto uexpr1 = ublas::detail::make_unary_tensor_expression<basic_tensor_type1>( t1, uplus1 );
-            auto uexpr2 = ublas::detail::make_unary_tensor_expression<basic_tensor_type2>( t2, uplus2 );
+            auto uexpr1 = ublas::detail::make_unary_tensor_expression<tensor_type1>( t1, uplus1 );
+            auto uexpr2 = ublas::detail::make_unary_tensor_expression<tensor_type2>( t2, uplus2 );
 
             BOOST_CHECK( ublas::detail::all_extents_equal( uexpr1, ublas::detail::retrieve_extents(uexpr1) ) );
             BOOST_CHECK( ublas::detail::all_extents_equal( uexpr2, ublas::detail::retrieve_extents(uexpr2) ) );
 
             if constexpr( extents_type1::_size == extents_type2::_size ){
                 // bexpr_uexpr = (t1+1) + (2+t2)
-                auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<basic_tensor_type1>( uexpr1, uexpr2, bplus );
+                auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type1>( uexpr1, uexpr2, bplus );
 
                 BOOST_CHECK( ! ublas::detail::all_extents_equal( bexpr_uexpr, ublas::detail::retrieve_extents( bexpr_uexpr  ) ) );
 
                 // bexpr_bexpr_uexpr = ((t1+1) + (2+t2)) - t2
-                auto bexpr_bexpr_uexpr1 = ublas::detail::make_binary_tensor_expression<basic_tensor_type1>( bexpr_uexpr, t2, bminus );
+                auto bexpr_bexpr_uexpr1 = ublas::detail::make_binary_tensor_expression<tensor_type1>( bexpr_uexpr, t2, bminus );
 
                 BOOST_CHECK( ! ublas::detail::all_extents_equal( bexpr_bexpr_uexpr1, ublas::detail::retrieve_extents( bexpr_bexpr_uexpr1  ) ) );
 
                 // bexpr_bexpr_uexpr = t2 - ((t1+1) + (2+t2))
-                auto bexpr_bexpr_uexpr2 = ublas::detail::make_binary_tensor_expression<basic_tensor_type1>( t2, bexpr_uexpr, bminus );
+                auto bexpr_bexpr_uexpr2 = ublas::detail::make_binary_tensor_expression<tensor_type1>( t2, bexpr_uexpr, bminus );
 
                 BOOST_CHECK( ! ublas::detail::all_extents_equal( bexpr_bexpr_uexpr2, ublas::detail::retrieve_extents( bexpr_bexpr_uexpr2  ) ) );
 
 
                 // bexpr_uexpr2 = (t1+1) + t2
-                auto bexpr_uexpr2 = ublas::detail::make_binary_tensor_expression<basic_tensor_type1>( uexpr1, t2, bplus );
+                auto bexpr_uexpr2 = ublas::detail::make_binary_tensor_expression<tensor_type1>( uexpr1, t2, bplus );
                 BOOST_CHECK( ! ublas::detail::all_extents_equal( bexpr_uexpr2, ublas::detail::retrieve_extents( bexpr_uexpr2  ) ) );
 
 
                 // bexpr_uexpr2 = ((t1+1) + t2) + t1
-                auto bexpr_bexpr_uexpr3 = ublas::detail::make_binary_tensor_expression<basic_tensor_type1>( bexpr_uexpr2, t1, bplus );
+                auto bexpr_bexpr_uexpr3 = ublas::detail::make_binary_tensor_expression<tensor_type1>( bexpr_uexpr2, t1, bplus );
                 BOOST_CHECK( ! ublas::detail::all_extents_equal( bexpr_bexpr_uexpr3, ublas::detail::retrieve_extents( bexpr_bexpr_uexpr3  ) ) );
 
                 // bexpr_uexpr2 = t1 + (((t1+1) + t2) + t1)
-                auto bexpr_bexpr_uexpr4 = ublas::detail::make_binary_tensor_expression<basic_tensor_type1>( t1, bexpr_bexpr_uexpr3, bplus );
+                auto bexpr_bexpr_uexpr4 = ublas::detail::make_binary_tensor_expression<tensor_type1>( t1, bexpr_bexpr_uexpr3, bplus );
                 BOOST_CHECK( ! ublas::detail::all_extents_equal( bexpr_bexpr_uexpr4, ublas::detail::retrieve_extents( bexpr_bexpr_uexpr4  ) ) );
             }
 

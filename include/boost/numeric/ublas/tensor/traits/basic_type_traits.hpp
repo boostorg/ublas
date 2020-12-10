@@ -7,7 +7,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Google
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 #ifndef BOOST_UBLAS_TENSOR_BASIC_TYPE_TRAITS_HPP
@@ -60,6 +60,6 @@ struct is_static_rank : std::false_type {};
 template <class E> 
 inline static constexpr bool const is_static_rank_v = is_static_rank<E>::value;
 
-} // namespace boost::numeric::ublas::detail
+} // namespace boost::numeric::ublas
 
 #endif

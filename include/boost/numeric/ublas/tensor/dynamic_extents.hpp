@@ -19,7 +19,7 @@
 #include <stdexcept>
 #include <vector>
 #include <boost/numeric/ublas/tensor/type_traits.hpp>
-#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
+#include <boost/numeric/ublas/tensor/extents_functions.hpp>
 
 namespace boost {
 namespace numeric {
@@ -44,16 +44,14 @@ public:
     using size_type = typename base_type::size_type;
     using const_pointer = typename base_type::const_pointer;
     using const_iterator = typename base_type::const_iterator;
+    using const_reverse_iterator = typename base_type::const_reverse_iterator;
 
 
     /** @brief Default constructs basic_extents
      *
      * @code auto ex = basic_extents<unsigned>{};
      */
-    basic_extents()
-      : _base{}
-    {
-    }
+    constexpr basic_extents() = default;
 
     /** @brief Copy constructs basic_extents from a one-dimensional container
      *
@@ -61,28 +59,12 @@ public:
      *
      * @note checks if size > 1 and all elements > 0
      *
-     * @param b one-dimensional std::vector<int_type> container
-     */
-    explicit basic_extents(base_type const& b)
-      : _base(b)
-    {
-        if ( !valid(*this) ){
-            throw std::length_error("Error in basic_extents::basic_extents() : shape tuple is not a valid permutation: has zero elements.");
-        }
-    }
-
-    /** @brief Move constructs basic_extents from a one-dimensional container
-     *
-     * @code auto ex = basic_extents<unsigned>(  std::vector<unsigned>(3u,3u) );
-     *
-     * @note checks if size > 1 and all elements > 0
-     *
      * @param b one-dimensional container of type std::vector<int_type>
      */
-    explicit basic_extents(base_type && b)
+    explicit basic_extents(base_type b)
       : _base(std::move(b))
     {
-        if (!valid(*this)){
+        if (!is_valid(*this)){
             throw std::length_error("Error in basic_extents::basic_extents() : shape tuple is not a valid permutation: has zero elements.");
         }
     }
@@ -109,55 +91,64 @@ public:
      * @param first iterator pointing to the first element
      * @param last iterator pointing to the next position after the last element
      */
-    basic_extents(const_iterator first, const_iterator last)
+    constexpr basic_extents(const_iterator first, const_iterator last)
       : basic_extents ( base_type( first,last ) )
     {
     }
 
     /** @brief Copy constructs basic_extents */
-    basic_extents(basic_extents const& l )
+    constexpr basic_extents(basic_extents const& l )
       : _base(l._base)
     {
     }
 
     /** @brief Move constructs basic_extents */
-    basic_extents(basic_extents && l ) noexcept
+    constexpr basic_extents(basic_extents && l ) noexcept
       : _base(std::move(l._base))
     {
     }
 
 
-    template<typename OtherExtentsType,
-        std::enable_if_t< 
-            is_extents<OtherExtentsType>::value
-            ,int > = 0
-    >
-    basic_extents(OtherExtentsType const& e)
+    template<typename OtherExtents>
+    constexpr basic_extents(OtherExtents const& e)
         : _base(e.size())
     {
+        static_assert( is_extents_v<OtherExtents>, "boost::numeric::ublas::basic_extents(OtherExtents const&) : " 
+            "OtherExtents should be a valid tensor extents"
+        );
         std::copy(e.begin(),e.end(), _base.begin());
     }
 
     ~basic_extents() = default;
 
-    basic_extents& operator=(basic_extents other) noexcept
+    constexpr basic_extents& operator=(basic_extents && other)
+        noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);
         return *this;
     }
+    constexpr basic_extents& operator=(basic_extents const& other) 
+        noexcept(std::is_nothrow_swappable_v<base_type>)
+    {
+        basic_extents temp(other);
+        swap (*this, temp);
+        return *this;
+    }
 
-    friend void swap(basic_extents& lhs, basic_extents& rhs) {
+    friend void swap(basic_extents& lhs, basic_extents& rhs) 
+        noexcept(std::is_nothrow_swappable_v<base_type>)
+    {
         std::swap(lhs._base   , rhs._base   );
     }
 
     [[nodiscard]] inline
-    constexpr const_pointer data() const
+    constexpr const_pointer data() const noexcept
     {
         return this->_base.data();
     }
 
     [[nodiscard]] inline
-    constexpr const_reference operator[] (size_type p) const noexcept
+    constexpr const_reference operator[] (size_type p) const
     {
         return this->_base[p];
     }
@@ -188,43 +179,57 @@ public:
 
 
     [[nodiscard]] inline
-    constexpr bool empty() const
+    constexpr bool empty() const noexcept
     {
         return this->_base.empty();
     }
 
     [[nodiscard]] inline
-    constexpr size_type size() const
+    constexpr size_type size() const noexcept
     {
         return this->_base.size();
     }
 
     inline
-    constexpr void clear()
+    constexpr void clear() noexcept
     {
         this->_base.clear();
     }
 
     [[nodiscard]] inline
     constexpr const_iterator
-    begin() const
+    begin() const noexcept
     {
         return _base.begin();
     }
 
     [[nodiscard]] inline
     constexpr const_iterator
-    end() const
+    end() const noexcept
     {
         return _base.end();
     }
 
     [[nodiscard]] inline
-    constexpr base_type const& base() const { return _base; }
+    constexpr const_reverse_iterator
+    rbegin() const noexcept
+    {
+        return _base.rbegin();
+    }
+
+    [[nodiscard]] inline
+    constexpr const_reverse_iterator
+    rend() const noexcept
+    {
+        return _base.rend();
+    }
+
+    [[nodiscard]] inline
+    constexpr base_type const& base() const noexcept { return _base; }
 
 private:
 
-    base_type _base;
+    base_type _base{};
 
 };
 

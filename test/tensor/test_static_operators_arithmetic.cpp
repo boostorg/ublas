@@ -7,7 +7,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Google
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE(test_static_tensor_arithmetic_operations)
 
 using double_extended = boost::multiprecision::cpp_bin_float_double_extended;
 
-using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
+using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 struct fixture
 {

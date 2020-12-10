@@ -42,6 +42,12 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y clang-10
+    
+    - name: Install Clang 6
+      if: matrix.config.cxx == 'clang++-6.0'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-6.0
       
     - name: Prepare BOOST_ROOT
       run: |

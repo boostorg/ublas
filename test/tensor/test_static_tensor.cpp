@@ -7,13 +7,13 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Google
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
 
 #include <random>
-#include <boost/numeric/ublas/tensor.hpp> 
+#include <boost/numeric/ublas/tensor.hpp>
 
 #ifndef BOOST_TEST_DYN_LINK
 #define BOOST_TEST_DYN_LINK 
@@ -26,7 +26,7 @@
 
 BOOST_AUTO_TEST_SUITE ( test_static_tensor )
 
-using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
+using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_ctor, value,  test_types)
@@ -142,7 +142,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor_layout, value,  test_typ
     using namespace boost::numeric;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using other_layout_type = std::conditional_t<std::is_same<ublas::first_order,layout_type>::value, ublas::last_order, ublas::first_order>;
+    using other_layout_type = std::conditional_t<std::is_same<ublas::layout::first_order,layout_type>::value, ublas::layout::last_order, ublas::layout::first_order>;
 
 
     for_each_tuple(extents, [](auto const&, auto& e){
@@ -294,8 +294,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
     auto check2 = [](const auto& t)
     {
         std::array<unsigned,2> k;
-        auto r = std::is_same<layout_type,ublas::first_order>::value ? 1 : 0;
-        auto q = std::is_same<layout_type,ublas::last_order >::value ? 1 : 0;
+        auto r = std::is_same<layout_type,ublas::layout::first_order>::value ? 1 : 0;
+        auto q = std::is_same<layout_type,ublas::layout::last_order >::value ? 1 : 0;
         auto v = value_type{};
         for(k[r] = 0ul; k[r] < t.size(r); ++k[r]){
             for(k[q] = 0ul; k[q] < t.size(q); ++k[q]){
@@ -308,8 +308,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
     auto check3 = [](const auto& t)
     {
         std::array<unsigned,3> k;
-        using op_type = std::conditional_t<std::is_same_v<layout_type,ublas::first_order>, std::minus<>, std::plus<>>;
-        auto r = std::is_same_v<layout_type,ublas::first_order> ? 2 : 0;
+        using op_type = std::conditional_t<std::is_same_v<layout_type,ublas::layout::first_order>, std::minus<>, std::plus<>>;
+        auto r = std::is_same_v<layout_type,ublas::layout::first_order> ? 2 : 0;
         auto o = op_type{};
         auto v = value_type{};
         for(k[r] = 0ul; k[r] < t.size(r); ++k[r]){
@@ -325,8 +325,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
     auto check4 = [](const auto& t)
     {
         std::array<unsigned,4> k;
-        using op_type = std::conditional_t<std::is_same_v<layout_type,ublas::first_order>, std::minus<>, std::plus<>>;
-        auto r = std::is_same_v<layout_type,ublas::first_order> ? 3 : 0;
+        using op_type = std::conditional_t<std::is_same_v<layout_type,ublas::layout::first_order>, std::minus<>, std::plus<>>;
+        auto r = std::is_same_v<layout_type,ublas::layout::first_order> ? 3 : 0;
         auto o = op_type{};
         auto v = value_type{};
         for(k[r] = 0ul; k[r] < t.size(r); ++k[r]){
@@ -397,7 +397,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_throw, value, test_types, fixture)
 
   auto t = tensor_type{};
   auto i = ublas::index::index_type<4>{};
-  BOOST_CHECK_THROW(t.operator()(i,i,i), std::runtime_error);
+  BOOST_CHECK_THROW((void)t.operator()(i,i,i), std::runtime_error);
 
 }
 

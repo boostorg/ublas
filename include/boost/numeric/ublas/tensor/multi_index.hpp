@@ -93,9 +93,10 @@ auto array_to_vector(multi_index<M> const& lhs, multi_index<N> const& rhs)
 
     for(auto i = 0u; i < N; ++i)
         for(auto j = 0u; j < M; ++j)
-            if ( lhs.at(i) == rhs.at(j) && lhs.at(i) != boost::numeric::ublas::index::_())
-                (void)pair_of_vector.first .push_back( i+1 ),
-                    pair_of_vector.second.push_back( j+1 );
+            if ( lhs.at(i) == rhs.at(j) && lhs.at(i) != boost::numeric::ublas::index::_()){
+                pair_of_vector.first .push_back( i+1 );
+                pair_of_vector.second.push_back( j+1 );
+            }
 
     return pair_of_vector;
 }

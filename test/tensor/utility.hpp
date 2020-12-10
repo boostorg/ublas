@@ -117,10 +117,10 @@ using inner_type_t = typename inner_type<T>::type;
 
 
 // creates e.g.
-// using test_types = zip<long,float>::with_t<first_order,last_order>; // equals
-// using test_types = std::tuple< std::pair<float, first_order>, std::pair<float, last_order >, std::pair<double,first_order>, std::pair<double,last_order >
+// using test_types = zip<long,float>::with_t<layout::first_order,layout::last_order>; // equals
+// using test_types = std::tuple< std::pair<float, layout::first_order>, std::pair<float, layout::last_order >, std::pair<double,layout::first_order>, std::pair<double,layout::last_order >
 //>;
 //static_assert(std::is_same< std::tuple_element_t<0,std::tuple_element_t<0,test_types2>>, float>::value,"should be float ");
-//static_assert(std::is_same< std::tuple_element_t<1,std::tuple_element_t<0,test_types2>>, boost::numeric::ublas::first_order>::value,"should be boost::numeric::ublas::first_order ");
+//static_assert(std::is_same< std::tuple_element_t<1,std::tuple_element_t<0,test_types2>>, boost::numeric::ublas::layout::first_order>::value,"should be boost::numeric::ublas::layout::first_order ");
 
 #endif

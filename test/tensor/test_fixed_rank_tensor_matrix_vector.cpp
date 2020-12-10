@@ -7,7 +7,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Google
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
@@ -21,7 +21,7 @@
 
 BOOST_AUTO_TEST_SUITE ( test_fixed_rank_tensor_matrix_interoperability ) ;
 
-using test_types = zip<int,float>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
+using test_types = zip<int,float>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor, value,  test_types)
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor, value,  test_types)
 struct fixture
 {
     template<size_t N>
-    using extents_type = boost::numeric::ublas::dynamic_extents<N>;
+    using extents_type = boost::numeric::ublas::extents<N>;
 
     std::tuple<
         extents_type<2>, // 0

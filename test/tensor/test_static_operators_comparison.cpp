@@ -7,7 +7,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Google
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_SUITE(test_static_tensor_comparison)
 
 using double_extended = boost::multiprecision::cpp_bin_float_double_extended;
 
-using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
+using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 struct fixture {
     template<size_t... N>
@@ -191,7 +191,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 
     };
 
-for_each_tuple(extents,check);
+    for_each_tuple(extents,check);
 
 }
 

@@ -7,7 +7,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Google
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_STRIDES_HPP
@@ -15,16 +15,15 @@
 
 namespace boost::numeric::ublas {
 
-    // checks if type is strides or not
+    /// @brief checks if the type is tensor strides or not
     template <class E>
     struct is_strides : std::false_type {};
 
     template <class E>
     inline static constexpr bool const is_strides_v = is_strides<E>::value;
 
-    namespace detail{
-        template <class Layout, class T> struct strides_impl;
-    } // detail
+    template<typename ExtentsType>
+    struct strides;
 
     /** @brief type alias of result of strides::type
      *
@@ -34,12 +33,12 @@ namespace boost::numeric::ublas {
      *
      */
     template <class E, class Layout>
-    using strides_t = typename detail::strides_impl<E, Layout>::type;
+    using strides_t = typename strides<E>::template type<Layout>;
 
-} // namespace boost::numeric::ublas::detail
+} // namespace boost::numeric::ublas
 
-#include <boost/numeric/ublas/tensor/detail/type_traits_static_strides.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits_dynamic_strides.hpp>
-#include <boost/numeric/ublas/tensor/detail/type_traits_fixed_rank_strides.hpp>
+#include <boost/numeric/ublas/tensor/traits/type_traits_static_strides.hpp>
+#include <boost/numeric/ublas/tensor/traits/type_traits_dynamic_strides.hpp>
+#include <boost/numeric/ublas/tensor/traits/type_traits_fixed_rank_strides.hpp>
 
 #endif

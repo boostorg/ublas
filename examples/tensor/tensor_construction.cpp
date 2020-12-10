@@ -23,52 +23,52 @@ int main() {
 
     /** tensor initialization using type deduction 
      * Storage Type: std::vector
-     * Layout: first_order
+     * Layout: layout::first_order
      * Initial Value: 0
     **/
     auto tensor_dynamic_extents_and_dynamic_rank_0  = ub::dynamic_tensor<value_type>{1,2,3,4};
     
     /** Dynamic extents but static rank
      * Storage Type: std::array of static rank
-     * Layout: first_order
+     * Layout: layout::first_order
      * Initial Value: 0
     **/
-    auto tensor_dynamic_extents_and_static_rank_1   = ub::fixed_rank_tensor<value_type,4>{ub::dynamic_extents<4>{1,2,3,4}};
+    auto tensor_dynamic_extents_and_static_rank_1   = ub::fixed_rank_tensor<value_type,4>{ub::extents<4>{1,2,3,4}};
 
     /** Dynamic extents but dynamic rank
      * Storage Type: std::vector
-     * Layout: first_order
+     * Layout: layout::first_order
      * Initial Value: 0
     **/
-    auto tensor_dynamic_extents_and_dynamic_rank_2  = ub::dynamic_tensor<value_type>{ub::dynamic_extents<>{1,2,3,4}};
+    auto tensor_dynamic_extents_and_dynamic_rank_2  = ub::dynamic_tensor<value_type>{ub::extents<>{1,2,3,4}};
 
     /** Dynamic extents but dynamic rank
      * Storage Type: std::vector
-     * Layout: first_order
+     * Layout: layout::first_order
      * Initial Value: 0.1f
     **/
-    auto tensor_dynamic_extents_and_dynamic_rank_3  = ub::dynamic_tensor<value_type>{ub::dynamic_extents<>{1,2,3,4},0.1};
+    auto tensor_dynamic_extents_and_dynamic_rank_3  = ub::dynamic_tensor<value_type>{ub::extents<>{1,2,3,4},0.1};
 
     /** Static extents but static rank
      * Storage Type: std::array
-     * Layout: first_order
+     * Layout: layout::first_order
      * Initial Value: 0
     **/
     auto tensor_static_extents_and_static_rank_4    = ub::static_tensor<value_type,ub::static_extents<1,2,3,4>>();
 
     /** Static extents but static rank
      * Storage Type: std::array
-     * Layout: first_order
+     * Layout: layout::first_order
      * Initial Value: 0
     **/
-    auto tensor_static_extents_and_static_rank_5    = ub::static_tensor<value_type,ub::static_extents<1,2,3,4>,ub::first_order>();
+    auto tensor_static_extents_and_static_rank_5    = ub::static_tensor<value_type,ub::static_extents<1,2,3,4>,ub::layout::first_order>();
 
     /** Dynamic extents but dynamic rank
      * Storage Type: std::array
-     * Layout: first_order
+     * Layout: layout::first_order
      * Initial Value: 0
     **/
-    auto tensor_dynamic_extents_and_dynamic_rank_6  = ub::dynamic_tensor<value_type,ub::first_order>{1,2,3,4};
+    auto tensor_dynamic_extents_and_dynamic_rank_6  = ub::dynamic_tensor<value_type,ub::layout::first_order>{1,2,3,4};
 
     auto t1_e = tensor_dynamic_extents_and_dynamic_rank_0.extents();
     auto t2_e = tensor_dynamic_extents_and_static_rank_1.extents();

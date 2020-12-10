@@ -7,7 +7,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Google
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 /// \file strides.hpp Definition for the basic_strides template class
 
@@ -28,7 +28,7 @@ namespace boost::numeric::ublas{
   [[nodiscard]] inline
   constexpr bool operator==(LStrides const& lhs, RStrides const& rhs) noexcept{
     static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
-      "boost::numeric::ublas::operator==(LStrides,RStrides) : LHS value type should be same as RHS value type");
+      "boost::numeric::ublas::operator==(LStrides,RStrides) : LHS value type should be the same as the RHS value type");
 
     return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
@@ -41,7 +41,7 @@ namespace boost::numeric::ublas{
   [[nodiscard]] inline
   constexpr bool operator!=(LStrides const& lhs, RStrides const& rhs) noexcept{
     static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
-      "boost::numeric::ublas::operator!=(LStrides,RStrides) : LHS value type should be same as RHS value type");
+      "boost::numeric::ublas::operator!=(LStrides,RStrides) : LHS value type should be the same as the RHS value type");
     return !( lhs == rhs );
   }
   
@@ -58,40 +58,40 @@ namespace boost::numeric::ublas::detail {
    * @param[in] w stride vector of length p
    * @returns relative memory location depending on \c i and \c w
   */
-  template<class Stride, class size_type = typename Stride::size_type >
+  template<class Stride>
   [[nodiscard]] inline
-  constexpr auto access(std::vector<size_type> const& i, Stride const& w)
+  constexpr auto access(std::vector<typename Stride::value_type> const& i, Stride const& w)
   {
     static_assert( is_strides_v<Stride>, 
-      "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
-
-    const auto p = i.size();
-    size_type sum = 0u;
-    for(auto r = 0u; r < p; ++r)
-      sum += i[r]*w[r];
-    return sum;
+      "boost::numeric::ublas::detail::access() : invalid type, the type should be a strides");
+    
+    using value_type = typename Stride::value_type;
+    return std::inner_product(i.begin(), i.end(), w.begin(), value_type{});
   }
 
   /** @brief Returns relative memory index with respect to a multi-index
    *
-   * @code auto j = access(0, strides{shape{4,2,3},first_order}, 2,3,4); @endcode
+   * @code auto j = access(strides{shape{4,2,3},first_order}, 2,3,4); @endcode
    *
-   * @param[in] i   first element of the partial multi-index
-   * @param[in] is  the following elements of the partial multi-index
+   * @param[in] is  the elements of the partial multi-index
    * @param[in] sum the current relative memory index
    * @returns relative memory location depending on \c i and \c w
   */
-  template<std::size_t r, class Stride, class ... size_types>
-  [[nodiscard]]
-  constexpr auto access(std::size_t sum, Stride const& w, std::size_t i, size_types ... is)
+  template<class Stride, class ... Indices>
+  [[nodiscard]] inline
+  constexpr auto access(Stride const& w, Indices ... is)
   { 
     static_assert( is_strides_v<Stride>, 
-      "boost::numeric::ublas::detail::access() : invalid type, type should be a strides");
-    sum += i*w[r];
-    if constexpr (sizeof...(is) == 0)
-      return sum;
-    else
-      return detail::access<r+1>(sum,w,std::forward<size_types>(is)...);
+      "boost::numeric::ublas::detail::access() : invalid type, the type should be a strides");
+    
+    if constexpr( is_static_rank_v<Stride> ){
+      static_assert( Stride::_size >= sizeof...(is), 
+        "boost::numeric::ublas::detail::access() : number of indices exceeds the size of the stride");
+    }
+
+    using value_type = typename Stride::value_type;
+    std::array<value_type, sizeof...(is)> i = {is...};
+    return std::inner_product(i.begin(), i.end(), w.begin(), value_type{});
   }
 
 } // namespace boost::numeric::ublas::detail

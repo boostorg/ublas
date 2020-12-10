@@ -7,17 +7,17 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 //  The authors gratefully acknowledge the support of
-//  Google
+//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_FIXED_RANK_EXTENTS_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_FIXED_RANK_EXTENTS_HPP
 
-#include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
+#include <boost/numeric/ublas/tensor/traits/basic_type_traits.hpp>
 
 namespace boost::numeric::ublas{
     
-template <class ExtentsType, std::size_t N> struct basic_fixed_rank_extents;
+template <class ExtentsType, std::size_t N> class basic_fixed_rank_extents;
 
 } // namespace boost::numeric::ublas
 

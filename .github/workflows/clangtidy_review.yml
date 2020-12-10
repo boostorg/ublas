@@ -12,11 +12,13 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
-      - uses: actions/checkout@v2
-        
+      - uses: actions/checkout@v2  
       - name: "Install dependencies"
         run: |
-          sudo apt-get install -y clang-10 clang-tidy-10 
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key 2>/dev/null | sudo apt-key add -
+          sudo add-apt-repository 'deb http://apt.llvm.org/focal llvm-toolchain-focal-10 main' -y
+          sudo apt-get update -q
+          sudo apt-get install -y clang-10 clang-tidy-10
       
       - name: "Install Boost from Source" 
         run: |

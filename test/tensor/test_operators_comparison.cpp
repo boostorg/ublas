@@ -13,7 +13,7 @@
 
 #include <boost/numeric/ublas/tensor/operators_comparison.hpp>
 #include <boost/numeric/ublas/tensor/operators_arithmetic.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_tensor.hpp>
+#include <boost/numeric/ublas/tensor.hpp>
 #include <boost/test/unit_test.hpp>
 #include <boost/multiprecision/cpp_bin_float.hpp>
 #include "utility.hpp"
@@ -23,10 +23,10 @@ BOOST_AUTO_TEST_SUITE(test_tensor_comparison, * boost::unit_test::depends_on("te
 
 using double_extended = boost::multiprecision::cpp_bin_float_double_extended;
 
-using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas::first_order, boost::numeric::ublas::last_order>;
+using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 struct fixture {
-    using extents_type = boost::numeric::ublas::dynamic_extents<>;
+    using extents_type = boost::numeric::ublas::extents<>;
     fixture()
       : extents{
                 extents_type{},    // 0

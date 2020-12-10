@@ -10,13 +10,17 @@
 //  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
-#ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
-#define BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
+#ifndef BOOST_UBLAS_TENSOR_LAYOUT_HPP
+#define BOOST_UBLAS_TENSOR_LAYOUT_HPP
 
-#include <boost/numeric/ublas/tensor/traits/type_traits_extents.hpp>
-#include <boost/numeric/ublas/tensor/traits/type_traits_strides.hpp>
+#include <boost/numeric/ublas/functional.hpp>
 
-#include <boost/numeric/ublas/tensor/traits/type_traits_tensor.hpp>
-#include <boost/numeric/ublas/tensor/traits/storage_traits.hpp>
+namespace boost::numeric::ublas::layout{
+    
+    using first_order = column_major;
+    using last_order = row_major;
 
-#endif
+} // namespace boost::numeric::ublas::layout
+
+
+#endif // BOOST_UBLAS_TENSOR_LAYOUT_HPP

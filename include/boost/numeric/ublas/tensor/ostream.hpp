@@ -14,7 +14,7 @@
 
 #include <ostream>
 #include <complex>
-#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
+#include <boost/numeric/ublas/tensor/extents_functions.hpp>
 
 namespace boost {
 namespace numeric {
@@ -44,7 +44,7 @@ void print(std::ostream& out, size_type r, const value_type* p, const size_type*
 
         for(auto row = 0u; row < n[0]; p += w[0], ++row) // iterate over one column
         {
-            auto p1 = p;
+            auto const* p1 = p;
             for(auto col = 0u; col < n[1]; p1 += w[1], ++col) // iterate over first row
             {
                 print(out,*p1);
@@ -80,8 +80,8 @@ namespace boost {
 namespace numeric {
 namespace ublas {
 
-template<class T, class E, class F, class A>
-class tensor;
+template<class T>
+class tensor_core;
 
 template<class T, class F, class A>
 class matrix;
@@ -95,7 +95,7 @@ class vector;
 
 
 template <typename T>
-std::ostream& operator << (std::ostream& out, boost::numeric::ublas::basic_tensor<T> const& t)
+std::ostream& operator << (std::ostream& out, boost::numeric::ublas::tensor_core<T> const& t)
 {
 
     if(is_scalar(t.extents())){
