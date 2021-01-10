@@ -2,17 +2,16 @@ CONFIG -= qt
 CONFIG += depend_includepath
 win*: CONFIG += console
 
-# ublas include directory
-INCLUDEPATH += \
-	../../../../../include
-
-QMAKE_CXXFLAGS += -fno-inline
-QMAKE_CXXFLAGS += -std=c++17
+QMAKE_CXXFLAGS += -std=c++17 -fopenmp -g
 
 # If ublas tests are build with boost source code then,
 # then boost headers and boost libraries should be used.
-exists(../../../../../../boost-build.jam) {
-    INCLUDEPATH += ../../../../../../..
-    LIBS += -L../../../../../../../stage/lib
-    QMAKE_RPATHDIR += ../../../../../../../stage/lib
+
+BOOST_ROOT=../../../../../..
+
+exists( $$BOOST_ROOT/boost-build.jam ) {
+  message("Boost installed.")
+  INCLUDEPATH += $${BOOST_ROOT}/../libs/numeric/ublas/include
+  LIBS += -L$${BOOST_ROOT}/../stage/lib -lgomp
+  QMAKE_RPATHDIR += $${BOOST_ROOT}/../stage/lib
 }

@@ -13,13 +13,7 @@
 
 
 #include <random>
-#include <boost/numeric/ublas/tensor.hpp> 
-
-#ifndef BOOST_TEST_DYN_LINK
-#define BOOST_TEST_DYN_LINK 
-#endif
-
-#define BOOST_TEST_MODULE TestFixedRankedTensor
+#include <boost/numeric/ublas/tensor.hpp>
 
 #include <boost/test/unit_test.hpp>
 #include "utility.hpp"

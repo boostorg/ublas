@@ -5,14 +5,13 @@ CONFIG += \
     staticlib \
     depend_includepath
 CONFIG -= qt
-
-INCLUDE_DIR = ../../../include
+CONFIG += c++17
+INCLUDE_DIR=../../../include
 
 include(detail/detail.pri)
 include(experimental/experimental.pri)
 include(operation/operation.pri)
 include(traits/traits.pri)
-
 include(tensor/tensor.pri)
 
 INCLUDEPATH += $${INCLUDE_DIR}
