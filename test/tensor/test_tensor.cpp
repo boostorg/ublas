@@ -19,7 +19,7 @@
 #define BOOST_TEST_DYN_LINK 
 #endif
 
-#define BOOST_TEST_MODULE TestDynamicTensor
+#define BOOST_TEST_MODULE Tensor
 
 
 #include <boost/test/unit_test.hpp>
