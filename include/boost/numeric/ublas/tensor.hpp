@@ -19,6 +19,7 @@
 #include "tensor/operators_comparison.hpp"
 #include "tensor/ostream.hpp"
 #include "tensor/functions.hpp"
+#include "tensor/layout.hpp"
 #include "tensor/tensor.hpp"
 
 #endif // BOOST_NUMERIC_UBLAS_TENSOR_HPP

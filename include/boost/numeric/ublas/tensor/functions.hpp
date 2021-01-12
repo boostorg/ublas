@@ -440,8 +440,10 @@ namespace boost::numeric::ublas
      * @result     tensor with order r+s
     */
     template <typename TensorEngine1, typename TensorEngine2, typename PermuType = std::vector<size_t>>
-    inline decltype(auto) prod(tensor_core< TensorEngine1 > const &a, tensor_core< TensorEngine2 > const &b,
-                                        PermuType const &phi)
+    inline decltype(auto) prod(
+      tensor_core< TensorEngine1 > const &a,
+      tensor_core< TensorEngine2 > const &b,
+      PermuType const &phi)
     {
         return prod(a, b, phi, phi);
     }

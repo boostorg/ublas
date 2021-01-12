@@ -6,24 +6,21 @@
 # Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 # http://www.boost.org/LICENSE_1_0.txt)
 
-
+import ../../../../config/checks/config : requires ;
+ 
 # Project settings
 project boost-ublas-tensor-example
     : requirements
-    # these tests require C++17
-       <cxxstd>11:<build>no
        <define>BOOST_UBLAS_NO_EXCEPTIONS
        <toolset>vacpp:<define>"BOOST_UBLAS_NO_ELEMENT_PROXIES"
        <toolset>gcc:<cxxflags>"-Wall -pedantic -Wextra -Wno-unknown-pragmas"
        <toolset>clang:<cxxflags>"-Wall -pedantic -Wextra -Wno-unknown-pragmas"
        <toolset>msvc:<cxxflags>"/W4" # == all
+       [ requires cxx17_if_constexpr ]
     ;
 
-exe construction_access : construction_access.cpp ;
-exe simple_expressions : simple_expressions.cpp ;
-exe dynamic_prod_expressions : dynamic_prod_expressions.cpp ;
-exe fixed_rank_prod_expressions : fixed_rank_prod_expressions.cpp ;
-exe fixed_rank_tensor : fixed_rank_tensor.cpp ;
-exe static_tensor : static_tensor.cpp ;
-exe einstein_notation : einstein_notation.cpp ;
-exe tensor_construction : tensor_construction.cpp ;
+exe access_tensor                      : access_tensor.cpp ;
+exe simple_expressions                 : simple_expressions.cpp ;
+exe multiply_tensors_product_function  : multiply_tensors_product_function.cpp ;
+exe multiply_tensors_einstein_notation : multiply_tensors_einstein_notation.cpp ;
+exe instantiate_tensor                 : instantiate_tensor.cpp ;
