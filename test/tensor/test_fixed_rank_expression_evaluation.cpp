@@ -66,8 +66,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
     auto bminus = std::minus<value_type>{};
 
     for_each_tuple(extents, [&](auto const&, auto & e){
-        using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
+        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
         
 
         auto t = tensor_type(e);
@@ -104,8 +103,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
             return;
         }
         
-        using extents_type1 = std::decay_t<decltype(e1)>;
-        using tensor_type1 = ublas::fixed_rank_tensor<value_type, extents_type1::_size, layout_type>;
+        //using extents_type1 = std::decay_t<decltype(e1)>;
+        using tensor_type1 = ublas::fixed_rank_tensor<value_type, e1.size(), layout_type>;
 
         for_each_tuple(extents, [&](auto J, auto& e2){
 
@@ -113,8 +112,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
                 return;
             }
 
-            using extents_type2 = std::decay_t<decltype(e2)>;
-            using tensor_type2 = ublas::fixed_rank_tensor<value_type, extents_type2::_size, layout_type>;
+            using tensor_type2 = ublas::fixed_rank_tensor<value_type, e2.size(), layout_type>;
 
             auto v = value_type{};
 
@@ -135,7 +133,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
             BOOST_CHECK( ublas::detail::retrieve_extents( t2 )     == ublas::detail::retrieve_extents( uexpr2 ) );
             BOOST_CHECK( ublas::detail::retrieve_extents( uexpr1 ) != ublas::detail::retrieve_extents( uexpr2 ) );
 
-            if constexpr( extents_type1::_size == extents_type2::_size ){
+            if constexpr( e1.size() == e2.size() ){
                 // bexpr_uexpr = (t1+1) + (2+t2)
                 auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type1>( uexpr1, uexpr2, bplus );
 
@@ -176,8 +174,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
     auto bminus = std::minus<value_type>{};
 
     for_each_tuple(extents, [&](auto const&, auto& e){
-        using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
+      using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
         
 
         auto t = tensor_type(e);
@@ -215,9 +212,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
         if ( I >= std::tuple_size_v<decltype(extents)> - 1){
             return;
         }
-        
-        using extents_type1 = std::decay_t<decltype(e1)>;
-        using tensor_type1 = ublas::fixed_rank_tensor<value_type, extents_type1::_size, layout_type>;
+                
+        using tensor_type1 = ublas::fixed_rank_tensor<value_type, e1.size(), layout_type>;
 
         for_each_tuple(extents, [&](auto J, auto& e2){
 
@@ -225,8 +221,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
                 return;
             }
 
-            using extents_type2 = std::decay_t<decltype(e2)>;
-            using tensor_type2 = ublas::fixed_rank_tensor<value_type, extents_type2::_size, layout_type>;
+
+            using tensor_type2 = ublas::fixed_rank_tensor<value_type, e2.size(), layout_type>;
 
             auto v = value_type{};
 
@@ -247,7 +243,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
             BOOST_CHECK( ublas::detail::all_extents_equal( uexpr1, ublas::detail::retrieve_extents(uexpr1) ) );
             BOOST_CHECK( ublas::detail::all_extents_equal( uexpr2, ublas::detail::retrieve_extents(uexpr2) ) );
 
-            if constexpr( extents_type1::_size == extents_type2::_size ){
+            if constexpr( e1.size() == e2.size() ){
                 // bexpr_uexpr = (t1+1) + (2+t2)
                 auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type1>( uexpr1, uexpr2, bplus );
 

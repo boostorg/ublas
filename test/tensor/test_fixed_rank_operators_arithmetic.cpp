@@ -52,9 +52,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
 
 
     auto check = [](auto const&, auto& e)
-    { 
-        using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
+    {
+        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
         auto r  = tensor_type (e);
@@ -114,8 +113,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
 
     auto check = [](auto const&, auto& e)
     {
-        using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
+        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
         auto v  = value_type  {};
@@ -171,8 +169,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
 
     auto check = [](auto const&, auto& e)
     {
-        using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
+        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
         auto r  = tensor_type (e);

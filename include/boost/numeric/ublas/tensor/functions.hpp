@@ -136,9 +136,7 @@ namespace boost::numeric::ublas
         auto extents_result = [&a_extents](){
             using size_type = typename extents_type::size_type;
             if constexpr( is_static_rank_v<extents_type> ){
-                // To disable the warning for unused variable;
-                (void)a_extents;
-                constexpr size_type esz = extents_type::_size - 1u;
+                constexpr size_type esz = a_extents.size() - 1u;
                 constexpr auto sz = std::max( esz, size_type(2) );
                 auto ret = extents< sz >();
                 ret.fill(1u);
@@ -152,6 +150,8 @@ namespace boost::numeric::ublas
         };
 
         auto nc = extents_result();
+
+
         auto nb = std::vector<extents_value_type>{b.size(), extents_value_type(1)};
 
         for (auto i = size_type(0), j = size_type(0); i < p; ++i)
@@ -538,7 +538,7 @@ namespace boost::numeric::ublas
             using rextents_type = std::decay_t< decltype(e2) >;
 
             if constexpr( is_static_rank_v<lextents_type> && is_static_rank_v<rextents_type> ){
-                return extents< lextents_type::_size + rextents_type::_size >{};
+              return extents< e1.size() + e2.size() >{};
             }else {
                 using extents_base_type = typename extents<>::base_type;
                 auto arr = extents_base_type( e1.size() + e2.size(), 1 );

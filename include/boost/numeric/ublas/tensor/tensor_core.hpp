@@ -283,7 +283,7 @@ public:
         }
 
         if constexpr( is_static_rank_v<extents_type> ){
-            static_assert( extents_type::_size == 2ul, 
+            static_assert( std::tuple_size_v<extents_type> == 2ul,
                 "boost::numeric::ublas::tensor_core(const matrix &v)"
                 " : the rank of extents is not correct, it should be of the rank 2"
             );
@@ -316,7 +316,7 @@ public:
         }
 
         if constexpr( is_static_rank_v<extents_type> ){
-            static_assert( extents_type::_size == 2ul, 
+          static_assert( std::tuple_size_v<extents_type> == 2ul,
                 "boost::numeric::ublas::tensor_core(matrix &&v)"
                 " : the rank of extents is not correct, it should be of the rank 2"
             );
@@ -348,7 +348,7 @@ public:
         }
 
         if constexpr( is_static_rank_v<extents_type> ){
-            static_assert( extents_type::_size == 2ul, 
+          static_assert( std::tuple_size_v<extents_type> == 2ul,
                 "boost::numeric::ublas::tensor_core(const vector_type &v)"
                 " : the rank of extents is not correct, it should be of the rank 2"
             );
@@ -381,7 +381,7 @@ public:
         }
         
         if constexpr( is_static_rank_v<extents_type> ){
-            static_assert( extents_type::_size == 2ul, 
+            static_assert( std::tuple_size_v<extents_type> == 2ul,
                 "boost::numeric::ublas::tensor_core(vector_type &&v)"
                 " : the rank of extents is not correct, it should be of the rank 2"
             );

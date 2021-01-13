@@ -26,14 +26,14 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/type_traits.hpp
 
 HEADERS += \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/basic_type_traits.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/storage_traits.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/type_traits_dynamic_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/type_traits_dynamic_strides.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/type_traits_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/type_traits_fixed_rank_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/type_traits_fixed_rank_strides.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/type_traits_static_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/type_traits_static_strides.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/type_traits_strides.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/type_traits_tensor.hpp
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/basic_type_traits.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/storage_traits.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_dynamic_extents.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_dynamic_strides.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_extents.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_fixed_rank_extents.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_fixed_rank_strides.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_static_extents.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_static_strides.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_strides.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_tensor.hpp

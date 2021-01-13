@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -28,9 +28,7 @@ namespace boost::numeric::ublas {
 template<class T, std::size_t N, class L>
 class basic_fixed_rank_strides
 {
-public:
-
-    static constexpr std::size_t const _size = N;
+public:    
 
     using layout_type           = L;
     using base_type             = std::array<T, N>;
@@ -60,38 +58,21 @@ public:
      * @code auto strides = basic_fixed_rank_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
      *
      */
-    template<typename ExtentsType>
-    constexpr basic_fixed_rank_strides(ExtentsType const& s)
+
+    template<class OT>
+    constexpr basic_fixed_rank_strides(basic_fixed_rank_extents<OT,N> const& extents)
     {
-        static_assert( is_extents_v<ExtentsType>, "boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
-            "ExtentsType is not a tensor extents"
-        );
+        _base.fill(1U);
 
-        if constexpr( is_static_rank_v< ExtentsType > ){
-            static_assert( ExtentsType::_size == _size, 
-                "boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
-                "ExentsType size should be equal to the size of basic_fixed_rank_strides"
-            );
-        }else{
-            if ( s.size() != size() ){
-                throw std::length_error(
-                    "boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : " 
-                    "ExentsType size should be equal to the size of basic_fixed_rank_strides"
-                );
-            }
-        }
-
-        _base.fill(value_type(1));
-
-        if( s.empty() )
+        if( extents.empty() )
             return;
 
-        if( !is_valid(s) )
+        if( !is_valid(extents) )
             throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : "
                 "shape is not valid."
             );
 
-        if( is_vector(s) || is_scalar(s) )
+        if( is_vector(extents) || is_scalar(extents) )
             return;
 
         if( this->size() < 2 )
@@ -101,9 +82,9 @@ public:
 
 
         if constexpr (std::is_same<layout_type,layout::first_order>::value){
-            std::transform(s.begin(), s.end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<value_type>{});
-        }else {
-            std::transform(s.rbegin(), s.rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<value_type>{});
+            std::transform(extents.begin(), extents.end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<value_type>{});
+        } else {
+            std::transform(extents.rbegin(), extents.rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<value_type>{});
         }
     }
 
@@ -213,6 +194,7 @@ public:
 
 private:
     base_type _base;
+    static constexpr std::size_t const _size = N;
 };
 
 

@@ -50,9 +50,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
     using layout_type = typename value::second_type;
 
     auto check = [](auto const&, auto& e)
-    { 
-        using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
+    {
+        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
         auto v  = value_type  {};
@@ -92,8 +91,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 
     auto check = [](auto const&, auto& e)
     { 
-        using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
+        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
 
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
@@ -139,8 +137,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 
     auto check = [](auto const&, auto& e)
     { 
-        using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size, layout_type>;
+        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
 
         BOOST_CHECK( tensor_type(e,value_type{2}) == tensor_type(e,value_type{2})  );
         BOOST_CHECK( tensor_type(e,value_type{2}) != tensor_type(e,value_type{1})  );

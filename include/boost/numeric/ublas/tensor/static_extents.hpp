@@ -145,6 +145,15 @@ private:
 
 template<std::size_t... E>
 using static_extents = basic_static_extents<std::size_t,E...>;
-
 } // namespace boost::numeric::ublas
+
+
+namespace std
+{
+template<std::size_t... E>
+struct tuple_size< boost::numeric::ublas::static_extents<E...> >
+  : std::integral_constant<std::size_t, sizeof...(E)>
+{};
+}
+
 #endif

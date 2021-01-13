@@ -114,8 +114,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor_extents, value,  
     using matrix_type = typename tensor_type::matrix_type;
 
     auto check = [](auto const&, auto& e) {
-        using extents_type = std::decay_t<decltype(e)>;
-        using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
+        using etensor_type = ublas::fixed_rank_tensor<value_type, e.size(),layout_type>;
 
         assert(e.size()==2);
         etensor_type t = matrix_type{e[0],e[1]};
@@ -138,8 +137,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor_extents, value,  
     using vector_type = typename tensor_type::vector_type;
 
     auto check = [](auto const&, auto& e) {
-        using extents_type = std::decay_t<decltype(e)>;
-        using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
+        using etensor_type = ublas::fixed_rank_tensor<value_type, e.size(),layout_type>;
 
         assert(e.size()==2);
         if(e.empty())
@@ -166,8 +164,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  te
     using matrix_type = typename tensor_type::matrix_type;
 
     auto check = [](auto const&, auto& e) {
-        using extents_type = std::decay_t<decltype(e)>;
-        using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
+        using etensor_type = ublas::fixed_rank_tensor<value_type, e.size(),layout_type>;
 
         assert(e.size() == 2);
         auto t = etensor_type{};
@@ -202,8 +199,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  te
     using vector_type = typename tensor_type::vector_type;
 
     auto check = [](auto const&, auto& e) {
-        using extents_type = std::decay_t<decltype(e)>;
-        using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
+        using etensor_type = ublas::fixed_rank_tensor<value_type, e.size(),layout_type>;
 
         assert(e.size() == 2);
         auto t = etensor_type{};
@@ -235,8 +231,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  te
     using matrix_type = typename tensor_type::matrix_type;
 
     auto check = [](auto const&, auto& e) {
-        using extents_type = std::decay_t<decltype(e)>;
-        using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
+        using etensor_type = ublas::fixed_rank_tensor<value_type, e.size(),layout_type>;
 
         assert(e.size() == 2);
         auto t = etensor_type{};
@@ -274,8 +269,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  te
     using vector_type = typename tensor_type::vector_type;
 
     auto check = [](auto const&, auto& e) {
-        using extents_type = std::decay_t<decltype(e)>;
-        using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
+        using etensor_type = ublas::fixed_rank_tensor<value_type, e.size(),layout_type>;
 
         assert(e.size() == 2);
         auto t = etensor_type{};
@@ -312,8 +306,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
     using matrix_type = typename tensor_type::matrix_type;
 
     auto check = [](auto const&, auto& e) {
-        using extents_type = std::decay_t<decltype(e)>;
-        using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
+        using etensor_type = ublas::fixed_rank_tensor<value_type, e.size(),layout_type>;
 
         assert(e.size() == 2);
         auto t = etensor_type{};
@@ -372,8 +365,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
     using vector_type = typename tensor_type::vector_type;
 
     auto check = [](auto const&, auto& e) {
-        using extents_type = std::decay_t<decltype(e)>;
-        using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
+        using etensor_type = ublas::fixed_rank_tensor<value_type, e.size(),layout_type>;
 
         assert(e.size() == 2);
         auto t = etensor_type{};
@@ -429,8 +421,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
     using vector_type = typename tensor_type::vector_type;
 
     auto check = [](auto const&, auto& e) {
-        using extents_type = std::decay_t<decltype(e)>;
-        using etensor_type = ublas::fixed_rank_tensor<value_type, extents_type::_size,layout_type>;
+        using etensor_type = ublas::fixed_rank_tensor<value_type, e.size(),layout_type>;
 
         if(product(e) <= 2)
             return;
