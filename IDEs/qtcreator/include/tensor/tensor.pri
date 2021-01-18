@@ -23,7 +23,9 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor_core.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor_engine.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/type_traits.hpp
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/type_traits.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents_base.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/strides_base.hpp
 
 HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/basic_type_traits.hpp \
@@ -37,3 +39,9 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_static_strides.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_strides.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_tensor.hpp
+
+
+HEADERS += \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/strides_functions.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/extents_functions.hpp
+

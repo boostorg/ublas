@@ -18,8 +18,10 @@
 #include <limits>
 #include <stdexcept>
 #include <array>
-#include <boost/numeric/ublas/tensor/type_traits.hpp>
-#include <boost/numeric/ublas/tensor/extents_functions.hpp>
+
+#include "extents_base.hpp"
+#include "type_traits.hpp"
+#include "detail/extents_functions.hpp"
 
 namespace boost::numeric::ublas {
 
@@ -33,7 +35,7 @@ namespace boost::numeric::ublas {
  *
  */
 template <class T, std::size_t N>
-class basic_fixed_rank_extents
+class basic_fixed_rank_extents : public extents_base<basic_fixed_rank_extents<T,N>>
 {
 
 public:
@@ -50,6 +52,26 @@ public:
   static_assert(!std::numeric_limits<value_type>::is_signed,  "Static error in basic_fixed_rank_extents: type must be of type unsigned integer.");
 
   constexpr basic_fixed_rank_extents() = default;
+
+  constexpr basic_fixed_rank_extents(base_type const& data)
+    : _base(data)
+  {
+    if ( !is_valid(*this) ){
+      throw std::invalid_argument("Error in basic_fixed_rank_extents : could not construct shape tuple"
+        "shape tuple is not a valid permutation: has zero elements."
+        );
+    }
+  }
+
+  constexpr basic_fixed_rank_extents(base_type&& data)
+    : _base(std::move(data))
+  {
+    if ( !is_valid(*this) ){
+      throw std::invalid_argument("Error in basic_fixed_rank_extents::basic_fixed_rank_extents(base_type &&) : "
+        "shape tuple is not a valid permutation: has zero elements."
+        );
+    }
+  }
 
   constexpr basic_fixed_rank_extents(basic_fixed_rank_extents const& other)
     : _base(other._base)
@@ -76,9 +98,11 @@ public:
 
   ~basic_fixed_rank_extents() = default;
 
-  constexpr basic_fixed_rank_extents(std::initializer_list<value_type> li){
-    if( li.size() > this->size() ){
-      throw std::out_of_range("boost::numeric::ublas::basic_fixed_rank_extents(std::initializer_list<value_type>): "
+  constexpr basic_fixed_rank_extents(std::initializer_list<value_type> const& li)
+    : _base()
+  {
+    if( li.size() != this->size() ){
+      throw std::out_of_range("boost::numeric::ublas::basic_fixed_rank_extents: "
         "number of elements in std::initializer_list is greater than the size"
         );
     }
@@ -86,13 +110,14 @@ public:
     std::copy(li.begin(), li.end(), _base.begin());
 
     if ( !is_valid(*this) ){
-      throw std::length_error("Error in boost::numeric::ublas::basic_fixed_rank_extents : "
+      throw std::invalid_argument("Error in boost::numeric::ublas::basic_fixed_rank_extents : "
         "shape tuple is not a valid permutation: has zero elements."
         );
     }
   }
 
-  constexpr basic_fixed_rank_extents(const_iterator begin, const_iterator end){
+  constexpr basic_fixed_rank_extents(const_iterator begin, const_iterator end)
+  {
     if( std::distance(begin,end) < 0 || static_cast<std::size_t>(std::distance(begin,end)) > this->size()){
       throw std::out_of_range("Error in boost::numeric::ublas::basic_fixed_rank_extents(const_iterator, const_iterator): "
         "initializer list size is greater than the rank");
@@ -106,47 +131,13 @@ public:
     }
   }
 
-  template<typename OtherExtents>
-  constexpr basic_fixed_rank_extents(OtherExtents const& e){
-    static_assert( is_extents_v<OtherExtents>, "boost::numeric::ublas::basic_fixed_rank_extents(OtherExtents const&) : "
-            "OtherExtents should be a valid tensor extents"
-                  );
-
-    if constexpr( is_static_rank_v< OtherExtents > ){
-      static_assert( e.size() == this->size(),
-                "basic_fixed_rank_extents::basic_fixed_rank_extents(OtherExtents const&) : "
-                    "unequal rank found, rank should be equal"
-                    );
-    }else{
-      if( e.size() != size() ){
-        throw std::length_error("Error in basic_fixed_rank_extents::basic_fixed_rank_extents(OtherExtents const&) : "
-          "unequal rank found, rank should be equal"
-          );
-      }
-    }
-
-    std::copy_n(e.begin(), this->size(), _base.begin());
-  }
-
-  constexpr basic_fixed_rank_extents(base_type const& data)
-    : _base(data)
+  template<class OT>
+  constexpr basic_fixed_rank_extents(basic_fixed_rank_extents<OT,N> const& e)
   {
-    if ( !is_valid(*this) ){
-      throw std::length_error("Error in basic_fixed_rank_extents::basic_fixed_rank_extents(base_type const&) : "
-        "shape tuple is not a valid permutation: has zero elements."
-        );
-    }
+    std::copy(e.begin(), e.end(), _base.begin());
   }
 
-  constexpr basic_fixed_rank_extents(base_type&& data)
-    : _base(std::move(data))
-  {
-    if ( !is_valid(*this) ){
-      throw std::length_error("Error in basic_fixed_rank_extents::basic_fixed_rank_extents(base_type &&) : "
-        "shape tuple is not a valid permutation: has zero elements."
-        );
-    }
-  }
+
 
   [[nodiscard]]
   static inline constexpr size_type size() noexcept {
@@ -248,6 +239,12 @@ private:
 
 } // namespace boost::numeric::ublas
 
+
+namespace boost::numeric::ublas{
+template <class T, std::size_t R> struct is_extents     < basic_fixed_rank_extents<T,R> > : std::true_type {};
+template <class T, std::size_t R> struct is_dynamic     < basic_fixed_rank_extents<T,R> > : std::true_type {};
+template <class T, std::size_t R> struct is_static_rank < basic_fixed_rank_extents<T,R> > : std::true_type {};
+} // namespace boost::numeric::ublas
 
 namespace std
 {

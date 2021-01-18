@@ -33,7 +33,7 @@ SUBDIRS += \
 #    test_triangular \
 #    triangular_access \
 #    triangular_layout \
-    test_tensor
+ #   test_tensor
 
 #begin_end.file = test/begin_end.pro
 #comp_mat_erase.file = test/comp_mat_erase.pro
@@ -69,4 +69,4 @@ SUBDIRS += \
 #test_triangular.file = test/test_triangular.pro
 #triangular_access.file = test/triangular_access.pro
 #triangular_layout.file = test/triangular_layout.pro
-test_tensor.file = test/test_tensor.pro
+#test_tensor.file = test/test_tensor.pro

@@ -93,6 +93,10 @@ struct storage_traits<std::array<V,N>>
 
 namespace boost::numeric::ublas
 {
+
+template <class ExtentsType, ExtentsType... E>
+class basic_static_extents;
+
     namespace detail{
         template<typename E, typename A, typename Tag>
         struct rebind_storage_size_helper{

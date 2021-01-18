@@ -17,8 +17,14 @@
 
 #include <boost/numeric/ublas/functional.hpp>
 #include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
-#include <boost/numeric/ublas/tensor/type_traits.hpp>
-#include <boost/numeric/ublas/tensor/layout.hpp>
+
+#include "type_traits.hpp"
+#include "layout.hpp"
+#include "detail/extents_functions.hpp"
+#include "detail/strides_functions.hpp"
+#include "strides_base.hpp"
+
+
 
 namespace boost { 
 namespace numeric { 
@@ -35,6 +41,7 @@ class basic_extents;
  */
 template<class __int_type, class __layout>
 class basic_strides
+  : public strides_base<basic_strides<__int_type, __layout>>
 {
 public:
 
@@ -69,35 +76,23 @@ public:
      * @code auto strides = basic_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
      *
      */
-    template <typename ExtentsType>
-    constexpr basic_strides(ExtentsType const& s)
-            : _base(s.size(),1)
+    constexpr basic_strides(basic_extents<value_type> const& extents)
+            : _base(extents.size(),1U)
     {
-        static_assert( is_extents_v<ExtentsType>, "boost::numeric::ublas::basic_strides(ExtentsType const&) : " 
-            "ExtentsType is not a tensor extents"
-        );
-        if( s.empty() )
-            return;
+      if(extents.empty() || extents.size() != this->size())
+        return;
 
-        if( !is_valid(s) )
-            throw std::runtime_error("Error in boost::numeric::ublas::basic_strides(ExtentsType const&) : "
-                "shape is not valid."
-            );
+      std::fill(_base.begin(), _base.end(), 1U);
 
-        if( is_vector(s) || is_scalar(s) )
-            return;
+      if( is_vector(extents) || is_scalar(extents) )
+        return;
 
-        if( this->size() < 2 )
-            throw std::runtime_error("Error in boost::numeric::ublas::basic_strides(ExtentsType const&) : "
-                "size of strides must be greater or equal to 2."
-            );
-
-
-        if constexpr (std::is_same<layout_type,layout::first_order>::value){
-            std::transform(s.begin(), s.end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<value_type>{});
-        }else {
-            std::transform(s.rbegin(), s.rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<value_type>{});
-        }
+      //using layout_type = typename derived_type_strides::layout_type;
+      if constexpr (std::is_same<layout_type,layout::first_order>::value ) {
+        std::transform(extents().begin(), extents().end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<>{});
+      } else {
+        std::transform(extents().rbegin(), extents().rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<>{});
+      }
     }
 
     constexpr basic_strides(basic_strides const& l)
@@ -210,6 +205,18 @@ public:
     
 private:
     base_type _base{};
+};
+
+
+template <class L, class T> struct is_strides<basic_strides<T,L>> : std::true_type {};
+template <class T, class L> struct is_dynamic< basic_strides<T,L> > : std::true_type {};
+template <class T, class L> struct is_dynamic_rank< basic_strides<T, L> > : std::true_type {};
+
+template <class T>
+struct strides<basic_extents<T>>
+{
+  template<typename Layout>
+  using type = basic_strides<T, Layout>;
 };
 
 }

@@ -10,28 +10,21 @@
 //  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
-#ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_STTAIC_EXTENTS_HPP
-#define BOOST_UBLAS_TENSOR_TYPE_TRAITS_STTAIC_EXTENTS_HPP
+//#ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_STTAIC_EXTENTS_HPP
+//#define BOOST_UBLAS_TENSOR_TYPE_TRAITS_STTAIC_EXTENTS_HPP
 
-#include <boost/numeric/ublas/tensor/traits/basic_type_traits.hpp>
+//#include <boost/numeric/ublas/tensor/traits/basic_type_traits.hpp>
 
-namespace boost::numeric::ublas{
+//namespace boost::numeric::ublas{
+//template <class ExtentsType, ExtentsType... E> class basic_static_extents;
+//} // namespace boost::numeric::ublas
+
+//namespace boost::numeric::ublas{
     
-template <class ExtentsType, ExtentsType... E> class basic_static_extents;
+//template <class T, T... E>           struct is_extents     < basic_static_extents<T, E...> > : std::true_type {};
+//template <class T, T... E>           struct is_static      < basic_static_extents<T, E...> > : std::true_type {};
+//template <class T, std::size_t... E> struct is_static_rank < basic_static_extents<T, E...> > : std::true_type {};
 
-} // namespace boost::numeric::ublas
+//} // namespace boost::numeric::ublas
 
-namespace boost::numeric::ublas{
-    
-template <class T, T... E>
-struct is_extents< basic_static_extents<T, E...> > : std::true_type {};
-
-template <class T, T... E>
-struct is_static< basic_static_extents<T, E...> > : std::true_type {};
-
-template <class T, std::size_t... E>
-struct is_static_rank< basic_static_extents<T, E...> > : std::true_type {};
-
-} // namespace boost::numeric::ublas
-
-#endif
+//#endif

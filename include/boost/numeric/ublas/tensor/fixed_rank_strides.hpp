@@ -15,8 +15,10 @@
 #ifndef _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
 #define _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
 
-#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
-#include <boost/numeric/ublas/tensor/layout.hpp>
+#include "fixed_rank_extents.hpp"
+#include "layout.hpp"
+#include "strides_base.hpp"
+#include "detail/strides_functions.hpp"
 
 namespace boost::numeric::ublas {
 
@@ -27,8 +29,9 @@ namespace boost::numeric::ublas {
  */
 template<class T, std::size_t N, class L>
 class basic_fixed_rank_strides
+  : public strides_base< basic_fixed_rank_strides<T,N,L> >
 {
-public:    
+public:
 
     using layout_type           = L;
     using base_type             = std::array<T, N>;
@@ -62,30 +65,45 @@ public:
     template<class OT>
     constexpr basic_fixed_rank_strides(basic_fixed_rank_extents<OT,N> const& extents)
     {
-        _base.fill(1U);
+      if(extents.empty() || extents.size() != this->size())
+        return;
 
-        if( extents.empty() )
-            return;
+      std::fill(_base.begin(), _base.end(), 1U);
 
-        if( !is_valid(extents) )
-            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : "
-                "shape is not valid."
-            );
+      if( is_vector(extents) || is_scalar(extents) )
+        return;
 
-        if( is_vector(extents) || is_scalar(extents) )
-            return;
+      //using layout_type = typename derived_type_strides::layout_type;
+      if constexpr (std::is_same<layout_type,layout::first_order>::value ) {
+        std::transform(extents().begin(), extents().end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<>{});
+      } else {
+        std::transform(extents().rbegin(), extents().rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<>{});
+      }
 
-        if( this->size() < 2 )
-            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : "
-                "size of strides must be greater or equal 2."
-            );
+//        _base.fill(1U);
+
+//        if( extents.empty() )
+//            return;
+
+//        if( !is_valid(extents) )
+//            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : "
+//                "shape is not valid."
+//            );
+
+//        if( is_vector(extents) || is_scalar(extents) )
+//            return;
+
+//        if( this->size() < 2 )
+//            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : "
+//                "size of strides must be greater or equal 2."
+//            );
 
 
-        if constexpr (std::is_same<layout_type,layout::first_order>::value){
-            std::transform(extents.begin(), extents.end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<value_type>{});
-        } else {
-            std::transform(extents.rbegin(), extents.rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<value_type>{});
-        }
+//        if constexpr (std::is_same<layout_type,layout::first_order>::value){
+//            std::transform(extents.begin(), extents.end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<value_type>{});
+//        } else {
+//            std::transform(extents.rbegin(), extents.rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<value_type>{});
+//        }
     }
 
     constexpr basic_fixed_rank_strides(basic_fixed_rank_strides const& l)
@@ -172,7 +190,7 @@ public:
     constexpr const_iterator end() const noexcept{
         return _base.end();
     }
-    
+
     [[nodiscard]] inline
     constexpr base_type const& base() const noexcept{
         return this->_base;
@@ -197,6 +215,17 @@ private:
     static constexpr std::size_t const _size = N;
 };
 
+
+template <class L, class T, std::size_t R> struct is_strides< basic_fixed_rank_strides< T, R, L> > : std::true_type {};
+template <class T, std::size_t R, class L> struct is_dynamic< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
+template <class T, std::size_t R, class L> struct is_static_rank< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
+
+template <std::size_t N, class T>
+struct strides<basic_fixed_rank_extents<T,N>>
+{
+  template<typename Layout>
+  using type = basic_fixed_rank_strides<T, N, Layout>;
+};
 
 } // namespace boost::numeric::ublass
 

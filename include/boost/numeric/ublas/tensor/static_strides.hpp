@@ -14,9 +14,11 @@
 #ifndef BOOST_UBLAS_TENSOR_STATIC_STRIDES_HPP
 #define BOOST_UBLAS_TENSOR_STATIC_STRIDES_HPP
 
-#include <boost/numeric/ublas/tensor/static_extents.hpp>
-#include <boost/numeric/ublas/tensor/layout.hpp>
-#include <boost/numeric/ublas/tensor/extents_functions.hpp>
+#include "static_extents.hpp"
+#include "layout.hpp"
+#include "extents_functions.hpp"
+#include "strides_base.hpp"
+#include "traits/type_traits_strides.hpp"
 
 namespace boost::numeric::ublas{
 
@@ -144,6 +146,7 @@ namespace boost::numeric::ublas
  */
 template <class Layout, class T, T... Extents>
 class basic_static_strides<basic_static_extents<T,Extents...>, Layout>
+  : public strides_base<basic_static_strides<basic_static_extents<T,Extents...>, Layout>>
 {
 
 public:
@@ -260,6 +263,17 @@ public:
 
 private:
   static constexpr base_type const m_data{ detail::strides_helper_v<layout_type,extents_type> };
+};
+
+template <class L, class T, T... E> struct is_strides     < basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};
+template <class L, class T, T... E> struct is_static      < basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};
+template <class L, class T, T... E> struct is_static_rank < basic_static_strides< basic_static_extents<T, E...>, L > > : std::true_type {};
+
+template <class T, T... Extents>
+struct strides<basic_static_extents<T, Extents...>>
+{
+  template<typename Layout>
+  using type = basic_static_strides<basic_static_extents<T, Extents...>, Layout>;
 };
 
 } // namespace boost::numeric::ublas

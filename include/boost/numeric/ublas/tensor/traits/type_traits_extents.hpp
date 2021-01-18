@@ -13,29 +13,22 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_EXTENTS_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_EXTENTS_HPP
 
+#include <cstddef>
+
 namespace boost::numeric::ublas {
 
-/// @brief checks if the type is tensor extents or not
-template <class E>
-struct is_extents : std::false_type {};
-
-template <class E>
-inline static constexpr bool const is_extents_v = is_extents<E>::value;
+template<class int_type>                class basic_extents;
+template<class int_type, std::size_t N> class basic_fixed_rank_extents;
 
 namespace detail{
-
-    template<std::size_t... N>
-    struct dynamic_extents_impl;
-
+template <std::size_t... N> struct extents_impl;
+template <>                 struct extents_impl<>  { using type = basic_extents<std::size_t>; };
+template <std::size_t N>    struct extents_impl<N> { using type = basic_fixed_rank_extents<std::size_t, N>; };
 } // detail
 
-template<std::size_t... E>
-using extents = typename detail::dynamic_extents_impl<E...>::type;
+template<std::size_t... E> using extents = typename detail::extents_impl<E...>::type;
+
 
 } // namespace boost::numeric::ublas
-
-#include <boost/numeric/ublas/tensor/traits/type_traits_dynamic_extents.hpp>
-#include <boost/numeric/ublas/tensor/traits/type_traits_static_extents.hpp>
-#include <boost/numeric/ublas/tensor/traits/type_traits_fixed_rank_extents.hpp>
 
 #endif

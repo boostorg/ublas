@@ -20,7 +20,8 @@
 
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE ( test_einstein_notation, * boost::unit_test::depends_on("test_multi_index") )
+BOOST_AUTO_TEST_SUITE ( test_einstein_notation,
+                      *boost::unit_test::depends_on("test_multi_index") )
 
 
 using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;

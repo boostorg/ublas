@@ -190,7 +190,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_prod_tensor_2, value,  
 
   auto permute_extents_s_1 = [](auto const& pi, auto const& na){
 
-    auto nb = ublas::extents<>(na);
+    auto nb = ublas::extents<>(na.begin(),na.end());
     assert(pi.size() == na.size());
     for(auto j = 0u; j < pi.size(); ++j)
       nb[pi[j]-1] = na[j];

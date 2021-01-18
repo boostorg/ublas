@@ -14,38 +14,40 @@
 #ifndef _BOOST_UBLAS_TENSOR_STRIDES_HPP_
 #define _BOOST_UBLAS_TENSOR_STRIDES_HPP_
 
-#include <boost/numeric/ublas/tensor/dynamic_strides.hpp>
-#include <boost/numeric/ublas/tensor/fixed_rank_strides.hpp>
-#include <boost/numeric/ublas/tensor/static_strides.hpp>
+#include "dynamic_strides.hpp"
+#include "fixed_rank_strides.hpp"
+#include "static_strides.hpp"
+#include "detail/strides_functions.hpp"
+#include <numeric>
 
-namespace boost::numeric::ublas{
+//namespace boost::numeric::ublas{
 
-  template <class LStrides, class RStrides, 
-    std::enable_if_t<
-      is_strides_v<LStrides> && is_strides_v<RStrides>
-    , int> = 0 
-  >
-  [[nodiscard]] inline
-  constexpr bool operator==(LStrides const& lhs, RStrides const& rhs) noexcept{
-    static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
-      "boost::numeric::ublas::operator==(LStrides,RStrides) : LHS value type should be the same as the RHS value type");
+//  template <class LStrides, class RStrides,
+//    std::enable_if_t<
+//      is_strides_v<LStrides> && is_strides_v<RStrides>
+//    , int> = 0
+//  >
+//  [[nodiscard]] inline
+//  constexpr bool operator==(LStrides const& lhs, RStrides const& rhs) noexcept{
+//    static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>,
+//      "boost::numeric::ublas::operator==(LStrides,RStrides) : LHS value type should be the same as the RHS value type");
 
-    return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
-  }
+//    return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
+//  }
 
-  template <class LStrides, class RStrides, 
-    std::enable_if_t<
-      is_strides_v<LStrides> && is_strides_v<RStrides>
-    , int> = 0 
-  >
-  [[nodiscard]] inline
-  constexpr bool operator!=(LStrides const& lhs, RStrides const& rhs) noexcept{
-    static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>, 
-      "boost::numeric::ublas::operator!=(LStrides,RStrides) : LHS value type should be the same as the RHS value type");
-    return !( lhs == rhs );
-  }
+//  template <class LStrides, class RStrides,
+//    std::enable_if_t<
+//      is_strides_v<LStrides> && is_strides_v<RStrides>
+//    , int> = 0
+//  >
+//  [[nodiscard]] inline
+//  constexpr bool operator!=(LStrides const& lhs, RStrides const& rhs) noexcept{
+//    static_assert( std::is_same_v<typename LStrides::value_type, typename RStrides::value_type>,
+//      "boost::numeric::ublas::operator!=(LStrides,RStrides) : LHS value type should be the same as the RHS value type");
+//    return !( lhs == rhs );
+//  }
   
-} // namespace boost::numeric::ublas
+//} // namespace boost::numeric::ublas
 
 
 namespace boost::numeric::ublas::detail {
@@ -81,13 +83,13 @@ namespace boost::numeric::ublas::detail {
   [[nodiscard]] inline
   constexpr auto access(Stride const& w, Indices ... is)
   { 
-    static_assert( is_strides_v<Stride>, 
-      "boost::numeric::ublas::detail::access() : invalid type, the type should be a strides");
+//    static_assert( is_strides_v<Stride>,
+//      "boost::numeric::ublas::detail::access() : invalid type, the type should be a strides");
     
-    if constexpr( is_static_rank_v<Stride> ){
-      static_assert( w.size() >= sizeof...(is),
-        "boost::numeric::ublas::detail::access() : number of indices exceeds the size of the stride");
-    }
+//    if constexpr( is_static_rank_v<Stride> ){
+//      static_assert( w.size() >= sizeof...(is),
+//        "boost::numeric::ublas::detail::access() : number of indices exceeds the size of the stride");
+//    }
 
     using value_type = typename Stride::value_type;
     std::array<value_type, sizeof...(is)> i = {is...};

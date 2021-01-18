@@ -15,7 +15,11 @@
 
 #include <array>
 #include <initializer_list>
-#include <boost/numeric/ublas/tensor/extents_functions.hpp>
+#include <limits>
+#include "detail/extents_functions.hpp"
+#include "extents_base.hpp"
+#include "traits/basic_type_traits.hpp"
+
 
 namespace boost::numeric::ublas {
 
@@ -28,7 +32,8 @@ template <class ExtentsType, ExtentsType... E> class basic_static_extents;
  *
  */
 template <class ExtentsType, ExtentsType... E>
-class basic_static_extents{
+class basic_static_extents : public extents_base<basic_static_extents<ExtentsType, E...> >
+{
 
 public:
 
@@ -145,8 +150,12 @@ private:
 
 template<std::size_t... E>
 using static_extents = basic_static_extents<std::size_t,E...>;
-} // namespace boost::numeric::ublas
 
+template <class T, T... E>           struct is_extents     < basic_static_extents<T, E...> > : std::true_type {};
+template <class T, T... E>           struct is_static      < basic_static_extents<T, E...> > : std::true_type {};
+template <class T, std::size_t... E> struct is_static_rank < basic_static_extents<T, E...> > : std::true_type {};
+
+} // namespace boost::numeric::ublas
 
 namespace std
 {

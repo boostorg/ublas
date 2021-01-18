@@ -14,6 +14,7 @@
 #define _BOOST_UBLAS_TEST_TENSOR_UTILITY_
 
 #include <utility>
+#include <tuple>
 
 template<class ... types>
 struct zip_helper;
@@ -79,7 +80,7 @@ struct list{
 
 template<size_t I, class CallBack, class T, class...Ts>
 struct for_each_list_impl{
-    constexpr decltype(auto) operator()(list<T, Ts...> l, CallBack call_back){
+    constexpr decltype(auto) operator()(list<T, Ts...>, CallBack call_back){
         using new_list = list<Ts...>;
         using value_type = T;
         call_back(I,value_type{});

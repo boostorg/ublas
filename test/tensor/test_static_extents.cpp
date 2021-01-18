@@ -130,8 +130,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_product, fixture,
 }
 
 BOOST_FIXTURE_TEST_CASE(test_static_extents_access, fixture,
-                        *boost::unit_test::label("static_extents") *
-                            boost::unit_test::label("access")) {
+                        *boost::unit_test::label("static_extents") *boost::unit_test::label("access")) {
   using namespace boost::numeric;
 
   BOOST_CHECK_EQUAL(e0.size(), 0);
@@ -361,40 +360,29 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_valid, fixture, *boost::unit_test::l
   using namespace boost::numeric::ublas;
   for_each_tuple(rank_0_extents,[](auto const&, auto& e){
     BOOST_CHECK(!is_valid(e));
-    BOOST_CHECK(!is_valid(e));
   });
 
-  for_each_tuple(rank_1_extents,[](auto const& I, auto const& e){
-    if( I== 0 ){
-      BOOST_CHECK(is_valid(e));
-    }else{
-      BOOST_CHECK(!is_valid(e));
-      BOOST_CHECK(!is_valid(e));
-    }
+  for_each_tuple(rank_1_extents,[](auto const&, auto const& e){
+    BOOST_CHECK(is_valid(e));
   });
 
   for_each_tuple(rank_2_extents,[](auto const&, auto& e){
-      BOOST_CHECK(is_valid(e));
       BOOST_CHECK(is_valid(e));
   });
   
   for_each_tuple(scalars,[](auto const&, auto& e){
       BOOST_CHECK(is_valid(e));
-      BOOST_CHECK(is_valid(e));
   });
   
   for_each_tuple(vectors,[](auto const&, auto& e){
-      BOOST_CHECK(is_valid(e));
       BOOST_CHECK(is_valid(e));
   });
   
   for_each_tuple(matrices,[](auto const&, auto& e){
       BOOST_CHECK(is_valid(e));
-      BOOST_CHECK(is_valid(e));
   });
   
   for_each_tuple(tensors,[](auto const&, auto& e){
-      BOOST_CHECK(is_valid(e));
       BOOST_CHECK(is_valid(e));
   });
 }
@@ -456,20 +444,20 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_comparsion_operator, fixture, *boost
 
 }
 
-BOOST_FIXTURE_TEST_CASE(test_static_extents_squeeze, fixture, *boost::unit_test::label("static_extents") *boost::unit_test::label("squeeze"))
-{
-  auto e_sq2  = squeeze(e2 )  ;//==> {2,3}
-  auto e_sq3  = squeeze(e3 )  ;//==> {4,2,3}
-  auto e_sq4  = squeeze(e4 )  ;//==> {4,2,3}
-  auto e_sq5  = squeeze(e5 )  ;//==> {4,2,3}
+//BOOST_FIXTURE_TEST_CASE(test_static_extents_squeeze, fixture, *boost::unit_test::label("static_extents") *boost::unit_test::label("squeeze"))
+//{
+//  auto e_sq2  = squeeze(e2 )  ;//==> {2,3}
+//  auto e_sq3  = squeeze(e3 )  ;//==> {4,2,3}
+//  auto e_sq4  = squeeze(e4 )  ;//==> {4,2,3}
+//  auto e_sq5  = squeeze(e5 )  ;//==> {4,2,3}
 
-    BOOST_CHECK( (e_sq2  == extents<2,3>{}) );
-    BOOST_CHECK( (e_sq3  == extents<4,2,3>{}) );
+//    BOOST_CHECK( (e_sq2  == extents<2,3>{}) );
+//    BOOST_CHECK( (e_sq3  == extents<4,2,3>{}) );
 
-    BOOST_CHECK( (e_sq4  == extents<4,2,3>{}) );
-    BOOST_CHECK( (e_sq5  == extents<4,2,3>{}) );
+//    BOOST_CHECK( (e_sq4  == extents<4,2,3>{}) );
+//    BOOST_CHECK( (e_sq5  == extents<4,2,3>{}) );
 
-}
+//}
 
 BOOST_AUTO_TEST_CASE(test_static_extents_exception)
 {
