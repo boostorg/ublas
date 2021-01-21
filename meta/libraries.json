@@ -12,5 +12,6 @@
     "maintainers": [
         "David Bellot <david.bellot -at- gmail.com>",
 	"Stefan Seefeld <stefan -at- seefeld.name>"
-    ]
+    ],
+    "cxxstd": "03"
 }
