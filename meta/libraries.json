@@ -5,12 +5,13 @@
         "Joerg Walter",
         "Mathias Koch"
     ],
-    "description": "uBLAS provides tensor, matrix, and vector classes as well as basic linear algebra routines. Several dense, packed and sparse storage schemes are supported.",
+    "description": "uBLAS provides tensor, matrix, and vector classes as well as basic linear and multilinear algebra routines. Several dense, packed and sparse storage schemes are supported.",
     "category": [
         "Math"
     ],
     "maintainers": [
         "David Bellot <david.bellot -at- gmail.com>",
+        "Cem Bassoy <cem.bassoy -at- gmail.com>",
 	"Stefan Seefeld <stefan -at- seefeld.name>"
     ],
     "cxxstd": "11"
