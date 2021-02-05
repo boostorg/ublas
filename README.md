@@ -8,7 +8,7 @@ Boost Linear and Multilinear Algebra Library
 [![Mailing List](https://img.shields.io/badge/ublas-mailing%20list-4eb899.svg)](https://lists.boost.org/mailman/listinfo.cgi/ublas)
 [![Gitter](https://img.shields.io/badge/ublas-chat%20on%20gitter-4eb899.svg)](https://gitter.im/boostorg/ublas)
 
-**Boost.uBLAS** is part of the [Boost C++ Libraries](http://github.com/boostorg). It is directed towards scientific computing on the level of basic linear and multilinear algebra operations with tensors, matrices and vectors. 
+**Boost.uBLAS** is part of the [Boost C++ Libraries](http://github.com/boostorg). It is an open source C++ template class library directed towards scientific computing on the level of basic linear and multilinear algebra operations with tensors, matrices and vectors. 
 
 
 ## Documentation 
