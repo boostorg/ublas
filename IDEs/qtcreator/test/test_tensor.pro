@@ -1,9 +1,10 @@
 TEMPLATE = app
 TARGET = test_tensor
 
-CONFIG += staticlib depend_includepath
+CONFIG += staticlib depend_includepath console
 CONFIG -= qt
 CONFIG += c++20
+
 
 #QMAKE_CXXFLAGS += -fno-inline
 QMAKE_CXXFLAGS += -std=c++20

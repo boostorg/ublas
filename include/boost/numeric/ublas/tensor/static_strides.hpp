@@ -16,7 +16,7 @@
 
 #include "static_extents.hpp"
 #include "layout.hpp"
-#include "extents_functions.hpp"
+#include "detail/extents_functions.hpp"
 #include "strides_base.hpp"
 #include "traits/type_traits_strides.hpp"
 

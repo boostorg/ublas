@@ -96,8 +96,6 @@ struct fixture {
 
 BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_access, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("access"))
 {
-    using namespace boost::numeric;
-
     BOOST_CHECK_EQUAL(de0.size(), 0);
     BOOST_CHECK (de0.empty()  );
 
