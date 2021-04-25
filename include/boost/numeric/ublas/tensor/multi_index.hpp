@@ -17,8 +17,9 @@
 #include <array>
 #include <vector>
 
-#include "multi_index_utility.hpp"
 #include "index.hpp"
+#include "multi_index_utility.hpp"
+
 
 namespace boost::numeric::ubals::index {
 

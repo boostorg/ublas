@@ -13,11 +13,9 @@
 #ifndef _BOOST_NUMERIC_UBLAS_TENSOR_DETAIL_STRIDES_FUNCTIONS_HPP_
 #define _BOOST_NUMERIC_UBLAS_TENSOR_DETAIL_STRIDES_FUNCTIONS_HPP_
 
-#include <type_traits>
-//#include <functional>
-//#include <numeric>
-//#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 #include <algorithm>
+#include <type_traits>
+
 
 
 

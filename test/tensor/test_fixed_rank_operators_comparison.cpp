@@ -51,7 +51,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
 
     auto check = [](auto const&, auto& e)
     {
-        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+      using extents_t = std::decay_t<decltype (e)>;
+      using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<extents_t>, layout_type>;
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
         auto v  = value_type  {};
@@ -77,7 +78,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
         BOOST_CHECK( t2 >= t );
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 
 }
 
@@ -90,8 +91,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 
 
     auto check = [](auto const&, auto& e)
-    { 
-        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+    {
+      using extents_t = std::decay_t<decltype (e)>;
+      using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<extents_t>, layout_type>;
 
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
@@ -122,7 +124,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 
 }
 
@@ -136,8 +138,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 
 
     auto check = [](auto const&, auto& e)
-    { 
-        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+    {
+      using extents_t = std::decay_t<decltype (e)>;
+      using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<extents_t>, layout_type>;
 
         BOOST_CHECK( tensor_type(e,value_type{2}) == tensor_type(e,value_type{2})  );
         BOOST_CHECK( tensor_type(e,value_type{2}) != tensor_type(e,value_type{1})  );
@@ -192,7 +195,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 
     };
 
-for_each_tuple(extents,check);
+for_each_in_tuple(extents,check);
 
 }
 

@@ -7,10 +7,18 @@ CONFIG += c++20
 
 
 #QMAKE_CXXFLAGS += -fno-inline
-QMAKE_CXXFLAGS += -std=c++20
-QMAKE_CXXFLAGS += -fopenmp
-QMAKE_CXXFLAGS += -Wno-unknown-pragmas
-QMAKE_CXXFLAGS += -Wno-unused-but-set-variable
+QMAKE_CXXFLAGS  =-std=c++20
+QMAKE_CXXFLAGS +=-Wall -Wpedantic -Wextra
+QMAKE_CXXFLAGS +=-Wno-unknown-pragmas
+QMAKE_CXXFLAGS +=-Wno-unused-but-set-variable
+
+gcc:QMAKE_CXXFLAGS_RELEASE =-O3 -march=native -fopenmp
+clang: QMAKE_CXXFLAGS_RELEASE =-O3 -march=native -fopenmp=libiomp5
+
+gcc:QMAKE_CXXFLAGS_DEBUG += -g
+clang: QMAKE_CXXFLAGS_DEBUG +=-g
+
+
 #QMAKE_CXXFLAGS += --coverage
 
 BOOST_ROOT=../../../../../..

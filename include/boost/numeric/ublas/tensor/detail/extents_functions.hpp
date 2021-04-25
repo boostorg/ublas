@@ -16,8 +16,9 @@
 
 
 #include <algorithm>
-#include <numeric>
 #include <functional>
+#include <numeric>
+
 
 namespace boost::numeric::ublas
 {
@@ -91,7 +92,7 @@ template <class D>
 
 /** @brief Returns true if size > 1 and all elements > 0 or size == 1 && e[0] == 1 */
 template <class D>
-inline constexpr
+[[nodiscard]] inline constexpr
   bool is_valid(extents_base<D> const& e)
 {
   if (std::distance(e().begin(),e().end()) < 1){

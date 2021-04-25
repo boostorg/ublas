@@ -252,7 +252,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
   BOOST_CHECK( ! is_tensor(e14) );
 
 
-  for_each_tuple(rank_0_extents,[](auto const&, auto& e){
+  for_each_in_tuple(rank_0_extents,[](auto const&, auto& e){
     BOOST_CHECK( !is_scalar(e) );
     BOOST_CHECK( !is_vector(e) );
     BOOST_CHECK( !is_matrix(e) );
@@ -264,7 +264,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
   });
 
 
-  for_each_tuple(rank_1_extents,[](auto const& I, auto const& e){
+  for_each_in_tuple(rank_1_extents,[](auto const& I, auto const& e){
     if( I == 0 ){
       BOOST_CHECK(  is_scalar(e) );
       BOOST_CHECK( !is_vector(e) );
@@ -286,7 +286,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
     }
   });
 
-  for_each_tuple(rank_2_extents,[](auto const& I, auto const& e){
+  for_each_in_tuple(rank_2_extents,[](auto const& I, auto const& e){
     if( I == 0 ){
       BOOST_CHECK(  is_scalar(e) );
       BOOST_CHECK( !is_vector(e) );
@@ -308,7 +308,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
     }
   });
 
-  for_each_tuple(scalars,[](auto const&, auto& e){
+  for_each_in_tuple(scalars,[](auto const&, auto& e){
       BOOST_CHECK(  is_scalar(e) );
       BOOST_CHECK( !is_vector(e) );
       BOOST_CHECK( !is_matrix(e) );
@@ -319,7 +319,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
       BOOST_CHECK( !is_tensor(e) );
   });
 
-  for_each_tuple(vectors,[](auto const&, auto& e){
+  for_each_in_tuple(vectors,[](auto const&, auto& e){
       BOOST_CHECK( !is_scalar(e) );
       BOOST_CHECK(  is_vector(e) );
       BOOST_CHECK( !is_matrix(e) );
@@ -330,7 +330,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
       BOOST_CHECK( !is_tensor(e) );
   });
 
-  for_each_tuple(matrices,[](auto const&, auto& e){
+  for_each_in_tuple(matrices,[](auto const&, auto& e){
       BOOST_CHECK( !is_scalar(e) );
       BOOST_CHECK( !is_vector(e) );
       BOOST_CHECK(  is_matrix(e) );
@@ -342,7 +342,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
       
   });
 
-  for_each_tuple(tensors,[](auto const&, auto& e){
+  for_each_in_tuple(tensors,[](auto const&, auto& e){
       BOOST_CHECK( !is_scalar(e) );
       BOOST_CHECK( !is_vector(e) );
       BOOST_CHECK( !is_matrix(e) );
@@ -358,31 +358,31 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
 BOOST_FIXTURE_TEST_CASE(test_static_extents_valid, fixture, *boost::unit_test::label("static_extents") *boost::unit_test::label("valid"))
 {
   using namespace boost::numeric::ublas;
-  for_each_tuple(rank_0_extents,[](auto const&, auto& e){
+  for_each_in_tuple(rank_0_extents,[](auto const&, auto& e){
     BOOST_CHECK(!is_valid(e));
   });
 
-  for_each_tuple(rank_1_extents,[](auto const&, auto const& e){
+  for_each_in_tuple(rank_1_extents,[](auto const&, auto const& e){
     BOOST_CHECK(is_valid(e));
   });
 
-  for_each_tuple(rank_2_extents,[](auto const&, auto& e){
+  for_each_in_tuple(rank_2_extents,[](auto const&, auto& e){
       BOOST_CHECK(is_valid(e));
   });
   
-  for_each_tuple(scalars,[](auto const&, auto& e){
+  for_each_in_tuple(scalars,[](auto const&, auto& e){
       BOOST_CHECK(is_valid(e));
   });
   
-  for_each_tuple(vectors,[](auto const&, auto& e){
+  for_each_in_tuple(vectors,[](auto const&, auto& e){
       BOOST_CHECK(is_valid(e));
   });
   
-  for_each_tuple(matrices,[](auto const&, auto& e){
+  for_each_in_tuple(matrices,[](auto const&, auto& e){
       BOOST_CHECK(is_valid(e));
   });
   
-  for_each_tuple(tensors,[](auto const&, auto& e){
+  for_each_in_tuple(tensors,[](auto const&, auto& e){
       BOOST_CHECK(is_valid(e));
   });
 }
@@ -400,44 +400,44 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_comparsion_operator, fixture, *boost
     return true;
   };
 
-  for_each_tuple(rank_0_extents,[&](auto const&, auto const& e1){
-    for_each_tuple(rank_1_extents,[&](auto const&, auto const& e2){
+  for_each_in_tuple(rank_0_extents,[&](auto const&, auto const& e1){
+    for_each_in_tuple(rank_1_extents,[&](auto const&, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_tuple(rank_1_extents,[&](auto const&, auto const& e1){
-    for_each_tuple(rank_1_extents,[&](auto const&, auto const& e2){
+  for_each_in_tuple(rank_1_extents,[&](auto const&, auto const& e1){
+    for_each_in_tuple(rank_1_extents,[&](auto const&, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_tuple(rank_1_extents,[&](auto const&, auto const& e1){
-    for_each_tuple(rank_2_extents,[&](auto const&, auto const& e2){
+  for_each_in_tuple(rank_1_extents,[&](auto const&, auto const& e1){
+    for_each_in_tuple(rank_2_extents,[&](auto const&, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_tuple(scalars,[&](auto const&, auto const& e1){
-    for_each_tuple(scalars,[&](auto const&, auto const& e2){
+  for_each_in_tuple(scalars,[&](auto const&, auto const& e1){
+    for_each_in_tuple(scalars,[&](auto const&, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_tuple(scalars,[&](auto const&, auto const& e1){
-    for_each_tuple(vectors,[&](auto const&, auto const& e2){
+  for_each_in_tuple(scalars,[&](auto const&, auto const& e1){
+    for_each_in_tuple(vectors,[&](auto const&, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_tuple(scalars,[&](auto const&, auto const& e1){
-    for_each_tuple(matrices,[&](auto const&, auto const& e2){
+  for_each_in_tuple(scalars,[&](auto const&, auto const& e1){
+    for_each_in_tuple(matrices,[&](auto const&, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_tuple(scalars,[&](auto const&, auto const& e1){
-    for_each_tuple(tensors,[&](auto const&, auto const& e2){
+  for_each_in_tuple(scalars,[&](auto const&, auto const& e1){
+    for_each_in_tuple(tensors,[&](auto const&, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });

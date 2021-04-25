@@ -83,7 +83,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents, value,  test_types, 
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    for_each_tuple(extents, [](auto const&, auto& e){
+    for_each_in_tuple(extents, [](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         auto t = ublas::static_tensor<value_type, extents_type, layout_type>{};
 
@@ -107,7 +107,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor, value,  test_types, fix
     using layout_type = typename value::second_type;
 
 
-    for_each_tuple(extents, [](auto const&, auto& e){
+    for_each_in_tuple(extents, [](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         auto r = ublas::static_tensor<value_type, extents_type, layout_type>{0};
 
@@ -139,7 +139,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor_layout, value,  test_typ
     using other_layout_type = std::conditional_t<std::is_same<ublas::layout::first_order,layout_type>::value, ublas::layout::last_order, ublas::layout::first_order>;
 
 
-    for_each_tuple(extents, [](auto const&, auto& e){
+    for_each_in_tuple(extents, [](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
         auto r = tensor_type{0};
@@ -186,7 +186,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_move_ctor, value,  test_types
 
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -202,7 +202,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_init, value,  test_ty
     using distribution_type = std::conditional_t<std::is_integral_v<value_type>, std::uniform_int_distribution<>, std::uniform_real_distribution<> >;
     auto distribution = distribution_type(1,6);
 
-    for_each_tuple(extents, [&](auto const&, auto const& e){
+    for_each_in_tuple(extents, [&](auto const&, auto const& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
         
@@ -222,7 +222,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_array, value,  test_t
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    for_each_tuple(extents, [](auto const&, auto& e){
+    for_each_in_tuple(extents, [](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
         using array_type  = typename tensor_type::array_type;
@@ -251,7 +251,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_single_index_access, va
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    for_each_tuple(extents, [](auto const&, auto& e){
+    for_each_in_tuple(extents, [](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
         
@@ -352,7 +352,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
 
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_standard_iterator, value,  test_types, fixture)
@@ -361,7 +361,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_standard_iterator, value,  test_ty
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    for_each_tuple(extents,[](auto const&, auto& e){
+    for_each_in_tuple(extents,[](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
         

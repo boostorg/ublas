@@ -12,13 +12,14 @@
 #ifndef BOOST_UBLAS_TENSOR_OPERATORS_COMPARISON_HPP
 #define BOOST_UBLAS_TENSOR_OPERATORS_COMPARISON_HPP
 
-#include <boost/numeric/ublas/tensor/expression.hpp>
-#include <boost/numeric/ublas/tensor/type_traits.hpp>
-#include <boost/numeric/ublas/tensor/expression_evaluation.hpp>
 #include <type_traits>
 #include <functional>
 #include <vector>
 #include <utility>
+
+#include "expression.hpp"
+#include "type_traits.hpp"
+#include "expression_evaluation.hpp"
 
 namespace boost::numeric::ublas {
 template<class T>

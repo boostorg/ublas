@@ -115,7 +115,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor_extents, value,  
         BOOST_CHECK       ( !t.empty()    );
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -144,7 +144,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor_extents, value,  
 
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -180,7 +180,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  te
         }
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -216,7 +216,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  te
         }
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  test_types, fixture )
@@ -251,7 +251,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  te
         }
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -289,7 +289,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  te
         }
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -345,7 +345,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
         }
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -403,7 +403,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
         }
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -452,7 +452,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
 
 
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 

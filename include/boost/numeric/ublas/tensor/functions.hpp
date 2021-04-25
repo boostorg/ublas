@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -14,8 +14,8 @@
 #ifndef _BOOST_UBLAS_TENSOR_FUNCTIONS_HPP_
 #define _BOOST_UBLAS_TENSOR_FUNCTIONS_HPP_
 
-#include <boost/numeric/ublas/tensor/multiplication.hpp>
-#include <boost/numeric/ublas/tensor/tensor_engine.hpp>
+#include "multiplication.hpp"
+#include "tensor_engine.hpp"
 
 namespace boost::numeric::ublas{
     
@@ -538,7 +538,9 @@ namespace boost::numeric::ublas
             using rextents_type = std::decay_t< decltype(e2) >;
 
             if constexpr( is_static_rank_v<lextents_type> && is_static_rank_v<rextents_type> ){
-              return extents< e1.size() + e2.size() >{};
+              constexpr auto size_lhs = std::tuple_size_v<lextents_type>;
+              constexpr auto size_rhs = std::tuple_size_v<rextents_type>;
+              return extents<size_lhs + size_rhs>{};
             }else {
                 using extents_base_type = typename extents<>::base_type;
                 auto arr = extents_base_type( e1.size() + e2.size(), 1 );

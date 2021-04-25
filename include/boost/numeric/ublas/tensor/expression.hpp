@@ -14,8 +14,9 @@
 
 #include <cstddef>
 #include <boost/numeric/ublas/expression_types.hpp>
-#include <boost/numeric/ublas/tensor/traits/type_traits_tensor.hpp>
-#include <boost/numeric/ublas/tensor/tags.hpp>
+
+#include "traits/type_traits_tensor.hpp"
+#include "tags.hpp"
 
 namespace boost   {
 namespace numeric {

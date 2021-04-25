@@ -53,7 +53,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
 
     auto check = [](auto const&, auto& e)
     {
-        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+        constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+        using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
         auto r  = tensor_type (e);
@@ -99,7 +100,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
             BOOST_CHECK_EQUAL ( r(i), 1 );
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -113,7 +114,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
 
     auto check = [](auto const&, auto& e)
     {
-        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+      constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+        using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
         auto v  = value_type  {};
@@ -153,7 +155,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
 
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -169,7 +171,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
 
     auto check = [](auto const&, auto& e)
     {
-        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+      constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+        using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
         auto t  = tensor_type (e);
         auto t2 = tensor_type (e);
         auto r  = tensor_type (e);
@@ -233,7 +236,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
             BOOST_CHECK_EQUAL ( p(i), r(i) );
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 

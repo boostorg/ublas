@@ -1,6 +1,6 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+// 	Copyright (c) 2020, Amit Singh, amitsingh19975@gmail.com
+// 	Copyright (c) 2021, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -13,14 +13,20 @@
 
 
 #include <boost/numeric/ublas/tensor.hpp>
+#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
 #include "utility.hpp"
 #include <boost/test/unit_test.hpp>
+#include <tuple>
+#include <cstdlib>
 
 #include <functional>
+
 
 BOOST_AUTO_TEST_SUITE(test_fixed_rank_tensor_expression);
 
 using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
+
+
 
 
 struct fixture
@@ -65,8 +71,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
     auto bplus  = std::plus <value_type>{};
     auto bminus = std::minus<value_type>{};
 
-    for_each_tuple(extents, [&](auto const&, auto & e){
-        using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+    for_each_in_tuple(extents, [&](auto const&, auto const& e){
+
+
+
+      constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+        using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
         
 
         auto t = tensor_type(e);
@@ -97,22 +107,24 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
 
     });
 
-    for_each_tuple(extents, [&](auto I, auto& e1){
+    for_each_in_tuple(extents, [&](auto I, auto const& e1){
+
 
         if ( I >= std::tuple_size_v<decltype(extents)> - 1 ){
             return;
         }
         
-        //using extents_type1 = std::decay_t<decltype(e1)>;
-        using tensor_type1 = ublas::fixed_rank_tensor<value_type, e1.size(), layout_type>;
+        constexpr auto size1 = std::tuple_size_v<std::decay_t<decltype(e1)>>;
+        using tensor_type1 = ublas::fixed_rank_tensor<value_type, size1, layout_type>;
 
-        for_each_tuple(extents, [&](auto J, auto& e2){
+        for_each_in_tuple(extents, [&](auto J, auto const& e2){
 
             if( J != I + 1 ){
                 return;
             }
 
-            using tensor_type2 = ublas::fixed_rank_tensor<value_type, e2.size(), layout_type>;
+            constexpr auto size2 = std::tuple_size_v<std::decay_t<decltype(e2)>>;
+            using tensor_type2 = ublas::fixed_rank_tensor<value_type, size2, layout_type>;
 
             auto v = value_type{};
 
@@ -133,7 +145,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
             BOOST_CHECK( ublas::detail::retrieve_extents( t2 )     == ublas::detail::retrieve_extents( uexpr2 ) );
             BOOST_CHECK( ublas::detail::retrieve_extents( uexpr1 ) != ublas::detail::retrieve_extents( uexpr2 ) );
 
-            if constexpr( e1.size() == e2.size() ){
+            if constexpr( size1 == size2 ){
                 // bexpr_uexpr = (t1+1) + (2+t2)
                 auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type1>( uexpr1, uexpr2, bplus );
 
@@ -173,8 +185,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
     auto bplus  = std::plus <value_type>{};
     auto bminus = std::minus<value_type>{};
 
-    for_each_tuple(extents, [&](auto const&, auto& e){
-      using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+    for_each_in_tuple(extents, [&](auto const&, auto& e){
+      constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+      using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
         
 
         auto t = tensor_type(e);
@@ -207,22 +220,24 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
     });
 
 
-    for_each_tuple(extents, [&](auto I, auto& e1){
+    for_each_in_tuple(extents, [&](auto I, auto& e1){
 
         if ( I >= std::tuple_size_v<decltype(extents)> - 1){
             return;
         }
-                
-        using tensor_type1 = ublas::fixed_rank_tensor<value_type, e1.size(), layout_type>;
 
-        for_each_tuple(extents, [&](auto J, auto& e2){
+        constexpr auto size1 = std::tuple_size_v<std::decay_t<decltype(e1)>>;
+        using tensor_type1 = ublas::fixed_rank_tensor<value_type, size1, layout_type>;
+
+        for_each_in_tuple(extents, [&](auto J, auto& e2){
 
             if( J != I + 1 ){
                 return;
             }
 
 
-            using tensor_type2 = ublas::fixed_rank_tensor<value_type, e2.size(), layout_type>;
+            constexpr auto size2 = std::tuple_size_v<std::decay_t<decltype(e2)>>;
+            using tensor_type2 = ublas::fixed_rank_tensor<value_type, size2, layout_type>;
 
             auto v = value_type{};
 
@@ -243,7 +258,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
             BOOST_CHECK( ublas::detail::all_extents_equal( uexpr1, ublas::detail::retrieve_extents(uexpr1) ) );
             BOOST_CHECK( ublas::detail::all_extents_equal( uexpr2, ublas::detail::retrieve_extents(uexpr2) ) );
 
-            if constexpr( e1.size() == e2.size() ){
+            if constexpr( size1 == size2 ){
                 // bexpr_uexpr = (t1+1) + (2+t2)
                 auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_type1>( uexpr1, uexpr2, bplus );
 

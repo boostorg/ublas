@@ -14,16 +14,19 @@
 #ifndef _BOOST_NUMERIC_UBLAS_TENSOR_FIXED_RANK_EXTENTS_HPP_
 #define _BOOST_NUMERIC_UBLAS_TENSOR_FIXED_RANK_EXTENTS_HPP_
 
-#include <initializer_list>
-#include <limits>
-#include <stdexcept>
 #include <array>
+#include <limits>
+#include <initializer_list>
+#include <stdexcept>
 
+
+#include "detail/extents_functions.hpp"
 #include "extents_base.hpp"
 #include "type_traits.hpp"
-#include "detail/extents_functions.hpp"
 
-namespace boost::numeric::ublas {
+
+namespace boost::numeric::ublas
+{
 
 /** @brief Class template for storing static-number of extents
  *
@@ -63,7 +66,7 @@ public:
     }
   }
 
-  constexpr basic_fixed_rank_extents(base_type&& data)
+  constexpr explicit basic_fixed_rank_extents(base_type&& data)
     : _base(std::move(data))
   {
     if ( !is_valid(*this) ){
@@ -132,7 +135,7 @@ public:
   }
 
   template<class OT>
-  constexpr basic_fixed_rank_extents(basic_fixed_rank_extents<OT,N> const& e)
+  constexpr explicit basic_fixed_rank_extents(basic_fixed_rank_extents<OT,N> const& e)
   {
     std::copy(e.begin(), e.end(), _base.begin());
   }
@@ -140,8 +143,8 @@ public:
 
 
   [[nodiscard]]
-  static inline constexpr size_type size() noexcept {
-    return _size;
+  static inline constexpr auto size() noexcept {
+    return N;
   }
 
   [[nodiscard]] inline
@@ -249,11 +252,8 @@ template <class T, std::size_t R> struct is_static_rank < basic_fixed_rank_exten
 namespace std
 {
 template< class T, std::size_t N >
-struct tuple_size< boost::numeric::ublas::basic_fixed_rank_extents<T, N> >
-  : std::integral_constant<std::size_t, N>
-{};
-
-}
+class tuple_size < boost::numeric::ublas::basic_fixed_rank_extents<T, N> > : public integral_constant<std::size_t, N> {};
+} // namespace std
 
 
 

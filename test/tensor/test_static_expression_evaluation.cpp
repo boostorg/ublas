@@ -48,7 +48,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_retrieve_extents
     auto bplus  = std::plus <value_type>{};
     auto bminus = std::minus<value_type>{};
 
-    for_each_tuple(extents, [&](auto const&, auto& e){
+    for_each_in_tuple(extents, [&](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
         
@@ -82,7 +82,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_retrieve_extents
 
     });
 
-    for_each_tuple(extents, [&](auto I, auto& e1){
+    for_each_in_tuple(extents, [&](auto I, auto& e1){
         
         if ( I >= std::tuple_size_v<decltype(extents)> - 1){
             return;
@@ -91,7 +91,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_retrieve_extents
         using extents_type1 = std::decay_t<decltype(e1)>;
         using tensor_type1 = ublas::static_tensor<value_type, extents_type1, layout_type>;
 
-        for_each_tuple(extents, [&](auto J, auto& e2){
+        for_each_in_tuple(extents, [&](auto J, auto& e2){
 
             if( J != I + 1 ){
                 return;
@@ -140,7 +140,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_all_extents_equa
     auto bplus  = std::plus <value_type>{};
     auto bminus = std::minus<value_type>{};
 
-    for_each_tuple(extents, [&](auto const&, auto& e){
+    for_each_in_tuple(extents, [&](auto const&, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
         
@@ -175,7 +175,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_all_extents_equa
     });
 
 
-    for_each_tuple(extents, [&](auto I, auto& e1){
+    for_each_in_tuple(extents, [&](auto I, auto& e1){
 
         if ( I >= std::tuple_size_v<decltype(extents)> - 1){
             return;
@@ -184,7 +184,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_all_extents_equa
         using extents_type1 = std::decay_t<decltype(e1)>;
         using tensor_type1 = ublas::static_tensor<value_type, extents_type1, layout_type>;
 
-        for_each_tuple(extents, [&](auto J, auto& e2){
+        for_each_in_tuple(extents, [&](auto J, auto& e2){
 
             if( J != I + 1 ){
                 return;

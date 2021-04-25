@@ -1,22 +1,23 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+// 	Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
+// 	Copyright (c) 2021, Cem Bassoy, cem.bassoy@gmail.com
+
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
-//  The authors gratefully acknowledge the support of
-//  Google and Fraunhofer IOSB, Ettlingen, Germany
+//  The authors gratefully acknowledge the support of Google
 //
 
 
 #ifndef BOOST_UBLAS_TRAITS_STORAGE_HPP
 #define BOOST_UBLAS_TRAITS_STORAGE_HPP
 
-#include <vector>
 #include <array>
-#include <boost/numeric/ublas/tensor/tags.hpp>
+#include <vector>
+
+#include "../tags.hpp"
 
 namespace boost {
 namespace numeric {

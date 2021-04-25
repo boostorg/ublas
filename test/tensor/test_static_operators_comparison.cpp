@@ -74,7 +74,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
         BOOST_CHECK( t2 >= t );
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 
 }
 
@@ -120,7 +120,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 
 }
 
@@ -191,7 +191,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
 
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 
 }
 

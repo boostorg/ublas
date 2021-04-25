@@ -19,11 +19,10 @@
 #include <stdexcept>
 #include <vector>
 
-#include "extents_base.hpp"
-#include "type_traits.hpp"
 #include "detail/extents_functions.hpp"
+#include "extents_base.hpp"
 #include "traits/basic_type_traits.hpp"
-
+#include "type_traits.hpp"
 
 //#include <boost/numeric/ublas/tensor/extents_functions.hpp>
 

@@ -15,7 +15,8 @@
 
 #include <type_traits>
 #include <stdexcept>
-#include <boost/numeric/ublas/tensor/type_traits.hpp>
+
+#include "type_traits.hpp"
 
 
 namespace boost::numeric::ublas {

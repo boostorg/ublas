@@ -16,14 +16,13 @@
 #define _BOOST_UBLAS_TENSOR_DYNAMIC_STRIDES_HPP_
 
 #include <boost/numeric/ublas/functional.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
 
-#include "type_traits.hpp"
-#include "layout.hpp"
 #include "detail/extents_functions.hpp"
 #include "detail/strides_functions.hpp"
+#include "dynamic_extents.hpp"
+#include "layout.hpp"
 #include "strides_base.hpp"
-
+#include "type_traits.hpp"
 
 
 namespace boost { 
@@ -46,15 +45,6 @@ class basic_strides
 public:
 
     using base_type = std::vector<__int_type>;
-
-    static_assert( std::numeric_limits<typename base_type::value_type>::is_integer,
-                                 "Static error in boost::numeric::ublas::basic_strides: type must be of type integer.");
-    static_assert(!std::numeric_limits<typename base_type::value_type>::is_signed,
-                                "Static error in boost::numeric::ublas::basic_strides: type must be of type unsigned integer.");
-    static_assert(std::is_same<__layout,layout::first_order>::value || std::is_same<__layout,layout::last_order>::value,
-                                "Static error in boost::numeric::ublas::basic_strides: layout type must either first or last order");
-
-
     using layout_type = __layout;
     using value_type = typename base_type::value_type;
     using reference = typename base_type::reference;
@@ -63,6 +53,13 @@ public:
     using const_pointer = typename base_type::const_pointer;
     using const_iterator = typename base_type::const_iterator;
     using const_reverse_iterator = typename base_type::const_reverse_iterator;
+
+    static_assert( std::numeric_limits<value_type>::is_integer,
+                  "Static error in boost::numeric::ublas::basic_strides: type must be of type integer.");
+    static_assert(!std::numeric_limits<value_type>::is_signed,
+                  "Static error in boost::numeric::ublas::basic_strides: type must be of type unsigned integer.");
+    static_assert(std::is_same<layout_type,layout::first_order>::value || std::is_same<layout_type,layout::last_order>::value,
+                  "Static error in boost::numeric::ublas::basic_strides: layout type must either first or last order");
 
 
     /** @brief Default constructs basic_strides
@@ -76,16 +73,18 @@ public:
      * @code auto strides = basic_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
      *
      */
-    constexpr basic_strides(basic_extents<value_type> const& extents)
+    constexpr explicit basic_strides(basic_extents<value_type> const& extents)
             : _base(extents.size(),1U)
     {
-      if(extents.empty() || extents.size() != this->size())
+      if(extents.empty() || extents.size() != this->size()){
         return;
+      }
 
       std::fill(_base.begin(), _base.end(), 1U);
 
-      if( is_vector(extents) || is_scalar(extents) )
+      if( is_vector(extents) || is_scalar(extents) ){
         return;
+      }
 
       //using layout_type = typename derived_type_strides::layout_type;
       if constexpr (std::is_same<layout_type,layout::first_order>::value ) {
@@ -103,11 +102,11 @@ public:
         : _base(std::move(l._base))
     {}
 
-    constexpr basic_strides(base_type const& l )
+    constexpr explicit basic_strides(base_type const& l )
         : _base(l)
     {}
 
-    constexpr basic_strides(base_type && l ) noexcept
+    constexpr explicit basic_strides(base_type && l ) noexcept
         : _base(std::move(l))
     {}
 

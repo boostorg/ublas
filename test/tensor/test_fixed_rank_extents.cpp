@@ -1,6 +1,6 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+// 	Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -11,7 +11,6 @@
 //
 
 #include <boost/test/unit_test.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_extents.hpp> // Needed for squeeze
 #include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
 #include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
 #include <vector>

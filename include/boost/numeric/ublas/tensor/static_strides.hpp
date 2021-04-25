@@ -14,9 +14,9 @@
 #ifndef BOOST_UBLAS_TENSOR_STATIC_STRIDES_HPP
 #define BOOST_UBLAS_TENSOR_STATIC_STRIDES_HPP
 
-#include "static_extents.hpp"
-#include "layout.hpp"
 #include "detail/extents_functions.hpp"
+#include "layout.hpp"
+#include "static_extents.hpp"
 #include "strides_base.hpp"
 #include "traits/type_traits_strides.hpp"
 

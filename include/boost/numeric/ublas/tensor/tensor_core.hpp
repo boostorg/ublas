@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2020, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -18,16 +18,16 @@
 
 #include <initializer_list>
 
-#include <boost/numeric/ublas/tensor/algorithms.hpp>
-#include <boost/numeric/ublas/tensor/expression.hpp>
-#include <boost/numeric/ublas/tensor/expression_evaluation.hpp>
-#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
-#include <boost/numeric/ublas/tensor/static_extents.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
-#include <boost/numeric/ublas/tensor/strides.hpp>
-#include <boost/numeric/ublas/tensor/index.hpp>
-#include <boost/numeric/ublas/tensor/type_traits.hpp>
-#include <boost/numeric/ublas/tensor/tags.hpp>
+#include "algorithms.hpp"
+#include "expression.hpp"
+#include "expression_evaluation.hpp"
+#include "fixed_rank_extents.hpp"
+#include "static_extents.hpp"
+#include "dynamic_extents.hpp"
+#include "strides.hpp"
+#include "index.hpp"
+#include "type_traits.hpp"
+#include "tags.hpp"
 
 namespace boost::numeric::ublas {
 

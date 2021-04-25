@@ -49,27 +49,32 @@ struct zip_helper<std::tuple<types3...>, type1, types1...>
 template<class ... types>
 using zip = zip_helper<std::tuple<>,types...>;
 
-template<size_t I, class CallBack, class...Ts>
-struct for_each_tuple_impl{
-  static_assert(sizeof...(Ts) > I, "Static Assert in boost::numeric::ublas::detail::for_each_tuple");
-  auto operator()(std::tuple<Ts...>& t, CallBack call_back)
+
+
+template<size_t I, class Tuple, class UnaryOp>
+struct for_each_in_tuple_impl
+{
+  static constexpr unsigned N = std::tuple_size_v<Tuple>;
+  static_assert(I < N, "Static Assert in boost::numeric::ublas::detail::for_each_tuple");
+
+  using next_type = for_each_in_tuple_impl<I+1,Tuple, UnaryOp>;
+
+  static void run(Tuple const& tuple, UnaryOp op)
   {
-      call_back(I,std::get<I>(t));
-      if constexpr(sizeof...(Ts) - 1 > I){
-          for_each_tuple_impl<I + 1,CallBack,Ts...> it;
-          it(t,call_back);
+      op(I,std::get<I>(tuple));
+      if constexpr(I < N-1){
+        next_type::run(tuple, op);
       }
   }
 };
 
-template<class CallBack, class... Ts>
-auto for_each_tuple(std::tuple<Ts...>& t, CallBack call_back){
-  if constexpr (std::tuple_size_v<std::tuple<Ts...>> == 0u )
+template<class Tuple, class UnaryOp>
+void for_each_in_tuple(Tuple const& tuple, UnaryOp op)
+{
+  if constexpr (std::tuple_size_v<Tuple> == 0u )
     return;
 
-  for_each_tuple_impl<0,CallBack,Ts...> f;
-  f(t,call_back);
-
+  for_each_in_tuple_impl<0,Tuple,UnaryOp>::run(tuple,op);
 }
 
 

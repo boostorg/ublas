@@ -13,9 +13,9 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_TENSOR_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_TENSOR_HPP
 
-#include <boost/numeric/ublas/tensor/traits/basic_type_traits.hpp>
-#include <boost/numeric/ublas/tensor/traits/type_traits_extents.hpp>
-#include <boost/numeric/ublas/tensor/traits/storage_traits.hpp>
+#include "basic_type_traits.hpp"
+#include "type_traits_extents.hpp"
+#include "storage_traits.hpp"
 
 namespace boost::numeric::ublas{
     

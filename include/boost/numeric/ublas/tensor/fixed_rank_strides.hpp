@@ -114,11 +114,11 @@ public:
         : _base(std::move(l._base))
     {}
 
-    constexpr basic_fixed_rank_strides(base_type const& l )
+    constexpr explicit basic_fixed_rank_strides(base_type const& l )
         : _base(l)
     {}
 
-    constexpr basic_fixed_rank_strides(base_type && l )
+    constexpr explicit basic_fixed_rank_strides(base_type && l )
             : _base(std::move(l))
     {}
 
@@ -227,6 +227,6 @@ struct strides<basic_fixed_rank_extents<T,N>>
   using type = basic_fixed_rank_strides<T, N, Layout>;
 };
 
-} // namespace boost::numeric::ublass
+} // namespace boost::numeric::ublas
 
 #endif

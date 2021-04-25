@@ -94,8 +94,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents, value,  test_types, 
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  for_each_tuple(extents, [](auto const&, auto& e){
-    auto t = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>{e};
+  for_each_in_tuple(extents, [](auto const&, auto& e){
+    constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+    auto t = ublas::fixed_rank_tensor<value_type, size, layout_type>{e};
 
     BOOST_CHECK_EQUAL (  t.size() , product(e) );
     BOOST_CHECK_EQUAL (  t.rank() , e.size() );
@@ -119,8 +120,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor, value,  test_types, fix
   using layout_type = typename value::second_type;
 
 
-  for_each_tuple(extents, [](auto const&, auto& e){
-    auto r = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>{e};
+  for_each_in_tuple(extents, [](auto const&, auto& e){
+    constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+    auto r = ublas::fixed_rank_tensor<value_type, size, layout_type>{e};
 
     auto t = r;
     BOOST_CHECK_EQUAL (  t.size() , r.size() );
@@ -152,9 +154,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor_layout, value,  test_typ
   using other_layout_type = std::conditional_t<std::is_same<ublas::layout::first_order,layout_type>::value, ublas::layout::last_order, ublas::layout::first_order>;
 
 
-  for_each_tuple(extents, [](auto const&, auto& e){
-    using tensor_type       = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
-    using other_tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), other_layout_type>;
+  for_each_in_tuple(extents, [](auto const&, auto& e){
+    constexpr auto size     = std::tuple_size_v<std::decay_t<decltype(e)>>;
+    using tensor_type       = ublas::fixed_rank_tensor<value_type, size, layout_type>;
+    using other_tensor_type = ublas::fixed_rank_tensor<value_type, size, other_layout_type>;
     auto r = tensor_type{e};
     other_tensor_type t = r;
     tensor_type q = t;
@@ -183,7 +186,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_move_ctor, value,  test_types
 
   auto check = [](auto const&, auto& e)
   {
-    using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+    constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+    using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
     auto r = tensor_type{e};
     auto t = std::move(r);
     BOOST_CHECK_EQUAL (  t.size() , product(e) );
@@ -200,7 +204,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_move_ctor, value,  test_types
 
   };
 
-  for_each_tuple(extents,check);
+  for_each_in_tuple(extents,check);
 }
 
 
@@ -216,8 +220,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_init, value,  test_ty
   using distribution_type = std::conditional_t<std::is_integral_v<value_type>, std::uniform_int_distribution<>, std::uniform_real_distribution<> >;
   auto distribution = distribution_type(1,6);
 
-  for_each_tuple(extents, [&](auto const&, auto const& e){
-    using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+  for_each_in_tuple(extents, [&](auto const&, auto const& e){
+    constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+    using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
 
     auto r = value_type( static_cast< inner_type_t<value_type> >(distribution(generator)) );
     auto t = tensor_type{e,r};
@@ -235,8 +240,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_array, value,  test_t
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  for_each_tuple(extents, [](auto const&, auto& e){
-    using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+  for_each_in_tuple(extents, [](auto const&, auto& e){
+    constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+    using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
     using array_type  = typename tensor_type::array_type;
 
     auto a = array_type(product(e));
@@ -263,8 +269,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_single_index_access, va
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  for_each_tuple(extents, [](auto const&, auto& e){
-    using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+  for_each_in_tuple(extents, [](auto const&, auto& e){
+    constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+    using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
 
     auto t = tensor_type{e};
     auto v = value_type {};
@@ -347,7 +354,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
   };
 
   auto check = [check1,check2,check3,check4](auto const&, auto const& e) {
-    using tensor_type = ublas::fixed_rank_tensor<value_type, e.size(), layout_type>;
+    constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
+    using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
         auto t = tensor_type{e};
     auto v = value_type {};
     for(auto i = 0ul; i < t.size(); ++i){
@@ -355,14 +363,14 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_read_write_multi_index_access_at, 
       v+=value_type{1};
     }
 
-    if constexpr(e.size() == 1) check1(t);
-    else if constexpr(e.size() == 2) check2(t);
-    else if constexpr(e.size() == 3) check3(t);
-    else if constexpr(e.size() == 4) check4(t);
+    if constexpr(size == 1) check1(t);
+    else if constexpr(size == 2) check2(t);
+    else if constexpr(size == 3) check3(t);
+    else if constexpr(size == 4) check4(t);
 
   };
 
-  for_each_tuple(extents,check);
+  for_each_in_tuple(extents,check);
 }
 
 
@@ -374,14 +382,15 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_reshape, value,  test_types, fixtu
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  for_each_tuple(extents,[&](auto const&, auto const& efrom){
+  for_each_in_tuple(extents,[&](auto const&, auto const& efrom){
 
-    using efrom_t = std::decay_t<  decltype(efrom)  >;
+    using efrom_t = std::decay_t<decltype(efrom)>;
     using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<efrom_t>, layout_type>;
 
-    for_each_tuple(extents,[&](auto const&, auto& eto){
+    for_each_in_tuple(extents,[&](auto const&, auto& eto){
+      using eto_t = std::decay_t<decltype(eto)>;
 
-      if constexpr( efrom.size() == eto.size()  ){
+      if constexpr( std::tuple_size_v<efrom_t> == std::tuple_size_v<eto_t>  ){
 
         auto v = value_type {};
         v+=value_type{1};
@@ -415,12 +424,15 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_swap, value,  test_types, fixture)
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  for_each_tuple(extents,[&](auto const&, auto const& e_t){
+  for_each_in_tuple(extents,[&](auto const&, auto const& e_t){
     using e_tt = std::decay_t<  decltype(e_t)  >;
     using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<e_tt>, layout_type>;
 
-    for_each_tuple(extents,[&](auto const&, auto& e_r){
-      if constexpr( e_t.size() == e_r.size() ){
+    for_each_in_tuple(extents,[&](auto const&, auto& e_r){
+
+      using e_rt = std::decay_t<  decltype(e_r)  >;
+
+      if constexpr( std::tuple_size_v<e_tt> == std::tuple_size_v<e_rt> ){
 
         auto v = value_type {} + value_type{1};
         auto w = value_type {} + value_type{2};
@@ -456,7 +468,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_standard_iterator, value,  test_ty
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  for_each_tuple(extents,[](auto const&, auto const& e){
+  for_each_in_tuple(extents,[](auto const&, auto const& e){
     using et = std::decay_t<  decltype(e)  >;
     using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<et>, layout_type>;
 
