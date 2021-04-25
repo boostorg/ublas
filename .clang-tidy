@@ -1,6 +1,6 @@
 ---
-Checks:                 '-*,modernize-*,cppcoreguidelines-*,openmp-*,bugprone-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-uppercase-literal-suffix,-readability-braces-around-statements'
-WarningsAsErrors:       '-*,modernize-*,cppcoreguidelines-*,openmp-*,bugprone-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-readability-uppercase-literal-suffix,-readability-braces-around-statements'
+Checks:                 'bugprone-*,clang-*,cppcoreguidelines-*,google-*,hicpp-*,misc-*,modernize-*,performance-*,readability-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-bounds-*,-readability-magic-numbers,-readability-uppercase-literal-suffix,-modernize-use-trailing-return-type,-readability-braces-around-statements
+WarningsAsErrors:       '-*,clang-*',
 HeaderFilterRegex:      'boost\/numeric\/ublas\/tensor\/.*'
 AnalyzeTemporaryDtors:  false
 FormatStyle:            file
