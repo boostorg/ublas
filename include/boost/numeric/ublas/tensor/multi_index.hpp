@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -20,23 +20,15 @@
 #include "multi_index_utility.hpp"
 #include "index.hpp"
 
-namespace boost {
-namespace numeric {
-namespace ublas {
-namespace index {
+namespace boost::numeric::ubals::index {
 
 template<std::size_t I>
 struct index_type;
 
-} // namespace indices
-}
-}
-}
+} // namespace boost::numeric::ublas::indices
 
 
-namespace boost {
-namespace numeric {
-namespace ublas {
+namespace boost::numeric::ublas {
 
 /** @brief Proxy class for the einstein summation notation
  *
@@ -91,22 +83,19 @@ auto array_to_vector(multi_index<M> const& lhs, multi_index<N> const& rhs)
 
     auto pair_of_vector = std::make_pair( vtype {}, vtype{}  );
 
-    for(auto i = 0u; i < N; ++i)
-        for(auto j = 0u; j < M; ++j)
+    for(auto i = 0ul; i < N; ++i){
+        for(auto j = 0ul; j < M; ++j){
             if ( lhs.at(i) == rhs.at(j) && lhs.at(i) != boost::numeric::ublas::index::_()){
                 pair_of_vector.first .push_back( i+1 );
                 pair_of_vector.second.push_back( j+1 );
             }
+        }
+    }
+
 
     return pair_of_vector;
 }
 
-
-
-
-
-} // namespace ublas
-} // namespace numeric
-} // namespace boost
+} // namespace boost::numeric::ublas
 
 #endif // MULTI_INDEX_HPP

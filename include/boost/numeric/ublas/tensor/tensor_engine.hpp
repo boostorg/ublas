@@ -16,33 +16,33 @@
 #include <boost/numeric/ublas/tensor/tensor_core.hpp>
 
 namespace boost::numeric::ublas{
-    
-    template<typename...>
-    struct tensor_engine;
 
-    template<typename ExtentsType, typename LayoutType, typename StrideType, typename StorageType>
-    struct tensor_engine<ExtentsType, LayoutType, StrideType, StorageType>{
-        using extents_type 	        = ExtentsType;
-        
-        static_assert(is_extents_v<extents_type>,
-            "boost::numeric::ublas::tensor_engine : please provide valid tensor extents type"
-        );
+template<typename...>
+struct tensor_engine;
 
-        using layout_type 	        = LayoutType;
-        using strides_type 	        = typename StrideType::template type<layout_type>;
+template<typename extents_type__, typename layout_type__, typename strides_type__, typename storage_type__>
+struct tensor_engine<extents_type__, layout_type__, strides_type__, storage_type__>
+{
 
-        static_assert(is_strides_v<strides_type>,
-            "boost::numeric::ublas::tensor_engine : please provide valid tensor layout type"
-        );
+  using extents_type 	        = extents_type__;
+  using layout_type 	        = layout_type__;
+  using strides_type 	        = typename strides_type__::template type<layout_type>;
+  using storage_traits_type   = storage_traits<storage_type__>;
 
-        using storage_traits_type   = storage_traits<StorageType>;
-        
-    };
+  static_assert(is_extents_v<extents_type>,
+                "boost::numeric::ublas::tensor_engine : please provide valid tensor extents type"
+                );
 
-    template<typename ExtentsType, typename LayoutType, typename StorageType>
-    struct tensor_engine<ExtentsType, LayoutType, StorageType>
-        : tensor_engine< ExtentsType, LayoutType, strides<ExtentsType>, StorageType >
-    {};
+  static_assert(is_strides_v<strides_type>,
+                "boost::numeric::ublas::tensor_engine : please provide valid tensor layout type"
+                );
+
+};
+
+template<typename ExtentsType, typename LayoutType, typename StorageType>
+struct tensor_engine<ExtentsType, LayoutType, StorageType>
+  : tensor_engine< ExtentsType, LayoutType, strides<ExtentsType>, StorageType >
+{};
 
 } // namespace boost::numeric::ublas
 
