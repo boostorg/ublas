@@ -37,11 +37,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    - name: Install Clang 8
+      if: matrix.config.cxx == 'clang++-8'
+      run: |
+        sudo apt-get update && sudo apt-get install -y clang-8 
+    
     - name: Install Clang 10
       if: matrix.config.cxx == 'clang++-10'
       run: |
-        sudo apt-get update
-        sudo apt-get install -y clang-10
+        sudo apt-get update && sudo apt-get install -y clang-10
     
       
     - name: Prepare BOOST_ROOT
@@ -83,7 +87,7 @@ jobs:
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3" 
+        $BOOST_ROOT/b2 -j 4 examples/tensor toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3 -Wall -Wpedantic -" 
         
     - name: Test Tensor
       run: |
