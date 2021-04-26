@@ -1,4 +1,5 @@
 # Copyright (c) 2020 Mohammad Ashar Khan
+# Copyright (c) 2021 Cem Bassoy
 # Distributed under Boost Software License, Version 1.0
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
@@ -22,7 +23,7 @@ jobs:
          config: 
            - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11} 
            - {os: windows-2019, toolset: msvc, version: 14.28, cxxstd: 11}
-           - {os: windows-2019, toolset: msvc, version: 14.28, cxxstd: 17}
+#           - {os: windows-2019, toolset: msvc, version: 14.28, cxxstd: 17}
            - {os: windows-2019, toolset: msvc, version: 14.28, cxxstd: latest}
              
      steps:
@@ -70,12 +71,12 @@ jobs:
           cmd /c bootstrap
           b2 -j8 headers
           
-      - name: Test Benchmarks
-        shell: cmd
-        run: |
-          cd %BOOST_ROOT%
-          cd libs\numeric\ublas
-          %BOOST_ROOT%\b2 -j 4 benchmarks toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+#      - name: Test Benchmarks
+#        shell: cmd
+#        run: |
+#          cd %BOOST_ROOT%
+#          cd libs\numeric\ublas
+#          %BOOST_ROOT%\b2 -j 4 benchmarks toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           
       - name: Test Tensor Examples
         shell: cmd

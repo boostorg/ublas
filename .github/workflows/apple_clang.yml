@@ -2,7 +2,7 @@
 # Distributed under Boost Software License, Version 1.0
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
-name: Apple Clang
+name: Apple Clang 12.0
 
 on: 
   push:
@@ -15,12 +15,12 @@ on:
       - 'doc/**'
 jobs:
   build:
-    name: "Darwin 11.0 -std=c++${{matrix.cxxstd}}"
-    runs-on: macos-latest
+    name: "Darwin 20 -std=c++${{matrix.cxxstd}}"
+    runs-on: macos-11.0
     strategy:
       fail-fast: false
       matrix:
-        cxxstd: [11, 17, 2a]
+        cxxstd: [11, 20]
 
     steps:
     - uses: actions/checkout@v2

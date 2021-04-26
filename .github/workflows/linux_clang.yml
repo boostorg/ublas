@@ -24,15 +24,15 @@ jobs:
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
       matrix:
         config: 
-          - { cc: clang-6.0, cxx: clang++-6.0, cxxstd: 11}
+#          - { cc: clang-6.0, cxx: clang++-6.0, cxxstd: 11}
           - { cc: clang-8, cxx: clang++-8, cxxstd: 11}
           - { cc: clang-9, cxx: clang++-9, cxxstd: 11}
           - { cc: clang-10, cxx: clang++-10, cxxstd: 11}
-          - { cc: clang-6.0, cxx: clang++-6.0, cxxstd: 17}
-          - { cc: clang-8, cxx: clang++-8, cxxstd: 17}
-          - { cc: clang-9, cxx: clang++-9, cxxstd: 17}
-          - { cc: clang-10, cxx: clang++-10, cxxstd: 17}
-          - { cc: clang-10, cxx: clang++-10, cxxstd: 2a}
+#          - { cc: clang-6.0, cxx: clang++-6.0, cxxstd: 17}
+#          - { cc: clang-8, cxx: clang++-8, cxxstd: 17}
+#          - { cc: clang-9, cxx: clang++-9, cxxstd: 17}
+#          - { cc: clang-10, cxx: clang++-10, cxxstd: 17}
+          - { cc: clang-10, cxx: clang++-10, cxxstd: 20}
          
     steps:
     - uses: actions/checkout@v2
@@ -43,11 +43,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y clang-10
     
-    - name: Install Clang 6
-      if: matrix.config.cxx == 'clang++-6.0'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y clang-6.0
       
     - name: Prepare BOOST_ROOT
       run: |
@@ -78,11 +73,11 @@ jobs:
         
         echo "using clang : : ${{ matrix.config.cxx }} ;" >> ~/user-config.jam;
         
-    - name: Test Benchmarks
-      run: |
-        cd $BOOST_ROOT
-        cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"
+#    - name: Test Benchmarks
+#      run: |
+#        cd $BOOST_ROOT
+#        cd libs/numeric/ublas
+#        $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"
         
     - name: Test Tensor Examples
       run: |

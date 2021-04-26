@@ -27,19 +27,14 @@ jobs:
           - {cc: gcc-8, cxx: g++-8, cxxstd: 11}
           - {cc: gcc-9, cxx: g++-9, cxxstd: 11}
           - {cc: gcc-10, cxx: g++-10, cxxstd: 11}
-          - {cc: gcc-7, cxx: g++-7, cxxstd: 17}
-          - {cc: gcc-8, cxx: g++-8, cxxstd: 17}
-          - {cc: gcc-9, cxx: g++-9, cxxstd: 17}
-          - {cc: gcc-10, cxx: g++-10, cxxstd: 17}
-          - {cc: gcc-10, cxx: g++-10, cxxstd: 2a}          
+          - {cc: gcc-10, cxx: g++-10, cxxstd: 20}          
     steps:
       - uses: actions/checkout@v2
       
-      - name: Install GCC-10
+      - name: Install g++-10
         if: matrix.config.cxx == 'g++-10'
         run: |
-         sudo apt update
-         sudo apt-get install -y g++-10
+         sudo apt update && sudo apt-get install -y g++-10
        
       - name: Prepare BOOST_ROOT
         run: |
@@ -70,11 +65,11 @@ jobs:
         
          echo "using gcc : : ${{ matrix.config.cxx }} ;" >> ~/user-config.jam;
 
-      - name: Test Benchmarks
-        run: |
-         cd $BOOST_ROOT
-         cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 benchmarks toolset=gcc cxxstd=${{matrix.config.cxxstd}}
+#      - name: Test Benchmarks
+#        run: |
+#         cd $BOOST_ROOT
+#         cd libs/numeric/ublas
+#         $BOOST_ROOT/b2 -j 4 benchmarks toolset=gcc cxxstd=${{matrix.config.cxxstd}}
         
       - name: Test Tensor Examples
         run: |
@@ -89,7 +84,7 @@ jobs:
          $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g --coverage" linkflags="--coverage"
 
       - name: Report Code coverage
-        if: matrix.config.cxxstd == '17' && matrix.config.cxx == 'g++-9'
+        if: matrix.config.cxxstd == '20' && matrix.config.cxx == 'g++-10'
         run: |
          ${GITHUB_WORKSPACE}/.ci/report_coverage.sh
         

@@ -39,7 +39,7 @@ jobs:
       
       - name: "Run clang-tidy check"
         run: |
-          clang-tidy-10 examples/tensor/*.cpp -- -Iinclude -std=c++17 > reports.txt
+          clang-tidy-10 examples/tensor/*.cpp -- -Iinclude -std=c++20 > reports.txt
 
       - name: "Show clang tidy report"
         if: always()  

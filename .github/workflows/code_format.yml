@@ -24,8 +24,8 @@ jobs:
         run: |
           sudo apt-get install -y clang-format-10
      
-      - name: "Format Codes"
-        run: clang-format-10 -i examples/tensor/*.cpp test/tensor/*.cpp include/boost/numeric/ublas/tensor/*.hpp include/boost/numeric/ublas/tensor/*/*.hpp
+#      - name: "Format Codes"
+#        run: clang-format-10 -i examples/tensor/*.cpp test/tensor/*.cpp include/boost/numeric/ublas/tensor/*.hpp include/boost/numeric/ublas/tensor/*/*.hpp
      
-      - name: Check diff
-        run: git diff --exit-code HEAD
+#      - name: Check diff
+#        run: git diff --exit-code HEAD
