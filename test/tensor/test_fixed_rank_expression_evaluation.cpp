@@ -62,7 +62,7 @@ struct fixture
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_extents, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+  namespace ublas  = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
@@ -176,7 +176,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_equal, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+  namespace ublas  = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
