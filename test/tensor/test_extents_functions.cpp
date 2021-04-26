@@ -25,7 +25,9 @@ template<class T>
 struct shape_dynamic
   : boost::numeric::ublas::extents_base<shape_dynamic<T>>
 {
+  using base_type  = std::vector<T>;
 public:
+  using value_type = typename base_type::value_type;
   shape_dynamic() = default;
   shape_dynamic(std::initializer_list<T> l) : base(std::move(l)) {};
   [[nodiscard]] constexpr inline auto begin()       {return base.begin ();}
@@ -34,7 +36,7 @@ public:
   [[nodiscard]] constexpr inline auto end  () const {return base.end   ();}
   [[nodiscard]] constexpr inline auto size () const {return base.size  ();}
 private:
-  std::vector<T> base;
+  base_type base;
 };
 
 struct fixture_shape_dynamic
@@ -70,16 +72,18 @@ template<class T, std::size_t N>
 struct shape_dynamic_rank_static
   : boost::numeric::ublas::extents_base<shape_dynamic_rank_static<T,N>>
 {
+  using base_type  = std::array<T,N>;
 public:
+  using value_type = typename base_type::value_type;
   constexpr shape_dynamic_rank_static() = default;
-  constexpr shape_dynamic_rank_static(std::array<T,N> const& l) : base(l) {};
+  constexpr shape_dynamic_rank_static(base_type const& l) : base(l) {};
   [[nodiscard]] constexpr inline auto begin()       {return base.begin ();}
   [[nodiscard]] constexpr inline auto end  ()       {return base.end   ();}
   [[nodiscard]] constexpr inline auto begin() const {return base.begin ();}
   [[nodiscard]] constexpr inline auto end  () const {return base.end   ();}
   [[nodiscard]] constexpr inline auto size () const {return base.size  ();}
 private:
-  std::array<T,N> base;
+  base_type base;
 };
 
 
@@ -117,12 +121,14 @@ template<std::size_t ... N>
 struct shape_static
   : boost::numeric::ublas::extents_base<shape_static<N...>>
 {
+  using base_type  = std::array<std::size_t,sizeof...(N)>;
 public:
+  using value_type = typename base_type::value_type;
   [[nodiscard]] constexpr auto begin() const {return base.begin ();}
   [[nodiscard]] constexpr auto end  () const {return base.end   ();}
   [[nodiscard]] constexpr auto size () const {return base.size  ();}
 private:
-  static constexpr inline std::array<std::size_t,sizeof...(N)> base{N...};
+  static constexpr inline base_type base{N...};
 };
 
 

@@ -20,8 +20,7 @@
 
 #include <functional>
 
-BOOST_AUTO_TEST_SUITE(test_tensor_expression);
-
+BOOST_AUTO_TEST_SUITE(test_tensor_expression)
 using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 

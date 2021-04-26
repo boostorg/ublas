@@ -39,7 +39,7 @@ template <class D>
   bool is_scalar(extents_base<D> const& e)
 {
   return std::distance(e().begin(),e().end())>0 &&
-         std::all_of  (e().begin(),e().end(),[](auto a){return a==1U;});
+         std::all_of  (e().begin(),e().end(),[](auto a){return a==1UL;});
 }
 
 
@@ -55,11 +55,11 @@ template <class D>
   bool is_vector(extents_base<D> const& e)
 {
   if (std::distance(e().begin(),e().end()) <  1) {return false;}
-  if (std::distance(e().begin(),e().end()) == 1) {return *e().begin() > 1U;}
+  if (std::distance(e().begin(),e().end()) == 1) {return *e().begin() > 1UL;}
 
-  return std::any_of(e().begin()  ,e().begin()+2, [](auto a){return a >1U;}) &&
-         std::any_of(e().begin()  ,e().begin()+2, [](auto a){return a==1U;}) &&
-         std::all_of(e().begin()+2,e().end()    , [](auto a){return a==1U;});
+  return std::any_of(e().begin()  ,e().begin()+2, [](auto a){return a >1UL;}) &&
+         std::any_of(e().begin()  ,e().begin()+2, [](auto a){return a==1UL;}) &&
+         std::all_of(e().begin()+2,e().end()    , [](auto a){return a==1UL;});
 }
 
 
@@ -72,8 +72,8 @@ template <class D>
   bool is_matrix(extents_base<D> const& e)
 {
   return std::distance(e().begin()  ,e().end()) > 1 &&
-         std::all_of  (e().begin()  ,e().begin()+2, [](auto a){return a> 1U;}) &&
-         std::all_of  (e().begin()+2,e().end()    , [](auto a){return a==1U;});
+         std::all_of  (e().begin()  ,e().begin()+2, [](auto a){return a> 1UL;}) &&
+         std::all_of  (e().begin()+2,e().end()    , [](auto a){return a==1UL;});
 }
 
 
@@ -103,7 +103,7 @@ template <class D>
     return *e().begin() > 0;
   }
 
-  return std::all_of(e().begin(),e().end(), [](auto a){ return a>0U; } );
+  return std::all_of(e().begin(),e().end(), [](auto a){ return a>0UL; } );
 }
 
 /** @brief Computes the product of all extents */
@@ -111,11 +111,12 @@ template <class D>
 [[nodiscard]] inline constexpr
   auto product( extents_base<D> const& e )
 {
+  using value_type = typename D::value_type;
   if( std::distance(e().begin(),e().end()) <= 0 ){
-    return 0U;
+    return value_type{0U};
   }
 
-  auto acc = 1U;
+  auto acc = value_type{1U};
   for(auto const& ee : e()){
     acc *= ee;
   }

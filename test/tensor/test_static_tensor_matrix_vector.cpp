@@ -21,7 +21,7 @@
 
 
 
-BOOST_AUTO_TEST_SUITE ( test_static_tensor_matrix_interoperability ) ;
+BOOST_AUTO_TEST_SUITE ( test_static_tensor_matrix_interoperability )
 
 using test_types = zip<int,float>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
@@ -90,7 +90,7 @@ struct fixture
         extents_type<2,3>, // 1
         extents_type<9,7>, // 2
         extents_type<15,17> // 3
-    > extents;;
+    > extents;
 };
 
 

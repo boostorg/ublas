@@ -217,4 +217,4 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_all_extents_equa
 
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

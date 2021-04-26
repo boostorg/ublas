@@ -19,7 +19,7 @@
 
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE ( test_fixed_rank_tensor_matrix_interoperability ) ;
+BOOST_AUTO_TEST_SUITE ( test_fixed_rank_tensor_matrix_interoperability )
 
 using test_types = zip<int,float>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
