@@ -45,11 +45,11 @@ struct fixture {
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     {
       using extents_t = std::decay_t<decltype (e)>;
       using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<extents_t>, layout_type>;
@@ -85,12 +85,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     {
       using extents_t = std::decay_t<decltype (e)>;
       using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<extents_t>, layout_type>;
@@ -132,12 +132,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     {
       using extents_t = std::decay_t<decltype (e)>;
       using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<extents_t>, layout_type>;

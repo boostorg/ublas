@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE(test_fixed_rank_extents_ctor)
 
     auto e0 = ub::extents<0>{};
     BOOST_CHECK( e0.empty());
-    BOOST_CHECK ( e0.size() == 0);
+    BOOST_CHECK_EQUAL ( e0.size(), 0);
 
     auto e1 = ub::extents<2>{{1,1}};
     BOOST_CHECK(!e1.empty());

@@ -1,6 +1,8 @@
 ---
-Checks:                 'bugprone-*,clang-*,cppcoreguidelines-*,google-*,hicpp-*,misc-*,modernize-*,performance-*,readability-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-bounds-*,-readability-magic-numbers,-readability-uppercase-literal-suffix,-modernize-use-trailing-return-type,-readability-braces-around-statements'
-WarningsAsErrors:       '-*,clang-*'
+Checks: '-*,clang-*,bugprone-*,cppcoreguidelines-*,google-*,hicpp-*,modernize-*,performance-*,readability-*,portability-*,
+-modernize-use-trailing-return-type, -readability-uppercase-literal-suffix, -readability-braces-around-statements, -hicpp-uppercase-literal-suffix, -hicpp-braces-around-statements, -hicpp-no-array-decay, -cppcoreguidelines-pro-bounds-constant-array-index, -cppcoreguidelines-pro-bounds-pointer-arithmetic, -cppcoreguidelines-pro-bounds-array-to-pointer-decay, -readability-avoid-const-params-in-decls, -google-readability-braces-around-statements,-google-explicit-constructor,-hicpp-vararg,-cppcoreguidelines-pro-type-vararg'
+WarningsAsErrors: '-*,clang-*,bugprone-*,cppcoreguidelines-*,google-*,hicpp-*,modernize-*,performance-*,readability-*,portability-*,
+-modernize-use-trailing-return-type, -readability-uppercase-literal-suffix, -readability-braces-around-statements, -hicpp-uppercase-literal-suffix, -hicpp-braces-around-statements, -hicpp-no-array-decay, -cppcoreguidelines-pro-bounds-constant-array-index, -cppcoreguidelines-pro-bounds-pointer-arithmetic, -cppcoreguidelines-pro-bounds-array-to-pointer-decay, -readability-avoid-const-params-in-decls, -google-readability-braces-around-statements,-google-explicit-constructor,-hicpp-vararg,-cppcoreguidelines-pro-type-vararg'
 HeaderFilterRegex:      'boost\/numeric\/ublas\/tensor\/.*'
 AnalyzeTemporaryDtors:  false
 FormatStyle:            file
@@ -8,4 +10,8 @@ User:                   ublas-developers
 CheckOptions:
   - key:                modernize-use-nullptr.NullMacros
     value:              'NULL'
+  - key:                readability-magic-numbers.IgnoredIntegerValues
+    value:              '1;2;3;4;5;6;7;8;9;'
+  - key:                cppcoreguidelines-avoid-magic-numbers.IgnoredIntegerValues
+    value:              '1;2;3;4;5;6;7;8;9;'
 ...

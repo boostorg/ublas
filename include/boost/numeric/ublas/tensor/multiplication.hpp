@@ -623,7 +623,7 @@ void ttv(SizeType const m, SizeType const p,
          const PointerIn1 a, SizeType const*const na, SizeType const*const wa,
          const PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
-  static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
+  static_assert( std::is_pointer<PointerOut>::value && std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
                 "Static error in boost::numeric::ublas::ttv: Argument types for pointers are not pointer types.");
 
   if( m == 0){
@@ -703,7 +703,7 @@ void ttm(SizeType const m, SizeType const p,
          const PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 
-  static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
+  static_assert( std::is_pointer<PointerOut>::value && std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
                 "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
 
   if( m == 0 ){
@@ -776,7 +776,7 @@ void ttt(SizeType const pa, SizeType const pb, SizeType const q,
          PointerIn1 a, SizeType const*const na, SizeType const*const wa,
          PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
-  static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
+  static_assert( std::is_pointer<PointerOut>::value && std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
                 "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
 
   if( pa == 0 || pb == 0){
@@ -956,7 +956,7 @@ void outer(PointerOut c,       SizeType const pc, SizeType const*const nc, SizeT
            const PointerIn1 a, SizeType const pa, SizeType const*const na, SizeType const*const wa,
            const PointerIn2 b, SizeType const pb, SizeType const*const nb, SizeType const*const wb)
 {
-  static_assert( std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value & std::is_pointer<PointerOut>::value,
+  static_assert( std::is_pointer<PointerIn1>::value && std::is_pointer<PointerIn2>::value && std::is_pointer<PointerOut>::value,
                 "Static error in boost::numeric::ublas::outer: argument types for pointers must be pointer types.");
   if(pa < 2u || pb < 2u){
     throw std::length_error("Error in boost::numeric::ublas::outer: number of extents of lhs and rhs tensor must be equal or greater than two.");

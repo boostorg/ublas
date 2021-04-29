@@ -76,7 +76,7 @@ struct shape_dynamic_rank_static
 public:
   using value_type = typename base_type::value_type;
   constexpr shape_dynamic_rank_static() = default;
-  constexpr shape_dynamic_rank_static(base_type const& l) : base(l) {};
+  constexpr explicit shape_dynamic_rank_static(base_type const& l) : base(l) {};
   [[nodiscard]] constexpr inline auto begin()       {return base.begin ();}
   [[nodiscard]] constexpr inline auto end  ()       {return base.end   ();}
   [[nodiscard]] constexpr inline auto begin() const {return base.begin ();}

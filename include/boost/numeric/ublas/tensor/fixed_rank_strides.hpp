@@ -61,17 +61,18 @@ public:
      * @code auto strides = basic_fixed_rank_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
      *
      */
-
     template<class OT>
-    constexpr basic_fixed_rank_strides(basic_fixed_rank_extents<OT,N> const& extents)
+    constexpr explicit basic_fixed_rank_strides(basic_fixed_rank_extents<OT,N> const& extents)
     {
-      if(extents.empty() || extents.size() != this->size())
+      if(extents.empty() || (extents.size() != this->size()) ){
         return;
+      }
 
       std::fill(_base.begin(), _base.end(), 1U);
 
-      if( is_vector(extents) || is_scalar(extents) )
+      if( is_vector(extents) || is_scalar(extents) ){
         return;
+      }
 
       //using layout_type = typename derived_type_strides::layout_type;
       if constexpr (std::is_same<layout_type,layout::first_order>::value ) {

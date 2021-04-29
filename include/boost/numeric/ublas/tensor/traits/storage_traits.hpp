@@ -19,10 +19,8 @@
 
 #include "../tags.hpp"
 
-namespace boost {
-namespace numeric {
-namespace ublas {
-
+namespace boost::numeric::ublas
+{
 
 template <class A>
 struct storage_traits;
@@ -88,9 +86,7 @@ struct storage_traits<std::array<V,N>>
     using rebind_size = std::array<V,M>;
 };
 
-} // ublas
-} // numeric
-} // boost
+} // namespace boost::numeric::ublas
 
 namespace boost::numeric::ublas
 {
@@ -113,7 +109,7 @@ class basic_static_extents;
         struct rebind_storage_size_helper<basic_static_extents<T>, A, storage_static_container_tag>{
             using type = typename storage_traits<A>::template rebind_size< 0 >;
         };
-    }
+    } //namespace detail
 
     template<typename E, typename A>
     struct rebind_storage_size

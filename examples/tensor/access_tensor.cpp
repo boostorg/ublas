@@ -15,12 +15,11 @@
 
 #include <ostream>
 
+//NOLINTNEXTLINE
 int main()
 {
-    using namespace boost::numeric::ublas;
-    using namespace boost::multiprecision;
 
-    {
+    try {
       using value_t   = float;
       using format_t  = boost::numeric::ublas::layout::first_order; // storage format
       using tensor_t  = boost::numeric::ublas::dynamic_tensor<value_t,format_t>;
@@ -41,10 +40,13 @@ int main()
       std::cout << "% --------------------------- " << std::endl;
       std::cout << "% --------------------------- " << std::endl << std::endl;
       std::cout << "A=" << A << ";" << std::endl << std::endl;
+    } catch (const std::exception& e) {
+      std::cerr << "Cought exception " << e.what();
+      std::cerr << "in the main function of access-tensor." << std::endl;
     }
 
 
-    {
+    try {
       using value_t   = std::complex<boost::multiprecision::cpp_bin_float_double_extended>;
       using format_t  = boost::numeric::ublas::layout::last_order; // storage format
       using tensor_t  = boost::numeric::ublas::dynamic_tensor<value_t,format_t>;
@@ -55,6 +57,7 @@ int main()
       // according to the last-order storage format
       // and initializes it with the default value.
 
+      //NOLINTNEXTLINE
       auto B = tensor_t(shape_t{5,4,3,2},value_t{});
 
       // initializes the tensor with increasing values along the last-index
@@ -95,9 +98,12 @@ int main()
       // reshaping tensors.
       auto new_extents = B.extents().base();
       std::next_permutation( new_extents.begin(), new_extents.end() );
-      D.reshape( extents<>(new_extents)  );
+      D.reshape( shape_t(new_extents)  );
       std::cout << "% --------------------------- " << std::endl;
       std::cout << "% --------------------------- " << std::endl << std::endl;
       std::cout << "newD=" << D << ";" << std::endl << std::endl;
+    } catch (const std::exception& e) {
+      std::cerr << "Cought exception " << e.what();
+      std::cerr << "in the main function of access-tensor." << std::endl;
     }
 }

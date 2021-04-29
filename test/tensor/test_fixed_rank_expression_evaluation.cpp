@@ -14,13 +14,13 @@
 
 #include <boost/numeric/ublas/tensor.hpp>
 #include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
-#include "utility.hpp"
 #include <boost/test/unit_test.hpp>
-#include <tuple>
+
+#include "utility.hpp"
+
 #include <cstdlib>
-
 #include <functional>
-
+#include <tuple>
 
 BOOST_AUTO_TEST_SUITE(test_fixed_rank_tensor_expression)
 
@@ -66,12 +66,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    auto uplus1 = std::bind(  std::plus<value_type>{}, std::placeholders::_1, value_type(1) );
-    auto uplus2 = std::bind(  std::plus<value_type>{}, value_type(2), std::placeholders::_2 );
+    auto uplus1 = [](auto const& a){return a + value_type(1); };
+    auto uplus2 = [](auto const& a){return value_type(2) + a; };
     auto bplus  = std::plus <value_type>{};
     auto bminus = std::minus<value_type>{};
 
-    for_each_in_tuple(extents, [&](auto const&, auto const& e){
+    for_each_in_tuple(extents, [&](auto const& /*unused*/, auto const& e){
 
 
 
@@ -117,7 +117,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_retrieve_ext
         constexpr auto size1 = std::tuple_size_v<std::decay_t<decltype(e1)>>;
         using tensor_type1 = ublas::fixed_rank_tensor<value_type, size1, layout_type>;
 
-        for_each_in_tuple(extents, [&](auto J, auto const& e2){
+        for_each_in_tuple(extents, [&,I,size1](auto J, auto const& e2){
 
             if( J != I + 1 ){
                 return;
@@ -180,12 +180,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_expression_all_extents_
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    auto uplus1 = std::bind(  std::plus<value_type>{}, std::placeholders::_1, value_type(1) );
-    auto uplus2 = std::bind(  std::plus<value_type>{}, value_type(2), std::placeholders::_2 );
+    auto uplus1 = [](auto const& a){return a + value_type(1); };
+    auto uplus2 = [](auto const& a){return value_type(2) + a; };
     auto bplus  = std::plus <value_type>{};
     auto bminus = std::minus<value_type>{};
 
-    for_each_in_tuple(extents, [&](auto const&, auto& e){
+    for_each_in_tuple(extents, [&](auto const& /*unused*/, auto& e){
       static constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
       using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
         

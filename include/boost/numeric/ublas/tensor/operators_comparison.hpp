@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -24,9 +24,10 @@
 namespace boost::numeric::ublas {
 template<class T>
 class tensor_core;
-}
+} // namespace boost::numeric::ublas
 
-namespace boost::numeric::ublas::detail {
+namespace boost::numeric::ublas::detail
+{
 
 template<class T1, class T2, class BinaryPred>
 [[nodiscard]] inline 
@@ -96,7 +97,7 @@ constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred pred)
         return compare(T( expr ), pred);
 }
 
-}
+} // namespace boost::numeric::ublas::detail
 
 
 template<class T1, class T2, class L, class R>

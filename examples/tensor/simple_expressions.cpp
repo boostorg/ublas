@@ -18,11 +18,15 @@
 
 int main()
 {
-    using namespace boost::numeric::ublas;
+  namespace ublas = boost::numeric::ublas;
 
-    using tensorf = dynamic_tensor<float>;
-    using matrixf = matrix<float>;
-    using vectorf = vector<float>;
+  using tensorf = ublas::dynamic_tensor<float>;
+  using matrixf = ublas::matrix<float>;
+  using vectorf = ublas::vector<float>;
+  using shape   = tensorf::extents_type;
+
+  try {
+
 
     auto A = tensorf{3,4,2};
     auto B = A = 2;
@@ -30,7 +34,7 @@ int main()
     // Calling overloaded operators
     // and using simple tensor expression templates.
     if( A != (B+1) ){
-        A += 2*B - 1;
+      A += 2*B - 1;
     }
 
     // formatted output
@@ -38,7 +42,7 @@ int main()
     std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "A=" << A << ";" << std::endl << std::endl;
 
-    auto n = extents<>{3,4};
+    auto n = shape{3,4};
     auto D = matrixf(n[0],n[1],1);
     auto e = vectorf(n[1],1);
     auto f = vectorf(n[0],2);
@@ -61,5 +65,9 @@ int main()
     std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "F=" << F << ";" << std::endl << std::endl;
 
+  }  catch (const std::exception& e) {
+    std::cerr << "Cought exception " << e.what();
+    std::cerr << "in the main function of simple expression." << std::endl;
+  }
 
 }

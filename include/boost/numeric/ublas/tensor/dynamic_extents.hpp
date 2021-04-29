@@ -124,7 +124,7 @@ public:
 
 
   template<typename OT>
-  constexpr basic_extents(basic_extents<OT> const& e)
+  constexpr explicit basic_extents(basic_extents<OT> const& e)
     : _base(e.begin(),e.end())
   {
     static_assert( std::numeric_limits<OT>::is_integer, "Static error in basic_extents: type must be of type integer.");

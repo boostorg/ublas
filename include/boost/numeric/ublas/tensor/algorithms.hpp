@@ -18,9 +18,7 @@
 #include <complex>
 #include <functional>
 
-namespace boost {
-namespace numeric {
-namespace ublas {
+namespace boost::numeric::ublas {
 
 
 
@@ -307,26 +305,27 @@ constexpr void trans( SizeType const p,  SizeType const*const na, SizeType const
 */
 
 template <class ValueType, class SizeType>
-constexpr void trans( SizeType const p,
+constexpr void trans(SizeType const p,
                      SizeType const*const na,
                      SizeType const*const pi,
                      std::complex<ValueType>* c,  SizeType const*const wc,
                      std::complex<ValueType>* a,  SizeType const*const wa)
 {
-  if( p < 2)
+  if( p < 2){
     return;
-
-  if(c == nullptr || a == nullptr)
+  }
+  if(c == nullptr || a == nullptr){
     throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
-
-  if(wc == nullptr || wa == nullptr)
+  }
+  if(wc == nullptr || wa == nullptr){
     throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
-
-  if(na == nullptr)
+  }
+  if(na == nullptr){
     throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
-
-  if(pi == nullptr)
+  }
+  if(pi == nullptr){
     throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+  }
 
 
   std::function<void(SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)> lambda;
@@ -346,10 +345,7 @@ constexpr void trans( SizeType const p,
 }
 
 
+} // namespace boost::numeric::ublas
 
-
-}
-}
-}
 
 #endif

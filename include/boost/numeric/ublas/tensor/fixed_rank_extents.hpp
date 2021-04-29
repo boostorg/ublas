@@ -56,7 +56,7 @@ public:
 
   constexpr basic_fixed_rank_extents() = default;
 
-  constexpr basic_fixed_rank_extents(base_type const& data)
+  constexpr explicit basic_fixed_rank_extents(base_type const& data)
     : _base(data)
   {
     if ( !is_valid(*this) ){
@@ -143,8 +143,8 @@ public:
 
 
   [[nodiscard]]
-  static inline constexpr auto size() noexcept {
-    return N;
+  inline constexpr auto size() const noexcept {
+    return this->_base.size();
   }
 
   [[nodiscard]] inline
@@ -186,7 +186,7 @@ public:
      *
      */
   [[nodiscard]] inline
-    constexpr bool empty() const noexcept { return _size == size_type{0}; }
+    constexpr bool empty() const noexcept { return this->size() == size_type{0}; }
 
   friend void swap(basic_fixed_rank_extents& lhs, basic_fixed_rank_extents& rhs)
         noexcept(std::is_nothrow_swappable_v<base_type>)
@@ -237,7 +237,6 @@ public:
 
 private:
   base_type _base{};
-  static constexpr std::size_t const _size = N;
 };
 
 } // namespace boost::numeric::ublas

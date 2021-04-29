@@ -366,7 +366,7 @@ namespace boost::numeric::ublas
                 is_static_rank_v<rextents_type>
             ){
                 constexpr auto const N = detail::extent_of_rank_one_array_v<array_type>;
-                constexpr auto const sz = lextents_type::_size + rextents_type::_size - 2 * N;
+                constexpr auto const sz = std::tuple_size_v<lextents_type> + std::tuple_size_v<rextents_type> - 2 * N;
                 auto res = extents<std::max(sz, extents_size_type(2))>();
                 res.fill(1u);
                 return res;
@@ -435,7 +435,7 @@ namespace boost::numeric::ublas
      *
      * @param[in]  a  left-hand side tensor with order r+q
      * @param[in]  b  right-hand side tensor with order s+q
-     * @param[in]  phi one-based permutation tuple of length q for bot input
+     * @param[in]  phi one-based permutation tuple of length q for both input
      * tensors can be of type std::vector<std::size_t> or std::array<std::size_t,N>
      * @result     tensor with order r+s
     */
@@ -816,7 +816,7 @@ namespace boost::numeric::ublas
         return c;
     }
 
-}
+} // namespace boost::numeric::ublas
 
 // static functions
 namespace boost::numeric::ublas
@@ -1097,7 +1097,7 @@ namespace boost::numeric::ublas
         return c;
     }
 
-}
+} // namespace boost::numeric::ublas
 
 
 #endif

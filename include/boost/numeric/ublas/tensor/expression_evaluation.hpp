@@ -27,7 +27,7 @@ class tensor_core;
 template<typename ExtentType>
 class basic_extents;
 
-}
+} // namespace boost::numeric::ublas
 
 namespace boost::numeric::ublas::detail {
 
@@ -40,7 +40,7 @@ struct binary_tensor_expression;
 template<class T, class E, class OP>
 struct unary_tensor_expression;
 
-}
+} // namespace boost::numeric::ublas::detail
 
 namespace boost::numeric::ublas::detail {
 
@@ -67,11 +67,8 @@ struct has_tensor_types<T, unary_tensor_expression<T,E,OP>>
 } // namespace boost::numeric::ublas::detail
 
 
-namespace boost::numeric::ublas::detail {
-
-
-
-
+namespace boost::numeric::ublas::detail
+{
 
 /** @brief Retrieves extents of the tensor_core
  *
@@ -260,7 +257,8 @@ constexpr auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, Ex
 } // namespace boost::numeric::ublas::detail
 
 
-namespace boost::numeric::ublas::detail {
+namespace boost::numeric::ublas::detail
+{
 
 
 /** @brief Evaluates expression for a tensor_core
@@ -348,5 +346,5 @@ inline void eval(tensor_type& lhs, unary_fn const& fn)
 }
 
 
-}
+} // namespace boost::numeric::ublas::detail
 #endif

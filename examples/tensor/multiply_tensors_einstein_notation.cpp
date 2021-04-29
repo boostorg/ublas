@@ -1,6 +1,6 @@
 //
-// 	Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-// 	Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+// 	Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+// 	Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -18,27 +18,20 @@
 
 int main()
 {
-    using namespace boost::numeric::ublas;
-
     using value_t   = float;
     using format_t  = boost::numeric::ublas::layout::first_order; // storage format
     using tensor_t  = boost::numeric::ublas::dynamic_tensor<value_t,format_t>;
     using shape_t   = typename tensor_t::extents_type;
+    using matrix_t  = boost::numeric::ublas::matrix<value_t,format_t>;
 
-    //using format_t  = column_major;
-    //using value_t   = float;
-    //using shape_t   = dynamic_extents<>;
-    //using tensor_t  = dynamic_tensor<value_t,format_t>;
-    using matrix_t  = matrix<value_t,format_t>;
-
-
+    // NOLINTNEXTLINE(google-build-using-namespace)
     using namespace boost::numeric::ublas::index;
 
     // Tensor-Vector-Multiplications - Including Transposition
-    {
+    try {
 
-        auto n = shape_t{3,4,2};
-        auto A = tensor_t(n,1);
+        auto n  = shape_t{3,4,2};
+        auto A  = tensor_t(n,1);
         auto B1 = matrix_t(n[1],n[2],2);
         auto v1 = tensor_t(shape_t{n[0],1},2);
         auto v2 = tensor_t(shape_t{n[1],1},2);
@@ -69,11 +62,13 @@ int main()
         std::cout << "% C2(i,k) = A(i,j,k)*v2(j) + 4;" << std::endl << std::endl;
         std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
 
+    } catch (const std::exception& e) {
+      std::cerr << "Cought exception " << e.what();
+      std::cerr << "in the main function of multiply-tensor-einstein-notation when doing tensor-vector multiplication." << std::endl;
     }
 
-
     // Tensor-Matrix-Multiplications - Including Transposition
-    {
+    try {
         auto n = shape_t{3,4,2};
         auto m = 5u;
         auto A = tensor_t(n,2);
@@ -110,11 +105,14 @@ int main()
 //        std::cout << "% --------------------------- " << std::endl << std::endl;
 //        std::cout << "% C3(i,l1,l2) = A(i,j,k)*T1(l1,j)*T2(l2,k);" << std::endl << std::endl;
 //        std::cout << "C3=" << C3 << ";" << std::endl << std::endl;
+    } catch (const std::exception& e) {
+      std::cerr << "Cought exception " << e.what();
+      std::cerr << "in the main function of multiply-tensor-einstein-notation when doing tensor-matrix multiplication." << std::endl;
     }
 
 
     // Tensor-Tensor-Multiplications Including Transposition
-    {
+    try {
         auto na = shape_t{3,4,5};
         auto nb = shape_t{4,6,3,2};
         auto A = tensor_t(na,2);
@@ -144,5 +142,8 @@ int main()
         std::cout << "%  C2(k,l,m) = T2(k,l,m) + A(i,j,k)*B(j,l,i,m) + 5;" << std::endl << std::endl;
         std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
 
+    } catch (const std::exception& e) {
+      std::cerr << "Cought exception " << e.what();
+      std::cerr << "in the main function of multiply-tensor-einstein-notation when doing transpose." << std::endl;
     }
 }

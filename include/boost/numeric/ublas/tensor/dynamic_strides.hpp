@@ -25,9 +25,8 @@
 #include "type_traits.hpp"
 
 
-namespace boost { 
-namespace numeric { 
-namespace ublas {
+namespace boost::numeric::ublas
+{
 
 template<class T>
 class basic_extents;
@@ -218,8 +217,6 @@ struct strides<basic_extents<T>>
   using type = basic_strides<T, Layout>;
 };
 
-}
-}
-}
+} // namespace boost::numeric::ublas
 
 #endif

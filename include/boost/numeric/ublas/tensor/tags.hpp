@@ -25,7 +25,7 @@ namespace boost::numeric::ublas{
     
     struct storage_non_seq_container_tag{};
 
-} // namespace boost::numeric::ublas::tag
+} // namespace boost::numeric::ublas
 
 
 #endif

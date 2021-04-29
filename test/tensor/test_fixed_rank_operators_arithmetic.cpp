@@ -46,12 +46,12 @@ struct fixture
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     {
         constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
         using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
@@ -107,12 +107,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     {
       constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
         using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
@@ -164,12 +164,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     {
       constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
         using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;

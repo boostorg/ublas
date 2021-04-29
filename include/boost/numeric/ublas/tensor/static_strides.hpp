@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -20,6 +20,8 @@
 #include "strides_base.hpp"
 #include "traits/type_traits_strides.hpp"
 
+#include <cstdlib>
+
 namespace boost::numeric::ublas{
 
   template <class E, class L> class basic_static_strides;
@@ -28,7 +30,7 @@ namespace boost::numeric::ublas{
 
 namespace boost::numeric::ublas::detail{
 
-  namespace impl{
+  namespace impl {
  
     // concat two static_stride_list togather
     // @code using type = typename concat< static_stride_list<int, 1,2,3>, static_stride_list<int, 4,5,6> >::type @endcode
@@ -76,7 +78,7 @@ namespace boost::numeric::ublas::detail{
       static constexpr std::array<T,sizeof...(Es)> const value = {Es...};
     };
 
-  } // impl
+  } // namespace impl
 
 
   template<typename T, std::size_t N> 
@@ -174,12 +176,12 @@ public:
     return m_data.at(k);
   }
 
-  [[nodiscard]] inline 
-  constexpr const_reference operator[](size_type k) const { return m_data[k]; }
+  [[nodiscard]] inline
+    constexpr const_reference operator[](size_type k) const { return m_data[k]; }
 
   //@returns the rank of basic_static_extents
-  [[nodiscard]] inline 
-  constexpr size_type size() const noexcept { return static_cast<size_type>(_size); }
+  [[nodiscard]] inline
+    constexpr size_type size() const noexcept { return m_data.size(); }
 
   [[nodiscard]] inline
   constexpr const_reference back () const{
@@ -188,12 +190,12 @@ public:
 
   // default constructor
   constexpr basic_static_strides() noexcept{
-    static_assert( 
-      _size == 0 || 
+    static_assert(
+      m_data.empty() ||
       ( is_valid(extents_type{}) &&
         ( is_vector(extents_type{}) ||
           is_scalar(extents_type{}) ||
-          _size >= 2 
+          m_data.size() >= 2
         )
       )
       , 
@@ -205,7 +207,7 @@ public:
     
   }
 
-  constexpr basic_static_strides(extents_type const& e) noexcept{ (void)e; };
+  constexpr explicit basic_static_strides(extents_type const& e) noexcept{ (void)e; };
 
   // default copy constructor
   constexpr basic_static_strides(basic_static_strides const &other) noexcept = default;

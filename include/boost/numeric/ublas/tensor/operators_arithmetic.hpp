@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -22,10 +22,8 @@
 #include <functional>
 #include <algorithm>
 
-namespace boost{
-namespace numeric{
-namespace ublas {
-
+namespace boost::numeric::ublas
+{
 
 template<class T>
 class tensor_core;
@@ -37,9 +35,8 @@ class matrix_expression;
 template<class E>
 class vector_expression;
 
-}
-}
-}
+} // namespace boost::numeric::ublas
+
 
 template <class T, class L, class R>
 inline
@@ -463,7 +460,7 @@ auto operator*(
   std::pair< tensor_type_right const&, tuple_type_right > rhs)
 {
 
-  using namespace boost::numeric::ublas;
+  namespace ublas = boost::numeric::ublas;
 
   auto const& tensor_left  = lhs.first;
   auto const& tensor_right = rhs.first;
@@ -471,19 +468,19 @@ auto operator*(
   auto multi_index_left = lhs.second;
   auto multi_index_right = rhs.second;
 
-  static constexpr auto num_equal_ind = number_equal_indexes<tuple_type_left, tuple_type_right>::value;
+  static constexpr auto num_equal_ind = ublas::number_equal_indexes<tuple_type_left, tuple_type_right>::value;
 
   if constexpr ( num_equal_ind == 0  ){
     return tensor_left * tensor_right;
   }
   else if constexpr ( num_equal_ind==std::tuple_size<tuple_type_left>::value && std::is_same<tuple_type_left, tuple_type_right>::value ){
 
-    return boost::numeric::ublas::inner_prod( tensor_left, tensor_right );
+    return ublas::inner_prod( tensor_left, tensor_right );
   }
   else {
-    auto array_index_pairs = index_position_pairs(multi_index_left,multi_index_right);
-    auto index_pairs = array_to_vector(  array_index_pairs  );
-    return boost::numeric::ublas::prod( tensor_left, tensor_right, index_pairs.first, index_pairs.second );
+    auto array_index_pairs = ublas::index_position_pairs(multi_index_left,multi_index_right);
+    auto index_pairs = ublas::array_to_vector(  array_index_pairs  );
+    return ublas::prod( tensor_left, tensor_right, index_pairs.first, index_pairs.second );
   }
 
 }
