@@ -64,7 +64,7 @@ namespace boost::numeric::ublas
         {};
 
         template<typename T>
-        inline static constexpr bool extent_of_rank_one_array_v = extent_of_rank_one_array<T>::value;
+        inline static constexpr std::size_t extent_of_rank_one_array_v = extent_of_rank_one_array<T>::value;
 
     } // namespace detail
     
@@ -360,6 +360,9 @@ namespace boost::numeric::ublas
             using lextents_type = std::decay_t< decltype(e1) >;
             using rextents_type = std::decay_t< decltype(e2) >;
             using array_type    = std::decay_t< decltype(a1) >;
+            
+            [[maybe_unused]] extents_size_type const size = ( e1.size() + e2.size() ) - ( a1.size() + a2.size() );
+
             if constexpr( 
                 detail::is_bounded_array_v<array_type> && 
                 is_static_rank_v<lextents_type> &&
@@ -371,7 +374,6 @@ namespace boost::numeric::ublas
                 res.fill(1u);
                 return res;
             }else{
-                extents_size_type const size = ( e1.size() + e2.size() ) - ( a1.size() + a2.size() );
                 using extents_base_type = typename extents<>::base_type;
                 auto arr = extents_base_type( std::max(size, extents_size_type(2)), 1u );
                 return extents<>(std::move(arr));

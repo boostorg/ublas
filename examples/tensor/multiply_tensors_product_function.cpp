@@ -193,13 +193,14 @@ void multiply_tensors_with_static_order()
     using value_t   = float; // std::complex<double>;    
     using matrix_t  = matrix<value_t,format_t>;
     using vector_t  = vector<value_t>;
+    using tensor_t  = dynamic_tensor<value_t>;
     using tensor2_t = fixed_rank_tensor<value_t,2U>;
     using tensor3_t = fixed_rank_tensor<value_t,3U>;
-//    using tensor4_t = fixed_rank_tensor<value_t,4>;
-//    using shape_t   = typename tensor_t::extents_type;
-//    using shape2_t  = typename tensor2_t::extents_type;
+    using tensor4_t = fixed_rank_tensor<value_t,4>;
+    using shape_t   = typename tensor_t::extents_type;
+    using shape2_t  = typename tensor2_t::extents_type;
     using shape3_t  = typename tensor3_t::extents_type;
-//    using shape4_t  = typename tensor4_t::extents_type;
+    using shape4_t  = typename tensor4_t::extents_type;
 
     // Tensor-Vector-Multiplications - Including Transposition
     // dynamic_extents with static rank
@@ -296,41 +297,41 @@ void multiply_tensors_with_static_order()
     // dynamic_extents with static rank
     {
 
-//        using perm_t = std::array<std::size_t,2>;
+       using perm_t = std::array<std::size_t,2>;
 
-//        auto na = shape3_t{3,4,5};
-//        auto nb = shape4_t{4,6,3,2};
-//        auto nc = shape2_t{5,5};
-//        auto A = tensor3_t(na,2.0F);
-//        auto B = tensor4_t(nb,3.0F);
-//        auto C = tensor2_t(nc,2.0F);
+       auto na = shape3_t{3,4,5};
+       auto nb = shape4_t{4,6,3,2};
+       auto nc = shape2_t{5,5};
+       auto A = tensor3_t(na,2.0F);
+       auto B = tensor4_t(nb,3.0F);
+       auto C = tensor2_t(nc,2.0F);
 
         // C1(j,l) = T(j,l) + A(i,j,k)*A(i,j,l) + 5;
         // Right now there exist no tensor other than dynamic_extents with 
         // dynamic rank so every tensor times tensor operator automatically
         // to dynamic tensor
-//        auto C1 = C + prod(A,A,perm_t{1,2}) + 5.0F;
+        auto C1 = C + prod(A,A,perm_t{1,2}) + 5.0F;
         std::cout << "% --------------------------- " << std::endl;
         std::cout << "% --------------------------- " << std::endl << std::endl;
         std::cout << "% C1(k,l) = T(k,l) + A(i,j,k)*A(i,j,l) + 5;" << std::endl << std::endl;
-//        std::cout << "C1=" << tensor_t(C1) << ";" << std::endl << std::endl;
+        std::cout << "C1=" << tensor_t(C1) << ";" << std::endl << std::endl;
 
 
         // C2(k,l,m) = T(k,l,m) + A(i,j,k)*B(j,l,i,m) + 5;
         // Similar Problem as above
-//         tensor_t C2 = tensor_t(shape_t{na[2],nb[1],nb[3]},2.0F) + prod(A,B,perm_t{1,2},perm_t{3,1}) + 5.0F;
+        tensor_t C2 = tensor3_t(shape3_t{na[2],nb[1],nb[3]},2.0F) + prod(A,B,perm_t{1,2},perm_t{3,1}) + 5.0F;
         std::cout << "% --------------------------- " << std::endl;
         std::cout << "% --------------------------- " << std::endl << std::endl;
         std::cout << "%  C2(k,l,m) = T(k,l,m) + A(i,j,k)*B(j,l,i,m) + 5;" << std::endl << std::endl;
-        //std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
+        std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
 
          // C3(k,l,m) = T(k,l,m) + A(i,j,k)*trans(B(j,l,i,m),{2,3,1,4})+ 5;
          // Similar Problem as above
-//          tensor_t C3 = tensor_t(shape_t{na[2],nb[1],nb[3]},2.0F) + prod(A,trans(B,{2,3,1,4}),perm_t{1,2}) + 5.0F;
+         tensor_t C3 = tensor3_t(shape3_t{na[2],nb[1],nb[3]},2.0F) + prod(A,trans(B,{2,3,1,4}),perm_t{1,2}) + 5.0F;
          std::cout << "% --------------------------- " << std::endl;
          std::cout << "% --------------------------- " << std::endl << std::endl;
          std::cout << "%  C3(k,l,m) = T(k,l,m) + A(i,j,k)*trans(B(j,l,i,m),{2,3,1,4})+ 5;" << std::endl << std::endl;
-//         std::cout << "C3=" << C3 << ";" << std::endl << std::endl;
+        std::cout << "C3=" << C3 << ";" << std::endl << std::endl;
 
     }
 }
