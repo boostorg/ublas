@@ -23,8 +23,8 @@ jobs:
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
       matrix:
         config:
-            - {cc: gcc-10, cxx: g++-10, cxxstd: 20, name: gcc-10}
-            - {cc: clang-11, cxx: clang++-11, cxxstd: 20, name: clang-11}
+            - {cc: gcc-10, cxx: g++-10, cxxstd: 20, name: gcc}
+            - {cc: clang-11, cxx: clang++-11, cxxstd: 20, name: clang}
     steps:
       - uses: actions/checkout@v2
       
@@ -77,10 +77,11 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
+         $BOOST_ROOT/b2 -j8 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
         
       - name: Test Tensor
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
+         $BOOST_ROOT/b2 -j8 test/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
+         

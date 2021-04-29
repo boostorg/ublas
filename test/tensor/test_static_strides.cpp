@@ -27,7 +27,7 @@ template <class E, class L>
 using strides_type = boost::numeric::ublas::strides_t<E, L>;
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_static_strides_ctor, value, test_types) {
-  using namespace boost::numeric;
+  namespace ublas = boost::numeric::ublas;
 
   strides_type<extents_type<1, 1>, ublas::layout::first_order> s1{};
   BOOST_CHECK_EQUAL(s1.empty(), false);
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_static_strides_ctor, value, test_types) {
 }
 
 BOOST_AUTO_TEST_CASE(test_static_strides_ctor_access_first_order) {
-  using namespace boost::numeric;
+  namespace ublas = boost::numeric::ublas;
 
   strides_type<extents_type<1, 1>, ublas::layout::first_order> s1{};
   BOOST_REQUIRE_EQUAL(s1.size(), 2);
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE(test_static_strides_ctor_access_first_order) {
 }
 
 BOOST_AUTO_TEST_CASE(test_static_strides_ctor_access_last_order) {
-  using namespace boost::numeric;
+  namespace ublas = boost::numeric::ublas;
 
   strides_type<extents_type<1, 1>, ublas::layout::last_order> s1{};
   BOOST_REQUIRE_EQUAL(s1.size(), 2);

@@ -43,8 +43,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_retrieve_extents
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    auto uplus1 = std::bind(  std::plus<value_type>{}, std::placeholders::_1, value_type(1) );
-    auto uplus2 = std::bind(  std::plus<value_type>{}, value_type(2), std::placeholders::_2 );
+    auto uplus1 = [](auto const& a){return a + value_type(1);};
+    auto uplus2 = [](auto const& a){return value_type(2) + a;};
     auto bplus  = std::plus <value_type>{};
     auto bminus = std::minus<value_type>{};
 
@@ -135,12 +135,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_all_extents_equa
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    auto uplus1 = std::bind(  std::plus<value_type>{}, std::placeholders::_1, value_type(1) );
-    auto uplus2 = std::bind(  std::plus<value_type>{}, value_type(2), std::placeholders::_2 );
+    auto uplus1 = [](auto const& a){return a + value_type(1);};
+    auto uplus2 = [](auto const& a){return value_type(2) + a;};
     auto bplus  = std::plus <value_type>{};
     auto bminus = std::minus<value_type>{};
 
-    for_each_in_tuple(extents, [&](auto const&, auto& e){
+    for_each_in_tuple(extents, [&](auto const& /*unused*/, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
         

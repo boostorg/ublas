@@ -21,7 +21,7 @@ template <size_t... E>
 using extents = boost::numeric::ublas::basic_static_extents<unsigned,E...>;
 
 BOOST_AUTO_TEST_CASE(test_static_extents_ctor) {
-  using namespace boost::numeric;
+  namespace ublas = boost::numeric::ublas;
 
   auto e0 = extents<>{};
   BOOST_CHECK(e0.empty());
@@ -98,21 +98,21 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_product, fixture,
                         *boost::unit_test::label("static_extents") *
                             boost::unit_test::label("product")) {
   
-  using namespace boost::numeric::ublas;
+  namespace ublas = boost::numeric::ublas;
 
-  auto p0   = product(e0);   // {}
-  auto p1   = product(e1);   // {1,2,3,4}
-  auto p2   = product(e2);   // {1,2,3}
-  auto p3   = product(e3);   // {4,2,3}
-  auto p4   = product(e4);   // {4,2,1,3}
-  auto p5   = product(e5);   // {1,4,2,1,3,1}
+  auto p0   = ublas::product(e0);   // {}
+  auto p1   = ublas::product(e1);   // {1,2,3,4}
+  auto p2   = ublas::product(e2);   // {1,2,3}
+  auto p3   = ublas::product(e3);   // {4,2,3}
+  auto p4   = ublas::product(e4);   // {4,2,1,3}
+  auto p5   = ublas::product(e5);   // {1,4,2,1,3,1}
   
-  auto sp0   = product(e0);   // {}
-  auto sp1   = product(e1);   // {1,2,3,4}
-  auto sp2   = product(e2);   // {1,2,3}
-  auto sp3   = product(e3);   // {4,2,3}
-  auto sp4   = product(e4);   // {4,2,1,3}
-  auto sp5   = product(e5);   // {1,4,2,1,3,1}
+  auto sp0   = ublas::product(e0);   // {}
+  auto sp1   = ublas::product(e1);   // {1,2,3,4}
+  auto sp2   = ublas::product(e2);   // {1,2,3}
+  auto sp3   = ublas::product(e3);   // {4,2,3}
+  auto sp4   = ublas::product(e4);   // {4,2,1,3}
+  auto sp5   = ublas::product(e5);   // {1,4,2,1,3,1}
 
   BOOST_CHECK_EQUAL(p0, 0);
   BOOST_CHECK_EQUAL(p1, 24);
@@ -131,7 +131,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_product, fixture,
 
 BOOST_FIXTURE_TEST_CASE(test_static_extents_access, fixture,
                         *boost::unit_test::label("static_extents") *boost::unit_test::label("access")) {
-  using namespace boost::numeric;
+  namespace ublas = boost::numeric::ublas;
 
   BOOST_CHECK_EQUAL(e0.size(), 0);
   BOOST_CHECK(e0.empty());
@@ -172,7 +172,7 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
                         *boost::unit_test::label("static_extents") *
                             boost::unit_test::label("query")) {
 
-  using namespace boost::numeric::ublas;
+  namespace ublas = boost::numeric::ublas;
   // e0  ==> {}
   // e1  ==> {0,0,0,0}
   // e2  ==> {1,2,3}
@@ -181,209 +181,209 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents, fixture,
   // e5  ==> {1,4,2,1,3,1}
 
   BOOST_CHECK(   e0.empty(   ));
-  BOOST_CHECK( !is_scalar( e0));
-  BOOST_CHECK( !is_vector( e0));
-  BOOST_CHECK( !is_matrix( e0));
-  BOOST_CHECK( !is_tensor( e0));
-  BOOST_CHECK( !is_scalar( e0));
-  BOOST_CHECK( !is_vector( e0));
-  BOOST_CHECK( !is_matrix( e0));
-  BOOST_CHECK( !is_tensor( e0));
+  BOOST_CHECK( !ublas::is_scalar( e0));
+  BOOST_CHECK( !ublas::is_vector( e0));
+  BOOST_CHECK( !ublas::is_matrix( e0));
+  BOOST_CHECK( !ublas::is_tensor( e0));
+  BOOST_CHECK( !ublas::is_scalar( e0));
+  BOOST_CHECK( !ublas::is_vector( e0));
+  BOOST_CHECK( !ublas::is_matrix( e0));
+  BOOST_CHECK( !ublas::is_tensor( e0));
 
   BOOST_CHECK( ! e1.empty(   ) );
-  BOOST_CHECK( !is_scalar( e1) );
-  BOOST_CHECK( !is_vector( e1) );
-  BOOST_CHECK( !is_matrix( e1) );
-  BOOST_CHECK(  is_tensor( e1) );
-  BOOST_CHECK( !is_scalar( e1) );
-  BOOST_CHECK( !is_vector( e1) );
-  BOOST_CHECK( !is_matrix( e1) );
-  BOOST_CHECK(  is_tensor( e1) );
+  BOOST_CHECK( !ublas::is_scalar( e1) );
+  BOOST_CHECK( !ublas::is_vector( e1) );
+  BOOST_CHECK( !ublas::is_matrix( e1) );
+  BOOST_CHECK(  ublas::is_tensor( e1) );
+  BOOST_CHECK( !ublas::is_scalar( e1) );
+  BOOST_CHECK( !ublas::is_vector( e1) );
+  BOOST_CHECK( !ublas::is_matrix( e1) );
+  BOOST_CHECK(  ublas::is_tensor( e1) );
 
   BOOST_CHECK( ! e2.empty(   ) );
-  BOOST_CHECK( !is_scalar( e2) );
-  BOOST_CHECK( !is_vector( e2) );
-  BOOST_CHECK( !is_matrix( e2) );
-  BOOST_CHECK(  is_tensor( e2) );
-  BOOST_CHECK( !is_scalar( e2) );
-  BOOST_CHECK( !is_vector( e2) );
-  BOOST_CHECK( !is_matrix( e2) );
-  BOOST_CHECK(  is_tensor( e2) );
+  BOOST_CHECK( !ublas::is_scalar( e2) );
+  BOOST_CHECK( !ublas::is_vector( e2) );
+  BOOST_CHECK( !ublas::is_matrix( e2) );
+  BOOST_CHECK(  ublas::is_tensor( e2) );
+  BOOST_CHECK( !ublas::is_scalar( e2) );
+  BOOST_CHECK( !ublas::is_vector( e2) );
+  BOOST_CHECK( !ublas::is_matrix( e2) );
+  BOOST_CHECK(  ublas::is_tensor( e2) );
 
   BOOST_CHECK( ! e3.empty(   ) );
-  BOOST_CHECK( !is_scalar( e3) );
-  BOOST_CHECK( !is_vector( e3) );
-  BOOST_CHECK( !is_matrix( e3) );
-  BOOST_CHECK(  is_tensor( e3) );
-  BOOST_CHECK( !is_scalar( e3) );
-  BOOST_CHECK( !is_vector( e3) );
-  BOOST_CHECK( !is_matrix( e3) );
-  BOOST_CHECK(  is_tensor( e3) );
+  BOOST_CHECK( !ublas::is_scalar( e3) );
+  BOOST_CHECK( !ublas::is_vector( e3) );
+  BOOST_CHECK( !ublas::is_matrix( e3) );
+  BOOST_CHECK(  ublas::is_tensor( e3) );
+  BOOST_CHECK( !ublas::is_scalar( e3) );
+  BOOST_CHECK( !ublas::is_vector( e3) );
+  BOOST_CHECK( !ublas::is_matrix( e3) );
+  BOOST_CHECK(  ublas::is_tensor( e3) );
 
   BOOST_CHECK( ! e4.empty(   ) );
-  BOOST_CHECK( !is_scalar( e4) );
-  BOOST_CHECK( !is_vector( e4) );
-  BOOST_CHECK( !is_matrix( e4) );
-  BOOST_CHECK(  is_tensor( e4) );
-  BOOST_CHECK( !is_scalar( e4) );
-  BOOST_CHECK( !is_vector( e4) );
-  BOOST_CHECK( !is_matrix( e4) );
-  BOOST_CHECK(  is_tensor( e4) );
+  BOOST_CHECK( !ublas::is_scalar( e4) );
+  BOOST_CHECK( !ublas::is_vector( e4) );
+  BOOST_CHECK( !ublas::is_matrix( e4) );
+  BOOST_CHECK(  ublas::is_tensor( e4) );
+  BOOST_CHECK( !ublas::is_scalar( e4) );
+  BOOST_CHECK( !ublas::is_vector( e4) );
+  BOOST_CHECK( !ublas::is_matrix( e4) );
+  BOOST_CHECK(  ublas::is_tensor( e4) );
 
   BOOST_CHECK( ! e5.empty(   ) );
-  BOOST_CHECK( !is_scalar( e5) );
-  BOOST_CHECK( !is_vector( e5) );
-  BOOST_CHECK( !is_matrix( e5) );
-  BOOST_CHECK(  is_tensor( e5) );
-  BOOST_CHECK( !is_scalar( e5) );
-  BOOST_CHECK( !is_vector( e5) );
-  BOOST_CHECK( !is_matrix( e5) );
-  BOOST_CHECK(  is_tensor( e5) );
+  BOOST_CHECK( !ublas::is_scalar( e5) );
+  BOOST_CHECK( !ublas::is_vector( e5) );
+  BOOST_CHECK( !ublas::is_matrix( e5) );
+  BOOST_CHECK(  ublas::is_tensor( e5) );
+  BOOST_CHECK( !ublas::is_scalar( e5) );
+  BOOST_CHECK( !ublas::is_vector( e5) );
+  BOOST_CHECK( !ublas::is_matrix( e5) );
+  BOOST_CHECK(  ublas::is_tensor( e5) );
 
   boost::numeric::ublas::basic_static_extents<size_t,1,3> e14;
   BOOST_CHECK( ! e14.empty(   ) );
-  BOOST_CHECK( ! is_scalar(e14) );
-  BOOST_CHECK(   is_vector(e14) );
-  BOOST_CHECK( ! is_matrix(e14) );
-  BOOST_CHECK( ! is_tensor(e14) );
-  BOOST_CHECK( ! is_scalar(e14) );
-  BOOST_CHECK(   is_vector(e14) );
-  BOOST_CHECK( ! is_matrix(e14) );
-  BOOST_CHECK( ! is_tensor(e14) );
+  BOOST_CHECK( ! ublas::is_scalar(e14) );
+  BOOST_CHECK(   ublas::is_vector(e14) );
+  BOOST_CHECK( ! ublas::is_matrix(e14) );
+  BOOST_CHECK( ! ublas::is_tensor(e14) );
+  BOOST_CHECK( ! ublas::is_scalar(e14) );
+  BOOST_CHECK(   ublas::is_vector(e14) );
+  BOOST_CHECK( ! ublas::is_matrix(e14) );
+  BOOST_CHECK( ! ublas::is_tensor(e14) );
 
 
-  for_each_in_tuple(rank_0_extents,[](auto const&, auto& e){
-    BOOST_CHECK( !is_scalar(e) );
-    BOOST_CHECK( !is_vector(e) );
-    BOOST_CHECK( !is_matrix(e) );
-    BOOST_CHECK( !is_tensor(e) );
-    BOOST_CHECK( !is_scalar(e) );
-    BOOST_CHECK( !is_vector(e) );
-    BOOST_CHECK( !is_matrix(e) );
-    BOOST_CHECK( !is_tensor(e) );
+  for_each_in_tuple(rank_0_extents,[](auto const& /*unused*/, auto& e){
+    BOOST_CHECK( !ublas::is_scalar(e) );
+    BOOST_CHECK( !ublas::is_vector(e) );
+    BOOST_CHECK( !ublas::is_matrix(e) );
+    BOOST_CHECK( !ublas::is_tensor(e) );
+    BOOST_CHECK( !ublas::is_scalar(e) );
+    BOOST_CHECK( !ublas::is_vector(e) );
+    BOOST_CHECK( !ublas::is_matrix(e) );
+    BOOST_CHECK( !ublas::is_tensor(e) );
   });
 
 
   for_each_in_tuple(rank_1_extents,[](auto const& I, auto const& e){
     if( I == 0 ){
-      BOOST_CHECK(  is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
-      BOOST_CHECK(  is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
+      BOOST_CHECK(  ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
+      BOOST_CHECK(  ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
     }else{
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK(  is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK(  is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK(  ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK(  ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
     }
   });
 
   for_each_in_tuple(rank_2_extents,[](auto const& I, auto const& e){
     if( I == 0 ){
-      BOOST_CHECK(  is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
-      BOOST_CHECK(  is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
+      BOOST_CHECK(  ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
+      BOOST_CHECK(  ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
     }else{
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK(  is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK(  is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK(  ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK(  ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
     }
   });
 
-  for_each_in_tuple(scalars,[](auto const&, auto& e){
-      BOOST_CHECK(  is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
-      BOOST_CHECK(  is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
+  for_each_in_tuple(scalars,[](auto const& /*unused*/, auto& e){
+      BOOST_CHECK(  ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
+      BOOST_CHECK(  ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
   });
 
-  for_each_in_tuple(vectors,[](auto const&, auto& e){
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK(  is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK(  is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
+  for_each_in_tuple(vectors,[](auto const& /*unused*/, auto& e){
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK(  ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK(  ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
   });
 
-  for_each_in_tuple(matrices,[](auto const&, auto& e){
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK(  is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK(  is_matrix(e) );
-      BOOST_CHECK( !is_tensor(e) );
+  for_each_in_tuple(matrices,[](auto const& /*unused*/, auto& e){
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK(  ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK(  ublas::is_matrix(e) );
+      BOOST_CHECK( !ublas::is_tensor(e) );
       
   });
 
-  for_each_in_tuple(tensors,[](auto const&, auto& e){
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK(  is_tensor(e) );
-      BOOST_CHECK( !is_scalar(e) );
-      BOOST_CHECK( !is_vector(e) );
-      BOOST_CHECK( !is_matrix(e) );
-      BOOST_CHECK(  is_tensor(e) );
+  for_each_in_tuple(tensors,[](auto const& /*unused*/, auto& e){
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK(  ublas::is_tensor(e) );
+      BOOST_CHECK( !ublas::is_scalar(e) );
+      BOOST_CHECK( !ublas::is_vector(e) );
+      BOOST_CHECK( !ublas::is_matrix(e) );
+      BOOST_CHECK(  ublas::is_tensor(e) );
   });
 
 }
 
 BOOST_FIXTURE_TEST_CASE(test_static_extents_valid, fixture, *boost::unit_test::label("static_extents") *boost::unit_test::label("valid"))
 {
-  using namespace boost::numeric::ublas;
-  for_each_in_tuple(rank_0_extents,[](auto const&, auto& e){
-    BOOST_CHECK(!is_valid(e));
+  namespace ublas = boost::numeric::ublas;
+  for_each_in_tuple(rank_0_extents,[](auto const& /*unused*/, auto& e){
+    BOOST_CHECK(!ublas::is_valid(e));
   });
 
-  for_each_in_tuple(rank_1_extents,[](auto const&, auto const& e){
-    BOOST_CHECK(is_valid(e));
+  for_each_in_tuple(rank_1_extents,[](auto const& /*unused*/, auto const& e){
+    BOOST_CHECK(ublas::is_valid(e));
   });
 
-  for_each_in_tuple(rank_2_extents,[](auto const&, auto& e){
-      BOOST_CHECK(is_valid(e));
+  for_each_in_tuple(rank_2_extents,[](auto const& /*unused*/, auto& e){
+      BOOST_CHECK(ublas::is_valid(e));
   });
   
-  for_each_in_tuple(scalars,[](auto const&, auto& e){
-      BOOST_CHECK(is_valid(e));
+  for_each_in_tuple(scalars,[](auto const& /*unused*/, auto& e){
+      BOOST_CHECK(ublas::is_valid(e));
   });
   
-  for_each_in_tuple(vectors,[](auto const&, auto& e){
-      BOOST_CHECK(is_valid(e));
+  for_each_in_tuple(vectors,[](auto const& /*unused*/, auto& e){
+      BOOST_CHECK(ublas::is_valid(e));
   });
   
-  for_each_in_tuple(matrices,[](auto const&, auto& e){
-      BOOST_CHECK(is_valid(e));
+  for_each_in_tuple(matrices,[](auto const& /*unused*/, auto& e){
+      BOOST_CHECK(ublas::is_valid(e));
   });
   
-  for_each_in_tuple(tensors,[](auto const&, auto& e){
-      BOOST_CHECK(is_valid(e));
+  for_each_in_tuple(tensors,[](auto const& /*unused*/, auto& e){
+      BOOST_CHECK(ublas::is_valid(e));
   });
 }
 
@@ -400,44 +400,44 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_comparsion_operator, fixture, *boost
     return true;
   };
 
-  for_each_in_tuple(rank_0_extents,[&](auto const&, auto const& e1){
-    for_each_in_tuple(rank_1_extents,[&](auto const&, auto const& e2){
+  for_each_in_tuple(rank_0_extents,[&](auto const& /*unused*/, auto const& e1){
+    for_each_in_tuple(rank_1_extents,[&](auto const& /*unused*/, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_in_tuple(rank_1_extents,[&](auto const&, auto const& e1){
-    for_each_in_tuple(rank_1_extents,[&](auto const&, auto const& e2){
+  for_each_in_tuple(rank_1_extents,[&](auto const& /*unused*/, auto const& e1){
+    for_each_in_tuple(rank_1_extents,[&](auto const& /*unused*/, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_in_tuple(rank_1_extents,[&](auto const&, auto const& e1){
-    for_each_in_tuple(rank_2_extents,[&](auto const&, auto const& e2){
+  for_each_in_tuple(rank_1_extents,[&](auto const& /*unused*/, auto const& e1){
+    for_each_in_tuple(rank_2_extents,[&](auto const& /*unused*/, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_in_tuple(scalars,[&](auto const&, auto const& e1){
-    for_each_in_tuple(scalars,[&](auto const&, auto const& e2){
+  for_each_in_tuple(scalars,[&](auto const& /*unused*/, auto const& e1){
+    for_each_in_tuple(scalars,[&](auto const& /*unused*/, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_in_tuple(scalars,[&](auto const&, auto const& e1){
-    for_each_in_tuple(vectors,[&](auto const&, auto const& e2){
+  for_each_in_tuple(scalars,[&](auto const& /*unused*/, auto const& e1){
+    for_each_in_tuple(vectors,[&](auto const& /*unused*/, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_in_tuple(scalars,[&](auto const&, auto const& e1){
-    for_each_in_tuple(matrices,[&](auto const&, auto const& e2){
+  for_each_in_tuple(scalars,[&](auto const& /*unused*/, auto const& e1){
+    for_each_in_tuple(matrices,[&](auto const& /*unused*/, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
 
-  for_each_in_tuple(scalars,[&](auto const&, auto const& e1){
-    for_each_in_tuple(tensors,[&](auto const&, auto const& e2){
+  for_each_in_tuple(scalars,[&](auto const& /*unused*/, auto const& e1){
+    for_each_in_tuple(tensors,[&](auto const& /*unused*/, auto const& e2){
       BOOST_CHECK(compare_extents(e1,e2) == (e1 == e2));
     });
   });
@@ -461,9 +461,9 @@ BOOST_FIXTURE_TEST_CASE(test_static_extents_comparsion_operator, fixture, *boost
 
 BOOST_AUTO_TEST_CASE(test_static_extents_exception)
 {
-  using namespace boost::numeric::ublas;
+  namespace ublas = boost::numeric::ublas;
   
-  basic_static_extents<size_t,3,1,2,3> e1;
+  ublas::basic_static_extents<size_t,3,1,2,3> e1;
   for(auto i = e1.size(); i < 3; i++){
     BOOST_REQUIRE_THROW( (void)e1.at(i),std::out_of_range );
   }

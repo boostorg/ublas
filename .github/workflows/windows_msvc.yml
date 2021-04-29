@@ -83,12 +83,12 @@ jobs:
         run: |
           cd %BOOST_ROOT%
           cd libs\numeric\ublas
-          %BOOST_ROOT%\b2 -j 4 examples/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+          %BOOST_ROOT%\b2 -j8 examples/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           
       - name: Test Tensor
         shell: cmd
         run: |
           cd %BOOST_ROOT%
           cd libs\numeric\ublas
-          %BOOST_ROOT%\b2 -j 4 test/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
+          %BOOST_ROOT%\b2 -j8 test/tensor toolset=%TOOLSET% cxxstd=${{matrix.config.cxxstd}} address-model=64
           

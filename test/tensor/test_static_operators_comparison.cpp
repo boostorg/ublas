@@ -27,7 +27,7 @@ struct fixture {
     template<size_t... N>
     using extents_type = boost::numeric::ublas::static_extents<N...>;
 
-    fixture() {}
+    fixture()= default;
 
     std::tuple<
         extents_type<1,1>,   // 1
@@ -41,11 +41,11 @@ struct fixture {
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     { 
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
@@ -81,12 +81,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     { 
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
@@ -128,12 +128,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     { 
         using extents_type = std::decay_t<decltype(e)>;
         using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;

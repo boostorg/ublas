@@ -52,7 +52,7 @@ struct fixture
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_vector, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -90,7 +90,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_vector, value,  test_types, f
 
 BOOST_AUTO_TEST_CASE( test_tensor_prod_vector_exception )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = float;
     using layout_type  = ublas::layout::first_order;
     using d_tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_vector_exception )
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_matrix, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -147,7 +147,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_matrix, value,  test_types, f
 
 BOOST_AUTO_TEST_CASE( test_tensor_prod_matrix_exception )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = float;
     using layout_type  = ublas::layout::first_order;
     using d_extents_type = ublas::extents<>;
@@ -165,7 +165,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_matrix_exception )
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_tensor_1, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -202,7 +202,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_tensor_1, value,  test_types,
 
 BOOST_AUTO_TEST_CASE( test_tensor_prod_tensor_1_exception )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = float;
     using layout_type  = ublas::layout::first_order;
     using d_extents_type = ublas::extents<>;
@@ -236,7 +236,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_prod_tensor_1_exception )
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_tensor_2, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -316,7 +316,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_tensor_2, value,  test_types,
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_inner_prod, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -341,7 +341,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_inner_prod, value,  test_types, fi
 
 BOOST_AUTO_TEST_CASE( test_tensor_inner_prod_exception )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = float;
     using layout_type  = ublas::layout::first_order;
     using d_extents_type = ublas::extents<>;
@@ -354,7 +354,7 @@ BOOST_AUTO_TEST_CASE( test_tensor_inner_prod_exception )
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_norm, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -373,7 +373,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_norm, value,  test_types, fixture 
         auto c = ublas::inner_prod(a, a);
         auto r = std::inner_product(a.begin(),a.end(), a.begin(),value_type(0));
 
-        tensor_type var = (a+a)/2.0f; // std::complex<float>/int not allowed as expression is captured
+        tensor_type var = (a+a)/value_type(2); // std::complex<float>/int not allowed as expression is captured
         auto r2 = ublas::norm( var );
 
         BOOST_CHECK_THROW(ublas::norm(tensor_type{}), std::runtime_error);
@@ -386,7 +386,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_norm, value,  test_types, fixture 
 
 BOOST_FIXTURE_TEST_CASE( test_tensor_real_imag_conj, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = float;
     using complex_type = std::complex<value_type>;
     using layout_type  = ublas::layout::first_order;
@@ -460,7 +460,7 @@ BOOST_FIXTURE_TEST_CASE( test_tensor_real_imag_conj, fixture )
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_outer_prod, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -500,7 +500,7 @@ void init(std::vector<std::complex<V>>& a)
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_trans, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;

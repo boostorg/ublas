@@ -28,7 +28,7 @@ using test_types = zip<int,float>::with_t<boost::numeric::ublas::layout::first_o
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor, value,  test_types)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor, value,  test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor, value,  test_types)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
@@ -83,13 +83,13 @@ struct fixture
     template<size_t... N>
     using extents_type = boost::numeric::ublas::static_extents<N...>;
 
-    fixture() {}
+    fixture()=default;
 
     std::tuple<
         extents_type<1,1>, // 0
         extents_type<2,3>, // 1
-        extents_type<9,7>, // 2
-        extents_type<15,17> // 3
+        extents_type<5,8>, // 2
+        extents_type<9,7>  // 3
     > extents;
 };
 
@@ -98,13 +98,13 @@ struct fixture
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor_extents, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
-    auto check = [](auto const&, auto& e) {
+    auto check = [](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
@@ -121,13 +121,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor_extents, value,  
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor_extents, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
-    auto check = [](auto const&, auto& e) {
+    auto check = [](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
@@ -151,13 +151,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor_extents, value,  
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
-    auto check = [](auto const&, auto& e) {
+    auto check = [](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
@@ -186,13 +186,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  te
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
-    auto check = [](auto const&, auto& e) {
+    auto check = [](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
@@ -221,13 +221,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  te
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
-    auto check = [](auto const&, auto& e) {
+    auto check = [](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
@@ -259,13 +259,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  te
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
-    auto check = [](auto const&, auto& e) {
+    auto check = [](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
@@ -298,13 +298,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  te
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
-    auto check = [](auto const&, auto& e) {
+    auto check = [](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
@@ -355,13 +355,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
-    auto check = [](auto const&, auto& e) {
+    auto check = [](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
@@ -410,14 +410,14 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
     using vector_type = typename tensor_type::vector_type;
 
-    auto check = [](auto const&, auto& e) {
+    auto check = [](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
 
         if(product(e) <= 2)

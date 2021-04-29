@@ -56,21 +56,16 @@ jobs:
          echo $BOOST_ROOT
          cd $BOOST_ROOT
          echo "using ${{matrix.config.name}} : : ${{ matrix.config.cxx }} ;" >> ~/user-config.jam;
-
-#      - name: Test Benchmarks
-#        run: |
-#         cd $BOOST_ROOT
-#         cd libs/numeric/ublas
-#         $BOOST_ROOT/b2 -j 4 benchmarks toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} 
         
-      - name: Test Tensor Examples
+      - name: Tensor Examples
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=address -fno-omit-frame-pointer" linkflags="-fsanitize=address"
+         $BOOST_ROOT/b2 -j8 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=address -fno-omit-frame-pointer" linkflags="-fsanitize=address"
         
-      - name: Test Tensor
+      - name: Tensor Tests
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=address -fno-omit-frame-pointer" linkflags="-fsanitize=address"
+         $BOOST_ROOT/b2 -j8 test/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=address -fno-omit-frame-pointer" linkflags="-fsanitize=address"
+         

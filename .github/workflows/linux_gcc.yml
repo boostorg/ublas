@@ -85,13 +85,13 @@ jobs:
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0" 
+         $BOOST_ROOT/b2 -j8 examples/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0" 
         
       - name: Test Tensor
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
-         $BOOST_ROOT/b2 -j 4 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g --coverage" linkflags="--coverage"
+         $BOOST_ROOT/b2 -j8 test/tensor toolset=gcc cxxstd=${{matrix.config.cxxstd}} cxxflags="-O0 -g --coverage" linkflags="--coverage"
 
       - name: Report Code coverage
         if: matrix.config.cxxstd == '20' && matrix.config.cxx == 'g++-10'
@@ -101,4 +101,4 @@ jobs:
          curl -s https://codecov.io/bash > cov.sh
          chmod +x cov.sh
          ./cov.sh -f coverage.info || echo "Codecov did not collect coverage reports"
-       
+         

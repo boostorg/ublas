@@ -575,7 +575,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans_exceptions, value
       BOOST_REQUIRE_THROW( ublas::trans( p, n.data(), pi.data(), anullptr, wc.data(),    a.data(), wa.data() ), std::runtime_error );
     }
 
-    ublas::trans( p, n.data(), pi.data(), c.data(), wc.data(),    a.data(), wa.data() );
+    // ublas::trans( p, n.data(), pi.data(), c.data(), wc.data(),    a.data(), wa.data() );
   }
 
 }

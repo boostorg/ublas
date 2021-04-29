@@ -776,7 +776,7 @@ void ttt(SizeType const pa, SizeType const pb, SizeType const q,
          PointerIn1 a, SizeType const*const na, SizeType const*const wa,
          PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
-  static_assert( std::is_pointer<PointerOut>::value && std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
+  static_assert( std::is_pointer<PointerOut>::value && std::is_pointer<PointerIn1>::value && std::is_pointer<PointerIn2>::value,
                 "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
 
   if( pa == 0 || pb == 0){
@@ -848,7 +848,7 @@ void ttt(SizeType const pa, SizeType const pb, SizeType const q,
          PointerIn1 a, SizeType const*const na, SizeType const*const wa,
          PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
-  static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
+  static_assert( std::is_pointer<PointerOut>::value && std::is_pointer<PointerIn1>::value && std::is_pointer<PointerIn2>::value,
                 "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
 
   if( pa == 0 || pb == 0){

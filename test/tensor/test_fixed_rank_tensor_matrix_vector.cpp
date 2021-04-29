@@ -93,12 +93,14 @@ struct fixture
         extents_type<2>, // 0
         extents_type<2>, // 1
         extents_type<2>, // 2
-        extents_type<2> // 3
-    > extents = {   
-        {1,2}, 
-        {2,1}, 
-        {9,7},
-        {12,12},
+        extents_type<2>, // 3
+        extents_type<2>  // 4
+    > extents = {
+        {1,1},
+        {1,2},
+        {2,1},
+        {6,6},
+        {9,7},        
     };
 };
 
@@ -111,7 +113,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor_extents, value,  
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  auto check = [](auto const&, auto& e) {
+  auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor = ublas::fixed_rank_tensor<value_type, size,layout_type>;
     using matrix = typename tensor::matrix_type;
@@ -135,7 +137,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor_extents, value,  
   using layout_type = typename value::second_type;
 
 
-  auto check = [](auto const&, auto& e) {
+  auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor = ublas::fixed_rank_tensor<value_type, size,layout_type>;
     using vector = typename tensor::vector_type;
@@ -163,7 +165,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  te
   using layout_type = typename value::second_type;
 
 
-  auto check = [](auto const&, auto& e) {
+  auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor = ublas::fixed_rank_tensor<value_type,size,layout_type>;
     using matrix = typename tensor::matrix_type;
@@ -198,7 +200,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  te
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  auto check = [](auto const&, auto& e) {
+  auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
     using vector_type = typename tensor_type::vector_type;
@@ -231,7 +233,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  te
   using layout_type = typename value::second_type;
 
 
-  auto check = [](auto const&, auto& e) {
+  auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
@@ -269,7 +271,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  te
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  auto check = [](auto const&, auto& e) {
+  auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
     using vector_type = typename tensor_type::vector_type;
@@ -307,7 +309,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
   using layout_type = typename value::second_type;
 
 
-  auto check = [](auto const&, auto& e) {
+  auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
@@ -366,7 +368,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
 
-  auto check = [](auto const&, auto& e) {
+  auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
     using vector_type = typename tensor_type::vector_type;
@@ -422,7 +424,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
   using layout_type = typename value::second_type;
 
 
-  auto check = [](auto const&, auto& e) {
+  auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
