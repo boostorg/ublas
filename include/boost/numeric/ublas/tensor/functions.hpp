@@ -362,7 +362,6 @@ namespace boost::numeric::ublas
             using array_type    = std::decay_t< decltype(a1) >;
             
             [[maybe_unused]] extents_size_type const size = ( e1.size() + e2.size() ) - ( a1.size() + a2.size() );
-
             if constexpr( 
                 detail::is_bounded_array_v<array_type> && 
                 is_static_rank_v<lextents_type> &&

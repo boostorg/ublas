@@ -331,7 +331,8 @@ void multiply_tensors_with_static_order()
          std::cout << "% --------------------------- " << std::endl;
          std::cout << "% --------------------------- " << std::endl << std::endl;
          std::cout << "%  C3(k,l,m) = T(k,l,m) + A(i,j,k)*trans(B(j,l,i,m),{2,3,1,4})+ 5;" << std::endl << std::endl;
-        std::cout << "C3=" << C3 << ";" << std::endl << std::endl;
+         std::cout << "C3=" << C3 << ";" << std::endl << std::endl;
+
 
     }
 }
