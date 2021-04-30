@@ -16,11 +16,11 @@ on:
 jobs:
   build:
     name: "Darwin 20 -std=c++${{matrix.cxxstd}}"
-    runs-on: macos-11.0
+    runs-on: macos-10.15
     strategy:
       fail-fast: false
       matrix:
-        cxxstd: [11, 20]
+        cxxstd: [11, 2a]
 
     steps:
     - uses: actions/checkout@v2
@@ -42,7 +42,7 @@ jobs:
         python tools/boostdep/depinst/depinst.py -g " --depth=1" -I benchmarks numeric/ublas
         
         ./bootstrap.sh
-        ./b2 -j 8 headers
+        ./b2 -j8 headers
         
         #echo ::set-env name=BOOST_ROOT::${PWD}
         echo "BOOST_ROOT=${PWD}" >> ${GITHUB_ENV}
@@ -54,11 +54,11 @@ jobs:
         
         echo "using clang : : clang++ ;" >> ~/user-config.jam;
         
-    - name: Test Benchmarks
-      run: |
-        cd $BOOST_ROOT
-        cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j8 benchmarks toolset=clang cxxstd=${{matrix.cxxstd}}
+#    - name: Test Benchmarks
+#      run: |
+#        cd $BOOST_ROOT
+#        cd libs/numeric/ublas
+#        $BOOST_ROOT/b2 -j8 benchmarks toolset=clang cxxstd=${{matrix.cxxstd}}
         
     - name: Test Tensor Examples
       run: |

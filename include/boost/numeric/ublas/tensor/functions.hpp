@@ -135,7 +135,7 @@ namespace boost::numeric::ublas
 
         auto extents_result = [&a_extents](){
             using size_type = typename extents_type::size_type;
-            if constexpr( is_static_rank_v<extents_type> ){
+            if constexpr( is_static_rank_v<extents_type> ){              
                 constexpr size_type esz = a_extents.size() - 1u;
                 constexpr auto sz = std::max( esz, size_type(2) );
                 auto ret = extents< sz >();

@@ -2,20 +2,26 @@
 # Distributed under Boost Software License, Version 1.0
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
-name: Clang tidy Review
+name: Clang tidy checks
 
-on: [pull_request]
-
+on: 
+  push:
+    paths-ignore: 
+      - '**.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore: 
+      - '**.md'
+      - 'doc/**'
 jobs:
   check:
-    name: Clang tidy Review 
+    name: Clang tidy Check 
     runs-on: ubuntu-20.04
-    if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
-      - uses: actions/checkout@v2  
-
+      - uses: actions/checkout@v2
+        
       - name: Install Clang 11
-        run: sudo apt-get update && sudo apt-get install -y clang-11
+        run: sudo apt-get update && sudo apt-get install -y clang-11 clang-tidy-11
       
       - name: "Install Boost from Source" 
         run: |
@@ -26,19 +32,18 @@ jobs:
           ./b2 headers
           sudo cp -r -L boost /usr/include
           rm -rf boost
-
-      - uses: actions/setup-python@v2
-
+      
       - name: "Run clang-tidy"
-        run: |
-          clang-tidy examples/tensor/*.cpp -- -Iinclude -std=c++20 > reports.txt
+        run: clang-tidy-11 examples/tensor/*.cpp test/tensor/*.cpp -- -Iinclude -std=c++20 > reports.txt && cat reports.txt
 
+        
+      - uses: actions/setup-python@v2
+          
       - name: "Post review comments"
-        if: always()
+        if: github.event.pull_request.head.repo.full_name == github.repository
         run: |
           pip3 install 'unidiff~=0.6.0' --force-reinstall
           pip3 install 'PyGithub~=1.51' --force-reinstall
           pip3 install 'requests~=2.23' --force-reinstall
-
-          python ./.ci/post_review.py --repository ${{ github.repository }} --token ${{ github.token}} --pr ${{ github.event.pull_request.number }} --path reports.txt
+          python ./.ci/post_review.py --repository ${{ github.repository }} --token ${{ github.token}} --pr ${{ github.event.pull_request.number }} --path reports.txt          
           

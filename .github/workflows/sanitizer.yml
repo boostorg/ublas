@@ -3,7 +3,7 @@
 # Distributed under Boost Software License, Version 1.0
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
-name: Clang Address Sanitizer 
+name: Address Sanitizer 
 # Trigger on Push to the repository, regardless of the branch.
 # For fine tune, You can add specific branches or tags.
 on: 
@@ -17,17 +17,25 @@ on:
       - 'doc/**'
 jobs:
   build:
-    name: "${{matrix.config.cxx}} -std=c++${{matrix.config.cxxstd}}"
+    name: "Sanitize with ${{matrix.config.cxx}} -std=c++${{matrix.config.cxxstd}}"
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
       matrix:
         config:
-          - {cc: gcc-10, cxx: g++-10, cxxstd: 20, name: gcc}
-          - {cc: clang-11, cxx: clang++-11, cxxstd: 20, name: clang}
+          - {cc: clang-11, cxx: clang++-11, cxxstd: 20, name: clang}          
+          
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Install Clang 11
+        if: matrix.config.cxx == 'clang++-11'
+        run: sudo apt-get update && sudo apt-get install -y clang-11      
+
+      - name: Install g++-10
+        if: matrix.config.cxx == 'g++-10'
+        run: sudo apt update && sudo apt-get install -y g++-10
       
       - name: Prepare BOOST_ROOT
         run: |
@@ -49,7 +57,9 @@ jobs:
          ./b2 -j 8 headers
         
          #echo ::set-env name=BOOST_ROOT::${PWD}
-         echo "BOOST_ROOT=${PWD}" >> $GITHUB_ENV
+         echo "BOOST_ROOT=${PWD}" >> $GITHUB_ENV         
+         export ASAN_OPTIONS=symbolize=1
+         export ASAN_OPTIONS=detect_leaks=1
         
       - name: Prepare Build
         run: |
@@ -57,15 +67,38 @@ jobs:
          cd $BOOST_ROOT
          echo "using ${{matrix.config.name}} : : ${{ matrix.config.cxx }} ;" >> ~/user-config.jam;
         
-      - name: Tensor Examples
+      - name: Address and Leak Sanitize Tensor Examples
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
          $BOOST_ROOT/b2 -j8 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=address -fno-omit-frame-pointer" linkflags="-fsanitize=address"
         
-      - name: Tensor Tests
+      - name: Address and Leak Sanitize Tensor Tests
         run: |
          cd $BOOST_ROOT
          cd libs/numeric/ublas
          $BOOST_ROOT/b2 -j8 test/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=address -fno-omit-frame-pointer" linkflags="-fsanitize=address"
          
+      - name: UndefinedBehavior Sanitize Tensor Examples
+        run: |
+         cd $BOOST_ROOT
+         cd libs/numeric/ublas
+         $BOOST_ROOT/b2 -j8 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=undefined" linkflags="-fsanitize=undefined"
+        
+      - name: UndefinedBehavior Sanitize Tensor Tests
+        run: |
+         cd $BOOST_ROOT
+         cd libs/numeric/ublas
+         $BOOST_ROOT/b2 -j8 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=undefined" linkflags="-fsanitize=undefined"
+         
+      - name: Thread Sanitize Tensor Examples
+        run: |
+         cd $BOOST_ROOT
+         cd libs/numeric/ublas
+         $BOOST_ROOT/b2 -j8 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
+        
+      - name: Thread Sanitize Tensor Tests
+        run: |
+         cd $BOOST_ROOT
+         cd libs/numeric/ublas
+         $BOOST_ROOT/b2 -j8 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} cxxflags="-g -fsanitize=thread -O2" linkflags="-fsanitize=thread"
