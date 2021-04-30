@@ -10,8 +10,8 @@
 //  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
-#ifndef BOOST_UBLAS_TENSOR_ENGINE_IMPL_HPP
-#define BOOST_UBLAS_TENSOR_ENGINE_IMPL_HPP
+#ifndef BOOST_UBLAS_TENSOR_ENGINE_HPP
+#define BOOST_UBLAS_TENSOR_ENGINE_HPP
 
 #include "tensor_core.hpp"
 
@@ -20,14 +20,14 @@ namespace boost::numeric::ublas{
 template<typename...>
 struct tensor_engine;
 
-template<typename extents_type__, typename layout_type__, typename strides_type__, typename storage_type__>
-struct tensor_engine<extents_type__, layout_type__, strides_type__, storage_type__>
+template<typename E, typename L, typename S, typename ST>
+struct tensor_engine<E,L,S,ST>
 {
 
-  using extents_type 	        = extents_type__;
-  using layout_type 	        = layout_type__;
-  using strides_type 	        = typename strides_type__::template type<layout_type>;
-  using storage_traits_type   = storage_traits<storage_type__>;
+  using extents_type 	        = E;
+  using layout_type 	        = L;
+  using strides_type 	        = typename S::template type<layout_type>;
+  using storage_traits_type   = storage_traits<ST>;
 
   static_assert(is_extents_v<extents_type>,
                 "boost::numeric::ublas::tensor_engine : please provide valid tensor extents type"
@@ -39,10 +39,8 @@ struct tensor_engine<extents_type__, layout_type__, strides_type__, storage_type
 
 };
 
-template<typename ExtentsType, typename LayoutType, typename StorageType>
-struct tensor_engine<ExtentsType, LayoutType, StorageType>
-  : tensor_engine< ExtentsType, LayoutType, strides<ExtentsType>, StorageType >
-{};
+template<typename E, typename L, typename ST>
+struct tensor_engine<E,L,ST> : tensor_engine<E,L,strides<E>,ST> {};
 
 } // namespace boost::numeric::ublas
 

@@ -10,13 +10,12 @@
 //
 
 
-#ifndef _BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
-#define _BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
+#ifndef BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
+#define BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
 
-
-#include <stdexcept>
 #include <complex>
 #include <functional>
+#include <stdexcept>
 
 namespace boost::numeric::ublas {
 

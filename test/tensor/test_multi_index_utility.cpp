@@ -46,13 +46,13 @@ BOOST_AUTO_TEST_CASE ( test_multi_index_has_index )
         constexpr auto has_c = ublas::has_index<decltype(i::_c),decltype(tuple)>::value;
         constexpr auto has_d = ublas::has_index<decltype(i::_d),decltype(tuple)>::value;
         constexpr auto has_e = ublas::has_index<decltype(i::_e),decltype(tuple)>::value;
-        constexpr auto has__ = ublas::has_index<decltype(i::_ ),decltype(tuple)>::value;
+        constexpr auto has   = ublas::has_index<decltype(i::_ ),decltype(tuple)>::value;
         BOOST_CHECK(  has_a );
         BOOST_CHECK(  has_b );
         BOOST_CHECK(  has_c );
         BOOST_CHECK(  has_d );
         BOOST_CHECK( !has_e );
-        BOOST_CHECK(  has__ );
+        BOOST_CHECK(  has   );
     }
 }
 

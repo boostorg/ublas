@@ -10,13 +10,13 @@
 //
 
 
-#ifndef _BOOST_NUMERIC_UBLAS_TENSOR_DETAIL_STRIDES_FUNCTIONS_HPP_
-#define _BOOST_NUMERIC_UBLAS_TENSOR_DETAIL_STRIDES_FUNCTIONS_HPP_
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_DETAIL_STRIDES_FUNCTIONS_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_DETAIL_STRIDES_FUNCTIONS_HPP
 
 #include <algorithm>
 #include <type_traits>
 
-
+#include "../layout.hpp"
 
 
 namespace boost::numeric::ublas
@@ -28,27 +28,27 @@ struct extents_base;
 template<class derived_type>
 struct strides_base;
 
-//template<class derived_type_extents, class derived_type_strides>
-//inline constexpr
-//  void compute_strides(
-//    extents_base<derived_type_extents> const& extents,
-//    strides_base<derived_type_strides> & strides)
-//{
-//  if(extents().size() != strides().size() || extents().size() == 0U)
-//    return;
+template<class derived_type_extents, class derived_type_strides>
+inline constexpr
+  void compute_strides(
+    extents_base<derived_type_extents> const& extents,
+    strides_base<derived_type_strides> & strides)
+{
+  if(extents().size() != strides().size() || extents().size() == 0U)
+    return;
 
-//  std::fill(strides().begin(), strides().end(), 1U);
+  std::fill(strides().begin(), strides().end(), 1U);
 
-//  if( is_vector(extents) || is_scalar(extents) )
-//    return;
+  if( is_vector(extents) || is_scalar(extents) )
+    return;
 
-//  using layout_type = typename derived_type_strides::layout_type;
-//  if constexpr (std::is_same<layout_type,layout::first_order>::value ) {
-//    std::transform(extents().begin(), extents().end() - 1, strides().begin(), strides().begin() + 1, std::multiplies<>{});
-//  } else {
-//    std::transform(extents().rbegin(), extents().rend() - 1, strides().rbegin(), strides().rbegin() + 1, std::multiplies<>{});
-//  }
-//}
+  using layout_type = typename derived_type_strides::layout_type;
+  if constexpr (std::is_same<layout_type,layout::first_order>::value ) {
+    std::transform(extents().begin(),  extents().end() - 1,  strides().begin(),  strides().begin()  + 1, std::multiplies<>{});
+  } else {
+    std::transform(extents().rbegin(), extents().rend() - 1, strides().rbegin(), strides().rbegin() + 1, std::multiplies<>{});
+  }
+}
 
 
 

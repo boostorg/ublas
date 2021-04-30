@@ -11,12 +11,12 @@
 //
 
 
-#ifndef _BOOST_NUMERIC_UBLAS_TENSOR_FIXED_RANK_EXTENTS_HPP_
-#define _BOOST_NUMERIC_UBLAS_TENSOR_FIXED_RANK_EXTENTS_HPP_
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_FIXED_RANK_EXTENTS_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_FIXED_RANK_EXTENTS_HPP
 
 #include <array>
-#include <limits>
 #include <initializer_list>
+#include <limits>
 #include <stdexcept>
 
 

@@ -12,8 +12,8 @@
 /// \file strides.hpp Definition for the basic_strides template class
 
 
-#ifndef _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
-#define _BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP_
+#ifndef BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP
+#define BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP
 
 #include "fixed_rank_extents.hpp"
 #include "layout.hpp"

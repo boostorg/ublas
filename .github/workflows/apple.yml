@@ -1,8 +1,9 @@
 # Copyright (c) 2020 Mohammad Ashar Khan
+# Copyright (c) 2021 Cem Bassoy
 # Distributed under Boost Software License, Version 1.0
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
-name: Apple Clang 12.0
+name: "Apple MacOS"
 
 on: 
   push:
@@ -15,24 +16,26 @@ on:
       - 'doc/**'
 jobs:
   build:
-    name: "Darwin 20 -std=c++${{matrix.cxxstd}}"
+    name: "MacOS 10.15 clang -std=c++${{matrix.cxxstd}}"
     runs-on: macos-10.15
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         cxxstd: [11, 2a]
 
     steps:
     - uses: actions/checkout@v2
     
-    - name: Prepare BOOST_ROOT
+    - name: Git Clone Boost.uBlas
       run: |
         cd ${GITHUB_WORKSPACE}
         cd ..
         
         git clone -b master --depth 1 https://github.com/boostorg/boost.git boost-root
         cd boost-root
-        
+        echo "BOOST_ROOT=${PWD}" >> ${GITHUB_ENV}
+        echo $BOOST_ROOT
+                
         git submodule update --init --depth=1 --jobs 8 tools/build
         git submodule update --init --depth=1 --jobs 8 libs/config
         git submodule update --init --depth=1 --jobs 8 tools/boostdep
@@ -41,19 +44,14 @@ jobs:
         cp -rp ${GITHUB_WORKSPACE}/. libs/numeric/ublas
         python tools/boostdep/depinst/depinst.py -g " --depth=1" -I benchmarks numeric/ublas
         
+    - name: Bootstrap and Compile Boost.uBlas
+      run: |
+        cd $BOOST_ROOT
         ./bootstrap.sh
         ./b2 -j8 headers
-        
-        #echo ::set-env name=BOOST_ROOT::${PWD}
-        echo "BOOST_ROOT=${PWD}" >> ${GITHUB_ENV}
-        
-    - name: Prepare Build
-      run: |
-        echo $BOOST_ROOT
-        cd $BOOST_ROOT
-        
         echo "using clang : : clang++ ;" >> ~/user-config.jam;
-        
+
+       
 #    - name: Test Benchmarks
 #      run: |
 #        cd $BOOST_ROOT
@@ -66,9 +64,9 @@ jobs:
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j8 examples/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
         
-    - name: Test Tensor
-      run: |
-        cd $BOOST_ROOT
-        cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j8 test/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
+#    - name: Test Tensor
+#      run: |
+#        cd $BOOST_ROOT
+#        cd libs/numeric/ublas
+#        $BOOST_ROOT/b2 -j8 test/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
         

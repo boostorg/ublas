@@ -12,8 +12,8 @@
 /// \file strides.hpp Definition for the basic_strides template class
 
 
-#ifndef _BOOST_UBLAS_TENSOR_DYNAMIC_STRIDES_HPP_
-#define _BOOST_UBLAS_TENSOR_DYNAMIC_STRIDES_HPP_
+#ifndef BOOST_UBLAS_TENSOR_DYNAMIC_STRIDES_HPP
+#define BOOST_UBLAS_TENSOR_DYNAMIC_STRIDES_HPP
 
 #include <boost/numeric/ublas/functional.hpp>
 
@@ -37,14 +37,14 @@ class basic_extents;
  * Proxy template class of std::vector<int_type>.
  *
  */
-template<class __int_type, class __layout>
+template<class T, class L>
 class basic_strides
-  : public strides_base<basic_strides<__int_type, __layout>>
+  : public strides_base<basic_strides<T, L>>
 {
 public:
 
-    using base_type = std::vector<__int_type>;
-    using layout_type = __layout;
+    using base_type = std::vector<T>;
+    using layout_type = L;
     using value_type = typename base_type::value_type;
     using reference = typename base_type::reference;
     using const_reference = typename base_type::const_reference;

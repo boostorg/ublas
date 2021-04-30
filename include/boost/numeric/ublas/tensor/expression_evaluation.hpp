@@ -13,8 +13,8 @@
 #ifndef BOOST_UBLAS_TENSOR_EXPRESSIONS_EVALUATION_HPP
 #define BOOST_UBLAS_TENSOR_EXPRESSIONS_EVALUATION_HPP
 
-#include <type_traits>
 #include <stdexcept>
+#include <type_traits>
 
 #include "type_traits.hpp"
 

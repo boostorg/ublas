@@ -99,10 +99,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_prod_matrix, value,  te
   using value_type   = typename value::first_type;
   using layout_type  = typename value::second_type;
 
-  for_each_in_tuple(fixed_rank_extents,[](auto const& /*unused*/, auto & n){
+  for_each_in_tuple(fixed_rank_extents,[](auto const& /*unused*/, auto const & n){
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(n)>>;
     using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
+
     auto a = tensor_type(n, value_type{2});
     for (auto m = 0u; m < n.size(); ++m) {
 
@@ -110,10 +111,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_prod_matrix, value,  te
 
       auto c = ublas::prod(a, b, m + 1);
 
-      for (auto i = 0u; i < c.size(); ++i)
+      for (auto i = 0u; i < c.size(); ++i){
         BOOST_CHECK_EQUAL(c[i], value_type( static_cast< inner_type_t<value_type> >(n[m]) ) * a[i]);
+      }
     }
-    });
+  });
 
 }
 

@@ -24,7 +24,7 @@ namespace detail{
 template <std::size_t... N> struct extents_impl;
 template <>                 struct extents_impl<>  { using type = basic_extents<std::size_t>; };
 template <std::size_t N>    struct extents_impl<N> { using type = basic_fixed_rank_extents<std::size_t, N>; };
-} // detail
+} // namespace detail
 
 template<std::size_t... E> using extents = typename detail::extents_impl<E...>::type;
 

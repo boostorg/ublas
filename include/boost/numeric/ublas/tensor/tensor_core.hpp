@@ -13,8 +13,8 @@
 
 /// \file tensor_core.hpp Definition for the tensor template class
 
-#ifndef BOOST_UBLAS_TENSOR_CORE_IMPL_HPP
-#define BOOST_UBLAS_TENSOR_CORE_IMPL_HPP
+#ifndef BOOST_UBLAS_TENSOR_CORE_HPP
+#define BOOST_UBLAS_TENSOR_CORE_HPP
 
 #include <initializer_list>
 

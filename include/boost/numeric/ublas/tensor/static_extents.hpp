@@ -10,8 +10,8 @@
 //  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
-#ifndef _BOOST_NUMERIC_UBLAS_TENSOR_STATIC_EXTENTS_HPP_
-#define _BOOST_NUMERIC_UBLAS_TENSOR_STATIC_EXTENTS_HPP_
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_STATIC_EXTENTS_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_STATIC_EXTENTS_HPP
 
 #include <array>
 #include <initializer_list>

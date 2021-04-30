@@ -11,11 +11,18 @@
 //
 
 
-#ifndef _BOOST_UBLAS_TENSOR_FUNCTIONS_HPP_
-#define _BOOST_UBLAS_TENSOR_FUNCTIONS_HPP_
+#ifndef BOOST_UBLAS_TENSOR_FUNCTIONS_HPP
+#define BOOST_UBLAS_TENSOR_FUNCTIONS_HPP
 
 #include "multiplication.hpp"
 #include "tensor_engine.hpp"
+#include "detail/strides_functions.hpp"
+
+#include "traits/type_traits_extents.hpp"
+#include "traits/type_traits_strides.hpp"
+
+#include "fixed_rank_strides.hpp"
+//#include "fixed_rank_extents.hpp"
 
 namespace boost::numeric::ublas{
     
@@ -89,7 +96,6 @@ namespace boost::numeric::ublas
         using extents_type  = typename tensor_type::extents_type;
         using value_type    = typename tensor_type::value_type;
         using array_type    = typename tensor_type::array_type;
-        using size_type     = typename extents_type::size_type;
         using layout_type   = typename tensor_type::layout_type;
 
         auto const p = a.rank();
@@ -131,32 +137,29 @@ namespace boost::numeric::ublas
 
         using extents_value_type = typename extents_type::value_type;
 
-        auto a_extents = a.extents();
+        auto const& na = a.extents();
 
-        auto extents_result = [&a_extents](){
+        auto compute_nc = [](auto const& na){
             using size_type = typename extents_type::size_type;
-            if constexpr( is_static_rank_v<extents_type> ){              
-                constexpr size_type esz = a_extents.size() - 1u;
-                constexpr auto sz = std::max( esz, size_type(2) );
+            if constexpr( is_static_rank_v<extents_type> ){
+                constexpr size_type sz = std::max( std::tuple_size_v<extents_type> -1u , size_type(2) );
                 auto ret = extents< sz >();
                 ret.fill(1u);
                 return ret;
             }else{
                 using extents_base_type = typename extents_type::base_type;
-                auto const sz = std::max( a_extents.size() - 1, size_type(2) );
+                auto const sz = std::max( na.size() - 1, size_type(2) );
                 auto arr = extents_base_type(sz,1);
                 return extents_type{ std::move(arr) } ;
             }
         };
 
-        auto nc = extents_result();
-
-
+        auto nc = compute_nc(na);
         auto nb = std::vector<extents_value_type>{b.size(), extents_value_type(1)};
 
-        for (auto i = size_type(0), j = size_type(0); i < p; ++i)
+        for (auto i = 0ul, j = 0ul; i < p; ++i)
             if (i != m - 1)
-                nc[j++] = a_extents.at(i);
+                nc[j++] = na.at(i);
 
         using c_extents_type = std::decay_t< decltype(nc) >;
 
@@ -195,11 +198,9 @@ namespace boost::numeric::ublas
     {
 
         using tensor_type   = tensor_core< TensorEngine >;
-        using extents_type  = typename tensor_type::extents_type;
+        using extents_type  = typename tensor_type::extents_type;        
         using value_type    = typename tensor_type::value_type;
         using layout_type   = typename tensor_type::layout_type;
-        using array_type    = typename tensor_type::array_type;
-        using dynamic_strides_type = basic_strides<std::size_t,layout_type>;
 
 
         static_assert(  
@@ -240,22 +241,13 @@ namespace boost::numeric::ublas
                 "argument matrix should not be empty.");
 
         auto nc = a.extents();
-        auto nb = extents<>{b.size1(), b.size2()};
+        auto nb = extents<2>{b.size1(), b.size2()};
+        auto wb = basic_fixed_rank_strides<std::size_t,2,layout_type>(nb);//strides_type(nb);
+//        compute_strides(nb,wb);
 
-        auto wb = dynamic_strides_type(nb);
+        nc[m-1] = nb[0];
 
-        nc[m - 1] = nb[0];
-
-        using c_extents_type = std::decay_t< decltype(nc) >;
-
-        using t_engine = tensor_engine< 
-            c_extents_type,  
-            layout_type,
-            strides<c_extents_type>,
-            array_type
-        >;
-
-        auto c = tensor_core<t_engine>(nc, value_type{});
+        auto c = tensor_type(nc, value_type{});
 
         auto bb = &(b(0, 0));
         ttm(m, p,
@@ -295,7 +287,7 @@ namespace boost::numeric::ublas
         using extents_type      = typename tensor_type::extents_type;       
         using value_type        = typename tensor_type::value_type;
         using layout_type       = typename tensor_type::layout_type;
-        using extents_size_type = typename extents_type::size_type;
+        using size_type         = typename extents_type::size_type;
         using array_type        = typename tensor_type::array_type;
 
         static_assert( 
@@ -322,7 +314,7 @@ namespace boost::numeric::ublas
         auto const pa = a.rank();
         auto const pb = b.rank();
 
-        auto const q = static_cast<extents_size_type>(phia.size());
+        auto const q = static_cast<size_type>(phia.size());
 
         if (pa == 0ul)
             throw std::runtime_error("error in ublas::prod: order of left-hand side tensor must be greater than 0.");
@@ -356,29 +348,27 @@ namespace boost::numeric::ublas
         std::iota(phia1.begin(), phia1.end(), 1ul);
         std::iota(phib1.begin(), phib1.end(), 1ul);
 
-        auto extents_result = [&e1 = na, &e2 = nb, &a1 = phia, &a2 = phib](){
-            using lextents_type = std::decay_t< decltype(e1) >;
-            using rextents_type = std::decay_t< decltype(e2) >;
-            using array_type    = std::decay_t< decltype(a1) >;
+        auto create_nc = [](auto const& na, auto const& nb, auto const& phia, auto const& phib){
+            using lextents_type     = std::decay_t< decltype(na) >;
+            using rextents_type     = std::decay_t< decltype(nb) >;
+            using array_type        = std::decay_t< decltype(phia) >;
+            using extents_base_type = typename extents<>::base_type;
             if constexpr( 
                 detail::is_bounded_array_v<array_type> && 
                 is_static_rank_v<lextents_type> &&
                 is_static_rank_v<rextents_type>
             ){
-                constexpr auto const N = detail::extent_of_rank_one_array_v<array_type>;
-                constexpr auto const sz = std::tuple_size_v<lextents_type> + std::tuple_size_v<rextents_type> - 2 * N;
-                auto res = extents<std::max(sz, extents_size_type(2))>();
-                res.fill(1u);
-                return res;
+                constexpr auto const N   = detail::extent_of_rank_one_array_v<array_type>;
+                constexpr auto const sz  = std::tuple_size_v<lextents_type> + std::tuple_size_v<rextents_type> - 2 * N;
+                constexpr auto const msz = std::max(size_type(sz), size_type(2));
+                return extents<msz>();
             }else{
-                extents_size_type const size = ( e1.size() + e2.size() ) - ( a1.size() + a2.size() );
-                using extents_base_type = typename extents<>::base_type;
-                auto arr = extents_base_type( std::max(size, extents_size_type(2)), 1u );
-                return extents<>(std::move(arr));
+                size_type const size = ( na.size() + nb.size() ) - ( phia.size() + phib.size() );
+                return extents<>( extents_base_type ( std::max(size, size_type(2)), size_type(1) ) );
             }
         };
 
-        auto nc = extents_result();
+        auto nc = create_nc(na,nb,phia,phib);
 
         for (auto i = 0ul; i < phia.size(); ++i)
             *std::remove(phia1.begin(), phia1.end(), phia.at(i)) = phia.at(i);
@@ -461,8 +451,6 @@ namespace boost::numeric::ublas
     template <typename TensorEngine1, typename TensorEngine2>
     inline decltype(auto) inner_prod(tensor_core< TensorEngine1 > const &a, tensor_core< TensorEngine2 > const &b)
     {
-
-
         using value_type = typename tensor_core< TensorEngine1 >::value_type;
         
         static_assert(
@@ -533,31 +521,31 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::outer_prod: "
                 "tensors should not be empty.");
 
-        auto extents_result = [&e1 = a.extents(), &e2 = b.extents()](){
-            using lextents_type = std::decay_t< decltype(e1) >;
-            using rextents_type = std::decay_t< decltype(e2) >;
+        auto const& na = a.extents();
+        auto const& nb = b.extents();
 
-            if constexpr( is_static_rank_v<lextents_type> && is_static_rank_v<rextents_type> ){
-              constexpr auto size_lhs = std::tuple_size_v<lextents_type>;
-              constexpr auto size_rhs = std::tuple_size_v<rextents_type>;
-              return extents<size_lhs + size_rhs>{};
+        auto create_nc = [](auto const& na, auto const& nb){
+            using na_type = std::decay_t< decltype(na) >;
+            using nb_type = std::decay_t< decltype(nb) >;
+
+            if constexpr( is_static_rank_v<na_type> && is_static_rank_v<nb_type> ){
+              constexpr auto na_size = std::tuple_size_v<na_type>;
+              constexpr auto nb_size = std::tuple_size_v<nb_type>;
+              using extents_type = extents<na_size+nb_size>;
+              auto nc = typename extents_type::base_type{};
+              auto nci = std::copy(na.begin(),na.end(), nc.begin());
+              std::copy(nb.begin(), nb.end(), nci);
+              return extents_type(nc);
             }else {
-                using extents_base_type = typename extents<>::base_type;
-                auto arr = extents_base_type( e1.size() + e2.size(), 1 );
-                return extents<>{std::move(arr)};
+              using extents_type = extents<>;
+              auto nc = typename extents_type::base_type(na.size()+nb.size());
+              auto nci = std::copy(na.begin(),na.end(), nc.begin());
+              std::copy(nb.begin(), nb.end(), nci);
+              return extents_type(nc);
             }
         };
 
-        auto nc = extents_result();
-
-        auto a_extents = a.extents();        
-        auto b_extents = b.extents();
-
-        for(auto i = 0u; i < a.rank(); ++i)
-            nc.at(i) = a_extents.at(i);
-
-        for(auto i = 0u; i < b.rank(); ++i)
-            nc.at(a.rank()+i) = b_extents.at(i);
+        auto nc  = create_nc(na,nb);
 
         using c_extents_type = std::decay_t< decltype(nc) >;
 
@@ -571,8 +559,8 @@ namespace boost::numeric::ublas
         auto c = tensor_core<t_engine>( nc, value_type{} );
 
         outer(c.data(), c.rank(), c.extents().data(), c.strides().data(),
-            a.data(), a.rank(), a_extents.data(), a.strides().data(),
-            b.data(), b.rank(), b_extents.data(), b.strides().data());
+            a.data(), a.rank(), na.data(), a.strides().data(),
+            b.data(), b.rank(), nb.data(), b.strides().data());
 
         return c;
     }

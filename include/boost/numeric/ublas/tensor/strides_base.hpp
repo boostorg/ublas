@@ -11,8 +11,8 @@
 /// \file strides_base.hpp Definition for the basic_strides template class
 
 
-#ifndef _BOOST_NUMERIC_UBLAS_TENSOR_STRIDES_BASE_HPP_
-#define _BOOST_NUMERIC_UBLAS_TENSOR_STRIDES_BASE_HPP_
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_STRIDES_BASE_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_STRIDES_BASE_HPP
 
 namespace boost::numeric::ublas {
 

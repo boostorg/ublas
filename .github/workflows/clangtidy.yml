@@ -1,8 +1,9 @@
 # Copyright (c) 2020 Mohammad Ashar Khan
+# Copyright (c) 2021 Cem Bassoy
 # Distributed under Boost Software License, Version 1.0
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
-name: Clang tidy checks
+name: "Static Analysis"
 
 on: 
   push:
@@ -15,7 +16,7 @@ on:
       - 'doc/**'
 jobs:
   check:
-    name: Clang tidy Check 
+    name: Linux Clang-Tidy
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -23,7 +24,7 @@ jobs:
       - name: Install Clang 11
         run: sudo apt-get update && sudo apt-get install -y clang-11 clang-tidy-11
       
-      - name: "Install Boost from Source" 
+      - name: "Install Boost from Source"
         run: |
           cd ..
           git clone --depth 1 https://github.com/boostorg/boost.git --recursive --shallow-submodules
@@ -33,7 +34,7 @@ jobs:
           sudo cp -r -L boost /usr/include
           rm -rf boost
       
-      - name: "Run clang-tidy"
+      - name: "Run Clang-Tidy"
         run: clang-tidy-11 examples/tensor/*.cpp test/tensor/*.cpp -- -Iinclude -std=c++20 > reports.txt && cat reports.txt
 
         

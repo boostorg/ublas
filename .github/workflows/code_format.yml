@@ -2,7 +2,7 @@
 # Distributed under Boost Software License, Version 1.0
 # (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
 
-name: "Code Format"
+name: "Clang Code Format"
 
 on: 
   push:
@@ -15,7 +15,7 @@ on:
       - 'doc/**'
 jobs:
   format:
-    name: "Code Formatting Check"
+    name: "Clang Code Formatting Check"
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2

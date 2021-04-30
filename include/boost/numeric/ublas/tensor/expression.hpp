@@ -180,4 +180,4 @@ constexpr auto make_unary_tensor_expression( vector_expression<E> const& e, OP o
 
 } // namespace boost::numeric::ublas::detail
 
-#endif
+#endif // BOOST_UBLAS_TENSOR_EXPRESSIONS_HPP
