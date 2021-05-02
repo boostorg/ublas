@@ -290,7 +290,7 @@ public:
                 " : the rank of extents is not correct, it should be of the rank 2"
             );
         } else {
-            if( extents_.size() != 2ul ){
+          if( ublas::size(this->extents()) != 2ul ){
                 throw std::runtime_error(
                     "boost::numeric::ublas::tensor_core(const matrix &v)"
                     " : the rank of extents is not correct, it should be of the rank 2"
@@ -325,7 +325,7 @@ public:
                 " : the rank of extents is not correct, it should be of the rank 2"
             );
         } else {
-            if( extents_.size() != 2ul ){
+          if( ublas::size(this->extents()) != 2ul ){
                 throw std::runtime_error(
                     "boost::numeric::ublas::tensor_core(matrix &&v)"
                     " : the rank of extents is not correct, it should be of the rank 2"
@@ -358,7 +358,7 @@ public:
                 " : the rank of extents is not correct, it should be of the rank 2"
             );
         } else {
-            if( extents_.size() != 2ul ){
+          if( ublas::size(this->extents()) != 2ul ){
                 throw std::runtime_error(
                     "boost::numeric::ublas::tensor_core(const vector_type &v)"
                     " : the rank of extents is not correct, it should be of the rank 2"
@@ -392,7 +392,7 @@ public:
                 " : the rank of extents is not correct, it should be of the rank 2"
             );
         } else {
-            if( extents_.size() != 2ul ){
+          if( ublas::size(extents()) != 2ul ){
                 throw std::runtime_error(
                     "boost::numeric::ublas::tensor_core(vector_type &&v)"
                     " : the rank of extents is not correct, it should be of the rank 2"
@@ -534,13 +534,13 @@ public:
     /** @brief Returns the number of dimensions/modes of the tensor_core */
     [[nodiscard]] inline
     constexpr size_type rank () const noexcept{
-        return this->extents_.size();
+      return ublas::size(this->extents());
     }
 
     /** @brief Returns the number of dimensions/modes of the tensor_core */
     [[nodiscard]] inline
     constexpr size_type order () const noexcept{
-        return this->extents_.size();
+      return ublas::size(this->extents());
     }
 
     /** @brief Returns the strides of the tensor_core */

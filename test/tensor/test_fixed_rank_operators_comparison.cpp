@@ -90,7 +90,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const& /*unused*/, auto& e)
+    for_each_in_tuple(extents,[](auto const& /*unused*/, auto& e)
     {
       using extents_t = std::decay_t<decltype (e)>;
       using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<extents_t>, layout_type>;
@@ -121,10 +121,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
         BOOST_CHECK( 2*t2 >= t2 );
         BOOST_CHECK( t2 <= 2*t2);
         BOOST_CHECK( 3*t2 >= t );
+     });
 
-    };
-
-    for_each_in_tuple(extents,check);
 
 }
 
@@ -137,7 +135,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const& /*unused*/, auto& e)
+    for_each_in_tuple(extents, [](auto const& /*unused*/, auto& e)
     {
       using extents_t = std::decay_t<decltype (e)>;
       using tensor_type = ublas::fixed_rank_tensor<value_type, std::tuple_size_v<extents_t>, layout_type>;
@@ -145,7 +143,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
         BOOST_CHECK( tensor_type(e,value_type{2}) == tensor_type(e,value_type{2})  );
         BOOST_CHECK( tensor_type(e,value_type{2}) != tensor_type(e,value_type{1})  );
 
-        if(e.empty())
+        if(ublas::empty(e))
             return;
 
         BOOST_CHECK( !(tensor_type(e,2) <  2) );
@@ -193,9 +191,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
         BOOST_CHECK(  ( 5 == tensor_type(e,2)+tensor_type(e,3)) );
         BOOST_CHECK(  ( 6 != tensor_type(e,2)+tensor_type(e,3)) );
 
-    };
-
-for_each_in_tuple(extents,check);
+    });
 
 }
 

@@ -40,22 +40,23 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_empty,
                         fixture,
                         *boost::unit_test::label("dynamic_extents_rank_static") *boost::unit_test::label("empty"))
 {
-  BOOST_CHECK( n   .empty());
-  BOOST_CHECK(!n1  .empty());
-  BOOST_CHECK(!n2  .empty());
-  BOOST_CHECK(!n11 .empty());
-  BOOST_CHECK(!n12 .empty());
-  BOOST_CHECK(!n21 .empty());
-  BOOST_CHECK(!n22 .empty());
-  BOOST_CHECK(!n32 .empty());
-  BOOST_CHECK(!n111.empty());
-  BOOST_CHECK(!n211.empty());
-  BOOST_CHECK(!n121.empty());
-  BOOST_CHECK(!n112.empty());
-  BOOST_CHECK(!n123.empty());
-  BOOST_CHECK(!n321.empty());
-  BOOST_CHECK(!n213.empty());
-  BOOST_CHECK(!n432.empty());
+  namespace ublas = boost::numeric::ublas;
+  BOOST_CHECK( ublas::empty(n   ));
+  BOOST_CHECK(!ublas::empty(n1  ));
+  BOOST_CHECK(!ublas::empty(n2  ));
+  BOOST_CHECK(!ublas::empty(n11 ));
+  BOOST_CHECK(!ublas::empty(n12 ));
+  BOOST_CHECK(!ublas::empty(n21 ));
+  BOOST_CHECK(!ublas::empty(n22 ));
+  BOOST_CHECK(!ublas::empty(n32 ));
+  BOOST_CHECK(!ublas::empty(n111));
+  BOOST_CHECK(!ublas::empty(n211));
+  BOOST_CHECK(!ublas::empty(n121));
+  BOOST_CHECK(!ublas::empty(n112));
+  BOOST_CHECK(!ublas::empty(n123));
+  BOOST_CHECK(!ublas::empty(n321));
+  BOOST_CHECK(!ublas::empty(n213));
+  BOOST_CHECK(!ublas::empty(n432));
 
   BOOST_CHECK_THROW( shape_t<3>({1,1,0}), std::invalid_argument);
   BOOST_CHECK_THROW( shape_t<2>({1,0}), std::invalid_argument);
@@ -69,22 +70,24 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_size,
                         fixture,
                         *boost::unit_test::label("dynamic_extents_rank_static") *boost::unit_test::label("size"))
 {
-  BOOST_CHECK_EQUAL(n   .size(),0);
-  BOOST_CHECK_EQUAL(n1  .size(),1);
-  BOOST_CHECK_EQUAL(n2  .size(),1);
-  BOOST_CHECK_EQUAL(n11 .size(),2);
-  BOOST_CHECK_EQUAL(n12 .size(),2);
-  BOOST_CHECK_EQUAL(n21 .size(),2);
-  BOOST_CHECK_EQUAL(n22 .size(),2);
-  BOOST_CHECK_EQUAL(n32 .size(),2);
-  BOOST_CHECK_EQUAL(n111.size(),3);
-  BOOST_CHECK_EQUAL(n211.size(),3);
-  BOOST_CHECK_EQUAL(n121.size(),3);
-  BOOST_CHECK_EQUAL(n112.size(),3);
-  BOOST_CHECK_EQUAL(n123.size(),3);
-  BOOST_CHECK_EQUAL(n321.size(),3);
-  BOOST_CHECK_EQUAL(n213.size(),3);
-  BOOST_CHECK_EQUAL(n432.size(),3);
+  namespace ublas = boost::numeric::ublas;
+
+  BOOST_CHECK_EQUAL(ublas::size(n   ),0);
+  BOOST_CHECK_EQUAL(ublas::size(n1  ),1);
+  BOOST_CHECK_EQUAL(ublas::size(n2  ),1);
+  BOOST_CHECK_EQUAL(ublas::size(n11 ),2);
+  BOOST_CHECK_EQUAL(ublas::size(n12 ),2);
+  BOOST_CHECK_EQUAL(ublas::size(n21 ),2);
+  BOOST_CHECK_EQUAL(ublas::size(n22 ),2);
+  BOOST_CHECK_EQUAL(ublas::size(n32 ),2);
+  BOOST_CHECK_EQUAL(ublas::size(n111),3);
+  BOOST_CHECK_EQUAL(ublas::size(n211),3);
+  BOOST_CHECK_EQUAL(ublas::size(n121),3);
+  BOOST_CHECK_EQUAL(ublas::size(n112),3);
+  BOOST_CHECK_EQUAL(ublas::size(n123),3);
+  BOOST_CHECK_EQUAL(ublas::size(n321),3);
+  BOOST_CHECK_EQUAL(ublas::size(n213),3);
+  BOOST_CHECK_EQUAL(ublas::size(n432),3);
 }
 
 

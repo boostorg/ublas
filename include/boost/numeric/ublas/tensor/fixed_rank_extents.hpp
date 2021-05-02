@@ -104,7 +104,7 @@ public:
   constexpr basic_fixed_rank_extents(std::initializer_list<value_type> const& li)
     : _base()
   {
-    if( li.size() != this->size() ){
+    if( li.size() != this->base().size() ){
       throw std::out_of_range("boost::numeric::ublas::basic_fixed_rank_extents: "
         "number of elements in std::initializer_list is greater than the size"
         );
@@ -121,7 +121,7 @@ public:
 
   constexpr basic_fixed_rank_extents(const_iterator begin, const_iterator end)
   {
-    if( std::distance(begin,end) < 0 || static_cast<std::size_t>(std::distance(begin,end)) > this->size()){
+    if( std::distance(begin,end) < 0 || static_cast<std::size_t>(std::distance(begin,end)) > this->base().size()){
       throw std::out_of_range("Error in boost::numeric::ublas::basic_fixed_rank_extents(const_iterator, const_iterator): "
         "initializer list size is greater than the rank");
     }
@@ -138,13 +138,6 @@ public:
   constexpr explicit basic_fixed_rank_extents(basic_fixed_rank_extents<OT,N> const& e)
   {
     std::copy(e.begin(), e.end(), _base.begin());
-  }
-
-
-
-  [[nodiscard]]
-  inline constexpr auto size() const noexcept {
-    return this->_base.size();
   }
 
   [[nodiscard]] inline
@@ -180,25 +173,12 @@ public:
     return _base;
   }
 
-  /** @brief Checks if extents is empty or not
-     *
-     * @returns true if rank is 0 else false
-     *
-     */
-  [[nodiscard]] inline
-    constexpr bool empty() const noexcept { return this->size() == size_type{0}; }
-
   friend void swap(basic_fixed_rank_extents& lhs, basic_fixed_rank_extents& rhs)
         noexcept(std::is_nothrow_swappable_v<base_type>)
   {
     std::swap(lhs._base   , rhs._base   );
   }
 
-  [[nodiscard]] inline
-    constexpr const_pointer data() const noexcept
-  {
-    return _base.data();
-  }
 
   [[nodiscard]] inline
     constexpr const_iterator

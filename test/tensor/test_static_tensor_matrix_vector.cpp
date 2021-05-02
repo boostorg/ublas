@@ -108,10 +108,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor_extents, value,  
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
-        assert(e.size()==2);
+        assert(ublas::size(e)==2);
         etensor_type t = matrix_type{e[0],e[1]};
-        BOOST_CHECK_EQUAL (  t.size() , product(e) );
-        BOOST_CHECK_EQUAL (  t.rank() , e.size() );
+        BOOST_CHECK_EQUAL (  t.size() , ublas::product(e) );
+        BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e) );
         BOOST_CHECK       ( !t.empty()    );
     };
 
@@ -132,13 +132,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor_extents, value,  
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
         if constexpr( extents_type::at(1) == 1 ){
-            assert(e.size()==2);
-            if(e.empty())
+            assert(ublas::size(e)==2);
+            if(ublas::empty(e))
                 return;
 
-            etensor_type t = vector_type(product(e));
-            BOOST_CHECK_EQUAL (  t.size() , product(e) );
-            BOOST_CHECK_EQUAL (  t.rank() , e.size() );
+            etensor_type t = vector_type(ublas::product(e));
+            BOOST_CHECK_EQUAL (  t.size() , ublas::product(e) );
+            BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e) );
             BOOST_CHECK       ( !t.empty()    );
         }
 
@@ -161,7 +161,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  te
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
-        assert(e.size() == 2);
+        assert(ublas::size(e) == 2);
         auto t = etensor_type{};
         auto r = matrix_type(e[0],e[1]);
         std::iota(r.data().begin(),r.data().end(), 1);
@@ -169,8 +169,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  te
 
         BOOST_CHECK_EQUAL (  t.extents().at(0) , e.at(0) );
         BOOST_CHECK_EQUAL (  t.extents().at(1) , e.at(1) );
-        BOOST_CHECK_EQUAL (  t.size() , product(e) );
-        BOOST_CHECK_EQUAL (  t.rank() , e.size() );
+        BOOST_CHECK_EQUAL (  t.size() , ublas::product(e) );
+        BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e) );
         BOOST_CHECK       ( !t.empty()    );
 
         for(auto j = 0ul; j < t.size(1); ++j){
@@ -196,7 +196,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  te
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
-        assert(e.size() == 2);
+        assert(ublas::size(e) == 2);
 
         if constexpr( extents_type::at(1) == 1 ){
             auto t = etensor_type{};
@@ -206,8 +206,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  te
 
             BOOST_CHECK_EQUAL (  t.extents().at(0) , e.at(0)*e.at(1) );
             BOOST_CHECK_EQUAL (  t.extents().at(1) , 1);
-            BOOST_CHECK_EQUAL (  t.size() , product(e) );
-            BOOST_CHECK_EQUAL (  t.rank() , e.size() );
+            BOOST_CHECK_EQUAL (  t.size() , ublas::product (e) );
+            BOOST_CHECK_EQUAL (  t.rank() , ublas::size    (e) );
             BOOST_CHECK       ( !t.empty()    );
 
             for(auto i = 0ul; i < t.size(); ++i){
@@ -231,7 +231,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  te
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
-        assert(e.size() == 2);
+        assert(ublas::size(e) == 2);
         auto t = etensor_type{};
         auto r = matrix_type(e[0],e[1]);
         std::iota(r.data().begin(),r.data().end(), 1);
@@ -240,8 +240,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  te
 
         BOOST_CHECK_EQUAL (  t.extents().at(0) , e.at(0) );
         BOOST_CHECK_EQUAL (  t.extents().at(1) , e.at(1) );
-        BOOST_CHECK_EQUAL (  t.size() , product(e) );
-        BOOST_CHECK_EQUAL (  t.rank() , e.size() );
+        BOOST_CHECK_EQUAL (  t.size() , ublas::product(e) );
+        BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e) );
         BOOST_CHECK       ( !t.empty()    );
 
         for(auto j = 0ul; j < t.size(1); ++j){
@@ -269,7 +269,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  te
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
-        assert(e.size() == 2);
+        assert(ublas::size(e) == 2);
         if constexpr( extents_type::at(1) == 1 ){
             auto t = etensor_type{};
             auto r = vector_type(e[0]*e[1]);
@@ -279,8 +279,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  te
 
             BOOST_CHECK_EQUAL (  t.extents().at(0) , e.at(0) * e.at(1));
             BOOST_CHECK_EQUAL (  t.extents().at(1) , 1);
-            BOOST_CHECK_EQUAL (  t.size() , product(e) );
-            BOOST_CHECK_EQUAL (  t.rank() , e.size() );
+            BOOST_CHECK_EQUAL (  t.size() , ublas::product(e) );
+            BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e) );
             BOOST_CHECK       ( !t.empty()    );
 
             for(auto i = 0ul; i < t.size(); ++i){
@@ -304,11 +304,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
-    auto check = [](auto const& /*unused*/, auto& e) {
+    for_each_in_tuple(extents,[](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
-        assert(e.size() == 2);
+        assert(ublas::size(e) == 2);
         auto t = etensor_type{};
         auto r = matrix_type(e[0],e[1]);
         std::iota(r.data().begin(),r.data().end(), 1);
@@ -319,20 +319,20 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
 
         BOOST_CHECK_EQUAL (  t.extents().at(0) , e.at(0) );
         BOOST_CHECK_EQUAL (  t.extents().at(1) , e.at(1) );
-        BOOST_CHECK_EQUAL (  t.size() , product(e) );
-        BOOST_CHECK_EQUAL (  t.rank() , e.size() );
+        BOOST_CHECK_EQUAL (  t.size() , ublas::product(e) );
+        BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e) );
         BOOST_CHECK       ( !t.empty()    );
 
         BOOST_CHECK_EQUAL (  s.extents().at(0) , e.at(0) );
         BOOST_CHECK_EQUAL (  s.extents().at(1) , e.at(1) );
-        BOOST_CHECK_EQUAL (  s.size() , product(e) );
-        BOOST_CHECK_EQUAL (  s.rank() , e.size() );
+        BOOST_CHECK_EQUAL (  s.size() , ublas::product(e) );
+        BOOST_CHECK_EQUAL (  s.rank() , ublas::size   (e) );
         BOOST_CHECK       ( !s.empty()    );
 
         BOOST_CHECK_EQUAL (  q.extents().at(0) , e.at(0) );
         BOOST_CHECK_EQUAL (  q.extents().at(1) , e.at(1) );
-        BOOST_CHECK_EQUAL (  q.size() , product(e) );
-        BOOST_CHECK_EQUAL (  q.rank() , e.size() );
+        BOOST_CHECK_EQUAL (  q.size() , ublas::product(e) );
+        BOOST_CHECK_EQUAL (  q.rank() , ublas::size   (e) );
         BOOST_CHECK       ( !q.empty()    );
 
 
@@ -343,9 +343,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
                 BOOST_CHECK_EQUAL( q.at(i,j), 3*s.at(i,j)  );
             }
         }
-    };
-
-    for_each_in_tuple(extents,check);
+    });
 }
 
 
@@ -361,11 +359,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
     using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
-    auto check = [](auto const& /*unused*/, auto& e) {
+    for_each_in_tuple(extents,[](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
         using etensor_type = ublas::static_tensor<value_type, extents_type,layout_type>;
 
-        assert(e.size() == 2);
+        assert(ublas::size(e) == 2);
         if constexpr( extents_type::at(1) == 1 ){
             auto t = etensor_type{};
             auto r = vector_type(e[0]*e[1]);
@@ -377,20 +375,20 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
 
             BOOST_CHECK_EQUAL (  t.extents().at(0) , e.at(0)*e.at(1) );
             BOOST_CHECK_EQUAL (  t.extents().at(1) , 1);
-            BOOST_CHECK_EQUAL (  t.size() , product(e) );
-            BOOST_CHECK_EQUAL (  t.rank() , e.size() );
+            BOOST_CHECK_EQUAL (  t.size() , ublas::product(e) );
+            BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e) );
             BOOST_CHECK       ( !t.empty()    );
 
             BOOST_CHECK_EQUAL (  s.extents().at(0) , e.at(0)*e.at(1) );
             BOOST_CHECK_EQUAL (  s.extents().at(1) , 1);
-            BOOST_CHECK_EQUAL (  s.size() , product(e) );
-            BOOST_CHECK_EQUAL (  s.rank() , e.size() );
+            BOOST_CHECK_EQUAL (  s.size() , ublas::product(e) );
+            BOOST_CHECK_EQUAL (  s.rank() , ublas::size   (e) );
             BOOST_CHECK       ( !s.empty()    );
 
             BOOST_CHECK_EQUAL (  q.extents().at(0) , e.at(0)*e.at(1) );
             BOOST_CHECK_EQUAL (  q.extents().at(1) , 1);
-            BOOST_CHECK_EQUAL (  q.size() , product(e) );
-            BOOST_CHECK_EQUAL (  q.rank() , e.size() );
+            BOOST_CHECK_EQUAL (  q.size() , ublas::product(e) );
+            BOOST_CHECK_EQUAL (  q.rank() , ublas::size   (e) );
             BOOST_CHECK       ( !q.empty()    );
 
 
@@ -401,9 +399,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
                 BOOST_CHECK_EQUAL( q.at(i), 3*s.at(i)  );
             }
         }
-    };
-
-    for_each_in_tuple(extents,check);
+    });
 }
 
 
@@ -417,13 +413,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
     using matrix_type = typename tensor_type::matrix_type;
     using vector_type = typename tensor_type::vector_type;
 
-    auto check = [](auto const& /*unused*/, auto& e) {
+    for_each_in_tuple(extents,[](auto const& /*unused*/, auto& e) {
         using extents_type = std::decay_t<decltype(e)>;
 
         if(product(e) <= 2)
             return;
 
-        assert(e.size() == 2);
+        assert(ublas::size(e) == 2);
         auto Q = ublas::static_tensor<value_type, ublas::static_extents<extents_type::at(0),1>,layout_type>{} ;
         auto A = matrix_type(e[0],e[1]);
         auto b = vector_type(e[1]);
@@ -448,11 +444,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
             BOOST_CHECK_EQUAL( T(i), ab+4*Q(0)+2*c(0)  );
         }
 
-    };
-
-
-
-    for_each_in_tuple(extents,check);
+    });
 }
 
 

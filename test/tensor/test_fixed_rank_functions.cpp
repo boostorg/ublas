@@ -81,7 +81,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_prod_vector, value,  te
     using vector_type = typename tensor_type::vector_type;
     auto a = tensor_type(n, value_type{2});
 
-    for (auto m = 0u; m < n.size(); ++m) {
+    for (auto m = 0u; m < ublas::size(n); ++m) {
       auto b = vector_type(n[m], value_type{1});
 
       auto c = ublas::prod(a, b, m + 1);
@@ -105,7 +105,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_prod_matrix, value,  te
     using matrix_type = typename tensor_type::matrix_type;
 
     auto a = tensor_type(n, value_type{2});
-    for (auto m = 0u; m < n.size(); ++m) {
+    for (auto m = 0u; m < ublas::size(n); ++m) {
 
       auto b = matrix_type  ( n[m], n[m], value_type{1} );
 
@@ -200,16 +200,16 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_fixed_rank_tensor_prod_tensor_2, value,  
   auto permute_extents_s_1 = [](auto const& pi, auto const& na){
 
     auto nb = ublas::extents<>(na.begin(),na.end());
-    assert(pi.size() == na.size());
-    for(auto j = 0u; j < pi.size(); ++j)
+    assert(std::size(pi) == ublas::size(na));
+    for(auto j = 0u; j < std::size(pi); ++j)
       nb[pi[j]-1] = na[j];
     return nb;
   };
   auto permute_extents_s_2 = [](auto const& pi, auto const& na){
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(na)>>;
     auto tempn = na.base();
-    assert(pi.size() == size);
-    for(auto j = 0u; j < pi.size(); ++j)
+    assert(std::size(pi) == size);
+    for(auto j = 0u; j < std::size(pi); ++j)
       tempn[pi[j]-1] = na[j];
     return ublas::extents<size>(tempn.begin(),tempn.end());
   };

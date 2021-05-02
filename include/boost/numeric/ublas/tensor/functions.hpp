@@ -92,6 +92,7 @@ namespace boost::numeric::ublas
         vector<typename tensor_core< TensorEngine >::value_type, A> const &b, 
         const std::size_t m)
     {
+
         using tensor_type   = tensor_core< TensorEngine >;
         using extents_type  = typename tensor_type::extents_type;
         using value_type    = typename tensor_type::value_type;
@@ -148,7 +149,7 @@ namespace boost::numeric::ublas
                 return ret;
             }else{
                 using extents_base_type = typename extents_type::base_type;
-                auto const sz = std::max( na.size() - 1, size_type(2) );
+                auto const sz = std::max( ublas::size(na) - 1, size_type(2) );
                 auto arr = extents_base_type(sz,1);
                 return extents_type{ std::move(arr) } ;
             }
@@ -173,9 +174,9 @@ namespace boost::numeric::ublas
         auto c = tensor_core<t_engine>( nc, value_type{} );
         auto bb = &(b(0));
         ttv(m, p,
-            c.data(), c.extents().data(), c.strides().data(),
-            a.data(), a.extents().data(), a.strides().data(),
-            bb, nb.data(), nb.data());
+            c.data(), data(c.extents()), c.strides().data(),
+            a.data(), data(a.extents()), a.strides().data(),
+            bb, data(nb), data(nb));
         return c;
     }
 
@@ -225,7 +226,7 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::prod(ttm): "
                 "contraction mode must be greater than zero.");
 
-        if (p < m || m > a.extents().size())
+        if (p < m || m > ublas::size(a.extents()))
             throw std::length_error(
                 "error in boost::numeric::ublas::prod(ttm): rank "
                 "of the tensor must be greater equal the modus.");
@@ -251,9 +252,9 @@ namespace boost::numeric::ublas
 
         auto bb = &(b(0, 0));
         ttm(m, p,
-            c.data(), c.extents().data(), c.strides().data(),
-            a.data(), a.extents().data(), a.strides().data(),
-            bb, nb.data(), wb.data());
+            c.data(), data(c.extents()), c.strides().data(),
+            a.data(), data(a.extents()), a.strides().data(),
+            bb, data(nb), wb.data());
 
         return c;
     }
@@ -363,7 +364,7 @@ namespace boost::numeric::ublas
                 constexpr auto const msz = std::max(size_type(sz), size_type(2));
                 return extents<msz>();
             }else{
-                size_type const size = ( na.size() + nb.size() ) - ( phia.size() + phib.size() );
+              size_type const size = ( ublas::size(na) + ublas::size(nb) ) - ( phia.size() + phib.size() );
                 return extents<>( extents_base_type ( std::max(size, size_type(2)), size_type(1) ) );
             }
         };
@@ -404,9 +405,9 @@ namespace boost::numeric::ublas
         
         ttt(pa, pb, q,
             phia1.data(), phib1.data(),
-            c.data(), c.extents().data(), c.strides().data(),
-            a.data(), a.extents().data(), a.strides().data(),
-            b.data(), b.extents().data(), b.strides().data());
+            c.data(), data(c.extents()), c.strides().data(),
+            a.data(), data(a.extents()), a.strides().data(),
+            b.data(), data(b.extents()), b.strides().data());
 
         return c;
     }
@@ -468,7 +469,7 @@ namespace boost::numeric::ublas
         if (a.extents() != b.extents())
             throw std::length_error("error in boost::numeric::ublas::inner_prod: Tensor extents should be the same.");
         
-        return inner(a.rank(), a.extents().data(),
+        return inner(a.rank(), data(a.extents()),
                     a.data(), a.strides().data(),
                     b.data(), b.strides().data(), value_type{0});
     }
@@ -538,7 +539,7 @@ namespace boost::numeric::ublas
               return extents_type(nc);
             }else {
               using extents_type = extents<>;
-              auto nc = typename extents_type::base_type(na.size()+nb.size());
+              auto nc = typename extents_type::base_type(ublas::size(na)+ublas::size(nb));
               auto nci = std::copy(na.begin(),na.end(), nc.begin());
               std::copy(nb.begin(), nb.end(), nci);
               return extents_type(nc);
@@ -558,9 +559,9 @@ namespace boost::numeric::ublas
 
         auto c = tensor_core<t_engine>( nc, value_type{} );
 
-        outer(c.data(), c.rank(), c.extents().data(), c.strides().data(),
-            a.data(), a.rank(), na.data(), a.strides().data(),
-            b.data(), b.rank(), nb.data(), b.strides().data());
+        outer(c.data(), c.rank(), data(c.extents()), c.strides().data(),
+            a.data(), a.rank(), data(na), a.strides().data(),
+            b.data(), b.rank(), data(nb), b.strides().data());
 
         return c;
     }
@@ -614,7 +615,7 @@ namespace boost::numeric::ublas
         if (a.empty())
             return c;
 
-        trans(a.rank(), a.extents().data(), tau.data(),
+        trans(a.rank(), data(a.extents()), tau.data(),
             c.data(), c.strides().data(),
             a.data(), a.strides().data());
 
@@ -650,7 +651,7 @@ namespace boost::numeric::ublas
             throw std::runtime_error(
                 "error in boost::numeric::ublas::norm: tensors should not be empty.");
         }
-        return std::sqrt(accumulate(a.order(), a.extents().data(), a.data(), a.strides().data(), value_type{},
+        return std::sqrt(accumulate(a.order(), data(a.extents()), a.data(), a.strides().data(), value_type{},
                                     [](auto const &l, auto const &r) { return l + r * r; }));
     }
 
@@ -694,7 +695,7 @@ namespace boost::numeric::ublas
 
         using tensor_type = tensor_core<t_engine>;
 
-        if( detail::retrieve_extents( expr  ).empty() )
+        if( ublas::empty( detail::retrieve_extents( expr  ) ) )
             throw std::runtime_error("error in boost::numeric::ublas::conj: tensors should not be empty.");
 
         auto a = old_tensor_type( expr );
@@ -743,7 +744,7 @@ namespace boost::numeric::ublas
 
         using tensor_type = tensor_core<t_engine>;
 
-        if( detail::retrieve_extents( expr  ).empty() )
+        if( ublas::empty ( detail::retrieve_extents( expr  ) ) )
             throw std::runtime_error("error in boost::numeric::ublas::real: tensors should not be empty.");
 
         auto a = old_tensor_type( expr );
@@ -793,7 +794,7 @@ namespace boost::numeric::ublas
 
         using tensor_type = tensor_core<t_engine>;
 
-        if( detail::retrieve_extents( expr  ).empty() )
+        if( ublas::empty( detail::retrieve_extents( expr  ) ) )
             throw std::runtime_error("error in boost::numeric::ublas::real: tensors should not be empty.");
 
         auto a = old_tensor_type( expr );
@@ -938,7 +939,7 @@ namespace boost::numeric::ublas
         ttv(M, p,
             c.data(), c_static_extents.data(), c_static_strides.data(),
             a.data(), a_static_extents.data(), a_static_strides.data(),
-            bb, nb.data(), nb.data());
+            bb, data(nb), data(nb));
 
         return c;
     }
@@ -986,12 +987,14 @@ namespace boost::numeric::ublas
                 "error in boost::numeric::ublas::prod(ttm): second "
                 "argument matrix should not be empty.");
 
-        auto nc = detail::static_extents_set_at< M - 1, MatrixDimension >( a.extents() );
+
+        auto const& na = a.extents();
+        auto nc_base = detail::static_extents_set_at< M - 1, MatrixDimension >( na );
         auto nb = extents<>{b.size1(), b.size2()};
 
         auto wb = dynamic_strides_type(nb);
         
-        using c_extents_type = std::decay_t<decltype(nc)>;
+        using c_extents_type = std::decay_t<decltype(nc_base)>;
         
         using t_engine = tensor_engine<
             c_extents_type,
@@ -1001,17 +1004,16 @@ namespace boost::numeric::ublas
         >;
         auto c = t_engine(value_type{});
 
-        auto bb = &(b(0, 0));
+        auto bbdata = &(b(0, 0));
 
-        auto& a_static_extents = a.extents().base();
-        auto& c_static_extents = c.extents().base();
+        auto const& nc = c.extents();
+        auto const& wa = a.strides();
+        auto const& wc = c.strides();
 
-        auto& a_static_strides = a.strides().base();
-        auto& c_static_strides = c.strides().base();
         ttm(M, p,
-            c.data(), c_static_extents.data(), c_static_strides.data(),
-            a.data(), a_static_extents.data(), a_static_strides.data(),
-            bb, nb.data(), wb.data());
+            c.data(), data(nc), wc.data(),
+            a.data(), data(na), wa.data(),
+            bbdata  , data(nb), wb.data());
 
         return c;
     }

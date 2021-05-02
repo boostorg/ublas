@@ -23,529 +23,538 @@ BOOST_AUTO_TEST_SUITE ( test_fixed_rank_extents )
 
 BOOST_AUTO_TEST_CASE(test_fixed_rank_extents_ctor)
 {
-    namespace ub = boost::numeric::ublas;
+  namespace ub = boost::numeric::ublas;
 
 
-    auto e0 = ub::extents<0>{};
-    BOOST_CHECK( e0.empty());
-    BOOST_CHECK_EQUAL ( e0.size(), 0);
+  auto e = ub::extents<0>{};
+  BOOST_CHECK( ub::empty(e));
+  BOOST_CHECK_EQUAL ( ub::size(e), 0);
 
-    auto e1 = ub::extents<2>{{1,1}};
-    BOOST_CHECK(!e1.empty());
-    BOOST_CHECK ( e1.size() == 2);
+  auto e11 = ub::extents<2>{{1,1}};
+  BOOST_CHECK(!ub::empty(e11));
+  BOOST_CHECK ( ub::size(e11) == 2);
 
-    auto e2 = ub::extents<2>{1,2};
-    BOOST_CHECK(!e2.empty());
-    BOOST_CHECK ( e2.size() == 2);
+  auto e12 = ub::extents<2>{{1,2}};
+  BOOST_CHECK(!ub::empty(e12));
+  BOOST_CHECK ( ub::size(e12) == 2);
 
-    auto e3 = ub::extents<2>{2,1};
-    BOOST_CHECK (!e3.empty());
-    BOOST_CHECK ( e3.size() == 2);
+  auto e21 = ub::extents<2>{{2,1}};
+  BOOST_CHECK (!ub::empty(e21));
+  BOOST_CHECK ( ub::size(e21) == 2);
 
-    auto e4 = ub::extents<2>{2,3};
-    BOOST_CHECK(!e4.empty());
-    BOOST_CHECK ( e4.size() == 2);
+  auto e23 = ub::extents<2>{{2,3}};
+  BOOST_CHECK(!empty(e23));
+  BOOST_CHECK ( size(e23) == 2);
 
-    auto e5 = ub::extents<3>{2,3,1};
-    BOOST_CHECK (!e5.empty());
-    BOOST_CHECK  ( e5.size() == 3);
+  auto e231 = ub::extents<3>{{2,3,1}};
+  BOOST_CHECK (!ub::empty(e231));
+  BOOST_CHECK  ( ub::size(e231) == 3);
 
-    auto e6 = ub::extents<3>{1,2,3}; // 6
-    BOOST_CHECK(!e6.empty());
-    BOOST_CHECK ( e6.size() == 3);
+  auto e123 = ub::extents<3>{{1,2,3}}; // 6
+  BOOST_CHECK(!ub::empty(e123));
+  BOOST_CHECK ( ub::size(e123) == 3);
 
-    auto e7 = ub::extents<3>{4,2,3};  // 7
-    BOOST_CHECK(!e7.empty());
-    BOOST_CHECK ( e7.size() == 3);
+  auto e423 = ub::extents<3>{{4,2,3}};  // 7
+  BOOST_CHECK(!ub::empty(e423));
+  BOOST_CHECK ( ub::size(e423) == 3);
 
-    BOOST_CHECK_THROW( ub::extents<2>({1,0}), 	std::invalid_argument);
-    BOOST_CHECK_THROW( ub::extents<1>({0}  ), 	std::invalid_argument);
-    BOOST_CHECK_THROW( ub::extents<2>({0,1}), 	std::invalid_argument);
-    BOOST_CHECK_THROW( ub::extents<2>({1,1,2}), std::out_of_range);
+  BOOST_CHECK_THROW( ub::extents<2>({1,0}), 	std::invalid_argument);
+  BOOST_CHECK_THROW( ub::extents<1>({0}  ), 	std::invalid_argument);
+  BOOST_CHECK_THROW( ub::extents<2>({0,1}), 	std::invalid_argument);
+  BOOST_CHECK_THROW( ub::extents<2>({1,1,2}), std::out_of_range);
 }
 
 
 struct fixture {
-    template<size_t N>
-    using extents = boost::numeric::ublas::extents<N>;
+  template<size_t N>
+  using extents = boost::numeric::ublas::extents<N>;
 
-    extents<0> de0{};            // 0
+  extents<0> de       {};
 
-    extents<2> de1{1,1};         // 1
-    extents<2> de2{1,2};         // 2
-    extents<2> de3{2,1};         // 3
+  extents<2> de11     {1,1};
+  extents<2> de12     {1,2};
+  extents<2> de21     {2,1};
 
-    extents<2> de4{2,3};         // 4
-    extents<3> de5{2,3,1};       // 5
-    extents<3> de6{1,2,3};       // 6
-    extents<4> de7{1,1,2,3};     // 7
-    extents<5> de8{1,2,3,1,1};   // 8
+  extents<2> de23     {2,3};
+  extents<3> de231    {2,3,1};
+  extents<3> de123    {1,2,3};
+  extents<4> de1123   {1,1,2,3};
+  extents<5> de12311  {1,2,3,1,1};
 
-    extents<3> de9{4,2,3};       // 9
-    extents<4> de10{4,2,1,3};    // 10
-    extents<5> de11{4,2,1,3,1};  // 11
-    extents<6> de12{1,4,2,1,3,1};// 12
-    
-    extents<3> de13{1,4,1}; 	   // 13
-    extents<4> de14{1,1,1,1};    // 14
-    extents<5> de15{1,4,1,1,1};  // 15
-    extents<6> de16{1,1,2,1,1,1};// 16
-    extents<6> de17{1,1,2,3,1,1};// 17
+  extents<3> de423    {4,2,3};
+  extents<4> de4213   {4,2,1,3};
+  extents<5> de42131  {4,2,1,3,1};
+  extents<6> de142131 {1,4,2,1,3,1};
+
+  extents<3> de141    {1,4,1};
+  extents<4> de1111   {1,1,1,1};
+  extents<5> de14111  {1,4,1,1,1};
+  extents<6> de112111 {1,1,2,1,1,1};
+  extents<6> de112311 {1,1,2,3,1,1};
 };
 
 BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_access, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("access"))
 {
-    BOOST_CHECK_EQUAL(de0.size(), 0);
-    BOOST_CHECK (de0.empty()  );
 
-    BOOST_REQUIRE_EQUAL(de1.size(), 2);
-    BOOST_REQUIRE_EQUAL(de2.size(), 2);
-    BOOST_REQUIRE_EQUAL(de3.size(), 2);
-    BOOST_REQUIRE_EQUAL(de4.size(), 2);
-    BOOST_REQUIRE_EQUAL(de5.size(), 3);
-    BOOST_REQUIRE_EQUAL(de6.size(), 3);
-    BOOST_REQUIRE_EQUAL(de7.size(), 4);
-    BOOST_REQUIRE_EQUAL(de8.size(), 5);
-    BOOST_REQUIRE_EQUAL(de9.size(), 3);
-    BOOST_REQUIRE_EQUAL(de10.size(), 4);
-    BOOST_REQUIRE_EQUAL(de11.size(), 5);
-    BOOST_REQUIRE_EQUAL(de12.size(), 6);
-    BOOST_REQUIRE_EQUAL(de13.size(), 3);
-    BOOST_REQUIRE_EQUAL(de14.size(), 4);
-    BOOST_REQUIRE_EQUAL(de15.size(), 5);
-    BOOST_REQUIRE_EQUAL(de16.size(), 6);
-    BOOST_REQUIRE_EQUAL(de17.size(), 6);
+  namespace ublas = boost::numeric::ublas;
+
+  BOOST_REQUIRE_EQUAL(ublas::size(de), 0);
+  BOOST_CHECK        (ublas::empty(de)  );
+
+  BOOST_REQUIRE_EQUAL(ublas::size(de11)    , 2);
+  BOOST_REQUIRE_EQUAL(ublas::size(de12)    , 2);
+  BOOST_REQUIRE_EQUAL(ublas::size(de21)    , 2);
+  BOOST_REQUIRE_EQUAL(ublas::size(de23)    , 2);
+  BOOST_REQUIRE_EQUAL(ublas::size(de231)   , 3);
+  BOOST_REQUIRE_EQUAL(ublas::size(de123)   , 3);
+  BOOST_REQUIRE_EQUAL(ublas::size(de1123)  , 4);
+  BOOST_REQUIRE_EQUAL(ublas::size(de12311) , 5);
+  BOOST_REQUIRE_EQUAL(ublas::size(de423)   , 3);
+  BOOST_REQUIRE_EQUAL(ublas::size(de4213)  , 4);
+  BOOST_REQUIRE_EQUAL(ublas::size(de42131) , 5);
+  BOOST_REQUIRE_EQUAL(ublas::size(de142131), 6);
+  BOOST_REQUIRE_EQUAL(ublas::size(de141)   , 3);
+  BOOST_REQUIRE_EQUAL(ublas::size(de1111)  , 4);
+  BOOST_REQUIRE_EQUAL(ublas::size(de14111) , 5);
+  BOOST_REQUIRE_EQUAL(ublas::size(de112111), 6);
+  BOOST_REQUIRE_EQUAL(ublas::size(de112311), 6);
 
 
-    BOOST_CHECK_EQUAL(de1[0],1);
-    BOOST_CHECK_EQUAL(de1[1],1);
+  BOOST_CHECK_EQUAL(de11[0],1);
+  BOOST_CHECK_EQUAL(de11[1],1);
 
-    BOOST_CHECK_EQUAL(de2[0],1);
-    BOOST_CHECK_EQUAL(de2[1],2);
+  BOOST_CHECK_EQUAL(de12[0],1);
+  BOOST_CHECK_EQUAL(de12[1],2);
 
-    BOOST_CHECK_EQUAL(de3[0],2);
-    BOOST_CHECK_EQUAL(de3[1],1);
+  BOOST_CHECK_EQUAL(de21[0],2);
+  BOOST_CHECK_EQUAL(de21[1],1);
 
-    BOOST_CHECK_EQUAL(de4[0],2);
-    BOOST_CHECK_EQUAL(de4[1],3);
+  BOOST_CHECK_EQUAL(de23[0],2);
+  BOOST_CHECK_EQUAL(de23[1],3);
 
-    BOOST_CHECK_EQUAL(de5[0],2);
-    BOOST_CHECK_EQUAL(de5[1],3);
-    BOOST_CHECK_EQUAL(de5[2],1);
+  BOOST_CHECK_EQUAL(de231[0],2);
+  BOOST_CHECK_EQUAL(de231[1],3);
+  BOOST_CHECK_EQUAL(de231[2],1);
 
-    BOOST_CHECK_EQUAL(de6[0],1);
-    BOOST_CHECK_EQUAL(de6[1],2);
-    BOOST_CHECK_EQUAL(de6[2],3);
+  BOOST_CHECK_EQUAL(de123[0],1);
+  BOOST_CHECK_EQUAL(de123[1],2);
+  BOOST_CHECK_EQUAL(de123[2],3);
 
-    BOOST_CHECK_EQUAL(de7[0],1);
-    BOOST_CHECK_EQUAL(de7[1],1);
-    BOOST_CHECK_EQUAL(de7[2],2);
-    BOOST_CHECK_EQUAL(de7[3],3);
+  BOOST_CHECK_EQUAL(de1123[0],1);
+  BOOST_CHECK_EQUAL(de1123[1],1);
+  BOOST_CHECK_EQUAL(de1123[2],2);
+  BOOST_CHECK_EQUAL(de1123[3],3);
 
-    BOOST_CHECK_EQUAL(de8[0],1);
-    BOOST_CHECK_EQUAL(de8[1],2);
-    BOOST_CHECK_EQUAL(de8[2],3);
-    BOOST_CHECK_EQUAL(de8[3],1);
-    BOOST_CHECK_EQUAL(de8[4],1);
+  BOOST_CHECK_EQUAL(de12311[0],1);
+  BOOST_CHECK_EQUAL(de12311[1],2);
+  BOOST_CHECK_EQUAL(de12311[2],3);
+  BOOST_CHECK_EQUAL(de12311[3],1);
+  BOOST_CHECK_EQUAL(de12311[4],1);
 
-    BOOST_CHECK_EQUAL(de9[0],4);
-    BOOST_CHECK_EQUAL(de9[1],2);
-    BOOST_CHECK_EQUAL(de9[2],3);
+  BOOST_CHECK_EQUAL(de423[0],4);
+  BOOST_CHECK_EQUAL(de423[1],2);
+  BOOST_CHECK_EQUAL(de423[2],3);
 
-    BOOST_CHECK_EQUAL(de10[0],4);
-    BOOST_CHECK_EQUAL(de10[1],2);
-    BOOST_CHECK_EQUAL(de10[2],1);
-    BOOST_CHECK_EQUAL(de10[3],3);
+  BOOST_CHECK_EQUAL(de4213[0],4);
+  BOOST_CHECK_EQUAL(de4213[1],2);
+  BOOST_CHECK_EQUAL(de4213[2],1);
+  BOOST_CHECK_EQUAL(de4213[3],3);
 
-    BOOST_CHECK_EQUAL(de11[0],4);
-    BOOST_CHECK_EQUAL(de11[1],2);
-    BOOST_CHECK_EQUAL(de11[2],1);
-    BOOST_CHECK_EQUAL(de11[3],3);
-    BOOST_CHECK_EQUAL(de11[4],1);
+  BOOST_CHECK_EQUAL(de42131[0],4);
+  BOOST_CHECK_EQUAL(de42131[1],2);
+  BOOST_CHECK_EQUAL(de42131[2],1);
+  BOOST_CHECK_EQUAL(de42131[3],3);
+  BOOST_CHECK_EQUAL(de42131[4],1);
 
-    BOOST_CHECK_EQUAL(de12[0],1);
-    BOOST_CHECK_EQUAL(de12[1],4);
-    BOOST_CHECK_EQUAL(de12[2],2);
-    BOOST_CHECK_EQUAL(de12[3],1);
-    BOOST_CHECK_EQUAL(de12[4],3);
-    BOOST_CHECK_EQUAL(de12[5],1);
+  BOOST_CHECK_EQUAL(de142131[0],1);
+  BOOST_CHECK_EQUAL(de142131[1],4);
+  BOOST_CHECK_EQUAL(de142131[2],2);
+  BOOST_CHECK_EQUAL(de142131[3],1);
+  BOOST_CHECK_EQUAL(de142131[4],3);
+  BOOST_CHECK_EQUAL(de142131[5],1);
 
-    BOOST_CHECK_EQUAL(de13[0],1);
-    BOOST_CHECK_EQUAL(de13[1],4);
-    BOOST_CHECK_EQUAL(de13[2],1);
+  BOOST_CHECK_EQUAL(de141[0],1);
+  BOOST_CHECK_EQUAL(de141[1],4);
+  BOOST_CHECK_EQUAL(de141[2],1);
 
-    BOOST_CHECK_EQUAL(de14[0],1);
-    BOOST_CHECK_EQUAL(de14[1],1);
-    BOOST_CHECK_EQUAL(de14[2],1);
-    BOOST_CHECK_EQUAL(de14[3],1);
+  BOOST_CHECK_EQUAL(de1111[0],1);
+  BOOST_CHECK_EQUAL(de1111[1],1);
+  BOOST_CHECK_EQUAL(de1111[2],1);
+  BOOST_CHECK_EQUAL(de1111[3],1);
 
-    BOOST_CHECK_EQUAL(de15[0],1);
-    BOOST_CHECK_EQUAL(de15[1],4);
-    BOOST_CHECK_EQUAL(de15[2],1);
-    BOOST_CHECK_EQUAL(de15[3],1);
-    BOOST_CHECK_EQUAL(de15[4],1);
+  BOOST_CHECK_EQUAL(de14111[0],1);
+  BOOST_CHECK_EQUAL(de14111[1],4);
+  BOOST_CHECK_EQUAL(de14111[2],1);
+  BOOST_CHECK_EQUAL(de14111[3],1);
+  BOOST_CHECK_EQUAL(de14111[4],1);
 
-    BOOST_CHECK_EQUAL(de16[0],1);
-    BOOST_CHECK_EQUAL(de16[1],1);
-    BOOST_CHECK_EQUAL(de16[2],2);
-    BOOST_CHECK_EQUAL(de16[3],1);
-    BOOST_CHECK_EQUAL(de16[4],1);
-    BOOST_CHECK_EQUAL(de16[5],1);
+  BOOST_CHECK_EQUAL(de112111[0],1);
+  BOOST_CHECK_EQUAL(de112111[1],1);
+  BOOST_CHECK_EQUAL(de112111[2],2);
+  BOOST_CHECK_EQUAL(de112111[3],1);
+  BOOST_CHECK_EQUAL(de112111[4],1);
+  BOOST_CHECK_EQUAL(de112111[5],1);
 
-    BOOST_CHECK_EQUAL(de17[0],1);
-    BOOST_CHECK_EQUAL(de17[1],1);
-    BOOST_CHECK_EQUAL(de17[2],2);
-    BOOST_CHECK_EQUAL(de17[3],3);
-    BOOST_CHECK_EQUAL(de17[4],1);
-    BOOST_CHECK_EQUAL(de17[5],1);
+  BOOST_CHECK_EQUAL(de112311[0],1);
+  BOOST_CHECK_EQUAL(de112311[1],1);
+  BOOST_CHECK_EQUAL(de112311[2],2);
+  BOOST_CHECK_EQUAL(de112311[3],3);
+  BOOST_CHECK_EQUAL(de112311[4],1);
+  BOOST_CHECK_EQUAL(de112311[5],1);
 }
 
 BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_copy_ctor, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("copy_ctor"))
 {
+  namespace ublas = boost::numeric::ublas;
 
-    auto e0  = de0; // {}
-    auto e1  = de1; // {1,1}
-    auto e2  = de2; // {1,2}
-    auto e3  = de3; // {2,1}
-    auto e4  = de4; // {2,3}
-    auto e5  = de5; // {2,3,1}
-    auto e6  = de6; // {1,2,3}
-    auto e7  = de7; // {1,1,2,3}
-    auto e8  = de8; // {1,2,3,1,1}
-    auto e9  = de9; // {4,2,3}
-    auto e10 = de10; // {4,2,1,3}
-    auto e11 = de11; // {4,2,1,3,1}
-    auto e12 = de12; // {1,4,2,1,3,1}
-    auto e13 = de13; // {1,4,1}
-    auto e14 = de14; // {1,1,1,1}
-    auto e15 = de15; // {1,4,1,1,1}
-    auto e16 = de16; // {1,1,2,1,1,1}
-    auto e17 = de17; // {1,1,2,3,1,1}
-
-    BOOST_CHECK_EQUAL  (e0.size(), 0);
-    BOOST_CHECK (e0.empty()  );
-
-    BOOST_REQUIRE_EQUAL(e1 .size(), 2);
-    BOOST_REQUIRE_EQUAL(e2 .size(), 2);
-    BOOST_REQUIRE_EQUAL(e3 .size(), 2);
-    BOOST_REQUIRE_EQUAL(e4 .size(), 2);
-    BOOST_REQUIRE_EQUAL(e5 .size(), 3);
-    BOOST_REQUIRE_EQUAL(e6 .size(), 3);
-    BOOST_REQUIRE_EQUAL(e7 .size(), 4);
-    BOOST_REQUIRE_EQUAL(e8 .size(), 5);
-    BOOST_REQUIRE_EQUAL(e9 .size(), 3);
-    BOOST_REQUIRE_EQUAL(e10.size(), 4);
-    BOOST_REQUIRE_EQUAL(e11.size(), 5);
-    BOOST_REQUIRE_EQUAL(e12.size(), 6);
-    BOOST_REQUIRE_EQUAL(e13.size(), 3);
-    BOOST_REQUIRE_EQUAL(e14.size(), 4);
-    BOOST_REQUIRE_EQUAL(e15.size(), 5);
-    BOOST_REQUIRE_EQUAL(e16.size(), 6);
-    BOOST_REQUIRE_EQUAL(e17.size(), 6);
+  auto e       = de;
+  auto e1      = de11;
+  auto e12     = de12;
+  auto e21     = de21;
+  auto e23     = de23;
+  auto e231    = de231;
+  auto e123    = de123;
+  auto e1123   = de1123;
+  auto e12311  = de12311;
+  auto e423    = de423;
+  auto e4213   = de4213;
+  auto e42131  = de42131;
+  auto e142131 = de142131;
+  auto e141    = de141;
+  auto e1111   = de1111;
+  auto e14111  = de14111;
+  auto e112111 = de112111;
+  auto e112311 = de112311;
 
 
-    BOOST_CHECK_EQUAL(e1[0],1);
-    BOOST_CHECK_EQUAL(e1[1],1);
+  BOOST_CHECK (ublas::empty(e)  );
 
-    BOOST_CHECK_EQUAL(e2[0],1);
-    BOOST_CHECK_EQUAL(e2[1],2);
+  BOOST_REQUIRE_EQUAL(ublas::size(e)      , 0);
+  BOOST_REQUIRE_EQUAL(ublas::size(e1)     , 2);
+  BOOST_REQUIRE_EQUAL(ublas::size(e12)    , 2);
+  BOOST_REQUIRE_EQUAL(ublas::size(e21)    , 2);
+  BOOST_REQUIRE_EQUAL(ublas::size(e23)    , 2);
+  BOOST_REQUIRE_EQUAL(ublas::size(e231),    3);
+  BOOST_REQUIRE_EQUAL(ublas::size(e123),    3);
+  BOOST_REQUIRE_EQUAL(ublas::size(e1123),   4);
+  BOOST_REQUIRE_EQUAL(ublas::size(e12311),  5);
+  BOOST_REQUIRE_EQUAL(ublas::size(e423),    3);
+  BOOST_REQUIRE_EQUAL(ublas::size(e4213),   4);
+  BOOST_REQUIRE_EQUAL(ublas::size(e42131),  5);
+  BOOST_REQUIRE_EQUAL(ublas::size(e142131), 6);
+  BOOST_REQUIRE_EQUAL(ublas::size(e141),    3);
+  BOOST_REQUIRE_EQUAL(ublas::size(e1111),   4);
+  BOOST_REQUIRE_EQUAL(ublas::size(e14111),  5);
+  BOOST_REQUIRE_EQUAL(ublas::size(e112111), 6);
+  BOOST_REQUIRE_EQUAL(ublas::size(e112311), 6);
 
-    BOOST_CHECK_EQUAL(e3[0],2);
-    BOOST_CHECK_EQUAL(e3[1],1);
 
-    BOOST_CHECK_EQUAL(e4[0],2);
-    BOOST_CHECK_EQUAL(e4[1],3);
+  BOOST_CHECK_EQUAL(e1[0],1);
+  BOOST_CHECK_EQUAL(e1[1],1);
 
-    BOOST_CHECK_EQUAL(e5[0],2);
-    BOOST_CHECK_EQUAL(e5[1],3);
-    BOOST_CHECK_EQUAL(e5[2],1);
+  BOOST_CHECK_EQUAL(e12[0],1);
+  BOOST_CHECK_EQUAL(e12[1],2);
 
-    BOOST_CHECK_EQUAL(e6[0],1);
-    BOOST_CHECK_EQUAL(e6[1],2);
-    BOOST_CHECK_EQUAL(e6[2],3);
+  BOOST_CHECK_EQUAL(e21[0],2);
+  BOOST_CHECK_EQUAL(e21[1],1);
 
-    BOOST_CHECK_EQUAL(e7[0],1);
-    BOOST_CHECK_EQUAL(e7[1],1);
-    BOOST_CHECK_EQUAL(e7[2],2);
-    BOOST_CHECK_EQUAL(e7[3],3);
+  BOOST_CHECK_EQUAL(e23[0],2);
+  BOOST_CHECK_EQUAL(e23[1],3);
 
-    BOOST_CHECK_EQUAL(e8[0],1);
-    BOOST_CHECK_EQUAL(e8[1],2);
-    BOOST_CHECK_EQUAL(e8[2],3);
-    BOOST_CHECK_EQUAL(e8[3],1);
-    BOOST_CHECK_EQUAL(e8[4],1);
+  BOOST_CHECK_EQUAL(e231[0],2);
+  BOOST_CHECK_EQUAL(e231[1],3);
+  BOOST_CHECK_EQUAL(e231[2],1);
 
-    BOOST_CHECK_EQUAL(e9[0],4);
-    BOOST_CHECK_EQUAL(e9[1],2);
-    BOOST_CHECK_EQUAL(e9[2],3);
+  BOOST_CHECK_EQUAL(e123[0],1);
+  BOOST_CHECK_EQUAL(e123[1],2);
+  BOOST_CHECK_EQUAL(e123[2],3);
 
-    BOOST_CHECK_EQUAL(e10[0],4);
-    BOOST_CHECK_EQUAL(e10[1],2);
-    BOOST_CHECK_EQUAL(e10[2],1);
-    BOOST_CHECK_EQUAL(e10[3],3);
+  BOOST_CHECK_EQUAL(e1123[0],1);
+  BOOST_CHECK_EQUAL(e1123[1],1);
+  BOOST_CHECK_EQUAL(e1123[2],2);
+  BOOST_CHECK_EQUAL(e1123[3],3);
 
-    BOOST_CHECK_EQUAL(e11[0],4);
-    BOOST_CHECK_EQUAL(e11[1],2);
-    BOOST_CHECK_EQUAL(e11[2],1);
-    BOOST_CHECK_EQUAL(e11[3],3);
-    BOOST_CHECK_EQUAL(e11[4],1);
+  BOOST_CHECK_EQUAL(e12311[0],1);
+  BOOST_CHECK_EQUAL(e12311[1],2);
+  BOOST_CHECK_EQUAL(e12311[2],3);
+  BOOST_CHECK_EQUAL(e12311[3],1);
+  BOOST_CHECK_EQUAL(e12311[4],1);
 
-    BOOST_CHECK_EQUAL(e12[0],1);
-    BOOST_CHECK_EQUAL(e12[1],4);
-    BOOST_CHECK_EQUAL(e12[2],2);
-    BOOST_CHECK_EQUAL(e12[3],1);
-    BOOST_CHECK_EQUAL(e12[4],3);
-    BOOST_CHECK_EQUAL(e12[5],1);
+  BOOST_CHECK_EQUAL(e423[0],4);
+  BOOST_CHECK_EQUAL(e423[1],2);
+  BOOST_CHECK_EQUAL(e423[2],3);
 
-    BOOST_CHECK_EQUAL(e13[0],1);
-    BOOST_CHECK_EQUAL(e13[1],4);
-    BOOST_CHECK_EQUAL(e13[2],1);
+  BOOST_CHECK_EQUAL(e4213[0],4);
+  BOOST_CHECK_EQUAL(e4213[1],2);
+  BOOST_CHECK_EQUAL(e4213[2],1);
+  BOOST_CHECK_EQUAL(e4213[3],3);
 
-    BOOST_CHECK_EQUAL(e14[0],1);
-    BOOST_CHECK_EQUAL(e14[1],1);
-    BOOST_CHECK_EQUAL(e14[2],1);
-    BOOST_CHECK_EQUAL(e14[3],1);
+  BOOST_CHECK_EQUAL(e42131[0],4);
+  BOOST_CHECK_EQUAL(e42131[1],2);
+  BOOST_CHECK_EQUAL(e42131[2],1);
+  BOOST_CHECK_EQUAL(e42131[3],3);
+  BOOST_CHECK_EQUAL(e42131[4],1);
 
-    BOOST_CHECK_EQUAL(e15[0],1);
-    BOOST_CHECK_EQUAL(e15[1],4);
-    BOOST_CHECK_EQUAL(e15[2],1);
-    BOOST_CHECK_EQUAL(e15[3],1);
-    BOOST_CHECK_EQUAL(e15[4],1);
+  BOOST_CHECK_EQUAL(e142131[0],1);
+  BOOST_CHECK_EQUAL(e142131[1],4);
+  BOOST_CHECK_EQUAL(e142131[2],2);
+  BOOST_CHECK_EQUAL(e142131[3],1);
+  BOOST_CHECK_EQUAL(e142131[4],3);
+  BOOST_CHECK_EQUAL(e142131[5],1);
 
-    BOOST_CHECK_EQUAL(e16[0],1);
-    BOOST_CHECK_EQUAL(e16[1],1);
-    BOOST_CHECK_EQUAL(e16[2],2);
-    BOOST_CHECK_EQUAL(e16[3],1);
-    BOOST_CHECK_EQUAL(e16[4],1);
-    BOOST_CHECK_EQUAL(e16[5],1);
+  BOOST_CHECK_EQUAL(e141[0],1);
+  BOOST_CHECK_EQUAL(e141[1],4);
+  BOOST_CHECK_EQUAL(e141[2],1);
 
-    BOOST_CHECK_EQUAL(e17[0],1);
-    BOOST_CHECK_EQUAL(e17[1],1);
-    BOOST_CHECK_EQUAL(e17[2],2);
-    BOOST_CHECK_EQUAL(e17[3],3);
-    BOOST_CHECK_EQUAL(e17[4],1);
-    BOOST_CHECK_EQUAL(e17[5],1);
+  BOOST_CHECK_EQUAL(e1111[0],1);
+  BOOST_CHECK_EQUAL(e1111[1],1);
+  BOOST_CHECK_EQUAL(e1111[2],1);
+  BOOST_CHECK_EQUAL(e1111[3],1);
+
+  BOOST_CHECK_EQUAL(e14111[0],1);
+  BOOST_CHECK_EQUAL(e14111[1],4);
+  BOOST_CHECK_EQUAL(e14111[2],1);
+  BOOST_CHECK_EQUAL(e14111[3],1);
+  BOOST_CHECK_EQUAL(e14111[4],1);
+
+  BOOST_CHECK_EQUAL(e112111[0],1);
+  BOOST_CHECK_EQUAL(e112111[1],1);
+  BOOST_CHECK_EQUAL(e112111[2],2);
+  BOOST_CHECK_EQUAL(e112111[3],1);
+  BOOST_CHECK_EQUAL(e112111[4],1);
+  BOOST_CHECK_EQUAL(e112111[5],1);
+
+  BOOST_CHECK_EQUAL(e112311[0],1);
+  BOOST_CHECK_EQUAL(e112311[1],1);
+  BOOST_CHECK_EQUAL(e112311[2],2);
+  BOOST_CHECK_EQUAL(e112311[3],3);
+  BOOST_CHECK_EQUAL(e112311[4],1);
+  BOOST_CHECK_EQUAL(e112311[5],1);
 
 }
 
 BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_is, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("query"))
 {
+  namespace ublas = boost::numeric::ublas;
 
-    auto e0  = de0; // {}
-    auto e1  = de1; // {1,1}
-    auto e2  = de2; // {1,2}
-    auto e3  = de3; // {2,1}
-    auto e4  = de4; // {2,3}
-    auto e5  = de5; // {2,3,1}
-    auto e6  = de6; // {1,2,3}
-    auto e7  = de7; // {1,1,2,3}
-    auto e8  = de8; // {1,2,3,1,1}
-    auto e9  = de9; // {4,2,3}
-    auto e10 = de10; // {4,2,1,3}
-    auto e11 = de11; // {4,2,1,3,1}
-    auto e12 = de12; // {1,4,2,1,3,1}
-    auto e13 = de13; // {1,4,1}
-    auto e14 = de14; // {1,1,1,1}
-    auto e15 = de15; // {1,4,1,1,1}
-    auto e16 = de16; // {1,1,2,1,1,1}
-    auto e17 = de17; // {1,1,2,3,1,1}
 
-    BOOST_CHECK(   e0.empty (  ));
-    BOOST_CHECK( ! is_scalar(e0));
-    BOOST_CHECK( ! is_vector(e0));
-    BOOST_CHECK( ! is_matrix(e0));
-    BOOST_CHECK( ! is_tensor(e0));
+  auto e       = de;
+  auto e11     = de11;
+  auto e12     = de12;
+  auto e21     = de21;
+  auto e23     = de23;
+  auto e231    = de231;
+  auto e123    = de123;
+  auto e1123   = de1123;
+  auto e12311  = de12311;
+  auto e423    = de423;
+  auto e4213   = de4213;
+  auto e42131  = de42131;
+  auto e142131 = de142131;
+  auto e141    = de141;
+  auto e1111   = de1111;
+  auto e14111  = de14111;
+  auto e112111 = de112111;
+  auto e112311 = de112311;
 
-    BOOST_CHECK( ! e1.empty (  ) );
-    BOOST_CHECK(   is_scalar(e1) );
-    BOOST_CHECK( ! is_vector(e1) );
-    BOOST_CHECK( ! is_matrix(e1) );
-    BOOST_CHECK( ! is_tensor(e1) );
+  BOOST_CHECK(   ublas::empty    (e));
+  BOOST_CHECK( ! ublas::is_scalar(e));
+  BOOST_CHECK( ! ublas::is_vector(e));
+  BOOST_CHECK( ! ublas::is_matrix(e));
+  BOOST_CHECK( ! ublas::is_tensor(e));
 
-    BOOST_CHECK( ! e2.empty (  ) );
-    BOOST_CHECK( ! is_scalar(e2) );
-    BOOST_CHECK(   is_vector(e2) );
-    BOOST_CHECK( ! is_matrix(e2) );
-    BOOST_CHECK( ! is_tensor(e2) );
+  BOOST_CHECK( ! ublas::empty    (e11) );
+  BOOST_CHECK(   ublas::is_scalar(e11) );
+  BOOST_CHECK( ! ublas::is_vector(e11) );
+  BOOST_CHECK( ! ublas::is_matrix(e11) );
+  BOOST_CHECK( ! ublas::is_tensor(e11) );
 
-    BOOST_CHECK( ! e3.empty (  ) );
-    BOOST_CHECK( ! is_scalar(e3) );
-    BOOST_CHECK(   is_vector(e3) );
-    BOOST_CHECK( ! is_matrix(e3) );
-    BOOST_CHECK( ! is_tensor(e3) );
+  BOOST_CHECK( ! ublas::empty    (e12) );
+  BOOST_CHECK( ! ublas::is_scalar(e12) );
+  BOOST_CHECK(   ublas::is_vector(e12) );
+  BOOST_CHECK( ! ublas::is_matrix(e12) );
+  BOOST_CHECK( ! ublas::is_tensor(e12) );
 
-    BOOST_CHECK( ! e4.empty (  ) );
-    BOOST_CHECK( ! is_scalar(e4) );
-    BOOST_CHECK( ! is_vector(e4) );
-    BOOST_CHECK(   is_matrix(e4) );
-    BOOST_CHECK( ! is_tensor(e4) );
+  BOOST_CHECK( ! ublas::empty    (e21) );
+  BOOST_CHECK( ! ublas::is_scalar(e21) );
+  BOOST_CHECK(   ublas::is_vector(e21) );
+  BOOST_CHECK( ! ublas::is_matrix(e21) );
+  BOOST_CHECK( ! ublas::is_tensor(e21) );
 
-    BOOST_CHECK( ! e5.empty (  ) );
-    BOOST_CHECK( ! is_scalar(e5) );
-    BOOST_CHECK( ! is_vector(e5) );
-    BOOST_CHECK(   is_matrix(e5) );
-    BOOST_CHECK( ! is_tensor(e5) );
+  BOOST_CHECK( ! ublas::empty    (e23) );
+  BOOST_CHECK( ! ublas::is_scalar(e23) );
+  BOOST_CHECK( ! ublas::is_vector(e23) );
+  BOOST_CHECK(   ublas::is_matrix(e23) );
+  BOOST_CHECK( ! ublas::is_tensor(e23) );
 
-    BOOST_CHECK( ! e6.empty (  ) );
-    BOOST_CHECK( ! is_scalar(e6) );
-    BOOST_CHECK( ! is_vector(e6) );
-    BOOST_CHECK( ! is_matrix(e6) );
-    BOOST_CHECK(   is_tensor(e6) );
+  BOOST_CHECK( ! ublas::empty    (e231) );
+  BOOST_CHECK( ! ublas::is_scalar(e231) );
+  BOOST_CHECK( ! ublas::is_vector(e231) );
+  BOOST_CHECK(   ublas::is_matrix(e231) );
+  BOOST_CHECK( ! ublas::is_tensor(e231) );
 
-    BOOST_CHECK( ! e7.empty (  ) );
-    BOOST_CHECK( ! is_scalar(e7) );
-    BOOST_CHECK( ! is_vector(e7) );
-    BOOST_CHECK( ! is_matrix(e7) );
-    BOOST_CHECK(   is_tensor(e7) );
+  BOOST_CHECK( ! ublas::empty    (e123) );
+  BOOST_CHECK( ! ublas::is_scalar(e123) );
+  BOOST_CHECK( ! ublas::is_vector(e123) );
+  BOOST_CHECK( ! ublas::is_matrix(e123) );
+  BOOST_CHECK(   ublas::is_tensor(e123) );
 
-    BOOST_CHECK( ! e8.empty (  ) );
-    BOOST_CHECK( ! is_scalar(e8) );
-    BOOST_CHECK( ! is_vector(e8) );
-    BOOST_CHECK( ! is_matrix(e8) );
-    BOOST_CHECK(   is_tensor(e8) );
+  BOOST_CHECK( ! ublas::empty    (e1123) );
+  BOOST_CHECK( ! ublas::is_scalar(e1123) );
+  BOOST_CHECK( ! ublas::is_vector(e1123) );
+  BOOST_CHECK( ! ublas::is_matrix(e1123) );
+  BOOST_CHECK(   ublas::is_tensor(e1123) );
 
-    BOOST_CHECK( ! e9.empty (  ) );
-    BOOST_CHECK( ! is_scalar(e9) );
-    BOOST_CHECK( ! is_vector(e9) );
-    BOOST_CHECK( ! is_matrix(e9) );
-    BOOST_CHECK(   is_tensor(e9) );
+  BOOST_CHECK( ! ublas::empty    (e12311) );
+  BOOST_CHECK( ! ublas::is_scalar(e12311) );
+  BOOST_CHECK( ! ublas::is_vector(e12311) );
+  BOOST_CHECK( ! ublas::is_matrix(e12311) );
+  BOOST_CHECK(   ublas::is_tensor(e12311) );
 
-    BOOST_CHECK( ! e10.empty(   ) );
-    BOOST_CHECK( ! is_scalar(e10) );
-    BOOST_CHECK( ! is_vector(e10) );
-    BOOST_CHECK( ! is_matrix(e10) );
-    BOOST_CHECK(   is_tensor(e10) );
+  BOOST_CHECK( ! ublas::empty    (e423) );
+  BOOST_CHECK( ! ublas::is_scalar(e423) );
+  BOOST_CHECK( ! ublas::is_vector(e423) );
+  BOOST_CHECK( ! ublas::is_matrix(e423) );
+  BOOST_CHECK(   ublas::is_tensor(e423) );
 
-    BOOST_CHECK( ! e11.empty(   ) );
-    BOOST_CHECK( ! is_scalar(e11) );
-    BOOST_CHECK( ! is_vector(e11) );
-    BOOST_CHECK( ! is_matrix(e11) );
-    BOOST_CHECK(   is_tensor(e11) );
+  BOOST_CHECK( ! ublas::empty    (e4213) );
+  BOOST_CHECK( ! ublas::is_scalar(e4213) );
+  BOOST_CHECK( ! ublas::is_vector(e4213) );
+  BOOST_CHECK( ! ublas::is_matrix(e4213) );
+  BOOST_CHECK(   ublas::is_tensor(e4213) );
 
-    BOOST_CHECK( ! e12.empty(   ) );
-    BOOST_CHECK( ! is_scalar(e12) );
-    BOOST_CHECK( ! is_vector(e12) );
-    BOOST_CHECK( ! is_matrix(e12) );
-    BOOST_CHECK(   is_tensor(e12) );
+  BOOST_CHECK( ! ublas::empty    (e42131) );
+  BOOST_CHECK( ! ublas::is_scalar(e42131) );
+  BOOST_CHECK( ! ublas::is_vector(e42131) );
+  BOOST_CHECK( ! ublas::is_matrix(e42131) );
+  BOOST_CHECK(   ublas::is_tensor(e42131) );
 
-    BOOST_CHECK( ! e13.empty(   ) );
-    BOOST_CHECK( ! is_scalar(e13) );
-    BOOST_CHECK(   is_vector(e13) );
-    BOOST_CHECK( ! is_matrix(e13) );
-    BOOST_CHECK( ! is_tensor(e13) );
+  BOOST_CHECK( ! ublas::empty    (e142131) );
+  BOOST_CHECK( ! ublas::is_scalar(e142131) );
+  BOOST_CHECK( ! ublas::is_vector(e142131) );
+  BOOST_CHECK( ! ublas::is_matrix(e142131) );
+  BOOST_CHECK(   ublas::is_tensor(e142131) );
 
-    BOOST_CHECK( ! e14.empty(   ) );
-    BOOST_CHECK(   is_scalar(e14) );
-    BOOST_CHECK( ! is_vector(e14) );
-    BOOST_CHECK( ! is_matrix(e14) );
-    BOOST_CHECK( ! is_tensor(e14) );
+  BOOST_CHECK( ! ublas::empty    (e141) );
+  BOOST_CHECK( ! ublas::is_scalar(e141) );
+  BOOST_CHECK(   ublas::is_vector(e141) );
+  BOOST_CHECK( ! ublas::is_matrix(e141) );
+  BOOST_CHECK( ! ublas::is_tensor(e141) );
 
-    BOOST_CHECK( ! e15.empty(   ) );
-    BOOST_CHECK( ! is_scalar(e15) );
-    BOOST_CHECK(   is_vector(e15) );
-    BOOST_CHECK( ! is_matrix(e15) );
-    BOOST_CHECK( ! is_tensor(e15) );
+  BOOST_CHECK( ! ublas::empty    (e1111) );
+  BOOST_CHECK(   ublas::is_scalar(e1111) );
+  BOOST_CHECK( ! ublas::is_vector(e1111) );
+  BOOST_CHECK( ! ublas::is_matrix(e1111) );
+  BOOST_CHECK( ! ublas::is_tensor(e1111) );
 
-    BOOST_CHECK( ! e16.empty(   ) );
-    BOOST_CHECK( ! is_scalar(e16) );
-    BOOST_CHECK( ! is_vector(e16) );
-    BOOST_CHECK( ! is_matrix(e16) );
-    BOOST_CHECK(   is_tensor(e16) );
+  BOOST_CHECK( ! ublas::empty    (e14111) );
+  BOOST_CHECK( ! ublas::is_scalar(e14111) );
+  BOOST_CHECK(   ublas::is_vector(e14111) );
+  BOOST_CHECK( ! ublas::is_matrix(e14111) );
+  BOOST_CHECK( ! ublas::is_tensor(e14111) );
 
-    BOOST_CHECK( ! e17.empty(   ) );
-    BOOST_CHECK( ! is_scalar(e17) );
-    BOOST_CHECK( ! is_vector(e17) );
-    BOOST_CHECK( ! is_matrix(e17) );
-    BOOST_CHECK(   is_tensor(e17) );
+  BOOST_CHECK( ! ublas::empty    (e112111) );
+  BOOST_CHECK( ! ublas::is_scalar(e112111) );
+  BOOST_CHECK( ! ublas::is_vector(e112111) );
+  BOOST_CHECK( ! ublas::is_matrix(e112111) );
+  BOOST_CHECK(   ublas::is_tensor(e112111) );
+
+  BOOST_CHECK( ! ublas::empty    (e112311) );
+  BOOST_CHECK( ! ublas::is_scalar(e112311) );
+  BOOST_CHECK( ! ublas::is_vector(e112311) );
+  BOOST_CHECK( ! ublas::is_matrix(e112311) );
+  BOOST_CHECK(   ublas::is_tensor(e112311) );
 }
 
 //BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_squeeze, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("squeeze"))
 //{
 //    auto e1  = squeeze(de1); // {1,1}
 //    auto e2  = squeeze(de2); // {1,2}
-//    auto e3  = squeeze(de3); // {2,1}
+//    auto 21  = squeeze(d21); // {2,1}
 
 //    auto e4  = squeeze(de4); // {2,3}
-//    auto e5  = squeeze(de5); // {2,3}
-//    auto e6  = squeeze(de6); // {2,3}
-//    auto e7  = squeeze(de7); // {2,3}
-//    auto e8  = squeeze(de8); // {2,3}
+//    auto e231  = squeeze(de231); // {2,3}
+//    auto e123  = squeeze(de123); // {2,3}
+//    auto e1123  = squeeze(de1123); // {2,3}
+//    auto e12311  = squeeze(de12311); // {2,3}
 
-//    auto e9  = squeeze(de9); // {4,2,3}
-//    auto e10 = squeeze(de10); // {4,2,3}
+//    auto e423  = squeeze(de423); // {4,2,3}
+//    auto e4213 = squeeze(de4213); // {4,2,3}
 //    auto e11 = squeeze(de11); // {4,2,3}
-//    auto e12 = squeeze(de12); // {4,2,3}
+//    auto e12 = squeeze(e142131); // {4,2,3}
 
-//    auto e13 = squeeze(de13); // {1,4}
-//    auto e14 = squeeze(de14); // {1,1}
-//    auto e15 = squeeze(de15); // {1,4}
-//    auto e16 = squeeze(de16); // {2,1}
-//    auto e17 = squeeze(de17); // {2,3}
+//    auto e141 = squeeze(de141); // {1,4}
+//    auto e1111 = squeeze(de1111); // {1,1}
+//    auto e14111 = squeeze(de14111); // {1,4}
+//    auto e112111 = squeeze(de112111); // {2,1}
+//    auto e112311 = squeeze(de112311); // {2,3}
 
 //    BOOST_CHECK( (e1  == extents<2>{1,1}) );
 //    BOOST_CHECK( (e2  == extents<2>{1,2}) );
-//    BOOST_CHECK( (e3  == extents<2>{2,1}) );
+//    BOOST_CHECK( (21  == extents<2>{2,1}) );
 
 //    BOOST_CHECK( (e4  == extents<2>{2,3}) );
-//    BOOST_CHECK( (e5  == extents<2>{2,3}) );
-//    BOOST_CHECK( (e6  == extents<2>{2,3}) );
-//    BOOST_CHECK( (e7  == extents<2>{2,3}) );
-//    BOOST_CHECK( (e8  == extents<2>{2,3}) );
+//    BOOST_CHECK( (e231  == extents<2>{2,3}) );
+//    BOOST_CHECK( (e123  == extents<2>{2,3}) );
+//    BOOST_CHECK( (e1123  == extents<2>{2,3}) );
+//    BOOST_CHECK( (e12311  == extents<2>{2,3}) );
 
-//    BOOST_CHECK( (e9  == extents<3>{4,2,3}) );
-//    BOOST_CHECK( (e10 == extents<3>{4,2,3}) );
+//    BOOST_CHECK( (e423  == extents<3>{4,2,3}) );
+//    BOOST_CHECK( (e4213 == extents<3>{4,2,3}) );
 //    BOOST_CHECK( (e11 == extents<3>{4,2,3}) );
 //    BOOST_CHECK( (e12 == extents<3>{4,2,3}) );
 
-//    BOOST_CHECK( (e13 == extents<2>{1,4}) );
-//    BOOST_CHECK( (e14 == extents<2>{1,1}) );
-//    BOOST_CHECK( (e15 == extents<2>{1,4}) );
-//    BOOST_CHECK( (e16 == extents<2>{2,1}) );
-//    BOOST_CHECK( (e17 == extents<2>{2,3}) );
+//    BOOST_CHECK( (e141 == extents<2>{1,4}) );
+//    BOOST_CHECK( (e1111 == extents<2>{1,1}) );
+//    BOOST_CHECK( (e14111 == extents<2>{1,4}) );
+//    BOOST_CHECK( (e112111 == extents<2>{2,1}) );
+//    BOOST_CHECK( (e112311 == extents<2>{2,3}) );
 
 //}
 
 
 BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_product, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("product"))
 {
+  namespace ublas = boost::numeric::ublas;
 
-    auto e0  = product( de0 ); // {}
-    auto e1  = product( de1 ); // {1,1}
-    auto e2  = product( de2 ); // {1,2}
-    auto e3  = product( de3 ); // {2,1}
-    auto e4  = product( de4 ); // {2,3}
-    auto e5  = product( de5 ); // {2,3,1}
-    auto e6  = product( de6 ); // {1,2,3}
-    auto e7  = product( de7 ); // {1,1,2,3}
-    auto e8  = product( de8 ); // {1,2,3,1,1}
-    auto e9  = product( de9 ); // {4,2,3}
-    auto e10 = product( de10 ); // {4,2,1,3}
-    auto e11 = product( de11 ); // {4,2,1,3,1}
-    auto e12 = product( de12 ); // {1,4,2,1,3,1}
-    auto e13 = product( de13 ); // {1,4,1}
-    auto e14 = product( de14 ); // {1,1,1,1}
-    auto e15 = product( de15 ); // {1,4,1,1,1}
-    auto e16 = product( de16 ); // {1,1,2,1,1,1}
-    auto e17 = product( de17 ); // {1,1,2,3,1,1}
 
-    BOOST_CHECK_EQUAL( e0 ,  0 );
-    BOOST_CHECK_EQUAL( e1 ,  1 );
-    BOOST_CHECK_EQUAL( e2 ,  2 );
-    BOOST_CHECK_EQUAL( e3 ,  2 );
-    BOOST_CHECK_EQUAL( e4 ,  6 );
-    BOOST_CHECK_EQUAL( e5 ,  6 );
-    BOOST_CHECK_EQUAL( e6 ,  6 );
-    BOOST_CHECK_EQUAL( e7 ,  6 );
-    BOOST_CHECK_EQUAL( e8 ,  6 );
-    BOOST_CHECK_EQUAL( e9 , 24 );
-    BOOST_CHECK_EQUAL( e10, 24 );
-    BOOST_CHECK_EQUAL( e11, 24 );
-    BOOST_CHECK_EQUAL( e12, 24 );
-    BOOST_CHECK_EQUAL( e13,  4 );
-    BOOST_CHECK_EQUAL( e14,  1 );
-    BOOST_CHECK_EQUAL( e15,  4 );
-    BOOST_CHECK_EQUAL( e16,  2 );
-    BOOST_CHECK_EQUAL( e17,  6 );
+  auto e       = ublas::product( de       );
+  auto e11     = ublas::product( de11     );
+  auto e12     = ublas::product( de12     );
+  auto e21     = ublas::product( de21     );
+  auto e23     = ublas::product( de23     );
+  auto e231    = ublas::product( de231    );
+  auto e123    = ublas::product( de123    );
+  auto e1123   = ublas::product( de1123   );
+  auto e12311  = ublas::product( de12311  );
+  auto e423    = ublas::product( de423    );
+  auto e4213   = ublas::product( de4213   );
+  auto e42131  = ublas::product( de42131  );
+  auto e142131 = ublas::product( de142131 );
+  auto e141    = ublas::product( de141    );
+  auto e1111   = ublas::product( de1111   );
+  auto e14111  = ublas::product( de14111  );
+  auto e112111 = ublas::product( de112111 );
+  auto e112311 = ublas::product( de112311 );
+
+  BOOST_CHECK_EQUAL( e      ,  0 );
+  BOOST_CHECK_EQUAL( e11    ,  1 );
+  BOOST_CHECK_EQUAL( e12    ,  2 );
+  BOOST_CHECK_EQUAL( e21    ,  2 );
+  BOOST_CHECK_EQUAL( e23    ,  6 );
+  BOOST_CHECK_EQUAL( e231   ,  6 );
+  BOOST_CHECK_EQUAL( e123   ,  6 );
+  BOOST_CHECK_EQUAL( e1123  ,  6 );
+  BOOST_CHECK_EQUAL( e12311 ,  6 );
+  BOOST_CHECK_EQUAL( e423   , 24 );
+  BOOST_CHECK_EQUAL( e4213  , 24 );
+  BOOST_CHECK_EQUAL( e42131 , 24 );
+  BOOST_CHECK_EQUAL( e142131, 24 );
+  BOOST_CHECK_EQUAL( e141   ,  4 );
+  BOOST_CHECK_EQUAL( e1111  ,  1 );
+  BOOST_CHECK_EQUAL( e14111 ,  4 );
+  BOOST_CHECK_EQUAL( e112111,  2 );
+  BOOST_CHECK_EQUAL( e112311,  6 );
 
 
 }

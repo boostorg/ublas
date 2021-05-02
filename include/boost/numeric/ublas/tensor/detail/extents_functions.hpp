@@ -1,6 +1,5 @@
 //
-//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2021, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -19,12 +18,100 @@
 #include <functional>
 #include <numeric>
 
+namespace boost::numeric::ublas
+{
+template<class derived_type>
+struct extents_base;
+} //namespace boost::numeric::ublas
+
+
 
 namespace boost::numeric::ublas
 {
 
-template<class derived_type>
-struct extents_base;
+template <class L, class R>
+[[nodiscard]] inline constexpr
+  bool operator==( extents_base<L> const& lhs,  extents_base<R> const& rhs )
+{
+  return size(lhs) == size(rhs) && std::equal( lhs().begin(), lhs().end(), rhs().begin() );
+}
+
+template <class L, class R>
+[[nodiscard]] inline constexpr
+  bool operator!=( extents_base<L> const& lhs, extents_base<R> const& rhs )
+{
+  return !( lhs == rhs) ;
+}
+
+template <class E>
+[[nodiscard]] inline constexpr
+  auto begin(extents_base<E> const& e) noexcept
+{
+  return e().base().begin();
+}
+
+template <class E>
+[[nodiscard]] inline constexpr
+  auto end(extents_base<E> const& e) noexcept
+{
+  return e().base().end();
+}
+
+template <class E>
+[[nodiscard]] inline constexpr
+  auto cbegin(extents_base<E> const& e) noexcept
+{
+  return e().base().cbegin();
+}
+
+template <class E>
+[[nodiscard]] inline constexpr
+  auto cend(extents_base<E> const& e) noexcept
+{
+  return e().base().cend();
+}
+
+template <class E>
+[[nodiscard]] inline constexpr
+  auto rbegin(extents_base<E> const& e) noexcept
+{
+  return e().base().rbegin();
+}
+
+template <class E>
+[[nodiscard]] inline constexpr
+  auto rend(extents_base<E> const& e) noexcept
+{
+  return e().base().rend();
+}
+
+template <class E>
+[[nodiscard]] inline constexpr
+  auto empty(extents_base<E> const& e) noexcept
+{
+  return e().base().empty();
+}
+
+template <class E>
+[[nodiscard]] inline constexpr
+  auto size(extents_base<E> const& e) noexcept
+{
+  return e().base().size();
+}
+
+template <class E>
+[[nodiscard]] inline constexpr
+  auto data(extents_base<E> const& e) noexcept
+{
+  return e().base().data();
+}
+
+} //namespace boost::numeric::ublas
+
+
+
+namespace boost::numeric::ublas
+{
 
 
 /** @brief Returns true if this has a matrix shape
@@ -143,19 +230,6 @@ template <class D>
 //  }
 //}
 
-template <class L, class R>
-[[nodiscard]] inline constexpr
-  bool operator==( extents_base<L> const& lhs,  extents_base<R> const& rhs )
-{
-  return lhs().size() == rhs().size() && std::equal( lhs().begin(), lhs().end(), rhs().begin() );
-}
-
-template <class L, class R>
-[[nodiscard]] inline constexpr
-  bool operator!=( extents_base<L> const& lhs, extents_base<R> const& rhs )
-{
-  return !( lhs == rhs) ;
-}
 
 
 } // namespace boost::numeric::ublas

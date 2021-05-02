@@ -150,13 +150,7 @@ public:
   friend void swap(basic_extents& lhs, basic_extents& rhs)
         noexcept(std::is_nothrow_swappable_v<base_type>)
   {
-    std::swap(lhs._base   , rhs._base   );
-  }
-
-  [[nodiscard]] inline
-    constexpr const_pointer data() const noexcept
-  {
-    return this->_base.data();
+    std::swap(lhs._base,rhs._base);
   }
 
   [[nodiscard]] inline
@@ -187,19 +181,6 @@ public:
     constexpr const_reference back () const
   {
     return this->_base.back();
-  }
-
-
-  [[nodiscard]] inline
-    constexpr bool empty() const noexcept
-  {
-    return this->_base.empty();
-  }
-
-  [[nodiscard]] inline
-    constexpr size_type size() const noexcept
-  {
-    return this->_base.size();
   }
 
   inline
@@ -236,8 +217,8 @@ public:
     return _base.rend();
   }
 
-  [[nodiscard]] inline
-    constexpr base_type const& base() const noexcept { return _base; }
+  [[nodiscard]] inline constexpr
+    auto const& base() const noexcept { return _base; }
 
 private:
 

@@ -72,24 +72,24 @@ public:
      * @code auto strides = basic_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
      *
      */
-    constexpr explicit basic_strides(basic_extents<value_type> const& extents)
-            : _base(extents.size(),1U)
+    constexpr explicit basic_strides(basic_extents<value_type> const& e)
+            : _base(ublas::size(e),1U)
     {
-      if(extents.empty() || extents.size() != this->size()){
+      if(ublas::empty(e) || ublas::size(e) != this->size()){
         return;
       }
 
       std::fill(_base.begin(), _base.end(), 1U);
 
-      if( is_vector(extents) || is_scalar(extents) ){
+      if( is_vector(e) || is_scalar(e) ){
         return;
       }
 
       //using layout_type = typename derived_type_strides::layout_type;
       if constexpr (std::is_same<layout_type,layout::first_order>::value ) {
-        std::transform(extents().begin(), extents().end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<>{});
+        std::transform(e().begin(), e().end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<>{});
       } else {
-        std::transform(extents().rbegin(), extents().rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<>{});
+        std::transform(e().rbegin(), e().rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<>{});
       }
     }
 

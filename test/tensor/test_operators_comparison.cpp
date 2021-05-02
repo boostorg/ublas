@@ -1,4 +1,4 @@
-//  Copyright (c) 2018-2019 Cem Bassoy
+//  Copyright (c) 2018 Cem Bassoy
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -187,7 +187,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
         BOOST_CHECK( tensor_type(e,value_type{2}) == tensor_type(e,value_type{2})  );
         BOOST_CHECK( tensor_type(e,value_type{2}) != tensor_type(e,value_type{1})  );
 
-        if(e.empty())
+        if(ublas::empty(e))
             return;
 
         BOOST_CHECK( !(tensor_type(e,2) <  2) );

@@ -98,9 +98,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents, value,  test_types, 
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     auto t = ublas::fixed_rank_tensor<value_type, size, layout_type>{e};
 
-    BOOST_CHECK_EQUAL (  t.size() , product(e) );
-    BOOST_CHECK_EQUAL (  t.rank() , e.size() );
-    if(e.empty()) {
+    BOOST_CHECK_EQUAL (  t.size() , ublas::product(e) );
+    BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e) );
+    if(ublas::empty(e)) {
       BOOST_CHECK       ( t.empty()    );
       BOOST_CHECK_EQUAL ( t.data() , nullptr);
     }
@@ -130,7 +130,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_ctor, value,  test_types, fix
 //    BOOST_CHECK ( t.strides() == r.strides() );
     BOOST_CHECK ( t.extents() == r.extents() );
 
-    if(e.empty()) {
+    if(ublas::empty(e)) {
       BOOST_CHECK       ( t.empty()    );
       BOOST_CHECK_EQUAL ( t.data() , nullptr);
     }
@@ -190,10 +190,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_copy_move_ctor, value,  test_types
     using tensor_type = ublas::fixed_rank_tensor<value_type, size, layout_type>;
     auto r = tensor_type{e};
     auto t = std::move(r);
-    BOOST_CHECK_EQUAL (  t.size() , product(e) );
-    BOOST_CHECK_EQUAL (  t.rank() , e.size() );
+    BOOST_CHECK_EQUAL (  t.size() , ublas::product(e) );
+    BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e) );
 
-    if(e.empty()) {
+    if(ublas::empty(e)) {
       BOOST_CHECK       ( t.empty()    );
       BOOST_CHECK_EQUAL ( t.data() , nullptr);
     }
@@ -400,11 +400,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_reshape, value,  test_types, fixtu
           BOOST_CHECK_EQUAL( t[i], v );
 
         t.reshape(eto);
-        for(auto i = 0ul; i < std::min(product(efrom),product(eto)); ++i)
+        for(auto i = 0ul; i < std::min(ublas::product(efrom),ublas::product(eto)); ++i)
           BOOST_CHECK_EQUAL( t[i], v );
 
-        BOOST_CHECK_EQUAL (  t.size() , product(eto) );
-        BOOST_CHECK_EQUAL (  t.rank() , eto.size() );
+        BOOST_CHECK_EQUAL (  t.size() , ublas::product(eto) );
+        BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (eto) );
         BOOST_CHECK ( t.extents() == eto );
 
         if(efrom != eto){
@@ -445,15 +445,15 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_swap, value,  test_types, fixture)
         for(auto i = 0ul; i < t.size(); ++i)
           BOOST_CHECK_EQUAL( t[i], w );
 
-        BOOST_CHECK_EQUAL (  t.size() , product(e_r) );
-        BOOST_CHECK_EQUAL (  t.rank() , e_r.size() );
+        BOOST_CHECK_EQUAL (  t.size() , ublas::product(e_r) );
+        BOOST_CHECK_EQUAL (  t.rank() , ublas::size   (e_r) );
         BOOST_CHECK ( t.extents() == e_r );
 
         for(auto i = 0ul; i < r.size(); ++i)
           BOOST_CHECK_EQUAL( r[i], v );
 
-        BOOST_CHECK_EQUAL (  r.size() , product(e_t) );
-        BOOST_CHECK_EQUAL (  r.rank() , e_t.size() );
+        BOOST_CHECK_EQUAL (  r.size() , ublas::product(e_t) );
+        BOOST_CHECK_EQUAL (  r.rank() , ublas::size   (e_t) );
         BOOST_CHECK ( r.extents() == e_t );
 
       }

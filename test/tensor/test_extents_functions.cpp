@@ -29,14 +29,16 @@ struct shape_dynamic
 public:
   using value_type = typename base_type::value_type;
   shape_dynamic() = default;
-  shape_dynamic(std::initializer_list<T> l) : base(std::move(l)) {};
-  [[nodiscard]] constexpr inline auto begin()       {return base.begin ();}
-  [[nodiscard]] constexpr inline auto end  ()       {return base.end   ();}
-  [[nodiscard]] constexpr inline auto begin() const {return base.begin ();}
-  [[nodiscard]] constexpr inline auto end  () const {return base.end   ();}
-  [[nodiscard]] constexpr inline auto size () const {return base.size  ();}
+  shape_dynamic(std::initializer_list<T> l) : _base(std::move(l)) {};
+  [[nodiscard]] constexpr inline auto begin()       {return _base.begin ();}
+  [[nodiscard]] constexpr inline auto end  ()       {return _base.end   ();}
+  [[nodiscard]] constexpr inline auto begin() const {return _base.begin ();}
+  [[nodiscard]] constexpr inline auto end  () const {return _base.end   ();}
+  [[nodiscard]] constexpr inline auto size () const {return _base.size  ();}
+  [[nodiscard]] constexpr inline auto base () const {return _base;}
+
 private:
-  base_type base;
+  base_type _base;
 };
 
 struct fixture_shape_dynamic
@@ -76,14 +78,15 @@ struct shape_dynamic_rank_static
 public:
   using value_type = typename base_type::value_type;
   constexpr shape_dynamic_rank_static() = default;
-  constexpr explicit shape_dynamic_rank_static(base_type const& l) : base(l) {};
-  [[nodiscard]] constexpr inline auto begin()       {return base.begin ();}
-  [[nodiscard]] constexpr inline auto end  ()       {return base.end   ();}
-  [[nodiscard]] constexpr inline auto begin() const {return base.begin ();}
-  [[nodiscard]] constexpr inline auto end  () const {return base.end   ();}
-  [[nodiscard]] constexpr inline auto size () const {return base.size  ();}
+  constexpr explicit shape_dynamic_rank_static(base_type const& l) : _base(l) {};
+  [[nodiscard]] constexpr inline auto begin()       {return _base.begin ();}
+  [[nodiscard]] constexpr inline auto end  ()       {return _base.end   ();}
+  [[nodiscard]] constexpr inline auto begin() const {return _base.begin ();}
+  [[nodiscard]] constexpr inline auto end  () const {return _base.end   ();}
+  [[nodiscard]] constexpr inline auto size () const {return _base.size  ();}
+  [[nodiscard]] constexpr inline auto base () const {return _base;}
 private:
-  base_type base;
+  base_type _base;
 };
 
 
@@ -124,11 +127,12 @@ struct shape_static
   using base_type  = std::array<std::size_t,sizeof...(N)>;
 public:
   using value_type = typename base_type::value_type;
-  [[nodiscard]] constexpr auto begin() const {return base.begin ();}
-  [[nodiscard]] constexpr auto end  () const {return base.end   ();}
-  [[nodiscard]] constexpr auto size () const {return base.size  ();}
+  [[nodiscard]] constexpr inline auto begin() const {return _base.begin ();}
+  [[nodiscard]] constexpr inline auto end  () const {return _base.end   ();}
+  [[nodiscard]] constexpr inline auto size () const {return _base.size  ();}
+  [[nodiscard]] constexpr inline auto base () const {return _base;}
 private:
-  static constexpr inline base_type base{N...};
+  static constexpr inline base_type _base{N...};
 };
 
 

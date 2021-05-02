@@ -63,7 +63,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_vector, value,  test_types, f
 
         auto a = tensor_type(n, value_type{2});
 
-        for(auto m = 0u; m < n.size(); ++m){
+        for(auto m = 0u; m < ublas::size(n); ++m){
 
             auto b = vector_type  (n[m], value_type{1} );
 
@@ -120,7 +120,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_matrix, value,  test_types, f
 
         auto a = tensor_type(n, value_type{2});
 
-        for(auto m = 0u; m < n.size(); ++m){
+        for(auto m = 0u; m < ublas::size(n); ++m){
 
             auto b  = matrix_type  ( n[m], n[m], value_type{1} );
 
@@ -251,7 +251,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_tensor_2, value,  test_types,
 
     auto permute_extents = [](auto const& pi, auto const& na){
         auto nb = na;
-        assert(pi.size() == na.size());
+        assert(pi.size() == ublas::size(na));
         for(auto j = 0u; j < pi.size(); ++j)
             nb[pi[j]-1] = na[j];
         return nb;
@@ -521,8 +521,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_trans, value,  test_types, fixture
 
     for(auto const& n : extents)
     {
-        auto const p = n.size();
-        auto const s = product(n);
+      auto const p = ublas::size(n);
+      auto const s = ublas::product(n);
         auto aref = tensor_type(n);
         auto v    = value_type{};
         for(auto i = 0u; i < s; ++i, v+=1)

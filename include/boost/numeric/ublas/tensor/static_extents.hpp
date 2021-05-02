@@ -51,10 +51,6 @@ public:
 
   static_assert( std::numeric_limits<value_type>::is_integer, "Static error in basic_static_extents: type must be of type integer.");
   static_assert(!std::numeric_limits<value_type>::is_signed,  "Static error in basic_static_extents: type must be of type unsigned integer.");
-
-  //@returns the rank of basic_static_extents
-  [[nodiscard]] inline 
-  constexpr size_type size() const noexcept { return _size; }
   
   /**
    * @param k pos of extent
@@ -85,20 +81,6 @@ public:
   constexpr base_type const& base() const noexcept{
     return m_data;
   }
-
-  /** @brief Returns pointer to the std::array containing extents */
-  [[nodiscard]] inline
-  constexpr const_pointer data() const noexcept{
-    return m_data.data();
-  }
-
-  /** @brief Checks if extents is empty or not
-   *
-   * @returns true if rank is 0 else false
-   *
-   */
-  [[nodiscard]] inline
-  constexpr bool empty() const noexcept { return m_data.empty(); }
 
   [[nodiscard]] inline
   constexpr const_reference back() const{

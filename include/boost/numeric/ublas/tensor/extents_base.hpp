@@ -14,11 +14,13 @@
 namespace boost::numeric::ublas {
 
 
-template<class derived_type>
+template<class D>
 struct extents_base
 {
+  using derived_type  = D;
   inline constexpr decltype(auto) operator()() const { return static_cast<const derived_type&>(*this); }
   inline constexpr decltype(auto) operator()()       { return static_cast<      derived_type&>(*this); }
+
 };
 
 } // namespace boost::numeric::ublas

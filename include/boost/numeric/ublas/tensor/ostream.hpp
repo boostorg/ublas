@@ -12,8 +12,14 @@
 #ifndef BOOST_UBLAS_TENSOR_OSTREAM_HPP
 #define BOOST_UBLAS_TENSOR_OSTREAM_HPP
 
-#include <ostream>
+
+#include "detail/extents_functions.hpp"
+
+
 #include <complex>
+#include <ostream>
+
+
 
 namespace boost::numeric::ublas::detail
 {
@@ -85,23 +91,28 @@ template <typename T>
 std::ostream& operator << (std::ostream& out, class boost::numeric::ublas::tensor_core<T> const& t)
 {
 
-  if(is_scalar(t.extents())){
+  namespace ublas = boost::numeric::ublas;
+
+  auto const n = t.extents();
+  auto const w = t.strides();
+
+  if(is_scalar(n)){
     out << '[';
-    boost::numeric::ublas::detail::print(out,t[0]);
+    ublas::detail::print(out,t[0]);
     out << ']';
   }
-  else if(is_vector(t.extents())) {
-    const auto& cat = t.extents().at(0) > t.extents().at(1) ? ';' : ',';
+  else if(is_vector(n)) {
+    const auto& cat = n.at(0) > n.at(1) ? ';' : ',';
     out << '[';
     for(auto i = 0u; i < t.size()-1; ++i){
-      boost::numeric::ublas::detail::print(out,t[i]);
+      ublas::detail::print(out,t[i]);
       out << cat << ' ';
     }
-    boost::numeric::ublas::detail::print(out,t[t.size()-1]);
+    ublas::detail::print(out,t[t.size()-1]);
     out << ']';
   }
   else{
-    boost::numeric::ublas::detail::print(out, t.rank()-1, t.data(), t.strides().data(), t.extents().data());
+    boost::numeric::ublas::detail::print(out, t.rank()-1, t.data(), w.data(), ublas::data(n));
   }
   return out;
 }
