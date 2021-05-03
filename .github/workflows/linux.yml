@@ -17,7 +17,7 @@ on:
 
 jobs:
   build:
-    name: Linux "${{matrix.config.cxx}} -std=c++${{matrix.config.cxxstd}}"
+    name: Ubuntu 20.04 "cxx=${{matrix.config.cxx}}, std=c++${{matrix.config.cxxstd}}, variant=c++${{matrix.config.variant}}"
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: true
@@ -77,7 +77,7 @@ jobs:
 #        cd libs/numeric/ublas
 #        $BOOST_ROOT/b2 -j 4 benchmarks toolset=clang cxxstd=${{matrix.config.cxxstd}} cxxflags="-O3"
         
-    - name: Test Tensor Examples with ${{matrix.config.cxx}} and variant ${{matrix.config.variant}}
+    - name: Test Tensor Examples
       run: |
         cd $BOOST_ROOT/libs/numeric/ublas
         if [ -z "$cxxflags" ]
@@ -87,7 +87,7 @@ jobs:
           $BOOST_ROOT/b2 -j8 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} variant=${{matrix.config.variant}} optimization=${{matrix.config.opt}} cxxflags="${{matrix.config.cxxflags}}" linkflags="${{matrix.config.ldflags}}"
         fi
         
-    - name: Test Tensor Unit-Tests with ${{matrix.config.cxx}} and variant ${{matrix.config.variant}}
+    - name: Test Tensor Unit-Tests
       if: matrix.config.name == 'gcc'
       run: |
         cd $BOOST_ROOT/libs/numeric/ublas

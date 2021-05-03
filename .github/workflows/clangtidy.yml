@@ -37,7 +37,9 @@ jobs:
       - name: "Run Clang-Tidy"
         run: clang-tidy-11 examples/tensor/*.cpp test/tensor/*.cpp -- -Iinclude -std=c++20 > reports.txt && cat reports.txt
 
-        
+      - name: "Print Clang-Tidy Report"
+        run: cat reports.txt
+                
       - uses: actions/setup-python@v2
           
       - name: "Post review comments"

@@ -39,11 +39,7 @@ template<class int_type>
 class basic_extents
   : public extents_base< basic_extents < int_type > >
 {
-  static_assert( std::numeric_limits<typename std::vector<int_type>::value_type>::is_integer, "Static error in basic_layout: type must be of type integer.");
-  static_assert(!std::numeric_limits<typename std::vector<int_type>::value_type>::is_signed,  "Static error in basic_layout: type must be of type unsigned integer.");
-
   using super_type = extents_base< basic_extents < int_type > >;
-
 
 public:
   using base_type = std::vector<int_type>;
@@ -153,72 +149,18 @@ public:
     std::swap(lhs._base,rhs._base);
   }
 
-  [[nodiscard]] inline
-    constexpr const_reference operator[] (size_type p) const
-  {
-    return this->_base[p];
-  }
+  [[nodiscard]] inline constexpr const_iterator          begin() const  { return this->_base.begin (); }
+  [[nodiscard]] inline constexpr const_iterator          end  () const  { return this->_base.end   (); }
+  [[nodiscard]] inline constexpr const_reverse_iterator rbegin() const  { return this->_base.rbegin(); }
+  [[nodiscard]] inline constexpr const_reverse_iterator rend  () const  { return this->_base.rend  (); }
+  [[nodiscard]] inline constexpr base_type const&       base  () const  { return this->_base;          }
 
-  [[nodiscard]] inline
-    constexpr const_reference at (size_type p) const
-  {
-    return this->_base.at(p);
-  }
+  [[nodiscard]] inline constexpr const_reference operator[] (size_type p) const { return this->_base[p];    }
+  [[nodiscard]] inline constexpr reference       operator[] (size_type p)       { return this->_base[p];    }
+  [[nodiscard]] inline constexpr const_reference at         (size_type p) const { return this->_base.at(p); }
+  [[nodiscard]] inline constexpr reference       at         (size_type p)       { return this->_base.at(p); }
 
-  [[nodiscard]] inline
-    constexpr reference operator[] (size_type p)
-  {
-    return this->_base[p];
-  }
-
-  [[nodiscard]] inline
-    constexpr reference at (size_type p)
-  {
-    return this->_base.at(p);
-  }
-
-  [[nodiscard]] inline
-    constexpr const_reference back () const
-  {
-    return this->_base.back();
-  }
-
-  inline
-    constexpr void clear() noexcept
-  {
-    this->_base.clear();
-  }
-
-  [[nodiscard]] inline
-    constexpr const_iterator
-    begin() const noexcept
-  {
-    return _base.begin();
-  }
-
-  [[nodiscard]] inline
-    constexpr const_iterator
-    end() const noexcept
-  {
-    return _base.end();
-  }
-
-  [[nodiscard]] inline
-    constexpr const_reverse_iterator
-    rbegin() const noexcept
-  {
-    return _base.rbegin();
-  }
-
-  [[nodiscard]] inline
-    constexpr const_reverse_iterator
-    rend() const noexcept
-  {
-    return _base.rend();
-  }
-
-  [[nodiscard]] inline constexpr
-    auto const& base() const noexcept { return _base; }
+  inline constexpr void clear() noexcept { this->_base.clear(); }
 
 private:
 

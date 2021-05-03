@@ -16,19 +16,19 @@ on:
       - 'doc/**'
 jobs:
   build:
-    name: "${{matrix.config.description}} Sanitizer with ${{matrix.config.cxx}} and ${{matrix.config.variant}}"
+    name: "${{matrix.config.name}} with ${{matrix.config.description}} sanitizer with std=${{matrix.config.cxx}} and variant=${{matrix.config.variant}}"
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
       matrix:
         config:
-          - { name: clang, description: Address and Leak,   cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=address -fno-omit-frame-pointer, ldflags: -fsanitize=address   } 
-          - { name: clang, description: Undefined Behavior, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=undefined,                       ldflags: -fsanitize=undefined }
-          - { name: clang, description: Thread,             cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=thread,                          ldflags: -fsanitize=thread    }
-          - { name: gcc,   description: Address and Leak,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=address -fno-omit-frame-pointer, ldflags: -fsanitize=address -fopenmp}
-          - { name: gcc,   description: Undefined Behavior, cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=undefined,                       ldflags: -fsanitize=undefined -fopenmp}
-          - { name: gcc,   description: Thread,             cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=thread,                          ldflags: -fsanitize=thread -fopenmp}
+          - { name: clang, description: address and leak,   cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=address -fno-omit-frame-pointer, ldflags: -fsanitize=address   } 
+          - { name: clang, description: undefined behavior, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=undefined,                       ldflags: -fsanitize=undefined }
+          - { name: clang, description: thread,             cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=thread,                          ldflags: -fsanitize=thread    }
+          - { name: gcc,   description: address and leak,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=address -fno-omit-frame-pointer, ldflags: -fsanitize=address -fopenmp}
+          - { name: gcc,   description: undefined behavior, cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=undefined,                       ldflags: -fsanitize=undefined -fopenmp}
+          - { name: gcc,   description: thread,             cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=thread,                          ldflags: -fsanitize=thread -fopenmp}
                     
     steps:
       - uses: actions/checkout@v2
@@ -66,14 +66,14 @@ jobs:
           export ASAN_OPTIONS=symbolize=1
           export ASAN_OPTIONS=detect_leaks=1
         
-      - name: Run "${{matrix.config.description}}" Sanitizer Tensor Examples
+      - name: Run Tensor Examples with "${{matrix.config.description}}" sanitizer
         run: |        
          cd $BOOST_ROOT/libs/numeric/ublas         
          ASAN_OPTIONS=detect_leaks=1
          ASAN_OPTIONS=symbolize=1
          $BOOST_ROOT/b2 -j8 examples/tensor toolset=${{matrix.config.name}} cxxstd=${{matrix.config.cxxstd}} variant=${{matrix.config.variant}} optimization=${{matrix.config.opt}} cxxflags="${{matrix.config.cxxflags}}" linkflags="${{matrix.config.ldflags}}"
         
-      - name: Run "${{matrix.config.description}}" Sanitizer Tensor Tests        
+      - name: Run Tensor Tests with "${{matrix.config.description}}" sanitizer 
         run: |
          cd $BOOST_ROOT/libs/numeric/ublas
          ASAN_OPTIONS=detect_leaks=1

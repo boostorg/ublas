@@ -29,60 +29,48 @@ struct extents_base;
 namespace boost::numeric::ublas
 {
 
-template <class L, class R>
-[[nodiscard]] inline constexpr
-  bool operator==( extents_base<L> const& lhs,  extents_base<R> const& rhs )
-{
-  return size(lhs) == size(rhs) && std::equal( lhs().begin(), lhs().end(), rhs().begin() );
-}
 
-template <class L, class R>
-[[nodiscard]] inline constexpr
-  bool operator!=( extents_base<L> const& lhs, extents_base<R> const& rhs )
-{
-  return !( lhs == rhs) ;
-}
 
 template <class E>
 [[nodiscard]] inline constexpr
   auto begin(extents_base<E> const& e) noexcept
 {
-  return e().base().begin();
+  return e().begin();
 }
 
 template <class E>
 [[nodiscard]] inline constexpr
   auto end(extents_base<E> const& e) noexcept
 {
-  return e().base().end();
+  return e().end();
 }
 
 template <class E>
 [[nodiscard]] inline constexpr
   auto cbegin(extents_base<E> const& e) noexcept
 {
-  return e().base().cbegin();
+  return e().cbegin();
 }
 
 template <class E>
 [[nodiscard]] inline constexpr
   auto cend(extents_base<E> const& e) noexcept
 {
-  return e().base().cend();
+  return e().cend();
 }
 
 template <class E>
 [[nodiscard]] inline constexpr
   auto rbegin(extents_base<E> const& e) noexcept
 {
-  return e().base().rbegin();
+  return e().rbegin();
 }
 
 template <class E>
 [[nodiscard]] inline constexpr
   auto rend(extents_base<E> const& e) noexcept
 {
-  return e().base().rend();
+  return e().rend();
 }
 
 template <class E>
@@ -106,8 +94,23 @@ template <class E>
   return e().base().data();
 }
 
-} //namespace boost::numeric::ublas
 
+template <class L, class R>
+[[nodiscard]] inline constexpr
+  bool operator==( extents_base<L> const& lhs,  extents_base<R> const& rhs )
+{
+  return size(lhs) == size(rhs) && std::equal( ublas::begin(lhs), ublas::end(lhs), ublas::begin(rhs) );
+}
+
+template <class L, class R>
+[[nodiscard]] inline constexpr
+  bool operator!=( extents_base<L> const& lhs, extents_base<R> const& rhs )
+{
+  return !( lhs == rhs) ;
+}
+
+
+} //namespace boost::numeric::ublas
 
 
 namespace boost::numeric::ublas
@@ -125,8 +128,8 @@ template <class D>
 [[nodiscard]] inline constexpr
   bool is_scalar(extents_base<D> const& e)
 {
-  return std::distance(e().begin(),e().end())>0 &&
-         std::all_of  (e().begin(),e().end(),[](auto a){return a==1UL;});
+  return std::distance(ublas::begin(e),ublas::end(e))>0 &&
+         std::all_of  (ublas::begin(e),ublas::end(e),[](auto a){return a==1UL;});
 }
 
 
@@ -141,12 +144,12 @@ template <class D>
 [[nodiscard]] inline constexpr
   bool is_vector(extents_base<D> const& e)
 {
-  if (std::distance(e().begin(),e().end()) <  1) {return false;}
-  if (std::distance(e().begin(),e().end()) == 1) {return *e().begin() > 1UL;}
+  if (std::distance(ublas::begin(e),ublas::end(e)) <  1) {return false;}
+  if (std::distance(ublas::begin(e),ublas::end(e)) == 1) {return *ublas::begin(e) > 1UL;}
 
-  return std::any_of(e().begin()  ,e().begin()+2, [](auto a){return a >1UL;}) &&
-         std::any_of(e().begin()  ,e().begin()+2, [](auto a){return a==1UL;}) &&
-         std::all_of(e().begin()+2,e().end()    , [](auto a){return a==1UL;});
+  return std::any_of(ublas::begin(e)  ,ublas::begin(e)+2, [](auto a){return a >1UL;}) &&
+         std::any_of(ublas::begin(e)  ,ublas::begin(e)+2, [](auto a){return a==1UL;}) &&
+         std::all_of(ublas::begin(e)+2,ublas::end(e)    , [](auto a){return a==1UL;});
 }
 
 
@@ -158,9 +161,9 @@ template <class D>
 [[nodiscard]] inline constexpr
   bool is_matrix(extents_base<D> const& e)
 {
-  return std::distance(e().begin()  ,e().end()) > 1 &&
-         std::all_of  (e().begin()  ,e().begin()+2, [](auto a){return a> 1UL;}) &&
-         std::all_of  (e().begin()+2,e().end()    , [](auto a){return a==1UL;});
+  return std::distance(ublas::begin(e)  ,ublas::end(e)) > 1 &&
+         std::all_of  (ublas::begin(e)  ,ublas::begin(e)+2, [](auto a){return a> 1UL;}) &&
+         std::all_of  (ublas::begin(e)+2,ublas::end(e)    , [](auto a){return a==1UL;});
 }
 
 
@@ -172,8 +175,8 @@ template <class D>
 [[nodiscard]] inline constexpr
   bool is_tensor(extents_base<D> const& e)
 {
-  return std::distance(e().begin()   ,e().end())>2 &&
-         std::any_of  (e().begin()+2 ,e().end(), [](auto a){return a>1U;});
+  return std::distance(ublas::begin(e)   ,ublas::end(e))>2 &&
+         std::any_of  (ublas::begin(e)+2 ,ublas::end(e), [](auto a){return a>1U;});
 }
 
 
@@ -182,15 +185,15 @@ template <class D>
 [[nodiscard]] inline constexpr
   bool is_valid(extents_base<D> const& e)
 {
-  if (std::distance(e().begin(),e().end()) < 1){
+  if (std::distance(ublas::begin(e),ublas::end(e)) < 1){
     return false;
   }
 
-  if (std::distance(e().begin(),e().end()) == 1){
-    return *e().begin() > 0;
+  if (std::distance(ublas::begin(e),ublas::end(e)) == 1){
+    return *ublas::begin(e) > 0;
   }
 
-  return std::all_of(e().begin(),e().end(), [](auto a){ return a>0UL; } );
+  return std::all_of(ublas::begin(e),ublas::end(e), [](auto a){ return a>0UL; } );
 }
 
 /** @brief Computes the product of all extents */
@@ -199,7 +202,7 @@ template <class D>
   auto product( extents_base<D> const& e )
 {
   using value_type = typename D::value_type;
-  if( std::distance(e().begin(),e().end()) <= 0 ){
+  if( std::distance(ublas::begin(e),ublas::end(e)) <= 0 ){
     return value_type{0U};
   }
 
@@ -211,7 +214,7 @@ template <class D>
   return acc;
 
 
-//  return std::accumulate(e().begin(),e().end(),1U,std::multiplies<>()) ;
+//  return std::accumulate(ublas::begin(e),ublas::end(e),1U,std::multiplies<>()) ;
 }
 
 //template<class InputIt, class OutputIt> // std::inserter(out,out.begin())

@@ -10,6 +10,7 @@
 #ifndef BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_BASE_HPP
 #define BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_BASE_HPP
 
+#include <type_traits>
 
 namespace boost::numeric::ublas {
 
@@ -17,9 +18,10 @@ namespace boost::numeric::ublas {
 template<class D>
 struct extents_base
 {
+
   using derived_type  = D;
   inline constexpr decltype(auto) operator()() const { return static_cast<const derived_type&>(*this); }
-  inline constexpr decltype(auto) operator()()       { return static_cast<      derived_type&>(*this); }
+  inline constexpr decltype(auto) operator()()       { return static_cast<      derived_type&>(*this); }  
 
 };
 

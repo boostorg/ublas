@@ -144,9 +144,10 @@ namespace boost::numeric::ublas
             using size_type = typename extents_type::size_type;
             if constexpr( is_static_rank_v<extents_type> ){
                 constexpr size_type sz = std::max( std::tuple_size_v<extents_type> -1u , size_type(2) );
-                auto ret = extents< sz >();
-                ret.fill(1u);
-                return ret;
+                using new_extents_type = ublas::extents<sz>;
+                auto ret = typename new_extents_type::base_type{};
+                std::fill(ret.begin(), ret.end(),size_type(1));
+                return new_extents_type( ret );
             }else{
                 using extents_base_type = typename extents_type::base_type;
                 auto const sz = std::max( ublas::size(na) - 1, size_type(2) );
@@ -534,14 +535,14 @@ namespace boost::numeric::ublas
               constexpr auto nb_size = std::tuple_size_v<nb_type>;
               using extents_type = extents<na_size+nb_size>;
               auto nc = typename extents_type::base_type{};
-              auto nci = std::copy(na.begin(),na.end(), nc.begin());
-              std::copy(nb.begin(), nb.end(), nci);
+              auto nci = std::copy(ublas::begin(na),ublas::end(na), std::begin(nc));
+              std::copy(ublas::begin(nb),ublas::end(nb), nci);
               return extents_type(nc);
             }else {
               using extents_type = extents<>;
               auto nc = typename extents_type::base_type(ublas::size(na)+ublas::size(nb));
-              auto nci = std::copy(na.begin(),na.end(), nc.begin());
-              std::copy(nb.begin(), nb.end(), nci);
+              auto nci = std::copy(ublas::begin(na),ublas::end(na), std::begin(nc));
+              std::copy(ublas::begin(nb),ublas::end(nb), nci);
               return extents_type(nc);
             }
         };

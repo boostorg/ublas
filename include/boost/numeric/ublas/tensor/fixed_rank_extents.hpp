@@ -40,7 +40,7 @@ namespace boost::numeric::ublas
 template <class T, std::size_t N>
 class basic_fixed_rank_extents : public extents_base<basic_fixed_rank_extents<T,N>>
 {
-
+  static_assert( std::is_unsigned_v<T> );
 public:
   using base_type       = std::array<T,N>;
   using value_type      = typename base_type::value_type;
@@ -50,9 +50,6 @@ public:
   using const_pointer   = typename base_type::const_pointer;
   using const_iterator  = typename base_type::const_iterator;
   using const_reverse_iterator = typename base_type::const_reverse_iterator;
-
-  static_assert( std::numeric_limits<value_type>::is_integer, "Static error in basic_fixed_rank_extents: type must be of type integer.");
-  static_assert(!std::numeric_limits<value_type>::is_signed,  "Static error in basic_fixed_rank_extents: type must be of type unsigned integer.");
 
   constexpr basic_fixed_rank_extents() = default;
 
@@ -140,80 +137,23 @@ public:
     std::copy(e.begin(), e.end(), _base.begin());
   }
 
-  [[nodiscard]] inline
-    constexpr const_reference at(size_type k) const{
-        return _base.at(k);
-  }
-
-  [[nodiscard]] inline
-    constexpr reference at (size_type k)
-  {
-    return this->_base.at(k);
-  }
-
-  [[nodiscard]] inline
-    constexpr const_reference operator[](size_type k) const noexcept{
-        return _base[k];
-  }
-
-  [[nodiscard]] inline
-    constexpr reference operator[] (size_type k)
-  {
-    return this->_base[k];
-  }
-
-  inline
-    constexpr void fill( value_type value ){
-    _base.fill(value);
-  }
-
-  /** @brief Returns the std::vector containing extents */
-  [[nodiscard]] inline
-    constexpr base_type const& base() const noexcept{
-    return _base;
-  }
-
   friend void swap(basic_fixed_rank_extents& lhs, basic_fixed_rank_extents& rhs)
-        noexcept(std::is_nothrow_swappable_v<base_type>)
+    noexcept(std::is_nothrow_swappable_v<base_type>)
   {
     std::swap(lhs._base   , rhs._base   );
   }
 
+  [[nodiscard]] inline constexpr const_reference at(size_type k) const { return this->_base.at(k); }
+  [[nodiscard]] inline constexpr reference       at(size_type k)       { return this->_base.at(k); }
 
-  [[nodiscard]] inline
-    constexpr const_iterator
-    begin() const noexcept
-  {
-    return _base.begin();
-  }
+  [[nodiscard]] inline constexpr const_reference operator[](size_type k) const { return this->_base[k]; }
+  [[nodiscard]] inline constexpr reference       operator[](size_type k)       { return this->_base[k]; }
 
-  [[nodiscard]] inline
-    constexpr const_iterator
-    end() const noexcept
-  {
-    return _base.end();
-  }
-
-  [[nodiscard]] inline
-    constexpr const_reference back () const
-  {
-    return _base.back();
-  }
-
-  [[nodiscard]] inline
-    constexpr const_reverse_iterator
-    rbegin() const noexcept
-  {
-    return _base.rbegin();
-  }
-
-  [[nodiscard]] inline
-    constexpr const_reverse_iterator
-    rend() const noexcept
-  {
-    return _base.rend();
-  }
-
+  [[nodiscard]] inline constexpr const_iterator          begin() const noexcept { return this->_base.begin (); }
+  [[nodiscard]] inline constexpr const_iterator          end  () const noexcept { return this->_base.end   (); }
+  [[nodiscard]] inline constexpr const_reverse_iterator rbegin() const noexcept { return this->_base.rbegin(); }
+  [[nodiscard]] inline constexpr const_reverse_iterator rend  () const noexcept { return this->_base.rend  (); }
+  [[nodiscard]] inline constexpr base_type const&       base  () const noexcept { return this->_base;          }
 
 private:
   base_type _base{};
