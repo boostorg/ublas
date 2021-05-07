@@ -84,13 +84,8 @@ public:
       if( is_vector(e) || is_scalar(e) ){
         return;
       }
-
-      //using layout_type = typename derived_type_strides::layout_type;
-      if constexpr (std::is_same<layout_type,layout::first_order>::value ) {
-        std::transform(ublas::begin(e),  ublas::end(e)  - 1, _base.begin(), _base.begin() + 1, std::multiplies<>{});
-      } else {
-        std::transform(ublas::rbegin(e), ublas::rend(e) - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<>{});
-      }
+      
+      detail::compute_strides_helper(e,_base,layout_type{});
     }
 
     constexpr basic_strides(basic_strides const& l)
