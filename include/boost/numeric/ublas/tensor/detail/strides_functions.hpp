@@ -28,6 +28,21 @@ struct extents_base;
 template<class derived_type>
 struct strides_base;
 
+namespace detail{
+  
+  template<typename Extents, typename Strides>
+  constexpr void compute_strides_helper(Extents&& in, Strides&& out, layout::first_order) noexcept{
+    std::transform(in.begin(),  in.end() - 1,  out.begin(),  out.begin()  + 1, std::multiplies<>{});
+  }
+
+  template<typename Extents, typename Strides>
+  constexpr void compute_strides_helper(Extents&& in, Strides&& out, layout::last_order) noexcept{
+    std::transform(in.rbegin(),  in.rend() - 1,  out.rbegin(),  out.rbegin()  + 1, std::multiplies<>{});
+  }
+
+} // namespace detail
+
+
 template<class derived_type_extents, class derived_type_strides>
 inline constexpr
   void compute_strides(
@@ -43,11 +58,7 @@ inline constexpr
     return;
 
   using layout_type = typename derived_type_strides::layout_type;
-  if constexpr (std::is_same<layout_type,layout::first_order>::value ) {
-    std::transform(extents().begin(),  extents().end() - 1,  strides().begin(),  strides().begin()  + 1, std::multiplies<>{});
-  } else {
-    std::transform(extents().rbegin(), extents().rend() - 1, strides().rbegin(), strides().rbegin() + 1, std::multiplies<>{});
-  }
+  detail::compute_strides_helper(extents(),strides(),layout_type{});
 }
 
 
