@@ -40,8 +40,8 @@ template <
     "std::size_t)"
     " : the rank of extents is not correct, it should be of the rank 2");
 
-  if (ExtentType::template get<0>() != e1 ||
-      ExtentType::template get<1>() != e2) {
+  if (ExtentType::at(0) != e1 ||
+      ExtentType::at(1) != e2) {
     throw std::runtime_error(
       "boost::numeric::ublas::detail::make_extent_from_legacy_ublas(std::size_"
       "t, std::size_t)"

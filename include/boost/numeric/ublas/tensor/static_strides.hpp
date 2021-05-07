@@ -91,7 +91,7 @@ namespace boost::numeric::ublas::detail{
     }else{
       using res_type = basic_static_extents<T,Es...>;
 
-      constexpr auto prod = E::template get<I>().value * res_type::template get<I>().value;
+      constexpr auto prod = std::get<I>(E{}) * std::get<I>(res_type{});
       using nextents = basic_static_extents<T, Es..., prod>;
       return make_static_strides_first_order<E,I + 1>(e, nextents{});
     }
@@ -106,7 +106,7 @@ namespace boost::numeric::ublas::detail{
 
       constexpr auto J = E::_size - I - 1ul;
       constexpr auto K = res_type::_size - I - 1ul;
-      constexpr auto prod = E::template get<J>().value * res_type::template get<K>().value;
+      constexpr auto prod = std::get<J>(E{}) * std::get<K>(res_type{});
       using nextents = basic_static_extents<T, prod, Es...>;
       return make_static_strides_last_order<E,I + 1>(e, nextents{});
     }

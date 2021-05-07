@@ -111,19 +111,6 @@ public:
       return m_data.rend();
   }
 
-  /// msvc 14.27 does not consider 'at' function constexpr.
-  /// To make msvc happy get function is declared
-  /// and it will be removed when we start using boost.mp11
-  template<std::size_t I>
-  static constexpr auto get() noexcept{
-    static_assert(I < _size, 
-      "boost::numeric::ublas::basic_static_extents::get() : "
-      "out of bound access"
-    );
-    using element_at = std::tuple_element_t<I,tuple_type>;
-    return element_at{};
-  }
-
 private:
   static constexpr base_type const m_data{E...};
   /// will be removed when we start using boost.mp11
@@ -146,6 +133,16 @@ template<std::size_t... E>
 struct tuple_size< boost::numeric::ublas::static_extents<E...> >
   : std::integral_constant<std::size_t, sizeof...(E)>
 {};
+
+template<size_t I, class T, T... Es>
+[[nodiscard]] constexpr T get(boost::numeric::ublas::basic_static_extents<T, Es...>) noexcept{
+  static_assert(I < sizeof...(Es), 
+    "std::get<I>(boost::numeric::ublas::basic_static_extents<T, Es...>) : "
+    "out of bound access"
+  );
+  return boost::numeric::ublas::basic_static_extents<T, Es...>::at(I);
+}
+
 }
 
 #endif

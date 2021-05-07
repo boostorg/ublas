@@ -172,6 +172,16 @@ namespace std
 {
 template< class T, std::size_t N >
 class tuple_size < boost::numeric::ublas::basic_fixed_rank_extents<T, N> > : public integral_constant<std::size_t, N> {};
+
+template<size_t I, class T, size_t N>
+[[nodiscard]] constexpr T get(boost::numeric::ublas::basic_fixed_rank_extents<T, N> const& e) noexcept{
+  static_assert(I < N, 
+    "std::get<I>(boost::numeric::ublas::basic_fixed_rank_extents<T, N>) : "
+    "out of bound access"
+  );
+  return e[I];
+}
+
 } // namespace std
 
 
