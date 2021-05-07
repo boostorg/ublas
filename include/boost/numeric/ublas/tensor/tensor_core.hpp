@@ -22,6 +22,7 @@
 #include "expression.hpp"
 #include "expression_evaluation.hpp"
 #include "fixed_rank_extents.hpp"
+#include "detail/tensor_core.hpp"
 #include "static_extents.hpp"
 #include "dynamic_extents.hpp"
 #include "strides.hpp"
@@ -274,141 +275,36 @@ public:
         detail::eval( *this, expr );
     }
 
-    inline constexpr
+    constexpr
       // NOLINTNEXTLINE(hicpp-explicit-conversions)
-      tensor_core( matrix_type const& v )
-        : tensor_core()
+      explicit tensor_core( matrix_type const& v )
+        : tensor_core(detail::make_extent_from_legacy_ublas<extents_type>(v.size1(), v.size2()),resizable_tag{})
     {
-        if constexpr( is_dynamic_v< extents_type > ){
-            auto temp = tensor_core(extents_type{v.size1(), v.size2()});
-            swap(*this,temp);
-        }
-
-        if constexpr( is_static_rank_v<extents_type> ){
-            static_assert( std::tuple_size_v<extents_type> == 2ul,
-                "boost::numeric::ublas::tensor_core(const matrix &v)"
-                " : the rank of extents is not correct, it should be of the rank 2"
-            );
-        } else {
-          if( ublas::size(this->extents()) != 2ul ){
-                throw std::runtime_error(
-                    "boost::numeric::ublas::tensor_core(const matrix &v)"
-                    " : the rank of extents is not correct, it should be of the rank 2"
-                );
-            }
-        }
-
-
-        if( extents_[0] != v.size1() || extents_[1] != v.size2() ){
-            throw std::runtime_error(
-                "boost::numeric::ublas::tensor_core(const matrix &v)"
-                " : please set the extents properly, the extents should contain the row and col of the matrix"
-            );
-        }
-
         std::copy(v.data().begin(), v.data().end(), data_.begin());
     }
 
-    inline constexpr
+    constexpr
       // NOLINTNEXTLINE(hicpp-explicit-conversions)
-      tensor_core( matrix_type && v )
-        : tensor_core()
+      explicit tensor_core( matrix_type && v )
+        : tensor_core(detail::make_extent_from_legacy_ublas<extents_type>(v.size1(), v.size2()),resizable_tag{})
     {
-        if constexpr( is_dynamic_v< extents_type > ){
-            auto temp = tensor_core(extents_type{v.size1(), v.size2()});
-            swap(*this,temp);
-        }
-
-        if constexpr( is_static_rank_v<extents_type> ){
-          static_assert( std::tuple_size_v<extents_type> == 2ul,
-                "boost::numeric::ublas::tensor_core(matrix &&v)"
-                " : the rank of extents is not correct, it should be of the rank 2"
-            );
-        } else {
-          if( ublas::size(this->extents()) != 2ul ){
-                throw std::runtime_error(
-                    "boost::numeric::ublas::tensor_core(matrix &&v)"
-                    " : the rank of extents is not correct, it should be of the rank 2"
-                );
-            }
-        }
-
-        if( extents_[0] != v.size1() || extents_[1] != v.size2() ){
-            throw std::runtime_error(
-                "boost::numeric::ublas::tensor_core(matrix &&v)"
-                " : please set the extents properly, the extents should contain the row and col of the matrix"
-            );
-        }
-
         std::move(v.data().begin(), v.data().end(),data_.begin());
     }
 
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
-    constexpr tensor_core (const vector_type &v)
-        : tensor_core()
+    constexpr 
+    explicit tensor_core (const vector_type &v)
+        : tensor_core(detail::make_extent_from_legacy_ublas<extents_type>(v.size(), typename extents_type::value_type{1}),resizable_tag{})
     {
-        if constexpr( is_dynamic_v< extents_type > ){
-            auto temp = tensor_core(extents_type{ v.size(), typename extents_type::value_type{1} });
-            swap(*this,temp);
-        }
-
-        if constexpr( is_static_rank_v<extents_type> ){
-          static_assert( std::tuple_size_v<extents_type> == 2ul,
-                "boost::numeric::ublas::tensor_core(const vector_type &v)"
-                " : the rank of extents is not correct, it should be of the rank 2"
-            );
-        } else {
-          if( ublas::size(this->extents()) != 2ul ){
-                throw std::runtime_error(
-                    "boost::numeric::ublas::tensor_core(const vector_type &v)"
-                    " : the rank of extents is not correct, it should be of the rank 2"
-                );
-            }
-        }
-
-        if( extents_[0] != v.size() || extents_[1] != 1ul ){
-            throw std::runtime_error(
-                "boost::numeric::ublas::tensor_core(const vector_type &v)"
-                " : please set the extents properly, the first extent should be the size of the vector and 1 for the second extent"
-            );
-        }
-
-        std::copy(v.data().begin(), v.data().end(), data_.begin());
-        
+        std::copy(v.data().begin(), v.data().end(), data_.begin());   
     }
 
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
-    constexpr inline tensor_core (vector_type &&v)
-        : tensor_core()
+    constexpr 
+    explicit tensor_core (vector_type &&v)
+        : tensor_core(detail::make_extent_from_legacy_ublas<extents_type>(v.size(), typename extents_type::value_type{1}),resizable_tag{})
     {
-        if constexpr( is_dynamic_v< extents_type > ){
-            auto temp = tensor_core(extents_type{ v.size(), typename extents_type::value_type{1} });
-            swap(*this,temp);
-        }
-        
-        if constexpr( is_static_rank_v<extents_type> ){
-            static_assert( std::tuple_size_v<extents_type> == 2ul,
-                "boost::numeric::ublas::tensor_core(vector_type &&v)"
-                " : the rank of extents is not correct, it should be of the rank 2"
-            );
-        } else {
-          if( ublas::size(extents()) != 2ul ){
-                throw std::runtime_error(
-                    "boost::numeric::ublas::tensor_core(vector_type &&v)"
-                    " : the rank of extents is not correct, it should be of the rank 2"
-                );
-            }
-        }
-
-        if( extents_[0] != v.size() || extents_[1] != 1ul ){
-            throw std::runtime_error(
-                "boost::numeric::ublas::tensor_core(vector_type &&v)"
-                " : please set the extents properly, the first extent should be the size of the vector and 1 for the second extent"
-            );
-        }
-
         std::move(v.data().begin(), v.data().end(),data_.begin());
-        
     }
 
     /** @brief Constructs a tensor_core with a matrix expression
