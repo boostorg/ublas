@@ -93,8 +93,8 @@ std::ostream& operator << (std::ostream& out, class boost::numeric::ublas::tenso
 
   namespace ublas = boost::numeric::ublas;
 
-  auto const n = t.extents();
-  auto const w = t.strides();
+  auto const& n = t.extents();
+  auto const& w = t.strides();
 
   if(is_scalar(n)){
     out << '[';

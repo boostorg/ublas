@@ -135,7 +135,7 @@ struct tuple_size< boost::numeric::ublas::static_extents<E...> >
 {};
 
 template<size_t I, class T, T... Es>
-[[nodiscard]] constexpr T get(boost::numeric::ublas::basic_static_extents<T, Es...>) noexcept{
+[[nodiscard]] constexpr T get([[maybe_unused]] boost::numeric::ublas::basic_static_extents<T, Es...> /*e*/) noexcept{
   static_assert(I < sizeof...(Es), 
     "std::get<I>(boost::numeric::ublas::basic_static_extents<T, Es...>) : "
     "out of bound access"
@@ -143,6 +143,6 @@ template<size_t I, class T, T... Es>
   return boost::numeric::ublas::basic_static_extents<T, Es...>::at(I);
 }
 
-}
+} // namespace std
 
 #endif

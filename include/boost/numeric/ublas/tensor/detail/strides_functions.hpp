@@ -31,12 +31,12 @@ struct strides_base;
 namespace detail{
   
   template<typename Extents, typename Strides>
-  constexpr void compute_strides_helper(Extents&& in, Strides&& out, layout::first_order) noexcept{
+  constexpr void compute_strides_helper(Extents&& in, Strides&& out, [[maybe_unused]] layout::first_order /*layout*/) noexcept{
     std::transform(in.begin(),  in.end() - 1,  out.begin(),  out.begin()  + 1, std::multiplies<>{});
   }
 
   template<typename Extents, typename Strides>
-  constexpr void compute_strides_helper(Extents&& in, Strides&& out, layout::last_order) noexcept{
+  constexpr void compute_strides_helper(Extents&& in, Strides&& out, [[maybe_unused]] layout::last_order /*layout*/) noexcept{
     std::transform(in.rbegin(),  in.rend() - 1,  out.rbegin(),  out.rbegin()  + 1, std::multiplies<>{});
   }
 
