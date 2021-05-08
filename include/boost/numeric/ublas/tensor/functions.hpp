@@ -143,7 +143,7 @@ namespace boost::numeric::ublas
         auto compute_nc = [](auto const& na){
             using size_type = typename extents_type::size_type;
             if constexpr( is_static_rank_v<extents_type> ){
-                constexpr size_type sz = std::max( std::tuple_size_v<extents_type> -1u , size_type(2) );
+                constexpr size_type sz = std::max( size(extents_type{}) -1u , size_type(2) );
                 using new_extents_type = ublas::extents<sz>;
                 auto ret = typename new_extents_type::base_type{};
                 std::fill(ret.begin(), ret.end(),size_type(1));
@@ -361,7 +361,7 @@ namespace boost::numeric::ublas
                 is_static_rank_v<rextents_type>
             ){
                 constexpr auto const N   = detail::extent_of_rank_one_array_v<array_type>;
-                constexpr auto const sz  = std::tuple_size_v<lextents_type> + std::tuple_size_v<rextents_type> - 2 * N;
+                constexpr auto const sz  = size(lextents_type{}) + size(rextents_type{}) - 2 * N;
                 constexpr auto const msz = std::max(size_type(sz), size_type(2));
                 return extents<msz>();
             }else{
@@ -531,8 +531,8 @@ namespace boost::numeric::ublas
             using nb_type = std::decay_t< decltype(nb) >;
 
             if constexpr( is_static_rank_v<na_type> && is_static_rank_v<nb_type> ){
-              constexpr auto na_size = std::tuple_size_v<na_type>;
-              constexpr auto nb_size = std::tuple_size_v<nb_type>;
+              constexpr auto na_size = size(na_type{});
+              constexpr auto nb_size = size(nb_type{});
               using extents_type = extents<na_size+nb_size>;
               auto nc = typename extents_type::base_type{};
               auto nci = std::copy(ublas::begin(na),ublas::end(na), std::begin(nc));
