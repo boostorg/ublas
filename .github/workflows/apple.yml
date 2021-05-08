@@ -49,24 +49,24 @@ jobs:
         cd $BOOST_ROOT
         ./bootstrap.sh
         ./b2 -j8 headers
-        echo "using clang : : clang++ ;" >> ~/user-config.jam;
+        echo "using $(brew --prefix llvm)/bin/clang : : $(brew --prefix llvm)/bin/clang++ ;" >> ~/user-config.jam;
 
        
     - name: Test Benchmarks
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j8 benchmarks toolset=clang cxxstd=${{matrix.cxxstd}}
+        $BOOST_ROOT/b2 -j8 benchmarks cxxstd=${{matrix.cxxstd}}
         
     - name: Test Tensor Examples
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j8 examples/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
+        $BOOST_ROOT/b2 -j8 examples/tensor cxxstd=${{matrix.cxxstd}}
         
     - name: Test Tensor
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
-        $BOOST_ROOT/b2 -j8 test/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
+        $BOOST_ROOT/b2 -j8 test/tensor cxxstd=${{matrix.cxxstd}}
         
