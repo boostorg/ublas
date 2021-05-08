@@ -49,7 +49,7 @@ jobs:
         cd $BOOST_ROOT
         ./bootstrap.sh
         ./b2 -j8 headers
-        echo "using $(brew --prefix llvm)/bin/clang : : $(brew --prefix llvm)/bin/clang++ ;" >> ~/user-config.jam;
+        echo "using clang : : $(brew --prefix llvm)/bin/clang++ ;" >> ~/user-config.jam;
 
        
     - name: Test Benchmarks
