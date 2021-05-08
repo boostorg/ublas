@@ -52,11 +52,11 @@ jobs:
         echo "using clang : : clang++ ;" >> ~/user-config.jam;
 
        
-#    - name: Test Benchmarks
-#      run: |
-#        cd $BOOST_ROOT
-#        cd libs/numeric/ublas
-#        $BOOST_ROOT/b2 -j8 benchmarks toolset=clang cxxstd=${{matrix.cxxstd}}
+    - name: Test Benchmarks
+      run: |
+        cd $BOOST_ROOT
+        cd libs/numeric/ublas
+        $BOOST_ROOT/b2 -j8 benchmarks toolset=clang cxxstd=${{matrix.cxxstd}}
         
     - name: Test Tensor Examples
       run: |
@@ -64,9 +64,9 @@ jobs:
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j8 examples/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
         
-#    - name: Test Tensor
-#      run: |
-#        cd $BOOST_ROOT
-#        cd libs/numeric/ublas
-#        $BOOST_ROOT/b2 -j8 test/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
+    - name: Test Tensor
+      run: |
+        cd $BOOST_ROOT
+        cd libs/numeric/ublas
+        $BOOST_ROOT/b2 -j8 test/tensor toolset=clang cxxstd=${{matrix.cxxstd}}
         
