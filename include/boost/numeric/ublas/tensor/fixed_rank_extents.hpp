@@ -18,6 +18,7 @@
 #include <initializer_list>
 #include <limits>
 #include <stdexcept>
+#include <tuple>
 
 
 #include "detail/extents_functions.hpp"

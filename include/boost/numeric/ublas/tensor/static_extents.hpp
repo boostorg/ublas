@@ -16,6 +16,7 @@
 #include <array>
 #include <initializer_list>
 #include <limits>
+#include <tuple>
 
 #include "detail/extents_functions.hpp"
 #include "extents_base.hpp"
