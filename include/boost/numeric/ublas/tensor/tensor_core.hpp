@@ -659,46 +659,6 @@ public:
         return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
     }
 
-
-    /** @brief Reshapes the basic_tensor
-     *
-     *
-     * (1) @code A.reshape(extents{m,n,o});     @endcode or
-     * (2) @code A.reshape(extents{m,n,o},4);   @endcode
-     *
-     * If the size of this smaller than the specified extents than
-     * default constructed (1) or specified (2) value is appended.
-     *
-     * @note rank of the basic_tensor might also change.
-     *
-     * @param e extents with which the basic_tensor is reshaped.
-     * @param v value which is appended if the basic_tensor is enlarged.
-     */
-    inline
-    void reshape (extents_type const& e, value_type v = value_type{})
-    {
-        static_assert(is_dynamic_v<extents_type> && is_dynamic_v<strides_type>,
-            "Error in boost::numeric::ublas::basic_tensor::reshape(extents_type const&,value_type) : "
-            "static extents or static strides cannot used inside reshape function"
-        );
-
-        this->extents_ = e;
-        this->strides_ = strides_type(this->extents_);
-
-        auto p = product(extents_);
-        if constexpr( !std::is_same_v< resizable_tag, storage_resizable_container_tag > ){
-            if( p != this->size() ){
-                throw std::runtime_error(
-                    "boost::numeric::ublas::basic_tensor::reshape(extents_type const&,value_type) : "
-                    "cannot resize the non-resizable container, change the extents such a way that the product does not change"
-                );
-            }
-        }else{
-            if(p != this->size())
-                this->data_.resize (p, v);
-        }
-    }
-
     friend void swap(tensor_core& lhs, tensor_core& rhs){
         std::swap(lhs.data_   , rhs.data_   );
         std::swap(lhs.extents_, rhs.extents_);

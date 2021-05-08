@@ -399,7 +399,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_reshape, value,  test_types, fixtu
         for(auto i = 0ul; i < t.size(); ++i)
           BOOST_CHECK_EQUAL( t[i], v );
 
-        t.reshape(eto);
+        reshape(t,eto);
         for(auto i = 0ul; i < std::min(ublas::product(efrom),ublas::product(eto)); ++i)
           BOOST_CHECK_EQUAL( t[i], v );
 
