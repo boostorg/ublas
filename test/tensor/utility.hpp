@@ -15,6 +15,7 @@
 
 #include <utility>
 #include <tuple>
+#include <functional>
 
 template<class ... types>
 struct zip_helper;
@@ -49,59 +50,38 @@ struct zip_helper<std::tuple<types3...>, type1, types1...>
 template<class ... types>
 using zip = zip_helper<std::tuple<>,types...>;
 
-
-
-template<size_t I, class Tuple, class UnaryOp>
-struct for_each_in_tuple_impl
-{
-  static constexpr unsigned N = std::tuple_size_v<Tuple>;
-  static_assert(I < N, "Static Assert in boost::numeric::ublas::detail::for_each_tuple");
-
-  using next_type = for_each_in_tuple_impl<I+1,Tuple, UnaryOp>;
-
-  static void run(Tuple const& tuple, UnaryOp op)
-  {
-      op(I,std::get<I>(tuple));
-      if constexpr(I < N-1){
-        next_type::run(tuple, op);
-      }
-  }
+template<typename... Ts>
+struct list{
+    using type = std::tuple<Ts...>;
+    constexpr static std::size_t size = sizeof...(Ts);
 };
 
-template<class Tuple, class UnaryOp>
-void for_each_in_tuple(Tuple const& tuple, UnaryOp op)
-{
-  if constexpr (std::tuple_size_v<Tuple> == 0u )
-    return;
+namespace std{
+    template<std::size_t I, typename... Ts>
+    constexpr auto get(list<Ts...>) noexcept{
+        using tuple_t = typename list<Ts...>::type;
+        return tuple_element_t<I,tuple_t>{};
+    }
+}
 
-  for_each_in_tuple_impl<0,Tuple,UnaryOp>::run(tuple,op);
+namespace impl{
+    template<typename Tuple, class UnaryOp, std::size_t... Is>
+    void for_each_in_tuple_helper(Tuple const& tuple, UnaryOp&& op, std::index_sequence<Is...>)
+    {
+        (..., std::invoke(op, Is, std::get<Is>(tuple)));
+    }
 }
 
 
-template<typename... Ts>
-struct list{
-    static constexpr size_t size = sizeof...(Ts);
-};
-
-template<size_t I, class CallBack, class T, class...Ts>
-struct for_each_list_impl{
-    constexpr decltype(auto) operator()(list<T, Ts...>, CallBack call_back){
-        using new_list = list<Ts...>;
-        using value_type = T;
-        call_back(I,value_type{});
-        
-        if constexpr(new_list::size != 0){
-            for_each_list_impl<I + 1,CallBack, Ts...> it;
-            it(new_list{},call_back);
-        }
-    }
-};
-
+template<typename Tuple, class UnaryOp>
+void for_each_in_tuple(Tuple const& tuple, UnaryOp&& op)
+{
+    impl::for_each_in_tuple_helper(tuple, std::forward<UnaryOp>(op), std::make_index_sequence<std::tuple_size_v<Tuple>>{});
+}
 
 template<class CallBack, class... Ts>
 auto for_each_list(list<Ts...> l, CallBack call_back){
-    for_each_list_impl<0,CallBack,Ts...> f;
-    f(l,call_back);
+    impl::for_each_in_tuple_helper(l, std::forward<CallBack>(call_back), std::make_index_sequence<sizeof...(Ts)>{});
 }
 
 #include <complex>
