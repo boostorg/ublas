@@ -48,7 +48,7 @@ namespace boost::numeric::ublas{
         }
 
         template<std::size_t M, typename ExtentsType, std::size_t... Is>
-        constexpr auto extents_result_tensor_times_vector_helper([[maybe_unused]] ExtentsType const& /*e*/, std::index_sequence<Is...>) noexcept{
+        constexpr auto extents_result_tensor_times_vector_helper([[maybe_unused]] ExtentsType const& /*e*/, [[maybe_unused]] std::index_sequence<Is...> /*is*/) noexcept{
             using extents_type = typename ExtentsType::value_type;
             constexpr auto res_arr = extents_result_tensor_times_vector_impl<M>(ExtentsType{});
             return basic_static_extents<extents_type, ( ..., res_arr[Is] ) >{};
@@ -72,7 +72,7 @@ namespace boost::numeric::ublas{
         }
 
         template<std::size_t I, std::size_t Value, typename ExtentsType, std::size_t... Is>
-        constexpr auto static_extents_set_at_helper( [[maybe_unused]] ExtentsType const& /*e*/, std::index_sequence<Is...>){
+        constexpr auto static_extents_set_at_helper( [[maybe_unused]] ExtentsType const& /*e*/, [[maybe_unused]] std::index_sequence<Is...> /*is*/){
             using extents_type = typename ExtentsType::value_type;
             constexpr auto res_arr = static_extents_set_at_impl<I,Value>(ExtentsType{});
             return basic_static_extents<extents_type, ( ..., res_arr[Is] ) >{};
