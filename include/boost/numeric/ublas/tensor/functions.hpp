@@ -28,6 +28,7 @@
 #include "prod/outer_prod.hpp"
 #include "prod/trans.hpp"
 #include "prod/norm.hpp"
+#include "prod/imag.hpp"
 
 //#include "fixed_rank_extents.hpp"
 
@@ -40,18 +41,7 @@ namespace boost::numeric::ublas{
 
 namespace boost::numeric::ublas
 {
-    namespace detail{
 
-        template<typename T>
-        struct is_complex : std::false_type{};
-
-        template<typename T>
-        struct is_complex< std::complex<T> > : std::true_type{};
-
-        template<typename T>
-        inline static constexpr bool is_complex_v = is_complex<T>::value;
-
-    } // namespace detail
     
 
 
@@ -175,7 +165,7 @@ namespace boost::numeric::ublas
      * @returns   unary tensor expression
     */
     template<typename TensorEngine, class D,
-        std::enable_if_t< detail::is_complex_v<typename tensor_core< TensorEngine >::value_type>, int > = 0
+        std::enable_if_t< is_complex_v<typename tensor_core< TensorEngine >::value_type>, int > = 0
     >
     auto conj(detail::tensor_expression< tensor_core<TensorEngine>, D > const& expr)
     {
@@ -235,7 +225,7 @@ namespace boost::numeric::ublas
      * @returns   unary tensor expression
     */
     template<typename TensorEngine, class D,
-        std::enable_if_t< detail::is_complex_v<typename tensor_core< TensorEngine >::value_type>, int > = 0
+        std::enable_if_t< is_complex_v<typename tensor_core< TensorEngine >::value_type>, int > = 0
     >
     auto real(detail::tensor_expression< tensor_core< TensorEngine > ,D > const& expr)
     {
@@ -269,54 +259,7 @@ namespace boost::numeric::ublas
     }
 
 
-    /** @brief Extract the imaginary component of tensor elements within a tensor expression
-     *
-     * @param[in] lhs tensor expression
-     * @returns   unary tensor expression
-    */
-    template<class T, class D>
-    auto imag(detail::tensor_expression<T,D> const& lhs) {
-        return detail::make_unary_tensor_expression<T> (lhs(), [] (auto const& l) { return std::imag( l ); } );
-    }
 
-
-    /** @brief Extract the imag component of tensor elements within a tensor expression
-     *
-     * @param[in] lhs tensor expression
-     * @returns   unary tensor expression
-    */
-    template<typename TensorEngine, class D,
-        std::enable_if_t< detail::is_complex_v<typename tensor_core< TensorEngine >::value_type>, int > = 0
-    >
-    auto imag(detail::tensor_expression< tensor_core< TensorEngine > ,D> const& expr)
-    {
-        using old_tensor_type   = tensor_core< TensorEngine >;
-        using complex_type  = typename old_tensor_type::value_type;
-        using value_type    = typename complex_type::value_type;
-        using layout_type   = typename old_tensor_type::layout_type;
-        using array_type    = typename old_tensor_type::array_type;
-        using extents_type  = typename old_tensor_type::extents_type;
-        using storage_traits_t = storage_traits<array_type>;
-        
-        using t_engine = tensor_engine<
-            extents_type,
-            layout_type,
-            strides<extents_type>,
-            typename storage_traits_t::template rebind<value_type>
-        >;
-
-        using tensor_type = tensor_core<t_engine>;
-
-        if( ublas::empty( detail::retrieve_extents( expr  ) ) )
-            throw std::runtime_error("error in boost::numeric::ublas::real: tensors should not be empty.");
-
-        auto a = old_tensor_type( expr );
-        auto c = tensor_type( a.extents() );
-
-        std::transform( a.begin(), a.end(),  c.begin(), [](auto const& l){ return std::imag(l) ; }  );
-
-        return c;
-    }
 
 } // namespace boost::numeric::ublas
 

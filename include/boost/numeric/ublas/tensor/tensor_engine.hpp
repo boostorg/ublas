@@ -23,20 +23,13 @@ struct tensor_engine;
 template<typename E, typename L, typename S, typename ST>
 struct tensor_engine<E,L,S,ST>
 {
-
   using extents_type 	        = E;
   using layout_type 	        = L;
   using strides_type 	        = typename S::template type<layout_type>;
   using storage_traits_type   = storage_traits<ST>;
 
-  static_assert(is_extents_v<extents_type>,
-                "boost::numeric::ublas::tensor_engine : please provide valid tensor extents type"
-                );
-
-  static_assert(is_strides_v<strides_type>,
-                "boost::numeric::ublas::tensor_engine : please provide valid tensor layout type"
-                );
-
+  static_assert(is_extents_v<extents_type>);
+  static_assert(is_strides_v<strides_type>);
 };
 
 template<typename E, typename L, typename ST>

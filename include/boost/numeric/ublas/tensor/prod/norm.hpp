@@ -44,10 +44,10 @@ namespace boost::numeric::ublas
      * @param a the tensor whose norm is expected of rank p.
      * @return the frobenius norm of a tensor.
      */
-template <typename TensorEngine>
-inline decltype(auto) norm(tensor_core< TensorEngine > const &a)
+template <typename TE>
+inline decltype(auto) norm(tensor_core< TE > const &a)
 {
-  using value_type = typename tensor_core< TensorEngine >::value_type;
+  using value_type = typename tensor_core< TE >::value_type;
 
   static_assert(std::is_default_constructible<value_type>::value);
 

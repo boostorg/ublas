@@ -13,8 +13,21 @@
 #include <type_traits>
 #include <cstddef>
 #include <array>
+#include <complex>
 
 namespace boost::numeric::ublas {
+
+
+template<typename T>
+struct is_complex : std::false_type{};
+
+template<typename T>
+struct is_complex< std::complex<T> > : std::true_type{};
+
+template<typename T>
+inline static constexpr bool is_complex_v = is_complex<T>::value;
+
+
 
 template <class E> struct is_extents      : std::false_type {};
 template <class E> struct is_strides      : std::false_type {};
@@ -45,8 +58,12 @@ template<class T> struct extent_of_rank_one_array;
 template<class T, std::size_t N>
 struct extent_of_rank_one_array<std::array<T,N>> : std::integral_constant<std::size_t,N>{};
 
-template<class T> inline static constexpr bool is_bounded_array_v = is_bounded_array<T>::value;
-template<class T> inline static constexpr std::size_t extent_of_rank_one_array_v = extent_of_rank_one_array<T>::value;
+template<class T>
+inline static constexpr
+  bool is_bounded_array_v = is_bounded_array<T>::value;
+template<class T>
+inline static constexpr
+  std::size_t extent_of_rank_one_array_v = extent_of_rank_one_array<T>::value;
 
 } // namespace boost::numeric::ublas
 
