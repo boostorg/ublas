@@ -46,27 +46,6 @@ namespace boost::numeric::ublas::detail{
     template<typename L1, typename L2>
     using concat_t = typename concat<L1,L2>::type;
 
-    // generates static_stride_list containing ones with specific size
-    template<typename T, std::size_t N> 
-    struct make_sequence_of_ones;
-
-    template<typename T, std::size_t N> 
-    using make_sequence_of_ones_t = typename make_sequence_of_ones<T, N>::type;
-
-    template<typename T, std::size_t N>
-    struct make_sequence_of_ones {
-      using type = concat_t<make_sequence_of_ones_t<T, N/2>, make_sequence_of_ones_t<T, N - N/2>>;
-    };
-
-    template<typename T> 
-    struct make_sequence_of_ones<T, 0ul> {
-      using type = basic_static_extents<T>;
-    };
-    template<typename T> 
-    struct make_sequence_of_ones<T, 1ul>{ 
-      using type = basic_static_extents<T, T(1)>;
-    };
-
   } // namespace impl
 
   template<typename Layout, typename ExtentsType>
