@@ -12,6 +12,7 @@
 
 #include <type_traits>
 #include <cstddef>
+#include <array>
 
 namespace boost::numeric::ublas {
 
@@ -45,8 +46,7 @@ template<class T, std::size_t N>
 struct extent_of_rank_one_array<std::array<T,N>> : std::integral_constant<std::size_t,N>{};
 
 template<class T> inline static constexpr bool is_bounded_array_v = is_bounded_array<T>::value;
-template<class T>
-inline static constexpr std::size_t extent_of_rank_one_array_v = extent_of_rank_one_array<T>::value;
+template<class T> inline static constexpr std::size_t extent_of_rank_one_array_v = extent_of_rank_one_array<T>::value;
 
 } // namespace boost::numeric::ublas
 

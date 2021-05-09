@@ -27,6 +27,7 @@
 #include "prod/prod_static.hpp"
 #include "prod/prod_static_rank.hpp"
 #include "prod/inner_prod.hpp"
+#include "prod/outer_prod.hpp"
 
 //#include "fixed_rank_extents.hpp"
 
