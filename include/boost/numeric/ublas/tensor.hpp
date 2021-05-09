@@ -20,9 +20,5 @@
 #include "tensor/functions.hpp"
 #include "tensor/layout.hpp"
 #include "tensor/tensor.hpp"
-#include "tensor/functions/fixed_rank.hpp"
-#include "tensor/functions/dynamic.hpp"
-#include "tensor/functions/static.hpp"
-#include "tensor/functions/common.hpp"
 
 #endif // BOOST_NUMERIC_UBLAS_TENSOR_HPP
