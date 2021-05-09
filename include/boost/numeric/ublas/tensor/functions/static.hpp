@@ -35,6 +35,7 @@ namespace boost::numeric::ublas{
 
         template<std::size_t M, typename ExtentsType>
         constexpr auto extents_result_tensor_times_vector_impl(ExtentsType const& e) noexcept{
+            static_assert(size(ExtentsType{}) > 0ul, "extents cannot be empty!");
             using extents_type = typename ExtentsType::value_type;
             constexpr auto sz = size(ExtentsType{}) - 1ul;
             auto res = array_of_ones<extents_type,sz>();
@@ -62,7 +63,7 @@ namespace boost::numeric::ublas{
         template<std::size_t I, std::size_t Value, typename ExtentsType>
         constexpr auto static_extents_set_at_impl(ExtentsType const& e) noexcept{
             using extents_type = typename ExtentsType::value_type;
-            constexpr auto sz = size(ExtentsType{}) - 1ul;
+            
             auto res = e.base();
             
             res[I] = static_cast<extents_type>(Value);
