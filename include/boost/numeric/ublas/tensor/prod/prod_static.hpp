@@ -11,8 +11,8 @@
 //
 
 
-#ifndef BOOST_NUMERIC_UBLAS_TENSOR_FUNCTIONS_STATIC_HPP
-#define BOOST_NUMERIC_UBLAS_TENSOR_FUNCTIONS_STATIC_HPP
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_PROD_STATIC_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_PROD_STATIC_HPP
 
 #include "../multiplication.hpp"
 #include "../tensor_engine.hpp"
@@ -303,4 +303,4 @@ namespace boost::numeric::ublas{
 
 } // namespace boost::numeric::ublas
 
-#endif   // BOOST_NUMERIC_UBLAS_TENSOR_FUNCTIONS_STATIC_HPP
+#endif  // BOOST_NUMERIC_UBLAS_TENSOR_PROD_STATIC_HPP

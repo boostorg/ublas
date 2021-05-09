@@ -40,6 +40,11 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_strides.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_tensor.hpp
 
+HEADERS += \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_static.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_static_rank.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_dynamic.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_common.hpp
 
 HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/strides_functions.hpp \

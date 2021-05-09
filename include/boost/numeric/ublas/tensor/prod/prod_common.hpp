@@ -11,8 +11,8 @@
 //
 
 
-#ifndef BOOST_NUMERIC_UBLAS_TENSOR_FUNCTIONS_COMMON_HPP
-#define BOOST_NUMERIC_UBLAS_TENSOR_FUNCTIONS_COMMON_HPP
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_PROD_COMMON_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_PROD_COMMON_HPP
 
 #include "../tensor_core.hpp"
 
@@ -65,4 +65,4 @@ namespace boost::numeric::ublas{
 
 } // namespace boost::numeric::ublas
 
-#endif   // BOOST_NUMERIC_UBLAS_TENSOR_FUNCTIONS_COMMON_HPP
+#endif   // BOOST_NUMERIC_UBLAS_TENSOR_PROD_COMMON_HPP

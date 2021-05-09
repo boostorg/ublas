@@ -11,8 +11,8 @@
 //
 
 
-#ifndef BOOST_NUMERIC_UBLAS_TENSOR_FUNCTIONS_DYNAMIC_HPP
-#define BOOST_NUMERIC_UBLAS_TENSOR_FUNCTIONS_DYNAMIC_HPP
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_PROD_DYNAMIC_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_PROD_DYNAMIC_HPP
 
 #include "../multiplication.hpp"
 #include "../tensor_engine.hpp"
@@ -352,4 +352,4 @@ namespace boost::numeric::ublas{
 
 } // namespace boost::numeric::ublas
 
-#endif   // BOOST_NUMERIC_UBLAS_TENSOR_FUNCTIONS_DYNAMIC_HPP
+#endif   // BOOST_NUMERIC_UBLAS_TENSOR_PROD_DYNAMIC_HPP

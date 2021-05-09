@@ -22,10 +22,10 @@
 #include "traits/type_traits_strides.hpp"
 
 #include "fixed_rank_strides.hpp"
-#include "functions/common.hpp"
-#include "functions/dynamic.hpp"
-#include "functions/static.hpp"
-#include "functions/fixed_rank.hpp"
+#include "prod/prod_common.hpp"
+#include "prod/prod_dynamic.hpp"
+#include "prod/prod_static.hpp"
+#include "prod/prod_static_rank.hpp"
 //#include "fixed_rank_extents.hpp"
 
 namespace boost::numeric::ublas{
@@ -65,8 +65,10 @@ namespace boost::numeric::ublas
      * @returns tensor object C with order p, the same storage format and allocator type as A
     */
     template <typename TensorEngine, typename A>
-    inline decltype(auto) prod( tensor_core< TensorEngine > const &a, 
-        matrix<typename tensor_core< TensorEngine >::value_type, typename tensor_core< TensorEngine >::layout_type , A> const &b, 
+    inline decltype(auto) prod(
+      tensor_core< TensorEngine > const &a,
+      matrix<typename tensor_core< TensorEngine >::value_type,
+             typename tensor_core< TensorEngine >::layout_type , A> const &b,
         const std::size_t m)
     {
 
