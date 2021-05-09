@@ -93,7 +93,7 @@ namespace boost::numeric::ublas{
 
         auto const& na = a.extents();
 
-        constexpr auto compute_nc = [](auto const& na){
+        constexpr auto compute_nc = []([[maybe_unused]] auto const& na){
             using size_type = typename extents_type::size_type;
             constexpr size_type sz = std::max( size(extents_type{}) -1u , size_type(2) );
             using new_extents_type = ublas::extents<sz>;
@@ -223,9 +223,10 @@ namespace boost::numeric::ublas{
         auto create_nc = [](auto const& na, auto const& nb, auto const& phia, auto const& phib){
             using lextents_type      = std::decay_t< decltype(na) >;
             using rextents_type      = std::decay_t< decltype(nb) >;
-            using array_type         = std::decay_t< decltype(phia) >;
-            constexpr auto const N   = extent_of_rank_one_array_v<array_type>;
-            constexpr auto const sz  = size(lextents_type{}) + size(rextents_type{}) - 2 * N;
+            using array_type1        = std::decay_t< decltype(phia) >;
+            using array_type2        = std::decay_t< decltype(phib) >;
+            constexpr auto const N   = extent_of_rank_one_array_v<array_type1> + extent_of_rank_one_array_v<array_type2>;
+            constexpr auto const sz  = size(lextents_type{}) + size(rextents_type{}) - N;
             constexpr auto const msz = std::max(size_type(sz), size_type(2));
             return extents<msz>();
         };
