@@ -1,13 +1,11 @@
 //
-//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2021, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2021, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
-//  The authors gratefully acknowledge the support of
-//  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
 
@@ -28,6 +26,8 @@
 #include "prod/prod_static_rank.hpp"
 #include "prod/inner_prod.hpp"
 #include "prod/outer_prod.hpp"
+#include "prod/trans.hpp"
+#include "prod/norm.hpp"
 
 //#include "fixed_rank_extents.hpp"
 
@@ -166,94 +166,7 @@ namespace boost::numeric::ublas
 
 
 
-    /** @brief Transposes a tensor according to a permutation tuple
-     *
-     * Implements C[tau[i1],tau[i2]...,tau[ip]] = A[i1,i2,...,ip]
-     *
-     * @note calls trans function
-     *
-     * @param[in] a    tensor object of rank p
-     * @param[in] tau  one-based permutation tuple of length p
-     * @returns        a transposed tensor object with the same storage format F and allocator type A
-    */
-    template <typename TensorEngine,typename PermuType = std::vector<std::size_t> >
-    inline decltype(auto) trans(tensor_core< TensorEngine > const &a, PermuType const &tau)
-    {
 
-        using tensor_type   = tensor_core< TensorEngine >;
-        using layout_type   = typename tensor_type::layout_type;
-        using array_type    = typename tensor_type::array_type;
-        using extents_type  = typename tensor_type::extents_type;
-        
-        static_assert(
-            is_dynamic_v< extents_type > ,
-            "error in boost::numeric::ublas::trans(tensor_core< TensorEngine > const &a, "
-            "PermuType const &tau): "
-            "Tensor should have dynamic extents"
-        );
-
-        using t_engine = tensor_engine< 
-            extents_type,
-            layout_type,
-            strides<extents_type>,
-            array_type
-        >;
-
-        auto const p = a.rank();
-        auto const &na = a.extents();
-        typename extents_type::base_type nc;
-
-        if constexpr( is_dynamic_rank_v<extents_type> ){
-            nc.resize(p);
-        }
-
-        for (auto i = 0u; i < p; ++i)
-            nc.at(tau.at(i) - 1) = na.at(i);
-
-        auto c = tensor_core<t_engine>( extents_type( std::move(nc) ) );
-        
-        if (a.empty())
-            return c;
-
-        trans(a.rank(), data(a.extents()), tau.data(),
-            c.data(), c.strides().data(),
-            a.data(), a.strides().data());
-
-        return c;
-    }
-    /**
-     *
-     * @brief Computes the frobenius nor of a tensor
-     *
-     * @note Calls accumulate on the tensor.
-     *
-     * implements
-     * k = sqrt( sum_(i1,...,ip) A(i1,...,ip)^2 )
-     *
-     * @tparam V the data type of tensor
-     * @tparam F the format of tensor storage
-     * @tparam A the array_type of tensor
-     * @param a the tensor whose norm is expected of rank p.
-     * @return the frobenius norm of a tensor.
-     */
-    template <typename TensorEngine>
-    inline decltype(auto) norm(tensor_core< TensorEngine > const &a)
-    {
-        using tensor_type = tensor_core< TensorEngine >;
-        using value_type = typename tensor_type::value_type;
-        
-        static_assert(std::is_default_constructible<value_type>::value,
-                    "Value type of tensor must be default construct able in order "
-                    "to call boost::numeric::ublas::norm");
-
-        if (a.empty())
-        {
-            throw std::runtime_error(
-                "error in boost::numeric::ublas::norm: tensors should not be empty.");
-        }
-        return std::sqrt(accumulate(a.order(), data(a.extents()), a.data(), a.strides().data(), value_type{},
-                                    [](auto const &l, auto const &r) { return l + r * r; }));
-    }
 
 
     /** @brief Computes the complex conjugate component of tensor elements within a tensor expression

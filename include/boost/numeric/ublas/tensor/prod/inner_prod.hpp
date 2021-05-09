@@ -21,7 +21,7 @@ namespace boost::numeric::ublas
 {
 template<typename tensor_engine>
 class tensor_core;
-}
+} // namespace boost::numeric::ublas
 
 namespace boost::numeric::ublas
 {
