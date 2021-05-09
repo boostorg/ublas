@@ -44,7 +44,8 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_static.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_static_rank.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_dynamic.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_common.hpp
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/inner_prod.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/reshape.hpp
 
 HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/strides_functions.hpp \

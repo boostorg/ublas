@@ -22,10 +22,12 @@
 #include "traits/type_traits_strides.hpp"
 
 #include "fixed_rank_strides.hpp"
-#include "prod/prod_common.hpp"
+#include "prod/reshape.hpp"
 #include "prod/prod_dynamic.hpp"
 #include "prod/prod_static.hpp"
 #include "prod/prod_static_rank.hpp"
+#include "prod/inner_prod.hpp"
+
 //#include "fixed_rank_extents.hpp"
 
 namespace boost::numeric::ublas{
@@ -160,40 +162,7 @@ namespace boost::numeric::ublas
         return prod(a, b, phi, phi);
     }
 
-    /** @brief Computes the inner product of two tensors     *
-     * Implements c = sum(A[i1,i2,...,ip] * B[i1,i2,...,jp])
-     *
-     * @note calls inner function
-     *
-     * @param[in] a tensor object A
-     * @param[in] b tensor object B
-     *
-     * @returns a value type.
-    */
-    template <typename TensorEngine1, typename TensorEngine2>
-    inline decltype(auto) inner_prod(tensor_core< TensorEngine1 > const &a, tensor_core< TensorEngine2 > const &b)
-    {
-        using value_type = typename tensor_core< TensorEngine1 >::value_type;
-        
-        static_assert(
-            std::is_same_v<value_type, typename tensor_core< TensorEngine2 >::value_type>,
-            "error in boost::numeric::ublas::inner_prod(tensor_core< TensorEngine1 > const&, tensor_core< TensorEngine2 > const&): "
-            "Both the tensor should have the same value_type"
-        );
 
-        if (a.rank() != b.rank())
-            throw std::length_error("error in boost::numeric::ublas::inner_prod: Rank of both the tensors must be the same.");
-
-        if (a.empty() || b.empty())            
-            throw std::length_error("error in boost::numeric::ublas::inner_prod: Tensors should not be empty.");
-
-        if (a.extents() != b.extents())
-            throw std::length_error("error in boost::numeric::ublas::inner_prod: Tensor extents should be the same.");
-        
-        return inner(a.rank(), data(a.extents()),
-                    a.data(), a.strides().data(),
-                    b.data(), b.strides().data(), value_type{0});
-    }
 
 
     /** @brief Transposes a tensor according to a permutation tuple
