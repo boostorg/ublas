@@ -51,7 +51,8 @@ namespace boost::numeric::ublas{
             is_bounded_array_v<PermuType>
             ,void>* = nullptr
     >
-    inline decltype(auto) prod(tensor_core< TensorEngine1 > const &a, tensor_core< TensorEngine2 > const &b,
+    inline decltype(auto) prod(tensor_core< TensorEngine1 > const &a,
+                           tensor_core< TensorEngine2 > const &b,
                                 PermuType const &phia, PermuType const &phib)
     {
         using tensor_type       = tensor_core< TensorEngine1 >;

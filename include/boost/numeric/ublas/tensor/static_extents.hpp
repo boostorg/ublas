@@ -25,7 +25,8 @@
 
 namespace boost::numeric::ublas {
 
-template <class ExtentsType, ExtentsType... E> class basic_static_extents;
+template <class ExtentsType, ExtentsType... E>
+class basic_static_extents;
 
 /** @brief Template class for storing tensor extents for compile time.
  *
@@ -136,11 +137,10 @@ struct tuple_size< boost::numeric::ublas::static_extents<E...> >
 {};
 
 template<size_t I, class T, T... Es>
-[[nodiscard]] constexpr T get([[maybe_unused]] boost::numeric::ublas::basic_static_extents<T, Es...> /*e*/) noexcept{
-  static_assert(I < sizeof...(Es), 
-    "std::get<I>(boost::numeric::ublas::basic_static_extents<T, Es...>) : "
-    "out of bound access"
-  );
+[[nodiscard]] constexpr
+  auto get([[maybe_unused]] boost::numeric::ublas::basic_static_extents<T, Es...> /*e*/) noexcept
+{
+  static_assert(I < sizeof...(Es));
   return boost::numeric::ublas::basic_static_extents<T, Es...>::at(I);
 }
 
