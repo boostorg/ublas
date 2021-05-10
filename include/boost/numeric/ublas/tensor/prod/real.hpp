@@ -8,8 +8,8 @@
 //
 //
 
-#ifndef BOOST_NUMERIC_UBLAS_TENSOR_IMAG_HPP
-#define BOOST_NUMERIC_UBLAS_TENSOR_IMAG_HPP
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_REAL_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_REAL_HPP
 
 #include <cmath>
 #include <stdexcept>
@@ -37,18 +37,17 @@ struct tensor_engine<E,L,ST>;
 namespace boost::numeric::ublas
 {
 
-/** @brief Extract the imaginary component of tensor elements within a tensor expression
+/** @brief Extract the real component of tensor elements within a tensor expression
      *
      * @param[in] lhs tensor expression
      * @returns   unary tensor expression
     */
 template<class T, class D>
-auto imag(detail::tensor_expression<T,D> const& lhs) {
-  return detail::make_unary_tensor_expression<T> (lhs(), [] (auto const& l) { return std::imag( l ); } );
+auto real(detail::tensor_expression<T,D> const& expr) {
+  return detail::make_unary_tensor_expression<T> (expr(), [] (auto const& l) { return std::real( l ); } );
 }
 
-
-/** @brief Extract the imag component of tensor elements within a tensor expression
+/** @brief Extract the real component of tensor elements within a tensor expression
      *
      * @param[in] lhs tensor expression
      * @returns   unary tensor expression
@@ -56,26 +55,26 @@ auto imag(detail::tensor_expression<T,D> const& lhs) {
 template<typename TE, class D,
           std::enable_if_t< is_complex_v<typename tensor_core< TE >::value_type>, int > = 0
           >
-auto imag(detail::tensor_expression< tensor_core< TE > ,D> const& expr)
+auto real(detail::tensor_expression< tensor_core< TE > ,D > const& expr)
 {
-  using tensor_type       = tensor_core< TE >;
-  using complex_type      = typename tensor_type::value_type;
-  using value_type        = typename complex_type::value_type;
-  using layout_type       = typename tensor_type::layout_type;
-  using array_type        = typename tensor_type::array_type;
-  using extents_type      = typename tensor_type::extents_type;
-  using return_array_type = typename storage_traits<array_type>::template rebind<value_type>;
 
-  using return_tensor_type = tensor_core<tensor_engine<extents_type, layout_type, return_array_type >>;
+  using tensor_type   = tensor_core< TE >;
+  using complex_type  = typename tensor_type::value_type;
+  using value_type    = typename complex_type::value_type;
+  using layout_type   = typename tensor_type::layout_type;
+  using array_type    = typename tensor_type::array_type;
+  using extents_type  = typename tensor_type::extents_type;
+  using storage_type  = typename storage_traits<array_type>::template rebind<value_type>;
+  using return_tensor_engine = tensor_engine<extents_type,layout_type,storage_type>;
+  using return_tensor_type = tensor_core<return_tensor_engine>;
 
-  if( ublas::empty( detail::retrieve_extents( expr  ) ) ){
+  if( ublas::empty ( detail::retrieve_extents( expr  ) ) )
     throw std::runtime_error("error in boost::numeric::ublas::real: tensors should not be empty.");
-  }
 
   auto a = tensor_type( expr );
   auto c = return_tensor_type( a.extents() );
 
-  std::transform( a.begin(), a.end(),  c.begin(), [](auto const& l){ return std::imag(l) ; }  );
+  std::transform( a.begin(), a.end(),  c.begin(), [](auto const& l){ return std::real(l) ; }  );
 
   return c;
 }

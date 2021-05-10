@@ -203,18 +203,10 @@ template <class D>
 {
   using value_type = typename D::value_type;
   if( std::distance(ublas::begin(e),ublas::end(e)) <= 0 ){
-    return value_type{0U};
+    return value_type{0UL};
   }
 
-  auto acc = value_type{1U};
-  for(auto const& ee : e()){
-    acc *= ee;
-  }
-
-  return acc;
-
-
-//  return std::accumulate(ublas::begin(e),ublas::end(e),1U,std::multiplies<>()) ;
+  return std::accumulate(ublas::begin(e), ublas::end(e), value_type{1UL}, std::multiplies<>{});
 }
 
 //template<class InputIt, class OutputIt> // std::inserter(out,out.begin())

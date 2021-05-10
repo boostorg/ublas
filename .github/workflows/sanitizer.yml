@@ -27,8 +27,8 @@ jobs:
           - { name: clang, description: undefined behavior, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=undefined,                       ldflags: -fsanitize=undefined }
           - { name: clang, description: thread,             cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=thread,                          ldflags: -fsanitize=thread    }
           - { name: gcc,   description: address and leak,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=address -fno-omit-frame-pointer, ldflags: -fsanitize=address -fopenmp}
-          - { name: gcc,   description: undefined behavior, cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=undefined,                       ldflags: -fsanitize=undefined -fopenmp}
-          - { name: gcc,   description: thread,             cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=thread,                          ldflags: -fsanitize=thread -fopenmp}
+#          - { name: gcc,   description: undefined behavior, cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=undefined,                       ldflags: -fsanitize=undefined -fopenmp}
+#          - { name: gcc,   description: thread,             cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=thread,                          ldflags: -fsanitize=thread -fopenmp}
                     
     steps:
       - uses: actions/checkout@v2
