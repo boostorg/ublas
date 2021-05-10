@@ -26,10 +26,12 @@
 #include "prod/prod_static_rank.hpp"
 #include "prod/inner_prod.hpp"
 #include "prod/outer_prod.hpp"
-#include "prod/trans.hpp"
 #include "prod/norm.hpp"
 #include "prod/imag.hpp"
 #include "prod/real.hpp"
+#include "prod/conj.hpp"
+#include "prod/trans.hpp"
+#include "prod/tensor_times_vector.hpp"
 
 //#include "fixed_rank_extents.hpp"
 
@@ -160,55 +162,6 @@ namespace boost::numeric::ublas
 
 
 
-    /** @brief Computes the complex conjugate component of tensor elements within a tensor expression
-     *
-     * @param[in] lhs tensor expression
-     * @returns   unary tensor expression
-    */
-    template<typename TensorEngine, class D,
-        std::enable_if_t< is_complex_v<typename tensor_core< TensorEngine >::value_type>, int > = 0
-    >
-    auto conj(detail::tensor_expression< tensor_core<TensorEngine>, D > const& expr)
-    {
-        return detail::make_unary_tensor_expression< tensor_core<TensorEngine> > (expr(), [] (auto const& l) { return std::conj( l ); } );
-    }
-
-    /** @brief Computes the complex conjugate component of tensor elements within a tensor expression
-     *
-     * @param[in] expr tensor expression
-     * @returns   complex tensor
-    */
-    template<class T, class D>
-    auto conj(detail::tensor_expression<T,D> const& expr)
-    {
-        using old_tensor_type   = T;
-        using value_type    = typename old_tensor_type::value_type;
-        using layout_type   = typename old_tensor_type::layout_type;
-        using array_type    = typename old_tensor_type::array_type;
-        using extents_type  = typename old_tensor_type::extents_type;
-
-        using complex_type = std::complex<value_type>;
-        using storage_traits_t = storage_traits<array_type>;
-
-        using t_engine = tensor_engine< 
-            extents_type,
-            layout_type,
-            strides<extents_type>,
-            typename storage_traits_t::template rebind<complex_type>
-        >;
-
-        using tensor_type = tensor_core<t_engine>;
-
-        if( ublas::empty( detail::retrieve_extents( expr  ) ) )
-            throw std::runtime_error("error in boost::numeric::ublas::conj: tensors should not be empty.");
-
-        auto a = old_tensor_type( expr );
-        auto c = tensor_type( a.extents() );
-
-        std::transform( a.begin(), a.end(),  c.begin(), [](auto const& l){ return std::conj(l) ; }  );
-
-        return c;
-    }
 
 
 

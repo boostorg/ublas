@@ -50,6 +50,8 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/norm.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/imag.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/real.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/conj.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/tensor_times_vector.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/reshape.hpp
 
 HEADERS += \

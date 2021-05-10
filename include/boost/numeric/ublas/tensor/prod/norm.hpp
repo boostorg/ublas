@@ -17,8 +17,6 @@
 
 
 #include "../traits/basic_type_traits.hpp"
-#include "../multiplication.hpp"
-
 
 namespace boost::numeric::ublas
 {
@@ -61,4 +59,4 @@ inline decltype(auto) norm(tensor_core< TE > const &a)
 
 } // namespace boost::numeric::ublas
 
-#endif   // BOOST_NUMERIC_UBLAS_TENSOR_PROD_DYNAMIC_HPP
+#endif   // BOOST_NUMERIC_UBLAS_TENSOR_NORM_HPP

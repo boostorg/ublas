@@ -26,50 +26,50 @@
 namespace boost::numeric::ublas{
 
     namespace detail{
-        template<typename T, std::size_t N>
-        constexpr auto array_of_ones() noexcept{
-            std::array<T,N> ones{};
-            std::fill(ones.begin(), ones.end(), T{1});
-            return ones;
-        }
+//        template<typename T, std::size_t N>
+//        constexpr auto array_of_ones() noexcept{
+//            std::array<T,N> ones{};
+//            std::fill(ones.begin(), ones.end(), T{1});
+//            return ones;
+//        }
 
-        template<std::size_t M, typename ExtentsType>
-        constexpr auto extents_result_tensor_times_vector_impl(ExtentsType const& e) noexcept{
-            static_assert(size(ExtentsType{}) > 0ul, "extents cannot be empty!");
-            using extents_type = typename ExtentsType::value_type;
-            constexpr auto sz = size(ExtentsType{}) - 1ul;
-            auto res = array_of_ones<extents_type,sz>();
+//        template<std::size_t M, typename ExtentsType>
+//        constexpr auto extents_result_tensor_times_vector_impl(ExtentsType const& e) noexcept{
+//            static_assert(size(ExtentsType{}) > 0ul, "extents cannot be empty!");
+//            using extents_type = typename ExtentsType::value_type;
+//            constexpr auto sz = size(ExtentsType{}) - 1ul;
+//            auto res = array_of_ones<extents_type,sz>();
             
-            auto j = 0ul;
-            for(auto i = 0ul; i < sz; ++i){
-                if(i != M - 1ul) res[j++] = e[i];
-            }
-            return res;
-        }
+//            auto j = 0ul;
+//            for(auto i = 0ul; i < sz; ++i){
+//                if(i != M - 1ul) res[j++] = e[i];
+//            }
+//            return res;
+//        }
 
-        template<std::size_t M, typename ExtentsType, std::size_t... Is>
-        constexpr auto extents_result_tensor_times_vector_helper([[maybe_unused]] ExtentsType const& /*e*/, [[maybe_unused]] std::index_sequence<Is...> /*is*/) noexcept{
-            using extents_type = typename ExtentsType::value_type;
-            constexpr auto res_arr = extents_result_tensor_times_vector_impl<M>(ExtentsType{});
-            return basic_static_extents<extents_type, ( ..., res_arr[Is] ) >{};
-        }
+//        template<std::size_t M, typename ExtentsType, std::size_t... Is>
+//        constexpr auto extents_result_tensor_times_vector_helper([[maybe_unused]] ExtentsType const& /*e*/, [[maybe_unused]] std::index_sequence<Is...> /*is*/) noexcept{
+//            using extents_type = typename ExtentsType::value_type;
+//            constexpr auto res_arr = extents_result_tensor_times_vector_impl<M>(ExtentsType{});
+//            return basic_static_extents<extents_type, ( ..., res_arr[Is] ) >{};
+//        }
 
-        template<std::size_t M, typename ExtentsType>
-        constexpr auto extents_result_tensor_times_vector([[maybe_unused]] ExtentsType const& /*e*/) noexcept{
-            static_assert(is_static_v<ExtentsType>);
-            return extents_result_tensor_times_vector_helper<M>(ExtentsType{}, std::make_index_sequence<size(ExtentsType{})>{});
-        }
+//        template<std::size_t M, typename ExtentsType>
+//        constexpr auto extents_result_tensor_times_vector([[maybe_unused]] ExtentsType const& /*e*/) noexcept{
+//            static_assert(is_static_v<ExtentsType>);
+//            return extents_result_tensor_times_vector_helper<M>(ExtentsType{}, std::make_index_sequence<size(ExtentsType{})>{});
+//        }
 
-        template<std::size_t I, std::size_t Value, typename ExtentsType>
-        constexpr auto static_extents_set_at_impl(ExtentsType const& e) noexcept{
-            using extents_type = typename ExtentsType::value_type;
+//        template<std::size_t I, std::size_t Value, typename ExtentsType>
+//        constexpr auto static_extents_set_at_impl(ExtentsType const& e) noexcept{
+//            using extents_type = typename ExtentsType::value_type;
             
-            auto res = e.base();
+//            auto res = e.base();
             
-            res[I] = static_cast<extents_type>(Value);
+//            res[I] = static_cast<extents_type>(Value);
 
-            return res;
-        }
+//            return res;
+//        }
 
         template<std::size_t I, std::size_t Value, typename ExtentsType, std::size_t... Is>
         constexpr auto static_extents_set_at_helper( [[maybe_unused]] ExtentsType const& /*e*/, [[maybe_unused]] std::index_sequence<Is...> /*is*/){
@@ -87,76 +87,7 @@ namespace boost::numeric::ublas{
 
     } // namespace detail
     
-    /** @brief Computes the m-mode tensor-times-vector product
-     *
-     * Implements C[i1,...,im-1,im+1,...,ip] = A[i1,i2,...,ip] * b[im]
-     *
-     * @note calls ublas::ttv
-     *
-     * @tparam    M contraction dimension with 1 <= m <= p
-     * @param[in] a tensor object A with order p
-     * @param[in] b vector object B
-     *
-     * @returns tensor object C with order p-1, the same storage format and allocator type as A
-    */
-    template <size_t M, typename TensorType, typename A>
-    inline decltype(auto) prod(tensor_core< TensorType > const &a
-        , vector<typename tensor_core< TensorType >::value_type, A> const &b)
-    {
-        using tensor_type   = tensor_core< TensorType >;
-        using array_type    = typename tensor_type::array_type;
-        using extents_type  = typename tensor_type::extents_type;
-        using value_type    = typename tensor_type::value_type;
-        using layout_type   = typename tensor_type::layout_type;
 
-        auto const p = std::size_t(a.rank());
-
-        static_assert( M != 0ul, 
-                "error in boost::numeric::ublas::prod(ttv): "
-                "contraction mode must be greater than zero.");
-
-        static_assert( extents_type::_size >= M,
-                "error in boost::numeric::ublas::prod(ttv): rank of tensor must be "
-                "greater than or equal to the modus.");
-
-        static_assert(extents_type::_size != 0,
-                "error in boost::numeric::ublas::prod(ttv): first "
-                "argument tensor should not be empty.");
-
-        if (b.size() == 0ul)
-            throw std::length_error(
-                "error in boost::numeric::ublas::prod(ttv): second "
-                "argument vector should not be empty.");
-
-        using extents_value_type = typename extents_type::value_type;
-
-        auto nc = detail::extents_result_tensor_times_vector<M>(a.extents());
-        auto nb = std::vector<extents_value_type>{b.size(), extents_value_type(1)};
-        using c_extents_type = std::decay_t<decltype(nc)>;
-        
-        using t_engine = tensor_engine<
-            c_extents_type,
-            layout_type,
-            strides<c_extents_type>,
-            rebind_storage_size_t<c_extents_type,array_type>
-        >;
-        
-        auto c = t_engine(value_type{});
-        auto bb = &(b(0));
-
-        auto& a_static_extents = a.extents().base();
-        auto& c_static_extents = c.extents().base();
-
-        auto& a_static_strides = a.strides().base();
-        auto& c_static_strides = c.strides().base();
-
-        ttv(M, p,
-            c.data(), c_static_extents.data(), c_static_strides.data(),
-            a.data(), a_static_extents.data(), a_static_strides.data(),
-            bb, data(nb), data(nb));
-
-        return c;
-    }
 
     /** @brief Computes the m-mode tensor-times-matrix product
      *

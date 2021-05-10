@@ -25,108 +25,6 @@
 
 namespace boost::numeric::ublas{
 
-    /** @brief Computes the m-mode tensor-times-vector product
-     *
-     * Implements C[i1,...,im-1,im+1,...,ip] = A[i1,i2,...,ip] * b[im]
-     *
-     * @note calls ublas::ttv
-     *
-     * @param[in] m contraction dimension with 1 <= m <= p
-     * @param[in] a tensor object A with order p
-     * @param[in] b vector object B
-     *
-     * @returns tensor object C with order p-1, the same storage format and allocator type as A
-    */
-    template <typename TensorEngine, typename A, 
-        typename ExtentsType = typename tensor_core< TensorEngine >::extents_type,
-        std::enable_if_t< is_dynamic_rank_v< ExtentsType >, void >* = nullptr
-    >
-    inline decltype(auto) prod( tensor_core< TensorEngine > const &a, 
-        vector<typename tensor_core< TensorEngine >::value_type, A> const &b, 
-        const std::size_t m)
-    {
-
-        using tensor_type   = tensor_core< TensorEngine >;
-        using extents_type  = typename tensor_type::extents_type;
-        using value_type    = typename tensor_type::value_type;
-        using array_type    = typename tensor_type::array_type;
-        using layout_type   = typename tensor_type::layout_type;
-
-        auto const p = a.rank();
-
-        static_assert(  
-            std::is_same_v< 
-                typename tensor_core<TensorEngine>::resizable_tag, 
-                storage_resizable_container_tag 
-            >,
-            "error in boost::numeric::ublas::prod(tensor_core const&, vector const& ): "
-            "tensor container should be resizable"
-        );
-
-        static_assert(  
-            is_dynamic_v<extents_type>,
-            "error in boost::numeric::ublas::prod(tensor_core const&, vector const& ): "
-            "extents type should be dynamic"
-        );
-
-        if (m == 0ul)
-            throw std::length_error(
-                "error in boost::numeric::ublas::prod(ttv): "
-                "contraction mode must be greater than zero.");
-
-        if (p < m)
-            throw std::length_error(
-                "error in boost::numeric::ublas::prod(ttv): rank of tensor must be "
-                "greater than or equal to the modus.");
-
-        if (a.empty())
-            throw std::length_error(
-                "error in boost::numeric::ublas::prod(ttv): first "
-                "argument tensor should not be empty.");
-
-        if (b.empty())
-            throw std::length_error(
-                "error in boost::numeric::ublas::prod(ttv): second "
-                "argument vector should not be empty.");
-
-        using extents_value_type = typename extents_type::value_type;
-
-        auto const& na = a.extents();
-
-        auto compute_nc = [](auto const& na){
-            using size_type = typename extents_type::size_type;
-            using extents_base_type = typename extents_type::base_type;
-            auto const sz = std::max( ublas::size(na) - 1, size_type(2) );
-            auto arr = extents_base_type(sz,1);
-            return extents_type{ std::move(arr) } ;
-        };
-
-        auto nc = compute_nc(na);
-        auto nb = std::vector<extents_value_type>{b.size(), extents_value_type(1)};
-
-        for (auto i = 0ul, j = 0ul; i < p; ++i)
-            if (i != m - 1)
-                nc[j++] = na.at(i);
-
-        using c_extents_type = std::decay_t< decltype(nc) >;
-
-        using t_engine = tensor_engine< 
-            c_extents_type,  
-            layout_type,
-            strides<c_extents_type>,
-            array_type
-        >;
-        
-        auto c = tensor_core<t_engine>( nc, value_type{} );
-        auto bb = &(b(0));
-        ttv(m, p,
-            c.data(), data(c.extents()), c.strides().data(),
-            a.data(), data(a.extents()), a.strides().data(),
-            bb, data(nb), data(nb));
-        return c;
-    }
-
-
     /** @brief Computes the q-mode tensor-times-tensor product
      *
      * Implements C[i1,...,ir,j1,...,js] = sum( A[i1,...,ir+q] * B[j1,...,js+q]  )
@@ -151,7 +49,8 @@ namespace boost::numeric::ublas{
             !(is_static_v<ExtentsType1> && is_static_v<ExtentsType2>)
             ,void>* = nullptr
     >
-    inline decltype(auto) prod(tensor_core< TensorEngine1 > const &a, tensor_core< TensorEngine2 > const &b,
+    inline decltype(auto) prod(tensor_core< TensorEngine1 > const &a,
+                               tensor_core< TensorEngine2 > const &b,
                                 PermuType const &phia, PermuType const &phib)
     {
         using tensor_type       = tensor_core< TensorEngine1 >;
