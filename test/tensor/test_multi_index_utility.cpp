@@ -524,39 +524,39 @@ BOOST_AUTO_TEST_CASE ( test_multi_index_index_position_pairs )
 
 
 
-BOOST_AUTO_TEST_CASE ( test_multi_index_array_to_vector )
-{
-    namespace ublas = boost::numeric::ublas;
-    namespace i = ublas::index;
+//BOOST_AUTO_TEST_CASE ( test_multi_index_array_to_vector )
+//{
+//    namespace ublas = boost::numeric::ublas;
+//    namespace i = ublas::index;
 
-    auto check = [](auto const& lhs, auto const& rhs)
-    {
-        auto array = ublas::index_position_pairs(lhs, rhs);
+//    auto check = [](auto const& lhs, auto const& rhs)
+//    {
+//        auto array = ublas::index_position_pairs(lhs, rhs);
 
-        auto vector_pair =  ublas::array_to_vector( array );
+//        auto vector_pair =  ublas::array_to_vector( array );
 
-        BOOST_CHECK_EQUAL(vector_pair.first .size(), array.size() );
-        BOOST_CHECK_EQUAL(vector_pair.second.size(), array.size() );
+//        BOOST_CHECK_EQUAL(vector_pair.first .size(), array.size() );
+//        BOOST_CHECK_EQUAL(vector_pair.second.size(), array.size() );
 
-        for(auto i = 0ul; i < array.size(); ++i)
-        {
-            BOOST_CHECK_EQUAL(vector_pair.first [i], array[i].first +1 );
-            BOOST_CHECK_EQUAL(vector_pair.second[i], array[i].second+1 );
-        }
+//        for(auto i = 0ul; i < array.size(); ++i)
+//        {
+//            BOOST_CHECK_EQUAL(vector_pair.first [i], array[i].first +1 );
+//            BOOST_CHECK_EQUAL(vector_pair.second[i], array[i].second+1 );
+//        }
 
-    };
+//    };
 
-    check(std::tuple<>{}        , std::tuple<>{});
-    check(std::make_tuple(i::_a)   , std::tuple<>{});
-    check(std::tuple<>{}        , std::make_tuple(i::_a));
-    check(std::make_tuple(i::_a)   , std::make_tuple(i::_b));
-    check(std::make_tuple(i::_a)   , std::make_tuple(i::_a));
-    check(std::make_tuple(i::_a,i::_b), std::make_tuple(i::_a));
-    check(std::make_tuple(i::_a)   , std::make_tuple(i::_a,i::_b));
-    check(std::make_tuple(i::_a,i::_b), std::make_tuple(i::_a,i::_b));
-    check(std::make_tuple(i::_b,i::_a), std::make_tuple(i::_a,i::_b));
-    check(std::make_tuple(i::_b,i::_a,i::_c), std::make_tuple(i::_a,i::_b,i::_d));
-}
+//    check(std::tuple<>{}        , std::tuple<>{});
+//    check(std::make_tuple(i::_a)   , std::tuple<>{});
+//    check(std::tuple<>{}        , std::make_tuple(i::_a));
+//    check(std::make_tuple(i::_a)   , std::make_tuple(i::_b));
+//    check(std::make_tuple(i::_a)   , std::make_tuple(i::_a));
+//    check(std::make_tuple(i::_a,i::_b), std::make_tuple(i::_a));
+//    check(std::make_tuple(i::_a)   , std::make_tuple(i::_a,i::_b));
+//    check(std::make_tuple(i::_a,i::_b), std::make_tuple(i::_a,i::_b));
+//    check(std::make_tuple(i::_b,i::_a), std::make_tuple(i::_a,i::_b));
+//    check(std::make_tuple(i::_b,i::_a,i::_c), std::make_tuple(i::_a,i::_b,i::_d));
+//}
 
 
 

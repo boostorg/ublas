@@ -435,14 +435,14 @@ constexpr auto& operator /= (boost::numeric::ublas::tensor_core<TensorEngine>& l
 
 
 template<class T, class D>
-inline
-  constexpr auto const& operator +(const boost::numeric::ublas::detail::tensor_expression<T,D>& lhs) noexcept{
+inline constexpr
+  auto const& operator +(const boost::numeric::ublas::detail::tensor_expression<T,D>& lhs) noexcept{
   return lhs;
 }
 
 template<class T, class D>
-inline
-  constexpr auto operator -(boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs) {
+inline constexpr
+  auto operator -(boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs) {
   return boost::numeric::ublas::detail::make_unary_tensor_expression<T> (lhs(), std::negate<>{} );
 }
 
@@ -465,7 +465,7 @@ auto operator*(
   auto const& tensor_left  = lhs.first;
   auto const& tensor_right = rhs.first;
 
-  auto multi_index_left = lhs.second;
+  auto multi_index_left  = lhs.second;
   auto multi_index_right = rhs.second;
 
   static constexpr auto num_equal_ind = ublas::number_equal_indexes<tuple_type_left, tuple_type_right>::value;
@@ -478,9 +478,29 @@ auto operator*(
     return ublas::inner_prod( tensor_left, tensor_right );
   }
   else {
-    auto array_index_pairs = ublas::index_position_pairs(multi_index_left,multi_index_right);
-    auto index_pairs = ublas::array_to_vector(  array_index_pairs  );
-    return ublas::prod( tensor_left, tensor_right, index_pairs.first, index_pairs.second );
+    auto index_pairs = ublas::index_position_pairs(multi_index_left,multi_index_right);
+    constexpr auto size = std::tuple_size_v<decltype(index_pairs)>;
+
+    using extents_left_type  = typename tensor_type_left ::extents_type;
+    using extents_right_type = typename tensor_type_right::extents_type;
+
+    constexpr bool has_dynamic_extents = ublas::is_dynamic_rank_v<extents_left_type> || ublas::is_dynamic_rank_v<extents_right_type>;
+
+    using index_tuple = std::conditional_t<has_dynamic_extents, std::vector<std::size_t>, std::array<std::size_t, size>>;
+
+    auto phi_left  = index_tuple{};
+    auto phi_right = index_tuple{};
+
+    if constexpr(has_dynamic_extents) {
+      phi_left .resize(size);
+      phi_right.resize(size);
+    }
+
+    std::transform(index_pairs.begin(), index_pairs.end(), phi_left .begin(), [](auto a){ return a.first  +1ul; } );
+    std::transform(index_pairs.begin(), index_pairs.end(), phi_right.begin(), [](auto b){ return b.second +1ul; } );
+
+//    auto index_pairs = ublas::array_to_vector(  array_index_pairs  );
+    return ublas::prod( tensor_left, tensor_right, phi_left, phi_right );
   }
 
 }

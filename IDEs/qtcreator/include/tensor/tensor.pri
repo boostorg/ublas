@@ -41,9 +41,6 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_tensor.hpp
 
 HEADERS += \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_static.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_static_rank.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/prod_dynamic.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/inner_prod.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/outer_prod.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/trans.hpp \
@@ -53,6 +50,7 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/conj.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/tensor_times_vector.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/tensor_times_matrix.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/tensor_times_tensor.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/reshape.hpp
 
 HEADERS += \

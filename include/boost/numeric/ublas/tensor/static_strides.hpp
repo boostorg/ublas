@@ -31,23 +31,6 @@ namespace boost::numeric::ublas{
 
 namespace boost::numeric::ublas::detail{
 
-  namespace impl {
- 
-    // concat two static_stride_list togather
-    // @code using type = typename concat< static_stride_list<int, 1,2,3>, static_stride_list<int, 4,5,6> >::type @endcode
-    template<typename L1, typename L2>
-    struct concat;
-
-    template<typename T, T... N1, T... N2>
-    struct concat< basic_static_extents<T, N1...>, basic_static_extents<T, N2...> > {
-      using type = basic_static_extents<T, N1..., N2...>;
-    };
-
-    template<typename L1, typename L2>
-    using concat_t = typename concat<L1,L2>::type;
-
-  } // namespace impl
-
   template<typename Layout, typename ExtentsType>
   constexpr auto make_static_strides() noexcept{
     using ext_type = typename ExtentsType::value_type;

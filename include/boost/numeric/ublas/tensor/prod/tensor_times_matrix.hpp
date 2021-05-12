@@ -15,19 +15,20 @@
 #include <stdexcept>
 #include <type_traits>
 
-//#include "../static_extents.hpp"
-#include "../fixed_rank_extents.hpp"
-
-
-#include "../detail/extents_functions.hpp"
 #include "../traits/basic_type_traits.hpp"
+#include "../detail/extents_functions.hpp"
 #include "../traits/storage_traits.hpp"
+#include "../traits/type_traits_extents.hpp"
 #include "../tags.hpp"
 
 namespace boost::numeric::ublas
 {
-template <class ExtentsType, ExtentsType... E>
-class basic_static_extents;
+template <class T, std::size_t N>
+class basic_fixed_rank_extents;
+
+template<class T, std::size_t N, class L>
+class basic_fixed_rank_strides;
+
 
 template<typename ... >
 struct tensor_engine;
@@ -91,7 +92,7 @@ inline decltype(auto) prod( tensor_core< TE > const &a, matrix<T,L,A> const &b, 
 
   auto c = tensor_type(nc, value_type{});
 
-  auto bb = &(b(0, 0));
+  auto const* bb = &(b(0, 0));
   ttm(m, p,
       c.data(), data(nc), c.strides().data(),
       a.data(), data(na), a.strides().data(),

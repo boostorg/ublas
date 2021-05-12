@@ -50,39 +50,38 @@ struct zip_helper<std::tuple<types3...>, type1, types1...>
 template<class ... types>
 using zip = zip_helper<std::tuple<>,types...>;
 
-template<typename... Ts>
-struct list{
-    using type = std::tuple<Ts...>;
-    constexpr static std::size_t size = sizeof...(Ts);
-};
 
-namespace std{
-    template<std::size_t I, typename... Ts>
-    constexpr auto get(list<Ts...>) noexcept{
-        using tuple_t = typename list<Ts...>::type;
-        return tuple_element_t<I,tuple_t>{};
-    }
-}
-
-namespace impl{
-    template<typename Tuple, class UnaryOp, std::size_t... Is>
-    void for_each_in_tuple_helper(Tuple const& tuple, UnaryOp&& op, std::index_sequence<Is...>)
-    {
-        (..., std::invoke(op, Is, std::get<Is>(tuple)));
-    }
-}
-
-
-template<typename Tuple, class UnaryOp>
-void for_each_in_tuple(Tuple const& tuple, UnaryOp&& op)
+template<class UnaryOp, class ... Elements>
+void for_each_in_tuple(std::tuple<Elements...> const& tuple, UnaryOp&& op)
 {
-    impl::for_each_in_tuple_helper(tuple, std::forward<UnaryOp>(op), std::make_index_sequence<std::tuple_size_v<Tuple>>{});
+  auto invoke_op_for_tuple = [&]<std::size_t... Is>(std::index_sequence<Is...>) {
+    (..., std::invoke(op, Is, std::get<Is>(tuple)));
+  };
+
+  invoke_op_for_tuple(std::make_index_sequence<std::tuple_size_v<std::tuple<Elements...>>>{});
 }
 
-template<class CallBack, class... Ts>
-auto for_each_list(list<Ts...> l, CallBack call_back){
-    impl::for_each_in_tuple_helper(l, std::forward<CallBack>(call_back), std::make_index_sequence<sizeof...(Ts)>{});
+namespace boost::numeric::ublas
+{
+
+template<class UnaryOp, class TA, class TB, std::size_t ... is>
+void for_each_in_index(std::index_sequence<is...>, TA const& a, TB const& b, UnaryOp&& op)
+{
+  (..., std::invoke(op,a,b,std::index_sequence<is>{}) );
 }
+
+}// namespace boost::numeric::ublas
+
+//template<class UnaryOp, std::size_t ... is>
+//void for_each_in_tuple(std::index_sequence<is...>, UnaryOp&& op)
+//{
+//  auto invoke_op_for_tuple = [&]<std::size_t... Is>(std::index_sequence<Is...>) {
+//    (..., std::invoke(op, Is, Is));
+//  };
+
+//  invoke_op_for_tuple(std::make_index_sequence<std::index_sequence<is...>::size()>{});
+//}
+
 
 #include <complex>
 

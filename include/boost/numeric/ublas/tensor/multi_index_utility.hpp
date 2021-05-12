@@ -319,40 +319,40 @@ auto index_position_pairs(tuple_left const& lhs, tuple_right const& rhs)
 ////////////////////////////
 
 
-namespace boost::numeric::ublas::detail
-{
+//namespace boost::numeric::ublas::detail
+//{
 
-template<class array_type, std::size_t ... R>
-constexpr auto array_to_vector_impl( array_type const& array, [[maybe_unused]] std::index_sequence<R...> sq)
-{
-    return std::make_pair(
-          std::vector<std::size_t>{std::get<0>( std::get<R>(array) )+1 ...} ,
-          std::vector<std::size_t>{std::get<1>( std::get<R>(array) )+1 ...} );
-}
+//template<class array_type, std::size_t ... R>
+//constexpr auto array_to_vector_impl( array_type const& array, std::index_sequence<R...> /*unused*/)
+//{
+//    return std::make_pair(
+//          std::vector<std::size_t>{std::get<R>(array).first  +1 ...} ,
+//          std::vector<std::size_t>{std::get<R>(array).second +1 ...} );
+//}
 
-} // namespace boost::numeric::ublas::detail
-
-
-namespace boost::numeric::ublas
-{
-/** @brief array_to_vector converts a std::array of zero-based index position pairs into two std::vector of one-based index positions
- *
- * @code auto two_vectors = array_to_vector(std::make_array ( std::make_pair(1,2), std::make_pair(3,4) ) ) ;
- * @endcode
- *
- * @returns two std::vector of one-based index positions
- *
- * @param array std::array of zero-based index position pairs
-*/
-template<class pair_type, std::size_t N>
-constexpr auto array_to_vector( std::array<pair_type,N> const& array)
-{
-    constexpr auto sequence = std::make_index_sequence<N>{};
-    return detail::array_to_vector_impl( array, sequence );
-}
+//} // namespace boost::numeric::ublas::detail
 
 
-} // namespace boost::numeric::ublas
+//namespace boost::numeric::ublas
+//{
+///** @brief array_to_vector converts a std::array of zero-based index position pairs into two std::vector of one-based index positions
+// *
+// * @code auto two_vectors = array_to_vector(std::make_array ( std::make_pair(1,2), std::make_pair(3,4) ) ) ;
+// * @endcode
+// *
+// * @returns two std::vector of one-based index positions
+// *
+// * @param array std::array of zero-based index position pairs
+//*/
+//template<class pair_type, std::size_t N>
+//constexpr auto array_to_vector( std::array<pair_type,N> const& array)
+//{
+//    constexpr auto sequence = std::make_index_sequence<N>{};
+//    return detail::array_to_vector_impl( array, sequence );
+//}
 
 
-#endif // _BOOST_UBLAS_TENSOR_MULTI_INDEX_UTILITY_HPP_
+//} // namespace boost::numeric::ublas
+
+
+#endif // BOOST_UBLAS_TENSOR_MULTI_INDEX_UTILITY_HPP

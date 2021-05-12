@@ -15,16 +15,15 @@
 #include <stdexcept>
 #include <type_traits>
 
-#include "../static_extents.hpp"
-#include "../fixed_rank_extents.hpp"
-
 #include "../detail/extents_functions.hpp"
 #include "../traits/basic_type_traits.hpp"
 #include "../traits/storage_traits.hpp"
+#include "../traits/type_traits_extents.hpp"
 #include "../tags.hpp"
 
 namespace boost::numeric::ublas
 {
+
 
 template<typename ... >
 struct tensor_engine;
@@ -40,6 +39,18 @@ class vector;
 namespace boost::numeric::ublas
 {
 
+namespace detail {
+
+/** Enables if extent E is dynamic with dynamic rank: extents< > */
+template<
+  class TE,
+  class  E = typename tensor_core< TE >::extents_type
+  >
+using enable_ttv_if_extent_has_dynamic_rank = std::enable_if_t<is_dynamic_rank_v<E>,  bool>;
+
+} // namespace detail
+
+
 /** @brief Computes the m-mode tensor-times-vector product
      *
      * Implements C[i1,...,im-1,im+1,...,ip] = A[i1,i2,...,ip] * b[im]
@@ -52,12 +63,8 @@ namespace boost::numeric::ublas
      *
      * @returns tensor object C with order p-1, the same storage format and allocator type as A
     */
-template <typename TE,
-          typename A,
-          typename T = typename tensor_core< TE >::value_type,
-          typename E = typename tensor_core< TE >::extents_type,
-          std::enable_if_t< is_dynamic_rank_v< E >, void >* = nullptr
-          >
+template <class TE, class  A, class  T = typename tensor_core< TE >::value_type,
+          detail::enable_ttv_if_extent_has_dynamic_rank<TE> = true >
 inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, const std::size_t m)
 {
 
@@ -93,7 +100,7 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
 
 
   auto c = tensor_type( nc, value_type{} );
-  auto bb = &(b(0));
+  auto const* bb = &(b(0));
   ttv(m, p,
       c.data(), data(c.extents()), c.strides().data(),
       a.data(), data(a.extents()), a.strides().data(),
@@ -101,6 +108,17 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
   return c;
 }
 
+
+namespace detail {
+/** Enables if extent E is dynamic with static rank: extents<N> */
+template<
+  class TE,
+  class  E = typename tensor_core< TE >::extents_type
+  >
+using enable_ttv_if_extent_is_dynamic_with_static_rank =
+  std::enable_if_t< is_static_rank_v< E > && is_dynamic_v< E >, bool>;
+
+} // namespace detail
 
 
 /** @brief Computes the m-mode tensor-times-vector product
@@ -115,11 +133,8 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
      *
      * @returns tensor object C with order p-1, the same storage format and allocator type as A
     */
-template <typename TE,
-          typename A,
-          typename E = typename tensor_core< TE >::extents_type,
-          typename T = typename tensor_core< TE >::value_type,
-          std::enable_if_t< is_static_rank_v< E > && is_dynamic_v< E >, void >* = nullptr
+template <class TE, class A, class T = typename tensor_core< TE >::value_type,
+          detail::enable_ttv_if_extent_is_dynamic_with_static_rank<TE> = true
           >
 inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, const std::size_t m)
 {
@@ -158,7 +173,7 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
   using return_tensor_type = tensor_core<tensor_engine<return_extents_type,layout_type,array_type >>;
 
   auto c = return_tensor_type( nc, value_type{} );
-  auto bb = &(b(0));
+  auto const* bb = &(b(0));
   ttv(m, p,
       c.data(), data(c.extents()), c.strides().data(),
       a.data(), data(a.extents()), a.strides().data(),
@@ -205,17 +220,6 @@ constexpr auto extents_result_tensor_times_vector([[maybe_unused]] ExtentsType c
   return extents_result_tensor_times_vector_helper<M>(ExtentsType{}, std::make_index_sequence<size(ExtentsType{})>{});
 }
 
-template<std::size_t I, std::size_t Value, typename ExtentsType>
-constexpr auto static_extents_set_at_impl(ExtentsType const& e) noexcept{
-  using extents_type = typename ExtentsType::value_type;
-
-  auto res = e.base();
-
-  res[I] = static_cast<extents_type>(Value);
-
-  return res;
-}
-
 } // namespace detail
 
 /** @brief Computes the m-mode tensor-times-vector product
@@ -258,20 +262,14 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b)
   auto nb = std::vector<extents_value_type>{b.size(), extents_value_type(1)};
 
   using return_extents_type = std::decay_t<decltype(nc)>;
-  using storage_type   = rebind_storage_size_t<return_extents_type,array_type>;
-  using return_tensor_type = tensor_core<tensor_engine<return_extents_type,layout_type, storage_type > >;
+  using storage_type        = rebind_storage_size_t<return_extents_type,array_type>;
+  using return_tensor_type  = tensor_core<tensor_engine<return_extents_type,layout_type, storage_type > >;
 
   auto c = return_tensor_type(value_type{});
-  auto bb = &(b(0));
+  auto const* bb = &(b(0));
 
   auto const& wa = a.strides();
   auto const& wc = c.strides();
-
-//  auto const& na = a.extents().base();
-//  auto const& nc = c.extents().base();
-
-//  auto& a_static_strides = a.strides().base();
-//  auto& c_static_strides = c.strides().base();
 
   ttv(M, p,
       c.data(), nc.data(), wc.data(),
