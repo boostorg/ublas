@@ -91,6 +91,7 @@ struct init_static
   struct inner<std::index_sequence<is...>>
   {
     static constexpr auto n  = sizeof...(is);
+    // NOLINTNEXTLINE(bugprone-integer-division)
     static constexpr auto value = std::array<V,n>{  V(k*(is+1)/(is+1)) ... };
   };
 

@@ -103,7 +103,7 @@ public:
      *
      * @param v value with which tensor_core is initialized
      */
-  constexpr explicit inline tensor_core (value_type const& v)
+  constexpr explicit inline tensor_core (value_type v)
     : tensor_core()
   {
     std::fill_n(begin(),this->size(),v);
@@ -116,20 +116,7 @@ public:
      *  @param s initial tensor_core dimension extents
      *  @param a container of \c array_type that is copied according to the storage layout
      */
-  constexpr inline tensor_core (container_type const& a)
-    : tensor_expression_type<self_type>{}
-    , _container{a}
-  {
-  }
-
-  /** @brief Constructs a tensor_core with a \c shape and initiates it with one-dimensional data
-     *
-     * @code auto a = tensor<float,extents<4,2,3>>(array); @endcode
-     *
-     *  @param s initial tensor_core dimension extents
-     *  @param a container of \c array_type that is copied according to the storage layout
-     */
-  constexpr inline tensor_core (container_type&& a)
+  constexpr explicit inline tensor_core (container_type a) noexcept
     : tensor_expression_type<self_type>{}
     , _container{std::move(a)}
   {
@@ -267,6 +254,7 @@ public:
     return *this;
   }
 
+  // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
   constexpr tensor_core& operator=(tensor_core other) noexcept
   {
     swap (*this, other);

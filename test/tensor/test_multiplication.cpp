@@ -344,7 +344,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt, value,  test_types, fixture )
     auto a  = vector_t(ublas::product(na), value_t{2});
     auto pa = ublas::size(na);
 
-    auto nb = na;
+    auto const& nb = na;
     auto wb = ublas::to_strides(nb,layout_t{});
     auto b  = vector_t(ublas::product(nb), value_t{3});
     auto pb = ublas::size(nb);

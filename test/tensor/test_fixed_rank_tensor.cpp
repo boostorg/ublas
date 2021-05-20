@@ -248,7 +248,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ctor_extents_array, value,  test_t
       aa = v;
       v += value_t{1};
     }
-    auto t = tensor_t{e, a};
+    auto t = tensor_t(e, a);
     v = value_t{};
 
     for(auto i = 0ul; i < t.size(); ++i, v+=value_t{1})

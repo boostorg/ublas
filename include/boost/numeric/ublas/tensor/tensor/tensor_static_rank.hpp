@@ -91,11 +91,11 @@ public:
      * @code auto t = tensor<float,3>(extents<3>{3,4,2}); @endcode
      *
      */
-  explicit inline tensor_core (extents_type const& e)
+  explicit inline tensor_core (extents_type e)
     : tensor_expression_type<self_type>{}
-    , _extents(e)
-    , _strides(ublas::to_strides(e,layout_type{}))
-    , _container(ublas::product(e))
+    , _extents(std::move(e))
+    , _strides(ublas::to_strides(_extents,layout_type{}))
+    , _container(ublas::product(_extents))
   {
   }
 
@@ -117,13 +117,13 @@ public:
      *  @param e instance of \c extents<> specifying the dimensions of tensor
      *  @param a instance of \c std::vector<value_type> to be copied
      */
-  inline tensor_core (extents_type const& e, container_type const& a)
+  inline tensor_core (extents_type e, container_type a)
     : tensor_expression_type<self_type>{}
-    , _extents(e)
-    , _strides(ublas::to_strides(e,layout_type{}))
-    , _container(a)
+    , _extents(std::move(e))
+    , _strides(ublas::to_strides(_extents,layout_type{}))
+    , _container(std::move(a))
   {
-    if(std::size(a) != ublas::product(_extents)){
+    if(std::size(_container) != ublas::product(_extents)){
       throw std::length_error("boost::numeric::ublas::tensor_static_rank : "
         "Cannot construct tensor with specified container and extents. "
         "Number of container elements do not match with the specified extents.");
@@ -235,9 +235,9 @@ public:
      */
   inline tensor_core (tensor_core &&t) noexcept
     : tensor_expression_type<self_type>{}
-    , _extents  (t._extents  )
-    , _strides  (t._strides  )
-    , _container(t._container)
+    , _extents  (std::move(t._extents  ))
+    , _strides  (std::move(t._strides  ))
+    , _container(std::move(t._container))
   {}
 
   /// @brief Default destructor
@@ -258,35 +258,25 @@ public:
     return *this;
   }
 
+  // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
   tensor_core& operator=(tensor_core other) noexcept
   {
     swap (*this, other);
     return *this;
   }
 
-  tensor_core& operator=(container_type const& c) noexcept
+  tensor_core& operator=(container_type c)
   {
     if( c.size() != this->size()){
       throw std::length_error("boost::numeric::ublas::tensor_core: "
         "Cannot assign provided container to tensor."
         "Number of elements do not match.");
     }
-    _container = c;
+    _container = std::move(c);
     return *this;
   }
 
-  tensor_core& operator=(container_type&& c) noexcept
-  {
-    if( c.size() != this->size()){
-      throw std::length_error("boost::numeric::ublas::tensor_core: "
-        "Cannot assign provided container to tensor."
-        "Number of elements do not match.");
-    }
-    std::swap(_container,c);
-    return *this;
-  }
-
-  tensor_core& operator=(const_reference v) noexcept
+  tensor_core& operator=(const_reference v)
   {
     std::fill_n(_container.begin(), _container.size(), v);
     return *this;

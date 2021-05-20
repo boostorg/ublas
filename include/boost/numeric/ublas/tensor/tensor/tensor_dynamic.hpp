@@ -105,9 +105,9 @@ public:
      * @code auto t = tensor<float>(extents{3,4,2}); @endcode
      *
      */
-  explicit inline tensor_core (extents_type const& e)
+  explicit inline tensor_core (extents_type e)
     : tensor_expression_type<self_type>{}
-    , _extents(e)
+    , _extents(std::move(e))
     , _strides(ublas::to_strides(_extents,layout_type{}))
     , _container(ublas::product(_extents))
   {
@@ -119,9 +119,9 @@ public:
      *
      * @param i initial tensor_core with this value
      */
-  inline tensor_core (extents_type const& e, value_type const& i)
+  inline tensor_core (extents_type e, value_type i)
     : tensor_expression_type<self_type>{}
-    , _extents(e)
+    , _extents(std::move(e))
     , _strides(to_strides(_extents,layout_type{}))
     , _container(product(_extents),i)
   {
@@ -134,13 +134,13 @@ public:
      *  @param e instance of \c extents<> specifying the dimensions of tensor
      *  @param a instance of \c std::vector<value_type> to be copied
      */
-  inline tensor_core (extents_type const& e, container_type const& a)
+  inline tensor_core (extents_type e, container_type a)
     : tensor_expression_type<self_type>{}
-    , _extents(e)
+    , _extents(std::move(e))
     , _strides(ublas::to_strides(_extents,layout_type{}))
-    , _container(a)
+    , _container(std::move(a))
   {
-    if(std::size(a) != ublas::product(e)){
+    if(std::size(_container) != ublas::product(_extents)){
       throw std::invalid_argument("boost::numeric::ublas::tensor_core: "
         "Cannot construct tensor with specified std::vector instance. "
         "Number of extents and std::vector size do not match.");
@@ -238,7 +238,7 @@ public:
      *
      *  @param t tensor_core to be copied.
      */
-  inline tensor_core (const tensor_core &t) noexcept
+  inline tensor_core (const tensor_core &t)
     : tensor_expression_type<self_type>{}
     , _extents  (t._extents  )
     , _strides  (t._strides  )
@@ -253,9 +253,9 @@ public:
      */
   inline tensor_core (tensor_core &&t) noexcept
     : tensor_expression_type<self_type>{}
-    , _extents  (t._extents  )
-    , _strides  (t._strides  )
-    , _container(t._container)
+    , _extents  (std::move(t._extents  ))
+    , _strides  (std::move(t._strides  ))
+    , _container(std::move(t._container))
   {}
 
   /// @brief Default destructor
@@ -276,13 +276,14 @@ public:
     return *this;
   }
 
+  // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
   tensor_core& operator=(tensor_core other) noexcept
   {
     swap (*this, other);
     return *this;
   }
 
-  tensor_core& operator=(const_reference v) noexcept
+  tensor_core& operator=(const_reference v)
   {
     std::fill_n(_container.begin(), _container.size(), v);
     return *this;

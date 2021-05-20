@@ -51,16 +51,7 @@ public:
 
   constexpr extents_core() = default;
 
-  constexpr explicit extents_core(base_type const& data)
-    : _base(data)
-  {
-    if ( !ublas::is_valid(*this) ){
-      throw std::invalid_argument("in boost::numeric::ublas::extents<N> : "
-        "could not intanstiate extents<N> as provided extents are not valid.");
-    }
-  }
-
-  constexpr explicit extents_core(base_type&& data)
+  constexpr explicit extents_core(base_type data)
     : _base(std::move(data))
   {
     if ( !ublas::is_valid(*this) ){
@@ -100,7 +91,6 @@ public:
         "could not intanstiate extents<N> as provided extents are not valid.");
     }
   }
-
   constexpr extents_core(extents_core const& other)
     : _base(other._base)
   {
@@ -110,14 +100,13 @@ public:
   constexpr extents_core(extents_core && other) noexcept
     : _base( std::move(other._base) )
   {
-    assert(ublas::is_valid(*this));
   }
 
+  // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
   constexpr extents_core& operator=(extents_core other)
     noexcept(std::is_nothrow_swappable_v<base_type>)
   {
     swap(*this,other);
-    assert(ublas::is_valid(*this));
     return *this;
   }
 

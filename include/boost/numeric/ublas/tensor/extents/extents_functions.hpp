@@ -235,7 +235,7 @@ template<size_t i, std::integral T, T e1, T ... es>
   return std::get<i>(e.base());
 }
 
-}
+} // namespace std
 
 
 #endif // _BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_FUNCTIONS_HPP_
