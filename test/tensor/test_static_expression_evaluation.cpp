@@ -18,26 +18,26 @@
 
 #include <functional>
 
-BOOST_AUTO_TEST_SUITE(test_static_tensor_expression)
+BOOST_AUTO_TEST_SUITE(test_tensor_static_expression)
 
 using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 
 struct fixture
 {
-    template<size_t... N>
-    using extents_type = boost::numeric::ublas::static_extents<N...>;
+  template<std::size_t N1,size_t... N>
+  using extents_type = boost::numeric::ublas::extents<N1,N...>;
 
-    std::tuple<
-        extents_type<1,1>, 		// 1
-        extents_type<2,3>, 		// 2
-        extents_type<4,1,3>, 	// 3
-        extents_type<4,2,3>, 	// 4
-        extents_type<4,2,3,5>  	// 5
+  std::tuple<
+    extents_type<1,1>, 		// 1
+    extents_type<2,3>, 		// 2
+    extents_type<4,1,3>, 	// 3
+    extents_type<4,2,3>, 	// 4
+    extents_type<4,2,3,5>  	// 5
     > extents;
 };
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_retrieve_extents, value,  test_types, fixture)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_static_expression_retrieve_extents, value,  test_types, fixture)
 {
   namespace ublas  = boost::numeric::ublas;
     using value_type  = typename value::first_type;
@@ -50,10 +50,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_retrieve_extents
 
     for_each_in_tuple(extents, [&](auto const& /*unused*/, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+        using tensor_type = ublas::tensor_static<value_type,extents_type,layout_type>;
         
 
-        auto t = tensor_type{};
+        auto t = tensor_type();
         auto v = value_type{};
         for(auto& tt: t){ tt = v; v+=value_type{1}; }
 
@@ -89,7 +89,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_retrieve_extents
         }
         
         using extents_type1 = std::decay_t<decltype(e1)>;
-        using tensor_type1 = ublas::static_tensor<value_type, extents_type1, layout_type>;
+        using tensor_type1 = ublas::tensor_static<value_type, extents_type1, layout_type>;
 
         for_each_in_tuple(extents, [&](auto J, auto& e2){
 
@@ -98,7 +98,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_retrieve_extents
             }
             
             using extents_type2 = std::decay_t<decltype(e2)>;
-            using tensor_type2 = ublas::static_tensor<value_type, extents_type2, layout_type>;
+            using tensor_type2 = ublas::tensor_static<value_type, extents_type2, layout_type>;
 
             auto v = value_type{};
 
@@ -129,7 +129,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_retrieve_extents
 
 
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_all_extents_equal, value,  test_types, fixture)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_static_expression_all_extents_equal, value,  test_types, fixture)
 {
   namespace ublas  = boost::numeric::ublas;
     using value_type  = typename value::first_type;
@@ -142,7 +142,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_all_extents_equa
 
     for_each_in_tuple(extents, [&](auto const& /*unused*/, auto& e){
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+        using tensor_type = ublas::tensor_static<value_type,extents_type,layout_type>;
         
 
         auto t = tensor_type{};
@@ -182,7 +182,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_all_extents_equa
         }
         
         using extents_type1 = std::decay_t<decltype(e1)>;
-        using tensor_type1 = ublas::static_tensor<value_type, extents_type1, layout_type>;
+        using tensor_type1 = ublas::tensor_static<value_type, extents_type1, layout_type>;
 
         for_each_in_tuple(extents, [&](auto J, auto& e2){
 
@@ -191,7 +191,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_static_tensor_expression_all_extents_equa
             }
 
             using extents_type2 = std::decay_t<decltype(e2)>;
-            using tensor_type2 = ublas::static_tensor<value_type, extents_type2, layout_type>;
+            using tensor_type2 = ublas::tensor_static<value_type, extents_type2, layout_type>;
 
             auto v = value_type{};
 

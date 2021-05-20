@@ -703,8 +703,10 @@ void ttm(SizeType const m, SizeType const p,
          const PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
 {
 
-  static_assert( std::is_pointer<PointerOut>::value && std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
-                "Static error in boost::numeric::ublas::ttm: Argument types for pointers are not pointer types.");
+  static_assert(
+    std::is_pointer<PointerOut>::value &&
+      std::is_pointer<PointerIn1>::value &&
+      std::is_pointer<PointerIn2>::value);
 
   if( m == 0 ){
     throw std::length_error("Error in boost::numeric::ublas::ttm: Contraction mode must be greater than zero.");
@@ -734,6 +736,8 @@ void ttm(SizeType const m, SizeType const p,
   if(nc[m-1] != nb[0]){
     throw std::length_error("Error in boost::numeric::ublas::ttm: 1nd Extent of B and M-th Extent of C must be the equal.");
   }
+
+
   if ( m != 1 ){
     detail::recursive::ttm (m-1, p-1, c, nc, wc,    a, na, wa,   b, nb, wb);
   }

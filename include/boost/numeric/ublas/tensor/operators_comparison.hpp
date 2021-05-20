@@ -17,6 +17,7 @@
 #include <vector>
 #include <utility>
 
+#include "extents.hpp"
 #include "expression.hpp"
 #include "type_traits.hpp"
 #include "expression_evaluation.hpp"
@@ -38,7 +39,7 @@ constexpr bool compare(tensor_core<T1> const& lhs, tensor_core<T2> const& rhs, B
         "LHS and RHS both should have the same value type"
     );
 
-    if(lhs.extents() != rhs.extents()){
+    if(::operator!=(lhs.extents(),rhs.extents())){
         if constexpr(!std::is_same<BinaryPred,std::equal_to<>>::value && !std::is_same<BinaryPred,std::not_equal_to<>>::value)
             throw std::runtime_error(
                 "boost::numeric::ublas::detail::compare(tensor_core<T1> const&, tensor_core<T2> const&, BinaryPred) : "
@@ -101,39 +102,45 @@ constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred pred)
 
 
 template<class T1, class T2, class L, class R>
-[[nodiscard]] inline 
-constexpr bool operator==( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-                                 boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+[[nodiscard]] inline
+constexpr bool operator==(
+    boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::equal_to<>{} );
 }
 template<class T1, class T2, class L, class R>
 [[nodiscard]] inline 
-constexpr auto operator!=(boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-                                boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+constexpr auto operator!=(
+    boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::not_equal_to<>{}  );
 }
 template<class T1, class T2, class L, class R>
 [[nodiscard]] inline 
-constexpr auto operator< ( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-                                 boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+constexpr auto operator< (
+    boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::less<>{} );
 }
 template<class T1, class T2, class L, class R>
 [[nodiscard]] inline 
-constexpr auto operator<=( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-                                 boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+constexpr auto operator<=(
+    boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::less_equal<>{} );
 }
 template<class T1, class T2, class L, class R>
 [[nodiscard]] inline 
-constexpr auto operator> ( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-                                 boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+constexpr auto operator> (
+    boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::greater<>{} );
 }
 template<class T1, class T2, class L, class R>
 [[nodiscard]] inline 
-constexpr auto operator>=( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-                                 boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+constexpr auto operator>=(
+    boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::greater_equal<>{} );
 }
 

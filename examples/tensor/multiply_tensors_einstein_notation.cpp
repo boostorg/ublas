@@ -18,132 +18,136 @@
 
 int main()
 {
-    using value_t   = float;
-    using format_t  = boost::numeric::ublas::layout::first_order; // storage format
-    using tensor_t  = boost::numeric::ublas::dynamic_tensor<value_t,format_t>;
-    using shape_t   = typename tensor_t::extents_type;
-    using matrix_t  = boost::numeric::ublas::matrix<value_t,format_t>;
+  namespace ublas = boost::numeric::ublas;
+  using value   = float;
+  using layout  = ublas::layout::first_order; // storage format
+  using tensor  = ublas::tensor_dynamic<value,layout>;
+  using shape   = typename tensor::extents_type;
+  using matrix  = ublas::matrix<value,layout>;
 
-    // NOLINTNEXTLINE(google-build-using-namespace)
-    using namespace boost::numeric::ublas::index;
+  constexpr auto ones = ublas::ones<value,layout>{};
 
-    // Tensor-Vector-Multiplications - Including Transposition
-    try {
+  // NOLINTNEXTLINE(google-build-using-namespace)
+  using namespace boost::numeric::ublas::index;
 
-        auto n  = shape_t{3,4,2};
-        auto A  = tensor_t(n,1);
-        auto B1 = matrix_t(n[1],n[2],2);
-        auto v1 = tensor_t(shape_t{n[0],1},2);
-        auto v2 = tensor_t(shape_t{n[1],1},2);
-//      auto v3 = tensor_t(shape{n[2],1},2);
+  // Tensor-Vector-Multiplications - Including Transposition
+  try {
 
-        // C1(j,k) = B1(j,k) + A(i,j,k)*v1(i);
-        // tensor_t C1 = B1 + prod(A,vector_t(n[0],1),1);
-        tensor_t C1 = B1 + A(_i,_,_) * v1(_i,_);
+    auto n  = shape{3,4,2};
 
-        // C2(i,k) = A(i,j,k)*v2(j) + 4;
-        //tensor_t C2 = prod(A,vector_t(n[1],1),2) + 4;
-        tensor_t C2 = A(_,_i,_) * v2(_i,_) + 4;
+    tensor A  = ones(n);
+    matrix B1 = 2*matrix(n[1],n[2]);
+    tensor v1 = 2*ones(n[0],1);
+    tensor v2 = 2*ones(n[1],1);
+    //      auto v3 = tensor(shape{n[2],1},2);
 
-        // not yet implemented!
-        // C3() = A(i,j,k)*T1(i)*T2(j)*T2(k);       
-        // tensor_t C3 = prod(prod(prod(A,v1,1),v2,1),v3,1);
-        // tensor_t C3 = A(_i,_j,_k) * v1(_i,_) * v2(_j,_) * v3(_k,_);
+    // C1(j,k) = B1(j,k) + A(i,j,k)*v1(i);
+    // tensor C1 = B1 + prod(A,vector_t(n[0],1),1);
+    tensor C1 = B1 + A(_i,_,_) * v1(_i,_);
 
-        // formatted output
-        std::cout << "% --------------------------- " << std::endl;
-        std::cout << "% --------------------------- " << std::endl << std::endl;
-        std::cout << "% C1(j,k) = B1(j,k) + A(i,j,k)*v1(i);" << std::endl << std::endl;
-        std::cout << "C1=" << C1 << ";" << std::endl << std::endl;
+    // C2(i,k) = A(i,j,k)*v2(j) + 4;
+    //tensor C2 = prod(A,vector_t(n[1],1),2) + 4;
+    tensor C2 = A(_,_i,_) * v2(_i,_) + 4;
 
-        // formatted output
-        std::cout << "% --------------------------- " << std::endl;
-        std::cout << "% --------------------------- " << std::endl << std::endl;
-        std::cout << "% C2(i,k) = A(i,j,k)*v2(j) + 4;" << std::endl << std::endl;
-        std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
+    // not yet implemented!
+    // C3() = A(i,j,k)*T1(i)*T2(j)*T2(k);
+        // tensor C3 = prod(prod(prod(A,v1,1),v2,1),v3,1);
+    // tensor C3 = A(_i,_j,_k) * v1(_i,_) * v2(_j,_) * v3(_k,_);
 
-    } catch (const std::exception& e) {
-      std::cerr << "Cought exception " << e.what();
-      std::cerr << "in the main function of multiply-tensor-einstein-notation when doing tensor-vector multiplication." << std::endl;
-    }
+    // formatted output
+    std::cout << "% --------------------------- " << std::endl;
+    std::cout << "% --------------------------- " << std::endl << std::endl;
+    std::cout << "% C1(j,k) = B1(j,k) + A(i,j,k)*v1(i);" << std::endl << std::endl;
+    std::cout << "C1=" << C1 << ";" << std::endl << std::endl;
 
-    // Tensor-Matrix-Multiplications - Including Transposition
-    try {
-        auto n = shape_t{3,4,2};
-        auto m = 5u;
-        auto A = tensor_t(n,2);
-        auto B  = tensor_t(shape_t{n[1],n[2],m},2);
-        auto B1 = tensor_t(shape_t{m,n[0]},1);
-        auto B2 = tensor_t(shape_t{m,n[1]},1);
+    // formatted output
+    std::cout << "% --------------------------- " << std::endl;
+    std::cout << "% --------------------------- " << std::endl << std::endl;
+    std::cout << "% C2(i,k) = A(i,j,k)*v2(j) + 4;" << std::endl << std::endl;
+    std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
 
+  } catch (const std::exception& e) {
+    std::cerr << "Cought exception " << e.what();
+    std::cerr << "in the main function of multiply-tensor-einstein-notation when doing tensor-vector multiplication." << std::endl;
+  }
 
-        // C1(l,j,k) = B(j,k,l) + A(i,j,k)*B1(l,i);
-        // tensor_t C1 = B + prod(A,B1,1);
-        tensor_t C1 = B + A(_i,_,_) * B1(_,_i);
-
-        // C2(i,l,k) = A(i,j,k)*B2(l,j) + 4;
-        // tensor_t C2 = prod(A,B2) + 4;
-        tensor_t C2 =  A(_,_j,_) * B2(_,_j) + 4;
-
-        // C3(i,l1,l2) = A(i,j,k)*T1(l1,j)*T2(l2,k);
-        // not yet implemented.
-
-        // formatted output
-        std::cout << "% --------------------------- " << std::endl;
-        std::cout << "% --------------------------- " << std::endl << std::endl;
-        std::cout << "% C1(l,j,k) = B(j,k,l) + A(i,j,k)*B1(l,i);" << std::endl << std::endl;
-        std::cout << "C1=" << C1 << ";" << std::endl << std::endl;
-
-        // formatted output
-        std::cout << "% --------------------------- " << std::endl;
-        std::cout << "% --------------------------- " << std::endl << std::endl;
-        std::cout << "% C2(i,l,k) = A(i,j,k)*B2(l,j) + 4;" << std::endl << std::endl;
-        std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
-
-        // formatted output
-//        std::cout << "% --------------------------- " << std::endl;
-//        std::cout << "% --------------------------- " << std::endl << std::endl;
-//        std::cout << "% C3(i,l1,l2) = A(i,j,k)*T1(l1,j)*T2(l2,k);" << std::endl << std::endl;
-//        std::cout << "C3=" << C3 << ";" << std::endl << std::endl;
-    } catch (const std::exception& e) {
-      std::cerr << "Cought exception " << e.what();
-      std::cerr << "in the main function of multiply-tensor-einstein-notation when doing tensor-matrix multiplication." << std::endl;
-    }
+  // Tensor-Matrix-Multiplications - Including Transposition
+  try {
+    auto n  = shape{3,4,2};
+    auto m  = 5u;
+    tensor A  = 2*ones(n);
+    tensor B  = 2*ones(n[1],n[2],m);
+    tensor B1 =   ones(m,n[0]);
+    tensor B2 =   ones(m,n[1]);
 
 
-    // Tensor-Tensor-Multiplications Including Transposition
-    try {
-        auto na = shape_t{3,4,5};
-        auto nb = shape_t{4,6,3,2};
-        auto A = tensor_t(na,2);
-        auto B = tensor_t(nb,3);
-        auto T1 = tensor_t(shape_t{na[2],na[2]},2);
-        auto T2 = tensor_t(shape_t{na[2],nb[1],nb[3]},2);
+    // C1(l,j,k) = B(j,k,l) + A(i,j,k)*B1(l,i);
+    // tensor C1 = B + prod(A,B1,1);
+    tensor C1 = B + A(_i,_,_) * B1(_,_i);
+
+    // C2(i,l,k) = A(i,j,k)*B2(l,j) + 4;
+    // tensor C2 = prod(A,B2) + 4;
+    tensor C2 =  A(_,_j,_) * B2(_,_j) + 4;
+
+    // C3(i,l1,l2) = A(i,j,k)*T1(l1,j)*T2(l2,k);
+    // not yet implemented.
+
+    // formatted output
+    std::cout << "% --------------------------- " << std::endl;
+    std::cout << "% --------------------------- " << std::endl << std::endl;
+    std::cout << "% C1(l,j,k) = B(j,k,l) + A(i,j,k)*B1(l,i);" << std::endl << std::endl;
+    std::cout << "C1=" << C1 << ";" << std::endl << std::endl;
+
+    // formatted output
+    std::cout << "% --------------------------- " << std::endl;
+    std::cout << "% --------------------------- " << std::endl << std::endl;
+    std::cout << "% C2(i,l,k) = A(i,j,k)*B2(l,j) + 4;" << std::endl << std::endl;
+    std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
+
+    // formatted output
+    //        std::cout << "% --------------------------- " << std::endl;
+    //        std::cout << "% --------------------------- " << std::endl << std::endl;
+    //        std::cout << "% C3(i,l1,l2) = A(i,j,k)*T1(l1,j)*T2(l2,k);" << std::endl << std::endl;
+    //        std::cout << "C3=" << C3 << ";" << std::endl << std::endl;
+  } catch (const std::exception& e) {
+    std::cerr << "Cought exception " << e.what();
+    std::cerr << "in the main function of multiply-tensor-einstein-notation when doing tensor-matrix multiplication." << std::endl;
+  }
 
 
-        // C1(j,l) = T1(j,l) + A(i,j,k)*A(i,j,l) + 5;
-        // tensor_t C1 = T1 + prod(A,A,perm_t{1,2}) + 5;
-        tensor_t C1 = T1 + A(_i,_j,_m)*A(_i,_j,_l) + 5;
+  // Tensor-Tensor-Multiplications Including Transposition
+  try {
+    auto na = shape{3,4,5};
+    auto nb = shape{4,6,3,2};
+    tensor A  = 2*ones(na);
+    tensor B  = 3*ones(nb);
+    tensor T1 = 2*ones(na[2],na[2]);
+    tensor T2 = 2*ones(na[2],nb[1],nb[3]);
 
-        // formatted output
-        std::cout << "% --------------------------- " << std::endl;
-        std::cout << "% --------------------------- " << std::endl << std::endl;
-        std::cout << "% C1(k,l) = T1(k,l) + A(i,j,k)*A(i,j,l) + 5;" << std::endl << std::endl;
-        std::cout << "C1=" << C1 << ";" << std::endl << std::endl;
+
+    // C1(j,l) = T1(j,l) + A(i,j,k)*A(i,j,l) + 5;
+    // tensor C1 = T1 + prod(A,A,perm_t{1,2}) + 5;
+    tensor C1 = T1 + A(_i,_j,_m)*A(_i,_j,_l) + 5;
+
+    // formatted output
+    std::cout << "% --------------------------- " << std::endl;
+    std::cout << "% --------------------------- " << std::endl << std::endl;
+    std::cout << "% C1(k,l) = T1(k,l) + A(i,j,k)*A(i,j,l) + 5;" << std::endl << std::endl;
+    std::cout << "C1=" << C1 << ";" << std::endl << std::endl;
 
 
-        // C2(k,l,m) = T2(k,l,m) + A(i,j,k)*B(j,l,i,m) + 5;
-        //tensor_t C2 = T2 + prod(A,B,perm_t{1,2},perm_t{3,1}) + 5;
-        tensor_t C2 = T2 + A(_i,_j,_k)*B(_j,_l,_i,_m) + 5;
+    // C2(k,l,m) = T2(k,l,m) + A(i,j,k)*B(j,l,i,m) + 5;
+    //tensor C2 = T2 + prod(A,B,perm_t{1,2},perm_t{3,1}) + 5;
+    tensor C2 = T2 + A(_i,_j,_k)*B(_j,_l,_i,_m) + 5;
 
-        // formatted output
-        std::cout << "% --------------------------- " << std::endl;
-        std::cout << "% --------------------------- " << std::endl << std::endl;
-        std::cout << "%  C2(k,l,m) = T2(k,l,m) + A(i,j,k)*B(j,l,i,m) + 5;" << std::endl << std::endl;
-        std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
+    // formatted output
+    std::cout << "% --------------------------- " << std::endl;
+    std::cout << "% --------------------------- " << std::endl << std::endl;
+    std::cout << "%  C2(k,l,m) = T2(k,l,m) + A(i,j,k)*B(j,l,i,m) + 5;" << std::endl << std::endl;
+    std::cout << "C2=" << C2 << ";" << std::endl << std::endl;
 
-    } catch (const std::exception& e) {
-      std::cerr << "Cought exception " << e.what();
-      std::cerr << "in the main function of multiply-tensor-einstein-notation when doing transpose." << std::endl;
-    }
+  } catch (const std::exception& e) {
+    std::cerr << "Cought exception " << e.what();
+    std::cerr << "in the main function of multiply-tensor-einstein-notation when doing transpose." << std::endl;
+  }
 }

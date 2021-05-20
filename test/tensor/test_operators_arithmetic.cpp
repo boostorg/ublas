@@ -17,7 +17,7 @@
 #include <boost/multiprecision/cpp_bin_float.hpp>
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE(test_tensor_arithmetic_operations, * boost::unit_test::depends_on("test_tensor"))
+BOOST_AUTO_TEST_SUITE(test_tensor_arithmetic_operations/*, * boost::unit_test::depends_on("test_tensor")*/)
 
 using double_extended = boost::multiprecision::cpp_bin_float_double_extended;
 
@@ -25,22 +25,21 @@ using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas:
 
 struct fixture
 {
-    using extents_type = boost::numeric::ublas::basic_extents<std::size_t>;
-    fixture()
-      : extents{
-          extents_type{},    // 0
-          extents_type{1,1}, // 1
-          extents_type{1,2}, // 2
-          extents_type{2,1}, // 3
-          extents_type{2,3}, // 4
-          extents_type{2,3,1}, // 5
-          extents_type{4,1,3}, // 6
-          extents_type{1,2,3}, // 7
-          extents_type{4,2,3}, // 8
-          extents_type{4,2,3,5}} // 9
+  using extents_type = boost::numeric::ublas::extents<>;
+
+  std::vector<extents_type> extents =
     {
-    }
-    std::vector<extents_type> extents;
+//      extents_type{},    // 0
+      extents_type{1,1}, // 1
+      extents_type{1,2}, // 2
+      extents_type{2,1}, // 3
+      extents_type{2,3}, // 4
+      extents_type{2,3,1}, // 5
+      extents_type{4,1,3}, // 6
+      extents_type{1,2,3}, // 7
+      extents_type{4,2,3}, // 8
+      extents_type{4,2,3,5} // 9
+  };
 };
 
 
@@ -51,7 +50,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
 
 
     auto check = [](auto const& e)
@@ -86,11 +85,6 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
             BOOST_CHECK_EQUAL ( r(i), 4 );
 
 
-        r = tensor_type (e,1) + tensor_type (e,1);
-
-        for(auto i = 0ul; i < r.size(); ++i)
-            BOOST_CHECK_EQUAL ( r(i), 2 );
-
         r = t * t * t * t2;
 
         for(auto i = 0ul; i < t.size(); ++i)
@@ -120,7 +114,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
 
 
     auto check = [](auto const& e)
@@ -183,7 +177,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
 
 
     auto check = [](auto const& e)

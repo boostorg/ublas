@@ -14,21 +14,16 @@
 #include <stdexcept>
 #include <type_traits>
 
-#include "../detail/extents_functions.hpp"
+#include "../extents.hpp"
 #include "../multiplication.hpp"
-#include "../traits/basic_type_traits.hpp"
-#include "../traits/type_traits_extents.hpp"
-#include "../traits/storage_traits.hpp"
+#include "../type_traits.hpp"
 #include "../tags.hpp"
 
 
 namespace boost::numeric::ublas
 {
 
-template <class ExtentsType, ExtentsType... E>
-class basic_static_extents;
-
-template<typename ... >
+template<class T, class L, class ST>
 struct tensor_engine;
 
 template<typename tensor_engine>
@@ -103,9 +98,9 @@ inline auto outer_prod( tensor_core< TEA > const &a, tensor_core< TEB > const &b
 
   auto c = tensorC( nc, valueA{} );
 
-  outer(c.data(), c.rank(), data(nc), c.strides().data(),
-        a.data(), a.rank(), data(na), a.strides().data(),
-        b.data(), b.rank(), data(nb), b.strides().data());
+  outer(c.data(), c.rank(), nc.data(), c.strides().data(),
+        a.data(), a.rank(), na.data(), a.strides().data(),
+        b.data(), b.rank(), nb.data(), b.strides().data());
 
   return c;
 }
@@ -144,12 +139,12 @@ using enable_outer_if_both_extents_have_static_rank = std::enable_if_t<
 template <class TEA, class TEB, detail::enable_outer_if_both_extents_have_static_rank<TEA,TEB> = true >
 inline auto outer_prod(tensor_core<TEA> const &a, tensor_core<TEB> const &b)
 {
-  using tensorA    = tensor_core<TEA>;
-  using valueA     = typename tensorA::value_type;
-  using layoutA    = typename tensorA::layout_type;
-  using extentsA   = typename tensorA::extents_type;
-  using arrayA     = typename tensorA::array_type;
-  using resizableA_tag  = typename tensorA::resizable_tag;
+  using tensorA        = tensor_core<TEA>;
+  using valueA         = typename tensorA::value_type;
+  using layoutA        = typename tensorA::layout_type;
+  using extentsA       = typename tensorA::extents_type;
+  using containerA     = typename tensorA::container_type;
+  using resizableA_tag = typename tensorA::resizable_tag;
 
   using tensorB    = tensor_core<TEB>;
   using valueB     = typename tensorB::value_type;
@@ -173,18 +168,18 @@ inline auto outer_prod(tensor_core<TEA> const &a, tensor_core<TEB> const &b)
   constexpr auto sizeB = std::tuple_size_v<extentsB>;
 
   using extentsC = extents<sizeA+sizeB>;
-  using tensorC = tensor_core<tensor_engine<extentsC,layoutA,arrayA>>;
+  using tensorC = tensor_core<tensor_engine<extentsC,layoutA,containerA>>;
 
   auto nc_base = typename extentsC::base_type{};
   auto nci = std::copy(ublas::begin(na), ublas::end(na), std::begin(nc_base));
   std::copy(ublas::begin(nb),ublas::end(nb), nci);
   auto nc = extentsC( nc_base );
 
-  auto c = tensorC( nc, valueA{} );
+  auto c = tensorC( nc );
 
-  outer(c.data(), c.rank(), data(nc), c.strides().data(),
-        a.data(), a.rank(), data(na), a.strides().data(),
-        b.data(), b.rank(), data(nb), b.strides().data());
+  outer(c.data(), c.rank(), nc.data(), c.strides().data(),
+        a.data(), a.rank(), na.data(), a.strides().data(),
+        b.data(), b.rank(), nb.data(), b.strides().data());
 
   return c;
 }
@@ -252,7 +247,7 @@ inline decltype(auto) outer_prod(tensor_core<TEA> const &a, tensor_core<TEB> con
   using extentsB   = typename tensorB::extents_type;
 //  using resizableB_tag  = typename tensorB::resizable_tag;
 
-  using extentsC   = detail::concat_t<extentsA, extentsB>;
+  using extentsC   = ublas::cat_t<extentsA,extentsB>;//  detail::concat_t<extentsA, extentsB>;
   using layoutC    = layoutA;
   using valueC     = valueA;
   using storageC   = rebind_storage_size_t<extentsC,arrayA>;
@@ -275,9 +270,9 @@ inline decltype(auto) outer_prod(tensor_core<TEA> const &a, tensor_core<TEB> con
 
   auto c = tensorC(valueC{});
 
-  outer(c.data(), c.rank(), data(nc), c.strides().data(),
-        a.data(), a.rank(), data(na), a.strides().data(),
-        b.data(), b.rank(), data(nb), b.strides().data());
+  outer(c.data(), c.rank(), data(nc), c.getStrides().data(),
+        a.data(), a.rank(), data(na), a.getStrides().data(),
+        b.data(), b.rank(), data(nb), b.getStrides().data());
 
   return c;
 }

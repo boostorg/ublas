@@ -22,30 +22,30 @@
 namespace boost::numeric::ublas
 {
 
-template <class A>
-struct storage_traits;
+template <class storage_type>
+struct container_traits;
 
 
 template <class V, class A>
-struct storage_traits<std::vector<V,A>>
+struct container_traits<std::vector<V,A>>
 {
-    using array_type      = std::vector<V,A>;
+    using container_type  = std::vector<V,A>;
 
-    using size_type       = typename array_type::size_type;
-    using difference_type = typename array_type::difference_type;
-    using value_type      = typename array_type::value_type;
+    using size_type       = typename container_type::size_type;
+    using difference_type = typename container_type::difference_type;
+    using value_type      = typename container_type::value_type;
 
-    using reference       = typename array_type::reference;
-    using const_reference = typename array_type::const_reference;
+    using reference       = typename container_type::reference;
+    using const_reference = typename container_type::const_reference;
 
-    using pointer         = typename array_type::pointer;
-    using const_pointer   = typename array_type::const_pointer;
+    using pointer         = typename container_type::pointer;
+    using const_pointer   = typename container_type::const_pointer;
 
-    using iterator        = typename array_type::iterator;
-    using const_iterator  = typename array_type::const_iterator;
+    using iterator        = typename container_type::iterator;
+    using const_iterator  = typename container_type::const_iterator;
 
-    using reverse_iterator        = typename array_type::reverse_iterator;
-    using const_reverse_iterator  = typename array_type::const_reverse_iterator;
+    using reverse_iterator        = typename container_type::reverse_iterator;
+    using const_reverse_iterator  = typename container_type::const_reverse_iterator;
 
     using container_tag = storage_seq_container_tag;
     using resizable_tag = storage_resizable_container_tag;
@@ -56,25 +56,25 @@ struct storage_traits<std::vector<V,A>>
 
 
 template <class V, std::size_t N>
-struct storage_traits<std::array<V,N>>
+struct container_traits<std::array<V,N>>
 {
-    using array_type      = std::array<V,N>;
+    using container_type  = std::array<V,N>;
 
-    using size_type       = typename array_type::size_type;
-    using difference_type = typename array_type::difference_type;
-    using value_type      = typename array_type::value_type;
+    using size_type       = typename container_type::size_type;
+    using difference_type = typename container_type::difference_type;
+    using value_type      = typename container_type::value_type;
 
-    using reference       = typename array_type::reference;
-    using const_reference = typename array_type::const_reference;
+    using reference       = typename container_type::reference;
+    using const_reference = typename container_type::const_reference;
 
-    using pointer         = typename array_type::pointer;
-    using const_pointer   = typename array_type::const_pointer;
+    using pointer         = typename container_type::pointer;
+    using const_pointer   = typename container_type::const_pointer;
 
-    using iterator        = typename array_type::iterator;
-    using const_iterator  = typename array_type::const_iterator;
+    using iterator        = typename container_type::iterator;
+    using const_iterator  = typename container_type::const_iterator;
 
-    using reverse_iterator        = typename array_type::reverse_iterator;
-    using const_reverse_iterator  = typename array_type::const_reverse_iterator;
+    using reverse_iterator        = typename container_type::reverse_iterator;
+    using const_reverse_iterator  = typename container_type::const_reverse_iterator;
 
     using container_tag = storage_seq_container_tag;
     using resizable_tag = storage_static_container_tag;
@@ -100,26 +100,26 @@ class basic_static_extents;
             using type = A;
         };
 
-        template<typename T, typename A, T E0,T... Es>
-        struct rebind_storage_size_helper<basic_static_extents<T,E0,Es...>, A, storage_static_container_tag>{
-            using type = typename storage_traits<A>::template rebind_size< E0 * (Es * ...) >;
+        template<typename T, typename C, T E0,T... Es>
+        struct rebind_storage_size_helper<basic_static_extents<T,E0,Es...>, C, storage_static_container_tag>{
+            using type = typename container_traits<C>::template rebind_size< E0 * (Es * ...) >;
         };
 
-        template<typename T, typename A>
-        struct rebind_storage_size_helper<basic_static_extents<T>, A, storage_static_container_tag>{
-            using type = typename storage_traits<A>::template rebind_size< 0 >;
+        template<typename T, typename C>
+        struct rebind_storage_size_helper<basic_static_extents<T>, C, storage_static_container_tag>{
+            using type = typename container_traits<C>::template rebind_size< 0 >;
         };
     } //namespace detail
 
-    template<typename E, typename A>
+    template<typename E, typename C>
     struct rebind_storage_size
-        : detail::rebind_storage_size_helper<E,A,
-            typename storage_traits<A>::resizable_tag
+        : detail::rebind_storage_size_helper<E,C,
+            typename container_traits<C>::resizable_tag
         >
     {};
 
-    template<typename E, typename A>
-    using rebind_storage_size_t = typename rebind_storage_size<E,A>::type;
+    template<typename E, typename C>
+    using rebind_storage_size_t = typename rebind_storage_size<E,C>::type;
     
 } // namespace boost::numeric::ublas
 

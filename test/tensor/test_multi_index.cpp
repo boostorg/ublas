@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_multi_index_class_generation, value, 
     namespace i = ublas::index;
     using value_type   = typename value::first_type;
     using layout_type  = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
 
     auto t = std::make_tuple (
           i::_a, // 0

@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include <type_traits>
 
+#include "../extents.hpp"
 #include "../multiplication.hpp"
 
 
@@ -53,10 +54,11 @@ inline decltype(auto) inner_prod(tensor_core< TE1 > const &a, tensor_core< TE2 >
   if (a.empty() || b.empty())
             throw std::length_error("error in boost::numeric::ublas::inner_prod: Tensors should not be empty.");
 
-  if (a.extents() != b.extents())
+  //if (a.extents() != b.extents())
+  if (::operator!=(a.extents(),b.extents()))
     throw std::length_error("error in boost::numeric::ublas::inner_prod: Tensor extents should be the same.");
 
-  return inner(a.rank(), data(a.extents()),
+  return inner(a.rank(), a.extents().data(),
                a.data(), a.strides().data(),
                b.data(), b.strides().data(), value_type{0});
 }

@@ -15,7 +15,6 @@
 #include <cstddef>
 #include <boost/numeric/ublas/expression_types.hpp>
 
-#include "traits/type_traits_tensor.hpp"
 #include "tags.hpp"
 
 namespace boost::numeric::ublas::detail

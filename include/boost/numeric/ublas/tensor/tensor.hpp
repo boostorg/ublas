@@ -10,46 +10,83 @@
 //  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
-#ifndef BOOST_UBLAS_TENSOR_IMPL_HPP
-#define BOOST_UBLAS_TENSOR_IMPL_HPP
+#ifndef BOOST_UBLAS_TENSOR_TENSOR_HPP
+#define BOOST_UBLAS_TENSOR_TENSOR_HPP
 
-#include "tensor_engine.hpp"
+
+#include "tensor/tensor_core.hpp"
+#include "tensor/tensor_dynamic.hpp"
+#include "tensor/tensor_engine.hpp"
+#include "tensor/tensor_static_rank.hpp"
+#include "tensor/tensor_static.hpp"
+
+
+
+
+#if 0
+
+
 #include "layout.hpp"
+#include "extents/extents_base.hpp"
 
 namespace boost::numeric::ublas{
 
-template<typename ValueType, typename Layout = layout::first_order>
-using dynamic_tensor = tensor_core<
-    tensor_engine<
-        extents<>,
-        Layout,
-        strides< extents<> >,
-        std::vector< ValueType, std::allocator<ValueType> >
+template<std::integral T, T...>
+class extents_core;
+
+namespace detail{
+template<class>                    struct product;
+template<std::size_t... es> struct product<extents<es...>> { static constexpr auto value = sizeof...(es)==0 ? 0ul : ( 1 * ... * es ); };
+} // namespace detail
+
+template<class E>
+constexpr inline auto product_vv = detail::product<E>::value;
+
+template<typename E, typename L, typename ST>
+struct tensor_engine;
+
+template< class T >
+class tensor_core;
+
+template<
+  class value_type,
+  class layout_type = layout::first_order
+  >
+using tensor_dynamic = tensor_core<
+  tensor_engine<
+    extents<>,
+    layout_type,
+    std::vector<value_type>
     >
->;
+  >;
 
-
-template<typename ValueType, typename ExtentsType, typename Layout = layout::first_order>
-using static_tensor = tensor_core<
-    tensor_engine<
-        ExtentsType,
-        Layout,
-        strides<ExtentsType>,
-        std::array< ValueType, product(ExtentsType{}) >
+template<
+  class value_type,
+  class extents_type,
+  class layout_type = layout::first_order>
+using tensor_static = tensor_core<
+  tensor_engine<
+    extents_type,
+    layout_type,
+    std::array<value_type, product_vv<extents_type>>
     >
->;
+  >;
 
-template<typename ValueType, std::size_t N, typename Layout = layout::first_order>
+template<
+  class value_type,
+  std::size_t N,
+  class layout_type = layout::first_order
+  >
 using fixed_rank_tensor = tensor_core<
-    tensor_engine<
-        extents<N>,
-        Layout,
-        strides< extents<N> >,
-        std::vector< ValueType, std::allocator<ValueType> >
+  tensor_engine<
+    extents<N>,
+    layout_type,
+    std::vector<value_type>
     >
->;
+  >;
 
 } // namespace boost::numeric::ublas
 
-
 #endif
+
+#endif // BOOST_UBLAS_TENSOR_TENSOR_HPP

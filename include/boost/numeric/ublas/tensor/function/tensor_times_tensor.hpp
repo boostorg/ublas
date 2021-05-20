@@ -15,16 +15,16 @@
 #include <stdexcept>
 #include <type_traits>
 
-#include "../detail/extents_functions.hpp"
-#include "../traits/basic_type_traits.hpp"
-#include "../traits/storage_traits.hpp"
-#include "../traits/type_traits_extents.hpp"
+#include "../extents.hpp"
 #include "../tags.hpp"
+#include "../tensor.hpp"
+#include "../type_traits.hpp"
+
 
 namespace boost::numeric::ublas
 {
 
-template<typename ... >
+template<class extents_type, class layout_type, class container_type>
 struct tensor_engine;
 
 template<typename tensor_engine>
@@ -84,7 +84,7 @@ inline decltype(auto) prod(tensor_core< TEA > const &a,
   using extentsB_type     = typename tensorB_type::extents_type;
   using layoutA_type      = typename tensorA_type::layout_type;
   using sizeA_type        = typename extentsA_type::size_type;
-  using array_type        = typename tensorA_type::array_type;
+  using container_type    = typename tensorA_type::container_type;
   using resizableA_tag    = typename tensorA_type::resizable_tag;
   using resizableB_tag    = typename tensorB_type::resizable_tag;
   using valueA_type       = typename tensorA_type::value_type;
@@ -151,14 +151,14 @@ inline decltype(auto) prod(tensor_core< TEA > const &a,
 
   auto nc = dynamic_extents(nc_base);
 
-  using return_tensor_type = tensor_core<tensor_engine<dynamic_extents, layoutA_type, array_type>>;
+  using return_tensor_type = tensor_core<tensor_engine<dynamic_extents, layoutA_type, container_type>>;
   auto c = return_tensor_type( nc, valueA_type{} );
 
   ttt(pa, pb, q,
       phia1.data(), phib1.data(),
-      c.data(), data(c.extents()), c.strides().data(),
-      a.data(), data(a.extents()), a.strides().data(),
-      b.data(), data(b.extents()), b.strides().data());
+      c.data(), c.extents().data(), c.strides().data(),
+      a.data(), a.extents().data(), a.strides().data(),
+      b.data(), b.extents().data(), b.strides().data());
 
   return c;
 }
@@ -238,7 +238,7 @@ inline auto prod(tensor_core<TEA> const &a,
   using valueB_type       = typename tensorB_type::value_type;
   using layout_type       = typename tensorA_type::layout_type;
   using size_type         = typename extentsA_type::size_type;
-  using array_type        = typename tensorA_type::array_type;
+  using container_type    = typename tensorA_type::container_type;
   using resizeableA_tag   = typename tensorA_type::resizable_tag;
   using resizeableB_tag   = typename tensorB_type::resizable_tag;
 
@@ -294,15 +294,15 @@ inline auto prod(tensor_core<TEA> const &a,
 
   auto nc = extents<msz>(nc_base);
 
-  using return_tensor_type = tensor_core<tensor_engine<return_extents_type,layout_type,array_type>>;
+  using return_tensor_type = tensor_core<tensor_engine<return_extents_type,layout_type,container_type>>;
 
-  auto c = return_tensor_type( nc, valueA_type{} );
+  auto c = return_tensor_type( nc );
 
   ttt(pa, pb, q,
       phia1.data(), phib1.data(),
-      c.data(), data(c.extents()), c.strides().data(),
-      a.data(), data(a.extents()), a.strides().data(),
-      b.data(), data(b.extents()), b.strides().data());
+      c.data(), c.extents().data(), c.strides().data(),
+      a.data(), a.extents().data(), a.strides().data(),
+      b.data(), b.extents().data(), b.strides().data());
 
   return c;
 }

@@ -1,14 +1,11 @@
 HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/algorithms.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/dynamic_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/dynamic_strides.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/expression.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/expression_evaluation.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents_functions.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/fixed_rank_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/fixed_rank_strides.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/functions.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/index.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/index_functions.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/layout.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/multi_index.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/multi_index_utility.hpp \
@@ -16,44 +13,42 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/operators_arithmetic.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/operators_comparison.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/ostream.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/static_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/static_strides.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/strides.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tags.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor_core.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor_engine.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/type_traits.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents_base.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/strides_base.hpp
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/type_traits.hpp
+
 
 HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/basic_type_traits.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/storage_traits.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_dynamic_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_dynamic_strides.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_fixed_rank_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_fixed_rank_strides.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_static_extents.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_static_strides.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_strides.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/type_traits_tensor.hpp
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/traits/storage_traits.hpp
 
 HEADERS += \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/inner_prod.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/outer_prod.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/trans.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/norm.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/imag.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/real.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/conj.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/tensor_times_vector.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/tensor_times_matrix.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/tensor_times_tensor.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/prod/reshape.hpp
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents/extents_dynamic_size.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents/extents_static_size.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents/extents_static_functions.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents/extents_static.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents/extents_base.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/extents/extents_functions.hpp
+
 
 HEADERS += \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/strides_functions.hpp \
-  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/detail/extents_functions.hpp
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_core.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_engine.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_static.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_static_rank.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_dynamic.hpp
 
+
+HEADERS += \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/inner_prod.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/init.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/outer_prod.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/trans.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/norm.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/imag.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/real.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/conj.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/tensor_times_vector.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/tensor_times_matrix.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/tensor_times_tensor.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/reshape.hpp

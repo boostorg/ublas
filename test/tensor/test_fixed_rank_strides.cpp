@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -10,152 +10,175 @@
 //  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
-
+#if 0
 
 #include <boost/test/unit_test.hpp>
 #include <boost/numeric/ublas/tensor/strides.hpp>
-#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
-
-//BOOST_AUTO_TEST_SUITE(test_strides, * boost::unit_test::depends_on("test_extents"));
+#include <boost/numeric/ublas/tensor/extents.hpp>
 
 BOOST_AUTO_TEST_SUITE(test_fixed_rank_strides)
 
 using test_types = std::tuple<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
+template<std::size_t N, class L>
+using strides =boost::numeric::ublas::strides<boost::numeric::ublas::extents<N>,L>;
+
 BOOST_AUTO_TEST_CASE_TEMPLATE( test_fixed_rank_strides_ctor, value, test_types)
 {
-    namespace ub = boost::numeric::ublas;
+  namespace ublas = boost::numeric::ublas;
+//  using layout_type = value;
+//  constexpr auto layout = value{};
 
-    ub::basic_fixed_rank_strides<unsigned, 0, ub::layout::first_order> s0{ub::extents<0>{}};
-    BOOST_CHECK        ( s0.empty());
-    BOOST_CHECK_EQUAL  ( s0.size(), 0);
+  auto s0   = strides<0,value>{};
+  auto s1   = strides<1,value>({1}     );
+  auto s3   = strides<1,value>({3}     );
+  auto s11  = strides<2,value>({1,1}   );
+  auto s12  = strides<2,value>({1,2}   );
+  auto s21  = strides<2,value>({2,1}   );
+  auto s23  = strides<2,value>({2,3}   );
+  auto s231 = strides<3,value>({2,3,1} );
+  auto s123 = strides<3,value>({1,2,3} );
+  auto s423 = strides<3,value>({4,2,3} );
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::first_order> s1{ub::extents<2>{1,1}};
-    BOOST_CHECK       (!s1.empty());
-    BOOST_CHECK_EQUAL ( s1.size(), 2);
+  BOOST_CHECK       (   s0.empty());
+  BOOST_CHECK       (!  s1.empty());
+  BOOST_CHECK       (!  s3.empty());
+  BOOST_CHECK       (! s11.empty());
+  BOOST_CHECK       (! s12.empty());
+  BOOST_CHECK       (! s21.empty());
+  BOOST_CHECK       (! s23.empty());
+  BOOST_CHECK       (!s231.empty());
+  BOOST_CHECK       (!s123.empty());
+  BOOST_CHECK       (!s423.empty());
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::first_order> s2{ub::extents<2>{1,2}};
-    BOOST_CHECK       (!s2.empty());
-    BOOST_CHECK_EQUAL ( s2.size(), 2);
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::first_order> s3{ub::extents<2>{2,1}};
-    BOOST_CHECK       (!s3.empty());
-    BOOST_CHECK_EQUAL ( s3.size(), 2);
-
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::first_order> s4{ub::extents<2>{2,3}};
-    BOOST_CHECK       (!s4.empty());
-    BOOST_CHECK_EQUAL ( s4.size(), 2);
-
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::first_order> s5{ub::extents<3>{2,3,1}};
-    BOOST_CHECK       (!s5.empty());
-    BOOST_CHECK_EQUAL ( s5.size(), 3);
-
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::first_order> s6{ub::extents<3>{1,2,3}};
-    BOOST_CHECK       (!s6.empty());
-    BOOST_CHECK_EQUAL ( s6.size(), 3);
-
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::first_order> s7{ub::extents<3>{4,2,3}};
-    BOOST_CHECK       (!s7.empty());
-    BOOST_CHECK_EQUAL ( s7.size(), 3);
+  BOOST_CHECK_EQUAL (   s0.size(), 0);
+  BOOST_CHECK_EQUAL (   s1.size(), 3);
+  BOOST_CHECK_EQUAL (   s3.size(), 1);
+  BOOST_CHECK_EQUAL (  s11.size(), 2);
+  BOOST_CHECK_EQUAL (  s12.size(), 2);
+  BOOST_CHECK_EQUAL (  s21.size(), 2);
+  BOOST_CHECK_EQUAL (  s23.size(), 2);
+  BOOST_CHECK_EQUAL ( s231.size(), 3);
+  BOOST_CHECK_EQUAL ( s123.size(), 3);
+  BOOST_CHECK_EQUAL ( s423.size(), 3);
 }
 
 
 BOOST_AUTO_TEST_CASE( test_fixed_rank_strides_ctor_access_first_order)
 {
-    namespace ub = boost::numeric::ublas;
+  using value = boost::numeric::ublas::layout::first_order;
+//  constexpr auto layout = boost::numeric::ublas::layout::first_order{};
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::first_order> s1{ub::extents<2>{1,1}};
-    BOOST_REQUIRE_EQUAL( s1.size(),2);
-    BOOST_CHECK_EQUAL  ( s1[0], 1);
-    BOOST_CHECK_EQUAL  ( s1[1], 1);
+  auto s1   = strides<1,value>({1}     );
+  auto s3   = strides<1,value>({3}     );
+  auto s11  = strides<2,value>({1,1}   );
+  auto s12  = strides<2,value>({1,2}   );
+  auto s21  = strides<2,value>({2,1}   );
+  auto s23  = strides<2,value>({2,3}   );
+  auto s231 = strides<3,value>({2,3,1} );
+  auto s213 = strides<3,value>({2,3,1} );
+  auto s123 = strides<3,value>({1,2,3} );
+  auto s423 = strides<3,value>({4,2,3} );
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::first_order> s2{ub::extents<2>{1,2}};
-    BOOST_REQUIRE_EQUAL ( s2.size(),2);
-    BOOST_CHECK_EQUAL   ( s2[0], 1);
-    BOOST_CHECK_EQUAL   ( s2[1], 1);
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::first_order> s3{ub::extents<2>{2,1}};
-    BOOST_REQUIRE_EQUAL ( s3.size(),2);
-    BOOST_CHECK_EQUAL   ( s3[0], 1);
-    BOOST_CHECK_EQUAL   ( s3[1], 1);
+  BOOST_REQUIRE_EQUAL (   s1.size(),1);
+  BOOST_REQUIRE_EQUAL (   s3.size(),1);
+  BOOST_REQUIRE_EQUAL (  s11.size(),2);
+  BOOST_REQUIRE_EQUAL (  s12.size(),2);
+  BOOST_REQUIRE_EQUAL (  s21.size(),2);
+  BOOST_REQUIRE_EQUAL (  s23.size(),2);
+  BOOST_REQUIRE_EQUAL ( s231.size(),3);
+  BOOST_REQUIRE_EQUAL ( s213.size(),3);
+  BOOST_REQUIRE_EQUAL ( s123.size(),3);
+  BOOST_REQUIRE_EQUAL ( s423.size(),3);
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::first_order> s4{ub::extents<2>{2,3}};
-    BOOST_REQUIRE_EQUAL ( s4.size(),2);
-    BOOST_CHECK_EQUAL   ( s4[0], 1);
-    BOOST_CHECK_EQUAL   ( s4[1], 2);
+  BOOST_CHECK_EQUAL   ( s11[0], 1);
+  BOOST_CHECK_EQUAL   ( s11[1], 1);
 
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::first_order> s5{ub::extents<3>{2,3,1}};
-    BOOST_REQUIRE_EQUAL ( s5.size(),3);
-    BOOST_CHECK_EQUAL   ( s5[0], 1);
-    BOOST_CHECK_EQUAL   ( s5[1], 2);
-    BOOST_CHECK_EQUAL   ( s5[2], 6);
+  BOOST_CHECK_EQUAL   ( s12[0], 1);
+  BOOST_CHECK_EQUAL   ( s12[1], 1);
 
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::first_order> s6{ub::extents<3>{1,2,3}};
-    BOOST_REQUIRE_EQUAL ( s6.size(),3);
-    BOOST_CHECK_EQUAL   ( s6[0], 1);
-    BOOST_CHECK_EQUAL   ( s6[1], 1);
-    BOOST_CHECK_EQUAL   ( s6[2], 2);
+  BOOST_CHECK_EQUAL   ( s21[0], 1);
+  BOOST_CHECK_EQUAL   ( s21[1], 1);
 
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::first_order> s7{ub::extents<3>{2,1,3}};
-    BOOST_REQUIRE_EQUAL ( s7.size(),3);
-    BOOST_CHECK_EQUAL   ( s7[0], 1);
-    BOOST_CHECK_EQUAL   ( s7[1], 2);
-    BOOST_CHECK_EQUAL   ( s7[2], 2);
+  BOOST_CHECK_EQUAL   ( s23[0], 1);
+  BOOST_CHECK_EQUAL   ( s23[1], 2);
 
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::first_order> s8{ub::extents<3>{4,2,3}};
-    BOOST_REQUIRE_EQUAL ( s8.size(),3);
-    BOOST_CHECK_EQUAL   ( s8[0], 1);
-    BOOST_CHECK_EQUAL   ( s8[1], 4);
-    BOOST_CHECK_EQUAL   ( s8[2], 8);
+  BOOST_CHECK_EQUAL   ( s231[0], 1);
+  BOOST_CHECK_EQUAL   ( s231[1], 2);
+  BOOST_CHECK_EQUAL   ( s231[2], 6);
+
+  BOOST_CHECK_EQUAL   ( s123[0], 1);
+  BOOST_CHECK_EQUAL   ( s123[1], 1);
+  BOOST_CHECK_EQUAL   ( s123[2], 2);
+
+  BOOST_CHECK_EQUAL   ( s213[0], 1);
+  BOOST_CHECK_EQUAL   ( s213[1], 2);
+  BOOST_CHECK_EQUAL   ( s213[2], 2);
+
+  BOOST_CHECK_EQUAL   ( s423[0], 1);
+  BOOST_CHECK_EQUAL   ( s423[1], 4);
+  BOOST_CHECK_EQUAL   ( s423[2], 8);
 }
 
 BOOST_AUTO_TEST_CASE( test_fixed_rank_strides_ctor_access_last_order)
 {
-    namespace ub = boost::numeric::ublas;
+  using value = boost::numeric::ublas::layout::first_order;
+  //  constexpr auto layout = boost::numeric::ublas::layout::first_order{};
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::last_order> s1{ub::extents<2>{1,1}};
-    BOOST_REQUIRE_EQUAL( s1.size(),2);
-    BOOST_CHECK_EQUAL  ( s1[0], 1);
-    BOOST_CHECK_EQUAL  ( s1[1], 1);
+  auto s1   = strides<1,value>({1}     );
+  auto s3   = strides<1,value>({3}     );
+  auto s11  = strides<2,value>({1,1}   );
+  auto s12  = strides<2,value>({1,2}   );
+  auto s21  = strides<2,value>({2,1}   );
+  auto s23  = strides<2,value>({2,3}   );
+  auto s231 = strides<3,value>({2,3,1} );
+  auto s213 = strides<3,value>({2,3,1} );
+  auto s123 = strides<3,value>({1,2,3} );
+  auto s423 = strides<3,value>({4,2,3} );
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::last_order> s2{ub::extents<2>{1,2}};
-    BOOST_REQUIRE_EQUAL ( s2.size(),2);
-    BOOST_CHECK_EQUAL   ( s2[0], 1);
-    BOOST_CHECK_EQUAL   ( s2[1], 1);
+  BOOST_REQUIRE_EQUAL (   s1.size(),1);
+  BOOST_REQUIRE_EQUAL (   s3.size(),1);
+  BOOST_REQUIRE_EQUAL (  s11.size(),2);
+  BOOST_REQUIRE_EQUAL (  s12.size(),2);
+  BOOST_REQUIRE_EQUAL (  s21.size(),2);
+  BOOST_REQUIRE_EQUAL (  s23.size(),2);
+  BOOST_REQUIRE_EQUAL ( s231.size(),3);
+  BOOST_REQUIRE_EQUAL ( s213.size(),3);
+  BOOST_REQUIRE_EQUAL ( s123.size(),3);
+  BOOST_REQUIRE_EQUAL ( s423.size(),3);
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::last_order> s3{ub::extents<2>{2,1}};
-    BOOST_REQUIRE_EQUAL ( s3.size(),2);
-    BOOST_CHECK_EQUAL   ( s3[0], 1);
-    BOOST_CHECK_EQUAL   ( s3[1], 1);
+  BOOST_CHECK_EQUAL   ( s11[0], 1);
+  BOOST_CHECK_EQUAL   ( s11[1], 1);
 
-    ub::basic_fixed_rank_strides<unsigned, 2, ub::layout::last_order> s4{ub::extents<2>{2,3}};
-    BOOST_REQUIRE_EQUAL ( s4.size(),2);
-    BOOST_CHECK_EQUAL   ( s4[0], 3);
-    BOOST_CHECK_EQUAL   ( s4[1], 1);
+  BOOST_CHECK_EQUAL   ( s12[0], 1);
+  BOOST_CHECK_EQUAL   ( s12[1], 1);
 
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::last_order> s5{ub::extents<3>{2,3,1}};
-    BOOST_REQUIRE_EQUAL ( s5.size(),3);
-    BOOST_CHECK_EQUAL   ( s5[0], 3);
-    BOOST_CHECK_EQUAL   ( s5[1], 1);
-    BOOST_CHECK_EQUAL   ( s5[2], 1);
+  BOOST_CHECK_EQUAL   ( s21[0], 1);
+  BOOST_CHECK_EQUAL   ( s21[1], 1);
 
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::last_order> s6{ub::extents<3>{1,2,3}};
-    BOOST_REQUIRE_EQUAL ( s6.size(),3);
-    BOOST_CHECK_EQUAL   ( s6[0], 6);
-    BOOST_CHECK_EQUAL   ( s6[1], 3);
-    BOOST_CHECK_EQUAL   ( s6[2], 1);
+  BOOST_CHECK_EQUAL   ( s23[0], 3);
+  BOOST_CHECK_EQUAL   ( s23[1], 1);
 
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::last_order> s7{ub::extents<3>{2,1,3}};
-    BOOST_REQUIRE_EQUAL ( s7.size(),3);
-    BOOST_CHECK_EQUAL   ( s7[0], 3);
-    BOOST_CHECK_EQUAL   ( s7[1], 3);
-    BOOST_CHECK_EQUAL   ( s7[2], 1);
+  BOOST_CHECK_EQUAL   ( s231[0], 3);
+  BOOST_CHECK_EQUAL   ( s231[1], 1);
+  BOOST_CHECK_EQUAL   ( s231[2], 1);
 
-    ub::basic_fixed_rank_strides<unsigned, 3, ub::layout::last_order> s8{ub::extents<3>{4,2,3}};
-    BOOST_REQUIRE_EQUAL ( s8.size(),3);
-    BOOST_CHECK_EQUAL   ( s8[0], 6);
-    BOOST_CHECK_EQUAL   ( s8[1], 3);
-    BOOST_CHECK_EQUAL   ( s8[2], 1);
+  BOOST_CHECK_EQUAL   ( s123[0], 6);
+  BOOST_CHECK_EQUAL   ( s123[1], 3);
+  BOOST_CHECK_EQUAL   ( s123[2], 1);
+
+  BOOST_CHECK_EQUAL   ( s213[0], 3);
+  BOOST_CHECK_EQUAL   ( s213[1], 3);
+  BOOST_CHECK_EQUAL   ( s213[2], 1);
+
+  BOOST_CHECK_EQUAL   ( s423[0], 6);
+  BOOST_CHECK_EQUAL   ( s423[1], 3);
+  BOOST_CHECK_EQUAL   ( s423[2], 1);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

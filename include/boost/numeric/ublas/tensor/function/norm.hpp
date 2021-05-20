@@ -47,13 +47,11 @@ inline auto norm(tensor_core< TE > const &a)
 {
   using value_type = typename tensor_core< TE >::value_type;
 
-  static_assert(std::is_default_constructible<value_type>::value);
-
   if (a.empty()) {
     throw std::runtime_error("Error in boost::numeric::ublas::norm: tensors should not be empty.");
   }
 
-  return std::sqrt(accumulate(a.order(), data(a.extents()), a.data(), a.strides().data(), value_type{},
+  return std::sqrt(accumulate(a.order(), a.extents().data(), a.data(), a.strides().data(), value_type{},
                               [](auto const &l, auto const &r) { return l + r * r; }));
 }
 

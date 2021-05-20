@@ -13,9 +13,7 @@
 #ifndef BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
 #define BOOST_UBLAS_TENSOR_TYPE_TRAITS_HPP
 
+#include "traits/basic_type_traits.hpp"
 #include "traits/storage_traits.hpp"
-#include "traits/type_traits_extents.hpp"
-#include "traits/type_traits_strides.hpp"
-#include "traits/type_traits_tensor.hpp"
 
 #endif

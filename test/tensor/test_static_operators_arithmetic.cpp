@@ -18,7 +18,7 @@
 #include <boost/multiprecision/cpp_bin_float.hpp>
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE(test_static_tensor_arithmetic_operations)
+BOOST_AUTO_TEST_SUITE(test_tensor_static_arithmetic_operations)
 
 using double_extended = boost::multiprecision::cpp_bin_float_double_extended;
 
@@ -27,7 +27,7 @@ using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas:
 struct fixture
 {
     template<size_t... N>
-    using extents_type = boost::numeric::ublas::static_extents<N...>;
+    using extents_type = boost::numeric::ublas::extents<N...>;
 
     fixture() = default;
 
@@ -52,7 +52,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
     auto check = [](auto const& /*unused*/, auto& e)
     { 
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+        using tensor_type = ublas::tensor_static<value_type,extents_type,layout_type>;
         auto t  = tensor_type ();
         auto t2 = tensor_type ();
         auto r  = tensor_type ();
@@ -114,7 +114,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
     auto check = [](auto const& /*unused*/, auto& e)
     {
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+        using tensor_type = ublas::tensor_static<value_type,extents_type,layout_type>;
         auto t  = tensor_type ();
         auto t2 = tensor_type ();
         auto v  = value_type  {};
@@ -171,7 +171,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
     auto check = [](auto const& /*unused*/, auto& e)
     {
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+        using tensor_type = ublas::tensor_static<value_type,extents_type,layout_type>;
         auto t  = tensor_type ();
         auto t2 = tensor_type ();
         auto r  = tensor_type ();

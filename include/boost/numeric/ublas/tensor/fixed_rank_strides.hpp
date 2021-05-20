@@ -12,13 +12,17 @@
 /// \file strides.hpp Definition for the basic_strides template class
 
 
+
 #ifndef BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP
 #define BOOST_UBLAS_TENSOR_FIXED_RANK_STRIDES_HPP
 
-#include "fixed_rank_extents.hpp"
+#if 0
+
+#include "detail/strides_functions.hpp"
+#include "extents/extents_static_size.hpp"
 #include "layout.hpp"
 #include "strides_base.hpp"
-#include "detail/strides_functions.hpp"
+
 
 namespace boost::numeric::ublas {
 
@@ -27,119 +31,63 @@ namespace boost::numeric::ublas {
  * Proxy template class of std::array<int_type,N>.
  *
  */
-template<class T, std::size_t N, class L>
-class basic_fixed_rank_strides
-  : public strides_base< basic_fixed_rank_strides<T,N,L> >
+template<class L,std::size_t N>
+class strides<extents<N>,L> : public strides_base<strides<extents<N>,L>>
 {
 public:
 
-    using layout_type           = L;
-    using base_type             = std::array<T, N>;
-    using value_type            = typename base_type::value_type;
-    using reference             = typename base_type::reference;
-    using const_reference       = typename base_type::const_reference;
-    using size_type             = typename base_type::size_type;
-    using const_pointer         = typename base_type::const_pointer;
-    using const_iterator        = typename base_type::const_iterator;
-    using const_reverse_iterator = typename base_type::const_reverse_iterator;
+  using extents_type           = extents<N>;
+  using layout_type            = L;
+  using base_type              = typename extents_type::base_type;
+  using value_type             = typename base_type::value_type;
+  using reference              = typename base_type::reference;
+  using const_reference        = typename base_type::const_reference;
+  using size_type              = typename base_type::size_type;
+  using const_pointer          = typename base_type::const_pointer;
+  using const_iterator         = typename base_type::const_iterator;
+  using const_reverse_iterator = typename base_type::const_reverse_iterator;
 
-    static_assert( std::numeric_limits<value_type>::is_integer,
-                                 "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type integer.");
-    static_assert(!std::numeric_limits<value_type>::is_signed,
-                                "Static error in boost::numeric::ublas::basic_fixed_rank_strides: type must be of type unsigned integer.");
-    static_assert(std::is_same<L,layout::first_order>::value || std::is_same<L,layout::last_order>::value,
-                                "Static error in boost::numeric::ublas::basic_fixed_rank_strides: layout type must either first or last order");
 
-    /** @brief Default constructs basic_fixed_rank_strides
+  static_assert(std::is_same<layout_type,layout::first_order>::value ||
+                std::is_same<layout_type,layout::last_order >::value);
+    /** @brief Default constructs strides with static size
      *
-     * @code auto ex = basic_fixed_rank_strides<unsigned>{};
+     * @code auto s = strides<extents<3>>{};
      */
-    constexpr basic_fixed_rank_strides() noexcept = default;
+    constexpr strides() noexcept = default;
 
-    /** @brief Constructs basic_fixed_rank_strides from basic_extents for the first- and last-order storage formats
+    /** @brief Constructs strides from extents with static size for the first- and last-order storage formats
      *
-     * @code auto strides = basic_fixed_rank_strides<unsigned>( basic_extents<std::size_t>{2,3,4} );
+     * @code auto s = strides<extents<3>>({2,3,4},layout::first_order{});
      *
      */
-    template<class OT>
-    constexpr explicit basic_fixed_rank_strides(basic_fixed_rank_extents<OT,N> const& e)
+    constexpr explicit strides(extents_type const& e)
+      : _base(compute_strides(e))
     {
-      if(ublas::empty(e) || ublas::size(e) != this->size()){
-        return;
-      }
-
-      std::fill(_base.begin(), _base.end(), 1U);
-
-      if( ublas::is_vector(e) || ublas::is_scalar(e) ){
-        return;
-      }
-
-      detail::compute_strides_helper(e,_base,layout_type{});
-
-//        _base.fill(1U);
-
-//        if( extents.empty() )
-//            return;
-
-//        if( !is_valid(extents) )
-//            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : "
-//                "shape is not valid."
-//            );
-
-//        if( is_vector(extents) || is_scalar(extents) )
-//            return;
-
-//        if( this->size() < 2 )
-//            throw std::runtime_error("Error in boost::numeric::ublas::basic_fixed_rank_strides(ExtentsType const&) : "
-//                "size of strides must be greater or equal 2."
-//            );
-
-
-//        if constexpr (std::is_same<layout_type,layout::first_order>::value){
-//            std::transform(extents.begin(), extents.end() - 1, _base.begin(), _base.begin() + 1, std::multiplies<value_type>{});
-//        } else {
-//            std::transform(extents.rbegin(), extents.rend() - 1, _base.rbegin(), _base.rbegin() + 1, std::multiplies<value_type>{});
-//        }
     }
 
-    constexpr basic_fixed_rank_strides(basic_fixed_rank_strides const& l)
+    constexpr strides(strides const& l)
         : _base(l._base)
     {}
 
-    constexpr basic_fixed_rank_strides(basic_fixed_rank_strides && l ) noexcept
+    constexpr strides(strides && l ) noexcept
         : _base(std::move(l._base))
     {}
 
-    constexpr explicit basic_fixed_rank_strides(base_type const& l )
-        : _base(l)
-    {}
-
-    constexpr explicit basic_fixed_rank_strides(base_type && l )
-            : _base(std::move(l))
-    {}
-
-    ~basic_fixed_rank_strides() = default;
+    ~strides() = default;
 
 
-    basic_fixed_rank_strides& operator=(basic_fixed_rank_strides const& other)
-        noexcept(std::is_nothrow_swappable_v<base_type>)
-    {
-        basic_fixed_rank_strides temp(other);
-        swap (*this, temp);
-        return *this;
-    }
-
-    basic_fixed_rank_strides& operator=(basic_fixed_rank_strides && other)
+    strides& operator=(strides other)
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
         swap (*this, other);
         return *this;
     }
 
-    friend void swap(basic_fixed_rank_strides& lhs, basic_fixed_rank_strides& rhs) 
+    friend void swap(strides& lhs, strides& rhs)
         noexcept(std::is_nothrow_swappable_v<base_type>)
     {
-        std::swap(lhs._base   , rhs._base);
+        std::swap(lhs._base,rhs._base);
     }
 
     [[nodiscard]] inline
@@ -207,22 +155,41 @@ public:
     }
 
 private:
-    base_type _base;
-    static constexpr std::size_t const _size = N;
+  base_type _base;
+  static constexpr std::size_t const _size = N;
+
+
+  [[nodiscard]] inline auto compute_strides( extents_type const& e)
+  {
+    using base_type    = typename extents_type::base_type;
+    namespace ub       = boost::numeric::ublas;
+    auto init = []<std::size_t ... is>(std::index_sequence<is...>){ return base_type{is...}; };
+
+    auto s = init(std::make_index_sequence<N>{});
+
+    if (std::tuple_size_v<extents_type> == 0UL)
+      return s;
+    if (ub::is_vector(e) || ub::is_scalar(e))
+      return s;
+
+    if constexpr(std::is_same_v<layout_type,layout::first_order>){
+      std::transform(ub::begin(e),  ub::end(e) - 1,  s.begin(),  s.begin()  + 1, std::multiplies<>{});
+    }
+    else {
+      std::transform(ub::rbegin(e), ub::rbegin(e) - 1, s.rbegin(),  s.rbegin()  + 1, std::multiplies<>{});
+    }
+
+    return s;
+  }
 };
 
 
-template <class L, class T, std::size_t R> struct is_strides< basic_fixed_rank_strides< T, R, L> > : std::true_type {};
-template <class T, std::size_t R, class L> struct is_dynamic< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
-template <class T, std::size_t R, class L> struct is_static_rank< basic_fixed_rank_strides<T,R,L> > : std::true_type {};
-
-template <std::size_t N, class T>
-struct strides<basic_fixed_rank_extents<T,N>>
-{
-  template<typename Layout>
-  using type = basic_fixed_rank_strides<T, N, Layout>;
-};
+template <class L, std::size_t E> struct is_strides     <strides<extents<E>,L>> : std::true_type {};
+template <class L, std::size_t E> struct is_dynamic     <strides<extents<E>,L>> : std::true_type {};
+template <class L, std::size_t E> struct is_static_rank <strides<extents<E>,L>> : std::true_type {};
 
 } // namespace boost::numeric::ublas
+
+#endif
 
 #endif

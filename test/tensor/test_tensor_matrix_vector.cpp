@@ -19,8 +19,6 @@
 
 #include "utility.hpp"
 
-// BOOST_AUTO_TEST_SUITE ( test_tensor_matrix_interoperability, * boost::unit_test::depends_on("test_tensor") ) ;
-
 BOOST_AUTO_TEST_SUITE ( test_tensor_matrix_interoperability )
 
 using test_types = zip<int,float>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
@@ -31,7 +29,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor, value,  test_types)
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
     tensor_type a2 = matrix_type(1,1);
@@ -61,7 +59,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor, value,  test_types)
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
     tensor_type a2 = vector_type(1);
@@ -109,7 +107,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor_extents, value,  
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
     auto check = [](auto const& e) {
@@ -131,7 +129,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor_extents, value,  
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
     auto check = [](auto const& e) {
@@ -157,13 +155,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  te
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
     auto check = [](auto const& e)
     {
         assert(ublas::size(e) == 2);
-        auto t = tensor_type{};
+        auto t = tensor_type(e);
         auto r = matrix_type(e[0],e[1]);
         std::iota(r.data().begin(),r.data().end(), 1);
         t = r;
@@ -192,13 +190,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  te
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
     auto check = [](auto const& e)
     {
         assert(ublas::size(e) == 2);
-        auto t = tensor_type{};
+        auto t = tensor_type(e);
         auto r = vector_type(e[0]*e[1]);
         std::iota(r.data().begin(),r.data().end(), 1);
         t = r;
@@ -224,13 +222,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  te
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
     auto check = [](auto const& e)
     {
         assert(ublas::size(e) == 2);
-        auto t = tensor_type{};
+        auto t = tensor_type(e);
         auto r = matrix_type(e[0],e[1]);
         std::iota(r.data().begin(),r.data().end(), 1);
         auto q = r;
@@ -262,13 +260,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  te
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
     auto check = [](auto const& e)
     {
         assert(ublas::size(e) == 2);
-        auto t = tensor_type{};
+        auto t = tensor_type(e);
         auto r = vector_type(e[0]*e[1]);
         std::iota(r.data().begin(),r.data().end(), 1);
         auto q = r;
@@ -299,13 +297,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
     auto check = [](auto const& e)
     {
         assert(ublas::size(e) == 2);
-        auto t = tensor_type{};
+        auto t = tensor_type(e);
         auto r = matrix_type(e[0],e[1]);
         std::iota(r.data().begin(),r.data().end(), 1);
         t = r + 3*r;
@@ -358,13 +356,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
     auto check = [](auto const& e)
     {
         assert(ublas::size(e) == 2);
-        auto t = tensor_type{};
+        auto t = tensor_type(e);
         auto r = vector_type(e[0]*e[1]);
         std::iota(r.data().begin(),r.data().end(), 1);
         t = r + 3*r;
@@ -413,7 +411,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
     namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type = ublas::dynamic_tensor<value_type,layout_type>;
+    using tensor_type = ublas::tensor_dynamic<value_type,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
     using vector_type = typename tensor_type::vector_type;
 

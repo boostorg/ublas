@@ -7,7 +7,7 @@
 //
 
 #include <boost/test/unit_test.hpp>
-#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
+#include <boost/numeric/ublas/tensor/extents.hpp>
 
 BOOST_AUTO_TEST_SUITE ( test_shape_dynamic_static_rank )
 
@@ -15,9 +15,9 @@ BOOST_AUTO_TEST_SUITE ( test_shape_dynamic_static_rank )
 struct fixture
 {
   template<std::size_t N>
-  using shape_t = boost::numeric::ublas::basic_fixed_rank_extents<unsigned, N>;
+  using shape_t = boost::numeric::ublas::extents<N>;
 
-  static inline auto n     = shape_t<0>{};
+//  static inline auto n     = shape_t<0>{};
   static inline auto n1    = shape_t<1>{1};
   static inline auto n2    = shape_t<1>{2};
   static inline auto n11   = shape_t<2>{1,1};
@@ -41,7 +41,7 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_empty,
                         *boost::unit_test::label("dynamic_extents_rank_static") *boost::unit_test::label("empty"))
 {
   namespace ublas = boost::numeric::ublas;
-  BOOST_CHECK( ublas::empty(n   ));
+//  BOOST_CHECK( ublas::empty(n   ));
   BOOST_CHECK(!ublas::empty(n1  ));
   BOOST_CHECK(!ublas::empty(n2  ));
   BOOST_CHECK(!ublas::empty(n11 ));
@@ -72,7 +72,7 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_size,
 {
   namespace ublas = boost::numeric::ublas;
 
-  BOOST_CHECK_EQUAL(ublas::size(n   ),0);
+//  BOOST_CHECK_EQUAL(ublas::size(n   ),0);
   BOOST_CHECK_EQUAL(ublas::size(n1  ),1);
   BOOST_CHECK_EQUAL(ublas::size(n2  ),1);
   BOOST_CHECK_EQUAL(ublas::size(n11 ),2);
@@ -119,45 +119,9 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_at_read,
   BOOST_CHECK_EQUAL(n432.at(2),2);
 
 
-  BOOST_CHECK_THROW( (void)n  .at(0), std::out_of_range);
+//  BOOST_CHECK_THROW( (void)n  .at(0), std::out_of_range);
   BOOST_CHECK_THROW( (void)n32.at(2), std::out_of_range);
   BOOST_CHECK_THROW( (void)n32.at(5), std::out_of_range);
-}
-
-
-BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_at_write,
-                        fixture,
-                        *boost::unit_test::label("dynamic_extents_rank_static") *boost::unit_test::label("at_write"))
-{
-  auto n3 = shape_t<1>{1};
-  n3.at(0)=3;
-  BOOST_CHECK_EQUAL(n3.at(0),3);
-
-  auto n34 = shape_t<2>{1,1};
-  n34.at(0)=3;
-  n34.at(1)=4;
-  BOOST_CHECK_EQUAL(n34.at(0),3);
-  BOOST_CHECK_EQUAL(n34.at(1),4);
-
-
-  auto n345 = shape_t<3>{1,1,1};
-  n345.at(0)=3;
-  n345.at(1)=4;
-  n345.at(2)=5;
-  BOOST_CHECK_EQUAL(n345.at(0),3);
-  BOOST_CHECK_EQUAL(n345.at(1),4);
-  BOOST_CHECK_EQUAL(n345.at(2),5);
-
-
-  auto n5432 = shape_t<4>{1,1,1,1};
-  n5432.at(0)=5;
-  n5432.at(1)=4;
-  n5432.at(2)=3;
-  n5432.at(3)=2;
-  BOOST_CHECK_EQUAL(n5432.at(0),5);
-  BOOST_CHECK_EQUAL(n5432.at(1),4);
-  BOOST_CHECK_EQUAL(n5432.at(2),3);
-  BOOST_CHECK_EQUAL(n5432.at(3),2);
 }
 
 
@@ -187,42 +151,5 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_operator_access_read,
   BOOST_CHECK_EQUAL(n432[1],3);
   BOOST_CHECK_EQUAL(n432[2],2);
 }
-
-
-BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_operator_access_write,
-                        fixture,
-                        *boost::unit_test::label("dynamic_extents_rank_static") *boost::unit_test::label("operator_access_write"))
-{
-  auto n3 = shape_t<1>{1};
-  n3.at(0)=3;
-  BOOST_CHECK_EQUAL(n3[0],3);
-
-  auto n34 = shape_t<2>{1,1};
-  n34[0]=3;
-  n34[1]=4;
-  BOOST_CHECK_EQUAL(n34[0],3);
-  BOOST_CHECK_EQUAL(n34[1],4);
-
-
-  auto n345 = shape_t<3>{1,1,1};
-  n345[0]=3;
-  n345[1]=4;
-  n345[2]=5;
-  BOOST_CHECK_EQUAL(n345[0],3);
-  BOOST_CHECK_EQUAL(n345[1],4);
-  BOOST_CHECK_EQUAL(n345[2],5);
-
-
-  auto n5432 = shape_t<4>{1,1,1,1};
-  n5432[0]=5;
-  n5432[1]=4;
-  n5432[2]=3;
-  n5432[3]=2;
-  BOOST_CHECK_EQUAL(n5432[0],5);
-  BOOST_CHECK_EQUAL(n5432[1],4);
-  BOOST_CHECK_EQUAL(n5432[2],3);
-  BOOST_CHECK_EQUAL(n5432[3],2);
-}
-
 
 BOOST_AUTO_TEST_SUITE_END()

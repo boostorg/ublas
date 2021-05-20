@@ -15,24 +15,22 @@
 #include <stdexcept>
 #include <type_traits>
 
-#include "../detail/extents_functions.hpp"
-#include "../traits/basic_type_traits.hpp"
-#include "../traits/storage_traits.hpp"
-#include "../traits/type_traits_extents.hpp"
+#include "../extents.hpp"
+#include "../type_traits.hpp"
 #include "../tags.hpp"
 
 namespace boost::numeric::ublas
 {
 
 
-template<typename ... >
+template<class extents_type, class layout_type, class container_type>
 struct tensor_engine;
 
 template<typename tensor_engine>
 class tensor_core;
 
-template<class type, class allocator>
-class vector;
+//template<class type, class allocator>
+//class vector;
 
 } // namespace boost::numeric::ublas
 
@@ -68,11 +66,12 @@ template <class TE, class  A, class  T = typename tensor_core< TE >::value_type,
 inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, const std::size_t m)
 {
 
-  using tensor_type   = tensor_core< TE >;
-  using extents_type  = typename tensor_type::extents_type;
-  using value_type    = typename tensor_type::value_type;
-  using resize_tag    = typename tensor_type::resizable_tag;
-  using size_type     = typename extents_type::size_type;
+  using tensor_type        = tensor_core< TE >;
+  using extents_type       = typename tensor_type::extents_type;
+  using value_type         = typename tensor_type::value_type;
+  using layout_type        = typename tensor_type::layout_type;
+  using resize_tag         = typename tensor_type::resizable_tag;
+  using size_type          = typename extents_type::size_type;
   using extents_value_type = typename extents_type::value_type;
   using extents_base_type  = typename extents_type::base_type;
 
@@ -87,7 +86,8 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
   if (b.empty()) throw std::length_error("error in boost::numeric::ublas::prod(ttv): second argument vector should not be empty.");
 
   auto const& na = a.extents();
-  auto nb = std::vector<extents_value_type>{b.size(), extents_value_type(1)};
+  auto nb = extents<2>{b.size(), extents_value_type(1)};
+  auto wb = ublas::to_strides(nb,layout_type{} );
 
   auto const sz = std::max( ublas::size(na) - 1, size_type(2) );
   auto nc_base = extents_base_type(sz,1);
@@ -102,9 +102,9 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
   auto c = tensor_type( nc, value_type{} );
   auto const* bb = &(b(0));
   ttv(m, p,
-      c.data(), data(c.extents()), c.strides().data(),
-      a.data(), data(a.extents()), a.strides().data(),
-      bb, data(nb), data(nb));
+      c.data(), c.extents().data(), c.strides().data(),
+      a.data(), a.extents().data(), a.strides().data(),
+      bb,       nb.data(),          wb.data());
   return c;
 }
 
@@ -141,8 +141,7 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
 
   using tensor_type    = tensor_core< TE >;
   using extents_type   = typename tensor_type::extents_type;
-  using value_type     = typename tensor_type::value_type;
-  using array_type     = typename tensor_type::array_type;
+  using container_type = typename tensor_type::container_type;
   using layout_type    = typename tensor_type::layout_type;
   using resizeable_tag = typename tensor_type::resizable_tag;
   using extents_value_type = typename extents_type::value_type;
@@ -167,17 +166,19 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
     if (i != m - 1)
       nc_base[j++] = na.at(i);
 
-  auto nc = return_extents_type(nc_base);
-  auto nb = std::vector<extents_value_type>{b.size(), extents_value_type(1)};
+  auto nc = return_extents_type(std::move(nc_base));
+  auto nb = extents<2>{b.size(), extents_value_type(1)};
 
-  using return_tensor_type = tensor_core<tensor_engine<return_extents_type,layout_type,array_type >>;
+  auto wb = ublas::to_strides(nb,layout_type{});
 
-  auto c = return_tensor_type( nc, value_type{} );
+  using return_tensor_type = tensor_core<tensor_engine<return_extents_type,layout_type,container_type>>;
+
+  auto c = return_tensor_type( std::move(nc) );
   auto const* bb = &(b(0));
   ttv(m, p,
-      c.data(), data(c.extents()), c.strides().data(),
-      a.data(), data(a.extents()), a.strides().data(),
-      bb, data(nb), data(nb));
+      c.data(), c.extents().data(), c.strides().data(),
+      a.data(), a.extents().data(), a.strides().data(),
+      bb,       nb.data(),          wb.data() );
   return c;
 }
 
@@ -241,11 +242,11 @@ template <std::size_t M,
           typename T = typename tensor_core< TE >::value_type>
 inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b)
 {
-  using tensor_type   = tensor_core< TE >;
-  using array_type    = typename tensor_type::array_type;
-  using extents_type  = typename tensor_type::extents_type;
-  using value_type    = typename tensor_type::value_type;
-  using layout_type   = typename tensor_type::layout_type;
+  using tensor_type    = tensor_core< TE >;
+  using container_type = typename tensor_type::container_type;
+  using extents_type   = typename tensor_type::extents_type;
+  using value_type     = typename tensor_type::value_type;
+  using layout_type    = typename tensor_type::layout_type;
   using extents_value_type = typename extents_type::value_type;
 
   static_assert( M != 0ul );
@@ -259,10 +260,10 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b)
 
   auto const& na = a.extents();
   auto nc = detail::extents_result_tensor_times_vector<M>(na);
-  auto nb = std::vector<extents_value_type>{b.size(), extents_value_type(1)};
+  auto nb = extents<2>{b.size(), extents_value_type(1)};
 
   using return_extents_type = std::decay_t<decltype(nc)>;
-  using storage_type        = rebind_storage_size_t<return_extents_type,array_type>;
+  using storage_type        = rebind_storage_size_t<return_extents_type,container_type>;
   using return_tensor_type  = tensor_core<tensor_engine<return_extents_type,layout_type, storage_type > >;
 
   auto c = return_tensor_type(value_type{});
@@ -270,11 +271,12 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b)
 
   auto const& wa = a.strides();
   auto const& wc = c.strides();
+  auto wb        = ublas::to_strides(nb,layout_type{});
 
   ttv(M, p,
       c.data(), nc.data(), wc.data(),
       a.data(), na.data(), wa.data(),
-      bb, data(nb), data(nb));
+      bb,       nb.data(), wb.data());
 
   return c;
 }

@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -19,7 +19,7 @@
 
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE ( test_fixed_rank_tensor_matrix_interoperability )
+BOOST_AUTO_TEST_SUITE ( test_tensor_static_rank_matrix_interoperability )
 
 using test_types = zip<int,float>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor, value,  test_types)
   namespace ublas  = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout = typename value::second_type;
-    using tensor = ublas::fixed_rank_tensor<value_type, 2,layout>;
+    using tensor = ublas::tensor_static_rank<value_type, 2,layout>;
     using matrix = typename tensor::matrix_type;
 
     auto a2 = tensor( matrix(1,1) );
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor, value,  test_types)
   namespace ublas  = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
-    using tensor_type  = ublas::fixed_rank_tensor<value_type, 2,layout_type>;
+    using tensor_type  = ublas::tensor_static_rank<value_type, 2,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
     auto a2 = tensor_type( vector_type(1) );
@@ -115,7 +115,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_ctor_extents, value,  
 
   auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor = ublas::fixed_rank_tensor<value_type, size,layout_type>;
+    using tensor = ublas::tensor_static_rank<value_type, size,layout_type>;
     using matrix = typename tensor::matrix_type;
 
     assert(ublas::size(e)==2);
@@ -139,7 +139,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_ctor_extents, value,  
 
   auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor = ublas::fixed_rank_tensor<value_type, size,layout_type>;
+    using tensor = ublas::tensor_static_rank<value_type, size,layout_type>;
     using vector = typename tensor::vector_type;
 
     assert(ublas::size(e)==2);
@@ -166,12 +166,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_copy_assignment, value,  te
 
 
   for_each_in_tuple(extents, [](auto const& /*unused*/, auto& e) {
-    constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor = ublas::fixed_rank_tensor<value_type,size,layout_type>;
+    using etype  = std::decay_t<decltype(e)>;
+    constexpr auto size = std::tuple_size_v<etype>;
+    using tensor = ublas::tensor_static_rank<value_type,size,layout_type>;
     using matrix = typename tensor::matrix_type;
 
     assert(ublas::size(e) == 2);
-    auto t = tensor{};
+    auto t = tensor{e[1],e[0]};
     auto r = matrix(e[0],e[1]);
     std::iota(r.data().begin(),r.data().end(), 1);
     t = r;
@@ -202,11 +203,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_copy_assignment, value,  te
 
   auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
+    using tensor_type = ublas::tensor_static_rank<value_type, size,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
     assert(ublas::size(e) == 2);
-    auto t = tensor_type{};
+    auto t = tensor_type{e[1],e[0]};
     auto r = vector_type(e[0]*e[1]);
     std::iota(r.data().begin(),r.data().end(), 1);
     t = r;
@@ -235,11 +236,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_move_assignment, value,  te
 
   auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
+    using tensor_type = ublas::tensor_static_rank<value_type, size,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
     assert(ublas::size(e) == 2);
-    auto t = tensor_type{};
+    auto t = tensor_type{e[1],e[0]};
     auto r = matrix_type(e[0],e[1]);
     std::iota(r.data().begin(),r.data().end(), 1);
     auto q = r;
@@ -273,11 +274,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_move_assignment, value,  te
 
   auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
+    using tensor_type = ublas::tensor_static_rank<value_type, size,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
     assert(ublas::size(e) == 2);
-    auto t = tensor_type{};
+    auto t = tensor_type{e[1],e[0]};
     auto r = vector_type(e[0]*e[1]);
     std::iota(r.data().begin(),r.data().end(), 1);
     auto q = r;
@@ -311,11 +312,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_expressions, value,  test_t
 
   auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
+    using tensor_type = ublas::tensor_static_rank<value_type, size,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
 
     assert(ublas::size(e) == 2);
-    auto t = tensor_type{};
+    auto t = tensor_type{e[1],e[0]};
     auto r = matrix_type(e[0],e[1]);
     std::iota(r.data().begin(),r.data().end(), 1);
     t = r + 3*r;
@@ -370,11 +371,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
 
   auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
+    using tensor_type = ublas::tensor_static_rank<value_type, size,layout_type>;
     using vector_type = typename tensor_type::vector_type;
 
     assert(ublas::size(e) == 2);
-    auto t = tensor_type{};
+    auto t = tensor_type{e[1],e[0]};
     auto r = vector_type(e[0]*e[1]);
     std::iota(r.data().begin(),r.data().end(), 1);
     t = r + 3*r;
@@ -426,7 +427,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
 
   auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor_type = ublas::fixed_rank_tensor<value_type, size,layout_type>;
+    using tensor_type = ublas::tensor_static_rank<value_type, size,layout_type>;
     using matrix_type = typename tensor_type::matrix_type;
     using vector_type = typename tensor_type::vector_type;
 

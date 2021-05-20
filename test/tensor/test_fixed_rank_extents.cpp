@@ -11,57 +11,51 @@
 //
 
 #include <boost/test/unit_test.hpp>
-#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
-#include <boost/numeric/ublas/tensor/detail/extents_functions.hpp>
+#include <boost/numeric/ublas/tensor/extents.hpp>
 #include <vector>
 
-BOOST_AUTO_TEST_SUITE ( test_fixed_rank_extents )
+BOOST_AUTO_TEST_SUITE ( test_extents_static_size )
 
 
 //*boost::unit_test::label("extents")
 //*boost::unit_test::label("constructor")
 
-BOOST_AUTO_TEST_CASE(test_fixed_rank_extents_ctor)
+BOOST_AUTO_TEST_CASE(test_extents_static_size_ctor)
 {
   namespace ub = boost::numeric::ublas;
 
 
-  auto e = ub::extents<0>{};
-  BOOST_CHECK( ub::empty(e));
-  BOOST_CHECK_EQUAL ( ub::size(e), 0);
+//  auto e = ub::extents<0>{};
+  auto  e11 = ub::extents<2>{1,1};
+  auto  e12 = ub::extents<2>{1,2};
+  auto  e21 = ub::extents<2>{2,1};
+  auto  e23 = ub::extents<2>{2,3};
+  auto e231 = ub::extents<3>{2,3,1};
+  auto e123 = ub::extents<3>{1,2,3}; // 6
+  auto e423 = ub::extents<3>{4,2,3};  // 7
 
-  auto e11 = ub::extents<2>{{1,1}};
-  BOOST_CHECK(!ub::empty(e11));
-  BOOST_CHECK ( ub::size(e11) == 2);
 
-  auto e12 = ub::extents<2>{{1,2}};
-  BOOST_CHECK(!ub::empty(e12));
-  BOOST_CHECK ( ub::size(e12) == 2);
-
-  auto e21 = ub::extents<2>{{2,1}};
+  BOOST_CHECK (!ub::empty(e11));
+  BOOST_CHECK (!ub::empty(e12));
   BOOST_CHECK (!ub::empty(e21));
-  BOOST_CHECK ( ub::size(e21) == 2);
-
-  auto e23 = ub::extents<2>{{2,3}};
-  BOOST_CHECK(!empty(e23));
-  BOOST_CHECK ( size(e23) == 2);
-
-  auto e231 = ub::extents<3>{{2,3,1}};
+  BOOST_CHECK (!ub::empty(e23));
   BOOST_CHECK (!ub::empty(e231));
-  BOOST_CHECK  ( ub::size(e231) == 3);
+  BOOST_CHECK (!ub::empty(e123));
+  BOOST_CHECK (!ub::empty(e423));
 
-  auto e123 = ub::extents<3>{{1,2,3}}; // 6
-  BOOST_CHECK(!ub::empty(e123));
+  BOOST_CHECK ( ub::size (e11) == 2);
+  BOOST_CHECK ( ub::size (e12) == 2);
+  BOOST_CHECK ( ub::size (e21) == 2);
+  BOOST_CHECK ( ub::size (e23) == 2);
+  BOOST_CHECK ( ub::size(e231) == 3);
   BOOST_CHECK ( ub::size(e123) == 3);
-
-  auto e423 = ub::extents<3>{{4,2,3}};  // 7
-  BOOST_CHECK(!ub::empty(e423));
   BOOST_CHECK ( ub::size(e423) == 3);
+
 
   BOOST_CHECK_THROW( ub::extents<2>({1,0}), 	std::invalid_argument);
   BOOST_CHECK_THROW( ub::extents<1>({0}  ), 	std::invalid_argument);
   BOOST_CHECK_THROW( ub::extents<2>({0,1}), 	std::invalid_argument);
-  BOOST_CHECK_THROW( ub::extents<2>({1,1,2}), std::out_of_range);
+  BOOST_CHECK_THROW( ub::extents<2>({1,1,2}), std::length_error);
 }
 
 
@@ -69,7 +63,7 @@ struct fixture {
   template<size_t N>
   using extents = boost::numeric::ublas::extents<N>;
 
-  extents<0> de       {};
+//  extents<0> de       {};
 
   extents<2> de11     {1,1};
   extents<2> de12     {1,2};
@@ -93,13 +87,13 @@ struct fixture {
   extents<6> de112311 {1,1,2,3,1,1};
 };
 
-BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_access, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("access"))
+BOOST_FIXTURE_TEST_CASE(test_extents_static_size_access, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("access"))
 {
 
   namespace ublas = boost::numeric::ublas;
 
-  BOOST_REQUIRE_EQUAL(ublas::size(de), 0);
-  BOOST_CHECK        (ublas::empty(de)  );
+//  BOOST_REQUIRE_EQUAL(ublas::size(de), 0);
+//  BOOST_CHECK        (ublas::empty(de)  );
 
   BOOST_REQUIRE_EQUAL(ublas::size(de11)    , 2);
   BOOST_REQUIRE_EQUAL(ublas::size(de12)    , 2);
@@ -203,11 +197,11 @@ BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_access, fixture, *boost::unit_te
   BOOST_CHECK_EQUAL(de112311[5],1);
 }
 
-BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_copy_ctor, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("copy_ctor"))
+BOOST_FIXTURE_TEST_CASE(test_extents_static_size_copy_ctor, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("copy_ctor"))
 {
   namespace ublas = boost::numeric::ublas;
 
-  auto e       = de;
+//  auto e       = de;
   auto e1      = de11;
   auto e12     = de12;
   auto e21     = de21;
@@ -227,9 +221,9 @@ BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_copy_ctor, fixture, *boost::unit
   auto e112311 = de112311;
 
 
-  BOOST_CHECK (ublas::empty(e)  );
+//  BOOST_CHECK (ublas::empty(e)  );
 
-  BOOST_REQUIRE_EQUAL(ublas::size(e)      , 0);
+//  BOOST_REQUIRE_EQUAL(ublas::size(e)      , 0);
   BOOST_REQUIRE_EQUAL(ublas::size(e1)     , 2);
   BOOST_REQUIRE_EQUAL(ublas::size(e12)    , 2);
   BOOST_REQUIRE_EQUAL(ublas::size(e21)    , 2);
@@ -333,12 +327,12 @@ BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_copy_ctor, fixture, *boost::unit
 
 }
 
-BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_is, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("query"))
+BOOST_FIXTURE_TEST_CASE(test_extents_static_size_is, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("query"))
 {
   namespace ublas = boost::numeric::ublas;
 
 
-  auto e       = de;
+//  auto e       = de;
   auto e11     = de11;
   auto e12     = de12;
   auto e21     = de21;
@@ -357,28 +351,28 @@ BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_is, fixture, *boost::unit_test::
   auto e112111 = de112111;
   auto e112311 = de112311;
 
-  BOOST_CHECK(   ublas::empty    (e));
-  BOOST_CHECK( ! ublas::is_scalar(e));
-  BOOST_CHECK( ! ublas::is_vector(e));
-  BOOST_CHECK( ! ublas::is_matrix(e));
-  BOOST_CHECK( ! ublas::is_tensor(e));
+//  BOOST_CHECK(   ublas::empty    (e));
+//  BOOST_CHECK( ! ublas::is_scalar(e));
+//  BOOST_CHECK( ! ublas::is_vector(e));
+//  BOOST_CHECK( ! ublas::is_matrix(e));
+//  BOOST_CHECK( ! ublas::is_tensor(e));
 
   BOOST_CHECK( ! ublas::empty    (e11) );
   BOOST_CHECK(   ublas::is_scalar(e11) );
-  BOOST_CHECK( ! ublas::is_vector(e11) );
-  BOOST_CHECK( ! ublas::is_matrix(e11) );
+  BOOST_CHECK(   ublas::is_vector(e11) );
+  BOOST_CHECK(   ublas::is_matrix(e11) );
   BOOST_CHECK( ! ublas::is_tensor(e11) );
 
   BOOST_CHECK( ! ublas::empty    (e12) );
   BOOST_CHECK( ! ublas::is_scalar(e12) );
   BOOST_CHECK(   ublas::is_vector(e12) );
-  BOOST_CHECK( ! ublas::is_matrix(e12) );
+  BOOST_CHECK(   ublas::is_matrix(e12) );
   BOOST_CHECK( ! ublas::is_tensor(e12) );
 
   BOOST_CHECK( ! ublas::empty    (e21) );
   BOOST_CHECK( ! ublas::is_scalar(e21) );
   BOOST_CHECK(   ublas::is_vector(e21) );
-  BOOST_CHECK( ! ublas::is_matrix(e21) );
+  BOOST_CHECK(   ublas::is_matrix(e21) );
   BOOST_CHECK( ! ublas::is_tensor(e21) );
 
   BOOST_CHECK( ! ublas::empty    (e23) );
@@ -438,19 +432,19 @@ BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_is, fixture, *boost::unit_test::
   BOOST_CHECK( ! ublas::empty    (e141) );
   BOOST_CHECK( ! ublas::is_scalar(e141) );
   BOOST_CHECK(   ublas::is_vector(e141) );
-  BOOST_CHECK( ! ublas::is_matrix(e141) );
+  BOOST_CHECK(   ublas::is_matrix(e141) );
   BOOST_CHECK( ! ublas::is_tensor(e141) );
 
   BOOST_CHECK( ! ublas::empty    (e1111) );
   BOOST_CHECK(   ublas::is_scalar(e1111) );
-  BOOST_CHECK( ! ublas::is_vector(e1111) );
-  BOOST_CHECK( ! ublas::is_matrix(e1111) );
+  BOOST_CHECK(   ublas::is_vector(e1111) );
+  BOOST_CHECK(   ublas::is_matrix(e1111) );
   BOOST_CHECK( ! ublas::is_tensor(e1111) );
 
   BOOST_CHECK( ! ublas::empty    (e14111) );
   BOOST_CHECK( ! ublas::is_scalar(e14111) );
   BOOST_CHECK(   ublas::is_vector(e14111) );
-  BOOST_CHECK( ! ublas::is_matrix(e14111) );
+  BOOST_CHECK(   ublas::is_matrix(e14111) );
   BOOST_CHECK( ! ublas::is_tensor(e14111) );
 
   BOOST_CHECK( ! ublas::empty    (e112111) );
@@ -466,7 +460,7 @@ BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_is, fixture, *boost::unit_test::
   BOOST_CHECK(   ublas::is_tensor(e112311) );
 }
 
-//BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_squeeze, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("squeeze"))
+//BOOST_FIXTURE_TEST_CASE(test_extents_static_size_squeeze, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("squeeze"))
 //{
 //    auto e1  = squeeze(de1); // {1,1}
 //    auto e2  = squeeze(de2); // {1,2}
@@ -513,12 +507,11 @@ BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_is, fixture, *boost::unit_test::
 //}
 
 
-BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_product, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("product"))
+BOOST_FIXTURE_TEST_CASE(test_extents_static_size_product, fixture, *boost::unit_test::label("basic_fixed_rank_extents") *boost::unit_test::label("product"))
 {
   namespace ublas = boost::numeric::ublas;
 
-
-  auto e       = ublas::product( de       );
+//  auto e       = ublas::product( de       );
   auto e11     = ublas::product( de11     );
   auto e12     = ublas::product( de12     );
   auto e21     = ublas::product( de21     );
@@ -537,7 +530,7 @@ BOOST_FIXTURE_TEST_CASE(test_fixed_rank_extents_product, fixture, *boost::unit_t
   auto e112111 = ublas::product( de112111 );
   auto e112311 = ublas::product( de112311 );
 
-  BOOST_CHECK_EQUAL( e      ,  0 );
+//  BOOST_CHECK_EQUAL( e      ,  0 );
   BOOST_CHECK_EQUAL( e11    ,  1 );
   BOOST_CHECK_EQUAL( e12    ,  2 );
   BOOST_CHECK_EQUAL( e21    ,  2 );

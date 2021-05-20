@@ -16,7 +16,7 @@
 #include <type_traits>
 
 
-#include "../detail/extents_functions.hpp"
+#include "../extents/extents_functions.hpp"
 #include "../traits/basic_type_traits.hpp"
 #include "../expression.hpp"
 #include "../expression_evaluation.hpp"
@@ -26,11 +26,8 @@ namespace boost::numeric::ublas
 template<typename tensor_engine>
 class tensor_core;
 
-template<typename ...>
+template<typename extents_type, typename layout_type, typename storage_type>
 struct tensor_engine;
-
-template<class E, class L, class ST>
-struct tensor_engine<E,L,ST>;
 
 } // namespace boost::numeric::ublas
 
@@ -62,11 +59,11 @@ auto imag(detail::tensor_expression< tensor_core< TE > ,D> const& expr)
   using complex_type      = typename tensor_type::value_type;
   using value_type        = typename complex_type::value_type;
   using layout_type       = typename tensor_type::layout_type;
-  using array_type        = typename tensor_type::array_type;
+  using container_type        = typename tensor_type::container_type;
   using extents_type      = typename tensor_type::extents_type;
-  using return_array_type = typename storage_traits<array_type>::template rebind<value_type>;
+  using return_container_type = typename container_traits<container_type>::template rebind<value_type>;
 
-  using return_tensor_type = tensor_core<tensor_engine<extents_type, layout_type, return_array_type >>;
+  using return_tensor_type = tensor_core<tensor_engine<extents_type, layout_type, return_container_type >>;
 
   if( ublas::empty( detail::retrieve_extents( expr  ) ) ){
     throw std::runtime_error("error in boost::numeric::ublas::real: tensors should not be empty.");

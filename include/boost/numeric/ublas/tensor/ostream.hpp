@@ -13,7 +13,7 @@
 #define BOOST_UBLAS_TENSOR_OSTREAM_HPP
 
 
-#include "detail/extents_functions.hpp"
+#include "extents/extents_functions.hpp"
 
 
 #include <complex>
@@ -112,7 +112,7 @@ std::ostream& operator << (std::ostream& out, class boost::numeric::ublas::tenso
     out << ']';
   }
   else{
-    boost::numeric::ublas::detail::print(out, t.rank()-1, t.data(), w.data(), ublas::data(n));
+    boost::numeric::ublas::detail::print(out, t.rank()-1, t.data(), w.data(), n.data());
   }
   return out;
 }

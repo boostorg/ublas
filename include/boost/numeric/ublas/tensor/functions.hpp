@@ -11,16 +11,17 @@
 #ifndef BOOST_UBLAS_TENSOR_FUNCTIONS_HPP
 #define BOOST_UBLAS_TENSOR_FUNCTIONS_HPP
 
-#include "prod/reshape.hpp"
-#include "prod/inner_prod.hpp"
-#include "prod/outer_prod.hpp"
-#include "prod/norm.hpp"
-#include "prod/imag.hpp"
-#include "prod/real.hpp"
-#include "prod/conj.hpp"
-#include "prod/trans.hpp"
-#include "prod/tensor_times_vector.hpp"
-#include "prod/tensor_times_matrix.hpp"
-#include "prod/tensor_times_tensor.hpp"
+#include "function/reshape.hpp"
+#include "function/inner_prod.hpp"
+#include "function/outer_prod.hpp"
+#include "function/norm.hpp"
+#include "function/imag.hpp"
+#include "function/real.hpp"
+#include "function/conj.hpp"
+#include "function/trans.hpp"
+#include "function/tensor_times_vector.hpp"
+#include "function/tensor_times_matrix.hpp"
+#include "function/tensor_times_tensor.hpp"
+#include "function/init.hpp"
 
 #endif

@@ -15,6 +15,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "../extents.hpp"
 #include "../traits/basic_type_traits.hpp"
 #include "../multiplication.hpp"
 
@@ -65,7 +66,7 @@ inline decltype(auto) trans(tensor_core< TensorEngine > const &a, PermuType cons
     return c;
   }
 
-  trans(a.rank(), data(a.extents()), tau.data(),
+  trans(a.rank(), a.extents().data(), tau.data(),
         c.data(), c.strides().data(),
         a.data(), a.strides().data());
 
