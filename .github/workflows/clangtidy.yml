@@ -35,7 +35,7 @@ jobs:
           rm -rf boost
       
       - name: "Run Clang-Tidy"
-        run: clang-tidy-11 examples/tensor/*.cpp test/tensor/*.cpp -- -Iinclude -std=c++20 > reports.txt && cat reports.txt
+        run: clang-tidy-11 examples/tensor/*.cpp test/tensor/*.cpp -- -Iinclude -std=c++20 > reports.txt
 
       - name: "Print Clang-Tidy Report"
         run: cat reports.txt

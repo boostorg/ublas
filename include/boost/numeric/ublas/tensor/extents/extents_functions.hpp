@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <concepts>
 
 #include "../layout.hpp"
 
