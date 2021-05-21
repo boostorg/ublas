@@ -65,9 +65,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_einstein_multiplication, value,  test_types 
 
     for(auto j = 0u; j < AB.extents().at(1); ++j){
       for(auto i = 0u; i < AB.extents().at(0); ++i){
-        auto e0  = B.extents().at(0);
-        auto sum = std::div(e0*(e0+1),2);
-        BOOST_CHECK_EQUAL( AB.at(i,j) , A.at(i,0)*value_t(sum.quot) );
+        auto e0   = B.extents().at(0);
+        auto sum  = std::div(e0*(e0+1),2);
+        auto quot = value_t(sum.quot);
+        BOOST_CHECK_EQUAL( AB.at(i,j) , A.at(i,0)*quot );
       }
     }
   }

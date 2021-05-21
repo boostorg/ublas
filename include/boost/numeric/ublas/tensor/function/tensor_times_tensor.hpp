@@ -83,7 +83,6 @@ inline decltype(auto) prod(tensor_core< TEA > const &a,
   using extentsA_type     = typename tensorA_type::extents_type;
   using extentsB_type     = typename tensorB_type::extents_type;
   using layoutA_type      = typename tensorA_type::layout_type;
-  using sizeA_type        = typename extentsA_type::size_type;
   using container_type    = typename tensorA_type::container_type;
   using resizableA_tag    = typename tensorA_type::resizable_tag;
   using resizableB_tag    = typename tensorB_type::resizable_tag;
@@ -100,7 +99,7 @@ inline decltype(auto) prod(tensor_core< TEA > const &a,
   auto const pa = a.rank();
   auto const pb = b.rank();
 
-  auto const q = static_cast<sizeA_type>(phia.size());
+  auto const q = std::size_t{phia.size()};
 
   if (pa == 0ul)        throw std::runtime_error("error in ublas::prod(ttt): order of left-hand side tensor must be greater than 0.");
   if (pb == 0ul)        throw std::runtime_error("error in ublas::prod(ttt): order of right-hand side tensor must be greater than 0.");
@@ -122,13 +121,13 @@ inline decltype(auto) prod(tensor_core< TEA > const &a,
 
   auto phia1 = std::vector<std::size_t>(pa);
   auto phib1 = std::vector<std::size_t>(pb);
-  std::iota(phia1.begin(), phia1.end(), 1ul);
-  std::iota(phib1.begin(), phib1.end(), 1ul);
+  std::iota(phia1.begin(), phia1.end(), std::size_t(1));
+  std::iota(phib1.begin(), phib1.end(), std::size_t(1));
 
   using dynamic_extents = std::conditional_t<is_dynamic_rank_v<extentsA_type>, extentsA_type, extentsB_type>;
   using extents_base = typename dynamic_extents::base_type;
-  auto const size = sizeA_type(pa+pb-2*q);
-  auto nc_base = extents_base ( std::max(size, sizeA_type(2)), sizeA_type(1) );
+  auto const size = std::size_t(pa+pb-2*q);
+  auto nc_base = extents_base (std::max(size,std::size_t{2}),std::size_t{1});
 
   //for (auto i = 0ul; i < phia.size(); ++i)
   for (auto p : phia)
@@ -237,7 +236,6 @@ inline auto prod(tensor_core<TEA> const &a,
   using valueA_type       = typename tensorA_type::value_type;
   using valueB_type       = typename tensorB_type::value_type;
   using layout_type       = typename tensorA_type::layout_type;
-  using size_type         = typename extentsA_type::size_type;
   using container_type    = typename tensorA_type::container_type;
   using resizeableA_tag   = typename tensorA_type::resizable_tag;
   using resizeableB_tag   = typename tensorB_type::resizable_tag;
@@ -271,12 +269,12 @@ inline auto prod(tensor_core<TEA> const &a,
 
   auto phia1 = std::array<std::size_t,pa>{};
   auto phib1 = std::array<std::size_t,pb>{};
-  std::iota(phia1.begin(), phia1.end(), 1ul);
-  std::iota(phib1.begin(), phib1.end(), 1ul);
+  std::iota(phia1.begin(), phia1.end(),std::size_t(1));
+  std::iota(phib1.begin(), phib1.end(),std::size_t(1));
 
-  constexpr auto const msz = std::max(size_type(r+s), size_type(2));
+  constexpr auto const msz = std::max(std::size_t(r+s), std::size_t(2));
   using return_extents_type = extents<msz>;
-  auto nc_base = std::array<size_type,msz>{};
+  auto nc_base = std::array<std::size_t,msz>{};
 
   for (auto i = 0ul; i < phia.size(); ++i)
     *std::remove(phia1.begin(), phia1.end(), phia.at(i)) = phia.at(i);
@@ -292,7 +290,7 @@ inline auto prod(tensor_core<TEA> const &a,
   for (auto i = 0ul; i < s; ++i)
     nc_base[r+i] = nb[phib1[i] - 1];
 
-  auto nc = extents<msz>(nc_base);
+  auto nc = return_extents_type(nc_base);
 
   using return_tensor_type = tensor_core<tensor_engine<return_extents_type,layout_type,container_type>>;
 

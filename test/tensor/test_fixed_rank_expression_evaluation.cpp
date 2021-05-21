@@ -106,12 +106,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_static_rank_expression_retrieve_ex
     constexpr auto size1 = std::tuple_size_v<std::decay_t<decltype(e1)>>;
     using tensor_type1 = ublas::tensor_static_rank<value_t, size1, layout_t>;
 
-    for_each_in_tuple(extents, [&,I,size1](auto J, auto const& e2){
+    for_each_in_tuple(extents, [&,I](auto J, auto const& e2){
 
       if( J != I + 1 ){
         return;
       }
 
+      static constexpr auto size1 = std::tuple_size_v<std::decay_t<decltype(e1)>>;
       static constexpr auto size2 = std::tuple_size_v<std::decay_t<decltype(e2)>>;
       using tensor_type2 = ublas::tensor_static_rank<value_t, size2, layout_t>;
 

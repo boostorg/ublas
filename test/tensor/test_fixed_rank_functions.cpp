@@ -103,7 +103,6 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_extents_static_size_prod_matrix, v
     for (auto m = 0u; m < ublas::size(n); ++m) {
 
       auto b = matrix_t  ( n[m], n[m], value_t{1} );
-
       auto c = ublas::prod(a, b, m + 1);
 
       for (auto i = 0u; i < c.size(); ++i){
@@ -147,19 +146,16 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_extents_static_size_prod_tensor_1,
     if constexpr(std::is_same_v<phi_type,std::vector<std::size_t>>){
       phi.resize(q);
     }
-    std::iota(phi.begin(), phi.end(), 1ul);
-
+    std::iota(phi.begin(), phi.end(), std::size_t{1});
     auto c = ublas::prod(a, b, phi);
 
-    auto acc = value_t(1);
-    for (auto i = 0ul; i < q; ++i){
-      auto const& na = a.extents();
-      acc *= static_cast<value_t>(na.at(phi.at(i)-1));
+    auto const& na = a.extents();
+    auto acc = std::size_t{1};
+    for (auto i = 0ul; i < q; ++i){      
+      acc *= na.at(phi.at(i)-1);
     }
-
-    for (auto i = 0ul; i < c.size(); ++i){
-      BOOST_CHECK_EQUAL(c[i], acc *a[0] * b[0]);
-    }
+    const auto v = value_t(acc) * a[0] * b[0];
+    BOOST_CHECK( std::all_of(c.begin(),c.end(),[v](auto cc){ return cc == v;}));
   };
 
 

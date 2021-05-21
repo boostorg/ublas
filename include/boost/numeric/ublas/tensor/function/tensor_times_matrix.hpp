@@ -73,7 +73,7 @@ inline decltype(auto) prod( tensor_core< TE > const &a, matrix<T,L,A> const &b, 
 
   auto const   p = a.rank();
   auto const& na = a.extents();
-  auto        nb = extents<2>{b.size1(), b.size2()};
+  auto        nb = extents<2>{std::size_t(b.size1()), std::size_t(b.size2())};
 
   assert( p != 0 );
   assert( p == ublas::size(na));
@@ -144,7 +144,7 @@ inline decltype(auto) prod(tensor_core<TE> const &a, matrix<T,L,A> const &b)
   constexpr auto p = std::tuple_size_v<extents_type>;
 
   auto const& na = a.extents();
-  auto        nb = extents<2>{b.size1(), b.size2()};
+  auto        nb = extents<2>{std::size_t(b.size1()), std::size_t(b.size2())};
 
   static_assert( p != 0 );
   static_assert( p == a.rank());

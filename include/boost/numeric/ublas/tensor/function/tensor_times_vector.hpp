@@ -71,7 +71,6 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
   using value             = typename tensor::value_type;
   using layout            = typename tensor::layout_type;
   using resize_tag        = typename tensor::resizable_tag;
-  using size_type         = typename shape::size_type;
 
   auto const p = a.rank();
 
@@ -84,10 +83,10 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
   if (b.empty()) throw std::length_error("error in boost::numeric::ublas::prod(ttv): second argument vector should not be empty.");
 
   auto const& na = a.extents();
-  auto nb = extents<2>{b.size(), 1ul};
+  auto nb = extents<2>{std::size_t(b.size()),std::size_t(1ul)};
   auto wb = ublas::to_strides(nb,layout{} );
 
-  auto const sz = std::max( ublas::size(na) - 1, size_type(2) );
+  auto const sz = std::max( std::size_t(ublas::size(na)-1u), std::size_t(2) );
   auto nc_base = typename shape::base_type(sz,1);
 
   for (auto i = 0ul, j = 0ul; i < p; ++i)
@@ -143,7 +142,7 @@ inline auto prod( tensor_core< TE > const &a, vector<T, A> const &b, const std::
   using resizeable_tag = typename tensor::resizable_tag;
 
   constexpr auto p  = std::tuple_size_v<shape>;
-  constexpr auto sz = std::max( std::tuple_size_v<shape> -1u , 2UL );
+  constexpr auto sz = std::max(std::size_t(std::tuple_size_v<shape>-1U),std::size_t(2));
 
   using shape_b   = ublas::extents<2>;
   using shape_c   = ublas::extents<sz>;
@@ -159,7 +158,7 @@ inline auto prod( tensor_core< TE > const &a, vector<T, A> const &b, const std::
   auto const& na = a.extents();
 
   auto nc_base = typename shape_c::base_type{};
-  std::fill(nc_base.begin(), nc_base.end(),1UL);
+  std::fill(nc_base.begin(), nc_base.end(),std::size_t(1));
   for (auto i = 0ul, j = 0ul; i < p; ++i)
     if (i != m - 1)
       nc_base[j++] = na.at(i);
@@ -219,7 +218,7 @@ inline auto prod( tensor_core< TE > const &a, vector<T, A> const &b)
   auto const& na = a.extents();
 
   auto nc = shape_c{};
-  auto nb = shape_b{b.size(),1UL};
+  auto nb = shape_b{std::size_t(b.size()),std::size_t(1)};
 
   auto c = tensor_c{};
   auto const* bb = &(b(0));

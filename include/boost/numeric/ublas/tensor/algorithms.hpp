@@ -92,7 +92,7 @@ constexpr void copy(const SizeType p, SizeType const*const n,
  * @param[in] op unary operation
 */
 template <class PointerOut, class PointerIn, class SizeType, class UnaryOp>
-constexpr void transform(const SizeType p,
+constexpr void transform(SizeType const p,
                          SizeType const*const n,
                          PointerOut c, SizeType const*const wc,
                          PointerIn a,  SizeType const*const wa,

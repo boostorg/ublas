@@ -67,12 +67,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_mtv, value,  test_types, fixture )
 
     auto a = vector_t(ublas::product(na), value_t{2});
     auto wa = ublas::to_strides(na,layout_t{});
-    for(auto m = 0ul; m < ublas::size(na); ++m){
-      auto nb = extents_t {na[m],1};
+    for(auto m = std::size_t{0}; m < ublas::size(na); ++m){
+      auto nb = extents_t {na[m],std::size_t{1}};
       auto wb = ublas::to_strides(nb,layout_t{});
       auto b  = vector_t  (ublas::product(nb), value_t{1} );
 
-      auto nc_base = extents_base_t(std::max(ublas::size(na)-1, 2ul), 1);
+      auto nc_base = extents_base_t(std::max(std::size_t{ublas::size(na)-1u}, std::size_t{2}), 1);
 
       for(auto i = 0ul, j = 0ul; i < ublas::size(na); ++i)
         if(i != m)
@@ -88,9 +88,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_mtv, value,  test_types, fixture )
         a.data(), na.data(), wa.data(),
         b.data());
 
+      auto v = value_t(na[m]);
+      BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
 
-      for(auto i = 0u; i < c.size(); ++i)
-        BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[m]) ) * a[i] );
+//      for(auto i = 0u; i < c.size(); ++i)
+//        BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[m]) ) * a[i] );
 
     }
   }
@@ -127,9 +129,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_mtm, value,  test_types, fixture )
       a.data(), na.data(), wa.data(),
       b.data(), nb.data(), wb.data());
 
+    auto v = value_t(na[1])*a[0];
+    BOOST_CHECK(std::all_of(c.begin(),c.end(), [v](auto cc){return cc == v;}));
 
-    for(auto i = 0u; i < c.size(); ++i)
-      BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[1]) ) * a[0] );
+//    for(auto i = 0u; i < c.size(); ++i)
+//      BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[1]) ) * a[0] );
 
 
   }
@@ -149,12 +153,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttv, value,  test_types, fixture )
 
     auto a = vector_t(ublas::product(na), value_t{2});
     auto wa = ublas::to_strides(na,layout_t{});
-    for(auto m = 0ul; m < ublas::size(na); ++m){
+    for(auto m = std::size_t{0}; m < ublas::size(na); ++m){
       auto b  = vector_t  (na[m], value_t{1} );
       auto nb = extents_t {na[m],1};
       auto wb = ublas::to_strides(nb,layout_t{});
 
-      auto nc_base = extents_base_t(std::max(ublas::size(na)-1, 2ul),1);
+      auto nc_base = extents_base_t(std::max(std::size_t{ublas::size(na)-1u}, std::size_t{2}),1);
 
       for(auto i = 0ul, j = 0ul; i < ublas::size(na); ++i)
         if(i != m)
@@ -169,9 +173,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttv, value,  test_types, fixture )
                  a.data(), na.data(), wa.data(),
                  b.data(), nb.data(), wb.data());
 
+      auto v = value_t(na[m]);
+      BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
 
-      for(auto i = 0u; i < c.size(); ++i)
-        BOOST_CHECK_EQUAL( c[i] , value_t(na[m]) * a[i] );
+//      for(auto i = 0u; i < c.size(); ++i)
+//        BOOST_CHECK_EQUAL( c[i] , value_t(na[m]) * a[i] );
 
     }
   }
@@ -191,7 +197,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttm, value,  test_types, fixture )
 
     auto a = vector_t(ublas::product(na), value_t{2});
     auto wa = ublas::to_strides(na,layout_t{});
-    for(auto m = 0ul; m < ublas::size(na); ++m){
+    for(auto m = std::size_t{0}; m < ublas::size(na); ++m){
       const auto nb = extents_t {na[m], na[m] };
       const auto b  = vector_t  (ublas::product(nb), value_t{1} );
       const auto wb = ublas::to_strides(nb,layout_t{});
@@ -206,8 +212,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttm, value,  test_types, fixture )
                  a.data(), na.data(), wa.data(),
                  b.data(), nb.data(), wb.data());
 
-      for(auto i = 0u; i < c.size(); ++i)
-        BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[m]) ) * a[i] );
+
+      auto v = value_t(na[m]);
+      BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
+
+
+//      for(auto i = 0u; i < c.size(); ++i)
+//        BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[m]) ) * a[i] );
 
     }
   }
@@ -262,7 +273,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt_permutation, value,  test_type
     auto a  = vector_t(ublas::product(na), value_t{2});
     auto pa  = ublas::size(na);
     auto pia = std::vector<std::size_t>(pa);
-    std::iota( pia.begin(), pia.end(), 1 );
+    std::iota( pia.begin(), pia.end(), std::size_t{1} );
 
     auto pib     = pia;
     auto pib_inv = compute_inverse_permutation(pib);
@@ -279,20 +290,20 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt_permutation, value,  test_type
       auto pb = ublas::size(nb);
 
       // the number of contractions is changed.
-      for( auto q = 0ul; q <= pa; ++q) {
+      for(auto q = std::size_t{0}; q <= pa; ++q) {
 
         auto r  = pa - q;
         auto s  = pb - q;
 
-        auto pc = r+s > 0 ? std::max(r+s,2ul) : 2ul;
+        auto pc = r+s > 0 ? std::max(std::size_t{r+s},std::size_t{2}) : std::size_t{2};
 
-        auto nc_base = extents_base_t( pc , 1 );
+        auto nc_base = extents_base_t(pc,std::size_t{1});
 
         for(auto j = 0u; j < r; ++j)
-          nc_base[ j ] = na[ pia[j]-1 ];
+          nc_base[j] = na[pia[j]-1];
 
         for(auto j = 0u; j < s; ++j)
-          nc_base[ r + j ] = nb[ pib_inv[j]-1 ];
+          nc_base[r+j] = nb[ pib_inv[j]-1 ];
 
         auto nc = extents_t ( nc_base );
         auto wc = ublas::to_strides(nc,layout_t{});
@@ -305,12 +316,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt_permutation, value,  test_type
                    b.data(), nb.data(), wb.data());
 
 
-        auto acc = value_t(1);
+        auto acc = std::size_t{1};
         for(auto j = r; j < pa; ++j)
-          acc *= value_t( static_cast< inner_type_t<value_t> >(na[pia[j]-1]) );
+          acc *= na[pia[j]-1];
 
-        for(auto j = 0ul; j < c.size(); ++j)
-          BOOST_CHECK_EQUAL( c[j] , acc * a[0] * b[0] );
+        auto v = value_t(acc)*a[0]*b[0];
+
+        BOOST_CHECK( std::all_of(c.begin(),c.end(), [v](auto cc){return cc == v; } ) );
 
       }
 
@@ -359,20 +371,20 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt, value,  test_types, fixture )
 
 
     // the number of contractions is changed.
-    for( auto q = 0ul; q <= pa; ++q) { // pa
+    for( auto q = std::size_t{0}; q <= pa; ++q) { // pa
 
       auto r  = pa - q;
       auto s  = pb - q;
 
-      auto pc = r+s > 0 ? std::max(r+s, 2ul) : 2ul;
+      auto pc = r+s > 0 ? std::max(std::size_t{r+s},std::size_t{2}) : std::size_t{2};
 
-      auto nc_base = extents_base_t( pc , 1 );
+      auto nc_base = extents_base_t(pc,std::size_t{1});
 
       for(auto i = 0u; i < r; ++i)
-        nc_base[ i ] = na[ i ];
+        nc_base[i] = na[i];
 
       for(auto i = 0u; i < s; ++i)
-        nc_base[ r + i ] = nb[ i ];
+        nc_base[r+i] = nb[i];
 
       auto nc = extents_t ( nc_base );
       auto wc = ublas::to_strides(nc,layout_t{});
@@ -388,13 +400,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt, value,  test_types, fixture )
                  b.data(), nb.data(), wb.data());
 
 
-      auto acc = value_t(1);
+      auto acc = std::size_t{1};
       for(auto i = r; i < pa; ++i)
-        acc *= value_t( static_cast< inner_type_t<value_t> >(na[i]) );
+        acc *= na[i];
 
-      for(auto i = 0u; i < c.size(); ++i)
-        BOOST_CHECK_EQUAL( c[i] , acc * a[0] * b[0] );
+      auto v = value_t(acc)*a[0]*b[0];
 
+      BOOST_CHECK( std::all_of(c.begin(),c.end(), [v](auto cc){return cc == v; } ) );
     }
 
   }

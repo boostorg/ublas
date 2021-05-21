@@ -209,7 +209,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_transform, value,  test
     ublas::transform( ublas::size(n), n.data(), b.data(), wb.data(), a.data(), wa.data(), [](value_type const& a){ return a + value_type(1);} );
     ublas::transform( ublas::size(n), n.data(), c.data(), wc.data(), b.data(), wb.data(), [](value_type const& a){ return a - value_type(1);} );
 
-    auto zero = 0ul;
+    auto zero = std::size_t{0};
     ublas::transform(zero, n.data(), c.data(), wc.data(), b.data(), wb.data(), [](value_type const& a){ return a + value_type(1);} );
 
     value_type* c0 = nullptr;
@@ -338,7 +338,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_accumulate, value,  tes
 
     BOOST_CHECK_EQUAL( acc, value_type( static_cast< inner_type_t<value_type> >( sum ) )  );
 
-    auto zero = 0ul;
+    auto zero = std::size_t{0};
     (void)ublas::accumulate(zero, n.data(), a.data(), wa.data(),v);
 
     value_type* c0 = nullptr;
@@ -465,7 +465,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans, value,  test_typ
     init(a);
 
     // so wie last-order.
-    for(auto i = 0ul, j = p; i < ublas::size(n); ++i, --j)
+    for(auto i = std::size_t{0}, j = p; i < ublas::size(n); ++i, --j)
       pi[i] = j;
 
     auto nc_base = base_t(p);
@@ -508,7 +508,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_algorithms_trans, value,  test_typ
     for(auto i = 0ul; i < s; ++i)
       BOOST_CHECK_EQUAL( a[i], b2[i] );
 
-    auto zero = 0ul;
+    auto zero = std::size_t{0};
     ublas::trans( zero, n.data(), pi.data(), c2.data(), wc.data(), a.data(), wa.data() );
     ublas::trans( zero, nc.data(), pi.data(), b2.data(), wb.data(), c2.data(), wc.data() );
 
