@@ -15,6 +15,7 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/ostream.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tags.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/concepts.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/type_traits.hpp
 
 

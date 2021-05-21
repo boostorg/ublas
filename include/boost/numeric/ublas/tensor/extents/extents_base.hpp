@@ -10,9 +10,11 @@
 #ifndef BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_BASE_HPP
 #define BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_BASE_HPP
 
-#include <type_traits>
-#include <concepts>
 #include <algorithm>
+//#include <concepts>
+#include <type_traits>
+
+#include "../concepts.hpp"
 
 namespace boost::numeric::ublas {
 
@@ -27,7 +29,7 @@ struct extents_base
 
 };
 
-template<std::integral T, T ...>
+template<integral T, T ...>
 class extents_core;
 
 template<std::size_t ... es>

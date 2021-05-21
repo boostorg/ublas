@@ -26,6 +26,7 @@
 #include "../layout.hpp"
 #include "../type_traits.hpp"
 #include "../tags.hpp"
+#include "../concepts.hpp"
 
 #include "tensor_engine.hpp"
 
@@ -90,7 +91,7 @@ public:
      * @code auto t = tensor<float>{3,4,2}; @endcode
      *
      */
-  template<std::integral ... Is>
+  template<integral ... Is>
   explicit inline tensor_core (Is ... is)
     : tensor_expression_type<self_type>{}
     , _extents{size_type(is)...}
@@ -296,8 +297,8 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<std::integral ... Is>
-  [[nodiscard]] inline const_reference at (std::integral auto i1, std::integral auto i2, Is ... is) const
+  template<integral ... Is>
+  [[nodiscard]] inline const_reference at (integral auto i1, integral auto i2, Is ... is) const
   {
     if(sizeof...(is)+2 != this->order()){
       throw std::invalid_argument("boost::numeric::ublas::tensor_core<tensor_dynamic>::at : "
@@ -315,8 +316,8 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<std::integral ... Is>
-  [[nodiscard]] inline reference at (std::integral auto i1, std::integral auto i2, Is ... is)
+  template<integral ... Is>
+  [[nodiscard]] inline reference at (integral auto i1, integral auto i2, Is ... is)
   {
     if(sizeof...(is)+2 != this->order()){
       throw std::invalid_argument("boost::numeric::ublas::tensor_core<tensor_dynamic>::at : "
@@ -334,7 +335,7 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<std::integral ... Is>
+  template<integral ... Is>
   [[nodiscard]] inline const_reference operator()(Is ... is) const
   {
     return this->at(is...);
@@ -347,7 +348,7 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<std::integral ... Is>
+  template<integral ... Is>
   [[nodiscard]] inline reference operator()(Is ... is)
   {
     return this->at(is...);

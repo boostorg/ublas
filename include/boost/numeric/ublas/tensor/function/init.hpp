@@ -12,8 +12,9 @@
 
 #include "../extents.hpp"
 #include "../tensor.hpp"
+#include "../concepts.hpp"
 
-#include <concepts>
+//#include <concepts>
 
 
 namespace boost::numeric::ublas
@@ -32,7 +33,7 @@ struct init
   }
 
 
-  template<std::integral ... Ns>
+  template<integral ... Ns>
   inline auto operator()(Ns ... ns) const
   {
     auto p = ( std::size_t(1) * ... * std::size_t(ns) );
@@ -63,7 +64,7 @@ struct init_static_rank
   }
 
 
-  template<std::integral ... Ns>
+  template<integral ... Ns>
   inline auto operator()(Ns ... ns) const
   {
     constexpr auto n = sizeof...(ns);
@@ -100,8 +101,8 @@ struct init_static
   {
     using extents_type = extents<ns...>;
     constexpr auto p  = product_v<extents_type>;
-    using tensor = tensor_core<tensor_engine<extents_type, L, std::array<V,p>>>;
     constexpr auto c = inner<std::make_index_sequence<p>>::value;
+    using tensor = tensor_core<tensor_engine<extents_type, L, std::array<V,p>>>;
     return tensor(c);
   }
 };

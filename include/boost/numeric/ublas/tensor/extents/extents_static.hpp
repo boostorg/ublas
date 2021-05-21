@@ -20,6 +20,7 @@
 
 #include "extents_functions.hpp"
 #include "extents_base.hpp"
+#include "../concepts.hpp"
 
 
 namespace boost::numeric::ublas {
@@ -32,7 +33,7 @@ namespace boost::numeric::ublas {
  * @tparam e parameter pack of extents
  *
  */
-template <std::integral T, T e1, T e2, T ... e>
+template <integral T, T e1, T e2, T ... e>
 class extents_core<T,e1,e2,e...>
   : public extents_base<extents_core<T,e1,e2, e...>>
 {
@@ -65,9 +66,9 @@ private:
 
 };
 
-template <std::integral T, T e1, T e2, T... e> struct is_extents     < extents_core<T,e1, e2, e...> > : std::true_type {};
-template <std::integral T, T e1, T e2, T... e> struct is_static      < extents_core<T,e1, e2, e...> > : std::true_type {};
-template <std::integral T, T e1, T e2, T... e> struct is_static_rank < extents_core<T,e1, e2, e...> > : std::true_type {};
+template <integral T, T e1, T e2, T... e> struct is_extents     < extents_core<T,e1, e2, e...> > : std::true_type {};
+template <integral T, T e1, T e2, T... e> struct is_static      < extents_core<T,e1, e2, e...> > : std::true_type {};
+template <integral T, T e1, T e2, T... e> struct is_static_rank < extents_core<T,e1, e2, e...> > : std::true_type {};
 
 } // namespace boost::numeric::ublas
 

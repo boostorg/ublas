@@ -15,13 +15,14 @@
 
 #include <algorithm>
 #include <numeric>
-#include <concepts>
+//#include <concepts>
 
 #include "../layout.hpp"
+#include "../concepts.hpp"
 
 namespace boost::numeric::ublas
 {
-template<std::integral T, T...>
+template<integral T, T...>
 class extents_core;
 
 
@@ -145,7 +146,7 @@ template <class D>
 //  return !( lhs == rhs) ;
 //}
 
-template<std::integral T, class L>
+template<integral T, class L>
 [[nodiscard]] inline auto to_strides(extents_core<T> const& e, L /*unused*/)
 {
   auto s = typename extents_core<T>::base_type(e.size(),1ul);
@@ -161,7 +162,7 @@ template<std::integral T, class L>
   return s;
 }
 
-template<std::integral T, T n, class L>
+template<integral T, T n, class L>
 [[nodiscard]] inline auto to_strides(extents_core<T,n> const& e, L /*unused*/)
 {
   auto s = typename extents_core<T,n>::base_type{};
@@ -183,7 +184,7 @@ template<std::integral T, T n, class L>
 } // namespace boost::numeric::ublas
 
 
-template<std::integral T, T n, T m>
+template<boost::numeric::ublas::integral T, T n, T m>
 [[nodiscard]] inline constexpr bool operator==(
   boost::numeric::ublas::extents_core<T,n> const& lhs,
   boost::numeric::ublas::extents_core<T,m> const& rhs )
@@ -193,7 +194,7 @@ template<std::integral T, T n, T m>
   return std::equal( begin(lhs), end  (lhs), begin(rhs) );
 }
 
-template<std::integral T, T n, T m>
+template<boost::numeric::ublas::integral T, T n, T m>
 [[nodiscard]] inline constexpr bool operator!=(
   boost::numeric::ublas::extents_core<T,n> const& lhs,
   boost::numeric::ublas::extents_core<T,m> const& rhs )
@@ -223,13 +224,13 @@ template<class D, class F>
 namespace std
 {
 
-template<std::integral T, T e, T... es>
+template<boost::numeric::ublas::integral T, T e, T... es>
 struct tuple_size< boost::numeric::ublas::extents_core<T,e,es...> >
-  : std::integral_constant<std::size_t,
+  : integral_constant<std::size_t,
                            std::tuple_size_v<typename boost::numeric::ublas::extents_core<T,e,es...>::base_type>>
 {};
 
-template<size_t i, std::integral T, T e1, T ... es>
+template<size_t i, boost::numeric::ublas::integral T, T e1, T ... es>
 [[nodiscard]] constexpr inline
   auto get(boost::numeric::ublas::extents_core<T,e1,es...> const& e) noexcept
 {

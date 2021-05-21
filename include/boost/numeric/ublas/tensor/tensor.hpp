@@ -13,12 +13,10 @@
 #ifndef BOOST_UBLAS_TENSOR_TENSOR_HPP
 #define BOOST_UBLAS_TENSOR_TENSOR_HPP
 
-
 #include "tensor/tensor_core.hpp"
 #include "tensor/tensor_dynamic.hpp"
 #include "tensor/tensor_engine.hpp"
 #include "tensor/tensor_static_rank.hpp"
 #include "tensor/tensor_static.hpp"
-
 
 #endif // BOOST_UBLAS_TENSOR_TENSOR_HPP

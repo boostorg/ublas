@@ -23,7 +23,9 @@
 
 #include "extents_functions.hpp"
 #include "extents_base.hpp"
+
 #include "../layout.hpp"
+#include "../concepts.hpp"
 
 
 namespace boost::numeric::ublas
@@ -36,7 +38,7 @@ namespace boost::numeric::ublas
  * @tparam N number of extents
  *
  */
-template <std::integral T, T N>
+template <integral T, T N>
 class extents_core<T,N> : public extents_base<extents_core<T,N>>
 {
 public:
@@ -135,9 +137,9 @@ private:
 
 
 namespace boost::numeric::ublas{
-template <std::integral T, T n> struct is_extents     < extents_core<T,n> > : std::true_type {};
-template <std::integral T, T n> struct is_dynamic     < extents_core<T,n> > : std::true_type {};
-template <std::integral T, T n> struct is_static_rank < extents_core<T,n> > : std::true_type {};
+template <integral T, T n> struct is_extents     < extents_core<T,n> > : std::true_type {};
+template <integral T, T n> struct is_dynamic     < extents_core<T,n> > : std::true_type {};
+template <integral T, T n> struct is_static_rank < extents_core<T,n> > : std::true_type {};
 } // namespace boost::numeric::ublas
 
 
