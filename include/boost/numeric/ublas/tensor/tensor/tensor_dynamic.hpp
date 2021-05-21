@@ -297,8 +297,8 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<integral ... Is>
-  [[nodiscard]] inline const_reference at (integral auto i1, integral auto i2, Is ... is) const
+  template<integral I1, integral I2, integral ... Is>
+  [[nodiscard]] inline const_reference at (I1 i1, I2 i2, Is ... is) const
   {
     if(sizeof...(is)+2 != this->order()){
       throw std::invalid_argument("boost::numeric::ublas::tensor_core<tensor_dynamic>::at : "
@@ -316,8 +316,8 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<integral ... Is>
-  [[nodiscard]] inline reference at (integral auto i1, integral auto i2, Is ... is)
+  template<integral I1, integral I2, integral ... Is>
+  [[nodiscard]] inline reference at (I1 i1, I2 i2, Is ... is)
   {
     if(sizeof...(is)+2 != this->order()){
       throw std::invalid_argument("boost::numeric::ublas::tensor_core<tensor_dynamic>::at : "

@@ -290,8 +290,8 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<integral ... Is>
-  [[nodiscard]] inline const_reference at (integral auto i1, integral auto i2, Is ... is) const
+  template<integral I1, integral I2, integral ... Is>
+  [[nodiscard]] inline const_reference at (I1 i1, I2 i2, Is ... is) const
   {
     static_assert (sizeof...(is)+2 == std::tuple_size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is...);
@@ -305,8 +305,8 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<integral ... Is>
-  [[nodiscard]] inline reference at (integral auto i1, integral auto i2, Is ... is)
+  template<integral I1, integral I2, integral ... Is>
+  [[nodiscard]] inline reference at (I1 i1, I2 i2, Is ... is)
   {
     static_assert (sizeof...(Is)+2 == std::tuple_size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is...);

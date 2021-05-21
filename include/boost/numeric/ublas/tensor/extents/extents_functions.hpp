@@ -81,8 +81,10 @@ template <class D>
 template <class D>
 [[nodiscard]] inline constexpr bool is_matrix(extents_base<D> const& e)
 {
-  return size(e) >= 1 &&
-         std::any_of  (cbegin(e)  ,cbegin(e)+2, [](auto a){return a>=1ul;}) && // all_of > 1UL
+  if (empty(e)     ) {return false;}
+  if (size (e) == 1) {return front(e)>=1ul;}
+
+  return std::any_of  (cbegin(e)  ,cbegin(e)+2, [](auto a){return a>=1ul;}) && // all_of > 1UL
          std::all_of  (cbegin(e)+2,cend(e)    , [](auto a){return a==1ul;});
 }
 
