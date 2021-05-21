@@ -12,6 +12,7 @@
 
 #include "../extents.hpp"
 #include "../tensor.hpp"
+#include "../concepts.hpp"
 
 #include <concepts>
 
@@ -32,7 +33,7 @@ struct init
   }
 
 
-  template<std::integral ... Ns>
+  template<integral ... Ns>
   inline auto operator()(Ns ... ns) const
   {
     auto p = ( std::size_t(1) * ... * std::size_t(ns) );
@@ -63,7 +64,7 @@ struct init_static_rank
   }
 
 
-  template<std::integral ... Ns>
+  template<integral ... Ns>
   inline auto operator()(Ns ... ns) const
   {
     constexpr auto n = sizeof...(ns);

@@ -26,6 +26,7 @@
 #include "../layout.hpp"
 #include "../type_traits.hpp"
 #include "../tags.hpp"
+#include "../concepts.hpp"
 
 #include "tensor_engine.hpp"
 
@@ -274,8 +275,8 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<std::integral ... Is>
-  [[nodiscard]] inline const_reference at (std::integral auto i1, std::integral auto i2, Is ... is) const
+  template<integral ... Is>
+  [[nodiscard]] inline const_reference at (integral auto i1, integral auto i2, Is ... is) const
   {
     static_assert (sizeof...(is)+2 == ublas::size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is... );
@@ -289,8 +290,8 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<std::integral ... Is>
-  [[nodiscard]] inline reference at (std::integral auto i1, std::integral auto i2, Is ... is)
+  template<integral ... Is>
+  [[nodiscard]] inline reference at (integral auto i1, integral auto i2, Is ... is)
   {
     static_assert (sizeof...(is)+2 == ublas::size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is... );
@@ -304,7 +305,7 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<std::integral ... Is>
+  template<integral ... Is>
   [[nodiscard]] inline constexpr const_reference operator()(Is ... is) const
   {
     return this->at(is...);
@@ -317,7 +318,7 @@ public:
      *  @param i zero-based index where 0 <= i < this->size() if sizeof...(is) == 0, else 0<= i < this->size(0)
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
-  template<std::integral ... Is>
+  template<integral ... Is>
   [[nodiscard]] inline constexpr reference operator()(Is ... is)
   {
     return this->at(is...);

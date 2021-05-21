@@ -23,6 +23,7 @@
 #include "extents_base.hpp"
 #include "extents_functions.hpp"
 #include "../layout.hpp"
+#include "../concepts.hpp"
 
 namespace boost::numeric::ublas {
 
@@ -33,7 +34,7 @@ namespace boost::numeric::ublas {
  * Proxy template class of std::vector<int_type>.
  *
  */
-template<std::integral T>
+template<integral T>
 class extents_core<T>
   : public extents_base<extents_core<T>>
 {
@@ -142,9 +143,9 @@ private:
 
 
 namespace boost::numeric::ublas{
-template<std::integral T> struct is_extents      < extents_core<T> > : std::true_type {};
-template<std::integral T> struct is_dynamic      < extents_core<T> > : std::true_type {};
-template<std::integral T> struct is_dynamic_rank < extents_core<T> > : std::true_type {};
+template<integral T> struct is_extents      < extents_core<T> > : std::true_type {};
+template<integral T> struct is_dynamic      < extents_core<T> > : std::true_type {};
+template<integral T> struct is_dynamic_rank < extents_core<T> > : std::true_type {};
 
 } // namespace boost::numeric::ublas
 

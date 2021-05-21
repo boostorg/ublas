@@ -16,7 +16,7 @@
 #include <numeric>
 #include <array>
 #include <vector>
-#include <concepts>
+#include "concepts.hpp"
 
 
 namespace boost::numeric::ublas::detail
@@ -30,19 +30,19 @@ namespace boost::numeric::ublas::detail
    * @param[in] w stride vector of length p
    * @returns relative memory location depending on \c i and \c w
   */
-template<std::integral T>
+template<integral T>
 [[nodiscard]] inline constexpr auto to_index(std::vector<T> const& w, std::vector<T> const& i)
 {
   return std::inner_product(i.begin(), i.end(), w.begin(), T{});
 }
 
-template<std::integral T, std::size_t n>
+template<integral T, std::size_t n>
 [[nodiscard]] inline constexpr auto to_index(std::array<T,n> const& w, std::array<T,n> const& i)
 {
   return std::inner_product(i.begin(), i.end(), w.begin(), T{});
 }
 
-template<std::integral I, std::size_t N, std::integral ... Is>
+template<integral I, std::size_t N, integral ... Is>
 [[nodiscard]] inline constexpr auto to_index(std::array<I,N> const& w, Is ... is)
 {
   static_assert(N != sizeof...(is)+2);
@@ -50,7 +50,7 @@ template<std::integral I, std::size_t N, std::integral ... Is>
   return std::inner_product(ai.begin(), ai.end(), w.begin(), I{});
 }
 
-template<std::integral I, std::integral  ... Is>
+template<integral I, integral  ... Is>
 [[nodiscard]] inline auto to_index(std::vector<I> const& w, Is ... is)
 {
   constexpr auto N = sizeof...(is);

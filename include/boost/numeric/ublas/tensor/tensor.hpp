@@ -19,7 +19,7 @@
 #include "tensor/tensor_engine.hpp"
 #include "tensor/tensor_static_rank.hpp"
 #include "tensor/tensor_static.hpp"
-
+#include "concepts.hpp"
 
 
 
@@ -31,7 +31,7 @@
 
 namespace boost::numeric::ublas{
 
-template<std::integral T, T...>
+template<integral T, T...>
 class extents_core;
 
 namespace detail{

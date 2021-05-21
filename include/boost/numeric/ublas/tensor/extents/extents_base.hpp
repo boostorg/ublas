@@ -13,6 +13,7 @@
 #include <type_traits>
 #include <concepts>
 #include <algorithm>
+#include "../concepts.hpp"
 
 namespace boost::numeric::ublas {
 
@@ -27,7 +28,7 @@ struct extents_base
 
 };
 
-template<std::integral T, T ...>
+template<integral T, T ...>
 class extents_core;
 
 template<std::size_t ... es>
