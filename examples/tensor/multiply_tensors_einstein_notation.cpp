@@ -30,6 +30,20 @@ int main()
   // NOLINTNEXTLINE(google-build-using-namespace)
   using namespace boost::numeric::ublas::index;
 
+  using namespace boost::numeric::ublas::index;
+  using tensor  = boost::numeric::ublas::tensor_dynamic<float>;
+  auto fones    = boost::numeric::ublas::ones<float>{};
+
+
+  tensor X = fones(3,4,5);
+  tensor Y = fones(4,6,3,2);
+
+  tensor Z = 2*ones(5,6,2) + X(_i,_j,_k)*Y(_j,_l,_i,_m) + 5;
+
+  // Matlab Compatible Formatted Output
+  std::cout << "C=" << Z << ";" << std::endl;
+
+
   // Tensor-Vector-Multiplications - Including Transposition
   try {
 

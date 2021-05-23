@@ -441,11 +441,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, pair,  
         BOOST_CHECK       ( !T.empty()    );
         BOOST_CHECK_NE    (  T.data() , nullptr);
 
-        for(auto i = 0ul; i < T.size(); ++i){
-            auto n = e[1];
-            auto ab = value(n * (n+1) / 2);
-            BOOST_CHECK_EQUAL( T(i), ab+4*Q(0)+2*c(0)  );
-        }
+        const auto n   = e[1];
+        const auto ab  = value(std::div(n*(n+1),2).quot);
+        const auto ref = ab+4*Q(0)+2*c(0);
+        BOOST_CHECK( std::all_of(T.begin(),T.end(), [ref](auto cc){ return ref == cc; }) );
+
+//            BOOST_CHECK_EQUAL( T(i), ab+4*Q(0)+2*c(0)  );
 
     };
 

@@ -45,24 +45,27 @@ struct fixture_extents_dynamic_rank
 struct fixture_extents_static_rank
 {
   template<std::size_t N>
-  using shape_t = boost::numeric::ublas::extents<N>;
+  using extents_static_rank = boost::numeric::ublas::extents<N>;
 
-  static inline auto n     = shape_t<0>{};
-  static inline auto n1    = shape_t<1>{1};
-  static inline auto n2    = shape_t<1>{2};
-  static inline auto n11   = shape_t<2>{{1,1}};
-  static inline auto n12   = shape_t<2>{{1,2}};
-  static inline auto n21   = shape_t<2>{{2,1}};
-  static inline auto n22   = shape_t<2>{{2,2}};
-  static inline auto n32   = shape_t<2>{{3,2}};
-  static inline auto n111  = shape_t<3>{{1,1,1}};
-  static inline auto n211  = shape_t<3>{{2,1,1}};
-  static inline auto n121  = shape_t<3>{{1,2,1}};
-  static inline auto n112  = shape_t<3>{{1,1,2}};
-  static inline auto n123  = shape_t<3>{{1,2,3}};
-  static inline auto n321  = shape_t<3>{{3,2,1}};
-  static inline auto n213  = shape_t<3>{{2,1,3}};
-  static inline auto n432  = shape_t<3>{{4,3,2}};
+  static constexpr inline auto n     = extents_static_rank<0>{};
+  static constexpr inline auto n1    = extents_static_rank<1>{1};
+  static constexpr inline auto n2    = extents_static_rank<1>{2};
+  static constexpr inline auto n11   = extents_static_rank<2>{{1,1}};
+  static constexpr inline auto n12   = extents_static_rank<2>{{1,2}};
+  static constexpr inline auto n21   = extents_static_rank<2>{{2,1}};
+  static constexpr inline auto n22   = extents_static_rank<2>{{2,2}};
+  static constexpr inline auto n32   = extents_static_rank<2>{{3,2}};
+  static constexpr inline auto n111  = extents_static_rank<3>{{1,1,1}};
+  static constexpr inline auto n211  = extents_static_rank<3>{{2,1,1}};
+  static constexpr inline auto n121  = extents_static_rank<3>{{1,2,1}};
+  static constexpr inline auto n112  = extents_static_rank<3>{{1,1,2}};
+  static constexpr inline auto n123  = extents_static_rank<3>{{1,2,3}};
+  static constexpr inline auto n321  = extents_static_rank<3>{{3,2,1}};
+  static constexpr inline auto n213  = extents_static_rank<3>{{2,1,3}};
+  static constexpr inline auto n432  = extents_static_rank<3>{{4,3,2}};
+
+  static constexpr inline auto tuple = std::make_tuple( n,n1,n2,n11,n12,n21,n22,n32,n111,n211,n121,n112,n123,n321,n213,n432 );
+
 };
 
 
@@ -88,6 +91,9 @@ struct fixture_extents_static
   static inline auto n321  = extents_static<3,2,1> {};
   static inline auto n213  = extents_static<2,1,3> {};
   static inline auto n432  = extents_static<4,3,2> {};
+
+
+
 };
 
 

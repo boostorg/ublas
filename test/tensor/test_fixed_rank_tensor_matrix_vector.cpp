@@ -418,32 +418,32 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_vector_expressions, value,  test_t
 
 
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value,  test_types, fixture )
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, pair,  test_types, fixture )
 {
   namespace ublas  = boost::numeric::ublas;
-  using value_type  = typename value::first_type;
-  using layout_type = typename value::second_type;
+  using value  = typename pair::first_type;
+  using layout = typename pair::second_type;
 
 
   auto check = [](auto const& /*unused*/, auto& e) {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
-    using tensor_type = ublas::tensor_static_rank<value_type, size,layout_type>;
-    using matrix_type = typename tensor_type::matrix_type;
-    using vector_type = typename tensor_type::vector_type;
+    using tensor = ublas::tensor_static_rank<value, size, layout>;
+    using matrix = typename tensor::matrix_type;
+    using vector = typename tensor::vector_type;
 
     if(product(e) <= 2)
       return;
     assert(ublas::size(e) == 2);
-    auto Q = tensor_type{e[0],1};
-    auto A = matrix_type(e[0],e[1]);
-    auto b = vector_type(e[1]);
-    auto c = vector_type(e[0]);
+    auto Q = tensor{e[0],1};
+    auto A = matrix(e[0],e[1]);
+    auto b = vector(e[1]);
+    auto c = vector(e[0]);
     std::iota(b.data().begin(),b.data().end(), 1);
     std::fill(A.data().begin(),A.data().end(), 1);
     std::fill(c.data().begin(),c.data().end(), 2);
     std::fill(Q.begin(),Q.end(), 2);
 
-    tensor_type T = Q + (ublas::prod(A , b) + 2*c) + 3*Q;
+    tensor T = Q + (ublas::prod(A , b) + 2*c) + 3*Q;
 
     BOOST_CHECK_EQUAL (  T.extents().at(0) , Q.extents().at(0) );
     BOOST_CHECK_EQUAL (  T.extents().at(1) , Q.extents().at(1));
@@ -453,11 +453,16 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, value, 
     BOOST_CHECK       ( !T.empty()    );
     BOOST_CHECK_NE    (  T.data() , nullptr);
 
-    for(auto i = 0ul; i < T.size(); ++i){
-      auto n = e[1];
-      auto ab = n * (n+1) / 2;
-      BOOST_CHECK_EQUAL( T(i), ab+4*Q(0)+2*c(0)  );
-    }
+    const auto n   = e[1];
+    const auto ab  = value(std::div(n*(n+1),2).quot);
+    const auto ref = ab+4*Q(0)+2*c(0);
+    BOOST_CHECK( std::all_of(T.begin(),T.end(), [ref](auto cc){ return ref == cc; }) );
+
+//    for(auto i = 0ul; i < T.size(); ++i){
+//      auto n = e[1];
+//      auto ab = n * (n+1) / 2;
+//      BOOST_CHECK_EQUAL( T(i), ab+4*Q(0)+2*c(0)  );
+//    }
 
   };
   for_each_in_tuple(extents,check);
