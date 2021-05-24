@@ -1,11 +1,9 @@
 TEMPLATE = lib
 TARGET = ublas
 
-CONFIG += \
-    staticlib \
-    depend_includepath
+CONFIG += staticlib depend_includepath
 CONFIG -= qt
-CONFIG += c++17
+CONFIG += c++20
 INCLUDE_DIR=../../../include
 
 include(detail/detail.pri)

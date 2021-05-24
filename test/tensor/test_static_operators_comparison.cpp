@@ -17,17 +17,18 @@
 #include <boost/multiprecision/cpp_bin_float.hpp>
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE(test_static_tensor_comparison)
+BOOST_AUTO_TEST_SUITE(test_tensor_static_comparison)
 
 using double_extended = boost::multiprecision::cpp_bin_float_double_extended;
 
 using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 struct fixture {
-    template<size_t... N>
-    using extents_type = boost::numeric::ublas::static_extents<N...>;
 
-    fixture() {}
+    template<size_t... N>
+    using extents_type = boost::numeric::ublas::extents<N...>;
+
+    fixture()= default;
 
     std::tuple<
         extents_type<1,1>,   // 1
@@ -41,14 +42,14 @@ struct fixture {
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     { 
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
+        using tensor_type = ublas::tensor_static<value_type, extents_type, layout_type>;
         auto t  = tensor_type ();
         auto t2 = tensor_type ();
         auto v  = value_type  {};
@@ -74,22 +75,22 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
         BOOST_CHECK( t2 >= t );
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 
 }
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     { 
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
+        using tensor_type = ublas::tensor_static<value_type, extents_type, layout_type>;
 
         auto t  = tensor_type ();
         auto t2 = tensor_type ();
@@ -120,7 +121,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 
 }
 
@@ -128,20 +129,20 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    for_each_in_tuple(extents,[](auto const& /*unused*/, auto& e)
     { 
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type, extents_type, layout_type>;
+        using tensor_type = ublas::tensor_static<value_type, extents_type, layout_type>;
 
         BOOST_CHECK( tensor_type(value_type{2}) == tensor_type(value_type{2})  );
         BOOST_CHECK( tensor_type(value_type{2}) != tensor_type(value_type{1})  );
 
-        if(e.empty())
+        if(ublas::empty(e))
             return;
 
         BOOST_CHECK( !(tensor_type(2) <  2) );
@@ -189,9 +190,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_scalar, value,  te
         BOOST_CHECK(  ( 5 == tensor_type(2)+tensor_type(3)) );
         BOOST_CHECK(  ( 6 != tensor_type(2)+tensor_type(3)) );
 
-    };
-
-    for_each_tuple(extents,check);
+    });
 
 }
 

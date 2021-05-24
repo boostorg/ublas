@@ -12,157 +12,149 @@
 
 
 #include <boost/test/unit_test.hpp>
-#include <boost/numeric/ublas/tensor/strides.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
-
-//BOOST_AUTO_TEST_SUITE(test_strides, * boost::unit_test::depends_on("test_extents"));
+#include <boost/numeric/ublas/tensor/extents.hpp>
 
 BOOST_AUTO_TEST_SUITE(test_strides)
 
 using test_types = std::tuple<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
+using extents       = boost::numeric::ublas::extents<>;
+using first_order   = boost::numeric::ublas::layout::first_order;
+using last_order    = boost::numeric::ublas::layout::last_order;
+
+
 BOOST_AUTO_TEST_CASE_TEMPLATE( test_strides_ctor, value, test_types)
 {
-    using namespace boost::numeric;
+  namespace ublas = boost::numeric::ublas;
+  constexpr auto layout = value{};
 
-    using extents_type  = ublas::basic_extents<unsigned>;
-    using strides_type = ublas::strides_t<extents_type,ublas::layout::first_order>;
+  auto s1   = ublas::to_strides(extents    {1},layout);
+  auto s5   = ublas::to_strides(extents    {5},layout);
+  auto s11  = ublas::to_strides(extents  {1,1},layout);
+  auto s12  = ublas::to_strides(extents  {1,2},layout);
+  auto s21  = ublas::to_strides(extents  {2,1},layout);
+  auto s23  = ublas::to_strides(extents  {2,3},layout);
+  auto s231 = ublas::to_strides(extents{2,3,1},layout);
+  auto s123 = ublas::to_strides(extents{1,2,3},layout);
+  auto s423 = ublas::to_strides(extents{4,2,3},layout);
 
-    strides_type         s0{};
-    BOOST_CHECK        ( s0.empty());
-    BOOST_CHECK_EQUAL  ( s0.size(), 0);
+  BOOST_CHECK  (!  s1.empty());
+  BOOST_CHECK  (!  s5.empty());
+  BOOST_CHECK  (! s11.empty());
+  BOOST_CHECK  (! s12.empty());
+  BOOST_CHECK  (! s21.empty());
+  BOOST_CHECK  (! s23.empty());
+  BOOST_CHECK  (!s231.empty());
+  BOOST_CHECK  (!s123.empty());
+  BOOST_CHECK  (!s423.empty());
 
-    strides_type        s1{extents_type{1,1}};
-    BOOST_CHECK       (!s1.empty());
-    BOOST_CHECK_EQUAL ( s1.size(), 2);
-
-    strides_type        s2{extents_type{1,2}};
-    BOOST_CHECK       (!s2.empty());
-    BOOST_CHECK_EQUAL ( s2.size(), 2);
-
-    strides_type        s3{extents_type{2,1}};
-    BOOST_CHECK       (!s3.empty());
-    BOOST_CHECK_EQUAL ( s3.size(), 2);
-
-    strides_type        s4{extents_type{2,3}};
-    BOOST_CHECK       (!s4.empty());
-    BOOST_CHECK_EQUAL ( s4.size(), 2);
-
-    strides_type        s5{extents_type{2,3,1}};
-    BOOST_CHECK       (!s5.empty());
-    BOOST_CHECK_EQUAL ( s5.size(), 3);
-
-    strides_type        s6{extents_type{1,2,3}};
-    BOOST_CHECK       (!s6.empty());
-    BOOST_CHECK_EQUAL ( s6.size(), 3);
-
-    strides_type        s7{extents_type{4,2,3}};
-    BOOST_CHECK       (!s7.empty());
-    BOOST_CHECK_EQUAL ( s7.size(), 3);
+  BOOST_CHECK_EQUAL (   s1.size(), 1);
+  BOOST_CHECK_EQUAL (   s5.size(), 1);
+  BOOST_CHECK_EQUAL (  s11.size(), 2);
+  BOOST_CHECK_EQUAL (  s12.size(), 2);
+  BOOST_CHECK_EQUAL (  s21.size(), 2);
+  BOOST_CHECK_EQUAL (  s23.size(), 2);
+  BOOST_CHECK_EQUAL ( s231.size(), 3);
+  BOOST_CHECK_EQUAL ( s123.size(), 3);
+  BOOST_CHECK_EQUAL ( s423.size(), 3);
 }
 
 BOOST_AUTO_TEST_CASE( test_strides_ctor_access_first_order)
 {
-    using namespace boost::numeric;
+  namespace ublas = boost::numeric::ublas;
+  constexpr auto layout = first_order{};
 
-    using extents_type  = ublas::basic_extents<unsigned>;
-    using strides_type = ublas::strides_t<extents_type,ublas::layout::first_order>;
+  auto s1   = ublas::to_strides(extents    {1},layout);
+  auto s5   = ublas::to_strides(extents    {5},layout);
+  auto s11  = ublas::to_strides(extents  {1,1},layout);
+  auto s12  = ublas::to_strides(extents  {1,2},layout);
+  auto s21  = ublas::to_strides(extents  {2,1},layout);
+  auto s23  = ublas::to_strides(extents  {2,3},layout);
+  auto s231 = ublas::to_strides(extents{2,3,1},layout);
+  auto s123 = ublas::to_strides(extents{1,2,3},layout);
+  auto s423 = ublas::to_strides(extents{4,2,3},layout);
 
-    strides_type         s1{extents_type{1,1}};
-    BOOST_REQUIRE_EQUAL( s1.size(),2);
-    BOOST_CHECK_EQUAL  ( s1[0], 1);
-    BOOST_CHECK_EQUAL  ( s1[1], 1);
+  BOOST_REQUIRE_EQUAL ( s11 .size(),2);
+  BOOST_REQUIRE_EQUAL ( s12 .size(),2);
+  BOOST_REQUIRE_EQUAL ( s21 .size(),2);
+  BOOST_REQUIRE_EQUAL ( s23 .size(),2);
+  BOOST_REQUIRE_EQUAL ( s231.size(),3);
+  BOOST_REQUIRE_EQUAL ( s123.size(),3);
+  BOOST_REQUIRE_EQUAL ( s423.size(),3);
 
-    strides_type          s2{extents_type{1,2}};
-    BOOST_REQUIRE_EQUAL ( s2.size(),2);
-    BOOST_CHECK_EQUAL   ( s2[0], 1);
-    BOOST_CHECK_EQUAL   ( s2[1], 1);
 
-    strides_type          s3{extents_type{2,1}};
-    BOOST_REQUIRE_EQUAL ( s3.size(),2);
-    BOOST_CHECK_EQUAL   ( s3[0], 1);
-    BOOST_CHECK_EQUAL   ( s3[1], 1);
+  BOOST_CHECK_EQUAL ( s11[0], 1);
+  BOOST_CHECK_EQUAL ( s11[1], 1);
 
-    strides_type          s4{extents_type{2,3}};
-    BOOST_REQUIRE_EQUAL ( s4.size(),2);
-    BOOST_CHECK_EQUAL   ( s4[0], 1);
-    BOOST_CHECK_EQUAL   ( s4[1], 2);
+  BOOST_CHECK_EQUAL ( s12[0], 1);
+  BOOST_CHECK_EQUAL ( s12[1], 1);
 
-    strides_type          s5{extents_type{2,3,1}};
-    BOOST_REQUIRE_EQUAL ( s5.size(),3);
-    BOOST_CHECK_EQUAL   ( s5[0], 1);
-    BOOST_CHECK_EQUAL   ( s5[1], 2);
-    BOOST_CHECK_EQUAL   ( s5[2], 6);
+  BOOST_CHECK_EQUAL ( s21[0], 1);
+  BOOST_CHECK_EQUAL ( s21[1], 1);
 
-    strides_type          s6{extents_type{1,2,3}};
-    BOOST_REQUIRE_EQUAL ( s6.size(),3);
-    BOOST_CHECK_EQUAL   ( s6[0], 1);
-    BOOST_CHECK_EQUAL   ( s6[1], 1);
-    BOOST_CHECK_EQUAL   ( s6[2], 2);
 
-    strides_type          s7{extents_type{2,1,3}};
-    BOOST_REQUIRE_EQUAL ( s7.size(),3);
-    BOOST_CHECK_EQUAL   ( s7[0], 1);
-    BOOST_CHECK_EQUAL   ( s7[1], 2);
-    BOOST_CHECK_EQUAL   ( s7[2], 2);
+  BOOST_CHECK_EQUAL ( s23[0], 1);
+  BOOST_CHECK_EQUAL ( s23[1], 2);
 
-    strides_type          s8{extents_type{4,2,3}};
-    BOOST_REQUIRE_EQUAL ( s8.size(),3);
-    BOOST_CHECK_EQUAL   ( s8[0], 1);
-    BOOST_CHECK_EQUAL   ( s8[1], 4);
-    BOOST_CHECK_EQUAL   ( s8[2], 8);
+  BOOST_CHECK_EQUAL ( s231[0], 1);
+  BOOST_CHECK_EQUAL ( s231[1], 2);
+  BOOST_CHECK_EQUAL ( s231[2], 6);
+
+  BOOST_CHECK_EQUAL ( s123[0], 1);
+  BOOST_CHECK_EQUAL ( s123[1], 1);
+  BOOST_CHECK_EQUAL ( s123[2], 2);
+
+  BOOST_CHECK_EQUAL ( s423[0], 1);
+  BOOST_CHECK_EQUAL ( s423[1], 4);
+  BOOST_CHECK_EQUAL ( s423[2], 8);
 }
 
 BOOST_AUTO_TEST_CASE( test_strides_ctor_access_last_order)
 {
-    using namespace boost::numeric;
+  namespace ublas = boost::numeric::ublas;
+  constexpr auto layout = last_order{};
 
-    using extents_type  = ublas::basic_extents<unsigned>;
-    using strides_type = ublas::strides_t<extents_type,ublas::layout::last_order>;
+  auto s1   = ublas::to_strides(extents    {1},layout);
+  auto s5   = ublas::to_strides(extents    {5},layout);
+  auto s11  = ublas::to_strides(extents  {1,1},layout);
+  auto s12  = ublas::to_strides(extents  {1,2},layout);
+  auto s21  = ublas::to_strides(extents  {2,1},layout);
+  auto s23  = ublas::to_strides(extents  {2,3},layout);
+  auto s231 = ublas::to_strides(extents{2,3,1},layout);
+  auto s123 = ublas::to_strides(extents{1,2,3},layout);
+  auto s423 = ublas::to_strides(extents{4,2,3},layout);
 
-    strides_type         s1{extents_type{1,1}};
-    BOOST_REQUIRE_EQUAL( s1.size(),2);
-    BOOST_CHECK_EQUAL  ( s1[0], 1);
-    BOOST_CHECK_EQUAL  ( s1[1], 1);
+  BOOST_REQUIRE_EQUAL ( s11 .size(),2);
+  BOOST_REQUIRE_EQUAL ( s12 .size(),2);
+  BOOST_REQUIRE_EQUAL ( s21 .size(),2);
+  BOOST_REQUIRE_EQUAL ( s23 .size(),2);
+  BOOST_REQUIRE_EQUAL ( s231.size(),3);
+  BOOST_REQUIRE_EQUAL ( s123.size(),3);
+  BOOST_REQUIRE_EQUAL ( s423.size(),3);
 
-    strides_type          s2{extents_type{1,2}};
-    BOOST_REQUIRE_EQUAL ( s2.size(),2);
-    BOOST_CHECK_EQUAL   ( s2[0], 1);
-    BOOST_CHECK_EQUAL   ( s2[1], 1);
+  BOOST_CHECK_EQUAL  ( s11[0], 1);
+  BOOST_CHECK_EQUAL  ( s11[1], 1);
 
-    strides_type          s3{extents_type{2,1}};
-    BOOST_REQUIRE_EQUAL ( s3.size(),2);
-    BOOST_CHECK_EQUAL   ( s3[0], 1);
-    BOOST_CHECK_EQUAL   ( s3[1], 1);
+  BOOST_CHECK_EQUAL   ( s12[0], 1);
+  BOOST_CHECK_EQUAL   ( s12[1], 1);
 
-    strides_type          s4{extents_type{2,3}};
-    BOOST_REQUIRE_EQUAL ( s4.size(),2);
-    BOOST_CHECK_EQUAL   ( s4[0], 3);
-    BOOST_CHECK_EQUAL   ( s4[1], 1);
+  BOOST_CHECK_EQUAL   ( s21[0], 1);
+  BOOST_CHECK_EQUAL   ( s21[1], 1);
 
-    strides_type          s5{extents_type{2,3,1}};
-    BOOST_REQUIRE_EQUAL ( s5.size(),3);
-    BOOST_CHECK_EQUAL   ( s5[0], 3);
-    BOOST_CHECK_EQUAL   ( s5[1], 1);
-    BOOST_CHECK_EQUAL   ( s5[2], 1);
+  BOOST_CHECK_EQUAL   ( s23[0], 3);
+  BOOST_CHECK_EQUAL   ( s23[1], 1);
 
-    strides_type          s6{extents_type{1,2,3}};
-    BOOST_REQUIRE_EQUAL ( s6.size(),3);
-    BOOST_CHECK_EQUAL   ( s6[0], 6);
-    BOOST_CHECK_EQUAL   ( s6[1], 3);
-    BOOST_CHECK_EQUAL   ( s6[2], 1);
+  BOOST_CHECK_EQUAL   ( s231[0], 3);
+  BOOST_CHECK_EQUAL   ( s231[1], 1);
+  BOOST_CHECK_EQUAL   ( s231[2], 1);
 
-    strides_type          s7{extents_type{2,1,3}};
-    BOOST_REQUIRE_EQUAL ( s7.size(),3);
-    BOOST_CHECK_EQUAL   ( s7[0], 3);
-    BOOST_CHECK_EQUAL   ( s7[1], 3);
-    BOOST_CHECK_EQUAL   ( s7[2], 1);
+  BOOST_CHECK_EQUAL   ( s123[0], 6);
+  BOOST_CHECK_EQUAL   ( s123[1], 3);
+  BOOST_CHECK_EQUAL   ( s123[2], 1);
 
-    strides_type          s8{extents_type{4,2,3}};
-    BOOST_REQUIRE_EQUAL ( s8.size(),3);
-    BOOST_CHECK_EQUAL   ( s8[0], 6);
-    BOOST_CHECK_EQUAL   ( s8[1], 3);
-    BOOST_CHECK_EQUAL   ( s8[2], 1);
+  BOOST_CHECK_EQUAL   ( s423[0], 6);
+  BOOST_CHECK_EQUAL   ( s423[1], 3);
+  BOOST_CHECK_EQUAL   ( s423[2], 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

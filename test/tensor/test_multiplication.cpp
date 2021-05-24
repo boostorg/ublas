@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -16,10 +16,7 @@
 #include <vector>
 
 #include <boost/numeric/ublas/tensor/multiplication.hpp>
-#include <boost/numeric/ublas/tensor/fixed_rank_extents.hpp>
-#include <boost/numeric/ublas/tensor/static_extents.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
-#include <boost/numeric/ublas/tensor/strides.hpp>
+#include <boost/numeric/ublas/tensor/extents.hpp>
 #include "utility.hpp"
 
 #include <boost/test/unit_test.hpp>
@@ -35,386 +32,384 @@ using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ub
 
 struct fixture
 {
-    using extents_type = boost::numeric::ublas::extents<>;
-    fixture()
-      : extents {
-          extents_type{1,1}, // 1
-          extents_type{1,2}, // 2
-          extents_type{2,1}, // 3
-          extents_type{2,3}, // 4
-          extents_type{5,4}, // 5
-          extents_type{2,3,1}, // 6
-          extents_type{4,1,3}, // 7
-          extents_type{1,2,3}, // 8
-          extents_type{4,2,3}, // 9
-          extents_type{4,2,3,5}} // 10
-    {
-    }
-    std::vector<extents_type> extents;
+  using extents_t = boost::numeric::ublas::extents<>;
+  const std::vector<extents_t> extents =
+  {
+    extents_t{1,1}, // 1
+    extents_t{1,2}, // 2
+    extents_t{2,1}, // 3
+    extents_t{2,3}, // 4
+    extents_t{5,4}, // 5
+    extents_t{2,3,1}, // 6
+    extents_t{4,1,3}, // 7
+    extents_t{1,2,3}, // 8
+    extents_t{4,2,3}, // 9
+    extents_t{4,2,3,5} // 10
+  };
 };
 
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_mtv, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using vector_type  = std::vector<value_type>;
-    using extents_type = ublas::extents<>;
-    using strides_type = ublas::strides_t<extents_type,layout_type>;
-    using extents_type_base = typename extents_type::base_type;
-    using size_type = typename extents_type_base::value_type;
+  namespace ublas = boost::numeric::ublas;
+  using value_t   = typename value::first_type;
+  using layout_t  = typename value::second_type;
+  using vector_t  = std::vector<value_t>;
+  using extents_t = ublas::extents<>;
+  using extents_base_t = typename extents_t::base_type;
 
 
-    for(auto const& na : extents) {
+  for(auto const& na : extents) {
 
-        if(na.size() > 2)
-            continue;
+    if(ublas::size(na) > 2)
+      continue;
 
-        auto a = vector_type(product(na), value_type{2});
-        auto wa = strides_type(na);
-        for(auto m = 0u; m < na.size(); ++m){
-            auto nb = extents_type {na[m],1};
-            auto wb = strides_type (nb);
-            auto b  = vector_type  (product(nb), value_type{1} );
+    auto a = vector_t(ublas::product(na), value_t{2});
+    auto wa = ublas::to_strides(na,layout_t{});
+    for(auto m = std::size_t{0}; m < ublas::size(na); ++m){
+      auto nb = extents_t {na[m],std::size_t{1}};
+      auto wb = ublas::to_strides(nb,layout_t{});
+      auto b  = vector_t  (ublas::product(nb), value_t{1} );
 
-            auto nc_base = extents_type_base(std::max(na.size()-1, size_type{2}), 1);
+      auto nc_base = extents_base_t(std::max(std::size_t{ublas::size(na)-1u}, std::size_t{2}), 1);
 
-            for(auto i = 0u, j = 0u; i < na.size(); ++i)
-                if(i != m)
-                    nc_base[j++] = na[i];
+      for(auto i = 0ul, j = 0ul; i < ublas::size(na); ++i)
+        if(i != m)
+          nc_base[j++] = na[i];
 
-            auto nc = extents_type (nc_base);
-            auto wc = strides_type (nc);
-            auto c  = vector_type  (product(nc), value_type{0});
+      auto nc = extents_t (nc_base);
+      auto wc = ublas::to_strides(nc,layout_t{});
+      auto c  = vector_t  (ublas::product(nc), value_t{0});
 
-            ublas::detail::recursive::mtv(
-                  size_type(m),
-                  c.data(), nc.data(), wc.data(),
-                  a.data(), na.data(), wa.data(),
-                  b.data());
+      ublas::detail::recursive::mtv(
+        m,
+        c.data(), nc.data(), wc.data(),
+        a.data(), na.data(), wa.data(),
+        b.data());
 
+      auto v = value_t(na[m]);
+      BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
 
-            for(auto i = 0u; i < c.size(); ++i)
-                BOOST_CHECK_EQUAL( c[i] , value_type( static_cast< inner_type_t<value_type> >(na[m]) ) * a[i] );
+//      for(auto i = 0u; i < c.size(); ++i)
+//        BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[m]) ) * a[i] );
 
-        }
     }
+  }
 }
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_mtm, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using vector_type  = std::vector<value_type>;
-    using extents_type = ublas::extents<>;
-    using strides_type = ublas::strides_t<extents_type,layout_type>;
-    // using extents_type_base = typename extents_type::base_type;
+  namespace ublas = boost::numeric::ublas;
+  using value_t   = typename value::first_type;
+  using layout_t  = typename value::second_type;
+  using vector_t  = std::vector<value_t>;
+  using extents_t = ublas::extents<>;
+
+  for(auto const& na : extents) {
+
+    if(ublas::size(na) != 2)
+      continue;
+
+    auto a  = vector_t  (ublas::product(na), value_t{2});
+    auto wa = ublas::to_strides(na,layout_t{});
+
+    auto nb = extents_t {na[1],na[0]};
+    auto wb = ublas::to_strides(nb,layout_t{});
+    auto b  = vector_t  (ublas::product(nb), value_t{1} );
+
+    auto nc = extents_t {na[0],nb[1]};
+    auto wc = ublas::to_strides(nc,layout_t{});
+    auto c  = vector_t  (ublas::product(nc));
 
 
-    for(auto const& na : extents) {
+    ublas::detail::recursive::mtm(
+      c.data(), nc.data(), wc.data(),
+      a.data(), na.data(), wa.data(),
+      b.data(), nb.data(), wb.data());
 
-        if(na.size() != 2)
-            continue;
+    auto v = value_t(na[1])*a[0];
+    BOOST_CHECK(std::all_of(c.begin(),c.end(), [v](auto cc){return cc == v;}));
 
-        auto a  = vector_type  (product(na), value_type{2});
-        auto wa = strides_type (na);
-
-        auto nb = extents_type {na[1],na[0]};
-    auto wb = strides_type (nb);
-    auto b  = vector_type  (product(nb), value_type{1} );
-
-    auto nc = extents_type {na[0],nb[1]};
-auto wc = strides_type (nc);
-auto c  = vector_type  (product(nc));
+//    for(auto i = 0u; i < c.size(); ++i)
+//      BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[1]) ) * a[0] );
 
 
-ublas::detail::recursive::mtm(
-    c.data(), nc.data(), wc.data(),
-    a.data(), na.data(), wa.data(),
-    b.data(), nb.data(), wb.data());
-
-
-for(auto i = 0u; i < c.size(); ++i)
-BOOST_CHECK_EQUAL( c[i] , value_type( static_cast< inner_type_t<value_type> >(na[1]) ) * a[0] );
-
-
-}
+  }
 }
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttv, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using vector_type  = std::vector<value_type>;
-    using extents_type = ublas::extents<>;
-    using strides_type = ublas::strides_t<extents_type,layout_type>;
-    using extents_type_base = typename extents_type::base_type;
-    using size_type = typename extents_type_base::value_type;
+  namespace ublas = boost::numeric::ublas;
+  using value_t   = typename value::first_type;
+  using layout_t  = typename value::second_type;
+  using vector_t  = std::vector<value_t>;
+  using extents_t = ublas::extents<>;
+  using extents_base_t = typename extents_t::base_type;
 
+  for(auto const& na : extents) {
 
-    for(auto const& na : extents) {
+    auto a = vector_t(ublas::product(na), value_t{2});
+    auto wa = ublas::to_strides(na,layout_t{});
+    for(auto m = std::size_t{0}; m < ublas::size(na); ++m){
+      auto b  = vector_t  (na[m], value_t{1} );
+      auto nb = extents_t {na[m],1};
+      auto wb = ublas::to_strides(nb,layout_t{});
 
-        auto a = vector_type(product(na), value_type{2});
-        auto wa = strides_type(na);
-        for(auto m = 0u; m < na.size(); ++m){
-            auto b  = vector_type  (na[m], value_type{1} );
-            auto nb = extents_type {na[m],1};
-            auto wb = strides_type (nb);
+      auto nc_base = extents_base_t(std::max(std::size_t{ublas::size(na)-1u}, std::size_t{2}),1);
 
-            auto nc_base = extents_type_base(std::max(na.size()-1, size_type(2)),1);
+      for(auto i = 0ul, j = 0ul; i < ublas::size(na); ++i)
+        if(i != m)
+          nc_base[j++] = na[i];
 
-            for(auto i = 0ul, j = 0ul; i < na.size(); ++i)
-                if(i != m)
-                    nc_base[j++] = na[i];
+      auto nc = extents_t (nc_base);
+      auto wc = ublas::to_strides(nc,layout_t{});
+      auto c  = vector_t  (ublas::product(nc), value_t{0});
 
-            auto nc = extents_type (nc_base);
-            auto wc = strides_type (nc);
-            auto c  = vector_type  (product(nc), value_type{0});
+      ublas::ttv(m+1, ublas::size(na),
+                 c.data(), nc.data(), wc.data(),
+                 a.data(), na.data(), wa.data(),
+                 b.data(), nb.data(), wb.data());
 
-            ublas::ttv(size_type(m+1), na.size(),
-                       c.data(), nc.data(), wc.data(),
-                       a.data(), na.data(), wa.data(),
-                       b.data(), nb.data(), wb.data());
+      auto v = value_t(na[m]);
+      BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
 
+//      for(auto i = 0u; i < c.size(); ++i)
+//        BOOST_CHECK_EQUAL( c[i] , value_t(na[m]) * a[i] );
 
-            for(auto i = 0u; i < c.size(); ++i)
-                BOOST_CHECK_EQUAL( c[i] , value_type(na[m]) * a[i] );
-
-        }
     }
+  }
 }
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttm, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using vector_type  = std::vector<value_type>;
-    using extents_type = ublas::extents<>;
-    using strides_type = ublas::strides_t<extents_type,layout_type>;
-    using size_type = typename extents_type::value_type;
+  namespace ublas = boost::numeric::ublas;
+  using value_t   = typename value::first_type;
+  using layout_t  = typename value::second_type;
+  using vector_t  = std::vector<value_t>;
+  using extents_t = ublas::extents<>;
 
 
-    for(auto const& na : extents) {
+  for(auto const& na : extents) {
 
-        auto a = vector_type(product(na), value_type{2});
-        auto wa = strides_type(na);
-        for(auto m = 0u; m < na.size(); ++m){
-            auto nb = extents_type {na[m], na[m] };
-            auto b  = vector_type  (product(nb), value_type{1} );
-            auto wb = strides_type (nb);
+    auto a = vector_t(ublas::product(na), value_t{2});
+    auto wa = ublas::to_strides(na,layout_t{});
+    for(auto m = std::size_t{0}; m < ublas::size(na); ++m){
+      const auto nb = extents_t {na[m], na[m] };
+      const auto b  = vector_t  (ublas::product(nb), value_t{1} );
+      const auto wb = ublas::to_strides(nb,layout_t{});
 
 
-            auto nc = na;
-            auto wc = strides_type (nc);
-            auto c  = vector_type  (product(nc), value_type{0});
+      const auto& nc = na;
+      const auto wc = ublas::to_strides(nc,layout_t{});
+      auto c  = vector_t  (ublas::product(nc), value_t{0});
 
-            ublas::ttm(size_type(m+1), na.size(),
-                       c.data(), nc.data(), wc.data(),
-                       a.data(), na.data(), wa.data(),
-                       b.data(), nb.data(), wb.data());
+      ublas::ttm(m+1, ublas::size(na),
+                 c.data(), nc.data(), wc.data(),
+                 a.data(), na.data(), wa.data(),
+                 b.data(), nb.data(), wb.data());
 
-            for(auto i = 0u; i < c.size(); ++i)
-                BOOST_CHECK_EQUAL( c[i] , value_type( static_cast< inner_type_t<value_type> >(na[m]) ) * a[i] );
 
-        }
+      auto v = value_t(na[m]);
+      BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
+
+
+//      for(auto i = 0u; i < c.size(); ++i)
+//        BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[m]) ) * a[i] );
+
     }
+  }
 }
 
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt_permutation, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using vector_type  = std::vector<value_type>;
-    using extents_type = ublas::extents<>;
-    using strides_type = ublas::strides_t<extents_type,layout_type>;
-    using size_type    = typename strides_type::value_type;
+  namespace ublas = boost::numeric::ublas;
+  using value_t   = typename value::first_type;
+  using layout_t  = typename value::second_type;
+  using vector_t  = std::vector<value_t>;
+  using extents_t = ublas::extents<>;
+  using extents_base_t = typename extents_t::base_type;
 
 
-    auto compute_factorial = [](auto const& p){
-        auto f = 1ul;
-        for(auto i = 1u; i <= p; ++i)
-            f *= i;
-        return f;
-    };
+  auto compute_factorial = [](auto const& p){
+    auto f = 1ul;
+    for(auto i = 1u; i <= p; ++i)
+      f *= i;
+    return f;
+  };
 
 
-    auto compute_inverse_permutation = [](auto const& pi){
-        auto pi_inv = pi;
-        for(auto j = 0u; j < pi.size(); ++j)
-            pi_inv[pi[j]-1] = j+1;
-        return pi_inv;
-    };
+  auto compute_inverse_permutation = [](auto const& pi){
+    auto pi_inv = pi;
+    for(auto j = 0u; j < pi.size(); ++j)
+      pi_inv[pi[j]-1] = j+1;
+    return pi_inv;
+  };
 
-    auto permute_extents = [](auto const& pi, auto const& na){
-        auto nb = na;
-        assert(pi.size() == na.size());
-        for(auto j = 0u; j < pi.size(); ++j)
-            nb[j] = na[pi[j]-1];
-        return nb;
-    };
-
-
-    // left-hand and right-hand side have the
-    // the same number of elements
-
-    // computing the inner product with
-    // different permutation tuples for
-    // right-hand side
-
-    for(auto const& na : extents) {
-
-        auto wa = strides_type(na);
-        auto a  = vector_type(product(na), value_type{2});
-        auto pa  = na.size();
-        auto pia = std::vector<size_type>(pa);
-        std::iota( pia.begin(), pia.end(), 1 );
-
-        auto pib     = pia;
-        auto pib_inv = compute_inverse_permutation(pib);
-
-        auto f = compute_factorial(pa);
-
-        // for the number of possible permutations
-        // only permutation tuple pib is changed.
-        for(auto i = 0u; i < f; ++i) {
-
-            auto nb = permute_extents( pib, na  );
-            auto wb = strides_type(nb);
-            auto b  = vector_type(product(nb), value_type{3});
-            auto pb = nb.size();
-
-            // the number of contractions is changed.
-            for( auto q = size_type(0); q <= pa; ++q) {
-
-                auto r  = pa - q;
-                auto s  = pb - q;
-
-                auto pc = r+s > 0 ? std::max(r+s,size_type(2)) : size_type(2);
-
-                auto nc_base = std::vector<size_type>( pc , 1 );
-
-                for(auto j = 0u; j < r; ++j)
-                    nc_base[ j ] = na[ pia[j]-1 ];
-
-                for(auto j = 0u; j < s; ++j)
-                    nc_base[ r + j ] = nb[ pib_inv[j]-1 ];
-
-                auto nc = extents_type ( nc_base );
-                auto wc = strides_type ( nc );
-                auto c  = vector_type  ( product(nc), value_type(0) );
-
-                ublas::ttt(pa,pb,q,
-                           pia.data(), pib_inv.data(),
-                           c.data(), nc.data(), wc.data(),
-                           a.data(), na.data(), wa.data(),
-                           b.data(), nb.data(), wb.data());
+  auto permute_extents = [](auto const& pi, auto const& na){
+    auto nb_base = na.base();
+    assert(pi.size() == ublas::size(na));
+    for(auto j = 0u; j < pi.size(); ++j)
+      nb_base[j] = na[pi[j]-1];
+    return extents_t(nb_base);
+  };
 
 
-                auto acc = value_type(1);
-                for(auto j = r; j < pa; ++j)
-                    acc *= value_type( static_cast< inner_type_t<value_type> >(na[pia[j]-1]) );
+  // left-hand and right-hand side have the
+  // the same number of elements
 
-                for(auto j = 0ul; j < c.size(); ++j)
-                    BOOST_CHECK_EQUAL( c[j] , acc * a[0] * b[0] );
+  // computing the inner product with
+  // different permutation tuples for
+  // right-hand side
 
-            }
+  for(auto const& na : extents) {
 
-            std::next_permutation(pib.begin(), pib.end());
-            pib_inv = compute_inverse_permutation(pib);
-        }
+    auto wa = ublas::to_strides(na,layout_t{});
+    auto a  = vector_t(ublas::product(na), value_t{2});
+    auto pa  = ublas::size(na);
+    auto pia = std::vector<std::size_t>(pa);
+    std::iota( pia.begin(), pia.end(), std::size_t{1} );
+
+    auto pib     = pia;
+    auto pib_inv = compute_inverse_permutation(pib);
+
+    auto f = compute_factorial(pa);
+
+    // for the number of possible permutations
+    // only permutation tuple pib is changed.
+    for(auto i = 0u; i < f; ++i) {
+
+      auto nb = permute_extents( pib, na  );
+      auto wb = ublas::to_strides(nb,layout_t{});
+      auto b  = vector_t(ublas::product(nb), value_t{3});
+      auto pb = ublas::size(nb);
+
+      // the number of contractions is changed.
+      for(auto q = std::size_t{0}; q <= pa; ++q) {
+
+        auto r  = pa - q;
+        auto s  = pb - q;
+
+        auto pc = r+s > 0 ? std::max(std::size_t{r+s},std::size_t{2}) : std::size_t{2};
+
+        auto nc_base = extents_base_t(pc,std::size_t{1});
+
+        for(auto j = 0u; j < r; ++j)
+          nc_base[j] = na[pia[j]-1];
+
+        for(auto j = 0u; j < s; ++j)
+          nc_base[r+j] = nb[ pib_inv[j]-1 ];
+
+        auto nc = extents_t ( nc_base );
+        auto wc = ublas::to_strides(nc,layout_t{});
+        auto c  = vector_t  ( ublas::product(nc), value_t(0) );
+
+        ublas::ttt(pa,pb,q,
+                   pia.data(), pib_inv.data(),
+                   c.data(), nc.data(), wc.data(),
+                   a.data(), na.data(), wa.data(),
+                   b.data(), nb.data(), wb.data());
+
+
+        auto acc = std::size_t{1};
+        for(auto j = r; j < pa; ++j)
+          acc *= na[pia[j]-1];
+
+        auto v = value_t(acc)*a[0]*b[0];
+
+        BOOST_CHECK( std::all_of(c.begin(),c.end(), [v](auto cc){return cc == v; } ) );
+
+      }
+
+      std::next_permutation(pib.begin(), pib.end());
+      pib_inv = compute_inverse_permutation(pib);
     }
+  }
 }
 
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using vector_type  = std::vector<value_type>;
-    using extents_type = ublas::extents<>;
-    using strides_type = ublas::strides_t<extents_type,layout_type>;
-    using size_type    = typename strides_type::value_type;
+  namespace ublas = boost::numeric::ublas;
+  using value_t   = typename value::first_type;
+  using layout_t  = typename value::second_type;
+  using vector_t  = std::vector<value_t>;
+  using extents_t = ublas::extents<>;
+  using extents_base_t = typename extents_t::base_type;
 
-    // left-hand and right-hand side have the
-    // the same number of elements
+  // left-hand and right-hand side have the
+  // the same number of elements
 
-    // computing the inner product with
-    // different permutation tuples for
-    // right-hand side
+  // computing the inner product with
+  // different permutation tuples for
+  // right-hand side
 
-    for(auto const& na : extents) {
+  for(auto const& na : extents) {
 
-        auto wa = strides_type(na);
-        auto a  = vector_type(product(na), value_type{2});
-        auto pa  = na.size();
+    auto wa = ublas::to_strides(na,layout_t{});
+    auto a  = vector_t(ublas::product(na), value_t{2});
+    auto pa = ublas::size(na);
 
-        auto nb = na;
-        auto wb = strides_type(nb);
-        auto b  = vector_type(product(nb), value_type{3});
-        auto pb = nb.size();
+    auto const& nb = na;
+    auto wb = ublas::to_strides(nb,layout_t{});
+    auto b  = vector_t(ublas::product(nb), value_t{3});
+    auto pb = ublas::size(nb);
 
-        //  std::cout << "na = ";
-        //  std::copy(na.begin(), na.end(), std::ostream_iterator<size_type>(std::cout, " "));
-        //  std::cout << std::endl;
+    //  std::cout << "na = ";
+    //  std::copy(na.begin(), na.end(), std::ostream_iterator<size_type>(std::cout, " "));
+    //  std::cout << std::endl;
 
-        //  std::cout << "nb = ";
-        //  std::copy(nb.begin(), nb.end(), std::ostream_iterator<size_type>(std::cout, " "));
-        //  std::cout << std::endl;
-
-
-        // the number of contractions is changed.
-        for( auto q = size_type(0); q <= pa; ++q) { // pa
-
-            auto r  = pa - q;
-            auto s  = pb - q;
-
-            auto pc = r+s > 0 ? std::max(r+s, size_type(2)) : size_type(2);
-
-            auto nc_base = std::vector<size_type>( pc , 1 );
-
-            for(auto i = 0u; i < r; ++i)
-                nc_base[ i ] = na[ i ];
-
-            for(auto i = 0u; i < s; ++i)
-                nc_base[ r + i ] = nb[ i ];
-
-            auto nc = extents_type ( nc_base );
-            auto wc = strides_type ( nc );
-            auto c  = vector_type  ( product(nc), value_type{0} );
-
-            //   std::cout << "nc = ";
-            //   std::copy(nc.begin(), nc.end(), std::ostream_iterator<size_type>(std::cout, " "));
-            //   std::cout << std::endl;
-
-            ublas::ttt(pa,pb,q,
-                       c.data(), nc.data(), wc.data(),
-                       a.data(), na.data(), wa.data(),
-                       b.data(), nb.data(), wb.data());
+    //  std::cout << "nb = ";
+    //  std::copy(nb.begin(), nb.end(), std::ostream_iterator<size_type>(std::cout, " "));
+    //  std::cout << std::endl;
 
 
-            auto acc = value_type(1);
-            for(auto i = r; i < pa; ++i)
-                acc *= value_type( static_cast< inner_type_t<value_type> >(na[i]) );
+    // the number of contractions is changed.
+    for( auto q = std::size_t{0}; q <= pa; ++q) { // pa
 
-            for(auto i = 0u; i < c.size(); ++i)
-                BOOST_CHECK_EQUAL( c[i] , acc * a[0] * b[0] );
+      auto r  = pa - q;
+      auto s  = pb - q;
 
-        }
+      auto pc = r+s > 0 ? std::max(std::size_t{r+s},std::size_t{2}) : std::size_t{2};
 
+      auto nc_base = extents_base_t(pc,std::size_t{1});
+
+      for(auto i = 0u; i < r; ++i)
+        nc_base[i] = na[i];
+
+      for(auto i = 0u; i < s; ++i)
+        nc_base[r+i] = nb[i];
+
+      auto nc = extents_t ( nc_base );
+      auto wc = ublas::to_strides(nc,layout_t{});
+      auto c  = vector_t  ( ublas::product(nc), value_t{0} );
+
+      //   std::cout << "nc = ";
+      //   std::copy(nc.begin(), nc.end(), std::ostream_iterator<size_type>(std::cout, " "));
+      //   std::cout << std::endl;
+
+      ublas::ttt(pa,pb,q,
+                 c.data(), nc.data(), wc.data(),
+                 a.data(), na.data(), wa.data(),
+                 b.data(), nb.data(), wb.data());
+
+
+      auto acc = std::size_t{1};
+      for(auto i = r; i < pa; ++i)
+        acc *= na[i];
+
+      auto v = value_t(acc)*a[0]*b[0];
+
+      BOOST_CHECK( std::all_of(c.begin(),c.end(), [v](auto cc){return cc == v; } ) );
     }
+
+  }
 }
 
 
@@ -423,69 +418,67 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttt, value,  test_types, fixture )
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_inner, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using strides_type = ublas::strides_t<ublas::extents<>,layout_type>;
-    using vector_type  = std::vector<value_type>;
+  namespace ublas = boost::numeric::ublas;
+  using value_t   = typename value::first_type;
+  using layout_t  = typename value::second_type;
+  using vector_t  = std::vector<value_t>;
+
+  for(auto const& n : extents) {
+
+    auto a = vector_t(ublas::product(n), value_t{2});
+    auto b = vector_t(ublas::product(n), value_t{3});
+    auto w = ublas::to_strides(n,layout_t{});
+
+    auto c = ublas::inner(ublas::size(n), n.data(), a.data(), w.data(), b.data(), w.data(), value_t(0));
+    auto cref = std::inner_product(a.begin(), a.end(), b.begin(), value_t(0));
 
 
-    for(auto const& n : extents) {
+    BOOST_CHECK_EQUAL( c , cref );
 
-        auto a = vector_type(product(n), value_type{2});
-        auto b = vector_type(product(n), value_type{3});
-        auto w = strides_type(n);
-
-        auto c = ublas::inner(n.size(), n.data(), a.data(), w.data(), b.data(), w.data(), value_type(0));
-        auto cref = std::inner_product(a.begin(), a.end(), b.begin(), value_type(0));
-
-
-        BOOST_CHECK_EQUAL( c , cref );
-
-    }
+  }
 
 }
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_outer, value,  test_types, fixture )
 {
-    using namespace boost::numeric;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using extents_type = ublas::extents<>;
-    using strides_type = ublas::strides_t<extents_type,layout_type>;
-    using vector_type  = std::vector<value_type>;
+  namespace ublas = boost::numeric::ublas;
+  using value_t   = typename value::first_type;
+  using layout_t  = typename value::second_type;
+  using extents_t = ublas::extents<>;
+  using vector_t  = std::vector<value_t>;
 
 
-    for(auto const& na : extents) {
+  for(auto const& na : extents) {
 
-        auto a = vector_type(product(na), value_type{2});
-        auto wa = strides_type(na);
+    auto a = vector_t(ublas::product(na), value_t{2});
+    auto wa = ublas::to_strides(na,layout_t{});
 
-        for(auto const& nb : extents) {
+    for(auto const& nb : extents) {
 
-            auto b = vector_type(product(nb), value_type{3});
-            auto wb = strides_type(nb);
+      auto b = vector_t(ublas::product(nb), value_t{3});
+      auto wb = ublas::to_strides(nb,layout_t{});
 
-            auto c = vector_type(product(nb)*product(na));
-            auto nc = typename extents_type::base_type(na.size()+nb.size());
+      auto c = vector_t(ublas::product(nb)*ublas::product(na));
+      auto nc_base = typename extents_t::base_type(ublas::size(na)+ublas::size(nb));
 
-            for(auto i = 0u; i < na.size(); ++i)
-                nc[i] = na[i];
-            for(auto i = 0u; i < nb.size(); ++i)
-                nc[i+na.size()] = nb[i];
+      for(auto i = 0u; i < ublas::size(na); ++i)
+        nc_base[i] = na[i];
+      for(auto i = 0u; i < ublas::size(nb); ++i)
+        nc_base[i+ublas::size(na)] = nb[i];
 
-            auto wc = strides_type(extents_type(nc));
+      auto nc = extents_t(nc_base);
+      auto wc = ublas::to_strides(nc,layout_t{});
 
-            ublas::outer(c.data(), nc.size(), nc.data(), wc.data(),
-                         a.data(), na.size(), na.data(), wa.data(),
-                         b.data(), nb.size(), nb.data(), wb.data());
+      ublas::outer(c.data(), ublas::size(nc), nc.data(), wc.data(),
+                   a.data(), ublas::size(na), na.data(), wa.data(),
+                   b.data(), ublas::size(nb), nb.data(), wb.data());
 
-            for(auto const& cc : c)
-                BOOST_CHECK_EQUAL( cc , a[0]*b[0] );
-        }
-
+      for(auto const& cc : c)
+        BOOST_CHECK_EQUAL( cc , a[0]*b[0] );
     }
+
+  }
 
 }
 

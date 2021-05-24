@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -10,17 +10,14 @@
 //
 
 
-#ifndef _BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
-#define _BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
+#ifndef BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
+#define BOOST_UBLAS_TENSOR_ALGORITHMS_HPP
 
-
-#include <stdexcept>
 #include <complex>
 #include <functional>
+#include <stdexcept>
 
-namespace boost {
-namespace numeric {
-namespace ublas {
+namespace boost::numeric::ublas {
 
 
 
@@ -38,37 +35,45 @@ namespace ublas {
 */
 template <class PointerOut, class PointerIn, class SizeType>
 constexpr void copy(const SizeType p, SizeType const*const n,
-          PointerOut c, SizeType const*const wc,
-          PointerIn a,  SizeType const*const wa)
+                    PointerOut c, SizeType const*const wc,
+                    PointerIn a,  SizeType const*const wa)
 {
-    static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn>::value,
-                   "Static error in boost::numeric::ublas::copy: Argument types for pointers are not pointer types.");
-    if( p == 0 )
-        return;
+  static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn>::value,
+                "Static error in boost::numeric::ublas::copy: Argument types for pointers are not pointer types.");
+  if( p == 0 ){
+    return;
+  }
 
-    if(c == nullptr || a == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
+  if(c == nullptr || a == nullptr){
+    throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
+  }
 
-    if(wc == nullptr || wa == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
+  if(wc == nullptr || wa == nullptr){
+    throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
+  }
 
-    if(n == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
+  if(n == nullptr){
+    throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
+  }
 
 
-    std::function<void(SizeType r, PointerOut c, PointerIn  a)> lambda;
+  std::function<void(SizeType r, PointerOut c, PointerIn  a)> lambda;
 
-    lambda = [&lambda, n, wc, wa](SizeType r, PointerOut c, PointerIn a)
-    {
-        if(r > 0)
-            for(auto d = 0u; d < n[r]; c += wc[r], a += wa[r], ++d)
-                lambda(r-1, c, a );
-        else
-            for(auto d = 0u; d < n[0]; c += wc[0], a += wa[0], ++d)
-                *c = *a;
-    };
+  lambda = [&lambda, n, wc, wa](SizeType r, PointerOut c, PointerIn a)
+  {
+    if(r > 0){
+      for(auto d = 0u; d < n[r]; c += wc[r], a += wa[r], ++d){
+        lambda(r-1, c, a );
+      }
+    }
+    else{
+      for(auto d = 0u; d < n[0]; c += wc[0], a += wa[0], ++d){
+        *c = *a;
+      }
+    }
+  };
 
-    lambda( p-1, c, a );
+  lambda( p-1, c, a );
 }
 
 
@@ -87,40 +92,40 @@ constexpr void copy(const SizeType p, SizeType const*const n,
  * @param[in] op unary operation
 */
 template <class PointerOut, class PointerIn, class SizeType, class UnaryOp>
-constexpr void transform(const SizeType p,
-               SizeType const*const n,
-               PointerOut c, SizeType const*const wc,
-               PointerIn a,  SizeType const*const wa,
-               UnaryOp op)
+constexpr void transform(SizeType const p,
+                         SizeType const*const n,
+                         PointerOut c, SizeType const*const wc,
+                         PointerIn a,  SizeType const*const wa,
+                         UnaryOp op)
 {
-    static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn>::value,
-                   "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
-    if( p == 0 )
-        return;
+  static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn>::value,
+                "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
+  if( p == 0 )
+    return;
 
-    if(c == nullptr || a == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+  if(c == nullptr || a == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
-    if(wc == nullptr || wa == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+  if(wc == nullptr || wa == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
-    if(n == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+  if(n == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
-    std::function<void(SizeType r, PointerOut c, PointerIn a)> lambda;
+  std::function<void(SizeType r, PointerOut c, PointerIn a)> lambda;
 
-    lambda = [&lambda, n, wc, wa, op](SizeType r, PointerOut c, PointerIn a)
-    {
-        if(r > 0)
-            for(auto d = 0u; d < n[r]; c += wc[r], a += wa[r], ++d)
-                lambda(r-1, c, a);
-        else
-            for(auto d = 0u; d < n[0]; c += wc[0], a += wa[0], ++d)
-                *c = op(*a);
-    };
+  lambda = [&lambda, n, wc, wa, op](SizeType r, PointerOut c, PointerIn a)
+  {
+    if(r > 0)
+      for(auto d = 0u; d < n[r]; c += wc[r], a += wa[r], ++d)
+        lambda(r-1, c, a);
+    else
+      for(auto d = 0u; d < n[0]; c += wc[0], a += wa[0], ++d)
+        *c = op(*a);
+  };
 
-    lambda( p-1, c, a );
+  lambda( p-1, c, a );
 
 }
 
@@ -138,39 +143,39 @@ constexpr void transform(const SizeType p,
 template <class PointerIn, class ValueType, class SizeType>
 [[nodiscard]]
 constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
-                     PointerIn a, SizeType const*const w,
-                     ValueType k)
+           PointerIn a, SizeType const*const w,
+           ValueType k)
 {
-    static_assert(std::is_pointer<PointerIn>::value,
-                  "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
+  static_assert(std::is_pointer<PointerIn>::value,
+                "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
 
-    if( p == 0 )
-        return k;
+  if( p == 0 )
+    return k;
 
-    if(a == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+  if(a == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
-    if(w == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+  if(w == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
-    if(n == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+  if(n == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
-    std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
+  std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
 
-    lambda = [&lambda, n, w](SizeType r, PointerIn a, ValueType k)
-    {
-        if(r > 0u)
-            for(auto d = 0u; d < n[r]; a += w[r], ++d)
-                k = lambda(r-1, a, k);
-        else
-            for(auto d = 0u; d < n[0]; a += w[0], ++d)
-                k += *a;
-        return k;
-    };
+  lambda = [&lambda, n, w](SizeType r, PointerIn a, ValueType k)
+  {
+    if(r > 0u)
+      for(auto d = 0u; d < n[r]; a += w[r], ++d)
+        k = lambda(r-1, a, k);
+    else
+      for(auto d = 0u; d < n[0]; a += w[0], ++d)
+        k += *a;
+    return k;
+  };
 
-    return lambda( p-1, a,  k );
+  return lambda( p-1, a,  k );
 }
 
 /** @brief Performs a reduce operation with all elements of the tensor and an initial value
@@ -188,40 +193,40 @@ constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
 template <class PointerIn, class ValueType, class SizeType, class BinaryOp>
 [[nodiscard]]
 constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
-                     PointerIn a, SizeType const*const w,
-                     ValueType k, BinaryOp op)
+           PointerIn a, SizeType const*const w,
+           ValueType k, BinaryOp op)
 {
-    static_assert(std::is_pointer<PointerIn>::value,
-                  "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
+  static_assert(std::is_pointer<PointerIn>::value,
+                "Static error in boost::numeric::ublas::transform: Argument types for pointers are not pointer types.");
 
 
-    if( p == 0 )
-        return k;
+  if( p == 0 )
+    return k;
 
-    if(a == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+  if(a == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
-    if(w == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+  if(w == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
-    if(n == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
+  if(n == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
-    std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
+  std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
 
-    lambda = [&lambda, n, w, op](SizeType r, PointerIn a, ValueType k)
-    {
-        if(r > 0u)
-            for(auto d = 0u; d < n[r]; a += w[r], ++d)
-                k = lambda(r-1, a, k);
-        else
-            for(auto d = 0u; d < n[0]; a += w[0], ++d)
-                k = op ( k, *a );
-        return k;
-    };
+  lambda = [&lambda, n, w, op](SizeType r, PointerIn a, ValueType k)
+  {
+    if(r > 0u)
+      for(auto d = 0u; d < n[r]; a += w[r], ++d)
+        k = lambda(r-1, a, k);
+    else
+      for(auto d = 0u; d < n[0]; a += w[0], ++d)
+        k = op ( k, *a );
+    return k;
+  };
 
-    return lambda( p-1, a,  k );
+  return lambda( p-1, a,  k );
 }
 
 /** @brief Transposes a tensor
@@ -241,45 +246,45 @@ constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
 
 template <class PointerOut, class PointerIn, class SizeType>
 constexpr void trans( SizeType const p,  SizeType const*const na, SizeType const*const pi,
-            PointerOut c,      SizeType const*const wc,
-            PointerIn a,       SizeType const*const wa)
+                     PointerOut c,      SizeType const*const wc,
+                     PointerIn a,       SizeType const*const wa)
 {
 
-    static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn>::value,
-                   "Static error in boost::numeric::ublas::trans: Argument types for pointers are not pointer types.");
+  static_assert( std::is_pointer<PointerOut>::value & std::is_pointer<PointerIn>::value,
+                "Static error in boost::numeric::ublas::trans: Argument types for pointers are not pointer types.");
 
-    if( p < 2)
-        return;
+  if( p < 2)
+    return;
 
-    if(c == nullptr || a == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+  if(c == nullptr || a == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
-    if(na == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null.");
+  if(na == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null.");
 
-    if(wc == nullptr || wa == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+  if(wc == nullptr || wa == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
-    if(na == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+  if(na == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
-    if(pi == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+  if(pi == nullptr)
+    throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 
-    std::function<void(SizeType r, PointerOut c, PointerIn a)> lambda;
+  std::function<void(SizeType r, PointerOut c, PointerIn a)> lambda;
 
-    lambda = [&lambda, na, wc, wa, pi](SizeType r, PointerOut c, PointerIn a)
-    {
-        if(r > 0)
-            for(auto d = 0u; d < na[r]; c += wc[pi[r]-1], a += wa[r], ++d)
-                lambda(r-1, c, a);
-        else
-            for(auto d = 0u; d < na[0]; c += wc[pi[0]-1], a += wa[0], ++d)
-                *c = *a;
-    };
+  lambda = [&lambda, na, wc, wa, pi](SizeType r, PointerOut c, PointerIn a)
+  {
+    if(r > 0)
+      for(auto d = 0u; d < na[r]; c += wc[pi[r]-1], a += wa[r], ++d)
+        lambda(r-1, c, a);
+    else
+      for(auto d = 0u; d < na[0]; c += wc[pi[0]-1], a += wa[0], ++d)
+        *c = *a;
+  };
 
-    lambda( p-1, c, a );
+  lambda( p-1, c, a );
 }
 
 
@@ -299,49 +304,47 @@ constexpr void trans( SizeType const p,  SizeType const*const na, SizeType const
 */
 
 template <class ValueType, class SizeType>
-constexpr void trans( SizeType const p,
-            SizeType const*const na,
-            SizeType const*const pi,
-            std::complex<ValueType>* c,  SizeType const*const wc,
-            std::complex<ValueType>* a,  SizeType const*const wa)
+constexpr void trans(SizeType const p,
+                     SizeType const*const na,
+                     SizeType const*const pi,
+                     std::complex<ValueType>* c,  SizeType const*const wc,
+                     std::complex<ValueType>* a,  SizeType const*const wa)
 {
-    if( p < 2)
-        return;
-
-    if(c == nullptr || a == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
-
-    if(wc == nullptr || wa == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
-
-    if(na == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
-
-    if(pi == nullptr)
-        throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
-
-
-    std::function<void(SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)> lambda;
-
-    lambda = [&lambda, na, wc, wa, pi](SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)
-    {
-        if(r > 0)
-            for(auto d = 0u; d < na[r]; c += wc[pi[r]-1], a += wa[r], ++d)
-                lambda(r-1, c, a);
-        else
-            for(auto d = 0u; d < na[0]; c += wc[pi[0]-1], a += wa[0], ++d)
-                *c = std::conj(*a);
-    };
-
-    lambda( p-1, c, a );
-
-}
+  if( p < 2){
+    return;
+  }
+  if(c == nullptr || a == nullptr){
+    throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+  }
+  if(wc == nullptr || wa == nullptr){
+    throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+  }
+  if(na == nullptr){
+    throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+  }
+  if(pi == nullptr){
+    throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
+  }
 
 
+  std::function<void(SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)> lambda;
 
+  lambda = [&lambda, na, wc, wa, pi](SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)
+  {
+    if(r > 0)
+      for(auto d = 0u; d < na[r]; c += wc[pi[r]-1], a += wa[r], ++d)
+        lambda(r-1, c, a);
+    else
+      for(auto d = 0u; d < na[0]; c += wc[pi[0]-1], a += wa[0], ++d)
+        *c = std::conj(*a);
+  };
+
+  lambda( p-1, c, a );
 
 }
-}
-}
+
+
+} // namespace boost::numeric::ublas
+
 
 #endif

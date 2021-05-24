@@ -14,6 +14,8 @@
 #define _BOOST_UBLAS_TEST_TENSOR_UTILITY_
 
 #include <utility>
+#include <tuple>
+#include <functional>
 
 template<class ... types>
 struct zip_helper;
@@ -48,55 +50,38 @@ struct zip_helper<std::tuple<types3...>, type1, types1...>
 template<class ... types>
 using zip = zip_helper<std::tuple<>,types...>;
 
-template<size_t I, class CallBack, class...Ts>
-struct for_each_tuple_impl{
-  static_assert(sizeof...(Ts) > I, "Static Assert in boost::numeric::ublas::detail::for_each_tuple");
-  auto operator()(std::tuple<Ts...>& t, CallBack call_back)
-  {
-      call_back(I,std::get<I>(t));
-      if constexpr(sizeof...(Ts) - 1 > I){
-          for_each_tuple_impl<I + 1,CallBack,Ts...> it;
-          it(t,call_back);
-      }
-  }
-};
 
-template<class CallBack, class... Ts>
-auto for_each_tuple(std::tuple<Ts...>& t, CallBack call_back){
-  if constexpr (std::tuple_size_v<std::tuple<Ts...>> == 0u )
-    return;
+template<class UnaryOp, class ... Elements>
+void for_each_in_tuple(std::tuple<Elements...> const& tuple, UnaryOp&& op)
+{
+  auto invoke_op_for_tuple = [&]<std::size_t... Is>(std::index_sequence<Is...>) {
+    (..., std::invoke(op, Is, std::get<Is>(tuple)));
+  };
 
-  for_each_tuple_impl<0,CallBack,Ts...> f;
-  f(t,call_back);
-
+  invoke_op_for_tuple(std::make_index_sequence<std::tuple_size_v<std::tuple<Elements...>>>{});
 }
 
+namespace boost::numeric::ublas
+{
 
-template<typename... Ts>
-struct list{
-    static constexpr size_t size = sizeof...(Ts);
-};
-
-template<size_t I, class CallBack, class T, class...Ts>
-struct for_each_list_impl{
-    constexpr decltype(auto) operator()(list<T, Ts...> l, CallBack call_back){
-        using new_list = list<Ts...>;
-        using value_type = T;
-        call_back(I,value_type{});
-        
-        if constexpr(new_list::size != 0){
-            for_each_list_impl<I + 1,CallBack, Ts...> it;
-            it(new_list{},call_back);
-        }
-    }
-};
-
-
-template<class CallBack, class... Ts>
-auto for_each_list(list<Ts...> l, CallBack call_back){
-    for_each_list_impl<0,CallBack,Ts...> f;
-    f(l,call_back);
+template<class UnaryOp, class TA, class TB, std::size_t ... is>
+void for_each_in_index(std::index_sequence<is...>, TA const& a, TB const& b, UnaryOp&& op)
+{
+  (..., std::invoke(op,a,b,std::index_sequence<is>{}) );
 }
+
+}// namespace boost::numeric::ublas
+
+//template<class UnaryOp, std::size_t ... is>
+//void for_each_in_tuple(std::index_sequence<is...>, UnaryOp&& op)
+//{
+//  auto invoke_op_for_tuple = [&]<std::size_t... Is>(std::index_sequence<Is...>) {
+//    (..., std::invoke(op, Is, Is));
+//  };
+
+//  invoke_op_for_tuple(std::make_index_sequence<std::index_sequence<is...>::size()>{});
+//}
+
 
 #include <complex>
 

@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -13,15 +13,12 @@
 #define BOOST_UBLAS_TENSOR_MULTI_INDEX_UTILITY_HPP
 
 
+#include <vector>
 #include <tuple>
 #include <type_traits>
 
 
-namespace boost   {
-namespace numeric {
-namespace ublas   {
-namespace detail  {
-
+namespace boost::numeric::ublas::detail {
 
 template<class ... index_types>
 struct has_index_impl;
@@ -50,9 +47,12 @@ struct has_index_impl <itype_left, std::tuple<itype_right, index_types...> >
     using next_type = has_index_impl<itype_left, std::tuple<index_types...>>;
     static constexpr bool value = has_index_impl<itype_left,itype_right>::value || next_type::value;
 };
-} // namespace detail
+} // namespace boost::numeric::ublas::detail
 
 
+
+namespace boost::numeric::ublas
+{
 
 /** @brief has_index is true if index occurs once or more in a multi-index
  *
@@ -69,17 +69,12 @@ struct has_index
     static constexpr bool value = detail::has_index_impl<std::decay_t<index_type>,std::decay_t<tuple_type>>::value;
 };
 
-} // namespace ublas
-} // namespace numeric
-} // namespace boost
+} // namespace boost::numeric::ublas
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 
-namespace boost   {
-namespace numeric {
-namespace ublas   {
-namespace detail  {
+namespace boost::numeric::ublas::detail {
 
 
 template<class ... index_types>
@@ -108,7 +103,10 @@ struct valid_multi_index_impl<std::tuple<itype,index_types...>>
     static constexpr bool has_index_value = has_index_type::value && !is_index_zero;
     static constexpr bool value = !has_index_value && valid_multi_index_impl<ttype>::value;
 };
-} // namespace detail
+} // namespace boost::numeric::ublas::detail
+
+namespace boost::numeric::ublas
+{
 
 /** @brief valid_multi_index is true if indexes occur only once in a multi-index
  *
@@ -125,17 +123,13 @@ struct valid_multi_index
     static constexpr bool value = detail::valid_multi_index_impl<std::decay_t<tupe_type>>::value;
 };
 
-} // namespace ublas
-} // namespace numeric
-} // namespace boost
+} // namespace boost::numeric::ublas
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 
-namespace boost   {
-namespace numeric {
-namespace ublas   {
-namespace detail  {
+namespace boost::numeric::ublas::detail
+{
 
 template<class ... index_types >
 struct number_equal_indexes_impl;
@@ -159,8 +153,10 @@ struct number_equal_indexes_impl < std::tuple<itype,itypes_left...>, std::tuple<
     static constexpr unsigned v = has_index_value ? 1 : 0;
     static constexpr unsigned value  = v + next_type::value;
 };
-} // namespace detail
+} // namespace boost::numeric::ublas::detail
 
+
+namespace boost::numeric::ublas {
 
 /** @brief number_equal_indexes contains the number of equal indexes of two multi-indexes
  *
@@ -182,18 +178,14 @@ struct number_equal_indexes
         detail::number_equal_indexes_impl< std::decay_t<tuple_left>, std::decay_t<tuple_right>>::value;
 };
 
-} // namespace ublas
-} // namespace numeric
-} // namespace boost
+} // namespace boost::numeric::ublas
 
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 
-namespace boost   {
-namespace numeric {
-namespace ublas   {
-namespace detail  {
+namespace boost::numeric::ublas::detail
+{
 
 
 template<std::size_t r, std::size_t m, class itype, class ttype>
@@ -211,10 +203,11 @@ struct index_position_impl < m, m, itype, ttype>
     static constexpr auto value = std::tuple_size<ttype>::value;
 };
 
-} // namespace detail
+} // namespace boost::numeric::ublas::detail
 
 
-
+namespace boost::numeric::ublas
+{
 /** @brief index_position contains the zero-based index position of an index type within a multi-index
  *
  * @note a multi-index represents as tuple of single indexes of type boost::numeric::ublas::index::index_type
@@ -235,18 +228,14 @@ struct index_position
     static constexpr auto value  = detail::index_position_impl<0ul,std::tuple_size<tuple_type>::value,std::decay_t<index_type>,std::decay_t<tuple_type>>::value;
 };
 
-} // namespace ublas
-} // namespace numeric
-} // namespace boost
+} // namespace boost::numeric::ublas
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 
 
-namespace boost   {
-namespace numeric {
-namespace ublas   {
-namespace detail  {
+namespace boost::numeric::ublas::detail
+{
 
 template<std::size_t r, std::size_t m>
 struct index_position_pairs_impl
@@ -295,9 +284,10 @@ struct index_position_pairs_impl<r,0>
 };
 
 
-} // namespace detail
+} // namespace boost::numeric::ublas::detail
 
-
+namespace boost::numeric::ublas
+{
 /** @brief index_position_pairs returns zero-based index positions of matching indexes of two multi-indexes
  *
  * @note a multi-index represents as tuple of single indexes of type boost::numeric::ublas::index::index_type
@@ -321,9 +311,7 @@ auto index_position_pairs(tuple_left const& lhs, tuple_right const& rhs)
     return array;
 }
 
-} // namespace ublas
-} // namespace numeric
-} // namespace boost
+} // namespace boost::numeric::ublas
 
 ////////////////////////////
 ////////////////////////////
@@ -331,42 +319,40 @@ auto index_position_pairs(tuple_left const& lhs, tuple_right const& rhs)
 ////////////////////////////
 
 
-namespace boost   {
-namespace numeric {
-namespace ublas   {
-namespace detail  {
+//namespace boost::numeric::ublas::detail
+//{
 
-template<class array_type, std::size_t ... R>
-constexpr auto array_to_vector_impl( array_type const& array, [[maybe_unused]] std::index_sequence<R...> sq)
-{
-    return std::make_pair(
-          std::vector<std::size_t>{std::get<0>( std::get<R>(array) )+1 ...} ,
-          std::vector<std::size_t>{std::get<1>( std::get<R>(array) )+1 ...} );
-}
+//template<class array_type, std::size_t ... R>
+//constexpr auto array_to_vector_impl( array_type const& array, std::index_sequence<R...> /*unused*/)
+//{
+//    return std::make_pair(
+//          std::vector<std::size_t>{std::get<R>(array).first  +1 ...} ,
+//          std::vector<std::size_t>{std::get<R>(array).second +1 ...} );
+//}
 
-} // namespace detail
+//} // namespace boost::numeric::ublas::detail
 
 
-/** @brief array_to_vector converts a std::array of zero-based index position pairs into two std::vector of one-based index positions
- *
- * @code auto two_vectors = array_to_vector(std::make_array ( std::make_pair(1,2), std::make_pair(3,4) ) ) ;
- * @endcode
- *
- * @returns two std::vector of one-based index positions
- *
- * @param array std::array of zero-based index position pairs
-*/
-template<class pair_type, std::size_t N>
-constexpr auto array_to_vector( std::array<pair_type,N> const& array)
-{
-    constexpr auto sequence = std::make_index_sequence<N>{};
-    return detail::array_to_vector_impl( array, sequence );
-}
+//namespace boost::numeric::ublas
+//{
+///** @brief array_to_vector converts a std::array of zero-based index position pairs into two std::vector of one-based index positions
+// *
+// * @code auto two_vectors = array_to_vector(std::make_array ( std::make_pair(1,2), std::make_pair(3,4) ) ) ;
+// * @endcode
+// *
+// * @returns two std::vector of one-based index positions
+// *
+// * @param array std::array of zero-based index position pairs
+//*/
+//template<class pair_type, std::size_t N>
+//constexpr auto array_to_vector( std::array<pair_type,N> const& array)
+//{
+//    constexpr auto sequence = std::make_index_sequence<N>{};
+//    return detail::array_to_vector_impl( array, sequence );
+//}
 
 
-} // namespace ublas
-} // namespace numeric
-} // namespace boost
+//} // namespace boost::numeric::ublas
 
 
-#endif // _BOOST_UBLAS_TENSOR_MULTI_INDEX_UTILITY_HPP_
+#endif // BOOST_UBLAS_TENSOR_MULTI_INDEX_UTILITY_HPP
