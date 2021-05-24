@@ -14,13 +14,11 @@
 
 #include <cstddef>
 #include <boost/numeric/ublas/expression_types.hpp>
-#include <boost/numeric/ublas/tensor/traits/type_traits_tensor.hpp>
-#include <boost/numeric/ublas/tensor/tags.hpp>
 
-namespace boost   {
-namespace numeric {
-namespace ublas   {
-namespace detail  {
+#include "tags.hpp"
+
+namespace boost::numeric::ublas::detail
+{
 
 /** @\brief base class for tensor expressions
  *
@@ -67,16 +65,16 @@ struct binary_tensor_expression
 
     using size_type = typename tensor_type::size_type;
 
-    explicit constexpr binary_tensor_expression(expression_type_left  const& l, expression_type_right const& r, binary_operation o)
-      : el(l) , er(r) , op(o) {}
+    explicit constexpr binary_tensor_expression(expression_type_left  const& l, expression_type_right const& r, binary_operation o) : el(l) , er(r) , op(std::move(o)) {}
+    constexpr binary_tensor_expression(binary_tensor_expression&& l) noexcept = delete;
+    constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept = delete;
+    ~binary_tensor_expression() = default;
+
     binary_tensor_expression() = delete;
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
-    constexpr binary_tensor_expression(binary_tensor_expression&& l) noexcept
-      : el(l.el), er(l.er), op(std::move(l.op)) {}
-    constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept = default;
     binary_tensor_expression& operator=(binary_tensor_expression const& l) noexcept = delete;
 
-    ~binary_tensor_expression() = default;
+
 
     [[nodiscard]] inline 
     constexpr decltype(auto) operator()(size_type i) const { return op(el(i), er(i)); }
@@ -135,24 +133,22 @@ struct unary_tensor_expression
     using self_type = unary_tensor_expression<T,E,OP>;
     using tensor_type  = T;
     using expression_type = E;
-
+    using unary_operation = OP;
     using derived_type = tensor_expression <T, unary_tensor_expression<T,E,OP>>;
 
     using size_type = typename tensor_type::size_type;
 
-    explicit constexpr  unary_tensor_expression(E const& ee, OP o) : e(ee) , op(o) {}
-    constexpr unary_tensor_expression() = delete;
-    unary_tensor_expression(const unary_tensor_expression& l) = delete;
-    constexpr unary_tensor_expression(unary_tensor_expression&& l) noexcept
-      : e(l.e), op(std::move(l.op)) {}
+    explicit constexpr unary_tensor_expression(expression_type const& ee, unary_operation o) : e(ee) , op(std::move(o)) {}
+    constexpr unary_tensor_expression(unary_tensor_expression&& l) noexcept = delete;
+    constexpr unary_tensor_expression& operator=(unary_tensor_expression&& l) noexcept = delete;
 
-    constexpr unary_tensor_expression& operator=(unary_tensor_expression&& l) noexcept = default;
-    
+    constexpr unary_tensor_expression() = delete;
+    unary_tensor_expression(unary_tensor_expression const& l) = delete;
     unary_tensor_expression& operator=(unary_tensor_expression const& l) noexcept = delete;
     ~unary_tensor_expression() = default;
     
-    [[nodiscard]] inline
-    constexpr decltype(auto) operator()(size_type i) const { return op(e(i)); }
+    [[nodiscard]] inline constexpr
+      decltype(auto) operator()(size_type i) const { return op(e(i)); }
 
     E const& e;
     OP op;
@@ -181,8 +177,6 @@ constexpr auto make_unary_tensor_expression( vector_expression<E> const& e, OP o
 }
 
 
-}
-}
-}
-}
-#endif
+} // namespace boost::numeric::ublas::detail
+
+#endif // BOOST_UBLAS_TENSOR_EXPRESSIONS_HPP

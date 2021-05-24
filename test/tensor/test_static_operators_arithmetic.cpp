@@ -1,6 +1,6 @@
 //
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
-//  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2019, Amit Singh, amitsingh19975@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -18,7 +18,7 @@
 #include <boost/multiprecision/cpp_bin_float.hpp>
 #include "utility.hpp"
 
-BOOST_AUTO_TEST_SUITE(test_static_tensor_arithmetic_operations)
+BOOST_AUTO_TEST_SUITE(test_tensor_static_arithmetic_operations)
 
 using double_extended = boost::multiprecision::cpp_bin_float_double_extended;
 
@@ -27,9 +27,9 @@ using test_types = zip<int,float,double_extended>::with_t<boost::numeric::ublas:
 struct fixture
 {
     template<size_t... N>
-    using extents_type = boost::numeric::ublas::static_extents<N...>;
+    using extents_type = boost::numeric::ublas::extents<N...>;
 
-    fixture() {}
+    fixture() = default;
 
     std::tuple<
         extents_type<1,1>,   // 1
@@ -44,15 +44,15 @@ struct fixture
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     { 
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+        using tensor_type = ublas::tensor_static<value_type,extents_type,layout_type>;
         auto t  = tensor_type ();
         auto t2 = tensor_type ();
         auto r  = tensor_type ();
@@ -99,22 +99,22 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
             BOOST_CHECK_EQUAL ( r(i), 1 );
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     {
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+        using tensor_type = ublas::tensor_static<value_type,extents_type,layout_type>;
         auto t  = tensor_type ();
         auto t2 = tensor_type ();
         auto v  = value_type  {};
@@ -154,7 +154,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
 
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
@@ -163,15 +163,15 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, value,  test_types, fixture)
 {
-    using namespace boost::numeric;
+    namespace ublas = boost::numeric::ublas;
     using value_type  = typename value::first_type;
     using layout_type = typename value::second_type;
 
 
-    auto check = [](auto const&, auto& e)
+    auto check = [](auto const& /*unused*/, auto& e)
     {
         using extents_type = std::decay_t<decltype(e)>;
-        using tensor_type = ublas::static_tensor<value_type,extents_type,layout_type>;
+        using tensor_type = ublas::tensor_static<value_type,extents_type,layout_type>;
         auto t  = tensor_type ();
         auto t2 = tensor_type ();
         auto r  = tensor_type ();
@@ -235,7 +235,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
             BOOST_CHECK_EQUAL ( p(i), r(i) );
     };
 
-    for_each_tuple(extents,check);
+    for_each_in_tuple(extents,check);
 }
 
 
