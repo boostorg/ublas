@@ -1,4 +1,5 @@
 HEADERS += \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/access.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/algorithms.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/expression.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/expression_evaluation.hpp \
