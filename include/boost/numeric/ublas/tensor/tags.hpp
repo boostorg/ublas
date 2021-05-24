@@ -6,10 +6,12 @@
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
-//
 
 #ifndef BOOST_UBLAS_TENSOR_TAGS_HPP
 #define BOOST_UBLAS_TENSOR_TAGS_HPP
+
+#include "../fwd.hpp"
+
 
 namespace boost::numeric::ublas{
     
@@ -26,4 +28,16 @@ namespace boost::numeric::ublas{
 } // namespace boost::numeric::ublas
 
 
+namespace detail::tag  {
+
+struct unit_access    {};
+struct non_unit_access{};
+
+} // namespace boost::numeric::tags
+
+
+} // namespace boost::numeric::ublas
+
+
 #endif // BOOST_UBLAS_TENSOR_TAGS_HPP
+

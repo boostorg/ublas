@@ -18,17 +18,9 @@ clang: QMAKE_CXXFLAGS_RELEASE =-O3 -march=native -fopenmp=libiomp5
 gcc:QMAKE_CXXFLAGS_DEBUG = -g
 clang: QMAKE_CXXFLAGS_DEBUG =-g
 
-
 #QMAKE_CXXFLAGS += --coverage
 
 BOOST_ROOT=../../../../../..
-
-#exists( $$BOOST_ROOT/boost-build.jam ) {
-#  message("Boost installed.")
-#  INCLUDEPATH += $${BOOST_ROOT}/libs/numeric/ublas/include
-#  LIBS += -L$${BOOST_ROOT}/stage/lib -lgomp
-#  QMAKE_RPATHDIR += $${BOOST_ROOT}/stage/lib
-#}
 
 QMAKE_RPATHDIR += $${BOOST_ROOT}/stage/lib
 INCLUDEPATH+=$$BOOST_ROOT/libs/numeric/ublas/include
@@ -76,4 +68,7 @@ SOURCES += \
   $${TEST_DIR}/test_strides.cpp \
   $${TEST_DIR}/test_tensor.cpp \
   $${TEST_DIR}/test_tensor_matrix_vector.cpp \
-  $${TEST_DIR}/test_extents_functions.cpp
+  $${TEST_DIR}/test_extents_functions.cpp \
+  $${TEST_DIR}/test_span.cpp \
+  $${TEST_DIR}/test_subtensor.cpp \
+  $${TEST_DIR}/test_subtensor_utility.cpp
