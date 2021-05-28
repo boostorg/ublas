@@ -19,9 +19,9 @@
 #include <numeric>
 #include <iostream>
 
-#include <boost/numeric/ublas/tensor/span.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
-#include <boost/numeric/ublas/tensor/tags.hpp>
+#include "span.hpp"
+#include "extents.hpp"
+#include "tags.hpp"
 
 
 namespace boost::numeric::ublas::detail {
@@ -36,19 +36,18 @@ namespace boost::numeric::ublas::detail {
  * @param[in] strides strides of the tensor, the subtensor refers to
  * @param[in] spans vector of spans of the subtensor
 */
-template<class strides_type, class spans_type>
-auto compute_span_strides(strides_type const& strides, spans_type const& spans)
+template<integral size_type, class Spans>
+auto compute_span_strides(std::vector<size_type> const& strides, Spans const& spans)
 {
   if(strides.size() != spans.size())
     throw std::runtime_error("Error in boost::numeric::ublas::subtensor::compute_span_strides(): tensor strides.size() != spans.size()");
 
-  using base_type = typename strides_type::base_type;
-  auto span_strides = base_type(spans.size());
+  auto span_strides = std::vector<size_type>(spans.size());
 
   std::transform(strides.begin(), strides.end(), spans.begin(), span_strides.begin(),
                  [](auto w, auto const& s) { return w * s.step(); } );
 
-  return strides_type( span_strides );
+  return std::vector<size_type>( span_strides );
 }
 
 /*! @brief Computes the data pointer offset for a subtensor
@@ -60,16 +59,14 @@ auto compute_span_strides(strides_type const& strides, spans_type const& spans)
  * @param[in] strides strides of the tensor, the subtensor refers to
  * @param[in] spans vector of spans of the subtensor
 */
-template<class strides_type, class spans_type>
-auto compute_offset(strides_type const& strides, spans_type const& spans)
+template<integral Size, class Spans>
+auto compute_offset(std::vector<Size> const& strides, Spans const& spans)
 {
   if(strides.size() != spans.size())
     throw std::runtime_error("Error in boost::numeric::ublas::subtensor::offset(): tensor strides.size() != spans.size()");
 
-  using value_type = typename strides_type::value_type;
-
-  return std::inner_product(spans.begin(), spans.end(), strides.begin(), value_type(0),
-                            std::plus<value_type>(), [](auto const& s, value_type w) {return s.first() * w; } );
+  return std::inner_product(spans.begin(), spans.end(), strides.begin(), Size(0),
+                            std::plus<Size>(), [](auto const& s, Size w) {return s.first() * w; } );
 }
 
 
@@ -82,7 +79,7 @@ auto compute_offset(strides_type const& strides, spans_type const& spans)
 template<class spans_type>
 auto compute_extents(spans_type const& spans)
 {
-  using extents_t  = basic_extents<std::size_t>;
+  using extents_t  = extents<>;
   using base_type  = typename extents_t::base_type;
   if(spans.empty())
     return extents_t{};
@@ -106,13 +103,13 @@ auto compute_extents(spans_type const& spans)
  * @param[in] extent extent that is maybe used for the tranformation
  */
 template<class size_type, class span_tag>
-auto transform_span(span<span_tag, size_type> const& s, size_type const extent)
+auto transform_span(span<span_tag, size_type> const& s, std::size_t const extent)
 {
   using span_type = span<span_tag, size_type>;
 
-  size_type first = s.first();
-  size_type last  = s.last ();
-  size_type size  = s.size ();
+  std::size_t first = s.first();
+  std::size_t last  = s.last ();
+  std::size_t size  = s.size ();
 
   auto const extent0 = extent-1;
 
@@ -121,41 +118,42 @@ auto transform_span(span<span_tag, size_type> const& s, size_type const extent)
 
   if constexpr ( is_sliced ){
     if(size == 0)        return span_type(0       , extent0);
-    else if(first== end) return span_type(extent0 , extent0);
-    else if(last == end) return span_type(first   , extent0);
+    else if(first== max) return span_type(extent0 , extent0);
+    else if(last == max) return span_type(first   , extent0);
     else                 return span_type(first   , last  );
   }
   else {
     size_type step  = s.step ();
     if(size == 0)        return span_type(0       , size_type(1), extent0);
-    else if(first== end) return span_type(extent0 , step, extent0);
-    else if(last == end) return span_type(first   , step, extent0);
+    else if(first== max) return span_type(extent0 , step, extent0);
+    else if(last == max) return span_type(first   , step, extent0);
     else                 return span_type(first   , step, last  );
   }
+  return span_type{};
 }
 
 
-template<std::size_t r, std::size_t n, class size_type, class span_type, class ... span_types>
-void transform_spans_impl (basic_extents<size_type> const& extents, std::array<span_type,n>& span_array, std::size_t arg, span_types&& ... spans );
+template<std::size_t r, std::size_t n, class Span, class ... Spans>
+void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans );
 
-template<std::size_t r, std::size_t n, class size_type, class span_tag, class span_type, class ... span_types>
-void transform_spans_impl(basic_extents<size_type> const& extents, std::array<span_type, n>& span_array, span<span_tag,size_type> const& s, span_types&& ... spans)
+template<std::size_t r, std::size_t n, class size_type, class span_tag, class Span, class ... Spans>
+void transform_spans_impl(extents<> const& extents, std::array<Span, n>& span_array, span<span_tag,size_type> const& s, Spans&& ... spans)
 {
   std::get<r>(span_array) = transform_span(s, extents[r]);
   static constexpr auto nspans = sizeof...(spans);
   static_assert (n==(nspans+r+1),"Static error in boost::numeric::ublas::detail::transform_spans_impl: size mismatch");
   if constexpr (nspans>0)
-    transform_spans_impl<r+1>(extents, span_array, std::forward<span_types>(spans)...);
+    transform_spans_impl<r+1>(extents, span_array, std::forward<Spans>(spans)...);
 }
 
-template<std::size_t r, std::size_t n, class size_type, class span_type, class ... span_types>
-void transform_spans_impl (basic_extents<size_type> const& extents, std::array<span_type,n>& span_array, std::size_t arg, span_types&& ... spans )
+template<std::size_t r, std::size_t n, class Span, class ... Spans>
+void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans )
 {
-  static constexpr auto nspans = sizeof...(spans);
+  static constexpr auto nspans = sizeof...(Spans);
   static_assert (n==(nspans+r+1),"Static error in boost::numeric::ublas::detail::transform_spans_impl: size mismatch");
-  std::get<r>(span_array) = transform_span(span_type(arg), extents[r]);
+  std::get<r>(span_array) = transform_span(Span(arg), extents[r]);
   if constexpr (nspans>0)
-    transform_spans_impl<r+1>(extents, span_array, std::forward<span_types>(spans) ... );
+    transform_spans_impl<r+1>(extents, span_array, std::forward<Spans>(spans) ... );
 
 }
 
@@ -170,15 +168,15 @@ void transform_spans_impl (basic_extents<size_type> const& extents, std::array<s
  * @param[in] extents of the tensor
  * @param[in] spans spans with which the subtensor is created
  */
-template<class span_type, class size_type, class ... span_types>
-auto generate_span_array(basic_extents<size_type> const& extents, span_types&& ... spans)
+template<class span_type, class ... Spans>
+auto generate_span_array(extents<> const& extents, Spans&& ... spans)
 {
-  constexpr static auto n = sizeof...(spans);
+  constexpr static auto n = sizeof...(Spans);
   if(extents.size() != n)
     throw std::runtime_error("Error in boost::numeric::ublas::generate_span_vector() when creating subtensor: the number of spans does not match with the tensor rank.");
   std::array<span_type,n> span_array;
   if constexpr (n>0)
-      transform_spans_impl<0>( extents, span_array, std::forward<span_types>(spans)... );
+      transform_spans_impl<0>( extents, span_array, std::forward<Spans>(spans)... );
   return span_array;
 }
 
@@ -193,10 +191,10 @@ auto generate_span_array(basic_extents<size_type> const& extents, span_types&& .
  * @param[in] extents of the tensor
  * @param[in] spans spans with which the subtensor is created
  */
-template<class span_type, class size_type, class ... span_types>
-auto generate_span_vector(basic_extents<size_type> const& extents, span_types&& ... spans)
+template<class span_type, class ... Spans>
+auto generate_span_vector(extents<> const& extents, Spans&& ... spans)
 {
-  auto span_array = generate_span_array<span_type>(extents,std::forward<span_types>(spans)...);
+  auto span_array = generate_span_array<span_type>(extents,std::forward<Spans>(spans)...);
   return std::vector<span_type>(span_array.begin(), span_array.end());
 }
 

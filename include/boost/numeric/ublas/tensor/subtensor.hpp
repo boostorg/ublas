@@ -1,4 +1,4 @@
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2020, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -12,31 +12,18 @@
 
 /// \file subtensor.hpp Definition for the tensor template class
 
-#ifndef _BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_HPP_
-#define _BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_HPP_
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_HPP
+#define BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_HPP
 
 
-
-
-#include <boost/numeric/ublas/tensor/subtensor_utility.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
-#include <boost/numeric/ublas/tensor/strides.hpp>
-#include <boost/numeric/ublas/tensor/span.hpp>
-#include <boost/numeric/ublas/tensor/expression.hpp>
+#include "tensor.hpp"
+#include "subtensor_utility.hpp"
+#include "extents.hpp"
+#include "span.hpp"
+#include "expression.hpp"
 
 
 namespace boost::numeric::ublas {
-
-template<class T, class F>
-class dynamic_tensor;
-
-template<class T, class F, class A>
-class matrix;
-
-template<class T, class A>
-class vector;
-
-
 
 
 
@@ -61,63 +48,63 @@ class subtensor;
 		* @tparam A The type of the storage array of the tensor. Default is \c unbounded_array<T>. \c <bounded_array<T> and \c std::vector<T> can also be used
 		*/
 template<class T, class F>
-class subtensor <tag::sliced, dynamic_tensor<T,F>>
+class subtensor <tag::sliced, tensor_dynamic<T,F>>
     : public detail::tensor_expression<
-        subtensor<tag::sliced,dynamic_tensor<T,F>> ,
-        subtensor<tag::sliced,dynamic_tensor<T,F>> >
+        subtensor<tag::sliced,tensor_dynamic<T,F>> ,
+        subtensor<tag::sliced,tensor_dynamic<T,F>> >
 {
 
-  static_assert( std::is_same<F,tag::first_order>::value || std::is_same<F,tag::last_order >::value,
-    "boost::numeric::tensor template class only supports first- or last-order storage formats.");
+  static_assert( std::is_same<F,layout::first_order>::value || std::is_same<F,layout::last_order >::value,
+                "boost::numeric::tensor template class only supports first- or last-order storage formats.");
 
-  using tensor_type = dynamic_tensor<T,F>;
-	using self_type  = subtensor<tag::sliced, tensor_type>;
+  using tensor_type = tensor_dynamic<T,F>;
+  using self_type  = subtensor<tag::sliced, tensor_type>;
 public:
 
-	using domain_tag = tag::sliced;
+  using domain_tag = tag::sliced;
 
-	using span_type = span<domain_tag,std::size_t>;
+  using span_type = span<domain_tag,std::size_t>;
 
-	template<class derived_type>
-	using tensor_expression_type = detail::tensor_expression<self_type,derived_type>;
+  template<class derived_type>
+  using tensor_expression_type = detail::tensor_expression<self_type,derived_type>;
 
-	template<class derived_type>
-	using matrix_expression_type = matrix_expression<derived_type>;
+  template<class derived_type>
+  using matrix_expression_type = matrix_expression<derived_type>;
 
-	template<class derived_type>
-	using vector_expression_type = vector_expression<derived_type>;
+  template<class derived_type>
+  using vector_expression_type = vector_expression<derived_type>;
 
-	using super_type = tensor_expression_type<self_type>;
+  using super_type = tensor_expression_type<self_type>;
 
-//	static_assert(std::is_same_v<tensor_expression_type<self_type>, detail::tensor_expression<tensor<T,F,A>,tensor<T,F,A>>>, "tensor_expression_type<self_type>");
+  //	static_assert(std::is_same_v<tensor_expression_type<self_type>, detail::tensor_expression<tensor<T,F,A>,tensor<T,F,A>>>, "tensor_expression_type<self_type>");
 
-	using array_type      = typename tensor_type::array_type;
-	using layout_type     = typename tensor_type::layout_type;
+  using container_type  = typename tensor_type::container_type;
+  using layout_type     = typename tensor_type::layout_type;
 
-	using size_type       = typename tensor_type::size_type;
-	using difference_type = typename tensor_type::difference_type;
-	using value_type      = typename tensor_type::value_type;
+  using size_type       = typename tensor_type::size_type;
+  using difference_type = typename tensor_type::difference_type;
+  using value_type      = typename tensor_type::value_type;
 
-	using reference       = typename tensor_type::reference;
-	using const_reference = typename tensor_type::const_reference;
+  using reference       = typename tensor_type::reference;
+  using const_reference = typename tensor_type::const_reference;
 
-	using pointer         = typename tensor_type::pointer;
-	using const_pointer   = typename tensor_type::const_pointer;
+  using pointer         = typename tensor_type::pointer;
+  using const_pointer   = typename tensor_type::const_pointer;
 
-//	using iterator        = typename array_type::iterator;
-//	using const_iterator  = typename array_type::const_iterator;
+  //	using iterator        = typename array_type::iterator;
+  //	using const_iterator  = typename array_type::const_iterator;
 
-//	using reverse_iterator        = typename array_type::reverse_iterator;
-//	using const_reverse_iterator  = typename array_type::const_reverse_iterator;
+  //	using reverse_iterator        = typename array_type::reverse_iterator;
+  //	using const_reverse_iterator  = typename array_type::const_reverse_iterator;
 
-	using tensor_temporary_type = self_type;
-	using storage_category = dense_tag;
+  using tensor_temporary_type = self_type;
+  using storage_category = dense_tag;
 
-	using strides_type = basic_strides<std::size_t,layout_type>;
-  using extents_type = basic_extents<std::size_t>;
+  using extents_type = extents<>;
+  using strides_type = typename extents_type::base_type;
 
-	using matrix_type  = matrix<value_type,layout_type,array_type>;
-	using vector_type  = vector<value_type,array_type>;
+  using matrix_type  = matrix<value_type,layout_type,container_type>;
+  using vector_type  = vector<value_type,container_type>;
 
 
 
@@ -143,7 +130,7 @@ public:
 			: super_type     ()
       , spans_         (detail::generate_span_vector<span_type>(t.extents(),std::forward<span_types>(spans)...))
       , extents_       (detail::compute_extents(spans_))
-			, strides_       (extents_)
+    , strides_         (ublas::to_strides(extents_,layout_type{}))
       , span_strides_  (detail::compute_span_strides(t.strides(),spans_))
       , data_          {t.data() + detail::compute_offset(t.strides(), spans_)}
 	{
@@ -381,36 +368,36 @@ public:
 #endif
 
 
-	/** @brief Returns true if the subtensor is empty (\c size==0) */
-  inline bool empty () const {
-    return this->size() == 0ul;
-	}
+//	/** @brief Returns true if the subtensor is empty (\c size==0) */
+//  inline bool empty () const {
+//    return this->size() == 0ul;
+//	}
 
 
-	/** @brief Returns the size of the subtensor */
-  inline size_type size () const {
-    return product(this->extents_);
-	}
+//	/** @brief Returns the size of the subtensor */
+//  inline size_type size () const {
+//    return product(this->extents_);
+//	}
 
-	/** @brief Returns the size of the subtensor */
-  inline size_type size (size_type r) const {
-		return this->extents_.at(r);
-	}
+//	/** @brief Returns the size of the subtensor */
+//  inline size_type size (size_type r) const {
+//		return this->extents_.at(r);
+//	}
 
-	/** @brief Returns the number of dimensions/modes of the subtensor */
-  inline size_type rank () const {
-		return this->extents_.size();
-	}
+//	/** @brief Returns the number of dimensions/modes of the subtensor */
+//  inline size_type rank () const {
+//		return this->extents_.size();
+//	}
 
-	/** @brief Returns the number of dimensions/modes of the subtensor */
-  inline size_type order () const {
-		return this->extents_.size();
-	}
+//	/** @brief Returns the number of dimensions/modes of the subtensor */
+//  inline size_type order () const {
+//		return this->extents_.size();
+//	}
 
-	/** @brief Returns the strides of the subtensor */
-  inline auto const& strides () const {
-		return this->strides_;
-	}
+//	/** @brief Returns the strides of the subtensor */
+//  inline auto const& strides () const {
+//		return this->strides_;
+//	}
 
 	/** @brief Returns the span strides of the subtensor */
   inline auto const& span_strides () const {
@@ -423,21 +410,34 @@ public:
 	}
 
 
-	/** @brief Returns the extents of the subtensor */
-  inline auto const& extents () const {
-		return this->extents_;
-	}
+//  /** @brief Returns the extents of the subtensor */
+//  inline auto const& extents() const {
+//    return this->extents_;
+//  }
 
 
-	/** @brief Returns a \c const reference to the container. */
-  inline const_pointer data () const {
-		return this->data_;
-	}
+  [[nodiscard]] inline auto empty ()            const noexcept { return this->size() == 0ul;     }
+  [[nodiscard]] inline auto size  ()            const noexcept { return product(this->extents_); }
+  [[nodiscard]] inline auto size  (size_type r) const          { return extents_.at(r);        }
+  [[nodiscard]] inline auto rank  ()            const          { return extents_.size(); }
+  [[nodiscard]] inline auto order ()            const          { return this->rank();          }
 
-	/** @brief Returns a \c const reference to the container. */
-  inline pointer data () {
-		return this->data_;
-	}
+  [[nodiscard]] inline auto const& strides () const noexcept                  { return strides_; }
+  [[nodiscard]] inline auto const& getExtents () const noexcept                  { return extents_; }
+  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return data_;}
+  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return data_;}
+//  [[nodiscard]] inline auto const& base    () const noexcept                  { return _container; }
+
+
+//	/** @brief Returns a \c const reference to the container. */
+//  inline const_pointer data() const {
+//		return this->data_;
+//	}
+
+//	/** @brief Returns a \c const reference to the container. */
+//  inline pointer data () {
+//		return this->data_;
+//	}
 
 
 
@@ -660,20 +660,6 @@ public:
 	}
 
 
-#if 0
-	// -------------
-	// Serialization
-	// -------------
-
-	/// Serialize a tensor into and archive as defined in Boost
-	/// \param ar Archive object. Can be a flat file, an XML file or any other stream
-	/// \param file_version Optional file version (not yet used)
-	template<class Archive>
-	void serialize(Archive & ar, const unsigned int /* file_version */){
-		ar & serialization::make_nvp("data",data_);
-	}
-#endif
-
 #endif
 
 private:
@@ -686,11 +672,6 @@ private:
 };
 
 
-} // namespaces
-
-
-
-
-
+} // namespaces boost::numeric::ublas
 
 #endif

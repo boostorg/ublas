@@ -5,13 +5,11 @@ CONFIG += staticlib depend_includepath console
 CONFIG -= qt
 CONFIG += c++20
 
-CONFIG += c++17
-
 #QMAKE_CXXFLAGS += -fno-inline
 QMAKE_CXXFLAGS  =-std=c++20
 QMAKE_CXXFLAGS +=-Wall -Wpedantic -Wextra
 QMAKE_CXXFLAGS +=-Wno-unknown-pragmas
-QMAKE_CXXFLAGS +=-Wno-unused-but-set-variable
+#QMAKE_CXXFLAGS +=-Wno-unused-but-set-variable
 
 
 gcc:QMAKE_CXXFLAGS_RELEASE =-O3 -march=native -fopenmp

@@ -14,60 +14,57 @@
 #include <boost/test/unit_test.hpp>
 
 #include "utility.hpp"
-#include <boost/numeric/ublas/tensor/dynamic_tensor.hpp>
+
+#include <boost/numeric/ublas/tensor/tensor.hpp>
 #include <boost/numeric/ublas/tensor/tags.hpp>
 #include <boost/numeric/ublas/tensor/subtensor.hpp>
 #include <boost/numeric/ublas/tensor/span.hpp>
 
 
 
-BOOST_AUTO_TEST_SUITE ( subtensor_testsuite ) ;
+BOOST_AUTO_TEST_SUITE ( subtensor_testsuite )
 
-// double,std::complex<float>
-
-
-
-using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::tag::first_order, boost::numeric::ublas::tag::last_order>;
+using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 
 
 struct fixture_shape
 {
-  using shape = boost::numeric::ublas::basic_extents<std::size_t>;
+  using shape = boost::numeric::ublas::extents<>;
 
-	fixture_shape() : extents{
-				shape{},    // 0
-				shape{1,1}, // 1
-				shape{1,2}, // 2
-				shape{2,1}, // 3
-				shape{2,3}, // 4
-				shape{2,3,1}, // 5
-				shape{4,1,3}, // 6
-				shape{1,2,3}, // 7
-				shape{4,2,3}, // 8
-				shape{4,2,3,5} // 9
-				}
-	{}
-	std::vector<shape> extents;
+  fixture_shape() : extents{
+        shape{},    // 0
+        shape{1,1}, // 1
+        shape{1,2}, // 2
+        shape{2,1}, // 3
+        shape{2,3}, // 4
+        shape{2,3,1}, // 5
+        shape{4,1,3}, // 6
+        shape{1,2,3}, // 7
+        shape{4,2,3}, // 8
+        shape{4,2,3,5} // 9
+      }
+  {}
+  std::vector<shape> extents;
 };
 
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( subtensor_ctor1_test, value,  test_types, fixture_shape )
 {
 
-  namespace ub = boost::numeric::ublas;
-  using value_type  = typename value::first_type;
-  using layout_type = typename value::second_type;
-  using tensor_type = ub::dynamic_tensor<value_type, layout_type>;
-  using subtensor_type = ub::subtensor<ub::tag::sliced, tensor_type>;
+  namespace ublas      = boost::numeric::ublas;
+  using value_type     = typename value::first_type;
+  using layout_type    = typename value::second_type;
+  using tensor_type    = ublas::tensor_dynamic<value_type, layout_type>;
+  using subtensor_type = ublas::subtensor<ublas::tag::sliced, tensor_type>;
 
 
   auto check = [](auto const& e) {
-    auto t = tensor_type{e};
+    auto t = tensor_type(e);
     auto s = subtensor_type(t);
     BOOST_CHECK_EQUAL (  s.size() , t.size() );
     BOOST_CHECK_EQUAL (  s.rank() , t.rank() );
-    if(e.empty()) {
+    if(ublas::empty(e)) {
       BOOST_CHECK_EQUAL ( s.empty(), t.empty() );
       BOOST_CHECK_EQUAL ( s. data(), t. data() );
     }
@@ -88,125 +85,125 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
 {
 
   namespace ub = boost::numeric::ublas;
-	using value_type  = typename value::first_type;
-	using layout_type = typename value::second_type;
-  using tensor_type = ub::dynamic_tensor<value_type, layout_type>;
+  using value_type  = typename value::first_type;
+  using layout_type = typename value::second_type;
+  using tensor_type = ub::tensor_dynamic<value_type, layout_type>;
   using subtensor_type = ub::subtensor<ub::tag::sliced, tensor_type>;
   using span  = ub::sliced_span;
 
 
-	{
-		auto A    = tensor_type{};
-		auto Asub = subtensor_type( A );
+  {
+    auto A    = tensor_type{};
+    auto Asub = subtensor_type( A );
 
-		BOOST_CHECK( Asub.span_strides() == A.strides() );
-		BOOST_CHECK( Asub.strides() == A.strides() );
-		BOOST_CHECK( Asub.extents() == A.extents() );
-		BOOST_CHECK( Asub.data() == A.data() );
-	}
-
-
-
-	{
-		auto A    = tensor_type{1,1};
-		auto Asub = subtensor_type( A, 0, 0  );
-
-		BOOST_CHECK( Asub.span_strides() == A.strides() );
-		BOOST_CHECK( Asub.strides() == A.strides() );
-		BOOST_CHECK( Asub.extents() == A.extents() );
-		BOOST_CHECK( Asub.data() == A.data() );
-	}
+    BOOST_CHECK( Asub.span_strides() == A.strides() );
+    BOOST_CHECK( Asub.strides() == A.strides() );
+    BOOST_CHECK( Asub.getExtents()() == A.extents() );
+    BOOST_CHECK( Asub.data() == A.data() );
+  }
 
 
-	{
-		auto A    = tensor_type{1,2};
+
+  {
+    auto A    = tensor_type{1,1};
+    auto Asub = subtensor_type( A, 0, 0  );
+
+    BOOST_CHECK( Asub.span_strides() == A.strides() );
+    BOOST_CHECK( Asub.strides() == A.strides() );
+    BOOST_CHECK( Asub.getExtents()() == A.extents() );
+    BOOST_CHECK( Asub.data() == A.data() );
+  }
+
+
+  {
+    auto A    = tensor_type{1,2};
     auto Asub = subtensor_type( A, 0, span{}  );
 
-		BOOST_CHECK( Asub.span_strides() == A.strides() );
-		BOOST_CHECK( Asub.strides() == A.strides() );
-		BOOST_CHECK( Asub.extents() == A.extents() );
-		BOOST_CHECK( Asub.data() == A.data() );
-	}
-	{
-		auto A    = tensor_type{1,2};
-		auto Asub = subtensor_type( A, 0, 1  );
+    BOOST_CHECK( Asub.span_strides() == A.strides() );
+    BOOST_CHECK( Asub.strides() == A.strides() );
+    BOOST_CHECK( Asub.getExtents()() == A.extents() );
+    BOOST_CHECK( Asub.data() == A.data() );
+  }
+  {
+    auto A    = tensor_type{1,2};
+    auto Asub = subtensor_type( A, 0, 1  );
 
-		BOOST_CHECK_EQUAL( Asub.span_strides().at(0), 1 );
-		BOOST_CHECK_EQUAL( Asub.span_strides().at(1), 1 );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(0), 1 );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(1), 1 );
 
-		BOOST_CHECK_EQUAL( Asub.strides().at(0), 1 );
-		BOOST_CHECK_EQUAL( Asub.strides().at(1), 1 );
+    BOOST_CHECK_EQUAL( Asub.strides().at(0), 1 );
+    BOOST_CHECK_EQUAL( Asub.strides().at(1), 1 );
 
-		BOOST_CHECK_EQUAL( Asub.extents().at(0) , 1 );
-		BOOST_CHECK_EQUAL( Asub.extents().at(1) , 1 );
+    BOOST_CHECK_EQUAL( Asub.getExtents()().at(0) , 1 );
+    BOOST_CHECK_EQUAL( Asub.getExtents()().at(1) , 1 );
 
-		BOOST_CHECK_EQUAL( Asub.data() , A.data()+
-											 Asub.spans().at(0).first()*A.strides().at(0) +
-											 Asub.spans().at(1).first()*A.strides().at(1) );
-	}
+    BOOST_CHECK_EQUAL( Asub.data() , A.data()+
+                                     Asub.spans().at(0).first()*A.strides().at(0) +
+                                     Asub.spans().at(1).first()*A.strides().at(1) );
+  }
 
 
-	{
-		auto A    = tensor_type{2,3};
-		auto Asub = subtensor_type( A, 0, 1  );
-		auto B    = tensor_type(Asub.extents());
+  {
+    auto A    = tensor_type{2,3};
+    auto Asub = subtensor_type( A, 0, 1  );
+    auto B    = tensor_type(Asub.getExtents()());
 
-		BOOST_CHECK_EQUAL( Asub.span_strides().at(0), A.strides().at(0) );
-		BOOST_CHECK_EQUAL( Asub.span_strides().at(1), A.strides().at(1) );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(0), A.strides().at(0) );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(1), A.strides().at(1) );
 
-		BOOST_CHECK_EQUAL( Asub.extents().at(0) , 1 );
-		BOOST_CHECK_EQUAL( Asub.extents().at(1) , 1 );
+    BOOST_CHECK_EQUAL( Asub.getExtents()().at(0) , 1 );
+    BOOST_CHECK_EQUAL( Asub.getExtents()().at(1) , 1 );
 
-		BOOST_CHECK_EQUAL( Asub.strides().at(0), B.strides().at(0) );
-		BOOST_CHECK_EQUAL( Asub.strides().at(1), B.strides().at(1) );
+    BOOST_CHECK_EQUAL( Asub.strides().at(0), B.strides().at(0) );
+    BOOST_CHECK_EQUAL( Asub.strides().at(1), B.strides().at(1) );
 
-		BOOST_CHECK_EQUAL( Asub.data() , A.data()+
-											 Asub.spans().at(0).first()*A.strides().at(0) +
-											 Asub.spans().at(1).first()*A.strides().at(1) );
-	}
+    BOOST_CHECK_EQUAL( Asub.data() , A.data()+
+                                     Asub.spans().at(0).first()*A.strides().at(0) +
+                                     Asub.spans().at(1).first()*A.strides().at(1) );
+  }
 
-	{
-		auto A    = tensor_type{4,3};
-    auto Asub = subtensor_type( A, span(1,2), span(1,ub::end)  );
-		auto B    = tensor_type(Asub.extents());
+  {
+    auto A    = tensor_type{4,3};
+    auto Asub = subtensor_type( A, span(1,2), span(1,ub::max)  );
+    auto B    = tensor_type(Asub.getExtents()());
 
-		BOOST_CHECK_EQUAL( Asub.span_strides().at(0), A.strides().at(0) );
-		BOOST_CHECK_EQUAL( Asub.span_strides().at(1), A.strides().at(1) );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(0), A.strides().at(0) );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(1), A.strides().at(1) );
 
-		BOOST_CHECK_EQUAL( Asub.extents().at(0) , 2 );
-		BOOST_CHECK_EQUAL( Asub.extents().at(1) , 2 );
+    BOOST_CHECK_EQUAL( Asub.getExtents()().at(0) , 2 );
+    BOOST_CHECK_EQUAL( Asub.getExtents()().at(1) , 2 );
 
-		BOOST_CHECK_EQUAL( Asub.strides().at(0), B.strides().at(0) );
-		BOOST_CHECK_EQUAL( Asub.strides().at(1), B.strides().at(1) );
+    BOOST_CHECK_EQUAL( Asub.strides().at(0), B.strides().at(0) );
+    BOOST_CHECK_EQUAL( Asub.strides().at(1), B.strides().at(1) );
 
-		BOOST_CHECK_EQUAL( Asub.data() , A.data()+
-											 Asub.spans().at(0).first()*A.strides().at(0) +
-											 Asub.spans().at(1).first()*A.strides().at(1) );
-	}
+    BOOST_CHECK_EQUAL( Asub.data() , A.data()+
+                                     Asub.spans().at(0).first()*A.strides().at(0) +
+                                     Asub.spans().at(1).first()*A.strides().at(1) );
+  }
 
-	{
-		auto A    = tensor_type{4,3,5};
-    auto Asub = subtensor_type( A, span(1,2), span(1,ub::end), span(2,4)  );
+  {
+    auto A    = tensor_type{4,3,5};
+    auto Asub = subtensor_type( A, span(1,2), span(1,ub::max), span(2,4)  );
 
-		auto B    = tensor_type(Asub.extents());
+    auto B    = tensor_type(Asub.getExtents()());
 
-		BOOST_CHECK_EQUAL( Asub.span_strides().at(0), A.strides().at(0) );
-		BOOST_CHECK_EQUAL( Asub.span_strides().at(1), A.strides().at(1) );
-		BOOST_CHECK_EQUAL( Asub.span_strides().at(2), A.strides().at(2) );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(0), A.strides().at(0) );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(1), A.strides().at(1) );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(2), A.strides().at(2) );
 
-		BOOST_CHECK_EQUAL( Asub.extents().at(0) , 2 );
-		BOOST_CHECK_EQUAL( Asub.extents().at(1) , 2 );
-		BOOST_CHECK_EQUAL( Asub.extents().at(2) , 3 );
+    BOOST_CHECK_EQUAL( Asub.getExtents()().at(0) , 2 );
+    BOOST_CHECK_EQUAL( Asub.getExtents()().at(1) , 2 );
+    BOOST_CHECK_EQUAL( Asub.getExtents()().at(2) , 3 );
 
-		BOOST_CHECK_EQUAL( Asub.strides().at(0), B.strides().at(0) );
-		BOOST_CHECK_EQUAL( Asub.strides().at(1), B.strides().at(1) );
-		BOOST_CHECK_EQUAL( Asub.strides().at(2), B.strides().at(2) );
+    BOOST_CHECK_EQUAL( Asub.strides().at(0), B.strides().at(0) );
+    BOOST_CHECK_EQUAL( Asub.strides().at(1), B.strides().at(1) );
+    BOOST_CHECK_EQUAL( Asub.strides().at(2), B.strides().at(2) );
 
-		BOOST_CHECK_EQUAL( Asub.data() , A.data()+
-											 Asub.spans().at(0).first()*A.strides().at(0) +
-											 Asub.spans().at(1).first()*A.strides().at(1)+
-											 Asub.spans().at(2).first()*A.strides().at(2));
-	}
+    BOOST_CHECK_EQUAL( Asub.data() , A.data()+
+                                     Asub.spans().at(0).first()*A.strides().at(0) +
+                                     Asub.spans().at(1).first()*A.strides().at(1)+
+                                     Asub.spans().at(2).first()*A.strides().at(2));
+  }
 
 }
 
@@ -214,17 +211,17 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE(subtensor_copy_ctor_test, value,  test_types, fixture_shape )
 {
-  namespace ub = boost::numeric::ublas;
+  namespace ublas = boost::numeric::ublas;
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
-  using tensor_type = ub::dynamic_tensor<value_type, layout_type>;
-  using subtensor_type = ub::subtensor<ub::tag::sliced, tensor_type>;
-  using span  = ub::sliced_span;
+  using tensor_type = ublas::tensor_dynamic<value_type, layout_type>;
+  using subtensor_type = ublas::subtensor<ublas::tag::sliced, tensor_type>;
+  //  using span  = ub::sliced_span;
 
 
 
-	auto check = [](auto const& e)
-	{
+  auto check = [](auto const& e)
+  {
 
     auto A    = tensor_type{e};
     value_type i{};
@@ -237,12 +234,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(subtensor_copy_ctor_test, value,  test_types, f
 
     BOOST_CHECK( Asub.span_strides() == A.strides() );
     BOOST_CHECK( Asub.strides()      == A.strides() );
-    BOOST_CHECK( Asub.extents()      == A.extents() );
+    BOOST_CHECK( Asub.getExtents()()      == A.extents() );
     BOOST_CHECK( Asub.data()         == A.data() );
 
     BOOST_CHECK( Bsub.span_strides() == A.strides() );
     BOOST_CHECK( Bsub.strides()      == A.strides() );
-    BOOST_CHECK( Bsub.extents()      == A.extents() );
+    BOOST_CHECK( Bsub.getExtents()      == A.extents() );
     BOOST_CHECK( Bsub.data()         == A.data()    );
 
     BOOST_CHECK_EQUAL (  Bsub.size() , A.size() );
@@ -250,22 +247,22 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(subtensor_copy_ctor_test, value,  test_types, f
 
 
 
-		if(e.empty()) {
+    if(ublas::empty(e)) {
       BOOST_CHECK       ( Bsub.empty()    );
       BOOST_CHECK_EQUAL ( Bsub.data() , nullptr);
-		}
-		else{
+    }
+    else{
       BOOST_CHECK       ( !Bsub.empty()    );
       BOOST_CHECK_NE    (  Bsub.data() , nullptr);
-		}
+    }
 
     for(auto i = 0ul; i < Asub.size(); ++i)
       BOOST_CHECK_EQUAL( Asub[i], Bsub[i]  );
 
-	};
+  };
 
-	for(auto const& e : extents)
-		check(e);
+  for(auto const& e : extents)
+    check(e);
 
 }
 
@@ -592,4 +589,4 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_standard_iterator, value,  test_ty
 
 #endif
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

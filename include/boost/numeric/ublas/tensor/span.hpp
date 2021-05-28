@@ -10,26 +10,23 @@
 //
 
 
-#ifndef _BOOST_UBLAS_TENSOR_SPAN_
-#define _BOOST_UBLAS_TENSOR_SPAN_
+#ifndef BOOST_UBLAS_TENSOR_SPAN
+#define BOOST_UBLAS_TENSOR_SPAN
 
 #include <typeinfo>
 #include <limits>
 #include <stdexcept>
 #include <ostream>
 
-namespace boost   {
-namespace numeric {
-namespace ublas   {
-namespace tag     {
+
+#include "concepts.hpp"
+
+namespace boost::numeric::ublas::tag{
 
 struct sliced  {};
 struct strided {};
 
-}
-}
-}
-}
+} // namespace boost::numeric::ublas::tag
 
 
 namespace boost::numeric::ublas {
@@ -53,7 +50,7 @@ template<class span_tag, class unsigned_type>
 class span;
 
 
-static constexpr inline std::size_t end = std::numeric_limits<std::size_t>::max();
+static constexpr inline std::size_t max = std::numeric_limits<std::size_t>::max();
 
 template<>
 class span<tag::strided, std::size_t>
@@ -210,14 +207,14 @@ public:
 using sliced_span = span<tag::sliced, std::size_t>;
 
 
-template<class unsigned_type>
-inline auto ran(unsigned_type f, unsigned_type l)
+template<integral unsigned_type_left, integral unsigned_type_right>
+inline auto ran(unsigned_type_left f, unsigned_type_right l)
 {
 	return sliced_span(f,l);
 }
 
-template<class unsigned_type>
-inline auto ran(unsigned_type f, unsigned_type s, unsigned_type l)
+template<integral unsigned_type_left, integral unsigned_type_middle, integral unsigned_type_right>
+inline auto ran(unsigned_type_left f, unsigned_type_middle s, unsigned_type_right l)
 {
 	return strided_span(f,s,l);
 }

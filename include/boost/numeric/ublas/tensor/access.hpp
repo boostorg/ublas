@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2020, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -10,8 +10,8 @@
 //
 
 
-#ifndef _BOOST_UBLAS_TENSOR_ACCESS_HPP
-#define _BOOST_UBLAS_TENSOR_ACCESS_HPP
+#ifndef BOOST_UBLAS_TENSOR_ACCESS_HPP
+#define BOOST_UBLAS_TENSOR_ACCESS_HPP
 
 
 #include <algorithm>
@@ -26,7 +26,7 @@ namespace boost::numeric::ublas {
 using first_order = column_major;
 using last_order = row_major;
 
-}
+} // namespace boost::numeric::ublas
 
 namespace boost::numeric::ublas::detail{
 
@@ -68,11 +68,21 @@ constexpr inline auto compute_single_index(InputIt1 i, InputIt1 /*ip*/, InputIt2
  * @param i begin output iterator to a container with tensor or subtensor indices length std::distance(begin,end) or greater
 */
 template<typename InputIt1, typename OutputIt, typename LayoutType>
-constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i, LayoutType l);
+constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i, LayoutType /*unused*/);
+//{
+//  if(w == wp)
+//    return;
+
+//  auto wr  = std::make_reverse_iterator( w );
+//  auto wrp = std::make_reverse_iterator( wp );
+//  auto ir  = std::make_reverse_iterator( i+std::distance(w,wp) );
+
+//  std::transform(wrp,wr,ir, [&j](auto v) { auto k=j/v; j-=v*k; return k; } );
+//}
 
 
 template<typename InputIt1, typename OutputIt>
-constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i, first_order )
+constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i, first_order /*unused*/)
 {
     if(w == wp)
         return;
@@ -85,7 +95,7 @@ constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp
 }
 
 template<typename InputIt1, typename OutputIt>
-constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i, last_order )
+constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 wp, OutputIt i, last_order /*unused*/)
 {
     if(w == wp)
         return;
@@ -182,6 +192,6 @@ constexpr inline auto compute_single_index(std::size_t jv, InputIt1 w, InputIt1 
   );
 }
 
-} // namespace
+} // namespace boost::numeric::ublas::detail
 
 #endif

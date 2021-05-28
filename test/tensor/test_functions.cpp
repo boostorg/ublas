@@ -62,11 +62,19 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_vector, value,  test_types, f
 
         auto a = tensor_type(n, value_type{2});
 
+        std::cout << "a=" << a << std::endl;
+
         for(auto m = 0u; m < ublas::size(n); ++m){
 
             auto b = vector_type  (n[m], value_type{1} );
 
+            std::cout << "b=" << tensor_type(b) << std::endl;
+
+            std::cout << "m=" << m << std::endl;
+
             auto c = ublas::prod(a, b, m+1);
+
+            std::cout << "c=" << tensor_type(c) << std::endl;
 
             for(auto i = 0u; i < c.size(); ++i)
                 BOOST_CHECK_EQUAL( c[i] , value_type( static_cast< inner_type_t<value_type> >(n[m]) ) * a[i] );

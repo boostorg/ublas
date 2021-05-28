@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE( test_strides_ctor_access_first_order)
   BOOST_CHECK_EQUAL ( s12[1], 1);
 
   BOOST_CHECK_EQUAL ( s21[0], 1);
-  BOOST_CHECK_EQUAL ( s21[1], 1);
+  BOOST_CHECK_EQUAL ( s21[1], 2);
 
 
   BOOST_CHECK_EQUAL ( s23[0], 1);
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE( test_strides_ctor_access_last_order)
   BOOST_CHECK_EQUAL  ( s11[0], 1);
   BOOST_CHECK_EQUAL  ( s11[1], 1);
 
-  BOOST_CHECK_EQUAL   ( s12[0], 1);
+  BOOST_CHECK_EQUAL   ( s12[0], 2);
   BOOST_CHECK_EQUAL   ( s12[1], 1);
 
   BOOST_CHECK_EQUAL   ( s21[0], 1);

@@ -94,9 +94,8 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
       nc_base[j++] = na.at(i);
 
   auto nc = shape(nc_base);
-
-
   auto c = tensor( nc, value{} );
+
   auto const* bb = &(b(0));
   ttv(m, p,
       c.data(), c.extents().data(), c.strides().data(),
