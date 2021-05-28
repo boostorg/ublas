@@ -153,9 +153,12 @@ template<integral T, class L>
 {
   auto s = typename extents_core<T>::base_type(e.size(),1ul);
 
-  if(empty(e) || is_vector(e) || is_scalar(e)){
+  if(empty(e) || is_scalar(e)){
     return s;
   }
+
+  // || is_vector(e)
+
   if constexpr(std::is_same_v<L,layout::first_order>){
     std::transform(begin (e), end (e) - 1,  s.begin (),  s.begin ()+1, std::multiplies<>{});
   } else {
@@ -170,9 +173,13 @@ template<integral T, T n, class L>
   auto s = typename extents_core<T,n>::base_type{};
   std::fill(s.begin(),s.end(),1ul);
 
-  if(empty(e) || is_vector(e) || is_scalar(e)){
+  if(empty(e) || is_scalar(e)){
     return s;
   }
+
+
+  // || is_vector(e)
+
   if constexpr(std::is_same_v<L,layout::first_order>){
     std::transform(begin (e), end (e) - 1,  s.begin (),  s.begin ()+1, std::multiplies<>{});
   } else {
