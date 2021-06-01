@@ -1,6 +1,13 @@
 ---
-Checks: '-*,clang-*,bugprone-*,cppcoreguidelines-*,google-*,hicpp-*,modernize-*,performance-*,readability-*,portability-*,
--modernize-use-trailing-return-type, -readability-uppercase-literal-suffix, -readability-braces-around-statements, -hicpp-uppercase-literal-suffix, -hicpp-braces-around-statements, -hicpp-no-array-decay, -cppcoreguidelines-pro-bounds-constant-array-index, -cppcoreguidelines-pro-bounds-pointer-arithmetic, -cppcoreguidelines-pro-bounds-array-to-pointer-decay, -readability-avoid-const-params-in-decls, -google-readability-braces-around-statements,-google-explicit-constructor,-hicpp-vararg,-cppcoreguidelines-pro-type-vararg, -cppcoreguidelines-avoid-non-const-global-variables, -google-readability-todo, -cppcoreguidelines-pro-type-member-init, -hicpp-member-init, -cppcoreguidelines-special-member-functions, -hicpp-special-member-functions'
+Checks: '-*,clang-*,bugprone-*,cppcoreguidelines-*,google-*,hicpp-*,modernize-*,performance-*,
+readability-*,portability-*, -modernize-use-trailing-return-type, -readability-uppercase-literal-suffix, 
+-readability-braces-around-statements, -hicpp-uppercase-literal-suffix, -hicpp-braces-around-statements, 
+-hicpp-no-array-decay, -cppcoreguidelines-pro-bounds-constant-array-index,
+-cppcoreguidelines-pro-bounds-pointer-arithmetic, -cppcoreguidelines-pro-bounds-array-to-pointer-decay, 
+-readability-avoid-const-params-in-decls,-google-explicit-constructor, -hicpp-vararg,-cppcoreguidelines-pro-type-vararg,
+-cppcoreguidelines-avoid-non-const-global-variables, -google-readability-todo,
+-cppcoreguidelines-pro-type-member-init, -hicpp-member-init, -cppcoreguidelines-special-member-functions,
+-hicpp-special-member-functions'
 HeaderFilterRegex:      'boost\/numeric\/ublas\/tensor\/.*'
 AnalyzeTemporaryDtors:  false
 FormatStyle:            file

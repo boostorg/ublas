@@ -40,22 +40,27 @@ constexpr bool compare(tensor_core<T1> const& lhs, tensor_core<T2> const& rhs, B
     );
 
     if(::operator!=(lhs.extents(),rhs.extents())){
-        if constexpr(!std::is_same<BinaryPred,std::equal_to<>>::value && !std::is_same<BinaryPred,std::not_equal_to<>>::value)
+        if constexpr(!std::is_same<BinaryPred,std::equal_to<>>::value && !std::is_same<BinaryPred,std::not_equal_to<>>::value) {
             throw std::runtime_error(
                 "boost::numeric::ublas::detail::compare(tensor_core<T1> const&, tensor_core<T2> const&, BinaryPred) : "
                 "cannot compare tensors with different shapes."
             );
-        else
+        } else {
             return false;
+        }
     }
 
-    if constexpr(std::is_same<BinaryPred,std::greater<>>::value || std::is_same<BinaryPred,std::less<>>::value)
-        if(lhs.empty())
+    if constexpr(std::is_same<BinaryPred,std::greater<>>::value || std::is_same<BinaryPred,std::less<>>::value){
+        if(lhs.empty()){
             return false;
+        }
+    }
 
-    for(auto i = 0u; i < lhs.size(); ++i)
-        if(!pred(lhs(i), rhs(i)))
+    for(auto i = 0u; i < lhs.size(); ++i){
+        if(!pred(lhs(i), rhs(i))){
             return false;
+        }
+    }
     return true;
 }
 
@@ -63,9 +68,11 @@ template<class T, class UnaryPred>
 [[nodiscard]] inline 
 constexpr bool compare(tensor_core<T> const& rhs, UnaryPred pred)
 {
-    for(auto i = 0u; i < rhs.size(); ++i)
-        if(!pred(rhs(i)))
+    for(auto i = 0u; i < rhs.size(); ++i){
+        if(!pred(rhs(i))){
             return false;
+        }
+    }
     return true;
 }
 
@@ -77,25 +84,26 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
     constexpr bool lhs_is_tensor = std::is_same<T1,L>::value;
     constexpr bool rhs_is_tensor = std::is_same<T2,R>::value;
     
-    if constexpr (lhs_is_tensor && rhs_is_tensor)
+    if constexpr (lhs_is_tensor && rhs_is_tensor) {
         return compare(static_cast<T1 const&>( lhs ), static_cast<T2 const&>( rhs ), pred);
-    else if constexpr (lhs_is_tensor && !rhs_is_tensor)
+    } else if constexpr (lhs_is_tensor && !rhs_is_tensor) {
         return compare(static_cast<T1 const&>( lhs ), T2( rhs ), pred);
-    else if constexpr (!lhs_is_tensor && rhs_is_tensor)
+    } else if constexpr (!lhs_is_tensor && rhs_is_tensor) {
         return compare(T1( lhs ), static_cast<T2 const&>( rhs ), pred);
-    else
+    } else {
         return compare(T1( lhs ), T2( rhs ), pred);
-
+    }
 }
 
 template<class T, class D, class UnaryPred>
 [[nodiscard]]
 constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred pred)
 {
-    if constexpr (std::is_same<T,D>::value)
+    if constexpr (std::is_same<T,D>::value) {
         return compare(static_cast<T const&>( expr ), pred);
-    else
+    } else {
         return compare(T( expr ), pred);
+    }
 }
 
 } // namespace boost::numeric::ublas::detail

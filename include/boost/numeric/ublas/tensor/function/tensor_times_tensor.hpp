@@ -112,9 +112,11 @@ inline decltype(auto) prod(tensor_core< TEA > const &a,
   auto const &na = a.extents();
   auto const &nb = b.extents();
 
-  for (auto i = 0ul; i < q; ++i)
-    if (na.at(phia.at(i) - 1) != nb.at(phib.at(i) - 1))
+  for (auto i = 0ul; i < q; ++i) {
+    if (na.at(phia.at(i) - 1) != nb.at(phib.at(i) - 1)) {
       throw std::runtime_error("error in ublas::prod: permutations of the extents are not correct.");
+    }
+  }
 
   auto const r = pa - q;
   auto const s = pb - q;
@@ -130,20 +132,24 @@ inline decltype(auto) prod(tensor_core< TEA > const &a,
   auto nc_base = extents_base (std::max(size,std::size_t{2}),std::size_t{1});
 
   //for (auto i = 0ul; i < phia.size(); ++i)
-  for (auto p : phia)
+  for (auto p : phia) {
     *std::remove(phia1.begin(), phia1.end(), p) = p;
+  }
   //phia1.erase( std::remove(phia1.begin(), phia1.end(), phia.at(i)),  phia1.end() )  ;
 
-  for (auto i = 0ul; i < r; ++i)
+  for (auto i = 0ul; i < r; ++i) {
     nc_base[i] = na[phia1[i] - 1];
+  }
 
   //for (auto i = 0ul; i < phib.size(); ++i)
-  for (auto p : phib)
+  for (auto p : phib) {
     *std::remove(phib1.begin(), phib1.end(), p) = p;
+  }
   //phib1.erase( std::remove(phib1.begin(), phib1.end(), phia.at(i)), phib1.end() )  ;
 
-  for (auto i = 0ul; i < s; ++i)
+  for (auto i = 0ul; i < s; ++i) {
     nc_base[r + i] = nb[phib1[i] - 1];
+  }
 
   assert(phia1.size() == pa);
   assert(phib1.size() == pb);
@@ -260,9 +266,11 @@ inline auto prod(tensor_core<TEA> const &a,
   auto const &na = a.extents();
   auto const &nb = b.extents();
 
-  for (auto i = 0ul; i < q; ++i)
-    if (na.at(phia.at(i) - 1) != nb.at(phib.at(i) - 1))
+  for (auto i = 0ul; i < q; ++i) {
+    if (na.at(phia.at(i) - 1) != nb.at(phib.at(i) - 1)) {
       throw std::runtime_error("error in ublas::prod: permutations of the extents are not correct.");
+    }
+  }
 
   constexpr auto r = pa - q;
   constexpr auto s = pb - q;
@@ -276,19 +284,23 @@ inline auto prod(tensor_core<TEA> const &a,
   using return_extents_type = extents<msz>;
   auto nc_base = std::array<std::size_t,msz>{};
 
-  for (auto i = 0ul; i < phia.size(); ++i)
+  for (auto i = 0ul; i < phia.size(); ++i) {
     *std::remove(phia1.begin(), phia1.end(), phia.at(i)) = phia.at(i);
+  }
   //phia1.erase( std::remove(phia1.begin(), phia1.end(), phia.at(i)),  phia1.end() )  ;
 
-  for (auto i = 0ul; i < phib.size(); ++i)
+  for (auto i = 0ul; i < phib.size(); ++i) {
     *std::remove(phib1.begin(), phib1.end(), phib.at(i)) = phib.at(i);
+  }
   //phib1.erase( std::remove(phib1.begin(), phib1.end(), phia.at(i)), phib1.end() )  ;
 
-  for (auto i = 0ul; i < r; ++i)
+  for (auto i = 0ul; i < r; ++i) {
     nc_base[i] = na[phia1[i] - 1];
+  }
 
-  for (auto i = 0ul; i < s; ++i)
+  for (auto i = 0ul; i < s; ++i) {
     nc_base[r+i] = nb[phib1[i] - 1];
+  }
 
   auto nc = return_extents_type(nc_base);
 
@@ -328,8 +340,6 @@ inline decltype(auto) prod(tensor_core<TEA> const &a,
 {
   return prod(a, b, phi, phi);
 }
-
-
 
 
 } // namespace boost::numeric::ublas

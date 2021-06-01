@@ -63,8 +63,9 @@ template< class E, class D,
   auto const& efrom  = t.extents();
   auto const& eto    = e();
 
-  if( ::operator==(efrom,eto) )
+  if( ::operator==(efrom,eto) ){
     return t;
+  }
 
   auto const to_size   = product(eto);
   auto const from_size = product(efrom);

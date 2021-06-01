@@ -158,8 +158,9 @@ inline auto outer_prod(tensor_core<TEA> const &a, tensor_core<TEB> const &b)
   static_assert(std::is_same_v<resizableA_tag, storage_resizable_container_tag>);
   static_assert(std::is_same_v<resizableB_tag, storage_resizable_container_tag>);
 
-  if (a.empty() || b.empty())
+  if (a.empty() || b.empty()) {
     throw std::runtime_error("error in boost::numeric::ublas::outer_prod: tensors should not be empty.");
+  }
 
   auto const& na = a.extents();
   auto const& nb = b.extents();
@@ -260,8 +261,9 @@ inline decltype(auto) outer_prod(tensor_core<TEA> const &a, tensor_core<TEB> con
   constexpr auto extentsB_size = std::tuple_size_v<extentsB>;
 
 
-  if (a.empty() || b.empty())
+  if (a.empty() || b.empty()) {
     throw std::runtime_error("error in boost::numeric::ublas::outer_prod: tensors should not be empty.");
+  }
 
   auto nc = extentsC{};
 
