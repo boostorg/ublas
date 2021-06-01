@@ -247,8 +247,9 @@ struct index_position_pairs_impl
         using has_index_type = has_index<index_type, tuple_right>;
         using get_index_type = index_position<index_type,tuple_right>;
         using next_type      = index_position_pairs_impl<r+1,m>;
-        if constexpr ( has_index_type::value && index_type::value != 0)
+        if constexpr ( has_index_type::value && index_type::value != 0) {
             out[p++] = std::make_pair(r-1,get_index_type::value);
+        }
         next_type::run( out, lhs, rhs, p );
     }
 };
@@ -266,8 +267,9 @@ struct index_position_pairs_impl<m,m>
         using index_type     = std::tuple_element_t<m-1,tuple_left>;
         using has_index_type = has_index<index_type, tuple_right>;
         using get_index_type = index_position<index_type, tuple_right>;
-        if constexpr ( has_index_type::value && index_type::value != 0 )
+        if constexpr ( has_index_type::value && index_type::value != 0 ) {
             out[p] = std::make_pair(m-1,get_index_type::value);
+        }
     }
 };
 

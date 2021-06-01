@@ -36,9 +36,10 @@ int main()
     // initializes the tensor with increasing values along the first-index
     // using a single index.
     auto vf = 1.0f;
-    for(auto i = 0u; i < A.size(); ++i, vf += 1.0f)
+    for(auto i = 0u; i < A.size(); ++i, vf += 1.0f){
       A[i] = vf;
-
+    }
+    
     // formatted output
     std::cout << "% --------------------------- " << std::endl;
     std::cout << "% --------------------------- " << std::endl << std::endl;
@@ -68,8 +69,9 @@ int main()
     // initializes the tensor with increasing values along the last-index
     // using a single-index
     auto vc = value(0,0);
-    for(auto i = 0u; i < B.size(); ++i, vc += value(1,1))
+    for(auto i = 0u; i < B.size(); ++i, vc += value(1,1)){
       B[i] = vc;
+    }
 
     // formatted output
     std::cout << "% --------------------------- " << std::endl;
@@ -79,12 +81,16 @@ int main()
 
     auto C = tensor(B.extents());
     // computes the complex conjugate of elements of B
-    // using multi-index notation.
-    for(auto i = 0u; i < B.size(0); ++i)
-      for(auto j = 0u; j < B.size(1); ++j)
-        for(auto k = 0u; k < B.size(2); ++k)
-          for(auto l = 0u; l < B.size(3); ++l)
+    // using multi-index notation. 
+    for(auto i = 0u; i < B.size(0); ++i){
+      for(auto j = 0u; j < B.size(1); ++j){
+        for(auto k = 0u; k < B.size(2); ++k){
+          for(auto l = 0u; l < B.size(3); ++l){
             C.at(i,j,k,l) = std::conj(B.at(i,j,k,l));
+          }
+        }
+      }
+    }
 
     std::cout << "% --------------------------- " << std::endl;
     std::cout << "% --------------------------- " << std::endl << std::endl;

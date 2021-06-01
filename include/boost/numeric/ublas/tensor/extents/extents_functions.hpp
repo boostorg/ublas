@@ -191,8 +191,9 @@ template<boost::numeric::ublas::integral T, T n, T m>
   boost::numeric::ublas::extents_core<T,n> const& lhs,
   boost::numeric::ublas::extents_core<T,m> const& rhs )
 {
-  if constexpr(m != n)
+  if constexpr(m != n) {
     return false;
+  }
   return std::equal( begin(lhs), end  (lhs), begin(rhs) );
 }
 
@@ -201,8 +202,9 @@ template<boost::numeric::ublas::integral T, T n, T m>
   boost::numeric::ublas::extents_core<T,n> const& lhs,
   boost::numeric::ublas::extents_core<T,m> const& rhs )
 {
-  if constexpr(m == n)
+  if constexpr(m == n) {
     return false;
+  }
   return !(lhs == rhs) ;
 }
 

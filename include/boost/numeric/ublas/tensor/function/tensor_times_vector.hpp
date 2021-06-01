@@ -77,10 +77,10 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
   static_assert(std::is_same_v<resize_tag,storage_resizable_container_tag>);
   static_assert(is_dynamic_v<shape>);
 
-  if (m == 0ul)  throw std::length_error("error in boost::numeric::ublas::prod(ttv): contraction mode must be greater than zero.");
-  if (p < m)     throw std::length_error("error in boost::numeric::ublas::prod(ttv): rank of tensor must be greater than or equal to the contraction mode.");
-  if (a.empty()) throw std::length_error("error in boost::numeric::ublas::prod(ttv): first argument tensor should not be empty.");
-  if (b.empty()) throw std::length_error("error in boost::numeric::ublas::prod(ttv): second argument vector should not be empty.");
+  if (m == 0ul)  { throw std::length_error("error in boost::numeric::ublas::prod(ttv): contraction mode must be greater than zero."); }
+  if (p < m)     { throw std::length_error("error in boost::numeric::ublas::prod(ttv): rank of tensor must be greater than or equal to the contraction mode."); }
+  if (a.empty()) { throw std::length_error("error in boost::numeric::ublas::prod(ttv): first argument tensor should not be empty."); }
+  if (b.empty()) { throw std::length_error("error in boost::numeric::ublas::prod(ttv): second argument vector should not be empty."); }
 
   auto const& na = a.extents();
   auto nb = extents<2>{std::size_t(b.size()),std::size_t(1ul)};
@@ -89,9 +89,11 @@ inline decltype(auto) prod( tensor_core< TE > const &a, vector<T, A> const &b, c
   auto const sz = std::max( std::size_t(ublas::size(na)-1u), std::size_t(2) );
   auto nc_base = typename shape::base_type(sz,1);
 
-  for (auto i = 0ul, j = 0ul; i < p; ++i)
-    if (i != m - 1)
+  for (auto i = 0ul, j = 0ul; i < p; ++i) {
+    if (i != m - 1) {
       nc_base[j++] = na.at(i);
+    }
+  }
 
   auto nc = shape(nc_base);
 
@@ -150,18 +152,20 @@ inline auto prod( tensor_core< TE > const &a, vector<T, A> const &b, const std::
 
   static_assert(std::is_same_v<resizeable_tag,storage_resizable_container_tag >);
 
-  if (m == 0ul)  throw std::length_error("error in boost::numeric::ublas::prod(ttv): contraction mode must be greater than zero.");
-  if (p < m)     throw std::length_error("error in boost::numeric::ublas::prod(ttv): rank of tensor must be greater than or equal to the modus.");
-  if (a.empty()) throw std::length_error("error in boost::numeric::ublas::prod(ttv): first argument tensor should not be empty.");
-  if (b.empty()) throw std::length_error("error in boost::numeric::ublas::prod(ttv): second argument vector should not be empty.");
+  if (m == 0ul)  { throw std::length_error("error in boost::numeric::ublas::prod(ttv): contraction mode must be greater than zero."); }
+  if (p < m)     { throw std::length_error("error in boost::numeric::ublas::prod(ttv): rank of tensor must be greater than or equal to the modus."); }
+  if (a.empty()) { throw std::length_error("error in boost::numeric::ublas::prod(ttv): first argument tensor should not be empty."); }
+  if (b.empty()) { throw std::length_error("error in boost::numeric::ublas::prod(ttv): second argument vector should not be empty."); }
 
   auto const& na = a.extents();
 
   auto nc_base = typename shape_c::base_type{};
   std::fill(nc_base.begin(), nc_base.end(),std::size_t(1));
-  for (auto i = 0ul, j = 0ul; i < p; ++i)
-    if (i != m - 1)
+  for (auto i = 0ul, j = 0ul; i < p; ++i) {
+    if (i != m - 1) {
       nc_base[j++] = na.at(i);
+    }
+  }
 
   auto nc = shape_c(std::move(nc_base));
   auto nb = shape_b{b.size(),1UL};
@@ -212,8 +216,8 @@ inline auto prod( tensor_core< TE > const &a, vector<T, A> const &b)
 
   constexpr auto p = std::tuple_size_v<shape>;
 
-  if (a.empty()) throw std::length_error("error in boost::numeric::ublas::prod(ttv): first argument tensor should not be empty.");
-  if (b.empty()) throw std::length_error("error in boost::numeric::ublas::prod(ttv): second argument vector should not be empty.");
+  if (a.empty()) { throw std::length_error("error in boost::numeric::ublas::prod(ttv): first argument tensor should not be empty."); }
+  if (b.empty()) { throw std::length_error("error in boost::numeric::ublas::prod(ttv): second argument vector should not be empty."); }
 
   auto const& na = a.extents();
 

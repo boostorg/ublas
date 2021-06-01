@@ -78,9 +78,9 @@ inline decltype(auto) prod( tensor_core< TE > const &a, matrix<T,L,A> const &b, 
   assert( p != 0 );
   assert( p == ublas::size(na));
 
-  if( m == 0 )       throw std::length_error("Error in boost::numeric::ublas::ttm: contraction mode must be greater than zero.");
-  if( p <  m )       throw std::length_error("Error in boost::numeric::ublas::ttm: tensor order must be greater than or equal to the specified mode.");
-  if(na[m-1]!=nb[1]) throw std::invalid_argument("Error in boost::numeric::ublas::ttm: 2nd extent of B and m-th extent of A must be equal.");
+  if( m == 0 )      { throw std::length_error("Error in boost::numeric::ublas::ttm: contraction mode must be greater than zero."); }
+  if( p <  m )      { throw std::length_error("Error in boost::numeric::ublas::ttm: tensor order must be greater than or equal to the specified mode."); }
+  if(na[m-1]!=nb[1]){  throw std::invalid_argument("Error in boost::numeric::ublas::ttm: 2nd extent of B and m-th extent of A must be equal."); }
 
 
   auto nc_base = na.base();
@@ -151,7 +151,7 @@ inline decltype(auto) prod(tensor_core<TE> const &a, matrix<T,L,A> const &b)
   static_assert( m != 0);
   static_assert( p <  m);
 
-  if(na[m-1]!=nb[1]) throw std::invalid_argument("Error in boost::numeric::ublas::ttm: 2nd extent of B and m-th extent of A must be equal.");
+  if(na[m-1]!=nb[1]){ throw std::invalid_argument("Error in boost::numeric::ublas::ttm: 2nd extent of B and m-th extent of A must be equal."); }
 
   auto nc_base = na.base();
   auto wb = ublas::to_strides(nb,layout_type{});
