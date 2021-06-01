@@ -29,40 +29,64 @@ alias unit_test_framework
 explicit unit_test_framework ;
 
 
-
 test-suite boost-ublas-tensor-test
     :
-    [ run test_algorithms.cpp
-          test_einstein_notation.cpp
-          test_expression.cpp
-          test_expression_evaluation.cpp
-          test_extents_dynamic.cpp
-          test_extents_dynamic_rank_static.cpp
-          test_extents_functions.cpp
-          test_fixed_rank_expression_evaluation.cpp
-          test_fixed_rank_extents.cpp
-          test_fixed_rank_functions.cpp
-          test_fixed_rank_operators_arithmetic.cpp
-          test_fixed_rank_operators_comparison.cpp
-          test_fixed_rank_strides.cpp
-          test_fixed_rank_tensor.cpp
-          test_fixed_rank_tensor_matrix_vector.cpp          
-          test_functions.cpp
+    [ run test_main.cpp
+          extents/test_extents_empty.cpp
+          extents/test_extents_size.cpp
+          extents/test_extents_at.cpp
+          extents/test_extents_access_operator.cpp
+          extents/test_extents_construction.cpp
+          extents/test_extents_assignment_operator.cpp
+          extents/test_extents_is_scalar.cpp
+          extents/test_extents_is_vector.cpp
+          extents/test_extents_is_matrix.cpp
+          extents/test_extents_is_tensor.cpp
+          extents/test_extents_is_valid.cpp
+          extents/test_extents_product.cpp
+          extents/test_extents_comparision.cpp
+          tensor/test_tensor_empty.cpp
+          tensor/test_tensor_size.cpp
+          tensor/test_tensor_at.cpp
+          tensor/test_tensor_access_operator.cpp
+          tensor/test_tensor_construction.cpp
+          tensor/test_tensor_assignment_operator.cpp
+          tensor/test_tensor_comparision.cpp
+          tensor/test_tensor_comparision_with_tensor_expression.cpp
+          tensor/test_tensor_comparision_with_scalar.cpp
+          tensor/test_tensor_operator_arithmetic_binary.cpp
+          tensor/test_tensor_operator_arithmetic_unary.cpp
+          tensor/test_tensor_operator_arithmetic_assignment.cpp
+          tensor/test_tensor_expression_evaluation_retrieve_extents.cpp
+          tensor/test_tensor_expression_evaluation_all_extents_equal.cpp
+          tensor/test_tensor_expression_access.cpp
+          tensor/test_tensor_unary_expression.cpp
+          tensor/test_tensor_binary_expression.cpp
+          algorithm/test_algorithm_copy.cpp
+          algorithm/test_algorithm_transform.cpp
+          algorithm/test_algorithm_accumulate.cpp
+          algorithm/test_algorithm_trans.cpp
+          multiplication/test_multiplication_mtv.cpp
+          multiplication/test_multiplication_mtm.cpp
+          multiplication/test_multiplication_ttv.cpp
+          multiplication/test_multiplication_ttm.cpp
+          multiplication/test_multiplication_ttt_permutation.cpp
+          multiplication/test_multiplication_inner.cpp
+          multiplication/test_multiplication_outer.cpp
+          multiplication/test_multiplication_ttt.cpp
+          functions/test_functions_vector.cpp
+          functions/test_functions_matrix.cpp
+          functions/test_functions_tensor.cpp
+          functions/test_functions_tensor_permutation.cpp
+          functions/test_functions_inner.cpp
+          functions/test_functions_norm.cpp
+          functions/test_functions_real_imag_conj.cpp
+          functions/test_functions_outer.cpp
+          functions/test_functions_trans.cpp
+          test_strides.cpp
           test_multi_index.cpp
           test_multi_index_utility.cpp
-          test_multiplication.cpp
-          test_operators_arithmetic.cpp
-          test_operators_comparison.cpp
-          test_static_expression_evaluation.cpp
-          test_static_extents.cpp
-          test_static_operators_arithmetic.cpp
-          test_static_operators_comparison.cpp
-          test_static_strides.cpp
-          test_static_tensor.cpp
-          test_static_tensor_matrix_vector.cpp
-          test_strides.cpp
-          test_tensor.cpp
-          test_tensor_matrix_vector.cpp
+          test_einstein_notation.cpp
           unit_test_framework
           :
           :

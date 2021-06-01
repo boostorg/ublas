@@ -24,7 +24,7 @@ jobs:
 #           - {os: windows-2016, toolset: msvc, version: 14.16, cxxstd: 11} 
 #           - {os: windows-2019, toolset: msvc, version: 14.28, cxxstd: 11}
 #           - {os: windows-2019, toolset: msvc, version: 14.28, cxxstd: 17}
-           - {os: windows-2019, toolset: msvc, version: 14.28, cxxstd: latest}
+           - {os: windows-2019, toolset: msvc, version: 14.29, cxxstd: latest}
              
      steps:
       - uses: actions/checkout@v2
