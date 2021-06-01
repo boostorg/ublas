@@ -101,13 +101,13 @@ inline decltype(auto) prod(tensor_core< TEA > const &a,
 
   auto const q = std::size_t{phia.size()};
 
-  if (pa == 0ul)        throw std::runtime_error("error in ublas::prod(ttt): order of left-hand side tensor must be greater than 0.");
-  if (pb == 0ul)        throw std::runtime_error("error in ublas::prod(ttt): order of right-hand side tensor must be greater than 0.");
-  if (pa < q)           throw std::runtime_error("error in ublas::prod(ttt): number of contraction dimensions cannot be greater than the order of the left-hand side tensor.");
-  if (pb < q)           throw std::runtime_error("error in ublas::prod(ttt): number of contraction dimensions cannot be greater than the order of the right-hand side tensor.");
-  if (q != phib.size()) throw std::runtime_error("error in ublas::prod(ttt): permutation tuples must have the same length.");
-  if (pa < phia.size()) throw std::runtime_error("error in ublas::prod(ttt): permutation tuple for the left-hand side tensor cannot be greater than the corresponding order.");
-  if (pb < phib.size()) throw std::runtime_error("error in ublas::prod(ttt): permutation tuple for the right-hand side tensor cannot be greater than the corresponding order.");
+  if (pa == 0ul)       { throw std::runtime_error("error in ublas::prod(ttt): order of left-hand side tensor must be greater than 0."); }
+  if (pb == 0ul)       { throw std::runtime_error("error in ublas::prod(ttt): order of right-hand side tensor must be greater than 0."); }
+  if (pa < q)          { throw std::runtime_error("error in ublas::prod(ttt): number of contraction dimensions cannot be greater than the order of the left-hand side tensor."); }
+  if (pb < q)          { throw std::runtime_error("error in ublas::prod(ttt): number of contraction dimensions cannot be greater than the order of the right-hand side tensor."); }
+  if (q != phib.size()){ throw std::runtime_error("error in ublas::prod(ttt): permutation tuples must have the same length."); }
+  if (pa < phia.size()){ throw std::runtime_error("error in ublas::prod(ttt): permutation tuple for the left-hand side tensor cannot be greater than the corresponding order."); }
+  if (pb < phib.size()){ throw std::runtime_error("error in ublas::prod(ttt): permutation tuple for the right-hand side tensor cannot be greater than the corresponding order."); }
 
   auto const &na = a.extents();
   auto const &nb = b.extents();
