@@ -58,6 +58,12 @@
 
 #endif
 
+// Oracle Developer Studio compiler
+#if defined (__SUNPRO_CC) && ! defined (BOOST_STRICT_CONFIG)
+#if __SUNPRO_CC >= 0x5130
+#define BOOST_UBLAS_USEFUL_ARRAY_PLACEMENT_NEW
+#endif
+#endif
 
 // GNU Compiler Collection
 #if defined (__GNUC__) && ! defined (BOOST_STRICT_CONFIG)

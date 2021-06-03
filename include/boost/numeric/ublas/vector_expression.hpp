@@ -1589,6 +1589,42 @@ namespace boost { namespace numeric { namespace ublas {
         return expression_type (e ());
     }
 
+    // mean v - lazy mean
+    template<class E>
+    BOOST_UBLAS_INLINE
+    typename vector_scalar_unary_traits<E, vector_mean<E> >::result_type
+    mean (const vector_expression<E> &e) {
+        typedef typename vector_scalar_unary_traits<E, vector_mean<E> >::expression_type expression_type;
+        return expression_type (e ());
+    }
+
+    // mean v - iterative mean
+    template<class E>
+    BOOST_UBLAS_INLINE
+    typename vector_scalar_unary_traits<E, vector_mean_iterative<E> >::result_type
+    mean_iterative (const vector_expression<E> &e) {
+        typedef typename vector_scalar_unary_traits<E, vector_mean_iterative<E> >::expression_type expression_type;
+        return expression_type (e ());
+    }
+
+    // variance v = variance (v [i])
+    template<class E>
+    BOOST_UBLAS_INLINE
+    typename vector_scalar_unary_traits<E, vector_variance<E> >::result_type
+    variance (const vector_expression<E> &e) {
+        typedef typename vector_scalar_unary_traits<E, vector_variance<E> >::expression_type expression_type;
+        return expression_type (e ());
+    }
+
+    // variance v = variance (v [i])
+    template<class E>
+    BOOST_UBLAS_INLINE
+    typename vector_scalar_unary_traits<E, vector_variance_iterative<E> >::result_type
+    variance_iterative (const vector_expression<E> &e) {
+        typedef typename vector_scalar_unary_traits<E, vector_variance_iterative<E> >::expression_type expression_type;
+        return expression_type (e ());
+    }
+
     // real: norm_1 v = sum (abs (v [i]))
     // complex: norm_1 v = sum (abs (real (v [i])) + abs (imag (v [i])))
     template<class E>
@@ -1756,6 +1792,21 @@ namespace boost { namespace numeric { namespace ublas {
                                                                                                                 typename E2::value_type>::promote_type>::precision_type> >::expression_type expression_type;
         return expression_type (e1 (), e2 ());
     }
+
+    // covariance (v1, v2)
+    template<class E1, class E2>
+    BOOST_UBLAS_INLINE
+    typename vector_scalar_binary_traits<E1, E2, vector_covariance<E1, E2,
+                                                                   typename promote_traits<typename E1::value_type,
+                                                                                           typename E2::value_type>::promote_type> >::result_type
+    covariance (const vector_expression<E1> &e1,
+                const vector_expression<E2> &e2) {
+        typedef typename vector_scalar_binary_traits<E1, E2, vector_covariance<E1, E2,
+                                                                   typename promote_traits<typename E1::value_type,
+                                                                                           typename E2::value_type>::promote_type> >::expression_type expression_type;
+        return expression_type (e1 (), e2 ());
+    }
+
 
 }}}
 

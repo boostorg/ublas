@@ -371,6 +371,202 @@ namespace boost { namespace numeric { namespace ublas {
         }
     };
 
+template<class V>
+    struct vector_mean: 
+        public vector_scalar_unary_functor<V> {
+        typedef typename vector_scalar_unary_functor<V>::value_type value_type;
+        typedef typename vector_scalar_unary_functor<V>::result_type result_type;
+
+        template<class E>
+        static BOOST_UBLAS_INLINE
+        result_type apply (const vector_expression<E> &e) { 
+            result_type t = result_type (0);
+            typedef typename E::size_type vector_size_type;
+            vector_size_type size (e ().size ());
+            for (vector_size_type i = 0; i < size; ++ i) 
+                t += e () (i);
+            return t / size;
+        }
+        // Dense case
+        template<class D, class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (D size, I it) { 
+            result_type t = result_type (0);
+            D i (0);
+            while (++ i <= size) {
+                t += *it;
+		++ it;
+            }
+            return t / size; 
+        }
+        // Sparse case
+        template<class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (I it, const I &it_end) {
+            typedef typename I::difference_type vector_difference_type;
+            result_type t = result_type (0);
+            vector_difference_type size (0);
+            while (it != it_end) {
+                t += *it;
+                ++ it;
+                ++ size;
+            }
+            return t / size; 
+        }
+    };
+
+template<class V>
+    struct vector_mean_iterative: 
+        public vector_scalar_unary_functor<V> {
+        typedef typename vector_scalar_unary_functor<V>::value_type value_type;
+        typedef typename vector_scalar_unary_functor<V>::result_type result_type;
+
+        template<class E>
+        static BOOST_UBLAS_INLINE
+        result_type apply (const vector_expression<E> &e) { 
+            result_type t = result_type (0);
+            typedef typename E::size_type vector_size_type;
+            vector_size_type size (e ().size ());
+            for (vector_size_type i = 0; i < size; ++ i) 
+                t += (e () (i) - t) / (i + 1);
+            return t;
+        }
+        // Dense case
+        template<class D, class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (D size, I it) { 
+            result_type t = result_type (0);
+            D i (0);
+            while (++ i <= size) {
+                t += (*it - t) / i;
+		++ it;
+	    }
+            return t; 
+        }
+        // Sparse case
+        template<class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (I it, const I &it_end) {
+            typedef typename I::difference_type vector_difference_type;
+            result_type t = result_type (0);
+            vector_difference_type size (1);
+            while (it != it_end) {
+                t += (*it - t) / size;
+                ++ it;
+                ++ size;
+            }
+            return t; 
+        }
+    };
+
+template<class V>
+    struct vector_variance: 
+        public vector_scalar_unary_functor<V> {
+        typedef typename vector_scalar_unary_functor<V>::value_type value_type;
+        typedef typename vector_scalar_unary_functor<V>::result_type result_type;
+
+        template<class E>
+        static BOOST_UBLAS_INLINE 
+        result_type apply (const vector_expression<E> &e) { 
+            result_type sum = result_type (0);
+	    result_type sumsq = result_type (0);
+            typedef typename E::size_type vector_size_type;
+            vector_size_type size (e ().size ());
+            for (vector_size_type i = 0; i < size; ++ i) {
+                sum += e () (i);
+                sumsq += e () (i) * e () (i);
+	    }
+            return (sumsq - (sum * sum) / size) / size ;
+        }
+        // Dense case
+        template<class D, class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (D size, I it) {
+            result_type sum = result_type (0);
+	    result_type sumsq = result_type (0);
+	    result_type n = result_type (0);
+            while (++ n <= size) {
+                sum += *it;
+                sumsq += *it * *it;
+                ++ it;
+            }
+            return (sumsq - (sum * sum) / size) / size ; 
+        }
+        // Sparse case
+        template<class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (I it, const I &it_end) {
+            typedef typename I::difference_type vector_difference_type;
+            result_type sum = result_type (0);
+	    result_type sumsq = result_type (0);
+	    vector_difference_type n (0);
+            while (it != it_end) { 
+                ++ n;
+	        sum += *it;
+                sumsq += *it * *it;
+                ++ it;
+	    }  
+            return (sumsq - (sum * sum) / n) / n ;
+        }
+    };
+
+template<class V>
+    struct vector_variance_iterative: 
+        public vector_scalar_unary_functor<V> {
+        typedef typename vector_scalar_unary_functor<V>::value_type value_type;
+        typedef typename vector_scalar_unary_functor<V>::result_type result_type;
+
+        template<class E>
+        static BOOST_UBLAS_INLINE 
+        result_type apply (const vector_expression<E> &e) { 
+            result_type mean = result_type (0);
+	    result_type var = result_type (0);
+	    result_type del;
+            typedef typename E::size_type vector_size_type;
+            vector_size_type size (e ().size ());
+            for (vector_size_type i = 0; i < size; ++ i) {
+                del = e () (i) - mean;
+                mean += del / (i + 1);
+                var += del * (e () (i) - mean);
+	    }
+            return var / size;
+        }
+        // Dense case
+        template<class D, class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (D size, I it) { 
+            result_type mean = result_type (0);
+	    result_type n = result_type (0);
+	    result_type var = result_type (0);
+	    result_type del;
+            while (++ n <= size){
+                del = *it - mean;
+                mean += del / n;
+                var += del * (*it - mean);
+                ++ it;
+	    }
+            return var / size; 
+        }
+        // Sparse case
+        template<class I>
+        static BOOST_UBLAS_INLINE
+        result_type apply (I it, const I &it_end) {
+            typedef typename I::difference_type vector_difference_type;
+            result_type mean = result_type (0);
+	    vector_difference_type n (0);
+	    result_type var = result_type (0);
+	    result_type del;
+            while (it != it_end)  {
+                ++ n;
+                del = *it - mean;
+                mean += del / n;
+                var += del * (*it - mean);
+                ++ it;
+	    }
+            return var / n; 
+        }
+    };
+
     // Unary returning real scalar 
     template<class V>
     struct vector_scalar_real_unary_functor {
@@ -811,6 +1007,202 @@ namespace boost { namespace numeric { namespace ublas {
                 }
             }
             return t;
+        }
+    };
+
+    template<class V1, class V2, class TV>
+    struct vector_covariance:
+        public vector_scalar_binary_functor<V1, V2, TV> {
+        typedef typename vector_scalar_binary_functor<V1, V2, TV>::value_type value_type;
+        typedef typename vector_scalar_binary_functor<V1, V2, TV>::result_type result_type;
+
+        template<class C1, class C2>
+        static BOOST_UBLAS_INLINE
+        result_type apply (const vector_container<C1> &c1,
+                           const vector_container<C2> &c2) {
+#ifdef BOOST_UBLAS_USE_SIMD
+            using namespace raw;
+            typedef typename C1::size_type vector_size_type;
+            vector_size_type size (BOOST_UBLAS_SAME (c1 ().size (), c2 ().size ()));
+            const typename V1::value_type *data1 = data_const (c1 ());
+            const typename V1::value_type *data2 = data_const (c2 ());
+            vector_size_type s1 = stride (c1 ());
+            vector_size_type s2 = stride (c2 ());
+            result_type t = result_type (0);
+	    result_type mean1 = result_type (0);
+            result_type mean2 = result_type (0);
+	    result_type del1, del2;
+            if (s1 == 1 && s2 == 1) {
+                for (vector_size_type i = 0; i < size; ++ i) {
+		    del1 = (data1[i] - mean1) / (i + 1);
+		    mean1 += del1;
+                    del2 = (data2[i] - mean2) / (i + 1);
+                    mean2 += del2;
+                    t += i * del1 * del2 - t / (i + 1);
+		}
+            } else if (s2 == 1) {
+                for (vector_size_type i = 0, i1 = 0; i < size; ++ i, i1 += s1) {
+		    del1 = (data1[i1] - mean1) / (i + 1);
+		    mean1 += del1;
+                    del2 = (data2[i] - mean2) / (i + 1);
+                    mean2 += del2;
+                    t += i * del1 * del2 - t / (i + 1);
+		}
+            } else if (s1 == 1) {
+                for (vector_size_type i = 0, i2 = 0; i < size; ++ i, i2 += s2) {
+		    del1 = (data1[i] - mean1) / (i + 1);
+		    mean1 += del1;
+                    del2 = (data2[i2] - mean2) / (i + 1);
+                    mean2 += del2;
+                    t += i * del1 * del2 - t / (i + 1);
+		}
+            } else {
+                for (vector_size_type i = 0, i1 = 0, i2 = 0; i < size; ++ i, i1 += s1, i2 += s2) {
+		    del1 = (data1[i1] - mean1) / (i + 1);
+		    mean1 += del1;
+                    del2 = (data2[i2] - mean2) / (i + 1);
+                    mean2 += del2;
+                    t += i * del1 * del2 - t / (i + 1);
+		}
+            }
+            return size / (size - 1) * t;
+#else
+            return apply (static_cast<const vector_expression<C1> > (c1), static_cast<const vector_expression<C2> > (c2));
+#endif
+        }
+        template<class E1, class E2>
+        static BOOST_UBLAS_INLINE
+        result_type apply (const vector_expression<E1> &e1,
+                           const vector_expression<E2> &e2) {
+            typedef typename E1::size_type vector_size_type;
+            vector_size_type size (BOOST_UBLAS_SAME (e1 ().size (), e2 ().size ()));
+            result_type t = result_type (0);
+	    result_type mean1 = result_type (0);
+            result_type mean2 = result_type (0);
+	    result_type del1, del2;
+#ifndef BOOST_UBLAS_USE_DUFF_DEVICE
+            for (vector_size_type i = 0; i < size; ++ i) {
+                del1 = (e1 () (i) - mean1) / (i + 1);
+                mean1 += del1;
+                del2 = (e2 () (i) - mean2) / (i + 1);
+                mean2 += del2;
+                t += i * del1 * del2 - t / (i + 1);
+	    }
+#else
+            vector_size_type i (0);
+            DD (size, 4, r, del1 = (e1 () (i) - mean1) / (i + 1),
+                mean1 += del1,
+                del2 = (e2 () (i) - mean2) / (i + 1),
+                mean2 += del2,
+                t += i * del1 * del2 - t / (i + 1), ++ i);
+#endif
+            return size / (size - 1) * t;
+        }
+        // Dense case
+        template<class D, class I1, class I2>
+        static BOOST_UBLAS_INLINE
+        result_type apply (D size, I1 it1, I2 it2) {
+            result_type t = result_type (0);
+            result_type i = result_type (0);
+	    result_type mean1 = result_type (0);
+            result_type mean2 = result_type (0);
+	    result_type del1, del2;
+#ifndef BOOST_UBLAS_USE_DUFF_DEVICE
+            while (++ i <= size) {
+                del1 = (*it1 - mean1) / i;
+                mean1 += del1;
+                del2 = (*it2 - mean2) / i;
+                mean2 += del2;
+                t += (i - 1) * del1 * del2 - t / i;
+                ++ it1;
+		++ it2;
+            }
+#else
+            DD (size, 4, r, del1 = (*it1 - mean1) / (i + 1),
+                mean1 += del1,
+                del2 = (*it2 - mean2) / (i + 1),
+                mean2 += del2,
+                t += i * del1 * del2 - t / (i + 1),
+                ++ it1, ++ it2, ++ i);
+#endif
+            return size / (size - 1) * t;
+        }
+        // Packed case
+        template<class I1, class I2>
+        static BOOST_UBLAS_INLINE
+        result_type apply (I1 it1, const I1 &it1_end, I2 it2, const I2 &it2_end) {
+            result_type t = result_type (0);
+            result_type i = result_type (0);
+	    result_type mean1 = result_type (0);
+            result_type mean2 = result_type (0);
+	    result_type del1, del2;
+            typedef typename I1::difference_type vector_difference_type;
+            vector_difference_type it1_size (it1_end - it1);
+            vector_difference_type it2_size (it2_end - it2);
+            vector_difference_type diff (0);
+            if (it1_size > 0 && it2_size > 0)
+                diff = it2.index () - it1.index ();
+            if (diff != 0) {
+                vector_difference_type size = (std::min) (diff, it1_size);
+                if (size > 0) {
+                    it1 += size;
+                    it1_size -= size;
+                    diff -= size;
+                }
+                size = (std::min) (- diff, it2_size);
+                if (size > 0) {
+                    it2 += size;
+                    it2_size -= size;
+                    diff += size;
+                }
+            }
+            vector_difference_type size ((std::min) (it1_size, it2_size));
+            while (++ i <= size) {
+                del1 = (*it1 - mean1) / i;
+                mean1 += del1;
+                del2 = (*it2 - mean2) / i;
+                mean2 += del2;
+                t += (i - 1) * del1 * del2 - t / i;
+                ++ it1;
+		++ it2;
+            }
+            return size / (size - 1) * t;
+        }
+        // Sparse case
+        template<class I1, class I2>
+        static BOOST_UBLAS_INLINE
+        result_type apply (I1 it1, const I1 &it1_end, I2 it2, const I2 &it2_end, sparse_bidirectional_iterator_tag) {
+            typedef typename I1::difference_type vector_difference_type;
+            result_type t = result_type (0);
+            vector_difference_type i (1);
+	    result_type mean1 = result_type (0);
+            result_type mean2 = result_type (0);
+	    result_type del1, del2;
+            if (it1 != it1_end && it2 != it2_end) {
+                for (;;) {
+                    if (it1.index () == it2.index ()) {
+                        del1 = (*it1 - mean1) / i;
+                        mean1 += del1;
+                        del2 = (*it2 - mean2) / i;
+                        mean2 += del2;
+                        t += (i - 1) * del1 * del2 - t / i;
+                        ++ i;
+                        ++ it1;
+                        ++ it2;
+                        if (it1 == it1_end || it2 == it2_end)
+                            break;
+                    } else if (it1.index () < it2.index ()) {
+                        increment (it1, it1_end, it2.index () - it1.index ());
+                        if (it1 == it1_end)
+                            break;
+                    } else if (it1.index () > it2.index ()) {
+                        increment (it2, it2_end, it1.index () - it2.index ());
+                        if (it2 == it2_end)
+                            break;
+                    }
+                }
+            }
+            return i / (i - 1) * t;
         }
     };
 
