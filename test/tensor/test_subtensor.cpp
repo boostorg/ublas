@@ -128,8 +128,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
     auto A    = tensor_type{1,2};
     auto Asub = subtensor_type( A, 0, 1  );
 
-    BOOST_CHECK_EQUAL( Asub.span_strides().at(0), 1 );
-    BOOST_CHECK_EQUAL( Asub.span_strides().at(1), 1 );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(0), A.strides().at(0) );
+    BOOST_CHECK_EQUAL( Asub.span_strides().at(1), A.strides().at(1) );
 
     BOOST_CHECK_EQUAL( Asub.strides().at(0), 1 );
     BOOST_CHECK_EQUAL( Asub.strides().at(1), 1 );

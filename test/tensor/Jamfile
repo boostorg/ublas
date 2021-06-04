@@ -32,12 +32,9 @@ explicit unit_test_framework ;
 
 test-suite boost-ublas-tensor-test
     :
-<<<<<<< HEAD
     [ run test_access.cpp
           test_algorithms.cpp
           test_einstein_notation.cpp
-          test_subtensor.cpp
-          test_subtensor_utility.cpp
           test_expression.cpp
           test_expression_evaluation.cpp
           test_extents_dynamic.cpp
@@ -65,6 +62,8 @@ test-suite boost-ublas-tensor-test
           test_static_tensor.cpp
           test_static_tensor_matrix_vector.cpp
           test_strides.cpp
+          test_subtensor.cpp
+          test_subtensor_utility.cpp          
           test_tensor.cpp
           test_tensor_matrix_vector.cpp
           unit_test_framework

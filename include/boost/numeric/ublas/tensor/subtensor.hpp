@@ -129,10 +129,10 @@ public:
 	subtensor(tensor_type& t, span_types&& ... spans)
 			: super_type     ()
       , spans_         (detail::generate_span_vector<span_type>(t.extents(),std::forward<span_types>(spans)...))
-      , extents_       (detail::compute_extents(spans_))
+      , extents_       (detail::to_extents(spans_))
     , strides_         (ublas::to_strides(extents_,layout_type{}))
-      , span_strides_  (detail::compute_span_strides(t.strides(),spans_))
-      , data_          {t.data() + detail::compute_offset(t.strides(), spans_)}
+      , span_strides_  (detail::to_span_strides(t.strides(),spans_))
+      , data_          {t.data() + detail::to_offset(t.strides(), spans_)}
 	{
 //		if( m == nullptr)
 //			throw std::length_error("Error in tensor_view<T>::tensor_view : multi_array_type is nullptr.");

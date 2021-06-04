@@ -25,7 +25,9 @@
 BOOST_AUTO_TEST_SUITE (test_tensor_contraction)
 
 
-using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
+//using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
+
+using test_types = zip<float>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
 //using test_types = zip<int>::with_t<boost::numeric::ublas::layout::first_order>;
 
@@ -62,37 +64,37 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_mtv, value,  test_types, fixture )
 
   for(auto const& na : extents) {
 
-    if(ublas::size(na) > 2)
+    if(ublas::is_scalar(na) || ublas::is_vector(na) || ublas::is_tensor(na))
       continue;
+
+    auto const n1 = na[0];
+    auto const n2 = na[1];
 
     auto a = vector_t(ublas::product(na), value_t{2});
     auto wa = ublas::to_strides(na,layout_t{});
-    for(auto m = std::size_t{0}; m < ublas::size(na); ++m){
+
+    for(auto m = std::size_t{0}; m < 2; ++m){
+
       auto nb = extents_t {na[m],std::size_t{1}};
       auto wb = ublas::to_strides(nb,layout_t{});
       auto b  = vector_t  (ublas::product(nb), value_t{1} );
 
-      auto nc_base = extents_base_t(std::max(std::size_t{ublas::size(na)-1u}, std::size_t{2}), 1);
+      // [n1 n2 1 ... 1] x1 [n1 1] -> [n2 1 ... 1]
+      // [n1 n2 1 ... 1] x2 [n2 1] -> [n1 1 ... 1]
 
-      for(auto i = 0ul, j = 0ul; i < ublas::size(na); ++i)
-        if(i != m)
-          nc_base[j++] = na[i];
+      auto nc_base = extents_base_t(std::max(std::size_t(ublas::size(na)-1u), std::size_t{2}), 1);
+      nc_base[0] = m==0 ? n2 : n1;
 
       auto nc = extents_t (nc_base);
       auto wc = ublas::to_strides(nc,layout_t{});
       auto c  = vector_t  (ublas::product(nc), value_t{0});
 
-      ublas::detail::recursive::mtv(
-        m,
-        c.data(), nc.data(), wc.data(),
-        a.data(), na.data(), wa.data(),
-        b.data());
+      assert( (m==0u) || (m==1u));
+
+      ublas::detail::recursive::mtv(m, n1,n2, c.data(), size_t(1), a.data(), wa[0], wa[1], b.data(), size_t(1));
 
       auto v = value_t(na[m]);
       BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
-
-//      for(auto i = 0u; i < c.size(); ++i)
-//        BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[m]) ) * a[i] );
 
     }
   }
@@ -131,10 +133,6 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_mtm, value,  test_types, fixture )
 
     auto v = value_t(na[1])*a[0];
     BOOST_CHECK(std::all_of(c.begin(),c.end(), [v](auto cc){return cc == v;}));
-
-//    for(auto i = 0u; i < c.size(); ++i)
-//      BOOST_CHECK_EQUAL( c[i] , value_t( static_cast< inner_type_t<value_t> >(na[1]) ) * a[0] );
-
 
   }
 }
@@ -176,8 +174,6 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_ttv, value,  test_types, fixture )
       auto v = value_t(na[m]);
       BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
 
-//      for(auto i = 0u; i < c.size(); ++i)
-//        BOOST_CHECK_EQUAL( c[i] , value_t(na[m]) * a[i] );
 
     }
   }

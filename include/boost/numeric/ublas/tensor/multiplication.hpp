@@ -337,33 +337,44 @@ void ttv0(SizeType const r,
 
 /** @brief Computes the matrix-times-vector product
  *
- * Implements C[i1] = sum(A[i1,i2] * b[i2]) or C[i2] = sum(A[i1,i2] * b[i1])
+ * Implements C[i1] = sum(A[i1,i2] * B[i2]) if k = 1 or C[i2] = sum(A[i1,i2] * B[i1]) if k = 0
  *
- * @note is used in function ttv
+ * [m,n] = size(A(..,:,..,:,..))
+ * [m]   = size(C(..,:,..))
+ * [n]   = size(B(..,:,..))
  *
- * @param[in]  m  zero-based contraction mode with m=0 or m=1
- * @param[out] c  pointer to the output tensor C
- * @param[in]  nc pointer to the extents of tensor C
- * @param[in]  wc pointer to the strides of tensor C
- * @param[in]  a  pointer to the first input tensor A
- * @param[in]  na pointer to the extents of input tensor A
- * @param[in]  wa pointer to the strides of input tensor A
- * @param[in]  b  pointer to the second input tensor B
+ *
+ * @param[in]  k     if k = 0
+ * @param[in]  m     number of rows of A
+ * @param[in]  n     number of columns of A
+ * @param[out] c     pointer to C
+ * @param[in]  wc    m-th (k=1) or n-th (k=0) stride for C
+ * @param[in]  a     pointer to A
+ * @param[in]  wa_m  m-th stride for A
+ * @param[in]  wa_n  n-th stride for A
+ * @param[in]  b     pointer to B
+ * @param[in]  wb    n-th (k=1) or m-th (k=0) stride for B
 */
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
-void mtv(SizeType const m,
-         PointerOut c, SizeType const*const /*unsed*/, SizeType const*const wc,
-         PointerIn1 a, SizeType const*const na       , SizeType const*const wa,
-         PointerIn2 b)
+void mtv(SizeType const k,
+         SizeType const m,
+         SizeType const n,
+         PointerOut c, SizeType const wc,
+         PointerIn1 a, SizeType const wa_m, SizeType const wa_n,
+         PointerIn2 b, SizeType const wb)
 {
-  // decides whether matrix multiplied with vector or vector multiplied with matrix
-  const auto o = (m == 0) ? 1 : 0;
 
-  for(auto io = 0u; io < na[o]; c += wc[o], a += wa[o], ++io) {
+  auto const wa_x = k==0 ? wa_n : wa_m;
+  auto const wa_y = k==0 ? wa_m : wa_n;
+
+  auto const x = k==0 ? n : m;
+  auto const y = k==0 ? m : n;
+
+  for(auto ix = 0u; ix < x; c += wc, a += wa_x, ++ix) {
     auto c1 = c;
     auto a1 = a;
     auto b1 = b;
-    for(auto im = 0u; im < na[m]; a1 += wa[m], ++b1, ++im) {
+    for(auto iy = 0u; iy < y; a1 += wa_y, b1 += wb, ++iy) {
       *c1 += *a1 * *b1;
     }
   }
@@ -603,10 +614,12 @@ namespace boost::numeric::ublas {
  *   C[i1,i2,...,im-1,im+1,...,ip] = sum(A[i1,i2,...,im,...,ip] * b[im]) for m>1 and
  *   C[i2,...,ip]                  = sum(A[i1,...,ip]           * b[i1]) for m=1
  *
- * @note calls detail::ttv, detail::ttv0 or detail::mtv
+ * @note calls detail::ttv, detail::ttv0 for p == 1 or p == 2 use ublas::inner or ublas::mtv or ublas::vtm
+ *
+ *
  *
  * @param[in]  m  contraction mode with 0 < m <= p
- * @param[in]  p  number of dimensions (rank) of the first input tensor with p > 0
+ * @param[in]  p  number of dimensions (rank) of the first input tensor with p > 2
  * @param[out] c  pointer to the output tensor with rank p-1
  * @param[in]  nc pointer to the extents of tensor c
  * @param[in]  wc pointer to the strides of tensor c
@@ -621,50 +634,25 @@ template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void ttv(SizeType const m, SizeType const p,
          PointerOut c,       SizeType const*const nc, SizeType const*const wc,
          const PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-         const PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         const PointerIn2 b, SizeType const*const nb, SizeType const*const /*unused*/)
 {
-  static_assert( std::is_pointer<PointerOut>::value && std::is_pointer<PointerIn1>::value & std::is_pointer<PointerIn2>::value,
+  static_assert( std::is_pointer<PointerOut>::value && std::is_pointer<PointerIn1>::value && std::is_pointer<PointerIn2>::value,
                 "Static error in boost::numeric::ublas::ttv: Argument types for pointers are not pointer types.");
 
-  if( m == 0){
-    throw std::length_error("Error in boost::numeric::ublas::ttv: Contraction mode must be greater than zero.");
-  }
+  assert(m != 0);
+  assert(p >= m);
+  assert(p >= 2);
 
-  if( p < m ){
-    throw std::length_error("Error in boost::numeric::ublas::ttv: Rank must be greater equal the modus.");
-  }
-  if( p == 0){
-    throw std::length_error("Error in boost::numeric::ublas::ttv: Rank must be greater than zero.");
-  }
-  if(c == nullptr || a == nullptr || b == nullptr){
-    throw std::length_error("Error in boost::numeric::ublas::ttv: Pointers shall not be null pointers.");
-  }
   for(auto i = 0u; i < m-1; ++i){
-    if(na[i] != nc[i]){
-      throw std::length_error("Error in boost::numeric::ublas::ttv: Extents (except of dimension mode) of A and C must be equal.");
-    }
+    assert(na[i] == nc[i]);
   }
 
-  const auto max = std::max(nb[0], nb[1]);
-  if(  na[m-1] != max){
-    throw std::length_error("Error in boost::numeric::ublas::ttv: Extent of dimension mode of A and b must be equal.");
-  }
+  assert(na[m-1] == std::max(nb[0], nb[1]));
 
-
-  if((m != 1) && (p > 2)){
-    detail::recursive::ttv(m-1, p-1, p-2, c, nc, wc,    a, na, wa,   b);
-  }
-  else if ((m == 1) && (p > 2)){
+  if(m == 1)
     detail::recursive::ttv0(p-1, c, nc, wc,  a, na, wa,   b);
-  }
-  else if( p == 2 ){
-    detail::recursive::mtv(m-1, c, nc, wc,  a, na, wa,   b);
-  }
-  else /*if( p == 1 )*/{
-    auto v = std::remove_pointer_t<std::remove_cv_t<PointerOut>>{};
-    *c = detail::recursive::inner(SizeType(0), na, a, wa, b, wb, v);
-  }
-
+  else
+    detail::recursive::ttv (m-1, p-1, p-2, c, nc, wc,    a, na, wa,   b);
 }
 
 

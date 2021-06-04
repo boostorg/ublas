@@ -1,4 +1,4 @@
-//
+﻿//
 //  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
 //  Copyright (c) 2019-2020, Amit Singh, amitsingh19975@gmail.com
 //
@@ -25,127 +25,126 @@
 BOOST_AUTO_TEST_SUITE ( test_tensor_functions)
 
 
-using test_types = zip<int,float,std::complex<float>>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
+using test_types = zip<float>::with_t<boost::numeric::ublas::layout::first_order, boost::numeric::ublas::layout::last_order>;
 
+// int,float,std::complex<float>
 //using test_types = zip<int>::with_t<boost::numeric::ublas::layout::first_order>;
 
 
 struct fixture
 {
-    using dynamic_extents_type = boost::numeric::ublas::extents<>;
-    fixture()
-      : extents {
-          dynamic_extents_type{1,1}, // 1
-          dynamic_extents_type{2,3}, // 2
-          dynamic_extents_type{2,3,1}, // 3
-          dynamic_extents_type{4,2,3}, // 4
-          dynamic_extents_type{4,2,3,5}} // 5
-    {
-    }
+  using shape = boost::numeric::ublas::extents<>;
 
-    std::vector<dynamic_extents_type> extents;
+  const std::vector<shape> extents
+    {
+      shape{1,1}, // 1
+      shape{2,1}, // 2
+      shape{1,2}, // 3
+      shape{2,3}, // 4
+      shape{2,3,1}, // 5
+      shape{1,2,3}, // 6
+      shape{3,1,2}, // 7
+      shape{4,2,3}, // 8
+      shape{4,2,3,1}, // 9
+      shape{4,2,3,5} // 10
+    };
 };
 
 
 
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_vector, value,  test_types, fixture )
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_vector, pair,  test_types, fixture )
 {
-    namespace ublas = boost::numeric::ublas;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
-    using vector_type  = typename tensor_type::vector_type;
+  namespace ublas = boost::numeric::ublas;
+  using value   = typename pair::first_type;
+  using layout  = typename pair::second_type;
+  using tensor  = ublas::tensor_dynamic<value,layout>;
+  using vector  = typename tensor::vector_type;
 
 
-    for(auto const& n : extents){
+  for(auto const& n : extents){
 
-        auto a = tensor_type(n, value_type{2});
+    auto v = value(2);
+    auto a = tensor(n, v);
 
-        std::cout << "a=" << a << std::endl;
+    for(auto m = 0u; m < ublas::size(n); ++m){
 
-        for(auto m = 0u; m < ublas::size(n); ++m){
+      auto b = vector  (n[m], value{1} );
 
-            auto b = vector_type  (n[m], value_type{1} );
+      auto c = ublas::prod(a, b, m+1);
 
-            std::cout << "b=" << tensor_type(b) << std::endl;
+      auto vv = v * value(n[m]);
 
-            std::cout << "m=" << m << std::endl;
+      BOOST_CHECK( std::all_of( c.begin(), c.end() , [vv](auto cc){ return cc == vv; } ) );
 
-            auto c = ublas::prod(a, b, m+1);
-
-            std::cout << "c=" << tensor_type(c) << std::endl;
-
-            for(auto i = 0u; i < c.size(); ++i)
-                BOOST_CHECK_EQUAL( c[i] , value_type( static_cast< inner_type_t<value_type> >(n[m]) ) * a[i] );
-
-        }
     }
-  auto n = extents[4];
-  auto a = tensor_type(n, value_type{2});
-  auto b = vector_type(n[0], value_type{1});
+  }
+//  auto n = extents[4];
+//  auto a = tensor_type(n, value_type{2});
+//  auto b = vector_type(n[0], value_type{1});
 
-  auto empty = vector_type{};
+//  auto empty = vector_type{};
 
-  BOOST_CHECK_THROW(prod(a, b, 0), std::length_error);
-  BOOST_CHECK_THROW(prod(a, b, 9), std::length_error);
-  BOOST_CHECK_THROW(prod(a, empty, 2), std::length_error);
+//  BOOST_CHECK_THROW(prod(a, b, 0), std::length_error);
+//  BOOST_CHECK_THROW(prod(a, b, 9), std::length_error);
+//  BOOST_CHECK_THROW(prod(a, empty, 2), std::length_error);
 
 }
 
 BOOST_AUTO_TEST_CASE( test_tensor_prod_vector_exception )
 {
-//    namespace ublas = boost::numeric::ublas;
-//    using value_type   = float;
-//    using layout_type  = ublas::layout::first_order;
-//    using d_tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
-//    using vector_type  = typename d_tensor_type::vector_type;
+    namespace ublas = boost::numeric::ublas;
+    using value  = float;
+    using layout  = ublas::layout::first_order;
+    using tensor  = ublas::tensor_dynamic<value,layout>;
+    using vector  = typename tensor::vector_type;
 
-//    auto t1 = d_tensor_type{ublas::extents<>{},1.f};
-//    auto v1 = vector_type{3,value_type{1}};
+    auto t1 = tensor{ublas::extents<>{},1.f};
+    auto v1 = vector{3,value{1}};
 
-//    BOOST_REQUIRE_THROW(prod(t1,v1,0),std::length_error);
-//    BOOST_REQUIRE_THROW(prod(t1,v1,1),std::length_error);
-//    BOOST_REQUIRE_THROW(prod(t1,v1,3),std::length_error);
+    BOOST_REQUIRE_THROW(prod(t1,v1,0),std::length_error);
+    BOOST_REQUIRE_THROW(prod(t1,v1,1),std::length_error);
+    BOOST_REQUIRE_THROW(prod(t1,v1,3),std::length_error);
 }
 
 
 
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_matrix, value,  test_types, fixture )
+BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_matrix, pair,  test_types, fixture )
 {
-    namespace ublas = boost::numeric::ublas;
-    using value_type   = typename value::first_type;
-    using layout_type  = typename value::second_type;
-    using tensor_type  = ublas::tensor_dynamic<value_type,layout_type>;
-    using matrix_type  = typename tensor_type::matrix_type;
+  namespace ublas = boost::numeric::ublas;
+  using value   = typename pair::first_type;
+  using layout  = typename pair::second_type;
+  using tensor  = ublas::tensor_dynamic<value,layout>;
+  using matrix  = typename tensor::matrix_type;
 
 
-    for(auto const& n : extents) {
+  for(auto const& n : extents) {
 
-        auto a = tensor_type(n, value_type{2});
+    auto v = value{2};
+    auto a = tensor(n, v);
 
-        for(auto m = 0u; m < ublas::size(n); ++m){
+    for(auto m = 0u; m < ublas::size(n); ++m){
 
-            auto b  = matrix_type  ( n[m], n[m], value_type{1} );
+      auto b  = matrix  ( n[m], n[m], value{1} );
 
-            auto c = ublas::prod(a, b, m+1);
+      auto c = ublas::prod(a, b, m+1);
 
-            for(auto i = 0u; i < c.size(); ++i)
-                BOOST_CHECK_EQUAL( c[i] , value_type( static_cast< inner_type_t<value_type> >(n[m]) ) * a[i] );
+      auto vv = v * value(n[m]);
+      BOOST_CHECK( std::all_of( c.begin(), c.end() , [vv](auto cc){ return cc == vv; } ) );
 
-        }
     }
+  }
 
-  auto n = extents[4];
-  auto a = tensor_type(n, value_type{2});
-  auto b = matrix_type(n[0], n[0], value_type{1});
+  //  auto n = extents[4];
+  //  auto a = tensor_type(n, value_type{2});
+  //  auto b = matrix_type(n[0], n[0], value_type{1});
 
-  auto empty = matrix_type{};
+  //  auto empty = matrix_type{};
 
-  BOOST_CHECK_THROW(prod(a, b, 0), std::length_error);
-  BOOST_CHECK_THROW(prod(a, b, 9), std::length_error);
-  BOOST_CHECK_THROW(prod(a, empty, 2), std::invalid_argument);
+  //  BOOST_CHECK_THROW(prod(a, b, 0), std::length_error);
+  //  BOOST_CHECK_THROW(prod(a, b, 9), std::length_error);
+  //  BOOST_CHECK_THROW(prod(a, empty, 2), std::invalid_argument);
 }
 
 BOOST_AUTO_TEST_CASE( test_tensor_prod_matrix_exception )
@@ -196,8 +195,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_tensor_1, value,  test_types,
             for(auto i = 0ul; i < q; ++i)
                 acc *= value_type( static_cast< inner_type_t<value_type> >( a.extents().at(phi.at(i)-1) ) );
 
-            for(auto i = 0ul; i < c.size(); ++i)
-                BOOST_CHECK_EQUAL( c[i] , acc * a[0] * b[0] );
+            auto vv = acc * a[0] * b[0];
+            BOOST_CHECK( std::all_of(c.begin(), c.end() , [vv](auto cc){ return cc == vv; } ) );
 
         }
     }
@@ -296,8 +295,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_prod_tensor_2, value,  test_types,
                 for(auto i = 0ul; i < q; ++i)
                     acc *= value_type( static_cast< inner_type_t<value_type> >( a.extents().at(phia.at(i)-1) ) );
 
-                for(auto i = 0ul; i < c.size(); ++i)
-                    BOOST_CHECK_EQUAL( c[i] , acc * a[0] * b[0] );
+
+                auto vv = acc * a[0] * b[0];
+                BOOST_CHECK( std::all_of(c.begin(), c.end() , [vv](auto cc){ return cc == vv; } ) );
+
+
+//                for(auto i = 0ul; i < c.size(); ++i)
+//                    BOOST_CHECK_EQUAL( c[i] , acc * a[0] * b[0] );
 
             }
 

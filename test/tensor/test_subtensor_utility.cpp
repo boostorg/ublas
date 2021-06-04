@@ -293,12 +293,12 @@ BOOST_FIXTURE_TEST_CASE( extents_test, fixture_span_vector_shape )
 {
   namespace ublas = boost::numeric::ublas;
 
-  BOOST_CHECK ( std::equal( ublas::begin(std::get<0>(reference_)), ublas::begin(std::get<0>(reference_)),  ublas::begin(ublas::detail::compute_extents( std::get<0>(span_vectors_) ) ) ) );
-  BOOST_CHECK ( std::equal( ublas::begin(std::get<1>(reference_)), ublas::begin(std::get<1>(reference_)),  ublas::begin(ublas::detail::compute_extents( std::get<1>(span_vectors_) ) ) ) );
-  BOOST_CHECK ( std::equal( ublas::begin(std::get<2>(reference_)), ublas::begin(std::get<2>(reference_)),  ublas::begin(ublas::detail::compute_extents( std::get<2>(span_vectors_) ) ) ) );
-  BOOST_CHECK ( std::equal( ublas::begin(std::get<3>(reference_)), ublas::begin(std::get<3>(reference_)),  ublas::begin(ublas::detail::compute_extents( std::get<3>(span_vectors_) ) ) ) );
-  BOOST_CHECK ( std::equal( ublas::begin(std::get<4>(reference_)), ublas::begin(std::get<4>(reference_)),  ublas::begin(ublas::detail::compute_extents( std::get<4>(span_vectors_) ) ) ) );
-  BOOST_CHECK ( std::equal( ublas::begin(std::get<5>(reference_)), ublas::begin(std::get<5>(reference_)),  ublas::begin(ublas::detail::compute_extents( std::get<5>(span_vectors_) ) ) ) );
+  BOOST_CHECK ( std::equal( ublas::begin(std::get<0>(reference_)), ublas::begin(std::get<0>(reference_)),  ublas::begin(ublas::detail::to_extents( std::get<0>(span_vectors_) ) ) ) );
+  BOOST_CHECK ( std::equal( ublas::begin(std::get<1>(reference_)), ublas::begin(std::get<1>(reference_)),  ublas::begin(ublas::detail::to_extents( std::get<1>(span_vectors_) ) ) ) );
+  BOOST_CHECK ( std::equal( ublas::begin(std::get<2>(reference_)), ublas::begin(std::get<2>(reference_)),  ublas::begin(ublas::detail::to_extents( std::get<2>(span_vectors_) ) ) ) );
+  BOOST_CHECK ( std::equal( ublas::begin(std::get<3>(reference_)), ublas::begin(std::get<3>(reference_)),  ublas::begin(ublas::detail::to_extents( std::get<3>(span_vectors_) ) ) ) );
+  BOOST_CHECK ( std::equal( ublas::begin(std::get<4>(reference_)), ublas::begin(std::get<4>(reference_)),  ublas::begin(ublas::detail::to_extents( std::get<4>(span_vectors_) ) ) ) );
+  BOOST_CHECK ( std::equal( ublas::begin(std::get<5>(reference_)), ublas::begin(std::get<5>(reference_)),  ublas::begin(ublas::detail::to_extents( std::get<5>(span_vectors_) ) ) ) );
 
 }
 
@@ -314,35 +314,35 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( offset_test, layout, test_types, fixture_span_
 	{
     auto s = std::get<0>(span_vectors_);
     auto w = ublas::to_strides( std::get<0>(extents_), layout{} );
-    auto o = ublas::detail::compute_offset(w,s);
+    auto o = ublas::detail::to_offset(w,s);
 		BOOST_CHECK_EQUAL( o, 0  );
 	}
 
 	{
     auto s = std::get<1>(span_vectors_);
     auto w = ublas::to_strides( std::get<1>(extents_), layout{} );
-    auto o = ublas::detail::compute_offset(w,s);
+    auto o = ublas::detail::to_offset(w,s);
 		BOOST_CHECK_EQUAL( o, 0  );
 	}
 
 	{
     auto s = std::get<2>(span_vectors_);
     auto w = ublas::to_strides( std::get<2>(extents_), layout{} );
-    auto o = ublas::detail::compute_offset(w,s);
+    auto o = ublas::detail::to_offset(w,s);
 		BOOST_CHECK_EQUAL( o, 0  );
 	}
 
 	{
     auto s = std::get<3>(span_vectors_);
     auto w = ublas::to_strides( std::get<3>(extents_), layout{} );
-    auto o = ublas::detail::compute_offset(w,s);
+    auto o = ublas::detail::to_offset(w,s);
 		BOOST_CHECK_EQUAL( o, s[0].first()*w[0] + s[1].first()*w[1]  );
 	}
 
 	{
     auto s = std::get<4>(span_vectors_);
     auto w = ublas::to_strides( std::get<4>(extents_), layout{} );
-    auto o = ublas::detail::compute_offset(w,s);
+    auto o = ublas::detail::to_offset(w,s);
 		BOOST_CHECK_EQUAL( o, s[0].first()*w[0] + s[1].first()*w[1] + s[2].first()*w[2]   );
 	}
 
@@ -350,7 +350,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( offset_test, layout, test_types, fixture_span_
 	{
     auto s = std::get<5>(span_vectors_);
     auto w = ublas::to_strides( std::get<5>(extents_), layout{} );
-    auto o = ublas::detail::compute_offset(w,s);
+    auto o = ublas::detail::to_offset(w,s);
     BOOST_CHECK_EQUAL( o, s[0].first()*w[0] + s[1].first()*w[1] + s[2].first()*w[2] +  s[3].first()*w[3] );
 	}
 
