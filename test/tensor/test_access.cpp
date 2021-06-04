@@ -209,8 +209,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_compute_single_index_static_rank, layout_
     auto const& w    = ub::to_strides(n,layout_t{});
     auto const& i    = std::get<I>(multi_index);
     auto const& jref = std::get<I>(index);
-    constexpr auto r = std::get<I>(ranks);
     mp::mp_for_each<mp::mp_iota_c<std::size(i)>>( [&]( auto K ) {
+      constexpr auto r = std::get<I>(ranks);
       auto const& ii = std::get<K>(i);
       auto const  j  = ub::detail::compute_single_index<r>(ii.begin(), ii.end() , w.begin());
       BOOST_CHECK(j < prodn(n));
@@ -226,35 +226,27 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_compute_multi_index, layout_t,  layout_ty
   namespace mp = boost::mp11;
 
   constexpr auto is_first_order = std::is_same_v<layout_t,ub::first_order>;
-    constexpr auto const& index = is_first_order ? indexf : indexl;
+  constexpr auto const& index = is_first_order ? indexf : indexl;
 
-    for(auto k = 0u; k < index.size(); ++k){
-        auto const& n = shapes[k];
-        auto const& w    = ub::to_strides(n,layout_t{});
-        auto const& iref = multi_index[k];
-        auto const& jref = index[k];
-        for(auto kk = 0u; kk < iref.size(); ++kk){
-            auto const  jj = jref[kk];
-            auto const& ii = iref[kk];
-            auto i = multi_index_t(w.size());
-            ub::detail::compute_multi_index(jj, w.begin(), w.end(), i.begin(), layout_t{});
-//            if constexpr ( is_first_order )
-//                detail::compute_multi_index_first(jj, w.begin(), w.end(), i.begin());
-//            else
-//                detail::compute_multi_index_last (jj, w.begin(), w.end(), i.begin());
-
-//            std::cout << "j= " << jj << std::endl;
-//            std::cout << "i= [ "; for(auto iii : i) std::cout << iii << " "; std::cout << "];" << std::endl;
-//            std::cout << "ii_ref = [ "; for(auto iii : ii) std::cout << iii << " "; std::cout << "];" << std::endl;
-//            std::cout << "n= [ "; for(auto iii : n) std::cout << iii << " "; std::cout << "];" << std::endl;
-//            std::cout << "w= [ "; for(auto iii : w) std::cout << iii << " "; std::cout << "];" << std::endl;
-//            std::cout << std::endl;
-
-
-
-            BOOST_CHECK ( std::equal(i.begin(),i.end(),ii.begin()) ) ;
-        }
+  for(auto k = 0u; k < index.size(); ++k){
+    auto const& n = shapes[k];
+    auto const& w    = ub::to_strides(n,layout_t{});
+    auto const& iref = multi_index[k];
+    auto const& jref = index[k];
+    for(auto kk = 0u; kk < iref.size(); ++kk){
+      auto const  jj = jref[kk];
+      auto const& ii = iref[kk];
+      auto i = multi_index_t(w.size());
+      ub::detail::compute_multi_index(jj, w.begin(), w.end(), i.begin(), layout_t{});
+//      std::cout << "j= " << jj << std::endl;
+//      std::cout << "i= [ "; for(auto iii : i) std::cout << iii << " "; std::cout << "];" << std::endl;
+//      std::cout << "ii_ref = [ "; for(auto iii : ii) std::cout << iii << " "; std::cout << "];" << std::endl;
+//      std::cout << "n= [ "; for(auto iii : n) std::cout << iii << " "; std::cout << "];" << std::endl;
+//      std::cout << "w= [ "; for(auto iii : w) std::cout << iii << " "; std::cout << "];" << std::endl;
+//      std::cout << std::endl;
+      BOOST_CHECK ( std::equal(i.begin(),i.end(),ii.begin()) ) ;
     }
+  }
 }
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_compute_multi_index_static_rank, layout_t,  layout_types, fixture )
@@ -270,12 +262,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_compute_multi_index_static_rank, layout_t
         auto const& n    = std::get<I>(shapes);
         auto const& iref = std::get<I>(multi_index);
         auto const& jref = std::get<I>(index);
-        auto const& w    = ub::to_strides(n,layout_t{});
-        constexpr auto r = std::get<I>(ranks);
+        auto const& w    = ub::to_strides(n,layout_t{});        
         mp::mp_for_each<mp::mp_iota_c<std::size(iref)>>( [&]( auto K ) {
             auto const  jj = std::get<K>(jref);
             auto const& ii = std::get<K>(iref);
             auto         i = multi_index_t(w.size());
+            constexpr auto r = std::get<I>(ranks);
             ub::detail::compute_multi_index<r>(jj, w.begin(), w.end(), i.begin(), layout_t{});
             BOOST_CHECK ( std::equal(i.begin(),i.end(),ii.begin()) ) ;
         });

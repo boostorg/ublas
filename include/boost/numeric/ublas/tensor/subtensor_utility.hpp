@@ -37,10 +37,10 @@ namespace boost::numeric::ublas::detail {
  * @param[in] spans vector of spans of the subtensor
 */
 template<integral size_type, class Spans>
-auto compute_span_strides(std::vector<size_type> const& strides, Spans const& spans)
+auto to_span_strides(std::vector<size_type> const& strides, Spans const& spans)
 {
   if(strides.size() != spans.size())
-    throw std::runtime_error("Error in boost::numeric::ublas::subtensor::compute_span_strides(): tensor strides.size() != spans.size()");
+    throw std::runtime_error("Error in boost::numeric::ublas::subtensor::to_span_strides(): tensor strides.size() != spans.size()");
 
   auto span_strides = std::vector<size_type>(spans.size());
 
@@ -60,7 +60,7 @@ auto compute_span_strides(std::vector<size_type> const& strides, Spans const& sp
  * @param[in] spans vector of spans of the subtensor
 */
 template<integral Size, class Spans>
-auto compute_offset(std::vector<Size> const& strides, Spans const& spans)
+auto to_offset(std::vector<Size> const& strides, Spans const& spans)
 {
   if(strides.size() != spans.size())
     throw std::runtime_error("Error in boost::numeric::ublas::subtensor::offset(): tensor strides.size() != spans.size()");
@@ -77,7 +77,7 @@ auto compute_offset(std::vector<Size> const& strides, Spans const& spans)
  * @param[in] spans vector of spans of the subtensor
  */
 template<class spans_type>
-auto compute_extents(spans_type const& spans)
+auto to_extents(spans_type const& spans)
 {
   using extents_t  = extents<>;
   using base_type  = typename extents_t::base_type;
