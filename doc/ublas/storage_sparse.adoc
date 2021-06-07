@@ -1,0 +1,210 @@
+== Sparse Storage
+
+[[toc]]
+
+=== [#map_std]#Default Standard Map#
+
+==== Description
+
+The templated class `map_std<I, T, ALLOC>` provides a wrapper for the
+standard library associative container `std::map`. The wrapper has one
+simple purpose. It allows the definition of a default template parameter
+(for the adapted array) when declaring the sparse container types.
+
+==== Example
+
+[source, cpp]
+....
+#include <boost/numeric/ublas/storage_sparse.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    map_std<int, double> a (3);
+    for (unsigned i = 0; i < a.size (); ++ i) {
+        a [i] = i;
+        std::cout << a [i] << std::endl;
+    }
+}
+....
+
+==== Definition
+
+Defined in the header storage_sparse.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`I` |The type of index stored in the array. |
+|`T` |The type of object stored in the array. |
+|`ALLOC` |An STL Allocator |std::allocator
+|===
+
+==== Model of
+
+Reversible Container.
+
+==== Type requirements
+
+None, except for those imposed by the requirements of Reversible
+Container.
+
+==== Public base classes
+
+std::map
+
+=== [#map_array]#Map Array#
+
+==== Description
+
+The templated class `map_array<I, T, ALLOC>` implements a `std::map`
+like associative container as a sorted array. It therefore some of the
+Associative Container interface without having the same semantics as an
+std::map.
+
+At any time the `map_array` has a capacity up to which new element can
+be inserted. If `insert` would cause the size of the `map_array` to
+exceeds its capactity then it is *reallocated*. Iterators and reference
+are invalidated. The capacity can be directly control using the
+`reserve` member function.
+
+==== Example
+
+[source, cpp]
+....
+#include <boost/numeric/ublas/storage_sparse.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    map_array<int, double> a (3);
+    for (unsigned i = 0; i < a.size (); ++ i) {
+        a [i] = i;
+        std::cout << a [i] << std::endl;
+    }
+}
+....
+
+==== Definition
+
+Defined in the header storage_sparse.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`I` |The type of index stored in the array. |
+|`T` |The type of object stored in the array. |
+|`ALLOC` |An STL Allocator |std::allocator
+|===
+
+==== Model of
+
+Reversible Container.
+
+==== Type requirements
+
+None, except for those imposed by the requirements of Reversible
+Container.
+
+==== Public base classes
+
+None.
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`map_array (ALLOC &a = ALLOC())` |Allocates a `map_array` that holds at
+most zero elements.
+
+|`map_array (const map_array &c)` |The copy constructor.
+
+|`~map_array ()` |Deallocates the `map_array` itself.
+
+|`void reserve (size_type capacity)` |Changes the`map_array` capacity.
+It can hold at most`capacity` elements without reallocation. The
+capacity can be reduced such that `capacity >= size()`. The content of
+the`map_array` is preserved.
+
+|`size_type size () const` |Returns the size of the `map_array`.
+
+|`size_type size () const` |Returns the capacity of the `map_array`.
+
+|`data_reference operator [] (index_type i)` |Returns a reference of the
+element that is associated with a particular index. If the `map_array`
+does not already contain such an element, `operator[]` inserts the
+default `T ()`.
+
+|`map_array &operator = (const map_array &a)` |The assignment operator.
+
+|`map_array &assign_temporary (map_array &a)` |Assigns a temporary. May
+change the array `a`.
+
+|`void swap (map_array &a)` |Swaps the contents of the arrays.
+
+|`std::pair insert (const value_type &p)` |Inserts `p` into the array.
+The second part of the return value is `true` if `p` was inserted and
+`false` if was not inserted because it was aleady present.
+
+|`iterator insert (iterator it, const value_type &p)` |Inserts `p` into
+the array, using `it` as a hint to where it will be inserted.
+
+|`void erase (iterator it)` |Erases the value at `it`.
+
+|`void clear ()` |Clears the array.
+
+|`const_iterator find (index_type i) const` |Finds an element whose
+index is `i`.
+
+|`iterator find (index_type i)` |Finds an element whose index is `i`.
+
+|`const_iterator lower_bound (index_type i) const` |Finds the first
+element whose index is not less than `i` .
+
+|`iterator lower_bound (index_type i)` |Finds the first element whose
+index is not less than `i` .
+
+|`const_iterator upper_bound (index_type i) const` |Finds the first
+element whose index is greater than `i` .
+
+|`iterator upper_bound (index_type i)` |Finds the first element whose
+index is greater than `i` .
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the `map_array`.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the `map_array`.
+
+|`iterator begin ()` |Returns a `iterator` pointing to the beginning of
+the `map_array`.
+
+|`iterator end ()` |Returns a `iterator` pointing to the end of the
+`map_array`.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+`map_array`.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed
+`map_array`.
+
+|`reverse_iterator rbegin ()` |Returns a `reverse_iterator` pointing to
+the beginning of the reversed `map_array`.
+
+|`reverse_iterator rend ()` |Returns a `reverse_iterator` pointing to
+the end of the reversed `map_array`.
+|===
+
+'''''
+
+Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).
