@@ -1,0 +1,155 @@
+== Strides
+
+[[toc]]
+
+=== [#extents]#basic_strides<size_type, format_type>#
+
+==== Description
+
+The template class `basic_strides` contains weights for a given storage
+format in order to map multi-indices to scalar memory indices for
+link:../tensor.html#tensor[tensor] instances.
+
+==== Example
+
+[source, cpp]
+....
+#include <boost/numeric/ublas/tensor/strides.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    auto wf = strides<first_order>(shape{4,3,2});
+    for (auto i = 0u; i < wf.size(); ++i)
+        std::cout << wf.at(i) << std::endl;    
+        // 1,4,12
+        
+    auto wl = strides<first_order>(shape{4,3,2});
+    for (auto i = 0u; i < wl.size(); ++i)
+        std::cout << wl.at(i) << std::endl;    
+        // 6,2,1        
+}
+....
+
+==== Definition
+
+Defined in the header tensor/strides.hpp.
+
+==== Public base classes
+
+None.
+
+==== Specialization
+
+`template<class format_t>using strides = basic_strides<std::size_t,format_t>`
+
+==== Template parameters
+
+[cols=",",]
+|===
+|Parameter |Description
+|`size_type` |Unsigned integer type.
+|===
+
+==== Member types
+
+[cols=",",]
+|===
+|Member type |Description
+
+|`value_type` |Type `size_type` of the strides.
+
+|`size_type` |Unsigned integer such as `std::size_t`.
+
+|`reference` |Reference type which is `value_type&`.
+
+|`const_reference` |Constant reference type which is
+`const value_type&`.
+
+|`pointer` |Pointer type which is `value_type*`.
+
+|`const_pointer` |Constant pointer type which is `const value_type*`.
+
+|`layout_type` |Layout type which can be either
+`boost::numeric::ublas::first_order` or
+`boost::numeric::ublas::last_order`.
+|===
+
+==== Member Functions
+
+[cols=",",]
+|===
+|Member Function |Description
+
+|`basic_strides ()` |Constructs an empty instance of `basic_strides`.
+
+|`basic_strides (basic_extents<value_type> const& be)` |Constructs an
+instance based on the tensor extents specified by `be`.
+
+|`basic_strides (std::vector<value_type> const& v)` |Constructs an
+instance copying the content of `v`.
+
+|`basic_strides (std::vector<value_type> && v)` |Constructs an instance
+moving the content of `v`.
+
+|`basic_strides (basic_strides const& other)` |Constructs an instance
+from `other` copying its elements.
+
+|`basic_strides (basic_strides && other)` |Constructs an instance from
+`other` by moving its elements.
+
+|`basic_strides& operator= (basic_strides other)` |Assigns the elements
+of `other` to this instance.
+
+|`const_pointer data() const` |Returns a `const_pointer` to the first
+element.
+
+|`const_reference operator[](size_type i) const` |Returns a
+`const_reference` to the `i`-th element.
+
+|`const_reference at(size_type i) const` |Returns a `const_reference` to
+the `i`-th element.
+
+|`bool empty()` |Returns true if the container has no elements.
+
+|`size_type size() const` |Returns the number of elements.
+
+|`void clear()` |Erases all elements.
+
+|`bool operator==(basic_strides const& b) const` |Returns true if all
+elements are equal.
+
+|`bool operator!=(basic_strides const& b) const` |Returns true if some
+elements are not equal.
+
+|`const_iterator begin() const` |Returns an `const_iterator` pointing to
+the first element.
+
+|`const_iterator end() const` |Returns a `const_iterator` pointing to an
+element passed the last element.
+
+|`std::vector<size_type> base() const` |Returns the private member
+sequence container holding all elements.
+|===
+
+==== Non-Member Functions
+
+[cols=",",]
+|===
+|Function |Description
+
+|`access(std::vector<size_type> const& i, strides<layout_type> w)`
+|Returns relative memory location depending on the multi-index vector
+`i` and strides `w`.
+
+|`access(size_type sum, strides<layout_type> w, size_type i, size_types ... is)`
+|Returns relative memory location depending on the indices `i`,
+`is ...` and stride vector `w` (recursive function).
+|===
+
+'''''
+
+Copyright (©) 2018 Cem Bassoy +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).
