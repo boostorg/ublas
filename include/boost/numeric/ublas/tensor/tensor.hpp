@@ -18,6 +18,6 @@
 #include "tensor/tensor_engine.hpp"
 #include "tensor/tensor_static_rank.hpp"
 #include "tensor/tensor_static.hpp"
+#include "tensor/subtensor.hpp"
 
 #endif // BOOST_UBLAS_TENSOR_TENSOR_HPP
-

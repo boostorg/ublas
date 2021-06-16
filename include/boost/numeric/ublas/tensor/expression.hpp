@@ -20,7 +20,7 @@
 namespace boost::numeric::ublas::detail
 {
 
-/** @\brief base class for tensor expressions
+/** @brief base class for tensor expressions
  *
  * \note implements crtp - no use of virtual function calls
  *

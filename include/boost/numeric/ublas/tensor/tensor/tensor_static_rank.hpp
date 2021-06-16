@@ -156,7 +156,7 @@ public:
     , _extents  (ublas::begin(other.extents()),ublas::end (other.extents  ()))
     , _strides  (ublas::to_strides(_extents))
     , _container(std::begin(other.container()),std::end   (other.container()))
-  {    
+  {
   }
 
 
@@ -207,7 +207,7 @@ public:
      * @note extents are automatically extracted from the temporary matrix
      *
      * @param expr matrix expression
-     */    
+     */
   template<class D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
   inline tensor_core (const matrix_expression_type<D> &expr)
@@ -223,7 +223,7 @@ public:
      * @note extents are automatically extracted from the temporary matrix
      *
      * @param expr vector expression
-     */    
+     */
   template<class D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
   inline tensor_core (const vector_expression_type<D> &expr)
@@ -485,4 +485,3 @@ using vector = tensor_core<engine_tensor_static_rank<V, L, 1>>;
 
 
 #endif // BOOST_UBLAS_TENSOR_STATIC_RANK_HPP
-

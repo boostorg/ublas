@@ -7,7 +7,7 @@
 # http://www.boost.org/LICENSE_1_0.txt)
 
 import ../../../../config/checks/config : requires ;
- 
+
 # Project settings
 project boost-ublas-tensor-example
     : requirements
@@ -24,3 +24,4 @@ exe simple_expressions                 : simple_expressions.cpp ;
 exe multiply_tensors_product_function  : multiply_tensors_product_function.cpp ;
 exe multiply_tensors_einstein_notation : multiply_tensors_einstein_notation.cpp ;
 exe instantiate_tensor                 : instantiate_tensor.cpp ;
+exe subtensor						   : subtensor.cpp ;

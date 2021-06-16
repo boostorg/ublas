@@ -14,7 +14,8 @@
 #define _BOOST_NUMERIC_UBLAS_TENSOR_TYPE_TRAITS_SLICE_HPP_
 
 #include <type_traits>
-#include <boost/numeric/ublas/tensor/detail/basic_type_traits.hpp>
+#include <boost/numeric/ublas/tensor/traits/basic_type_traits.hpp>
+#include <boost/numeric/ublas/tensor/extents/extents_base.hpp>
 
 namespace boost::numeric::ublas::experimental {
     

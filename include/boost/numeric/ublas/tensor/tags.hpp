@@ -16,6 +16,8 @@ struct storage_resizable_container_tag{};
 struct storage_static_container_tag{};
 struct storage_seq_container_tag{};
 struct storage_non_seq_container_tag{};
+struct read_write_tag{};
+struct read_only_tag{};
 } // namespace boost::numeric::ublas
 
 
