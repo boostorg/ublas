@@ -111,6 +111,21 @@ public:
   {
   }
 
+  /** @brief Constructs a tensor_core with a \c shape and initial value
+     *
+     * @code auto t = tensor<float>(extents<>{4,3,2},5); @endcode
+     *
+     * @param i initial tensor_core with this value
+     */
+  inline tensor_core (extents_type e, value_type i)
+    : tensor_expression_type<self_type>{}
+    , _extents(std::move(e))
+    , _strides(to_strides(_extents,layout_type{}))
+    , _container(product(_extents))
+  {
+    std::fill(begin(),end(),i);
+  }
+
   /** @brief Constructs a tensor_core with a \c shape and initiates it with one-dimensional data
      *
      * @code auto t = tensor<float,3>(extents<>{3,4,2},std::vector<float>(3*4*2,1.f)); @endcode

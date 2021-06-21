@@ -1,4 +1,5 @@
 HEADERS += \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/access.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/algorithms.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/expression.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/expression_evaluation.hpp \
@@ -13,6 +14,9 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/operators_arithmetic.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/operators_comparison.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/ostream.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/span.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/subtensor.hpp \
+  $${INCLUDE_DIR}/boost/numeric/ublas/tensor/subtensor_utility.hpp \  
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tags.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/concepts.hpp \
@@ -38,7 +42,6 @@ HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_static.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_static_rank.hpp \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/tensor/tensor_dynamic.hpp
-
 
 HEADERS += \
   $${INCLUDE_DIR}/boost/numeric/ublas/tensor/function/inner_prod.hpp \

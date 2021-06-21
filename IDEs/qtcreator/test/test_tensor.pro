@@ -9,7 +9,7 @@ CONFIG += c++20
 QMAKE_CXXFLAGS  =-std=c++20
 QMAKE_CXXFLAGS +=-Wall -Wpedantic -Wextra
 QMAKE_CXXFLAGS +=-Wno-unknown-pragmas
-QMAKE_CXXFLAGS +=-Wno-unused-but-set-variable
+#QMAKE_CXXFLAGS +=-Wno-unused-but-set-variable
 
 
 gcc:QMAKE_CXXFLAGS_RELEASE =-O3 -march=native -fopenmp
@@ -18,17 +18,9 @@ clang: QMAKE_CXXFLAGS_RELEASE =-O3 -march=native -fopenmp=libiomp5
 gcc:QMAKE_CXXFLAGS_DEBUG = -g
 clang: QMAKE_CXXFLAGS_DEBUG =-g
 
-
 #QMAKE_CXXFLAGS += --coverage
 
 BOOST_ROOT=../../../../../..
-
-#exists( $$BOOST_ROOT/boost-build.jam ) {
-#  message("Boost installed.")
-#  INCLUDEPATH += $${BOOST_ROOT}/libs/numeric/ublas/include
-#  LIBS += -L$${BOOST_ROOT}/stage/lib -lgomp
-#  QMAKE_RPATHDIR += $${BOOST_ROOT}/stage/lib
-#}
 
 QMAKE_RPATHDIR += $${BOOST_ROOT}/stage/lib
 INCLUDEPATH+=$$BOOST_ROOT/libs/numeric/ublas/include
@@ -44,7 +36,11 @@ include(../include/tensor/tensor.pri)
 HEADERS += \
   $${TEST_DIR}/utility.hpp
 
+HEADERS += \
+  $${TEST_DIR}/utility.hpp
+
 SOURCES += \
+  $${TEST_DIR}/test_access.cpp \
   $${TEST_DIR}/test_algorithms.cpp \
   $${TEST_DIR}/test_einstein_notation.cpp \
   $${TEST_DIR}/test_expression.cpp \
@@ -76,4 +72,7 @@ SOURCES += \
   $${TEST_DIR}/test_strides.cpp \
   $${TEST_DIR}/test_tensor.cpp \
   $${TEST_DIR}/test_tensor_matrix_vector.cpp \
-  $${TEST_DIR}/test_extents_functions.cpp
+  $${TEST_DIR}/test_extents_functions.cpp \
+  $${TEST_DIR}/test_span.cpp \
+  $${TEST_DIR}/test_subtensor.cpp \
+  $${TEST_DIR}/test_subtensor_utility.cpp

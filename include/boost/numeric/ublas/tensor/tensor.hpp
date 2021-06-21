@@ -20,3 +20,4 @@
 #include "tensor/tensor_static.hpp"
 
 #endif // BOOST_UBLAS_TENSOR_TENSOR_HPP
+
