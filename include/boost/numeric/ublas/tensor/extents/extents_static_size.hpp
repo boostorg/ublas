@@ -42,7 +42,7 @@ template <integral T, T N>
 class extents_core<T,N> : public extents_base<extents_core<T,N>>
 {
 public:
-  using base_type       = std::array<std::size_t,N>;
+  using base_type       = std::array<T, N>;
   using value_type      = typename base_type::value_type;
   using size_type       = typename base_type::size_type;
   using reference       = typename base_type::reference;
