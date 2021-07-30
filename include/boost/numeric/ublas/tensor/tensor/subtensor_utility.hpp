@@ -103,9 +103,9 @@ auto to_extents(spans_type const& spans)
  * @param[in] extent extent that is maybe used for the tranformation
  */
 template<class size_type, class span_tag>
-auto transform_span(span<span_tag, size_type> const& s, std::size_t const extent)
+auto transform_span(span<size_type> const& s, std::size_t const extent)
 {
-  using span_type = span<span_tag, size_type>;
+  using span_type = span<size_type>;
 
   std::size_t first = s.first();
   std::size_t last  = s.last ();
@@ -113,22 +113,11 @@ auto transform_span(span<span_tag, size_type> const& s, std::size_t const extent
 
   auto const extent0 = extent-1;
 
-  auto constexpr is_sliced = std::is_same<span_tag,boost::numeric::ublas::tag::sliced>::value;
-
-
-  if constexpr ( is_sliced ){
-    if(size == 0)        return span_type(0       , extent0);
-    else if(first== max) return span_type(extent0 , extent0);
-    else if(last == max) return span_type(first   , extent0);
-    else                 return span_type(first   , last  );
-  }
-  else {
-    size_type step  = s.step ();
-    if(size == 0)        return span_type(0       , size_type(1), extent0);
-    else if(first== max) return span_type(extent0 , step, extent0);
-    else if(last == max) return span_type(first   , step, extent0);
-    else                 return span_type(first   , step, last  );
-  }
+  size_type step  = s.step ();
+  if(size == 0)        return span_type(0       , size_type(1), extent0);
+  else if(first== max) return span_type(extent0 , step, extent0);
+  else if(last == max) return span_type(first   , step, extent0);
+  else                 return span_type(first   , step, last  );
   return span_type{};
 }
 
@@ -136,8 +125,8 @@ auto transform_span(span<span_tag, size_type> const& s, std::size_t const extent
 template<std::size_t r, std::size_t n, class Span, class ... Spans>
 void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans );
 
-template<std::size_t r, std::size_t n, class size_type, class span_tag, class Span, class ... Spans>
-void transform_spans_impl(extents<> const& extents, std::array<Span, n>& span_array, span<span_tag,size_type> const& s, Spans&& ... spans)
+template<std::size_t r, std::size_t n, class size_type, class Span, class ... Spans>
+void transform_spans_impl(extents<> const& extents, std::array<Span, n>& span_array, span<size_type> const& s, Spans&& ... spans)
 {
   std::get<r>(span_array) = transform_span(s, extents[r]);
   static constexpr auto nspans = sizeof...(spans);
@@ -180,10 +169,9 @@ auto generate_span_array(extents<> const& extents, Spans&& ... spans)
   return span_array;
 }
 
-
 /*! @brief Auxiliary function for subtensor that generates array of spans
  *
- * generate_span_array<span>(shape(4,3,5,2), span(), 1, span(2,end), end  )
+ * generate_span_vector<span>(shape(4,3,5,2), span(), 1, span(2,end), end  )
  * -> std::array (span(0,3), span(1,1), span(2,4),span(1,1))
  *
  * @note span is zero-based indexed.

@@ -14,7 +14,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "utility.hpp"
-#include <boost/numeric/ublas/tensor/subtensor_utility.hpp>
+#include <boost/numeric/ublas/tensor/tensor/subtensor_utility.hpp>
 #include <boost/numeric/ublas/tensor/extents.hpp>
 #include <boost/numeric/ublas/tensor/span.hpp>
 #include <boost/numeric/ublas/tensor/tags.hpp>

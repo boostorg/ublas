@@ -17,7 +17,6 @@
 
 #include <boost/numeric/ublas/tensor/tensor.hpp>
 #include <boost/numeric/ublas/tensor/tags.hpp>
-#include <boost/numeric/ublas/tensor/subtensor.hpp>
 #include <boost/numeric/ublas/tensor/span.hpp>
 
 

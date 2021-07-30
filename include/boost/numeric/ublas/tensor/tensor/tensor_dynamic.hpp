@@ -27,7 +27,8 @@
 #include "../type_traits.hpp"
 #include "../tags.hpp"
 #include "../concepts.hpp"
-
+#include "../span.hpp"
+#include "subtensor.hpp"
 #include "tensor_engine.hpp"
 
 
@@ -83,6 +84,8 @@ public:
 
   using matrix_type               = matrix<value_type, layout_type, std::vector<value_type> >;
   using vector_type               = vector<value_type, std::vector<value_type> >;
+
+  using span_type                 = span<std::size_t>;
 
   explicit tensor_core () = default;
 
@@ -415,6 +418,24 @@ public:
     return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
   }
 
+
+  /**
+   * @brief Generates a subtensor from a tensor
+   *
+   * @tparam f
+   * @tparam spans
+   */
+  template<class ... SL>
+  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) const noexcept {
+	return subtensor(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
+  }
+
+  template<class ... SL>
+  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) noexcept {
+    return subtensor(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
+  }
+
+
   friend void swap(tensor_core& lhs, tensor_core& rhs)
   {
     std::swap(lhs._extents   , rhs._extents);
@@ -449,6 +470,7 @@ public:
   [[nodiscard]] inline auto const& base    () const noexcept                  { return _container; }
 
 private:
+
   extents_type _extents;
   strides_type _strides;
   container_type _container;

@@ -16,10 +16,11 @@ namespace boost::numeric::ublas
 template <class T>
 struct subtensor_engine
 {
-	using engine_type = typename T::engine_type; // reference to the parent engine
-	using extents_type = typename T::extents_type; // reference to the parent extents
-	using layout_type = typename T::layout_type; // reference to the parent layout
-	using container_type = typename T::container_type; // reference to the parent container
+	using tensor_type = std::decay_t<T>;
+	using engine_type = typename tensor_type::engine_type; // reference to the parent engine
+	using extents_type = typename tensor_type::extents_type; // reference to the parent extents
+	using layout_type = typename tensor_type::layout_type; // reference to the parent layout
+	using container_type = typename tensor_type::container_type; // reference to the parent container
 };
 
 } // namespace boost::numeric::ublas
