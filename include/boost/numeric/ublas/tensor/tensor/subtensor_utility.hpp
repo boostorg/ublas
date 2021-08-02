@@ -15,13 +15,13 @@
 #ifndef _BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_UTILITY_HPP_
 #define _BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_UTILITY_HPP_
 
-#include <algorithm>
-#include <numeric>
-#include <iostream>
+#include "../extents.hpp"
+#include "../span.hpp"
+#include "../tags.hpp"
 
-#include "span.hpp"
-#include "extents.hpp"
-#include "tags.hpp"
+#include <algorithm>
+#include <iostream>
+#include <numeric>
 
 
 namespace boost::numeric::ublas::detail {

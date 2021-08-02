@@ -87,6 +87,8 @@ public:
 
   using span_type                 = span<std::size_t>;
 
+  using subtesnor_type            = tensor_core<subtensor_engine<self_type>>;
+
   explicit tensor_core () = default;
 
   /** @brief Constructs a tensor_core with a \c shape
@@ -281,8 +283,8 @@ public:
   }
 
   // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
-  tensor_core& operator=(tensor_core other) noexcept
   {
+  tensor_core& operator=(tensor_core other) noexcept
     swap (*this, other);
     return *this;
   }
@@ -427,14 +429,13 @@ public:
    */
   template<class ... SL>
   [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) const noexcept {
-	return subtensor(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
+	return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
   template<class ... SL>
   [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) noexcept {
-    return subtensor(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
+    return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
-
 
   friend void swap(tensor_core& lhs, tensor_core& rhs)
   {
