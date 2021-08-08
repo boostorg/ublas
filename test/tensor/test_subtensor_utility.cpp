@@ -14,129 +14,66 @@
 #include <boost/test/unit_test.hpp>
 
 #include "utility.hpp"
-#include <boost/numeric/ublas/tensor/tensor/subtensor_utility.hpp>
 #include <boost/numeric/ublas/tensor/extents.hpp>
 #include <boost/numeric/ublas/tensor/span.hpp>
 #include <boost/numeric/ublas/tensor/tags.hpp>
-
+#include <boost/numeric/ublas/tensor/tensor/subtensor_utility.hpp>
 
 
 BOOST_AUTO_TEST_SUITE ( subtensor_utility_testsuite )
 
 
+struct fixture_span {
+	using span_type = boost::numeric::ublas::span;
 
-struct fixture_sliced_span {
-	using span_type = boost::numeric::ublas::sliced_span;
-
-	fixture_sliced_span()
+	fixture_span()
 		: spans{
-				span_type(),    // 0, a(:)
-				span_type(0,0), // 1, a(0:0)
-				span_type(0,2), // 2, a(0:2)
-				span_type(1,1), // 3, a(1:1)
-				span_type(1,3),  // 4, a(1:3)
-        span_type(1,boost::numeric::ublas::max), // 5, a(1:end)
-        span_type(boost::numeric::ublas::max) // 6, a(end)
-				}
+            span_type(),       // 0, a(:)
+            span_type(0,1,0),  // 1, a(0:1:0)
+            span_type(0,2,2),  // 2, a(0:2:2)
+            span_type(1,1,1),  // 3, a(1:1:1)
+            span_type(1,1,3),  // 4, a(1:1:3)
+            span_type(1,2,boost::numeric::ublas::max), // 5, a(1:2:end)
+            span_type(boost::numeric::ublas::max) // 6, a(end)
+        }
 	{}
 	std::vector<span_type> spans;
 };
 
 
-BOOST_FIXTURE_TEST_CASE( transform_sliced_span_test, fixture_sliced_span )
+BOOST_FIXTURE_TEST_CASE( transform_strided_span_test, fixture_span )
 {
-
-  namespace ublas = boost::numeric::ublas;
-
-//	template<class size_type, class span_tag>
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(2) ) == ublas::sliced_span(0,1) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(3) ) == ublas::sliced_span(0,2) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(4) ) == ublas::sliced_span(0,3) );
-
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(1), std::size_t(2) ) == ublas::sliced_span(0,0) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(1), std::size_t(3) ) == ublas::sliced_span(0,0) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(1), std::size_t(4) ) == ublas::sliced_span(0,0) );
-
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(2), std::size_t(3) ) == ublas::sliced_span(0,2) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(2), std::size_t(4) ) == ublas::sliced_span(0,2) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(2), std::size_t(5) ) == ublas::sliced_span(0,2) );
-
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(3), std::size_t(2) ) == ublas::sliced_span(1,1) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(3), std::size_t(3) ) == ublas::sliced_span(1,1) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(3), std::size_t(4) ) == ublas::sliced_span(1,1) );
-
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(4), std::size_t(4) ) == ublas::sliced_span(1,3) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(4), std::size_t(5) ) == ublas::sliced_span(1,3) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(4), std::size_t(6) ) == ublas::sliced_span(1,3) );
-
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(5), std::size_t(4) ) == ublas::sliced_span(1,3) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(5), std::size_t(5) ) == ublas::sliced_span(1,4) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(5), std::size_t(6) ) == ublas::sliced_span(1,5) );
-
-
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(6), std::size_t(4) ) == ublas::sliced_span(3,3) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(6), std::size_t(5) ) == ublas::sliced_span(4,4) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(6), std::size_t(6) ) == ublas::sliced_span(5,5) );
-}
-
-
-struct fixture_strided_span {
-	using span_type = boost::numeric::ublas::strided_span;
-
-	fixture_strided_span()
-		: spans{
-				span_type(),       // 0, a(:)
-				span_type(0,1,0),  // 1, a(0:1:0)
-				span_type(0,2,2),  // 2, a(0:2:2)
-				span_type(1,1,1),  // 3, a(1:1:1)
-				span_type(1,1,3),  // 4, a(1:1:3)
-        span_type(1,2,boost::numeric::ublas::max), // 5, a(1:2:end)
-        span_type(boost::numeric::ublas::max) // 6, a(end)
-				}
-	{}
-	std::vector<span_type> spans;
-};
-
-
-BOOST_FIXTURE_TEST_CASE( transform_strided_span_test, fixture_strided_span )
-{
-
 	using namespace boost::numeric;
 
 //	template<class size_type, class span_tag>
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(2) ) == ublas::strided_span(0,1,1) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(3) ) == ublas::strided_span(0,1,2) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(4) ) == ublas::strided_span(0,1,3) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(3) ) == ublas::span(0,1,2) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(2) ) == ublas::span(0,1,1) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(4) ) == ublas::span(0,1,3) );
 
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(1), std::size_t(2) ) == ublas::strided_span(0,1,0) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(1), std::size_t(3) ) == ublas::strided_span(0,1,0) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(1), std::size_t(4) ) == ublas::strided_span(0,1,0) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(1), std::size_t(2) ) == ublas::span(0,1,0) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(1), std::size_t(3) ) == ublas::span(0,1,0) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(1), std::size_t(4) ) == ublas::span(0,1,0) );
 
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(2), std::size_t(3) ) == ublas::strided_span(0,2,2) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(2), std::size_t(4) ) == ublas::strided_span(0,2,2) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(2), std::size_t(5) ) == ublas::strided_span(0,2,2) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(2), std::size_t(3) ) == ublas::span(0,2,2) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(2), std::size_t(4) ) == ublas::span(0,2,2) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(2), std::size_t(5) ) == ublas::span(0,2,2) );
 
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(3), std::size_t(2) ) == ublas::strided_span(1,1,1) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(3), std::size_t(3) ) == ublas::strided_span(1,1,1) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(3), std::size_t(4) ) == ublas::strided_span(1,1,1) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(3), std::size_t(2) ) == ublas::span(1,1,1) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(3), std::size_t(3) ) == ublas::span(1,1,1) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(3), std::size_t(4) ) == ublas::span(1,1,1) );
 
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(4), std::size_t(4) ) == ublas::strided_span(1,1,3) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(4), std::size_t(5) ) == ublas::strided_span(1,1,3) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(4), std::size_t(6) ) == ublas::strided_span(1,1,3) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(4), std::size_t(4) ) == ublas::span(1,1,3) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(4), std::size_t(5) ) == ublas::span(1,1,3) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(4), std::size_t(6) ) == ublas::span(1,1,3) );
 
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(5), std::size_t(4) ) == ublas::strided_span(1,2,3) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(5), std::size_t(5) ) == ublas::strided_span(1,2,3) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(5), std::size_t(6) ) == ublas::strided_span(1,2,5) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(5), std::size_t(4) ) == ublas::span(1,2,3) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(5), std::size_t(5) ) == ublas::span(1,2,3) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(5), std::size_t(6) ) == ublas::span(1,2,5) );
 
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(6), std::size_t(4) ) == ublas::strided_span(3,1,3) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(6), std::size_t(5) ) == ublas::strided_span(4,1,4) );
-	BOOST_CHECK( ublas::detail::transform_span(spans.at(6), std::size_t(6) ) == ublas::strided_span(5,1,5) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(6), std::size_t(4) ) == ublas::span(3,1,3) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(6), std::size_t(5) ) == ublas::span(4,1,4) );
+	BOOST_CHECK( ublas::detail::transform_span(spans.at(6), std::size_t(6) ) == ublas::span(5,1,5) );
 }
-
-
-
-
-
 
 struct fixture_shape {
     using shape = boost::numeric::ublas::extents<>;
@@ -160,7 +97,7 @@ struct fixture_shape {
 BOOST_FIXTURE_TEST_CASE( generate_span_array_test, fixture_shape )
 {
   namespace ublas = boost::numeric::ublas;
-  using span = ublas::sliced_span;
+  using span = ublas::span;
 
 	// shape{}
 	{
@@ -180,9 +117,9 @@ BOOST_FIXTURE_TEST_CASE( generate_span_array_test, fixture_shape )
   // shape{1,1}
   {
     auto v = ublas::detail::generate_span_array<span>(extents[1],ublas::max,span(ublas::max));
-	auto r = std::vector<span>{span(0,0),span(0,0)};
-  BOOST_CHECK ( std::equal( v.begin(), v.end(), r.begin(), [](span const& l, span const& r){ return l == r; } )  );
-	}
+    auto r = std::vector<span>{span(0,0),span(0,0)};
+    BOOST_CHECK ( std::equal( v.begin(), v.end(), r.begin(), [](span const& l, span const& r){ return l == r; } )  );
+  }
 
   // shape{1,1}
   {
@@ -196,13 +133,13 @@ BOOST_FIXTURE_TEST_CASE( generate_span_array_test, fixture_shape )
     auto v = ublas::detail::generate_span_array<span>(extents[2],0,ublas::max);
 	auto r = std::vector<span>{span(0,0),span(1,1)};
 	BOOST_CHECK ( std::equal( v.begin(), v.end(), r.begin(), [](span const& l, span const& r){ return l == r; } )  );
-	}
+  }
 
   // shape{1,2}
 	{
-  auto v = ublas::detail::generate_span_array<span>(extents[2],0,1);
-	auto r = std::vector<span>{span(0,0),span(1,1)};
-	BOOST_CHECK ( std::equal( v.begin(), v.end(), r.begin(), [](span const& l, span const& r){ return l == r; } )  );
+        auto v = ublas::detail::generate_span_array<span>(extents[2],0,1);
+        auto r = std::vector<span>{span(0,0),span(1,1)};
+        BOOST_CHECK ( std::equal( v.begin(), v.end(), r.begin(), [](span const& l, span const& r){ return l == r; } )  );
 	}
 
 	{
@@ -242,7 +179,7 @@ BOOST_FIXTURE_TEST_CASE( generate_span_array_test, fixture_shape )
 
 struct fixture_span_vector_shape {
   using shape = boost::numeric::ublas::extents<>;
-	using span  = boost::numeric::ublas::sliced_span;
+	using span  = boost::numeric::ublas::span;
 
 
 	fixture_span_vector_shape()
@@ -358,8 +295,6 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( offset_test, layout, test_types, fixture_span_
 
 
 #if 0
-
-
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE( span_strides_test, layout, test_types, fixture_span_vector_shape )
 {
