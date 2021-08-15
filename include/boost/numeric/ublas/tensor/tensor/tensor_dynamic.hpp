@@ -87,7 +87,7 @@ public:
 
   using span_type                 = span<std::size_t>;
 
-  using subtesnor_type            = tensor_core<subtensor_engine<self_type>>;
+  using subtensor_type            = tensor_core<subtensor_engine<self_type>>;
 
   explicit tensor_core () = default;
 
@@ -283,8 +283,8 @@ public:
   }
 
   // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
-  {
   tensor_core& operator=(tensor_core other) noexcept
+  {
     swap (*this, other);
     return *this;
   }

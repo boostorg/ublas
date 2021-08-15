@@ -12,6 +12,7 @@
 #ifndef BOOST_UBLAS_SUBTENSOR_HPP
 #define BOOST_UBLAS_SUBTENSOR_HPP
 
+#include "../access.hpp"
 #include "../algorithms.hpp"
 #include "../concepts.hpp"
 #include "../expression.hpp"
@@ -93,11 +94,11 @@ public:
   template <class U, class FS, class... SL>
   tensor_core(U&& t, FS&& first, SL&&... spans)
     : _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
-    , _extents(detail::compute_extents(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
+    , _extents{}
     , _strides(t.strides())
     , _tensor(t)
   {
-    _spans.resize(1 + sizeof(spans)...);
+      _extents = detail::to_extents(_spans);
   }
 
   /// @brief Default destructor
@@ -218,7 +219,8 @@ public:
    */
   [[nodiscard]] inline const_reference operator[](size_type i) const
   {
-    return this->_tensor[i];
+    const auto idx = detail::compute_single_index(i, _tensor.strides().begin(), _tensor.strides().end(), _strides.begin());
+    return this->_tensor[idx];
   }
 
   /** @brief Element access using a single index.
@@ -229,7 +231,8 @@ public:
    */
   [[nodiscard]] inline reference operator[](size_type i)
   {
-    return this->_tensor[i];
+    const auto idx = detail::compute_single_index(i, _tensor.strides().begin(), _tensor.strides().end(), _strides.begin());
+    return this->_tensor[idx];
   }
 
   /** @brief Element access using a single-index with bound checking which can
@@ -242,7 +245,9 @@ public:
   template <class... Indices>
   [[nodiscard]] inline const_reference at(size_type i) const
   {
-    return this->_container.at(i);
+
+    const auto idx = detail::compute_single_index(i, _tensor.strides().begin(), _tensor.strides().end(), _strides.begin());
+    return this->_tensor.at(idx);
   }
 
   /** @brief Read tensor element of a tensor \c t with a single-index \c i
@@ -253,7 +258,8 @@ public:
    */
   [[nodiscard]] inline reference at(size_type i)
   {
-    return this->_container.at(i);
+    const auto idx = detail::compute_single_index(i, _tensor.strides().begin(), _tensor.strides().end(), _strides.begin());
+    return this->_tensor.at(idx);
   }
 
   /** @brief Generates a tensor_core index for tensor_core contraction
@@ -298,30 +304,30 @@ public:
     return subtensor_type(_tensor, _strides, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
-  [[nodiscard]] inline auto begin  () const noexcept -> const_iterator { return _container.begin  (); }
-  [[nodiscard]] inline auto end    () const noexcept -> const_iterator { return _container.end    (); }
-  [[nodiscard]] inline auto begin  ()       noexcept ->       iterator { return _container.begin  (); }
-  [[nodiscard]] inline auto end    ()       noexcept ->       iterator { return _container.end    (); }
-  [[nodiscard]] inline auto cbegin () const noexcept -> const_iterator { return _container.cbegin (); }
-  [[nodiscard]] inline auto cend   () const noexcept -> const_iterator { return _container.cend   (); }
-  [[nodiscard]] inline auto crbegin() const noexcept -> const_reverse_iterator { return _container.crbegin(); }
-  [[nodiscard]] inline auto crend  () const noexcept -> const_reverse_iterator { return _container.crend  (); }
-  [[nodiscard]] inline auto rbegin () const noexcept -> const_reverse_iterator { return _container.rbegin (); }
-  [[nodiscard]] inline auto rend   () const noexcept -> const_reverse_iterator { return _container.rend   (); }
-  [[nodiscard]] inline auto rbegin ()       noexcept ->       reverse_iterator { return _container.rbegin (); }
-  [[nodiscard]] inline auto rend   ()       noexcept ->       reverse_iterator { return _container.rend   (); }
+//   [[nodiscard]] inline auto begin  () const noexcept -> const_iterator { return _container.begin  (); }
+//   [[nodiscard]] inline auto end    () const noexcept -> const_iterator { return _container.end    (); }
+//   [[nodiscard]] inline auto begin  ()       noexcept ->       iterator { return _container.begin  (); }
+//   [[nodiscard]] inline auto end    ()       noexcept ->       iterator { return _container.end    (); }
+//   [[nodiscard]] inline auto cbegin () const noexcept -> const_iterator { return _container.cbegin (); }
+//   [[nodiscard]] inline auto cend   () const noexcept -> const_iterator { return _container.cend   (); }
+//   [[nodiscard]] inline auto crbegin() const noexcept -> const_reverse_iterator { return _container.crbegin(); }
+//   [[nodiscard]] inline auto crend  () const noexcept -> const_reverse_iterator { return _container.crend  (); }
+//   [[nodiscard]] inline auto rbegin () const noexcept -> const_reverse_iterator { return _container.rbegin (); }
+//   [[nodiscard]] inline auto rend   () const noexcept -> const_reverse_iterator { return _container.rend   (); }
+//   [[nodiscard]] inline auto rbegin ()       noexcept ->       reverse_iterator { return _container.rbegin (); }
+//   [[nodiscard]] inline auto rend   ()       noexcept ->       reverse_iterator { return _container.rend   (); }
 
-  [[nodiscard]] inline auto empty ()            const noexcept { return _container.empty();    }
-  [[nodiscard]] inline auto size  ()            const noexcept { return _container.size();     }
-  [[nodiscard]] inline auto size  (size_type r) const          { return _extents.at(r);        }
-  [[nodiscard]] inline auto rank  ()            const          { return _extents.size(); }
-  [[nodiscard]] inline auto order ()            const          { return this->rank();          }
+  [[nodiscard]] inline auto empty ()            const noexcept { return size() == 0;             }
+  [[nodiscard]] inline auto size  ()            const noexcept { return ublas::product(_extents);}
+  [[nodiscard]] inline auto size  (size_type r) const          { return _extents.at(r);          }
+  [[nodiscard]] inline auto rank  ()            const          { return _extents.size();         }
+  [[nodiscard]] inline auto order ()            const          { return this->rank();            }
 
   [[nodiscard]] inline auto const& strides () const noexcept                  { return _strides; }
   [[nodiscard]] inline auto const& extents () const noexcept                  { return _extents; }
-  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _container.data();}
-  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _container.data();}
-  [[nodiscard]] inline auto const& base    () const noexcept                  { return _container; }
+  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _tensor.data();}
+  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _tensor.data();}
+  [[nodiscard]] inline auto const& base    () const noexcept                  { return _tensor.container(); }
 
 private:
   /**

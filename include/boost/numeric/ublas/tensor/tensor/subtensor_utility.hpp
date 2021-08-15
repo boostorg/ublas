@@ -102,20 +102,18 @@ auto to_extents(spans_type const& spans)
  * @param[in] s      span that is going to be transformed
  * @param[in] extent extent that is maybe used for the tranformation
  */
-template<class size_type, class span_tag>
+template<class size_type>
 auto transform_span(span<size_type> const& s, std::size_t const extent)
 {
   using span_type = span<size_type>;
 
   std::size_t first = s.first();
   std::size_t last  = s.last ();
-  std::size_t size  = s.size ();
 
   auto const extent0 = extent-1;
 
   size_type step  = s.step ();
-  if(size == 0)        return span_type(0       , size_type(1), extent0);
-  else if(first== max) return span_type(extent0 , step, extent0);
+  if(first== max)      return span_type(extent0 , step, extent0);
   else if(last == max) return span_type(first   , step, extent0);
   else                 return span_type(first   , step, last  );
   return span_type{};
@@ -185,7 +183,6 @@ auto generate_span_vector(extents<> const& extents, Spans&& ... spans)
   auto span_array = generate_span_array<span_type>(extents,std::forward<Spans>(spans)...);
   return std::vector<span_type>(span_array.begin(), span_array.end());
 }
-
 
 } // namespace boost::numeric::ublas::detail
 

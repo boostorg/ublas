@@ -36,20 +36,19 @@ namespace boost::numeric::ublas {
  */
 
 static constexpr inline std::size_t max = std::numeric_limits<std::ptrdiff_t>::max();
-static constexpr inline std::size_t min = std::numeric_limits<std::ptrdiff_t>::min();
 
-template<typename unsigned_type = std::ptrdiff_t>
+template<typename unsigned_type = std::size_t>
 class span
 {
 public:
-	using value_type = std::ptrdiff_t;
+	using value_type = std::size_t;
 
 	// covers the complete range of one dimension
 	// e.g. a(:)
 	constexpr explicit span()
 		: first_{}
-		, last_ {max}
 		, step_ {1}
+		, last_ {max}
 	{
     }
 
@@ -73,7 +72,7 @@ public:
 	span(value_type f, value_type s, value_type l)
 		: first_(f)
 		, step_ (s)
-        , last_(l)
+        , last_ (l)
 	{
         if(s == 0 && f != l)
             throw std::runtime_error("Error in span::span : cannot have a step_ equal to zero.");
@@ -115,9 +114,16 @@ public:
 					rhs.last_ *lhs.step_ + lhs.first_ );
 	}
 
+    inline value_type size() const {
+        if (first_ == last_) {
+            return value_type(1);
+        }
+        return (last_ - first_) / step_;
+    }
+
 protected:
 
-	value_type first_, last_ , step_;
+	value_type first_, step_, last_ ;
 };
 
 template<integral unsigned_type_lhs, integral unsigned_type_rhs>
