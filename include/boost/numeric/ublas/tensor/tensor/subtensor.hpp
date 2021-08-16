@@ -98,7 +98,10 @@ public:
     , _strides(t.strides())
     , _tensor(t)
   {
-      _extents = detail::to_extents(_spans);
+    _extents = detail::to_extents(_spans);
+    for (int i = 0; i < (int) _extents.size(); i++) {
+      std::cout << _extents[i] << std::endl;
+    }
   }
 
   /// @brief Default destructor

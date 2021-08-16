@@ -113,9 +113,12 @@ auto transform_span(span<size_type> const& s, std::size_t const extent)
   auto const extent0 = extent-1;
 
   size_type step  = s.step ();
-  if(first== max)      return span_type(extent0 , step, extent0);
-  else if(last == max) return span_type(first   , step, extent0);
-  else                 return span_type(first   , step, last  );
+  if(first >= extent) {
+    return (last >= extent ?     span_type(extent , step, extent ) :
+                                 span_type(extent0, step, extent0));
+  }
+  else if(last >= extent) return span_type(first  , step, extent0);
+  else                    return span_type(first  , step, last   );
   return span_type{};
 }
 

@@ -24,6 +24,16 @@ void instantiate_subtensor_dynamic() {
   }
 }
 
+void instantiate_tensor_dynamics_with_static_order()
+{
+}
+
+
+void instantiate_tensor_static()
+{
+}
+
+
 
 int main() {
   instantiate_subtensor_dynamic();
