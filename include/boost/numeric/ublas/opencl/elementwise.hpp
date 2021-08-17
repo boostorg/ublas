@@ -229,7 +229,7 @@ void element_sub(ublas::matrix<T, L1, opencl::storage> const &a,
 		 ublas::matrix<T, L3, opencl::storage> &result,
 		 compute::command_queue& queue)
 {
-  element_wise(a, b, compute::minus<T>(), result, queue);
+  element_wise(a, b, result, compute::minus<T>(), queue);
 }
 
 template <typename T, typename L1, typename L2, typename L3, typename A>
