@@ -13,12 +13,14 @@
 #ifndef _BOOST_NUMERIC_UBLAS_TENSOR_TYPE_TRAITS_SLICE_HPP_
 #define _BOOST_NUMERIC_UBLAS_TENSOR_TYPE_TRAITS_SLICE_HPP_
 
+#ifdef 0
+
 #include <type_traits>
 #include <boost/numeric/ublas/tensor/traits/basic_type_traits.hpp>
 #include <boost/numeric/ublas/tensor/extents/extents_base.hpp>
 
 namespace boost::numeric::ublas::experimental {
-    
+
     template<typename T, T...>
     struct basic_slice;
 
@@ -31,21 +33,22 @@ namespace boost::numeric::ublas::experimental {
 } // namespace boost::numeric::ublas::span
 
 namespace boost::numeric::ublas::experimental {
-    
+
     template<typename T, T... Vs>
     struct is_slice< basic_slice<T, Vs...> > : std::true_type{};
 
 } // namespace boost::numeric::ublas::span
 
 namespace boost::numeric::ublas{
-    
+
     template<typename T>
     struct is_dynamic< experimental::basic_slice<T> > : std::true_type{};
-    
+
     template<typename T, T s, T... Vs>
     struct is_static< experimental::basic_slice<T, s, Vs...> > : std::true_type{};
 
 } // namespace boost::numeric::ublas
 
+#endif
 
 #endif

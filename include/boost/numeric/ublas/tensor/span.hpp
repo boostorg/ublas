@@ -55,7 +55,7 @@ public:
     // covers only one index of one dimension
 	// e.g. a(1) or a(0)
     // TODO: case where stop < 0 then stop += length
-	span(value_type l)
+	explicit span(value_type l)
 		: span(0,1,l)
 	{
 	}
@@ -116,7 +116,7 @@ public:
 					rhs.last_ *lhs.step_ + lhs.first_ );
 	}
 
-    inline value_type size() const {
+    [[ nodiscard ]] inline value_type size() const {
         if (first_ == last_) {
             return value_type(1);
         }

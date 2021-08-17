@@ -10,11 +10,11 @@
 //  Google
 //
 
-#ifndef _BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_FUNCTIONS_HPP_
-#define _BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_FUNCTIONS_HPP_
+#ifndef _BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_FUNCTIONS_HPP
+#define _BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_FUNCTIONS_HPP
 
 #include <boost/numeric/ublas/tensor/type_traits.hpp>
-#include <boost/numeric/ublas/tensor/detail/static_extents_traits.hpp>
+#include <boost/numeric/ublas/tensor/extents/extents_base.hpp>
 #include <algorithm>
 #include <sstream>
 #include <iostream>
@@ -58,8 +58,8 @@ if constexpr( sizeof...(E) == 0ul ){
 }
 
 template <class T, T... E>
-constexpr auto squeeze_impl( basic_static_extents<T,E...> const& e ){
 
+constexpr auto squeeze_impl( basic_static_extents<T,E...> const& e ){
     using extents_type = basic_static_extents<T,E...>;
 
     if constexpr( extents_type::_size <= typename extents_type::size_type(2) ){
@@ -160,7 +160,7 @@ template <class ExtentsType>
 [[nodiscard]] inline constexpr
     bool valid(ExtentsType const &e)
 {
-  
+
   static_assert(is_extents_v<ExtentsType>,
                   "boost::numeric::ublas::valid() : "
                   "invalid type, type should be an extents");
@@ -183,20 +183,20 @@ template <class ExtentsType>
 template <class T>
 [[nodiscard]] inline
 std::string to_string(T const &e) {
-  
+
   using value_type = typename T::value_type;
 
-  static_assert(is_extents_v<T> ||is_strides_v<T>, 
+  static_assert(is_extents_v<T> ||is_strides_v<T>,
     "boost::numeric::ublas::to_string() : invalid type, type should be an extents or a strides");
 
   if ( e.empty() ) return "[]";
 
   std::stringstream ss;
-  
+
   ss << "[ ";
 
   std::copy( e.begin(), e.end() - 1, std::ostream_iterator<value_type>(ss,", ") );
-  
+
   ss << e.back() << " ]";
 
   return ss.str();
@@ -369,35 +369,35 @@ template <class ExtentsType>
 constexpr auto product(ExtentsType const &e) {
 
   static_assert(is_extents_v<ExtentsType>, "boost::numeric::ublas::product() : invalid type, type should be an extents");
-  
+
   if ( e.empty() ) return 0u;
   else return std::accumulate(e.begin(), e.end(), 1u, std::multiplies<>()) ;
 }
 
 
-template <class LExtents, class RExtents, 
+template <class LExtents, class RExtents,
   std::enable_if_t<
     is_extents_v<LExtents> && is_extents_v<RExtents>
-  , int> = 0 
+  , int> = 0
 >
 [[nodiscard]] inline
 constexpr bool operator==(LExtents const& lhs, RExtents const& rhs) noexcept{
-  
-  static_assert( std::is_same_v<typename LExtents::value_type, typename RExtents::value_type>, 
+
+  static_assert( std::is_same_v<typename LExtents::value_type, typename RExtents::value_type>,
     "boost::numeric::ublas::operator==(LExtents, RExtents) : LHS value type should be same as RHS value type");
 
   return ( lhs.size() == rhs.size() ) && std::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
-template <class LExtents, class RExtents, 
+template <class LExtents, class RExtents,
   std::enable_if_t<
     is_extents_v<LExtents> && is_extents_v<RExtents>
-  , int> = 0 
+  , int> = 0
 >
 [[nodiscard]] inline
 constexpr bool operator!=(LExtents const& lhs, RExtents const& rhs) noexcept{
-  
-  static_assert( std::is_same_v<typename LExtents::value_type, typename RExtents::value_type>, 
+
+  static_assert( std::is_same_v<typename LExtents::value_type, typename RExtents::value_type>,
     "boost::numeric::ublas::operator!=(LExtents, RExtents) : LHS value type should be same as RHS value type");
 
   return !( lhs == rhs );

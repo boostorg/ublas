@@ -27,6 +27,9 @@
 #include "../type_traits.hpp"
 #include "../tags.hpp"
 #include "../concepts.hpp"
+#include "../span.hpp"
+#include "subtensor.hpp"
+#include "tensor_engine.hpp"
 
 #include "tensor_engine.hpp"
 
@@ -84,6 +87,9 @@ public:
 
   using matrix_type               = matrix<value_type, layout_type, std::vector<value_type> >;
   using vector_type               = vector<value_type, std::vector<value_type> >;
+
+  using span_type                 = span<std::size_t>;
+  using subtensor_type            = tensor_core<subtensor_engine<self_type>>;
 
   tensor_core () = default;
 
@@ -408,6 +414,24 @@ public:
     constexpr auto size = sizeof...(index_types)+1;
     static_assert(size == std::tuple_size_v<extents_type>);
     return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
+  }
+
+   /**
+   * @brief Generates a subtensor from a tensor
+   *
+   * @tparam f
+   * @tparam spans
+   */
+  template<class ... SL>
+  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) const noexcept {
+	static_assert(sizeof...(spans)+1 == std::tuple_size_v<extents_type>);
+    return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
+  }
+
+  template<class ... SL>
+  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) noexcept {
+    static_assert(sizeof...(spans)+1 == std::tuple_size_v<extents_type>);
+    return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
   friend void swap(tensor_core& lhs, tensor_core& rhs)
