@@ -28,7 +28,7 @@
 #include "../tags.hpp"
 #include "../concepts.hpp"
 #include "../span.hpp"
-#include "subtensor.hpp"
+#include "subtensor_static_rank.hpp"
 #include "tensor_engine.hpp"
 
 #include "tensor_engine.hpp"
@@ -424,7 +424,7 @@ public:
    */
   template<class ... SL>
   [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) const noexcept {
-	static_assert(sizeof...(spans)+1 == std::tuple_size_v<extents_type>);
+	  static_assert(sizeof...(spans)+1 == std::tuple_size_v<extents_type>);
     return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 

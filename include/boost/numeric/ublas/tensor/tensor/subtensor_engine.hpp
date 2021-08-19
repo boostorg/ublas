@@ -23,6 +23,10 @@ struct subtensor_engine
 	using container_type = typename tensor_type::container_type; // reference to the parent container
 };
 
+
+template<typename T>
+using subtensor = tensor_core<subtensor_engine<T>>;
+
 } // namespace boost::numeric::ublas
 
 #endif

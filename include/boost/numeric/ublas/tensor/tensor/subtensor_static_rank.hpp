@@ -9,8 +9,8 @@
 
 /// \file subtensor.hpp Definition for the subtensor template class
 
-#ifndef BOOST_UBLAS_SUBTENSOR_HPP
-#define BOOST_UBLAS_SUBTENSOR_HPP
+#ifndef BOOST_UBLAS_SUBTENSOR_STATIC_RANK_HPP
+#define BOOST_UBLAS_SUBTENSOR_STATIC_RANK_HPP
 
 #include "../access.hpp"
 #include "../algorithms.hpp"
@@ -33,25 +33,29 @@
 
 namespace boost::numeric::ublas {
 
-template <class T>
-class tensor_core<subtensor_engine<T>>
+template <class V, std::size_t N, class L>
+class tensor_core<subtensor_engine<tensor_static_rank<V,N,L>>>
   : public detail::tensor_expression<
-      tensor_core<subtensor_engine<T>>,
-      tensor_core<subtensor_engine<T>>> {
+      tensor_core<subtensor_engine<tensor_static_rank<V,N,L>>>,
+      tensor_core<subtensor_engine<tensor_static_rank<V,N,L>>>> {
 public:
-  using engine_type = subtensor_engine<T>;
+  using tensor_type = tensor_static_rank<V,N,L>;
+  using engine_type = subtensor_engine<tensor_type>;
   using self_type   = tensor_core<engine_type>;
 
   template <class derived_type>
   using tensor_expression_type = detail::tensor_expression<self_type, derived_type>;
-
+  template<class derived_type>
+  using matrix_expression_type    = matrix_expression<derived_type>;
+  template<class derived_type>
+  using vector_expression_type    = vector_expression<derived_type>;
   template <class derived_type>
-  using parent_tensor_expression_type = detail::tensor_expression<T, derived_type>;
+  using parent_tensor_expression_type = detail::tensor_expression<tensor_type, derived_type>;
 
   // template <typename container> struct subtensor_iterator {
   // };
 
-  static constexpr bool is_const = std::is_const<std::remove_reference_t<T>>::value;
+  static constexpr bool is_const = std::is_const<std::remove_reference_t<tensor_type>>::value;
 
   using container_type = typename engine_type::container_type;
   using layout_type    = typename engine_type::layout_type;
@@ -82,6 +86,9 @@ public:
   // using const_reverse_iterator =
   //   typename container_traits_type::const_reverse_iterator;
 
+  using matrix_type               = matrix<value_type, layout_type, std::vector<value_type> >;
+  using vector_type               = vector<value_type, std::vector<value_type> >;
+
   using container_tag = typename container_traits_type::container_tag;
   using resizable_tag = typename container_traits_type::resizable_tag;
 
@@ -93,7 +100,7 @@ public:
 
   tensor_core(const tensor_core&) = default;
 
-  tensor_core(T& t)
+  tensor_core(tensor_type& t)
     : tensor_expression_type<self_type>{}
     , _spans()
     , _extents(t.extents())
@@ -187,12 +194,7 @@ public:
   template <integral I1, integral I2, integral... Is>
   [[nodiscard]] inline const_reference at(I1 i1, I2 i2, Is... is) const
   {
-    if (sizeof...(is) + 2 != this->order()) {
-      throw std::invalid_argument(
-        "boost::numeric::ublas::tensor_core<tensor_dynamic>::at : "
-        "Cannot access tensor with multi-index. "
-        "Number of provided indices does not match with tensor order.");
-    }
+    static_assert (sizeof...(is)+2 == std::tuple_size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides, i1, i2, is...);
     return _tensor.at(idx);
   }
@@ -210,12 +212,7 @@ public:
   template <integral I1, integral I2, integral... Is>
   [[nodiscard]] inline reference at(I1 i1, I2 i2, Is... is)
   {
-    if (sizeof...(is) + 2 != this->order()) {
-      throw std::invalid_argument(
-        "boost::numeric::ublas::tensor_core<tensor_dynamic>::at : "
-        "Cannot access tensor with multi-index."
-        "Number of provided indices does not match with tensor order.");
-    }
+    static_assert (sizeof...(Is)+2 == std::tuple_size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides, i1, i2, is...);
     return _tensor.at(idx);
   }
@@ -315,12 +312,7 @@ public:
   [[nodiscard]] inline decltype(auto) operator()(index::index_type<I> p, index_types... ps) const
   {
     constexpr auto size = sizeof...(ps) + 1;
-    if (size != this->order()) {
-      throw std::invalid_argument(
-        "boost::numeric::ublas::tensor_core <engine_dynamic>: "
-        "Cannot multiply using Einstein notation. "
-        "Number of provided indices does not match with tensor order.");
-    }
+    static_assert(size == std::tuple_size_v<extents_type>);
     return std::make_pair(std::cref(*this), std::make_tuple(p, std::forward<index_types>(ps)...));
   }
 
@@ -360,13 +352,13 @@ public:
   [[nodiscard]] inline auto empty ()            const noexcept { return size() == 0;             }
   [[nodiscard]] inline auto size  ()            const noexcept { return ublas::product(_extents);}
   [[nodiscard]] inline auto size  (size_type r) const          { return _extents.at(r);          }
-  [[nodiscard]] inline auto rank  ()            const          { return _extents.size();         }
+  [[nodiscard]] inline auto rank  ()            const          { return return std::tuple_size_v<extents_type>; }
   [[nodiscard]] inline auto order ()            const          { return this->rank();            }
 
   [[nodiscard]] inline auto const& strides () const noexcept                  { return _strides; }
   [[nodiscard]] inline auto const& extents () const noexcept                  { return _extents; }
-  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _tensor.data();}
-  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _tensor.data();}
+  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _tensor.data() + detail::to_offset(_tensor.strides(), spans_);}
+  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _tensor.data() + detail::to_offset(_tensor.strides(), spans_);}
   [[nodiscard]] inline auto const& base    () const noexcept                  { return _tensor.container(); }
 
 private:
@@ -376,9 +368,8 @@ private:
   std::vector<span_type> _spans;
   extents_type _extents;
   strides_type _strides;
-  T& _tensor;
+  tensor_type& _tensor;
 };
-
 
 }   // namespace boost::numeric::ublas
 

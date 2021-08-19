@@ -32,40 +32,40 @@ explicit unit_test_framework ;
 
 test-suite boost-ublas-tensor-test
     :
-    [ run test_access.cpp
-          test_algorithms.cpp
-          test_einstein_notation.cpp
-          test_expression.cpp
-          test_expression_evaluation.cpp
-          test_extents_dynamic.cpp
-          test_extents_dynamic_rank_static.cpp
-          test_extents_functions.cpp
-          test_fixed_rank_expression_evaluation.cpp
-          test_fixed_rank_extents.cpp
-          test_fixed_rank_functions.cpp
-          test_fixed_rank_operators_arithmetic.cpp
-          test_fixed_rank_operators_comparison.cpp
-          test_fixed_rank_strides.cpp
-          test_fixed_rank_tensor.cpp
-          test_fixed_rank_tensor_matrix_vector.cpp
-          test_functions.cpp
-          test_multi_index.cpp
-          test_multi_index_utility.cpp
-          test_multiplication.cpp
-          test_operators_arithmetic.cpp
-          test_operators_comparison.cpp
-          test_static_expression_evaluation.cpp
-          test_static_extents.cpp
-          test_static_operators_arithmetic.cpp
-          test_static_operators_comparison.cpp
-          test_static_strides.cpp
-          test_static_tensor.cpp
-          test_static_tensor_matrix_vector.cpp
-          test_strides.cpp
-          # test_subtensor.cpp
+    [ run # test_access.cpp
+        #   test_algorithms.cpp
+        #   test_einstein_notation.cpp
+        #   test_expression.cpp
+        #   test_expression_evaluation.cpp
+        #   test_extents_dynamic.cpp
+        #   test_extents_dynamic_rank_static.cpp
+        #   test_extents_functions.cpp
+        #   test_fixed_rank_expression_evaluation.cpp
+        #   test_fixed_rank_extents.cpp
+        #   test_fixed_rank_functions.cpp
+        #   test_fixed_rank_operators_arithmetic.cpp
+        #   test_fixed_rank_operators_comparison.cpp
+        #   test_fixed_rank_strides.cpp
+        #   test_fixed_rank_tensor.cpp
+        #   test_fixed_rank_tensor_matrix_vector.cpp
+        #   test_functions.cpp
+        #   test_multi_index.cpp
+        #   test_multi_index_utility.cpp
+        #   test_multiplication.cpp
+        #   test_operators_arithmetic.cpp
+        #   test_operators_comparison.cpp
+        #   test_static_expression_evaluation.cpp
+        #   test_static_extents.cpp
+        #   test_static_operators_arithmetic.cpp
+        #   test_static_operators_comparison.cpp
+        #   test_static_strides.cpp
+        #   test_static_tensor.cpp
+        #   test_static_tensor_matrix_vector.cpp
+        #   test_strides.cpp
+          test_subtensor.cpp
           test_subtensor_utility.cpp
           test_tensor.cpp
-          test_tensor_matrix_vector.cpp
+        #   test_tensor_matrix_vector.cpp
           unit_test_framework
           :
           :

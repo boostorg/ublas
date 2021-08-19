@@ -28,7 +28,7 @@
 #include "../tags.hpp"
 #include "../concepts.hpp"
 #include "../span.hpp"
-#include "subtensor.hpp"
+#include "subtensor_dynamic.hpp"
 #include "tensor_engine.hpp"
 
 
