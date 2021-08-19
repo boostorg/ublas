@@ -317,7 +317,7 @@ public:
   // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
   tensor_core& operator=(tensor_core other) noexcept
   {
-    detail::eval(*this, other);
+    swap (*this, other);
     return *this;
   }
 
@@ -452,6 +452,12 @@ public:
     return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
   }
 
+  friend void swap(tensor_core& lhs, tensor_core& rhs)
+  {
+    std::swap(lhs._extents   , rhs._extents);
+    std::swap(lhs._strides   , rhs._strides);
+    std::swap(lhs._container , rhs._container);
+  }
 
   /**
    * @brief Generates a subtensor from a tensor
