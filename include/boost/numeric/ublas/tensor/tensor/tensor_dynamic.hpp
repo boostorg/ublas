@@ -182,7 +182,6 @@ public:
     , _strides (ublas::to_strides(_extents, layout_type{}))
     , _container(ublas::product(_extents))
   {
-    std::cout << "called" << std::endl;
     detail::eval(*this, other);
   }
 

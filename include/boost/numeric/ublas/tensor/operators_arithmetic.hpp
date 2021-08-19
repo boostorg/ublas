@@ -29,7 +29,7 @@ template<class T>
 class tensor_core;
 
 template<class T>
-class subtensor_engine;
+struct subtensor_engine;
 
 template<class E>
 class matrix_expression;
