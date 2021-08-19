@@ -43,8 +43,8 @@ int main()
     std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "A=" << A << ";" << std::endl << std::endl;
 
-    B = 1;
-    A = B + 1;
+    B += 1;
+    A = B;
 
     std::cout << "% --------------------------- " << std::endl;
     std::cout << "% --------------------------- " << std::endl << std::endl;

@@ -393,7 +393,77 @@ inline
   return lhs;
 }
 
+template<class T, class D>
+inline
+  constexpr auto& operator += (boost::numeric::ublas::tensor_core<T>& lhs,
+    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>,D> &expr)
+{
+  boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l+=r; } );
+  return lhs;
+}
 
+template<class T, class D>
+inline
+  constexpr auto& operator -= (boost::numeric::ublas::tensor_core<T>& lhs,
+    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>,D> &expr)
+{
+  boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l-=r; } );
+  return lhs;
+}
+
+template<class T, class D>
+inline
+  constexpr auto& operator *= (boost::numeric::ublas::tensor_core<T>& lhs,
+    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>,D> &expr)
+{
+  boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l*=r; } );
+  return lhs;
+}
+
+template<class T, class D>
+inline
+  constexpr auto& operator /= (boost::numeric::ublas::tensor_core<T>& lhs,
+    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>,D> &expr)
+{
+  boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l/=r; } );
+  return lhs;
+}
+
+template<class T, class D>
+inline
+  constexpr auto& operator += (boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>& lhs,
+    const boost::numeric::ublas::detail::tensor_expression<T,D> &expr)
+{
+  boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l+=r; } );
+  return lhs;
+}
+
+template<class T, class D>
+inline
+  constexpr auto& operator -= (boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>& lhs,
+    const boost::numeric::ublas::detail::tensor_expression<T,D> &expr)
+{
+  boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l-=r; } );
+  return lhs;
+}
+
+template<class T, class D>
+inline
+  constexpr auto& operator *= (boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>& lhs,
+    const boost::numeric::ublas::detail::tensor_expression<T,D> &expr)
+{
+  boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l*=r; } );
+  return lhs;
+}
+
+template<class T, class D>
+inline
+  constexpr auto& operator /= (boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>& lhs,
+    const boost::numeric::ublas::detail::tensor_expression<T,D> &expr)
+{
+  boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l/=r; } );
+  return lhs;
+}
 
 
 template<class TensorEngine>

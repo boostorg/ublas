@@ -102,20 +102,6 @@ public:
 
 	~span() = default;
 
-    inline value_type operator[] (std::size_t idx) const
-	{
-		return first_ + idx * step_;
-	}
-
-    inline span operator()(const span &rhs) const
-	{
-		auto const& lhs = *this;
-		return span(
-                    rhs.first_*lhs.step_ + lhs.first_,
-					lhs.step_ *rhs.step_,
-					rhs.last_ *lhs.step_ + lhs.first_ );
-	}
-
     [[ nodiscard ]] inline value_type size() const {
         if (first_ == last_) {
             return value_type(1);
@@ -127,18 +113,6 @@ protected:
 
 	value_type first_, step_, last_ ;
 };
-
-template<integral unsigned_type_lhs, integral unsigned_type_rhs>
-inline auto ran(unsigned_type_lhs f, unsigned_type_rhs l)
-{
-	return span(f,l);
-}
-
-template<integral unsigned_type_left, integral unsigned_type_middle, integral unsigned_type_right>
-inline auto ran(unsigned_type_left f, unsigned_type_middle s, unsigned_type_right l)
-{
-	return span(f,s,l);
-}
 
 } // namespace
 

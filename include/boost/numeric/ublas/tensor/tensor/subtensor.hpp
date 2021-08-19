@@ -121,9 +121,6 @@ public:
     , _tensor (v._tensor)
   {
     _extents = detail::to_extents(_spans);
-    for (int i = 0; i < (int) _extents.size(); i++) {
-      std::cout << _extents[i] << std::endl;
-    }
   }
 
   /// @brief Default destructor
