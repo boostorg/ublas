@@ -89,6 +89,10 @@ public:
 
   using subtensor_type            = tensor_core<subtensor_engine<self_type>>;
 
+  template<class derived_type>
+  using subtensor_expression_type    = detail::tensor_expression<subtensor_type,derived_type>;
+
+
   explicit tensor_core () = default;
 
   /** @brief Constructs a tensor_core with a \c shape
@@ -178,6 +182,7 @@ public:
     , _strides (ublas::to_strides(_extents, layout_type{}))
     , _container(ublas::product(_extents))
   {
+    std::cout << "called" << std::endl;
     detail::eval(*this, other);
   }
 
@@ -295,10 +300,25 @@ public:
     return *this;
   }
 
+  /** @brief Evaluates the tensor_expression and assigns the results to the tensor_core
+     *
+     * @code A = B + C * 2;  @endcode
+     *
+     * @note rank and dimension extents of the tensors in the expressions must conform with this tensor_core.
+     *
+     * @param expr expression that is evaluated.
+     */
+  template<class derived_type>
+  tensor_core &operator = (const subtensor_expression_type<derived_type> &expr)
+  {
+    detail::eval(*this, expr);
+    return *this;
+  }
+
   // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
   tensor_core& operator=(tensor_core other) noexcept
   {
-    swap (*this, other);
+    detail::eval(*this, other);
     return *this;
   }
 
@@ -449,14 +469,6 @@ public:
   [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) noexcept {
     return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
-
-  friend void swap(tensor_core& lhs, tensor_core& rhs)
-  {
-    std::swap(lhs._extents   , rhs._extents);
-    std::swap(lhs._strides   , rhs._strides);
-    std::swap(lhs._container , rhs._container);
-  }
-
 
   [[nodiscard]] inline auto begin  () const noexcept -> const_iterator { return _container.begin  (); }
   [[nodiscard]] inline auto end    () const noexcept -> const_iterator { return _container.end    (); }

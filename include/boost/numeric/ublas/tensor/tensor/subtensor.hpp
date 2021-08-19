@@ -35,14 +35,18 @@ namespace boost::numeric::ublas {
 
 template <class T>
 class tensor_core<subtensor_engine<T>>
-  : public detail::tensor_expression<tensor_core<subtensor_engine<T>>,
-                                     tensor_core<subtensor_engine<T>>> {
+  : public detail::tensor_expression<
+      tensor_core<subtensor_engine<T>>,
+      tensor_core<subtensor_engine<T>>> {
 public:
   using engine_type = subtensor_engine<T>;
   using self_type   = tensor_core<engine_type>;
 
   template <class derived_type>
   using tensor_expression_type = detail::tensor_expression<self_type, derived_type>;
+
+  template <class derived_type>
+  using parent_tensor_expression_type = detail::tensor_expression<T, derived_type>;
 
   // template <typename container> struct subtensor_iterator {
   // };
@@ -89,12 +93,32 @@ public:
 
   tensor_core(const tensor_core&) = default;
 
+  tensor_core(T& t)
+    : tensor_expression_type<self_type>{}
+    , _spans()
+    , _extents(t.extents())
+    , _strides(t.strides())
+    , _tensor(t)
+  {
+  }
+
   template <class U, class FS, class... SL>
   tensor_core(U&& t, FS&& first, SL&&... spans)
-    : _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
+    : tensor_expression_type<self_type>{}
+    , _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
     , _extents{}
     , _strides(detail::to_span_strides(t.strides(), _spans))
     , _tensor(t)
+  {
+    _extents = detail::to_extents(_spans);
+  }
+
+  tensor_core(tensor_core&& v)
+    : tensor_expression_type<self_type>{}
+    , _spans  (std::move(v._spans))
+    , _extents(std::move(v._extents))
+    , _strides(std::move(v._strides))
+    , _tensor (v._tensor)
   {
     _extents = detail::to_extents(_spans);
     for (int i = 0; i < (int) _extents.size(); i++) {
@@ -122,18 +146,36 @@ public:
     return *this;
   }
 
-  // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
-  tensor_core& operator=(tensor_core other) noexcept
+  /** @brief Evaluates the tensor_expression and assigns the results to the
+   * tensor_core
+   *
+   * @code A = B + C * 2;  @endcode
+   *
+   * @note rank and dimension extents of the tensors in the expressions must
+   * conform with this tensor_core.
+   *
+   * @param expr expression that is evaluated.
+   */
+  template <class derived_type>
+  tensor_core& operator=(const parent_tensor_expression_type<derived_type>& expr)
   {
-    swap(*this, other);
+    detail::eval(*this, expr);
     return *this;
   }
 
-  // tensor_core& operator=(const_reference v)
-  // {
-  //   std::fill_n(_container.begin(), _container.size(), v);
-  //   return *this;
-  // }
+  // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
+  tensor_core& operator=(tensor_core other) noexcept
+  {
+    swap (*this, other);
+    return *this;
+  }
+
+  tensor_core& operator=(const_reference v)
+  {
+    for(auto i = 0u; i < this->size(); ++i)
+		  this->at(i) = v;
+    return *this;
+  }
 
   /** @brief Element access using a multi-index with bound checking which can
    * throw an exception.

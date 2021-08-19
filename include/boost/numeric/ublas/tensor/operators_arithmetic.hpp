@@ -28,9 +28,11 @@ namespace boost::numeric::ublas
 template<class T>
 class tensor_core;
 
+template<class T>
+class subtensor_engine;
+
 template<class E>
 class matrix_expression;
-
 
 template<class E>
 class vector_expression;
@@ -205,7 +207,7 @@ inline
 template<class T1, class T2, class L, class R>
 inline
   constexpr auto operator+( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) 
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs)
 {
 
   static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
@@ -225,7 +227,7 @@ inline
 template<class T1, class T2, class L, class R>
 inline
   constexpr auto operator-( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) 
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs)
 {
 
   static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
@@ -246,7 +248,7 @@ inline
 template<class T1, class T2, class L, class R>
 inline
   constexpr auto operator*( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) 
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs)
 {
 
   static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
@@ -266,7 +268,7 @@ inline
 template<class T1, class T2, class L, class R>
 inline
   constexpr auto operator/( boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) 
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs)
 {
 
   static_assert( std::is_same_v< typename T1::value_type, typename T2::value_type>,
@@ -422,7 +424,7 @@ inline
 }
 
 template<typename TensorEngine>
-constexpr auto& operator /= (boost::numeric::ublas::tensor_core<TensorEngine>& lhs, 
+constexpr auto& operator /= (boost::numeric::ublas::tensor_core<TensorEngine>& lhs,
     typename boost::numeric::ublas::tensor_core<TensorEngine>::const_reference r)
 {
   boost::numeric::ublas::detail::eval(lhs, [r](auto& l) { l/=r; } );

@@ -42,10 +42,13 @@ int main()
     for(auto i = 0u; i < A.size(); ++i, vf += 1.0f)
       A[i] = vf;
 
+    tensor t2 = A;
+
     // formatted output
     std::cout << "% --------------------------- " << std::endl;
     std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "A=" << A << ";" << std::endl << std::endl;
+    std::cout << "t1=" << t1 << ";" << std::endl << std::endl;
   } catch (const std::exception& e) {
     std::cerr << "Cought exception " << e.what();
     std::cerr << "in the main function of access-tensor." << std::endl;
@@ -68,7 +71,7 @@ int main()
 
     //NOLINTNEXTLINE
     tensor t1 = zeros(5,4,3,2);
-    auto B = t1(span(), span(), span(), span(), span());
+    auto B = t1(span(), span(), span(), span());
 
     // initializes the tensor with increasing values along the last-index
     // using a single-index

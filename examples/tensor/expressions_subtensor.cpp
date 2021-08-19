@@ -30,17 +30,22 @@ int main()
 
 
     auto t1 = tensor{3,4,2};
-    auto A = t1(span(1,ublas::max), span(), span(0,1));
+    auto A = t1(span(), span(), span());
 
     tensor B = A = 2;
 
-    // Calling overloaded operators
-    // and using simple tensor expression templates.
-    if( A != (B+1) ){
-      A += 2*B - 1;
+    if (A == B) {
+      std::cout << "Equal" << std::endl;
     }
 
     // formatted output
+    std::cout << "% --------------------------- " << std::endl;
+    std::cout << "% --------------------------- " << std::endl << std::endl;
+    std::cout << "A=" << A << ";" << std::endl << std::endl;
+
+    B = 1;
+    A = B + 1;
+
     std::cout << "% --------------------------- " << std::endl;
     std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "A=" << A << ";" << std::endl << std::endl;
@@ -50,7 +55,6 @@ int main()
     auto e = vector(n[1],1);
     auto f = vector(n[0],2);
 
-    auto C = t1(span(0,0));
     // Calling constructor with
     // vector expression templates
     tensor C = 2*f;
