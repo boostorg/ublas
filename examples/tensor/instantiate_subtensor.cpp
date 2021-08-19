@@ -14,7 +14,7 @@ void instantiate_subtensor_dynamic()
     tensor t1 = ones(3, 4, 2);
     std::cout << "t1 = " << t1 << std::endl;
 
-    auto st1 = t1(span(1,ublas::max), span(), span(0,1));
+    auto st1 = t1(span(0,ublas::max), span(), span(0,1));
 
     std::cout << "st1 = " << st1 << std::endl;
 
@@ -25,9 +25,9 @@ void instantiate_subtensor_dynamic()
   }
 }
 
-void instantiate_tensor_dynamics_with_static_order()
+void instantiate_subtensor_dynamic_with_static_order()
 {
-    namespace ublas = boost::numeric::ublas;
+  namespace ublas = boost::numeric::ublas;
   using value   = float;
   using layout  = ublas::layout::first_order; // storage format
   using tensor  = boost::numeric::ublas::tensor_dynamic<value,layout>;
@@ -49,12 +49,19 @@ void instantiate_tensor_dynamics_with_static_order()
 }
 
 
-void instantiate_tensor_static()
+void instantiate_subtensor_static()
 {
 }
 
 
 
 int main() {
-  instantiate_subtensor_dynamic();
+  try{
+    instantiate_subtensor_dynamic();
+    instantiate_subtensor_dynamic_with_static_order();
+    instantiate_subtensor_static();
+  } catch (const std::exception& e) {
+    std::cerr << "Cought exception " << e.what();
+    std::cerr << "in the main function of instantiate-tensor." << std::endl;
+  }
 }

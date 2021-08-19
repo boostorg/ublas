@@ -17,14 +17,15 @@
 #include <boost/numeric/ublas/tensor/extents.hpp>
 #include <boost/numeric/ublas/tensor/span.hpp>
 #include <boost/numeric/ublas/tensor/tags.hpp>
-#include <boost/numeric/ublas/tensor/tensor/subtensor_utility.hpp>
+
+#include <boost/numeric/ublas/tensor/subtensor_utility.hpp>
 
 
 BOOST_AUTO_TEST_SUITE ( subtensor_utility_testsuite )
 
 
 struct fixture_span {
-	using span_type = boost::numeric::ublas::span;
+	using span_type = boost::numeric::ublas::span<>;
 
 	fixture_span()
 		: spans{
@@ -41,7 +42,7 @@ struct fixture_span {
 };
 
 
-BOOST_FIXTURE_TEST_CASE( transform_strided_span_test, fixture_span )
+BOOST_FIXTURE_TEST_CASE( transform_span_test, fixture_span )
 {
 	using namespace boost::numeric;
 
@@ -76,7 +77,7 @@ BOOST_FIXTURE_TEST_CASE( transform_strided_span_test, fixture_span )
 }
 
 struct fixture_shape {
-    using shape = boost::numeric::ublas::extents<>;
+  using shape = boost::numeric::ublas::extents<>;
 
   fixture_shape() : extents{
 				shape{},    // 0
@@ -97,7 +98,7 @@ struct fixture_shape {
 BOOST_FIXTURE_TEST_CASE( generate_span_array_test, fixture_shape )
 {
   namespace ublas = boost::numeric::ublas;
-  using span = ublas::span;
+  using span = ublas::span<>;
 
 	// shape{}
 	{
@@ -169,7 +170,7 @@ BOOST_FIXTURE_TEST_CASE( generate_span_array_test, fixture_shape )
 	}
 
 	{
-  auto v = ublas::detail::generate_span_array<span>(extents[5],1,span(),ublas::max);
+   auto v = ublas::detail::generate_span_array<span>(extents[5],1,span(),ublas::max);
 	auto r = std::vector<span>{span(1,1),span(0,2),span(0,0)};
 	BOOST_CHECK ( std::equal( v.begin(), v.end(), r.begin(), [](span const& l, span const& r){ return l == r; } )  );
 	}
@@ -179,7 +180,7 @@ BOOST_FIXTURE_TEST_CASE( generate_span_array_test, fixture_shape )
 
 struct fixture_span_vector_shape {
   using shape = boost::numeric::ublas::extents<>;
-	using span  = boost::numeric::ublas::span;
+  using span  = boost::numeric::ublas::span<>;
 
 
 	fixture_span_vector_shape()

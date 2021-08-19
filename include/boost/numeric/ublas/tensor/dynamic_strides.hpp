@@ -16,11 +16,11 @@
 #define _BOOST_UBLAS_TENSOR_DYNAMIC_STRIDES_HPP_
 
 #include <boost/numeric/ublas/functional.hpp>
-#include <boost/numeric/ublas/tensor/dynamic_extents.hpp>
+#include <boost/numeric/ublas/tensor/extents/extents_dynamic_size.hpp>
 #include <boost/numeric/ublas/tensor/type_traits.hpp>
 
-namespace boost { 
-namespace numeric { 
+namespace boost {
+namespace numeric {
 namespace ublas {
 
 using first_order = column_major;
@@ -191,7 +191,7 @@ public:
     constexpr base_type const& base() const{
         return this->_base;
     }
-    
+
 protected:
     base_type _base;
 };

@@ -55,7 +55,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( subtensor_ctor1_test, value,  test_types, fixt
   using value_type     = typename value::first_type;
   using layout_type    = typename value::second_type;
   using tensor_type    = ublas::tensor_dynamic<value_type, layout_type>;
-  using subtensor_type = ublas::subtensor<ublas::tag::sliced, tensor_type>;
+  using subtensor_type = ublas::tensor_core<ublas::subtensor_engine<tensor_type>>;
 
 
   auto check = [](auto const& e) {

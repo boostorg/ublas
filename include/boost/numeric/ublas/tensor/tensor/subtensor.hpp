@@ -26,7 +26,7 @@
 #include "../traits/read_write_traits.hpp"
 #include "../type_traits.hpp"
 #include "subtensor_engine.hpp"
-#include "subtensor_utility.hpp"
+#include "../subtensor_utility.hpp"
 #include "tensor_engine.hpp"
 
 #include <initializer_list>
@@ -42,14 +42,12 @@ public:
   using self_type   = tensor_core<engine_type>;
 
   template <class derived_type>
-  using tensor_expression_type =
-    detail::tensor_expression<self_type, derived_type>;
+  using tensor_expression_type = detail::tensor_expression<self_type, derived_type>;
 
-  template <typename container> struct subtensor_iterator {
-  };
+  // template <typename container> struct subtensor_iterator {
+  // };
 
-  static constexpr bool is_const =
-    std::is_const<std::remove_reference_t<T>>::value;
+  static constexpr bool is_const = std::is_const<std::remove_reference_t<T>>::value;
 
   using container_type = typename engine_type::container_type;
   using layout_type    = typename engine_type::layout_type;
@@ -72,13 +70,13 @@ public:
                        typename container_traits_type::pointer>;
   using const_pointer = typename container_traits_type::const_pointer;
 
-  using iterator = typename self_type::subtensor_iterator<container_type>;
-  using const_iterator =
-    typename self_type::subtensor_iterator<container_type> const;
+  // using iterator = typename self_type::subtensor_iterator<container_type>;
+  // using const_iterator =
+  //   typename self_type::subtensor_iterator<container_type> const;
 
-  using reverse_iterator = typename container_traits_type::reverse_iterator;
-  using const_reverse_iterator =
-    typename container_traits_type::const_reverse_iterator;
+  // using reverse_iterator = typename container_traits_type::reverse_iterator;
+  // using const_reverse_iterator =
+  //   typename container_traits_type::const_reverse_iterator;
 
   using container_tag = typename container_traits_type::container_tag;
   using resizable_tag = typename container_traits_type::resizable_tag;
@@ -95,7 +93,7 @@ public:
   tensor_core(U&& t, FS&& first, SL&&... spans)
     : _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
     , _extents{}
-    , _strides(t.strides())
+    , _strides(detail::to_span_strides(t.strides(), _spans))
     , _tensor(t)
   {
     _extents = detail::to_extents(_spans);

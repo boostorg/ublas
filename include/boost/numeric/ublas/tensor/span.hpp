@@ -10,8 +10,8 @@
 //
 
 
-#ifndef BOOST_UBLAS_TENSOR_SPAN
-#define BOOST_UBLAS_TENSOR_SPAN
+#ifndef BOOST_UBLAS_TENSOR_SPAN_HPP
+#define BOOST_UBLAS_TENSOR_SPAN_HPP
 
 #include <typeinfo>
 #include <limits>
@@ -56,7 +56,7 @@ public:
 	// e.g. a(1) or a(0)
     // TODO: case where stop < 0 then stop += length
 	explicit span(value_type l)
-		: span(0,1,l)
+		: span(l,1,l)
 	{
 	}
 
@@ -166,4 +166,4 @@ inline bool operator!=(
 	return !(lhs == rhs);
 }
 
-#endif // BOOST_UBLAS_TENSOR SPAN
+#endif // BOOST_UBLAS_TENSOR_SPAN_HPP

@@ -17,7 +17,7 @@
 BOOST_AUTO_TEST_SUITE( span_testsuite );
 
 struct fixture {
-	using span_type  = boost::numeric::ublas::strided_span;
+	using span_type  = boost::numeric::ublas::pan;
 
 	fixture() :
 		spans {
@@ -39,7 +39,7 @@ struct fixture {
 
 BOOST_FIXTURE_TEST_CASE( ctor_test, fixture )
 {
-	using span_type = boost::numeric::ublas::strided_span;
+	using span_type = boost::numeric::ublas::span<>;
 
 	BOOST_CHECK_EQUAL (spans[0].first(),0);
 	BOOST_CHECK_EQUAL (spans[0].step (),0);
@@ -96,7 +96,7 @@ BOOST_FIXTURE_TEST_CASE( ctor_test, fixture )
 
 BOOST_FIXTURE_TEST_CASE( copy_ctor_test, fixture )
 {
-	using span_type = boost::numeric::ublas::strided_span;
+	using span_type = boost::numeric::ublas::span<>;
 
 
 	BOOST_CHECK_EQUAL (span_type(spans[0]).first(),0);
