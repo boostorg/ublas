@@ -25,8 +25,8 @@
 #include "../tags.hpp"
 #include "../traits/read_write_traits.hpp"
 #include "../type_traits.hpp"
-#include "subtensor_engine.hpp"
 #include "../subtensor_utility.hpp"
+#include "subtensor_engine.hpp"
 #include "tensor_engine.hpp"
 
 #include <initializer_list>

@@ -81,7 +81,6 @@ int main()
     std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "B=" << B << ";" << std::endl << std::endl;
 
-
     auto C = tensor(B.extents());
     // computes the complex conjugate of elements of B
     // using multi-index notation.
@@ -96,14 +95,13 @@ int main()
     std::cout << "C=" << C << ";" << std::endl << std::endl;
 
 
-
-    // computes the complex conjugate of elements of B
-    // using iterators.
+    // // computes the complex conjugate of elements of B
+    // // using iterators.
     auto D = tensor(B.extents());
-    std::transform(B.begin(), B.end(), D.begin(), [](auto const& b){ return std::conj(b); });
-    std::cout << "% --------------------------- " << std::endl;
-    std::cout << "% --------------------------- " << std::endl << std::endl;
-    std::cout << "D=" << D << ";" << std::endl << std::endl;
+    // // std::transform(B.begin(), B.end(), D.begin(), [](auto const& b){ return std::conj(b); });
+    // std::cout << "% --------------------------- " << std::endl;
+    // std::cout << "% --------------------------- " << std::endl << std::endl;
+    // std::cout << "D=" << D << ";" << std::endl << std::endl;
 
     // reshaping tensors.
     auto new_extents = B.extents().base();

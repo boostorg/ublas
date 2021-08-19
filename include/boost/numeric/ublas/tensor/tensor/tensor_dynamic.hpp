@@ -167,6 +167,19 @@ public:
   {
   }
 
+  /** @brief Constructs a tensor_core with another tensor_core with a subtensor_engine
+     *
+     * @param other tensor_core with a subtensor_engine to be copied.
+     */
+  template<typename OTT>
+  explicit inline tensor_core (const tensor_core<subtensor_engine<OTT>> &other)
+    : tensor_expression_type<self_type>{}
+    , _extents (ublas::begin(other.extents ()), ublas::end (other.extents ()))
+    , _strides (ublas::to_strides(_extents, layout_type{}))
+    , _container(ublas::product(_extents))
+  {
+    detail::eval(*this, other);
+  }
 
   /** @brief Constructs a tensor_core with an tensor_core expression
      *

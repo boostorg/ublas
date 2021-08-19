@@ -83,8 +83,8 @@ public:
 
     span(span const& other)
 		: first_(other.first_)
-		, last_ (other.last_ )
 		, step_ (other.step_ )
+		, last_ (other.last_ )
 	{
 	}
 

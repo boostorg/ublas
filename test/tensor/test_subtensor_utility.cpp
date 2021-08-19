@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_SUITE ( subtensor_utility_testsuite )
 
 struct fixture_span {
 	using span_type = boost::numeric::ublas::span<>;
-
+	
 	fixture_span()
 		: spans{
             span_type(),       // 0, a(:)

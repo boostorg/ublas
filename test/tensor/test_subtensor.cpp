@@ -60,7 +60,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( subtensor_ctor1_test, value,  test_types, fixt
 
   auto check = [](auto const& e) {
     auto t = tensor_type(e);
-    auto s = subtensor_type(t);
+    auto s = t()
     BOOST_CHECK_EQUAL (  s.size() , t.size() );
     BOOST_CHECK_EQUAL (  s.rank() , t.rank() );
     if(ublas::empty(e)) {
@@ -83,11 +83,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( subtensor_ctor1_test, value,  test_types, fixt
 BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
 {
 
-  namespace ub = boost::numeric::ublas;
+  namespace ublas = boost::numeric::ublas;
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
-  using tensor_type = ub::tensor_dynamic<value_type, layout_type>;
-  using subtensor_type = ub::subtensor<ub::tag::sliced, tensor_type>;
+  using tensor_type = ublas::tensor_dynamic<value_type, layout_type>;
+  using subtensor_type = ublas::subtensor<ub::tag::sliced, tensor_type>;
   using span  = ub::sliced_span;
 
 
