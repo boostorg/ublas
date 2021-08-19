@@ -7,7 +7,7 @@
 //:
 
 
-/// \file subtensor.hpp Definition for the subtensor template class
+/// \file subtensor_dynamic.hpp Definition for the subtensor template class
 
 #ifndef BOOST_UBLAS_SUBTENSOR_DYNAMIC_HPP
 #define BOOST_UBLAS_SUBTENSOR_DYNAMIC_HPP
