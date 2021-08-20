@@ -114,12 +114,13 @@ public:
     : tensor_expression_type<self_type>{}
     , _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
     , _extents{}
-    , _strides(ublas::to_strides(_extents,layout_type{}))
+    , _strides{}
     , _span_strides(detail::to_span_strides(t.strides(), _spans))
     , _offset{detail::to_offset(t.strides(), _spans)}
     , _tensor(t)
   {
     _extents = detail::to_extents(_spans);
+    _strides = ublas::to_strides(_extents,layout_type{});
     for (int i = 0; i < (int) _extents.size(); i++) {
       std::cout << _extents[i] << " ";
     }
@@ -128,8 +129,11 @@ public:
       std::cout << _span_strides[i] << " ";
     }
     std::cout << std::endl;
-    std::cout << detail::to_offset(t.strides(), _spans) << std::endl;
+    for (int i = 0; i < (int) _strides.size(); i++) {
+      std::cout << _strides[i] << " ";
+    }
     std::cout << std::endl;
+    std::cout << _offset << std::endl;
   }
 
   tensor_core(tensor_core&& v)
@@ -281,7 +285,7 @@ public:
    */
   [[nodiscard]] inline const_reference operator[](size_type i) const
   {
-    const auto idx = detail::compute_single_index(i, _span_strides.begin(), _span_strides.end(), _strides.begin(), _offset);
+    const auto idx = detail::compute_single_index(i, _span_strides.rbegin(), _span_strides.rend(), _strides.rbegin(), _offset);
     return _tensor[idx];
   }
 
@@ -293,8 +297,9 @@ public:
    */
   [[nodiscard]] inline reference operator[](size_type i)
   {
-    const auto idx = detail::compute_single_index(i, _span_strides.begin(), _span_strides.end(), _strides.begin(), _offset);
-    std::cout << "idx:" << i << "->" << idx << std::endl;
+    std::cout << "idx:" << i;
+    const auto idx = detail::compute_single_index(i, _span_strides.rbegin(), _span_strides.rend(), _strides.rbegin(), _offset);
+    std::cout << "->" << idx << std::endl;
     return _tensor[idx];
   }
 
@@ -308,7 +313,7 @@ public:
   template <class... Indices>
   [[nodiscard]] inline const_reference at(size_type i) const
   {
-    const auto idx = detail::compute_single_index(i, _span_strides.begin(), _span_strides.end(), _strides.begin(), _offset);
+    const auto idx = detail::compute_single_index(i, _span_strides.rbegin(), _span_strides.rend(), _strides.rbegin(), _offset);
     return _tensor[idx];
   }
 
@@ -320,7 +325,7 @@ public:
    */
   [[nodiscard]] inline reference at(size_type i)
   {
-    const auto idx = detail::compute_single_index(i, _span_strides.begin(), _span_strides.end(), _strides.begin(), _offset);
+    const auto idx = detail::compute_single_index(i, _span_strides.rbegin(), _span_strides.rend(), _strides.rbegin(), _offset);
     return _tensor[idx];
   }
 

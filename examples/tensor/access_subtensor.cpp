@@ -33,23 +33,27 @@ int main()
     // tensor A stores single-precision floating-point number according
     // to the first-order storage format
 
-    tensor t1 = ones(3,2);
-    auto A = t1(span(1,2), span());
+    tensor t1 = ones(4,3);
+    auto A = t1(span(1,2,3), span(1,2));
     tensor t2 = ones(2,2);
 
     t1(0,0) = t1(1,1) = 2;
 
-    for(auto i = 0u; i < A.size(); ++i)
-      std::cout << A[i] << " ";
-
+    std::cout << "hello" << std::endl;
+    for (auto i = 0u; i < A.size(0); i++) {
+      for (auto j = 0u; j < A.size(1); j++)
+        std::cout << A(i,j) << " ";
+      std::cout << std::endl;
+    }
     std::cout << std::endl << std::endl;
 
-    tensor t3 = t1 * A;
+    tensor t3 = t2 * A;
 
     // formatted output
     std::cout << "% --------------------------- " << std::endl;
     std::cout << "% --------------------------- " << std::endl << std::endl;
-    std::cout << "t1=" << A << ";" << std::endl << std::endl;
+    std::cout << "t1=" << t1 << ";" << std::endl << std::endl;
+    std::cout << "A=" << A << ";" << std::endl << std::endl;
     std::cout << "t2=" << t2 << ";" << std::endl << std::endl;
     std::cout << "t3=" << t3 << ";" << std::endl << std::endl;
   } catch (const std::exception& e) {
