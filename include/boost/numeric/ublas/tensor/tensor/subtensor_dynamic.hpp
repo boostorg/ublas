@@ -87,6 +87,9 @@ public:
   // using const_reverse_iterator =
   //   typename container_traits_type::const_reverse_iterator;
 
+  using matrix_type               = matrix<value_type, layout_type, std::vector<value_type> >;
+  using vector_type               = vector<value_type, std::vector<value_type> >;
+
   using container_tag = typename container_traits_type::container_tag;
   using resizable_tag = typename container_traits_type::resizable_tag;
 
@@ -135,6 +138,21 @@ public:
     std::cout << std::endl;
     std::cout << _offset << std::endl;
   }
+
+  // TODO
+  // template <class FS, class... SL>
+  // tensor_core(const tensor_core& t, FS&& first, SL&&... spans)
+  //   : tensor_expression_type<self_type>{}
+  //   , _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
+  //   , _extents{}
+  //   , _strides{}
+  //   , _span_strides(detail::to_span_strides(t.strides(), _spans))
+  //   , _offset{detail::to_offset(t.strides(), _spans)}
+  //   , _tensor(t._tensor)
+  // {
+  //   _extents = detail::to_extents(_spans);
+  //   _strides = ublas::to_strides(_extents,layout_type{});
+  // }
 
   tensor_core(tensor_core&& v)
     : tensor_expression_type<self_type>{}
@@ -360,7 +378,7 @@ public:
    * @tparam spans
    */
   template <class... SL>
-  [[nodiscard]] inline decltype(auto) operator()(span_type&& s, SL&&... spans) const noexcept
+  [[nodiscard]] inline decltype(auto) operator()(span_type&& s, SL&&... spans) const
   {
     constexpr auto size = sizeof...(spans)+1;
     if(size != this->order()){
@@ -368,12 +386,15 @@ public:
         "Cannot create subtensor "
         "Number of provided indices does not match with tensor order.");
     }
-    // TODO find way to convert spans
-    return subtensor_type(_tensor, std::forward<span_type>(s), std::forward<SL>(spans)...);
+    size_type n = size;
+    auto convert = [&] (auto arg) {
+      return _spans[--n](arg);
+    };
+    return subtensor_type(_tensor, std::forward<span_type>(convert(s)), std::forward<SL>(convert(spans))...);
   }
 
   template <class... SL>
-  [[nodiscard]] inline decltype(auto) operator()(span_type&& s, SL&&... spans) noexcept
+  [[nodiscard]] inline decltype(auto) operator()(span_type&& s, SL&&... spans)
   {
     constexpr auto size = sizeof...(spans)+1;
     if(size != this->order()){
@@ -381,8 +402,11 @@ public:
         "Cannot create subtensor "
         "Number of provided indices does not match with tensor order.");
     }
-    // TODO find way to convert spans
-    return subtensor_type(_tensor, std::forward<span_type>(s), std::forward<SL>(spans)...);
+    size_type n = size;
+    auto convert = [&] (auto arg) {
+      return _spans[--n](arg);
+    };
+    return subtensor_type(_tensor, std::forward<span_type>(convert(s)), std::forward<SL>(convert(spans))...);
   }
 
 //   [[nodiscard]] inline auto begin  () const noexcept -> const_iterator { return _container.begin  (); }

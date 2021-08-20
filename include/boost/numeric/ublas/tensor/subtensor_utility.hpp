@@ -169,6 +169,27 @@ auto generate_span_array(extents<> const& extents, Spans&& ... spans)
 
 /*! @brief Auxiliary function for subtensor that generates array of spans
  *
+ * generate_span_array<span>(shape(4,3,5,2), span(), 1, span(2,end), end  )
+ * -> std::array (span(0,3), span(1,1), span(2,4),span(1,1))
+ *
+ * @note span is zero-based indexed.
+ *
+ * @param[in] extents of the tensor
+ * @param[in] spans spans with which the subtensor is created
+ */
+template<std::size_t N, class span_type, class ... Spans>
+auto generate_span_array(extents<N> const& extents, Spans&& ... spans)
+{
+  constexpr static auto n = sizeof...(Spans);
+  static_assert(N == n);
+  std::array<span_type,n> span_array;
+  if constexpr (n>0)
+      transform_spans_impl<0>( extents, span_array, std::forward<Spans>(spans)... );
+  return span_array;
+}
+
+/*! @brief Auxiliary function for subtensor that generates array of spans
+ *
  * generate_span_vector<span>(shape(4,3,5,2), span(), 1, span(2,end), end  )
  * -> std::array (span(0,3), span(1,1), span(2,4),span(1,1))
  *

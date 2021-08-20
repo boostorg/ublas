@@ -33,8 +33,6 @@
 #include "tensor_engine.hpp"
 
 
-
-
 namespace boost::numeric::ublas {
 
 template<class V, class L, std::size_t N>
