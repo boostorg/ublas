@@ -62,7 +62,7 @@ test-suite boost-ublas-tensor-test
           test_static_tensor.cpp
           test_static_tensor_matrix_vector.cpp
           test_strides.cpp
-          test_subtensor.cpp
+        #   test_subtensor.cpp
           test_subtensor_utility.cpp
           test_tensor.cpp
           test_tensor_matrix_vector.cpp
