@@ -405,6 +405,7 @@ public:
   [[nodiscard]] inline auto order ()            const          { return this->rank();            }
 
   [[nodiscard]] inline auto const& strides () const noexcept                  { return _strides; }
+  [[nodiscard]] inline auto const& span_strides () const noexcept             { return _span_strides; }
   [[nodiscard]] inline auto const& extents () const noexcept                  { return _extents; }
   [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _tensor.data() + _offset; }
   [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _tensor.data() + _offset; }

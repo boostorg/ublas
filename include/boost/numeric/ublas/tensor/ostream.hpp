@@ -84,6 +84,9 @@ namespace boost::numeric::ublas
 template<class T>
 class tensor_core;
 
+template<class T>
+struct subtensor_engine;
+
 } //namespace boost::numeric::ublas
 
 
@@ -95,6 +98,38 @@ std::ostream& operator << (std::ostream& out, class boost::numeric::ublas::tenso
 
   auto const& n = t.extents();
   auto const& w = t.strides();
+
+  if(is_scalar(n)){
+    out << '[';
+    ublas::detail::print(out,t[0]);
+    out << ']';
+  }
+  else if(is_vector(n)) {
+    const auto& cat = n.at(0) > n.at(1) ? ';' : ',';
+    out << '[';
+    for(auto i = 0u; i < t.size()-1; ++i){
+      ublas::detail::print(out,t[i]);
+      out << cat << ' ';
+    }
+    ublas::detail::print(out,t[t.size()-1]);
+    out << ']';
+  }
+  else{
+    boost::numeric::ublas::detail::print(out, t.rank()-1, t.data(), w.data(), n.data());
+  }
+  return out;
+}
+
+template <typename T>
+std::ostream& operator << (std::ostream& out,
+                           class boost::numeric::ublas::tensor_core<
+                            boost::numeric::ublas::subtensor_engine<T>> const& t)
+{
+
+  namespace ublas = boost::numeric::ublas;
+
+  auto const& n = t.extents();
+  auto const& w = t.span_strides();
 
   if(is_scalar(n)){
     out << '[';
