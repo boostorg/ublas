@@ -33,20 +33,28 @@ int main()
     // tensor A stores single-precision floating-point number according
     // to the first-order storage format
 
-    tensor t1 = ones(4,3);
-    auto A = t1(span(1,2,3), span(1,2));
-    tensor t2 = ones(2,2);
-
-    t1(0,0) = t1(1,1) = 2;
-
-    std::cout << "hello" << std::endl;
-    for (auto i = 0u; i < A.size(0); i++) {
-      for (auto j = 0u; j < A.size(1); j++)
-        std::cout << A(i,j) << " ";
-      std::cout << std::endl;
+    tensor t1 = ones(3,3,2);
+    int cnt = 0;
+    for (auto i = 0u; i < t1.size(0); i++) {
+      for (auto j = 0u; j < t1.size(1); j++) {
+        for (auto k = 0u; k < t1.size(2); k++) {
+          t1(i,j,k) = cnt++;
+        }
+      }
     }
-    std::cout << std::endl << std::endl;
+    auto A = t1(span(0,1), span(0,1), span());
+    tensor t2 = ones(2,2,2);
 
+    std::cout << "% --------------------------- " << std::endl;
+    std::cout << A(0,0,0) << std::endl;
+    std::cout << A(0,0,1) << std::endl;
+    std::cout << A(0,1,0) << std::endl;
+    std::cout << A(0,1,1) << std::endl;
+    std::cout << A(1,0,0) << std::endl;
+    std::cout << A(1,0,1) << std::endl;
+    std::cout << A(1,1,0) << std::endl;
+    std::cout << A(1,1,1) << std::endl;
+    std::cout << "% --------------------------- " << std::endl;
     tensor t3 = t2 * A;
 
     // formatted output
