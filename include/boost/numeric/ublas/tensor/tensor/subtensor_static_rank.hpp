@@ -26,8 +26,9 @@
 #include "../traits/read_write_traits.hpp"
 #include "../type_traits.hpp"
 #include "../subtensor_utility.hpp"
+
 #include "subtensor_engine.hpp"
-#include "tensor_engine.hpp"
+#include "tensor_static_rank.hpp"
 
 #include <initializer_list>
 
@@ -357,8 +358,8 @@ public:
 
   [[nodiscard]] inline auto const& strides () const noexcept                  { return _strides; }
   [[nodiscard]] inline auto const& extents () const noexcept                  { return _extents; }
-  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _tensor.data() + detail::to_offset(_tensor.strides(), spans_);}
-  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _tensor.data() + detail::to_offset(_tensor.strides(), spans_);}
+  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _tensor.data() + detail::to_offset(_tensor.strides(), _spans);}
+  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _tensor.data() + detail::to_offset(_tensor.strides(), _spans);}
   [[nodiscard]] inline auto const& base    () const noexcept                  { return _tensor.container(); }
 
 private:

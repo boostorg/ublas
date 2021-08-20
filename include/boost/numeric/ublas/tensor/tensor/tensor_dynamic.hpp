@@ -28,7 +28,7 @@
 #include "../tags.hpp"
 #include "../concepts.hpp"
 #include "../span.hpp"
-#include "subtensor_dynamic.hpp"
+#include "subtensor_engine.hpp"
 #include "tensor_engine.hpp"
 
 
@@ -466,12 +466,24 @@ public:
    * @tparam spans
    */
   template<class ... SL>
-  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) const noexcept {
-	return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
+  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) const {
+    constexpr auto size = sizeof...(spans)+1;
+    if(size != this->order()){
+      throw std::invalid_argument("boost::numeric::ublas::tensor_core <engine_dynamic>: "
+        "Cannot create subtensor "
+        "Number of provided indices does not match with tensor order.");
+    }
+    return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
   template<class ... SL>
-  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) noexcept {
+  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) {
+    constexpr auto size = sizeof...(spans)+1;
+    if(size != this->order()){
+      throw std::invalid_argument("boost::numeric::ublas::tensor_core <engine_dynamic>: "
+        "Cannot create subtensor "
+        "Number of provided indices does not match with tensor order.");
+    }
     return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 

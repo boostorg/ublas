@@ -26,9 +26,8 @@
 #include "../traits/read_write_traits.hpp"
 #include "../type_traits.hpp"
 #include "../subtensor_utility.hpp"
-#include "../tensor.hpp"
 #include "subtensor_engine.hpp"
-#include "tensor_engine.hpp"
+#include "tensor_dynamic.hpp"
 
 #include <initializer_list>
 
@@ -38,7 +37,8 @@ template <class V, class L>
 class tensor_core<subtensor_engine<tensor_dynamic<V,L>>>
   : public detail::tensor_expression<
       tensor_core<subtensor_engine<tensor_dynamic<V,L>>>,
-      tensor_core<subtensor_engine<tensor_dynamic<V,L>>>> {
+      tensor_core<subtensor_engine<tensor_dynamic<V,L>>>
+      > {
 public:
   using tensor_type = tensor_dynamic<V,L>;
   using engine_type = subtensor_engine<tensor_type>;
@@ -103,6 +103,8 @@ public:
     , _spans()
     , _extents(t.extents())
     , _strides(t.strides())
+    , _span_strides(t.strides())
+    , _offset(size_type(0))
     , _tensor(t)
   {
   }
@@ -112,10 +114,22 @@ public:
     : tensor_expression_type<self_type>{}
     , _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
     , _extents{}
-    , _strides(detail::to_span_strides(t.strides(), _spans))
+    , _strides(ublas::to_strides(_extents,layout_type{}))
+    , _span_strides(detail::to_span_strides(t.strides(), _spans))
+    , _offset{detail::to_offset(t.strides(), _spans)}
     , _tensor(t)
   {
     _extents = detail::to_extents(_spans);
+    for (int i = 0; i < (int) _extents.size(); i++) {
+      std::cout << _extents[i] << " ";
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < (int) _span_strides.size(); i++) {
+      std::cout << _span_strides[i] << " ";
+    }
+    std::cout << std::endl;
+    std::cout << detail::to_offset(t.strides(), _spans) << std::endl;
+    std::cout << std::endl;
   }
 
   tensor_core(tensor_core&& v)
@@ -123,7 +137,9 @@ public:
     , _spans  (std::move(v._spans))
     , _extents(std::move(v._extents))
     , _strides(std::move(v._strides))
-    , _tensor (v._tensor)
+    , _span_strides(std::move(v._span_strides))
+    , _offset(std::move(v._offset))
+    , _tensor(std::move(v._tensor))
   {
     _extents = detail::to_extents(_spans);
   }
@@ -168,6 +184,7 @@ public:
   // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
   tensor_core& operator=(tensor_core other) noexcept
   {
+    // TODO implement swap
     swap (*this, other);
     return *this;
   }
@@ -198,8 +215,8 @@ public:
         "Cannot access tensor with multi-index. "
         "Number of provided indices does not match with tensor order.");
     }
-    const auto idx = ublas::detail::to_index(_strides, i1, i2, is...);
-    return _tensor.at(idx);
+    const auto idx = ublas::detail::to_index(_span_strides, i1, i2, is...);
+    return _tensor[idx + _offset];
   }
 
   /** @brief Element access using a multi-index with bound checking which can
@@ -221,8 +238,8 @@ public:
         "Cannot access tensor with multi-index."
         "Number of provided indices does not match with tensor order.");
     }
-    const auto idx = ublas::detail::to_index(_strides, i1, i2, is...);
-    return _tensor.at(idx);
+    const auto idx = ublas::detail::to_index(_span_strides, i1, i2, is...);
+    return _tensor[idx + _offset];
   }
 
   /** @brief Element access using a multi-index with bound checking which can
@@ -264,8 +281,8 @@ public:
    */
   [[nodiscard]] inline const_reference operator[](size_type i) const
   {
-    const auto idx = detail::compute_single_index(i, _tensor.strides().begin(), _tensor.strides().end(), _strides.begin());
-    return this->_tensor[idx];
+    const auto idx = detail::compute_single_index(i, _span_strides.begin(), _span_strides.end(), _strides.begin(), _offset);
+    return _tensor[idx];
   }
 
   /** @brief Element access using a single index.
@@ -276,8 +293,9 @@ public:
    */
   [[nodiscard]] inline reference operator[](size_type i)
   {
-    const auto idx = detail::compute_single_index(i, _tensor.strides().begin(), _tensor.strides().end(), _strides.begin());
-    return this->_tensor[idx];
+    const auto idx = detail::compute_single_index(i, _span_strides.begin(), _span_strides.end(), _strides.begin(), _offset);
+    std::cout << "idx:" << i << "->" << idx << std::endl;
+    return _tensor[idx];
   }
 
   /** @brief Element access using a single-index with bound checking which can
@@ -290,9 +308,8 @@ public:
   template <class... Indices>
   [[nodiscard]] inline const_reference at(size_type i) const
   {
-
-    const auto idx = detail::compute_single_index(i, _tensor.strides().begin(), _tensor.strides().end(), _strides.begin());
-    return this->_tensor.at(idx);
+    const auto idx = detail::compute_single_index(i, _span_strides.begin(), _span_strides.end(), _strides.begin(), _offset);
+    return _tensor[idx];
   }
 
   /** @brief Read tensor element of a tensor \c t with a single-index \c i
@@ -303,8 +320,8 @@ public:
    */
   [[nodiscard]] inline reference at(size_type i)
   {
-    const auto idx = detail::compute_single_index(i, _tensor.strides().begin(), _tensor.strides().end(), _strides.begin());
-    return this->_tensor.at(idx);
+    const auto idx = detail::compute_single_index(i, _span_strides.begin(), _span_strides.end(), _strides.begin(), _offset);
+    return _tensor[idx];
   }
 
   /** @brief Generates a tensor_core index for tensor_core contraction
@@ -322,7 +339,7 @@ public:
     constexpr auto size = sizeof...(ps) + 1;
     if (size != this->order()) {
       throw std::invalid_argument(
-        "boost::numeric::ublas::tensor_core <engine_dynamic>: "
+        "boost::numeric::ublas::tensor_core <subtensor_engine>: "
         "Cannot multiply using Einstein notation. "
         "Number of provided indices does not match with tensor order.");
     }
@@ -340,13 +357,27 @@ public:
   template <class... SL>
   [[nodiscard]] inline decltype(auto) operator()(span_type&& s, SL&&... spans) const noexcept
   {
-    return subtensor_type(_tensor, _strides, std::forward<span_type>(s), std::forward<SL>(spans)...);
+    constexpr auto size = sizeof...(spans)+1;
+    if(size != this->order()){
+      throw std::invalid_argument("boost::numeric::ublas::tensor_core <subtensor_engine>: "
+        "Cannot create subtensor "
+        "Number of provided indices does not match with tensor order.");
+    }
+    // TODO find way to convert spans
+    return subtensor_type(_tensor, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
   template <class... SL>
   [[nodiscard]] inline decltype(auto) operator()(span_type&& s, SL&&... spans) noexcept
   {
-    return subtensor_type(_tensor, _strides, std::forward<span_type>(s), std::forward<SL>(spans)...);
+    constexpr auto size = sizeof...(spans)+1;
+    if(size != this->order()){
+      throw std::invalid_argument("boost::numeric::ublas::tensor_core <subtensor_engine>: "
+        "Cannot create subtensor "
+        "Number of provided indices does not match with tensor order.");
+    }
+    // TODO find way to convert spans
+    return subtensor_type(_tensor, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
 //   [[nodiscard]] inline auto begin  () const noexcept -> const_iterator { return _container.begin  (); }
@@ -370,18 +401,21 @@ public:
 
   [[nodiscard]] inline auto const& strides () const noexcept                  { return _strides; }
   [[nodiscard]] inline auto const& extents () const noexcept                  { return _extents; }
-  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _tensor.data() + detail::to_offset(_tensor.strides(), spans_);}
-  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _tensor.data() + detail::to_offset(_tensor.strides(), spans_);}
-  [[nodiscard]] inline auto const& base    () const noexcept                  { return _tensor.container(); }
+  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _tensor.data() + _offset; }
+  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _tensor.data() + _offset; }
+  // [[nodiscard]] inline auto const& base    () const noexcept                  { return _tensor.container(); }
 
 private:
+
   /**
    * @brief There might be cases where spans cannot be computed on creation
    */
   std::vector<span_type> _spans;
-  extents_type _extents;
-  strides_type _strides;
-  tensor_type& _tensor;
+  extents_type           _extents;
+  strides_type           _strides;
+  strides_type           _span_strides;
+  std::size_t            _offset;
+  tensor_type&           _tensor;
 };
 
 template<typename T>

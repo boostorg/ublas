@@ -19,11 +19,11 @@ project boost-ublas-tensor-example
        [ requires cxx17_if_constexpr ]
     ;
 
-exe access_tensor                      : access_tensor.cpp ;
-exe simple_expressions                 : simple_expressions.cpp ;
-exe multiply_tensors_product_function  : multiply_tensors_product_function.cpp ;
-exe multiply_tensors_einstein_notation : multiply_tensors_einstein_notation.cpp ;
-exe instantiate_tensor                 : instantiate_tensor.cpp ;
-exe expressions_subtensor			   : expressions_subtensor.cpp ;
-exe instantiate_subtensor			   : instantiate_subtensor.cpp ;
+# exe access_tensor                      : access_tensor.cpp ;
+# exe simple_expressions                 : simple_expressions.cpp ;
+# exe multiply_tensors_product_function  : multiply_tensors_product_function.cpp ;
+# exe multiply_tensors_einstein_notation : multiply_tensors_einstein_notation.cpp ;
+# exe instantiate_tensor                 : instantiate_tensor.cpp ;
+# exe expressions_subtensor			   : expressions_subtensor.cpp ;
+# exe instantiate_subtensor			   : instantiate_subtensor.cpp ;
 exe access_subtensor			       : access_subtensor.cpp ;
