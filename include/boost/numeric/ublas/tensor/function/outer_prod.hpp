@@ -69,15 +69,23 @@ using enable_outer_if_one_extents_has_dynamic_rank = std::enable_if_t<
 template <class TEA, class TEB, detail::enable_outer_if_one_extents_has_dynamic_rank<TEA,TEB> = true >
 inline auto outer_prod( tensor_core< TEA > const &a, tensor_core< TEB > const &b)
 {
-  using tensorA   = tensor_core< TEA >;
-  using tensorB   = tensor_core< TEB >;
-  using valueA    = typename tensorA::value_type;
-  using extentsA  = typename tensorA::extents_type;
+  using tensorA        = tensor_core< TEA >;
+  using tensorB        = tensor_core< TEB >;
 
-  using valueB    = typename tensorB::value_type;
-  using extentsB  = typename tensorB::extents_type;
+  using valueA         = typename tensorA::value_type;
+  using layoutA        = typename tensorA::layout_type;
+  using extentsA       = typename tensorA::extents_type;
+  using containerA     = typename tensorA::container_type;
 
-  using tensorC   = std::conditional_t < is_dynamic_rank_v<extentsA>, tensorA, tensorB>;
+  using valueB         = typename tensorB::value_type;
+  using layoutB        = typename tensorB::layout_type;
+  using extentsB       = typename tensorB::extents_type;
+  using containerB     = typename tensorB::container_type;
+
+
+  using tensorC   = std::conditional_t < is_dynamic_rank_v<extentsA>,
+                                         tensor_core<tensor_engine<extentsA,layoutA,containerA>>,
+                                         tensor_core<tensor_engine<extentsB,layoutB,containerB>>>;
 //  using valueC    = typename tensorC::value_type;
   using extentsC  = typename tensorC::extents_type;
 

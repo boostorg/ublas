@@ -21,11 +21,11 @@ int main()
   namespace ublas = boost::numeric::ublas;
 
   try {
-    using value   = std::complex<float>;
+    using value   = float;
     using layout  = ublas::layout::first_order; // storage format
-    using tensor  = ublas::tensor_static_rank<value,3u,layout>;
+    using tensor  = ublas::tensor_dynamic<value,layout>;
     using span    = ublas::span<>;
-    constexpr auto ones  = ublas::ones_static_rank<value,layout>{};
+    constexpr auto ones  = ublas::ones<value,layout>{};
 
 
     // creates a three-dimensional tensor with extents 3,4 and 2
@@ -33,12 +33,12 @@ int main()
     // to the first-order storage format
 
     tensor t1 = ones(3,3,2);
-    value cnt(0,0);
+    value cnt(0);
     for (auto i = 0u; i < t1.size(0); i++) {
       for (auto j = 0u; j < t1.size(1); j++) {
         for (auto k = 0u; k < t1.size(2); k++) {
           t1(i,j,k) = cnt;
-          cnt+= value(1,1);
+          cnt+= value(1);
         }
       }
     }
@@ -51,12 +51,22 @@ int main()
     tensor t2 = ones(1,2,2);
     auto t3 = ublas::inner_prod(A, t2);
 
+    tensor p1 = ones(2,2);
+    tensor sp1 = p1(span(), span());
+    tensor p2 = ones(2,2);
+    tensor sp2 = p2(span(), span());
+
+    sp1(0,1) = sp1(1,1) = 2;
+    sp2(0,1) = sp2(1,1) = 2;
+
     // // // formatted output
     // std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "t1=" << t1 << ";" << std::endl << std::endl;
     std::cout << "A=" << A << ";" << std::endl << std::endl;
     std::cout << "t2=" << t2 << ";" << std::endl << std::endl;
     std::cout << "t3=" << t3 << ";" << std::endl << std::endl;
+    std::cout << "prod=" << ublas::outer_prod(sp1, sp2) << ";" << std::endl << std::endl;
+
   } catch (const std::exception& e) {
     std::cerr << "Cought exception " << e.what();
     std::cerr << " in the main function of access-tensor." << std::endl;
