@@ -50,6 +50,27 @@ auto to_span_strides(std::vector<size_type> const& strides, Spans const& spans)
   return std::vector<size_type>( span_strides );
 }
 
+/*! @brief Computes span strides for a subtensor
+ *
+ * span stride v is computed according to: v[i] = w[i]*s[i], where
+ * w[i] is the i-th stride of the tensor
+ * s[i] is the step size of the i-th span
+ *
+ * @param[in] strides strides of the tensor, the subtensor refers to
+ * @param[in] spans vector of spans of the subtensor
+*/
+template<integral size_type, std::size_t N, class Spans>
+auto to_span_strides(std::array<size_type, N> const& strides, std::array<Spans, N> const& spans)
+{
+  auto span_strides = std::array<size_type, N>{};
+
+  std::transform(strides.begin(), strides.end(), spans.begin(), span_strides.begin(),
+                 [](auto w, auto const& s) { return w * s.step(); } );
+
+  return std::array<size_type, N>( span_strides );
+}
+
+
 /*! @brief Computes the data pointer offset for a subtensor
  *
  * offset is computed according to: sum ( f[i]*w[i] ), where
@@ -64,6 +85,23 @@ auto to_offset(std::vector<Size> const& strides, Spans const& spans)
 {
   if(strides.size() != spans.size())
     throw std::runtime_error("Error in boost::numeric::ublas::subtensor::offset(): tensor strides.size() != spans.size()");
+
+  return std::inner_product(spans.begin(), spans.end(), strides.begin(), Size(0),
+                            std::plus<Size>(), [](auto const& s, Size w) {return s.first() * w; } );
+}
+
+/*! @brief Computes the data pointer offset for a subtensor
+ *
+ * offset is computed according to: sum ( f[i]*w[i] ), where
+ * f[i] is the first element of the i-th span
+ * w[i] is the i-th stride of the tensor
+ *
+ * @param[in] strides strides of the tensor, the subtensor refers to
+ * @param[in] spans vector of spans of the subtensor
+*/
+template<integral Size, std::size_t N, class Spans>
+auto to_offset(std::array<Size,N> const& strides, std::array<Spans,N> const& spans)
+{
 
   return std::inner_product(spans.begin(), spans.end(), strides.begin(), Size(0),
                             std::plus<Size>(), [](auto const& s, Size w) {return s.first() * w; } );
@@ -84,6 +122,24 @@ auto to_extents(spans_type const& spans)
   if(spans.empty())
     return extents_t{};
   auto extents = base_type(spans.size());
+  std::transform(spans.begin(), spans.end(), extents.begin(), [](auto const& s) { return s.size(); } );
+  return extents_t( extents );
+}
+
+/*! @brief Computes the extents of the subtensor.
+ *
+ * i-th extent is given by span[i].size()
+ *
+ * @param[in] spans vector of spans of the subtensor
+ */
+template<class spans_type, std::size_t N>
+auto to_extents(std::array<spans_type,N> const& spans)
+{
+  using extents_t  = extents<N>;
+  using base_type  = typename extents_t::base_type;
+  if(spans.empty())
+    return extents_t{};
+  auto extents = base_type();
   std::transform(spans.begin(), spans.end(), extents.begin(), [](auto const& s) { return s.size(); } );
   return extents_t( extents );
 }
@@ -145,6 +201,30 @@ void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_ar
 }
 
 
+template<std::size_t r, std::size_t n, class Span, class ... Spans>
+void transform_spans_impl (extents<n> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans );
+
+template<std::size_t r, std::size_t n, class size_type, class Span, class ... Spans>
+void transform_spans_impl(extents<n> const& extents, std::array<Span, n>& span_array, span<size_type> const& s, Spans&& ... spans)
+{
+  std::get<r>(span_array) = transform_span(s, extents[r]);
+  static constexpr auto nspans = sizeof...(spans);
+  static_assert (n==(nspans+r+1),"Static error in boost::numeric::ublas::detail::transform_spans_impl: size mismatch");
+  if constexpr (nspans>0)
+    transform_spans_impl<r+1>(extents, span_array, std::forward<Spans>(spans)...);
+}
+
+template<std::size_t r, std::size_t n, class Span, class ... Spans>
+void transform_spans_impl (extents<n> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans )
+{
+  static constexpr auto nspans = sizeof...(Spans);
+  static_assert (n==(nspans+r+1),"Static error in boost::numeric::ublas::detail::transform_spans_impl: size mismatch");
+  std::get<r>(span_array) = transform_span(Span(arg), extents[r]);
+  if constexpr (nspans>0)
+    transform_spans_impl<r+1>(extents, span_array, std::forward<Spans>(spans) ... );
+}
+
+
 /*! @brief Auxiliary function for subtensor that generates array of spans
  *
  * generate_span_array<span>(shape(4,3,5,2), span(), 1, span(2,end), end  )
@@ -177,11 +257,11 @@ auto generate_span_array(extents<> const& extents, Spans&& ... spans)
  * @param[in] extents of the tensor
  * @param[in] spans spans with which the subtensor is created
  */
-template<std::size_t N, class span_type, class ... Spans>
+template<class span_type, std::size_t N, class ... Spans>
 auto generate_span_array(extents<N> const& extents, Spans&& ... spans)
 {
   constexpr static auto n = sizeof...(Spans);
-  static_assert(N == n);
+  static_assert(N == n, "Static Error in boost::numeric::ublas::generate_span_vector() when creating subtensor: the number of spans does not match with the tensor rank.");
   std::array<span_type,n> span_array;
   if constexpr (n>0)
       transform_spans_impl<0>( extents, span_array, std::forward<Spans>(spans)... );
@@ -206,9 +286,5 @@ auto generate_span_vector(extents<> const& extents, Spans&& ... spans)
 }
 
 } // namespace boost::numeric::ublas::detail
-
-
-
-
 
 #endif

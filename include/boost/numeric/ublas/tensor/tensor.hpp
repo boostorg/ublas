@@ -19,5 +19,6 @@
 #include "tensor/tensor_static_rank.hpp"
 #include "tensor/tensor_static.hpp"
 #include "tensor/subtensor_dynamic.hpp"
+#include "tensor/subtensor_static_rank.hpp"
 
 #endif // BOOST_UBLAS_TENSOR_TENSOR_HPP

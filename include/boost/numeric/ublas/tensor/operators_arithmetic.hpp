@@ -396,7 +396,7 @@ inline
 template<class T, class D>
 inline
   constexpr auto& operator += (boost::numeric::ublas::tensor_core<T>& lhs,
-    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>,D> &expr)
+    const boost::numeric::ublas::detail::tensor_expression<typename T::subtensor_type,D> &expr)
 {
   boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l+=r; } );
   return lhs;
@@ -405,7 +405,7 @@ inline
 template<class T, class D>
 inline
   constexpr auto& operator -= (boost::numeric::ublas::tensor_core<T>& lhs,
-    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>,D> &expr)
+    const boost::numeric::ublas::detail::tensor_expression<typename T::subtensor_type,D> &expr)
 {
   boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l-=r; } );
   return lhs;
@@ -414,7 +414,7 @@ inline
 template<class T, class D>
 inline
   constexpr auto& operator *= (boost::numeric::ublas::tensor_core<T>& lhs,
-    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>,D> &expr)
+    const boost::numeric::ublas::detail::tensor_expression<typename T::subtensor_type,D> &expr)
 {
   boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l*=r; } );
   return lhs;
@@ -423,7 +423,7 @@ inline
 template<class T, class D>
 inline
   constexpr auto& operator /= (boost::numeric::ublas::tensor_core<T>& lhs,
-    const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<boost::numeric::ublas::subtensor_engine<T>>,D> &expr)
+    const boost::numeric::ublas::detail::tensor_expression<typename T::subtensor_type,D> &expr)
 {
   boost::numeric::ublas::detail::eval(lhs, expr(), [](auto& l, auto const& r) { l/=r; } );
   return lhs;

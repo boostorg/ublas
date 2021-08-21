@@ -38,6 +38,9 @@ namespace boost::numeric::ublas {
 template<class V, class L, std::size_t N>
 using engine_tensor_static_rank = tensor_engine<extents<N>, L, std::vector<V>>;
 
+template <class V, class L,  std::size_t N>
+class tensor_core<subtensor_engine<tensor_core<engine_tensor_static_rank<V,L,N>>>>;
+
 template<class V, class L, std::size_t N>
   class tensor_core<engine_tensor_static_rank<V,L,N>>
   : public detail::tensor_expression<
@@ -88,6 +91,9 @@ public:
 
   using span_type                 = span<std::size_t>;
   using subtensor_type            = tensor_core<subtensor_engine<self_type>>;
+
+  template<class derived_type>
+  using subtensor_expression_type    = detail::tensor_expression<subtensor_type,derived_type>;
 
   tensor_core () = default;
 
@@ -163,6 +169,19 @@ public:
   {
   }
 
+  /** @brief Constructs a tensor_core with another tensor_core with a subtensor_engine
+     *
+     * @param other tensor_core with a subtensor_engine to be copied.
+     */
+  template<typename OTT>
+  explicit inline tensor_core (const tensor_core<subtensor_engine<OTT>> &other)
+    : tensor_expression_type<self_type>{}
+    , _extents (ublas::begin(other.extents ()), ublas::end (other.extents ()))
+    , _strides (ublas::to_strides(_extents, layout_type{}))
+    , _container(ublas::product(_extents))
+  {
+    detail::eval(*this, other);
+  }
 
   /** @brief Constructs a tensor_core with an tensor_core expression
      *
@@ -421,13 +440,13 @@ public:
    * @tparam spans
    */
   template<class ... SL>
-  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) const noexcept {
+  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) const {
 	  static_assert(sizeof...(spans)+1 == std::tuple_size_v<extents_type>);
     return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
   template<class ... SL>
-  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) noexcept {
+  [[nodiscard]] inline decltype(auto) operator() (span_type&& s, SL&& ... spans) {
     static_assert(sizeof...(spans)+1 == std::tuple_size_v<extents_type>);
     return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }

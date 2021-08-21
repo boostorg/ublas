@@ -12,6 +12,8 @@
 #ifndef BOOST_UBLAS_SUBTENSOR_DYNAMIC_HPP
 #define BOOST_UBLAS_SUBTENSOR_DYNAMIC_HPP
 
+#include <initializer_list>
+
 #include "../access.hpp"
 #include "../algorithms.hpp"
 #include "../concepts.hpp"
@@ -26,10 +28,10 @@
 #include "../traits/read_write_traits.hpp"
 #include "../type_traits.hpp"
 #include "../subtensor_utility.hpp"
+
 #include "subtensor_engine.hpp"
 #include "tensor_dynamic.hpp"
 
-#include <initializer_list>
 
 namespace boost::numeric::ublas {
 
@@ -117,13 +119,13 @@ public:
     : tensor_expression_type<self_type>{}
     , _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
     , _extents{}
-    , _strides{}
-    , _span_strides(detail::to_span_strides(t.strides(), _spans))
+    , _strides{detail::to_span_strides(t.strides(), _spans)}
+    , _span_strides{}
     , _offset{detail::to_offset(t.strides(), _spans)}
     , _tensor(t)
   {
     _extents = detail::to_extents(_spans);
-    _strides = ublas::to_strides(_extents,layout_type{});
+    _span_strides = ublas::to_strides(_extents,layout_type{});
     for (int i = 0; i < (int) _extents.size(); i++) {
       std::cout << _extents[i] << " ";
     }
@@ -237,7 +239,7 @@ public:
         "Cannot access tensor with multi-index. "
         "Number of provided indices does not match with tensor order.");
     }
-    const auto idx = ublas::detail::to_index(_span_strides, i1, i2, is...);
+    const auto idx = ublas::detail::to_index(_strides, i1, i2, is...);
     return _tensor[idx + _offset];
   }
 
@@ -260,7 +262,7 @@ public:
         "Cannot access tensor with multi-index."
         "Number of provided indices does not match with tensor order.");
     }
-    const auto idx = ublas::detail::to_index(_span_strides, i1, i2, is...);
+    const auto idx = ublas::detail::to_index(_strides, i1, i2, is...);
     return _tensor[idx + _offset];
   }
 
@@ -303,7 +305,7 @@ public:
    */
   [[nodiscard]] inline const_reference operator[](size_type i) const
   {
-    const auto idx = detail::compute_single_index(i, _span_strides.rbegin(), _span_strides.rend(), _strides.rbegin(), _offset);
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _offset);
     return _tensor[idx];
   }
 
@@ -316,7 +318,7 @@ public:
   [[nodiscard]] inline reference operator[](size_type i)
   {
     std::cout << "idx:" << i;
-    const auto idx = detail::compute_single_index(i, _span_strides.rbegin(), _span_strides.rend(), _strides.rbegin(), _offset);
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _offset);
     std::cout << "->" << idx << std::endl;
     return _tensor[idx];
   }
@@ -331,7 +333,7 @@ public:
   template <class... Indices>
   [[nodiscard]] inline const_reference at(size_type i) const
   {
-    const auto idx = detail::compute_single_index(i, _span_strides.rbegin(), _span_strides.rend(), _strides.rbegin(), _offset);
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _offset);
     return _tensor[idx];
   }
 
@@ -343,7 +345,7 @@ public:
    */
   [[nodiscard]] inline reference at(size_type i)
   {
-    const auto idx = detail::compute_single_index(i, _span_strides.rbegin(), _span_strides.rend(), _strides.rbegin(), _offset);
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _offset);
     return _tensor[idx];
   }
 
