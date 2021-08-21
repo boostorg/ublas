@@ -188,7 +188,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_compute_single_index, layout_t,  layout_t
     auto const& jref = std::get<I>(index);
     mp::mp_for_each<mp::mp_iota_c<std::size(i)>>( [&]( auto K ) {
       auto const& ii = std::get<K>(i);
-      auto const  j  = ub::detail::compute_single_index(ii.begin(), ii.end() ,w.begin(), 0);
+      auto const  j  = ub::detail::compute_single_index(ii.begin(), ii.end() ,w.begin());
       BOOST_CHECK(j < prodn(n));
       BOOST_CHECK_EQUAL(j,jref[K]);
     });
@@ -212,7 +212,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_compute_single_index_static_rank, layout_
     constexpr auto r = std::get<I>(ranks);
     mp::mp_for_each<mp::mp_iota_c<std::size(i)>>( [&]( auto K ) {
       auto const& ii = std::get<K>(i);
-      auto const  j  = ub::detail::compute_single_index<r>(ii.begin(), ii.end() , w.begin(), 0);
+      auto const  j  = ub::detail::compute_single_index<r>(ii.begin(), ii.end() , w.begin());
       BOOST_CHECK(j < prodn(n));
       BOOST_CHECK_EQUAL(j,jref[K]);
     });
