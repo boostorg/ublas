@@ -44,6 +44,7 @@ int main()
     }
     auto A = t1(span(1), span(0,2,2), span());
     auto B = A(span(), span(), span());
+    A += B;
     std::cout << "% --------------------------- " << std::endl;
     for (auto x: B.extents().base()) {
       std::cout << x << " ";
@@ -51,22 +52,12 @@ int main()
     tensor t2 = ones(1,2,2);
     auto t3 = ublas::inner_prod(A, t2);
 
-    tensor p1 = ones(2,2);
-    tensor sp1 = p1(span(), span());
-    tensor p2 = ones(2,2);
-    tensor sp2 = p2(span(), span());
-
-    sp1(0,1) = sp1(1,1) = 2;
-    sp2(0,1) = sp2(1,1) = 2;
-
     // // // formatted output
     // std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "t1=" << t1 << ";" << std::endl << std::endl;
     std::cout << "A=" << A << ";" << std::endl << std::endl;
     std::cout << "t2=" << t2 << ";" << std::endl << std::endl;
     std::cout << "t3=" << t3 << ";" << std::endl << std::endl;
-    std::cout << "prod=" << ublas::outer_prod(sp1, sp2) << ";" << std::endl << std::endl;
-
   } catch (const std::exception& e) {
     std::cerr << "Cought exception " << e.what();
     std::cerr << " in the main function of access-tensor." << std::endl;

@@ -25,7 +25,6 @@
 #include "../layout.hpp"
 #include "../span.hpp"
 #include "../tags.hpp"
-#include "../traits/read_write_traits.hpp"
 #include "../type_traits.hpp"
 #include "../subtensor_utility.hpp"
 
@@ -38,23 +37,19 @@ namespace boost::numeric::ublas {
 template <class V, class L,  std::size_t N>
 class tensor_core<subtensor_engine<tensor_core<engine_tensor_static_rank<V,L,N>>>>
   : public detail::tensor_expression<
-      tensor_core<subtensor_engine<
-      tensor_core<engine_tensor_static_rank<V,L,N>>>>,
-      tensor_core<subtensor_engine<
-      tensor_core<engine_tensor_static_rank<V,L,N>>>>> {
+      tensor_core<engine_tensor_static_rank<V,L,N>>,
+      tensor_core<engine_tensor_static_rank<V,L,N>>> {
 public:
   using tensor_type = tensor_core<engine_tensor_static_rank<V,L,N>>;
   using engine_type = subtensor_engine<tensor_type>;
   using self_type   = tensor_core<engine_type>;
 
   template <class derived_type>
-  using tensor_expression_type = detail::tensor_expression<self_type, derived_type>;
+  using tensor_expression_type    = detail::tensor_expression<tensor_type, derived_type>;
   template<class derived_type>
   using matrix_expression_type    = matrix_expression<derived_type>;
   template<class derived_type>
   using vector_expression_type    = vector_expression<derived_type>;
-  template <class derived_type>
-  using parent_tensor_expression_type = detail::tensor_expression<tensor_type, derived_type>;
 
   // template <typename container> struct subtensor_iterator {
   // };
@@ -72,15 +67,15 @@ public:
   using difference_type = typename container_traits_type::difference_type;
   using value_type      = typename container_traits_type::value_type;
 
-  using reference = std::conditional_t<is_const,
-                       typename container_traits_type::const_reference,
-                       typename container_traits_type::reference>;
+  using reference       = std::conditional_t<is_const,
+                           typename container_traits_type::const_reference,
+                           typename container_traits_type::reference>;
   using const_reference = typename container_traits_type::const_reference;
 
-  using pointer = std::conditional_t<is_const,
-                       typename container_traits_type::const_pointer,
-                       typename container_traits_type::pointer>;
-  using const_pointer = typename container_traits_type::const_pointer;
+  using pointer         = std::conditional_t<is_const,
+                           typename container_traits_type::const_pointer,
+                           typename container_traits_type::pointer>;
+  using const_pointer   = typename container_traits_type::const_pointer;
 
   // using iterator = typename self_type::subtensor_iterator<container_type>;
   // using const_iterator =
@@ -90,22 +85,21 @@ public:
   // using const_reverse_iterator =
   //   typename container_traits_type::const_reverse_iterator;
 
-  using matrix_type               = matrix<value_type, layout_type, std::vector<value_type> >;
-  using vector_type               = vector<value_type, std::vector<value_type> >;
+  using matrix_type     = matrix<value_type, layout_type, std::vector<value_type> >;
+  using vector_type     = vector<value_type, std::vector<value_type> >;
 
-  using container_tag = typename container_traits_type::container_tag;
-  using resizable_tag = typename container_traits_type::resizable_tag;
+  using container_tag   = typename container_traits_type::container_tag;
+  using resizable_tag   = typename container_traits_type::resizable_tag;
 
-  using span_type = span<std::size_t>;
-
-  using subtensor_type = self_type;
+  using span_type       = span<std::size_t>;
+  using subtensor_type  = self_type;
 
   explicit tensor_core() = delete;
 
   tensor_core(const tensor_core&) = default;
 
   tensor_core(tensor_type& t)
-    : tensor_expression_type<self_type>{}
+    : tensor_expression_type<tensor_type>{}
     , _spans()
     , _extents(t.extents())
     , _strides(t.strides())
@@ -117,7 +111,7 @@ public:
 
   template <class U, class FS, class... SL>
   tensor_core(U&& t, FS&& first, SL&&... spans)
-    : tensor_expression_type<self_type>{}
+    : tensor_expression_type<tensor_type>{}
     , _spans(detail::generate_span_array<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
     , _extents{}
     , _strides{detail::to_span_strides(t.strides(), _spans)}
@@ -132,7 +126,7 @@ public:
   // TODO
   // template <class FS, class... SL>
   // tensor_core(const tensor_core& t, FS&& first, SL&&... spans)
-  //   : tensor_expression_type<self_type>{}
+  //   : tensor_expression_type<tensor_type>{}
   //   , _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
   //   , _extents{}
   //   , _strides{}
@@ -145,7 +139,7 @@ public:
   // }
 
   tensor_core(tensor_core&& v)
-    : tensor_expression_type<self_type>{}
+    : tensor_expression_type<tensor_type>{}
     , _spans  (std::move(v._spans))
     , _extents(std::move(v._extents))
     , _strides(std::move(v._strides))
@@ -171,23 +165,6 @@ public:
    */
   template <class derived_type>
   tensor_core& operator=(const tensor_expression_type<derived_type>& expr)
-  {
-    detail::eval(*this, expr);
-    return *this;
-  }
-
-  /** @brief Evaluates the tensor_expression and assigns the results to the
-   * tensor_core
-   *
-   * @code A = B + C * 2;  @endcode
-   *
-   * @note rank and dimension extents of the tensors in the expressions must
-   * conform with this tensor_core.
-   *
-   * @param expr expression that is evaluated.
-   */
-  template <class derived_type>
-  tensor_core& operator=(const parent_tensor_expression_type<derived_type>& expr)
   {
     detail::eval(*this, expr);
     return *this;

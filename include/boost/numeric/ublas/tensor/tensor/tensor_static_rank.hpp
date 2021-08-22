@@ -92,9 +92,6 @@ public:
   using span_type                 = span<std::size_t>;
   using subtensor_type            = tensor_core<subtensor_engine<self_type>>;
 
-  template<class derived_type>
-  using subtensor_expression_type    = detail::tensor_expression<subtensor_type,derived_type>;
-
   tensor_core () = default;
 
   /** @brief Constructs a tensor_core with a \c shape

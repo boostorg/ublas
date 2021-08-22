@@ -90,10 +90,6 @@ public:
 
   using subtensor_type            = tensor_core<subtensor_engine<self_type>>;
 
-  template<class derived_type>
-  using subtensor_expression_type    = detail::tensor_expression<subtensor_type,derived_type>;
-
-
   explicit tensor_core () = default;
 
   /** @brief Constructs a tensor_core with a \c shape
@@ -295,21 +291,6 @@ public:
      */
   template<class derived_type>
   tensor_core &operator = (const tensor_expression_type<derived_type> &expr)
-  {
-    detail::eval(*this, expr);
-    return *this;
-  }
-
-  /** @brief Evaluates the tensor_expression and assigns the results to the tensor_core
-     *
-     * @code A = B + C * 2;  @endcode
-     *
-     * @note rank and dimension extents of the tensors in the expressions must conform with this tensor_core.
-     *
-     * @param expr expression that is evaluated.
-     */
-  template<class derived_type>
-  tensor_core &operator = (const subtensor_expression_type<derived_type> &expr)
   {
     detail::eval(*this, expr);
     return *this;

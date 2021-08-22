@@ -1,4 +1,5 @@
-//  Copyright (c) 2018-2020, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018-2021, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2021, Kannav Mehta, kmkannavkmehta@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -35,7 +36,7 @@ namespace boost::numeric::ublas {
  *
  */
 
-static constexpr inline std::size_t max = std::numeric_limits<std::ptrdiff_t>::max();
+static constexpr inline std::size_t max = std::numeric_limits<std::size_t>::max() - 1;
 
 template<typename unsigned_type = std::size_t>
 class span
@@ -115,7 +116,7 @@ public:
 		return span(
 					rhs.first_*lhs.step_ + lhs.first_,
 					lhs.step_ *rhs.step_,
-					rhs.last_ *lhs.step_ + lhs.first_ );
+					std::min(rhs.last_,size()) *lhs.step_ + lhs.first_ );
 	}
 
 protected:
