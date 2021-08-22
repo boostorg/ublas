@@ -110,15 +110,6 @@ public:
         return (last_-first_) / step_ + value_type(1);
     }
 
-	inline span operator()(const span &rhs) const
-	{
-		auto const& lhs = *this;
-		return span(
-					rhs.first_*lhs.step_ + lhs.first_,
-					lhs.step_ *rhs.step_,
-					std::min(rhs.last_,size()) *lhs.step_ + lhs.first_ );
-	}
-
 protected:
 
 	value_type first_, step_, last_ ;

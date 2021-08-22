@@ -1,4 +1,5 @@
 //
+//  Copyright (c) 2021, Cem Bassoy, cem.bassoy@gmail.com
 //  Copyright (c) 2021, Kannav Mehta, kmkannavkmehta@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
@@ -104,8 +105,7 @@ public:
     , _extents(t.extents())
     , _strides(t.strides())
     , _span_strides(t.strides())
-    , _offset(size_type(0))
-    , _tensor(t)
+    , _data(t.data())
   {
   }
 
@@ -116,27 +116,13 @@ public:
     , _extents{}
     , _strides{detail::to_span_strides(t.strides(), _spans)}
     , _span_strides{}
-    , _offset{detail::to_offset(t.strides(), _spans)}
-    , _tensor(t)
+    , _data{t.data() + detail::to_offset(t.strides(), _spans)}
   {
     _extents = detail::to_extents(_spans);
     _span_strides = ublas::to_strides(_extents,layout_type{});
   }
 
-  // TODO
-  // template <class FS, class... SL>
-  // tensor_core(const tensor_core& t, FS&& first, SL&&... spans)
-  //   : tensor_expression_type<tensor_type>{}
-  //   , _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
-  //   , _extents{}
-  //   , _strides{}
-  //   , _span_strides(detail::to_span_strides(t.strides(), _spans))
-  //   , _offset{detail::to_offset(t.strides(), _spans)}
-  //   , _tensor(t._tensor)
-  // {
-  //   _extents = detail::to_extents(_spans);
-  //   _strides = ublas::to_strides(_extents,layout_type{});
-  // }
+
 
   tensor_core(tensor_core&& v)
     : tensor_expression_type<tensor_type>{}
@@ -144,8 +130,7 @@ public:
     , _extents(std::move(v._extents))
     , _strides(std::move(v._strides))
     , _span_strides(std::move(v._span_strides))
-    , _offset(std::move(v._offset))
-    , _tensor(std::move(v._tensor))
+    , _data(std::move(v._data))
   {
     _extents = detail::to_extents(_spans);
   }
@@ -200,7 +185,7 @@ public:
   {
     static_assert (sizeof...(is)+2 == std::tuple_size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides, i1, i2, is...);
-    return _tensor[idx + _offset];
+    return  _data[idx];
   }
 
   /** @brief Element access using a multi-index with bound checking which can
@@ -218,7 +203,7 @@ public:
   {
     static_assert (sizeof...(Is)+2 == std::tuple_size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides, i1, i2, is...);
-    return _tensor[idx + _offset];
+    return _data[idx];
   }
 
   /** @brief Element access using a multi-index with bound checking which can
@@ -260,8 +245,8 @@ public:
    */
   [[nodiscard]] inline const_reference operator[](size_type i) const
   {
-    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _offset);
-    return _tensor[idx];
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _data);
+    return _data[idx];
   }
 
   /** @brief Element access using a single index.
@@ -273,9 +258,9 @@ public:
   [[nodiscard]] inline reference operator[](size_type i)
   {
     std::cout << "idx:" << i;
-    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _offset);
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _data);
     std::cout << "->" << idx << std::endl;
-    return _tensor[idx];
+    return _data[idx];
   }
 
   /** @brief Element access using a single-index with bound checking which can
@@ -288,8 +273,8 @@ public:
   template <class... Indices>
   [[nodiscard]] inline const_reference at(size_type i) const
   {
-    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _offset);
-    return _tensor[idx];
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _data);
+    return _data[idx];
   }
 
   /** @brief Read tensor element of a tensor \c t with a single-index \c i
@@ -300,8 +285,8 @@ public:
    */
   [[nodiscard]] inline reference at(size_type i)
   {
-    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _offset);
-    return _tensor[idx];
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _data);
+    return _data[idx];
   }
 
   /** @brief Generates a tensor_core index for tensor_core contraction
@@ -334,11 +319,7 @@ public:
   {
     constexpr auto size = sizeof...(spans)+1;
     static_assert(size == std::tuple_size_v<extents_type>);
-    size_type n = size;
-    auto convert = [&] (auto arg) {
-      return _spans[--n](arg);
-    };
-    return subtensor_type(_tensor, std::forward<span_type>(convert(s)), std::forward<SL>(convert(spans))...);
+    return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
   template <class... SL>
@@ -346,11 +327,7 @@ public:
   {
     constexpr auto size = sizeof...(spans)+1;
     static_assert(size == std::tuple_size_v<extents_type>);
-    size_type n = size;
-    auto convert = [&] (auto arg) {
-      return _spans[--n](arg);
-    };
-    return subtensor_type(_tensor, std::forward<span_type>(convert(s)), std::forward<SL>(convert(spans))...);
+    return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
 //   [[nodiscard]] inline auto begin  () const noexcept -> const_iterator { return _container.begin  (); }
@@ -375,8 +352,8 @@ public:
   [[nodiscard]] inline auto const& strides () const noexcept                  { return _strides; }
   [[nodiscard]] inline auto const& span_strides () const noexcept             { return _span_strides; }
   [[nodiscard]] inline auto const& extents () const noexcept                  { return _extents; }
-  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _tensor.data() + _offset;}
-  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _tensor.data() + _offset; }
+  [[nodiscard]] inline auto        data    () const noexcept -> const_pointer { return _data;}
+  [[nodiscard]] inline auto        data    ()       noexcept -> pointer       { return _data; }
   // [[nodiscard]] inline auto const& base    () const noexcept                  { return _tensor.container(); }
 
 private:
@@ -387,8 +364,7 @@ private:
   extents_type           _extents;
   strides_type           _strides;
   strides_type           _span_strides;
-  std::size_t            _offset;
-  tensor_type&           _tensor;
+  pointer            _data;
 };
 
 }   // namespace boost::numeric::ublas

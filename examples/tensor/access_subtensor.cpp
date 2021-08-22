@@ -25,6 +25,7 @@ int main()
     using layout  = ublas::layout::first_order; // storage format
     using tensor  = ublas::tensor_dynamic<value,layout>;
     using span    = ublas::span<>;
+    using subtensor = typename tensor::subtensor_type;
     constexpr auto ones  = ublas::ones<value,layout>{};
 
 
@@ -42,20 +43,25 @@ int main()
         }
       }
     }
-    auto A = t1(span(1), span(0,2,2), span());
-    auto B = A(span(), span(), span());
-    A += B;
+    auto A = subtensor(t1, span(1,1,2), span(0,2,2), span());
+    auto B = subtensor(A, span(), span(), span(1));
     std::cout << "% --------------------------- " << std::endl;
-    for (auto x: B.extents().base()) {
+    for (auto x: A.extents()) {
       std::cout << x << " ";
     }
-    tensor t2 = ones(1,2,2);
-    auto t3 = ublas::inner_prod(A, t2);
+    std::cout << std::endl;
+    std::cout << "% --------------------------- " << std::endl;
+    for (auto x: B.extents()) {
+      std::cout << x << " ";
+    }
+    std::cout << std::endl;
+    tensor t2 = ones(2,2,1);
+    auto t3 = ublas::inner_prod(B, t2);
 
     // // // formatted output
     // std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "t1=" << t1 << ";" << std::endl << std::endl;
-    std::cout << "A=" << A << ";" << std::endl << std::endl;
+    std::cout << "B=" << B << ";" << std::endl << std::endl;
     std::cout << "t2=" << t2 << ";" << std::endl << std::endl;
     std::cout << "t3=" << t3 << ";" << std::endl << std::endl;
   } catch (const std::exception& e) {

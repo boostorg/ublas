@@ -11,8 +11,6 @@
 //
 
 
-
-
 #include <boost/numeric/ublas/tensor/expression_evaluation.hpp>
 #include <boost/numeric/ublas/tensor/expression.hpp>
 #include <boost/numeric/ublas/tensor/extents.hpp>
@@ -149,7 +147,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_expression_all_extents_equal, valu
     using value_t  = typename value::first_type;
     using layout_t = typename value::second_type;
     using tensor_t = ublas::tensor_dynamic<value_t, layout_t>;
-    
+
     auto uplus1 = [](auto const& a){ return a + value_t(1);  };
     auto uplus2 = [](auto const& a){ return value_t(2) + a;  };
     auto bplus  = std::plus <value_t>{};

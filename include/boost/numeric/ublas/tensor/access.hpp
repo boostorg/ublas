@@ -184,9 +184,9 @@ constexpr inline void compute_multi_index(std::size_t j, InputIt1 w, InputIt1 /*
  * @param v begin input iterator of a container with subtensor strides of length std::distance(w,wp) or greater
 */
 template<typename InputIt1, typename InputIt2>
-constexpr inline auto compute_single_index(std::size_t jv, InputIt1 w, InputIt1 wp, InputIt2 v, std::size_t offset)
+constexpr inline auto compute_single_index(std::size_t jv, InputIt1 w, InputIt1 wp, InputIt2 v)
 {
-  return std::inner_product(w,wp,v,offset,
+  return std::inner_product(w,wp,v,0ul,
     std::plus<>{},
     [&jv](auto ww, auto vv) { auto k=jv/vv; jv-=vv*k; return ww*k; }
   );
