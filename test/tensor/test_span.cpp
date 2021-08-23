@@ -50,7 +50,7 @@ BOOST_FIXTURE_TEST_CASE( ctor_test, fixture )
 	BOOST_CHECK_EQUAL (spans[1].first(),0);
 	BOOST_CHECK_EQUAL (spans[1].step (),1);
 	BOOST_CHECK_EQUAL (spans[1].last (),4);
-	BOOST_CHECK_EQUAL (spans[1].size (),4);
+	BOOST_CHECK_EQUAL (spans[1].size (),5);
 
 	BOOST_CHECK_EQUAL (spans[2].first(),2);
 	BOOST_CHECK_EQUAL (spans[2].step (),1);
@@ -58,7 +58,7 @@ BOOST_FIXTURE_TEST_CASE( ctor_test, fixture )
 	BOOST_CHECK_EQUAL (spans[2].size (),5);
 
 	BOOST_CHECK_EQUAL (spans[3].first(),0);
-	BOOST_CHECK_EQUAL (spans[3].step (),0);
+	BOOST_CHECK_EQUAL (spans[3].step (),1);
 	BOOST_CHECK_EQUAL (spans[3].last (),0);
 	BOOST_CHECK_EQUAL (spans[3].size (),1);
 
@@ -117,7 +117,7 @@ BOOST_FIXTURE_TEST_CASE( copy_ctor_test, fixture )
 	BOOST_CHECK_EQUAL (span_type(spans[1]).first(),0);
 	BOOST_CHECK_EQUAL (span_type(spans[1]).step (),1);
 	BOOST_CHECK_EQUAL (span_type(spans[1]).last (),4);
-	BOOST_CHECK_EQUAL (span_type(spans[1]).size (),4);
+	BOOST_CHECK_EQUAL (span_type(spans[1]).size (),5);
 
 	BOOST_CHECK_EQUAL (span_type(spans[2]).first(),2);
 	BOOST_CHECK_EQUAL (span_type(spans[2]).step (),1);
@@ -125,7 +125,7 @@ BOOST_FIXTURE_TEST_CASE( copy_ctor_test, fixture )
 	BOOST_CHECK_EQUAL (span_type(spans[2]).size (),5);
 
 	BOOST_CHECK_EQUAL (span_type(spans[3]).first(),0);
-	BOOST_CHECK_EQUAL (span_type(spans[3]).step (),0);
+	BOOST_CHECK_EQUAL (span_type(spans[3]).step (),1);
 	BOOST_CHECK_EQUAL (span_type(spans[3]).last (),0);
 	BOOST_CHECK_EQUAL (span_type(spans[3]).size (),1);
 
@@ -178,7 +178,7 @@ BOOST_FIXTURE_TEST_CASE( assignment_operator_test, fixture )
 	BOOST_CHECK_EQUAL ((c1=spans[1]).first(),0);
 	BOOST_CHECK_EQUAL ((c1=spans[1]).step (),1);
 	BOOST_CHECK_EQUAL ((c1=spans[1]).last (),4);
-	BOOST_CHECK_EQUAL ((c1=spans[1]).size (),4);
+	BOOST_CHECK_EQUAL ((c1=spans[1]).size (),5);
 
 	auto c2 = spans[3];
 	BOOST_CHECK_EQUAL ((c2=spans[2]).first(),2);
@@ -188,7 +188,7 @@ BOOST_FIXTURE_TEST_CASE( assignment_operator_test, fixture )
 
 	auto c3 = spans[4];
 	BOOST_CHECK_EQUAL ((c3=spans[3]).first(),0);
-	BOOST_CHECK_EQUAL ((c3=spans[3]).step (),0);
+	BOOST_CHECK_EQUAL ((c3=spans[3]).step (),1);
 	BOOST_CHECK_EQUAL ((c3=spans[3]).last (),0);
 	BOOST_CHECK_EQUAL ((c3=spans[3]).size (),1);
 
@@ -228,11 +228,6 @@ BOOST_FIXTURE_TEST_CASE( assignment_operator_test, fixture )
 	BOOST_CHECK_EQUAL ((c9=spans[9]).last (),4);
 	BOOST_CHECK_EQUAL ((c9=spans[9]).size (),2);
 
-}
-
-BOOST_FIXTURE_TEST_CASE( function_operator_test, fixture )
-{
-	
 }
 
 

@@ -75,11 +75,16 @@ public:
 		, step_ (s)
         , last_ (l)
 	{
-        if(s == 0 && f != l)
-            throw std::runtime_error("Error in span::span : cannot have a step_ equal to zero.");
-        if(f > l)
-				throw std::runtime_error("Error in span::span: last_ is smaller than first");
-        last_ = l - ((l-f)%s);
+		if(f == l){
+			last_ = l;
+			step_ = value_type(1);
+		} else {
+			if(s == 0 && f != l)
+				throw std::runtime_error("Error in span::span : cannot have a step_ equal to zero.");
+			if(f > l)
+					throw std::runtime_error("Error in span::span: last_ is smaller than first");
+			last_ = l - ((l-f)%s);
+		}
 	}
 
     span(span const& other)
