@@ -176,11 +176,11 @@ auto transform_span(span<size_type> const& s, std::size_t const extent)
 }
 
 
-template<std::size_t r, std::size_t n, class Span, class ... Spans>
-void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans );
+template< std::size_t r, std::size_t ... es, std::size_t n, class Span, class ... Spans>
+void transform_spans_impl (extents<es...> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans );
 
-template<std::size_t r, std::size_t n, class size_type, class Span, class ... Spans>
-void transform_spans_impl(extents<> const& extents, std::array<Span, n>& span_array, span<size_type> const& s, Spans&& ... spans)
+template< std::size_t r, std::size_t ... es, std::size_t n, class size_type, class Span, class ... Spans>
+void transform_spans_impl(extents<es...> const& extents, std::array<Span, n>& span_array, span<size_type> const& s, Spans&& ... spans)
 {
   std::get<r>(span_array) = transform_span(s, extents[r]);
   static constexpr auto nspans = sizeof...(spans);
@@ -189,8 +189,8 @@ void transform_spans_impl(extents<> const& extents, std::array<Span, n>& span_ar
     transform_spans_impl<r+1>(extents, span_array, std::forward<Spans>(spans)...);
 }
 
-template<std::size_t r, std::size_t n, class Span, class ... Spans>
-void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans )
+template< std::size_t r, std::size_t ... es, std::size_t n, class Span, class ... Spans>
+void transform_spans_impl (extents<es...> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans )
 {
   static constexpr auto nspans = sizeof...(Spans);
   static_assert (n==(nspans+r+1),"Static error in boost::numeric::ublas::detail::transform_spans_impl: size mismatch");
@@ -200,29 +200,6 @@ void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_ar
 
 }
 
-
-template<std::size_t r, std::size_t n, class Span, class ... Spans>
-void transform_spans_impl (extents<n> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans );
-
-template<std::size_t r, std::size_t n, class size_type, class Span, class ... Spans>
-void transform_spans_impl(extents<n> const& extents, std::array<Span, n>& span_array, span<size_type> const& s, Spans&& ... spans)
-{
-  std::get<r>(span_array) = transform_span(s, extents[r]);
-  static constexpr auto nspans = sizeof...(spans);
-  static_assert (n==(nspans+r+1),"Static error in boost::numeric::ublas::detail::transform_spans_impl: size mismatch");
-  if constexpr (nspans>0)
-    transform_spans_impl<r+1>(extents, span_array, std::forward<Spans>(spans)...);
-}
-
-template<std::size_t r, std::size_t n, class Span, class ... Spans>
-void transform_spans_impl (extents<n> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans )
-{
-  static constexpr auto nspans = sizeof...(Spans);
-  static_assert (n==(nspans+r+1),"Static error in boost::numeric::ublas::detail::transform_spans_impl: size mismatch");
-  std::get<r>(span_array) = transform_span(Span(arg), extents[r]);
-  if constexpr (nspans>0)
-    transform_spans_impl<r+1>(extents, span_array, std::forward<Spans>(spans) ... );
-}
 
 
 /*! @brief Auxiliary function for subtensor that generates array of spans

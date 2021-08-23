@@ -26,6 +26,9 @@ int main()
     using tensor  = ublas::tensor_dynamic<value,layout>;
     using span    = ublas::span<>;
     using subtensor = typename tensor::subtensor_type;
+    auto uplus1 = [](auto const& a){return a + value(1); };
+    auto bplus  = std::plus <value>{};
+    auto bminus = std::minus<value>{};
     constexpr auto ones  = ublas::ones<value,layout>{};
 
 
@@ -43,23 +46,39 @@ int main()
         }
       }
     }
-    auto A = subtensor(t1, span(1,1,2), span(0,2,2), span());
-    auto B = subtensor(A, span(), span(), span(1));
-    std::cout << "% --------------------------- " << std::endl;
-    for (auto x: A.extents()) {
-      std::cout << x << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "% --------------------------- " << std::endl;
-    for (auto x: B.extents()) {
-      std::cout << x << " ";
-    }
-    std::cout << std::endl;
-    tensor t2 = ones(2,2,1);
-    auto t3 = ublas::inner_prod(B, t2);
+    auto A = t1 (span(1,1,2), span(0,2,2), span());
 
+    auto B = subtensor(A);
+    std::cout << "% --------------------------- " << std::endl;
+    auto uexpr1 = ublas::detail::make_unary_tensor_expression<tensor>( B, uplus1 );
+    auto uexpr2 = ublas::detail::make_unary_tensor_expression<tensor>( A, uplus1 );
+    for (auto& x: uexpr1.e.extents()) {
+      std::cout << x << " ";
+    }
+    std::cout << std::endl;
+    for (auto& x: uexpr2.e.extents()) {
+      std::cout << x << " ";
+    }
+
+    std::cout << std::endl;
+    std::cout << "% --------------------------- " << std::endl;
+
+    // bexpr_uexpr = (s1+1) + (2+s2)
+    auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor>( uexpr1, uexpr2, bplus );
+
+    // bexpr_bexpr_uexpr = ((s1+1) + (2+s2)) - s2
+    auto bexpr_bexpr_uexpr1 = ublas::detail::make_binary_tensor_expression<tensor>( bexpr_uexpr, B, bminus );
+
+    auto ext = ublas::detail::retrieve_extents(bexpr_bexpr_uexpr1);
+    for (auto& x: ext) {
+      std::cout << x << " ";
+    }
+    std::cout << std::endl;
+
+    tensor t2 = ones(2,2,2) + A + B;
+    auto t3 = ublas::inner_prod(B, t2);
     // // // formatted output
-    // std::cout << "% --------------------------- " << std::endl << std::endl;
+    std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "t1=" << t1 << ";" << std::endl << std::endl;
     std::cout << "B=" << B << ";" << std::endl << std::endl;
     std::cout << "t2=" << t2 << ";" << std::endl << std::endl;

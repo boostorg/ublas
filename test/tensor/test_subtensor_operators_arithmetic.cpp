@@ -55,43 +55,47 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_binary_arithmetic_operations, valu
   {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor_t = ublas::tensor_static_rank<value_t, size, layout_t>;
+    using subtensor = typename tensor_t::subtensor_type;
     auto t  = tensor_t (e);
     auto t2 = tensor_t (e);
     auto r  = tensor_t (e);
+    auto s  = subtensor(t);
     auto v  = value_t  {};
+
+    BOOST_CHECK_EQUAL(t.size(), s.size());
 
     std::iota(t.begin(), t.end(), v);
     std::iota(t2.begin(), t2.end(), v+2);
-    r = t + t + t + t2;
+    r = s + s + s + t2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r(i), 3*t(i) + t2(i) );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r(i), 3*s(i) + t2(i) );
 
 
-    r = t2 / (t+3) * (t+1) - t2; // r = ( t2/ ((t+3)*(t+1)) ) - t2
+    r = t2 / (s+3) * (s+1) - t2; // r = ( t2/ ((s+3)*(s+1)) ) - t2
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r(i), t2(i) / (t(i)+3)*(t(i)+1) - t2(i) );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r(i), t2(i) / (s(i)+3)*(s(i)+1) - t2(i) );
 
-    r = 3+t2 / (t+3) * (t+1) * t - t2; // r = 3+( t2/ ((t+3)*(t+1)*t) ) - t2
+    r = 3+t2 / (s+3) * (s+1) * s - t2; // r = 3+( t2/ ((s+3)*(s+1)*s) ) - t2
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r(i), 3+t2(i) / (t(i)+3)*(t(i)+1)*t(i) - t2(i) );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r(i), 3+t2(i) / (s(i)+3)*(s(i)+1)*s(i) - t2(i) );
 
-    r = t2 - t + t2 - t;
+    r = t2 - s + t2 - s;
 
     for(auto i = 0ul; i < r.size(); ++i)
       BOOST_CHECK_EQUAL ( r(i), 4 );
 
 
-    r = t * t * t * t2;
+    r = s * s * s * t2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r(i), t(i)*t(i)*t(i)*t2(i) );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r(i), s(i)*s(i)*s(i)*t2(i) );
 
     r = (t2/t2) * (t2/t2);
 
-    for(auto i = 0ul; i < t.size(); ++i)
+    for(auto i = 0ul; i < s.size(); ++i)
       BOOST_CHECK_EQUAL ( r(i), 1 );
   };
 
@@ -111,41 +115,46 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_unary_arithmetic_operations, value
   {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor_t = ublas::tensor_static_rank<value_t, size, layout_t>;
+    using subtensor = typename tensor_t::subtensor_type;
+
     auto t  = tensor_t (e);
     auto t2 = tensor_t (e);
     auto v  = value_t  {};
+    auto s  = subtensor(t);
+    BOOST_CHECK_EQUAL(t.size(), s.size());
+
 
     std::iota(t.begin(), t.end(), v);
     std::iota(t2.begin(), t2.end(), v+2);
 
-    tensor_t r1 = t + 2 + t + 2;
+    tensor_t r1 = s + 2 + s + 2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r1(i), 2*t(i) + 4 );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r1(i), 2*s(i) + 4 );
 
-    tensor_t r2 = 2 + t + 2 + t;
+    tensor_t r2 = 2 + s + 2 + s;
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r2(i), 2*t(i) + 4 );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r2(i), 2*s(i) + 4 );
 
-    tensor_t r3 = (t-2) + (t-2);
+    tensor_t r3 = (s-2) + (s-2);
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r3(i), 2*t(i) - 4 );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r3(i), 2*s(i) - 4 );
 
-    tensor_t r4 = (t*2) * (3*t);
+    tensor_t r4 = (s*2) * (3*s);
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r4(i), 2*3*t(i)*t(i) );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r4(i), 2*3*s(i)*s(i) );
 
     tensor_t r5 = (t2*2) / (2*t2) * t2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
+    for(auto i = 0ul; i < s.size(); ++i)
       BOOST_CHECK_EQUAL ( r5(i), (t2(i)*2) / (2*t2(i)) * t2(i) );
 
     tensor_t r6 = (t2/2+1) / (2/t2+1) / t2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
+    for(auto i = 0ul; i < s.size(); ++i)
       BOOST_CHECK_EQUAL ( r6(i), (t2(i)/2+1) / (2/t2(i)+1) / t2(i) );
 
   };
@@ -168,66 +177,71 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_assign_arithmetic_operations, valu
   {
     constexpr auto size = std::tuple_size_v<std::decay_t<decltype(e)>>;
     using tensor_t = ublas::tensor_static_rank<value_t, size, layout_t>;
+    using subtensor = typename tensor_t::subtensor_type;
+
     auto t  = tensor_t (e);
     auto t2 = tensor_t (e);
     auto r  = tensor_t (e);
     auto v  = value_t  {};
+    auto s = subtensor(t);
+    BOOST_CHECK_EQUAL(t.size(), s.size());
+
 
     std::iota(t.begin(), t.end(), v);
     std::iota(t2.begin(), t2.end(), v+2);
 
-    r  = t + 2;
-    r += t;
+    r  = s + 2;
+    r += s;
     r += 2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r(i), 2*t(i) + 4 );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r(i), 2*s(i) + 4 );
 
-    r  = 2 + t;
-    r += t;
+    r  = 2 + s;
+    r += s;
     r += 2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r(i), 2*t(i) + 4 );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r(i), 2*s(i) + 4 );
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r(i), 2*t(i) + 4 );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r(i), 2*s(i) + 4 );
 
-    r = (t-2);
-    r += t;
+    r = (s-2);
+    r += s;
     r -= 2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r(i), 2*t(i) - 4 );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r(i), 2*s(i) - 4 );
 
-    r  = (t*2);
+    r  = (s*2);
     r *= 3;
-    r *= t;
+    r *= s;
 
-    for(auto i = 0ul; i < t.size(); ++i)
-      BOOST_CHECK_EQUAL ( r(i), 2*3*t(i)*t(i) );
+    for(auto i = 0ul; i < s.size(); ++i)
+      BOOST_CHECK_EQUAL ( r(i), 2*3*s(i)*s(i) );
 
     r  = (t2*2);
     r /= 2;
     r /= t2;
     r *= t2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
+    for(auto i = 0ul; i < s.size(); ++i)
       BOOST_CHECK_EQUAL ( r(i), (t2(i)*2) / (2*t2(i)) * t2(i) );
 
     r  = (t2/2+1);
     r /= (2/t2+1);
     r /= t2;
 
-    for(auto i = 0ul; i < t.size(); ++i)
+    for(auto i = 0ul; i < s.size(); ++i)
       BOOST_CHECK_EQUAL ( r(i), (t2(i)/2+1) / (2/t2(i)+1) / t2(i) );
 
     tensor_t q = -r;
-    for(auto i = 0ul; i < t.size(); ++i)
+    for(auto i = 0ul; i < s.size(); ++i)
       BOOST_CHECK_EQUAL ( q(i), -r(i) );
 
     tensor_t p = +r;
-    for(auto i = 0ul; i < t.size(); ++i)
+    for(auto i = 0ul; i < s.size(); ++i)
       BOOST_CHECK_EQUAL ( p(i), r(i) );
   };
 

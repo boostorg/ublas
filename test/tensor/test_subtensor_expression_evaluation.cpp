@@ -18,6 +18,7 @@
 
 #include "utility.hpp"
 
+#include <iostream>
 #include <cstdlib>
 #include <functional>
 #include <tuple>
@@ -130,7 +131,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_subtensor_static_rank_expression_retrieve
       auto s1 = subtensor_type1(t1);
       auto s2 = subtensor_type2(t2);
 
-
+      BOOST_CHECK( ublas::detail::retrieve_extents( s1 ) == ublas::detail::retrieve_extents( t1 ) );
+      BOOST_CHECK( ublas::detail::retrieve_extents( s2 ) == ublas::detail::retrieve_extents( t2 ) );
       BOOST_CHECK( ublas::detail::retrieve_extents( s1 ) != ublas::detail::retrieve_extents( s2 ) );
 
       // uexpr1 = s1+1
@@ -153,7 +155,6 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_subtensor_static_rank_expression_retrieve
         auto bexpr_bexpr_uexpr1 = ublas::detail::make_binary_tensor_expression<tensor_type1>( bexpr_uexpr, s2, bminus );
 
         BOOST_CHECK( ublas::detail::retrieve_extents( bexpr_bexpr_uexpr1 ) == ublas::detail::retrieve_extents(s2) );
-
 
         // bexpr_bexpr_uexpr = s2 - ((s1+1) + (2+s2))
         auto bexpr_bexpr_uexpr2 = ublas::detail::make_binary_tensor_expression<tensor_type1>( s2, bexpr_uexpr, bminus );

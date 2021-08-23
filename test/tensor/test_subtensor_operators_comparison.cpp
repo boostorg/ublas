@@ -53,29 +53,33 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison, value,  test_types, fi
   {
     using extents_t = std::decay_t<decltype (e)>;
     using tensor_t = ublas::tensor_static_rank<value_t, std::tuple_size_v<extents_t>, layout_t>;
+    using subtensor = typename tensor_t::subtensor_type;
+
     auto t  = tensor_t (e);
     auto t2 = tensor_t (e);
     auto v  = value_t  {};
+    auto s  = subtensor(t);
+
 
     std::iota(t.begin(), t.end(), v);
     std::iota(t2.begin(), t2.end(), v+2);
 
-    BOOST_CHECK( t == t  );
-    BOOST_CHECK( t != t2 );
+    BOOST_CHECK( s == s  );
+    BOOST_CHECK( s != t2 );
 
-    if(t.empty())
+    if(s.empty())
       return;
 
-    BOOST_CHECK(!(t < t));
-    BOOST_CHECK(!(t > t));
-    BOOST_CHECK( t < t2 );
-    BOOST_CHECK( t2 > t );
-    BOOST_CHECK( t <= t );
-    BOOST_CHECK( t >= t );
-    BOOST_CHECK( t <= t2 );
-    BOOST_CHECK( t2 >= t );
+    BOOST_CHECK(!(s < s));
+    BOOST_CHECK(!(s > s));
+    BOOST_CHECK( s < t2 );
+    BOOST_CHECK( t2 > s );
+    BOOST_CHECK( s <= s );
+    BOOST_CHECK( s >= s );
+    BOOST_CHECK( s <= t2 );
+    BOOST_CHECK( t2 >= s );
     BOOST_CHECK( t2 >= t2 );
-    BOOST_CHECK( t2 >= t );
+    BOOST_CHECK( t2 >= s );
   };
 
   for_each_in_tuple(extents,check);
@@ -93,33 +97,35 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_comparison_with_tensor_expressions
   for_each_in_tuple(extents,[](auto const& /*unused*/, auto& e) {
     using extents_t = std::decay_t<decltype (e)>;
     using tensor_t  = ublas::tensor_static_rank<value_t, std::tuple_size_v<extents_t>, layout_t>;
+    using subtensor = typename tensor_t::subtensor_type;
 
     auto t  = tensor_t (e);
     auto t2 = tensor_t (e);
     auto v  = value_t  {};
+    auto s  = subtensor(t);
 
     std::iota(t.begin(), t.end(), v);
     std::iota(t2.begin(), t2.end(), v+2);
 
-    BOOST_CHECK( t == t  );
-    BOOST_CHECK( t != t2 );
+    BOOST_CHECK( s == s  );
+    BOOST_CHECK( s != t2 );
 
-    if(t.empty())
+    if(s.empty())
       return;
 
-    BOOST_CHECK( !(t < t) );
-    BOOST_CHECK( !(t > t) );
-    BOOST_CHECK( t < (t2+t) );
-    BOOST_CHECK( (t2+t) > t );
-    BOOST_CHECK( t <= (t+t) );
-    BOOST_CHECK( (t+t2) >= t );
-    BOOST_CHECK( (t2+t2+2) >= t);
-    BOOST_CHECK( 2*t2 > t );
-    BOOST_CHECK( t < 2*t2 );
-    BOOST_CHECK( 2*t2 > t);
+    BOOST_CHECK( !(s < s) );
+    BOOST_CHECK( !(s > s) );
+    BOOST_CHECK( s < (t2+s) );
+    BOOST_CHECK( (t2+s) > s );
+    BOOST_CHECK( s <= (s+s) );
+    BOOST_CHECK( (s+t2) >= s );
+    BOOST_CHECK( (t2+t2+2) >= s);
+    BOOST_CHECK( 2*t2 > s );
+    BOOST_CHECK( s < 2*t2 );
+    BOOST_CHECK( 2*t2 > s);
     BOOST_CHECK( 2*t2 >= t2 );
     BOOST_CHECK( t2 <= 2*t2);
-    BOOST_CHECK( 3*t2 >= t );
+    BOOST_CHECK( 3*t2 >= s );
   });
 
 

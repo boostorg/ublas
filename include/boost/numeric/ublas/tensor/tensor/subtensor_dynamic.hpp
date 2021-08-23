@@ -38,14 +38,16 @@ namespace boost::numeric::ublas {
 template <class V, class L>
 class tensor_core<subtensor_engine<tensor_dynamic<V,L>>>
   : public detail::tensor_expression<
-      tensor_dynamic<V,L>, tensor_dynamic<V,L>> {
+      tensor_dynamic<V,L>,
+      tensor_core<subtensor_engine<tensor_dynamic<V,L>>>
+      > {
 public:
   using tensor_type = tensor_dynamic<V,L>;
   using engine_type = subtensor_engine<tensor_type>;
   using self_type   = tensor_core<engine_type>;
 
   template <class derived_type>
-  using tensor_expression_type = detail::tensor_expression<tensor_type, derived_type>;
+  using tensor_expression_type    = detail::tensor_expression<tensor_type, derived_type>;
   template<class derived_type>
   using matrix_expression_type    = matrix_expression<derived_type>;
   template<class derived_type>
@@ -97,10 +99,8 @@ public:
 
   explicit tensor_core() = delete;
 
-  tensor_core(const tensor_core&) = default;
-
   tensor_core(tensor_type& t)
-    : tensor_expression_type<tensor_type>{}
+    : tensor_expression_type<self_type>{}
     , _spans()
     , _extents(t.extents())
     , _strides(t.strides())
@@ -111,7 +111,7 @@ public:
 
   template <class U, class FS, class... SL>
   tensor_core(U&& t, FS&& first, SL&&... spans)
-    : tensor_expression_type<tensor_type>{}
+    : tensor_expression_type<self_type>{}
     , _spans(detail::generate_span_vector<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
     , _extents{}
     , _strides{detail::to_span_strides(t.strides(), _spans)}
@@ -120,22 +120,23 @@ public:
   {
     _extents = detail::to_extents(_spans);
     _span_strides = ublas::to_strides(_extents,layout_type{});
-    for (int i = 0; i < (int) _extents.size(); i++) {
-      std::cout << _extents[i] << " ";
-    }
-    std::cout << std::endl;
-    for (int i = 0; i < (int) _span_strides.size(); i++) {
-      std::cout << _span_strides[i] << " ";
-    }
-    std::cout << std::endl;
-    for (int i = 0; i < (int) _strides.size(); i++) {
-      std::cout << _strides[i] << " ";
-    }
-    std::cout << std::endl;
   }
 
+  /** @brief Constructs a tensor_core from another tensor_core
+     *
+     *  @param t tensor_core to be copied.
+     */
+  inline tensor_core (const tensor_core &t)
+    : tensor_expression_type<self_type>{}
+    , _spans(t._spans)
+    , _extents  (t._extents  )
+    , _strides  (t._strides  )
+    , _span_strides(t._span_strides )
+    , _data     (t._data)
+  {}
+
   tensor_core(tensor_core&& v)
-    : tensor_expression_type<tensor_type>{}
+    : tensor_expression_type<self_type>{}
     , _spans  (std::move(v._spans))
     , _extents(std::move(v._extents))
     , _strides(std::move(v._strides))
@@ -277,9 +278,7 @@ public:
    */
   [[nodiscard]] inline reference operator[](size_type i)
   {
-    std::cout << "idx:" << i;
     const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin());
-    std::cout << "->" << idx << std::endl;
     return _data[idx];
   }
 

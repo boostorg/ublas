@@ -39,7 +39,8 @@ template <class V, class L,  std::size_t N>
 class tensor_core<subtensor_engine<tensor_core<engine_tensor_static_rank<V,L,N>>>>
   : public detail::tensor_expression<
       tensor_core<engine_tensor_static_rank<V,L,N>>,
-      tensor_core<engine_tensor_static_rank<V,L,N>>> {
+      tensor_core<subtensor_engine<tensor_core<engine_tensor_static_rank<V,L,N>>>>
+      > {
 public:
   using tensor_type = tensor_core<engine_tensor_static_rank<V,L,N>>;
   using engine_type = subtensor_engine<tensor_type>;
@@ -97,10 +98,9 @@ public:
 
   explicit tensor_core() = delete;
 
-  tensor_core(const tensor_core&) = default;
 
   tensor_core(tensor_type& t)
-    : tensor_expression_type<tensor_type>{}
+    : tensor_expression_type<self_type>{}
     , _spans()
     , _extents(t.extents())
     , _strides(t.strides())
@@ -111,7 +111,7 @@ public:
 
   template <class U, class FS, class... SL>
   tensor_core(U&& t, FS&& first, SL&&... spans)
-    : tensor_expression_type<tensor_type>{}
+    : tensor_expression_type<self_type>{}
     , _spans(detail::generate_span_array<span_type>(t.extents(), std::forward<FS>(first), std::forward<SL>(spans)...))
     , _extents{}
     , _strides{detail::to_span_strides(t.strides(), _spans)}
@@ -122,17 +122,27 @@ public:
     _span_strides = ublas::to_strides(_extents,layout_type{});
   }
 
-
+  /** @brief Constructs a tensor_core from another tensor_core
+     *
+     *  @param t tensor_core to be copied.
+     */
+  inline tensor_core (const tensor_core &t)
+    : tensor_expression_type<self_type>{}
+    , _spans(t._spans)
+    , _extents  (t._extents  )
+    , _strides  (t._strides  )
+    , _span_strides(t._span_strides )
+    , _data     (t._data)
+  {}
 
   tensor_core(tensor_core&& v)
-    : tensor_expression_type<tensor_type>{}
+    : tensor_expression_type<self_type>{}
     , _spans  (std::move(v._spans))
     , _extents(std::move(v._extents))
     , _strides(std::move(v._strides))
     , _span_strides(std::move(v._span_strides))
     , _data(std::move(v._data))
   {
-    _extents = detail::to_extents(_spans);
   }
 
   /// @brief Default destructor
@@ -245,7 +255,7 @@ public:
    */
   [[nodiscard]] inline const_reference operator[](size_type i) const
   {
-    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _data);
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin());
     return _data[idx];
   }
 
@@ -257,9 +267,7 @@ public:
    */
   [[nodiscard]] inline reference operator[](size_type i)
   {
-    std::cout << "idx:" << i;
-    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _data);
-    std::cout << "->" << idx << std::endl;
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin());
     return _data[idx];
   }
 
@@ -273,7 +281,7 @@ public:
   template <class... Indices>
   [[nodiscard]] inline const_reference at(size_type i) const
   {
-    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _data);
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin());
     return _data[idx];
   }
 
@@ -285,7 +293,7 @@ public:
    */
   [[nodiscard]] inline reference at(size_type i)
   {
-    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin(), _data);
+    const auto idx = detail::compute_single_index(i, _strides.rbegin(), _strides.rend(), _span_strides.rbegin());
     return _data[idx];
   }
 
