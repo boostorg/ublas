@@ -390,6 +390,7 @@ public:
   [[nodiscard]] inline auto rank  ()            const          { return _extents.size();         }
   [[nodiscard]] inline auto order ()            const          { return this->rank();            }
 
+  [[nodiscard]] inline auto const& spans () const noexcept                    { return _spans; }
   [[nodiscard]] inline auto const& strides () const noexcept                  { return _strides; }
   [[nodiscard]] inline auto const& span_strides () const noexcept             { return _span_strides; }
   [[nodiscard]] inline auto const& extents () const noexcept                  { return _extents; }

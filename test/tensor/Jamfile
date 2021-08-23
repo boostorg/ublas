@@ -64,11 +64,13 @@ test-suite boost-ublas-tensor-test
           test_static_tensor_matrix_vector.cpp
           test_strides.cpp
           test_subtensor_expression_evaluation.cpp
-          # test_subtensor_matrix_vector.cpp
           test_subtensor_operators_arithmetic.cpp
           test_subtensor_operators_comparison.cpp
+          test_subtensor_static_rank_expression_evaluation.cpp
+          test_subtensor_static_rank_operators_arithmetic.cpp
+          test_subtensor_static_rank_operators_comparison.cpp
           test_subtensor_utility.cpp
-          # test_subtensor.cpp
+          test_subtensor.cpp
           test_tensor.cpp
           test_tensor_matrix_vector.cpp
           unit_test_framework

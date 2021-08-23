@@ -241,8 +241,8 @@ public:
      *
      * @code tensor_core<float> A = b + 3 * b; @endcode
      *
-     * @note matrix expression is evaluated and pushed into a temporary matrix before assignment.
-     * @note extents are automatically extracted from the temporary matrix
+     * @note vector expression is evaluated and pushed into a temporary vector before assignment.
+     * @note extents are automatically extracted from the temporary vector
      *
      * @param expr vector expression
      */
