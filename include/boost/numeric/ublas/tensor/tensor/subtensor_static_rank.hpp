@@ -330,6 +330,15 @@ public:
     return subtensor_type(*this, std::forward<span_type>(s), std::forward<SL>(spans)...);
   }
 
+  friend void swap(tensor_core& lhs, tensor_core& rhs)
+  {
+    std::swap(lhs._extents      , rhs._extents  );
+    std::swap(lhs._strides      , rhs._strides  );
+    std::swap(lhs._span_strides , rhs._span_strides);
+    std::swap(lhs._spans        , rhs._spans);
+    std::swap(lhs._data         , rhs._data);
+  }
+
 //   [[nodiscard]] inline auto begin  () const noexcept -> const_iterator { return _container.begin  (); }
 //   [[nodiscard]] inline auto end    () const noexcept -> const_iterator { return _container.end    (); }
 //   [[nodiscard]] inline auto begin  ()       noexcept ->       iterator { return _container.begin  (); }
@@ -361,10 +370,10 @@ private:
    * @brief There might be cases where spans cannot be computed on creation
    */
   std::array<span_type, N> _spans;
-  extents_type           _extents;
-  strides_type           _strides;
-  strides_type           _span_strides;
-  pointer            _data;
+  extents_type             _extents;
+  strides_type             _strides;
+  strides_type             _span_strides;
+  pointer                  _data;
 };
 
 }   // namespace boost::numeric::ublas

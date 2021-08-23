@@ -301,7 +301,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_compute_single_index_subtensor, layout_t,
         auto const& jref = index[k];
         for(auto kk = 0u; kk < jref.size(); ++kk){
             auto const jj = jref[kk];
-            auto const j  = ub::detail::compute_single_index(jj,w.begin(),w.end(),w.begin(), 0);
+            auto const j  = ub::detail::compute_single_index(jj,w.begin(),w.end(),w.begin());
             BOOST_CHECK_EQUAL ( j, jj ) ;
         }
     }
