@@ -99,9 +99,8 @@ public:
   explicit tensor_core() = delete;
 
 
-  tensor_core(tensor_type& t)
+  explicit tensor_core(tensor_type& t)
     : tensor_expression_type<self_type>{}
-    , _spans()
     , _extents(t.extents())
     , _strides(t.strides())
     , _span_strides(t.strides())
@@ -135,7 +134,7 @@ public:
     , _data     (t._data)
   {}
 
-  tensor_core(tensor_core&& v)
+  tensor_core(tensor_core&& v) noexcept
     : tensor_expression_type<self_type>{}
     , _spans  (std::move(v._spans))
     , _extents(std::move(v._extents))
