@@ -44,7 +44,7 @@ struct fixture_span {
 
 BOOST_FIXTURE_TEST_CASE( transform_span_test, fixture_span )
 {
-	using namespace boost::numeric;
+	namespace ublas = boost::numeric::ublas;
 
 //	template<class size_type, class span_tag>
 	BOOST_CHECK( ublas::detail::transform_span(spans.at(0), std::size_t(3) ) == ublas::span(0,1,2) );

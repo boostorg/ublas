@@ -12,8 +12,8 @@
 
 /// \file subtensor_utility.hpp Definition for the tensor template class
 
-#ifndef _BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_UTILITY_HPP_
-#define _BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_UTILITY_HPP_
+#ifndef BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_UTILITY_HPP_
+#define BOOST_NUMERIC_UBLAS_TENSOR_SUBTENSOR_UTILITY_HPP_
 
 #include "extents.hpp"
 #include "span.hpp"

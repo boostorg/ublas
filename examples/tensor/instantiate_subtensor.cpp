@@ -1,6 +1,5 @@
 #include <boost/numeric/ublas/tensor.hpp>
 
-using namespace boost::numeric::ublas;
 
 void instantiate_subtensor_dynamic()
 {

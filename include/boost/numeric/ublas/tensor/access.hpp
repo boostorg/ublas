@@ -53,7 +53,7 @@ constexpr inline auto compute_single_index(InputIt1 i, InputIt1 ip, InputIt2 w)
 template<unsigned p, typename InputIt1, typename InputIt2>
 constexpr inline auto compute_single_index(InputIt1 i, InputIt1 /*ip*/, InputIt2 w)
 {
-       if constexpr(p==0u) return 0ul;
+  if constexpr(p==0u) return 0ul;
   else if constexpr(p >1u) return compute_single_index<p-1>(i,i,w)+i[p-1]*w[p-1];
   else                     return i[p-1]*w[p-1];
 }

@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
     BOOST_CHECK( Asub.extents() == A.extents() );
     BOOST_CHECK( Asub.data() == A.data() );
 
-	auto Asubsub = subtensor_type( Asub );
+	  auto Asubsub = subtensor_type( Asub );
 
     BOOST_CHECK( Asubsub.strides() == A.strides() );
     BOOST_CHECK( Asubsub.extents() == A.extents() );
@@ -658,9 +658,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_subtensor_read_write_multi_index_access_a
     auto s = subtensor_type(t);
 
 	  if     (t.rank() == 1) check1(s);
-		else if(t.rank() == 2) check2(s);
-		else if(t.rank() == 3) check3(s);
-		else if(t.rank() == 4) check4(s);
+	  else if(t.rank() == 2) check2(s);
+	  else if(t.rank() == 3) check3(s);
+	  else if(t.rank() == 4) check4(s);
 
 	};
 

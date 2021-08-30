@@ -102,9 +102,9 @@ public:
 		return *this;
 	}
 
-    inline auto first() const {return first_; }
-    inline auto last () const {return last_ ; }
-    inline auto step () const {return step_ ; }
+    [[ nodiscard ]] inline auto first() const {return first_; }
+    [[ nodiscard ]] inline auto last () const {return last_ ; }
+    [[ nodiscard ]] inline auto step () const {return step_ ; }
 
 	~span() = default;
 
@@ -115,12 +115,12 @@ public:
         return (last_-first_) / step_ + value_type(1);
     }
 
-protected:
+private:
 
 	value_type first_, step_, last_ ;
 };
 
-} // namespace
+} // namespace boost::numeric::ublas
 
 
 template <class unsigned_type>

@@ -176,7 +176,7 @@ public:
   tensor_core& operator=(const_reference v)
   {
     for(auto i = 0u; i < this->size(); ++i)
-		  this->at(i) = v;
+      this->at(i) = v;
     return *this;
   }
 
