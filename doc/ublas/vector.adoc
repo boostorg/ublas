@@ -1,0 +1,555 @@
+== Vector
+
+[[toc]]
+
+=== [#vector]#Vector#
+
+==== Description
+
+The templated class `vector<T, A>` is the base container adaptor for
+dense vectors. For a _n_-dimensional vector and _0 < = i < n_ every
+element __v__~_i_~ is mapped to the __i-__th element of the container.
+
+==== Example
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    vector<double> v (3);
+    for (unsigned i = 0; i < v.size (); ++ i)
+        v (i) = i;
+    std::cout << v << std::endl;
+}
+....
+
+==== Definition
+
+Defined in the header vector.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`T` |The type of object stored in the vector. |
+
+|`A` |The type of the link:storage_concept.html[Storage] array.
+link:#vector_1[[1]] |`unbounded_array<T>`
+|===
+
+==== Model of
+
+link:container_concept.html#vector[Vector],
+http://www.boost.org/sgi/stl/RandomAccessContainer.html[RandomAccessContainer]
+
+==== Type requirements
+
+None, except for those imposed by the requirements of
+link:container_concept.html#vector[Vector] and
+http://www.boost.org/sgi/stl/RandomAccessContainer.html[RandomAccessContainer].
+
+==== Public base classes
+
+`vector_container<vector<T, A> >`
+
+==== Members
+
+[cols=",,",]
+|===
+|Member |Where defined |Description
+
+|`value_type`
+|link:expression_concept.html#vector_expression[VectorExpression] |
+
+|`reference`
+|link:expression_concept.html#vector_expression[VectorExpression] |
+
+|`const_reference`
+|link:expression_concept.html#vector_expression[VectorExpression] |
+
+|`size_type`
+|link:expression_concept.html#vector_expression[VectorExpression] |
+
+|`difference_type`
+|link:expression_concept.html#vector_expression[VectorExpression] |
+
+|`const_iterator`
+|link:expression_concept.html#vector_expression[VectorExpression] |
+
+|`iterator`
+|link:expression_concept.html#vector_expression[VectorExpression] |
+
+|`const_reverse_iterator`
+|link:expression_concept.html#vector_expression[VectorExpression] |
+
+|`reverse_iterator`
+|link:expression_concept.html#vector_expression[VectorExpression] |
+
+|`array_type` |link:container_concept.html#vector[Vector] |
+
+|`vector ()`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Allocates an uninitialized `vector` that holds zero elements.
+
+|`vector (size_type size)` |link:container_concept.html#vector[Vector]
+|Allocates an uninitialized `vector` that holds `size` elements.
+
+|`vector (const vector &v)` | |The copy constructor.
+
+|`template<class AE> vector (const vector_expression<AE> &ae)` | |The
+extended copy constructor.
+
+|`void resize (size_type size, bool preserve = true)`
+|link:container_concept.html#vector[Vector] |Reallocates a `vector` to
+hold `size` elements. The existing elements of the `vector` are preseved
+when specified.
+
+|`size_type size () const`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns the size of the `vector`.
+
+|`size_type max_size () const`
+|https://www.boost.org/sgi/stl/RandomAccessContainer.html[RandomAccessContainer]
+|Returns the upper bound on the size of the `vector`.
+
+|`bool empty () const`
+|http://www.boost.org/sgi/stl/RandomAccessContainer.html[RandomAccessContainer]
+|Equivilent to `size () == 0`.
+
+|`const array_type& data () const`
+|link:container_concept.html#vector[Vector] |
+
+|`array_type& data ()` |link:container_concept.html#vector[Vector] |
+
+|`const_reference operator () (size_type i) const`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a `const` reference of the `i` -th element.
+
+|`reference operator () (size_type i)`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a reference of the `i`-th element.
+
+|`const_reference operator [] (size_type i) const`
+|link:container_concept.html#vector[Vector] |Returns a `const` reference
+of the `i` -th element.
+
+|`reference operator [] (size_type i)`
+|link:container_concept.html#vector[Vector] |Returns a reference of the
+`i`-th element.
+
+|`vector &operator = (const vector &v)`
+|link:expression_concept.html#vector_expression[VectorExpression] |The
+assignment operator.
+
+|`vector &assign_temporary (vector &v)`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Assigns a temporary. May change the vector `v`.
+
+|`template<class AE> vector &operator = (const vector_expression<AE> &ae)`
+|link:expression_concept.html#vector_expression[VectorExpression] |The
+extended assignment operator.
+
+|`template<class AE> vector &assign (const vector_expression<AE> &ae)`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Assigns a vector expression to the vector. Left and right hand side of
+the assignment should be independent.
+
+|`template<class AE> vector &operator += (const vector_expression<AE> &ae)`
+|link:expression_concept.html#vector_expression[VectorExpression] |A
+computed assignment operator. Adds the vector expression to the vector.
+
+|`template<class AE> vector &plus_assign (const vector_expression<AE> &ae)`
+|link:expression_concept.html#vector_expression[VectorExpression] |Adds
+a vector expression to the vector. Left and right hand side of the
+assignment should be independent.
+
+|`template<class AE> vector &operator -= (const vector_expression<AE> &ae)`
+|link:expression_concept.html#vector_expression[VectorExpression] |A
+computed assignment operator. Subtracts the vector expression from the
+vector.
+
+|`template<class AE> vector &minus_assign (const vector_expression<AE> &ae)`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Subtracts a vector expression from the vector. Left and right hand side
+of the assignment should be independent.
+
+|`template<class AT> vector &operator *= (const AT &at)`
+|link:expression_concept.html#vector_expression[VectorExpression] |A
+computed assignment operator. Multiplies the vector with a scalar.
+
+|`template<class AT> vector &operator /= (const AT &at)`
+|link:expression_concept.html#vector_expression[VectorExpression] |A
+computed assignment operator. Divides the vector through a scalar.
+
+|`void swap (vector &v)`
+|link:expression_concept.html#vector_expression[VectorExpression] |Swaps
+the contents of the vectors.
+
+|`void insert_element (size_type i, const_reference t)`
+|link:container_concept.html#vector[Vector] |Inserts the value `t` at
+the `i`-th element.
+
+|`void erase_element (size_type i)`
+|link:container_concept.html#vector[Vector] |Erases the value at the
+`i`-th element.
+
+|`void clear ()` |link:container_concept.html#vector[Vector] |Clears the
+vector.
+
+|`const_iterator begin () const`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a `const_iterator` pointing to the beginning of the `vector`.
+
+|`const_iterator end () const`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a `const_iterator` pointing to the end of the `vector`.
+
+|`iterator begin ()`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a `iterator` pointing to the beginning of the `vector`.
+
+|`iterator end ()`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a `iterator` pointing to the end of the `vector`.
+
+|`const_reverse_iterator rbegin () const`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a `const_reverse_iterator` pointing to the beginning of the
+reversed `vector`.
+
+|`const_reverse_iterator rend () const`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a `const_reverse_iterator` pointing to the end of the reversed
+`vector`.
+
+|`reverse_iterator rbegin ()`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a `reverse_iterator` pointing to the beginning of the reversed
+`vector`.
+
+|`reverse_iterator rend ()`
+|link:expression_concept.html#vector_expression[VectorExpression]
+|Returns a `reverse_iterator` pointing to the end of the reversed
+`vector`.
+|===
+
+==== Notes
+
+[#vector_1]#[1]# Common parameters for the Storage array are
+`unbounded_array<T>` , `bounded_array<T>` and `std::vector<T>` .
+
+=== [#unit_vector]#Unit Vector#
+
+==== Description
+
+The templated class `unit_vector<T, ALLOC>` represents canonical unit
+vectors. For the _k_-th _n_-dimensional canonical unit vector and _0 <=
+i < n_ holds __u__^_k_^~_i_~ _= 0_, if _i <> k_, and __u__^_k_^~_i_~ _=
+1_.
+
+==== Example
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    for (int i = 0; i < 3; ++ i) {
+        unit_vector<double> v (3, i);
+        std::cout << v << std::endl;
+    }
+}
+....
+
+==== Definition
+
+Defined in the header vector.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`T` |The type of object stored in the vector. |`int`
+
+|`ALLOC` |An STL Allocator for size_type and difference_type.
+|std::allocator
+|===
+
+==== Model of
+
+link:container_concept.html#vector[Vector] .
+
+==== Type requirements
+
+None, except for those imposed by the requirements of
+link:container_concept.html#vector[Vector] .
+
+==== Public base classes
+
+`vector_container<unit_vector<T> >`
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`unit_vector ()` |Constructs an `unit_vector` that holds zero elements.
+
+|`unit_vector (size_type size, size_type index)` |Constructs the
+`index`-th `unit_vector` that holds `size` elements.
+
+|`unit_vector (const unit_vector &v)` |The copy constructor.
+
+|`void resize (size_type size, bool preserve = true)` |Resizes a
+`unit_vector` to hold `size` elements. Therefore the existing elements
+of the `unit_vector` are always preseved.
+
+|`size_type size () const` |Returns the size of the `unit_vector`.
+
+|`size_type index () const` |Returns the index of the `unit_vector`.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`const_reference operator [] (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`unit_vector &operator = (const unit_vector &v)` |The assignment
+operator.
+
+|`unit_vector &assign_temporary (unit_vector &v)` |Assigns a temporary.
+May change the unit vector `v` .
+
+|`void swap (unit_vector &v)` |Swaps the contents of the unit vectors.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the `unit_vector`.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the `unit_vector`.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+`unit_vector`.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed
+`unit_vector`.
+|===
+
+=== [#zero_vector]#Zero Vector#
+
+==== Description
+
+The templated class `zero_vector<T, ALLOC>` represents zero vectors. For
+a _n_-dimensional zero vector and _0 <= i < n_ holds __z__~_i_~ _= 0_.
+
+==== Example
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    zero_vector<double> v (3);
+    std::cout << v << std::endl;
+}
+....
+
+==== Definition
+
+Defined in the header vector.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`T` |The type of object stored in the vector. |`int`
+
+|`ALLOC` |An STL Allocator for size_type and difference_type.
+|std::allocator
+|===
+
+==== Model of
+
+link:container_concept.html#vector[Vector] .
+
+==== Type requirements
+
+None, except for those imposed by the requirements of
+link:container_concept.html#vector[Vector] .
+
+==== Public base classes
+
+`vector_container<zero_vector<T> >`
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`zero_vector ()` |Constructs a `zero_vector` that holds zero elements.
+
+|`zero_vector (size_type size)` |Constructs a `zero_vector` that holds
+`size` elements.
+
+|`zero_vector (const zero_vector &v)` |The copy constructor.
+
+|`void resize (size_type size, bool preserve = true)` |Resizes a
+`zero_vector` to hold `size` elements. Therefore the existing elements
+of the `zero_vector` are always preseved.
+
+|`size_type size () const` |Returns the size of the `zero_vector`.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`const_reference operator [] (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`zero_vector &operator = (const zero_vector &v)` |The assignment
+operator.
+
+|`zero_vector &assign_temporary (zero_vector &v)` |Assigns a temporary.
+May change the zero vector `v` .
+
+|`void swap (zero_vector &v)` |Swaps the contents of the zero vectors.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the `zero_vector`.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the `zero_vector`.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+`zero_vector`.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed
+`zero_vector`.
+|===
+
+=== [#scalar_vector]#Scalar Vector#
+
+==== Description
+
+The templated class `scalar_vector<T, ALLOC>` represents scalar vectors.
+For a _n_-dimensional scalar vector and _0 <= i < n_ holds __z__~_i_~ _=
+s_.
+
+==== Example
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    scalar_vector<double> v (3);
+    std::cout << v << std::endl;
+}
+....
+
+==== Definition
+
+Defined in the header vector.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`T` |The type of object stored in the vector. |`int`
+
+|`ALLOC` |An STL Allocator for size_type and difference_type.
+|std::allocator
+|===
+
+==== Model of
+
+link:container_concept.html#vector[Vector] .
+
+==== Type requirements
+
+None, except for those imposed by the requirements of
+link:container_concept.html#vector[Vector] .
+
+==== Public base classes
+
+`vector_container<scalar_vector<T> >`
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`scalar_vector ()` |Constructs a `scalar_vector` that holds zero
+elements.
+
+|`scalar_vector (size_type size, const value_type &value)` |Constructs a
+`scalar_vector` that holds `size` elements each of the specified value.
+
+|`scalar_vector (const scalar_vector &v)` |The copy constructor.
+
+|`void resize (size_type size, bool preserve = true)` |Resizes a
+`scalar_vector` to hold `size` elements. Therefore the existing elements
+of the `scalar_vector` are always preseved.
+
+|`size_type size () const` |Returns the size of the `scalar_vector`.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`const_reference operator [] (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`scalar_vector &operator = (const scalar_vector &v)` |The assignment
+operator.
+
+|`scalar_vector &assign_temporary (scalar_vector &v)` |Assigns a
+temporary. May change the scalar vector `v` .
+
+|`void swap (scalar_vector &v)` |Swaps the contents of the scalar
+vectors.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the `scalar_vector`.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the `scalar_vector`.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+`scalar_vector`.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed
+`scalar_vector`.
+|===
+
+'''''
+
+Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

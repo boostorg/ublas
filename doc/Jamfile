@@ -1,0 +1,30 @@
+# Copyright 2021 Shikhar Vashistha
+#
+# Distributed under the Boost Software License, Version 1.0.
+# (http://www.boost.org/LICENSE_1_0.txt)
+# Copyright 2021 Shikhar Vashistha
+#
+# Distributed under the Boost Software License, Version 1.0.
+# (http://www.boost.org/LICENSE_1_0.txt)
+
+import asciidoctor ;
+
+html ublas.html : ublas.adoc ;
+
+install html_ : ublas.html : <location>html ;
+
+pdf ublas.pdf : ublas.adoc ;
+
+explicit ublas.pdf ;
+
+install pdf_ : ublas.pdf : <location>pdf ;
+
+explicit pdf_ ; 
+
+alias boostdoc ;
+
+explicit boostdoc ;
+
+alias boostrelease : html_ ;
+
+explicit boostrelease ;

@@ -1,0 +1,551 @@
+== Sparse Vector
+
+[[toc]]
+
+=== [#mapped_vector]#Mapped Vector#
+
+==== Description
+
+The templated class `mapped_vector<T, A>` is the base container adaptor
+for sparse vectors using element maps. For a _n_-dimensional sparse
+vector and __0 < = i < n__ the non-zero elements __v__~_i_~ are mapped to
+consecutive elements of the associative container, i.e. for elements _k_
+= __v__~_i_~_~1~_ and __k + 1 = __v__~_i_~__~2~__ of the container holds
+__i__~_1_~ __< __i__~_2_~ .
+
+==== Example
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector_sparse.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    mapped_vector<double> v (3, 3);
+    for (unsigned i = 0; i < v.size (); ++ i)
+        v (i) = i;
+    std::cout << v << std::endl;
+}
+....
+
+==== Definition
+
+Defined in the header vector_sparse.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`T` |The type of object stored in the mapped vector. |
+
+|`A` |The type of the adapted array. link:#mapped_vector_1[[1]]
+|`map_std<std::size_t, T>`
+|===
+
+==== Model of
+
+link:container_concept.html#vector[Vector] .
+
+==== Type requirements
+
+None, except for those imposed by the requirements of
+link:container_concept.html#vector[Vector] .
+
+==== Public base classes
+
+`vector_container<mapped_vector<T, A> >`
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`mapped_vector ()` |Allocates a `mapped_vector` that holds zero
+elements.
+
+|`mapped_vector (size_type size, size_type non_zeros = 0)` |Allocates a
+`mapped_vector` that holds at most `size` elements.
+
+|`mapped_vector (const mapped_vector &v)` |The copy constructor.
+
+|`template<class AE> mapped_vector (size_type non_zeros, const vector_expression<AE> &ae)`
+|The extended copy constructor.
+
+|`void resize (size_type size, bool preserve = true)` |Reallocates a
+`mapped_vector` to hold at most `size` elements. The existing elements
+of the `mapped_vector` are preseved when specified.
+
+|`size_type size () const` |Returns the size of the `mapped_vector`.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`reference operator () (size_type i)` |Returns a reference of the
+`i`-th element.
+
+|`const_reference operator [] (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`reference operator [] (size_type i)` |Returns a reference of the
+`i`-th element.
+
+|`mapped_vector &operator = (const mapped_vector &v)` |The assignment
+operator.
+
+|`mapped_vector &assign_temporary (mapped_vector &v)` |Assigns a
+temporary. May change the mapped vector `v` .
+
+|`template<class AE> mapped_vector &operator = (const vector_expression<AE> &ae)`
+|The extended assignment operator.
+
+|`template<class AE> mapped_vector &assign (const vector_expression<AE> &ae)`
+|Assigns a vector expression to the mapped vector. Left and right hand
+side of the assignment should be independent.
+
+|`template<class AE> mapped_vector &operator += (const vector_expression<AE> &ae)`
+|A computed assignment operator. Adds the vector expression to the
+mapped vector.
+
+|`template<class AE> mapped_vector &plus_assign (const vector_expression<AE> &ae)`
+|Adds a vector expression to the mapped vector. Left and right hand side
+of the assignment should be independent.
+
+|`template<class AE> mapped_vector &operator -= (const vector_expression<AE> &ae)`
+|A computed assignment operator. Subtracts the vector expression from
+the mapped vector.
+
+|`template<class AE> mapped_vector &minus_assign (const vector_expression<AE> &ae)`
+|Subtracts a vector expression from the mapped vector. Left and right
+hand side of the assignment should be independent.
+
+|`template<class AT> mapped_vector &operator *= (const AT &at)` |A
+computed assignment operator. Multiplies the mapped vector with a
+scalar.
+
+|`template<class AT> mapped_vector &operator /= (const AT &at)` |A
+computed assignment operator. Divides the mapped vector through a
+scalar.
+
+|`void swap (mapped_vector &v)` |Swaps the contents of the mapped
+vectors.
+
+|`true_reference insert_element (size_type i, const_reference t)`
+|Inserts the value `t` at the `i`-th element. Duplicates elements are
+not allowed.
+
+|`void erase_element (size_type i)` |Erases the value at the `i`-th
+element.
+
+|`void clear ()` |Clears the mapped vector.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the `mapped_vector`.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the `mapped_vector`.
+
+|`iterator begin ()` |Returns a `iterator` pointing to the beginning of
+the `mapped_vector`.
+
+|`iterator end ()` |Returns a `iterator` pointing to the end of the
+`mapped_vector`.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+`mapped_vector`.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed
+`mapped_vector`.
+
+|`reverse_iterator rbegin ()` |Returns a `reverse_iterator` pointing to
+the beginning of the reversed `mapped_vector`.
+
+|`reverse_iterator rend ()` |Returns a `reverse_iterator` pointing to
+the end of the reversed `mapped_vector`.
+|===
+
+==== Notes
+
+[#mapped_vector_1]#[1]# Supported parameters for the adapted array are
+`map_array<std::size_t, T>` and `map_std<std::size_t, T>`. The latter is
+equivalent to `std::map<std::size_t, T>`.
+
+=== [#compressed_vector]#Compressed Vector#
+
+==== Description
+
+The templated class `compressed_vector<T, IB, IA, TA>` is the base
+container adaptor for compressed vectors. For a _n_-dimensional
+compressed vector and _0 <= i < n_ the non-zero elements __v__~_i_~ are
+mapped to consecutive elements of the index and value container, i.e.
+for elements _k_ = __v__~_i_~__~1~__ and __k + 1 = __v__~_i_~__~2~__ of
+these containers holds __i__~_1_~ __< __i__~_2_~ .
+
+==== Example
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector_sparse.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    compressed_vector<double> v (3, 3);
+    for (unsigned i = 0; i < v.size (); ++ i)
+        v (i) = i;
+    std::cout << v << std::endl;
+}
+....
+
+==== Definition
+
+Defined in the header vector_sparse.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`T` |The type of object stored in the compressed vector. |
+
+|`IB` |The index base of the compressed vector.
+link:#compressed_vector_1[[1]] |`0`
+
+|`IA` |The type of the adapted array for indices.
+link:#compressed_vector_2[[2]] |`unbounded_array<std::size_t>`
+
+|`TA` |The type of the adapted array for values.
+link:#compressed_vector_2[[2]] |`unbounded_array<T>`
+|===
+
+==== Model of
+
+link:container_concept.html#vector[Vector] .
+
+==== Type requirements
+
+None, except for those imposed by the requirements of
+link:container_concept.html#vector[Vector] .
+
+==== Public base classes
+
+`vector_container<compressed_vector<T, IB, IA, TA> >`
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`compressed_vector ()` |Allocates a `compressed_vector` that holds zero
+elements.
+
+|`compressed_vector (size_type size, size_type non_zeros)` |Allocates a
+`compressed_vector` that holds at most `size` elements.
+
+|`compressed_vector (const compressed_vector &v)` |The copy constructor.
+
+|`template<class AE> compressed_vector (size_type non_zeros, const vector_expression<AE> &ae)`
+|The extended copy constructor.
+
+|`void resize (size_type size, bool preserve = true)` |Reallocates a
+`compressed_vector` to hold at most `size` elements. The existing
+elements of the `compress_vector` are preseved when specified.
+
+|`size_type size () const` |Returns the size of the `compressed_vector`.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`reference operator () (size_type i)` |Returns a reference of the
+`i`-th element.
+
+|`const_reference operator [] (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`reference operator [] (size_type i)` |Returns a reference of the
+`i`-th element.
+
+|`compressed_vector &operator = (const compressed_vector &v)` |The
+assignment operator.
+
+|`compressed_vector &assign_temporary (compressed_vector &v)` |Assigns a
+temporary. May change the compressed vector `v`.
+
+|`template<class AE> compressed_vector &operator = (const vector_expression<AE> &ae)`
+|The extended assignment operator.
+
+|`template<class AE> compressed_vector &assign (const vector_expression<AE> &ae)`
+|Assigns a vector expression to the compressed vector. Left and right
+hand side of the assignment should be independent.
+
+|`template<class AE> compressed_vector &operator += (const vector_expression<AE> &ae)`
+|A computed assignment operator. Adds the vector expression to the
+compressed vector.
+
+|`template<class AE> compressed_vector &plus_assign (const vector_expression<AE> &ae)`
+|Adds a vector expression to the compressed vector. Left and right hand
+side of the assignment should be independent.
+
+|`template<class AE> compressed_vector &operator -= (const vector_expression<AE> &ae)`
+|A computed assignment operator. Subtracts the vector expression from
+the compressed vector.
+
+|`template<class AE> compressed_vector &minus_assign (const vector_expression<AE> &ae)`
+|Subtracts a vector expression from the compressed vector. Left and
+right hand side of the assignment should be independent.
+
+|`template<class AT> compressed_vector &operator *= (const AT &at)` |A
+computed assignment operator. Multiplies the compressed vector with a
+scalar.
+
+|`template<class AT> compressed_vector &operator /= (const AT &at)` |A
+computed assignment operator. Divides the compressed vector through a
+scalar.
+
+|`void swap (compressed_vector &v)` |Swaps the contents of the
+compressed vectors.
+
+|`true_reference insert_element (size_type i, const_reference t)`
+|Inserts the value `t` at the `i`-th element. Duplicates elements are
+not allowed.
+
+|`void erase_element (size_type i)` |Erases the value at the `i`-th
+element.
+
+|`void clear ()` |Clears the compressed vector.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the `compressed_vector`.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the `compressed_vector`.
+
+|`iterator begin ()` |Returns a `iterator` pointing to the beginning of
+the `compressed_vector`.
+
+|`iterator end ()` |Returns a `iterator` pointing to the end of the
+`compressed_vector`.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+`compressed_vector`.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed
+`compressed_vector`.
+
+|`reverse_iterator rbegin ()` |Returns a `reverse_iterator` pointing to
+the beginning of the reversed `compressed_vector`.
+
+|`reverse_iterator rend ()` |Returns a `reverse_iterator` pointing to
+the end of the reversed `compressed_vector`.
+|===
+
+==== Notes
+
+[#compressed_vector_1]#[1]# Supported parameters for the index base are
+`0` and `1` at least.
+
+[#compressed_vector_2]#[2]# Supported parameters for the adapted array
+are `unbounded_array<>` , `bounded_array<>` and `std::vector<>` .
+
+=== [#coordinate_vector]#Coordinate Vector#
+
+==== Description
+
+The templated class `coordinate_vector<T, IB, IA, TA>` is the base
+container adaptor for compressed vectors. For a _n_-dimensional sorted
+coordinate vector and _0 <= i < n_ the non-zero elements __v__~_i_~ are
+mapped to consecutive elements of the index and value container, i.e.
+for elements _k_ = __v__~_i_~__~1~__ and __k + 1 = __v__~_i_~__~2~__ of
+these containers holds __i__~_1_~ __< __i__~_2_~ .
+
+==== Example
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector_sparse.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    coordinate_vector<double> v (3, 3);
+    for (unsigned i = 0; i < v.size (); ++ i)
+        v (i) = i;
+    std::cout << v << std::endl;
+}
+....
+
+==== Definition
+
+Defined in the header vector_sparse.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`T` |The type of object stored in the coordinate vector. |
+
+|`IB` |The index base of the coordinate vector.
+link:#coordinate_vector_1[[1]] |`0`
+
+|`IA` |The type of the adapted array for indices.
+link:#coordinate_vector_2[[2]] |`unbounded_array<std::size_t>`
+
+|`TA` |The type of the adapted array for values.
+link:#coordinate_vector_2[[2]] |`unbounded_array<T>`
+|===
+
+==== Model of
+
+link:container_concept.html#vector[Vector] .
+
+==== Type requirements
+
+None, except for those imposed by the requirements of
+link:container_concept.html#vector[Vector] .
+
+==== Public base classes
+
+`vector_container<coordinate_vector<T, IB, IA, TA> >`
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`coordinate_vector ()` |Allocates a `coordinate_vector` that holds zero
+elements.
+
+|`coordinate_vector (size_type size, size_type non_zeros)` |Allocates a
+`coordinate_vector` that holds at most `size` elements.
+
+|`coordinate_vector (const coordinate_vector &v)` |The copy constructor.
+
+|`template<class AE> coordinate_vector (size_type non_zeros, const vector_expression<AE> &ae)`
+|The extended copy constructor.
+
+|`void resize (size_type size, bool preserve = true)` |Reallocates a
+`coordinate_vector` to hold at most `size` elements. The existing
+elements of the `coordinate_vector` are preseved when specified.
+
+|`size_type size () const` |Returns the size of the `coordinate_vector`.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`reference operator () (size_type i)` |Returns a reference of the
+`i`-th element.
+
+|`const_reference operator [] (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`reference operator [] (size_type i)` |Returns a reference of the
+`i`-th element.
+
+|`coordinate_vector &operator = (const coordinate_vector &v)` |The
+assignment operator.
+
+|`coordinate_vector &assign_temporary (coordinate_vector &v)` |Assigns a
+temporary. May change the coordinate vector `v`.
+
+|`template<class AE> coordinate_vector &operator = (const vector_expression<AE> &ae)`
+|The extended assignment operator.
+
+|`template<class AE> coordinate_vector &assign (const vector_expression<AE> &ae)`
+|Assigns a vector expression to the coordinate vector. Left and right
+hand side of the assignment should be independent.
+
+|`template<class AE> coordinate_vector &operator += (const vector_expression<AE> &ae)`
+|A computed assignment operator. Adds the vector expression to the
+coordinate vector.
+
+|`template<class AE> coordinate_vector &plus_assign (const vector_expression<AE> &ae)`
+|Adds a vector expression to the coordinate vector. Left and right hand
+side of the assignment should be independent.
+
+|`template<class AE> coordinate_vector &operator -= (const vector_expression<AE> &ae)`
+|A computed assignment operator. Subtracts the vector expression from
+the coordinate vector.
+
+|`template<class AE> coordinate_vector &minus_assign (const vector_expression<AE> &ae)`
+|Subtracts a vector expression from the coordinate vector. Left and
+right hand side of the assignment should be independent.
+
+|`template<class AT> coordinate_vector &operator *= (const AT &at)` |A
+computed assignment operator. Multiplies the coordinate vector with a
+scalar.
+
+|`template<class AT> coordinate_vector &operator /= (const AT &at)` |A
+computed assignment operator. Divides the coordinate vector through a
+scalar.
+
+|`void swap (coordinate_vector &v)` |Swaps the contents of the
+coordinate vectors.
+
+|`true_reference insert_element (size_type i, const_reference t)`
+|Inserts the value `t` at the `i`-th element. Duplicates elements are
+not allowed.
+
+|`void append_element (size_type i, size_type j, const_reference t)`
+|Appends the value `t` at the `i`-th element. Duplicate elements can be
+appended to a `coordinate_vector`. They are merged into a single
+arithmetically summed element by the `sort` function.
+
+|`void erase_element (size_type i)` |Erases the value at the `i`-th
+element.
+
+|`void clear ()` |Clears the coordinate vector.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the `coordinate_vector`.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the `coordinate_vector`.
+
+|`iterator begin ()` |Returns a `iterator` pointing to the beginning of
+the `coordinate_vector`.
+
+|`iterator end ()` |Returns a `iterator` pointing to the end of the
+`coordinate_vector`.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+`coordinate_vector`.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed
+`coordinate_vector`.
+
+|`reverse_iterator rbegin ()` |Returns a `reverse_iterator` pointing to
+the beginning of the reversed `coordinate_vector`.
+
+|`reverse_iterator rend ()` |Returns a `reverse_iterator` pointing to
+the end of the reversed `coordinate_vector`.
+|===
+
+==== Notes
+
+[#coordinate_vector_1]#[1]# Supported parameters for the index base are
+`0` and `1` at least.
+
+[#coordinate_vector_2]#[2]# Supported parameters for the adapted array
+are `unbounded_array<>` , `bounded_array<>` and `std::vector<>` .
+
+'''''
+
+Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).
