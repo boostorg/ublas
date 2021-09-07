@@ -96,10 +96,12 @@ constexpr auto& retrieve_extents(tensor_expression<T,D> const& expr)
 
 	auto const& cast_expr = static_cast<D const&>(expr);
 
-	if constexpr ( std::is_same<T,D>::value )
-	    return cast_expr.extents();
-	else
-	return retrieve_extents(cast_expr);
+	if constexpr ( std::is_same<T,D>::value ) {
+		return cast_expr.extents();
+	}
+	else {
+		return retrieve_extents(cast_expr);
+	}
 }
 
 // Disable warning for unreachable code for MSVC compiler
@@ -120,17 +122,19 @@ constexpr auto& retrieve_extents(binary_tensor_expression<T,EL,ER,OP> const& exp
 	static_assert(detail::has_tensor_types<T,binary_tensor_expression<T,EL,ER,OP>>::value,
 	              "Error in boost::numeric::ublas::detail::retrieve_extents: Expression to evaluate should contain tensors.");
 
-	if constexpr ( std::is_same<T,EL>::value )
-	    return expr.el.extents();
+	if constexpr ( std::is_same<T,EL>::value ) {
+		return expr.el.extents();
+	}
 
-	if constexpr ( std::is_same<T,ER>::value )
-	    return expr.er.extents();
-
-	else if constexpr ( detail::has_tensor_types<T,EL>::value )
-	    return retrieve_extents(expr.el);
-
-	else if constexpr ( detail::has_tensor_types<T,ER>::value  )
-	    return retrieve_extents(expr.er);
+	if constexpr ( std::is_same<T,ER>::value ) {
+		return expr.er.extents();
+	}
+	else if constexpr ( detail::has_tensor_types<T,EL>::value ) {
+		return retrieve_extents(expr.el);
+	} 
+	else if constexpr ( detail::has_tensor_types<T,ER>::value ) {
+		return retrieve_extents(expr.er);
+	}
 }
 
 #ifdef _MSC_VER
@@ -151,11 +155,12 @@ constexpr auto& retrieve_extents(unary_tensor_expression<T,E,OP> const& expr)
 	static_assert(detail::has_tensor_types<T,unary_tensor_expression<T,E,OP>>::value,
 	              "Error in boost::numeric::ublas::detail::retrieve_extents: Expression to evaluate should contain tensors.");
 
-	if constexpr ( std::is_same<T,E>::value )
-	    return expr.e.extents();
-
-	else if constexpr ( detail::has_tensor_types<T,E>::value  )
-	    return retrieve_extents(expr.e);
+	if constexpr ( std::is_same<T,E>::value ) {
+		return expr.e.extents();
+	}
+	else if constexpr ( detail::has_tensor_types<T,E>::value  ) {
+		return retrieve_extents(expr.e);
+	}
 }
 
 } // namespace boost::numeric::ublas::detail
@@ -169,7 +174,7 @@ template<class EN, std::size_t ... es>
 [[nodiscard]] inline
   constexpr auto all_extents_equal(tensor_core<EN> const& t, extents<es...> const& e)
 {
-  return ::operator==(e,t.extents());
+	return ::operator==(e,t.extents());
 }
 
 template<class T, class D, std::size_t ... es>
@@ -182,16 +187,20 @@ constexpr auto all_extents_equal(tensor_expression<T,D> const& expr, extents<es.
 
 	auto const& cast_expr = static_cast<D const&>(expr);
 
-  using ::operator==;
-  using ::operator!=;
+	using ::operator==;
+	using ::operator!=;
 
-	if constexpr ( std::is_same<T,D>::value )
-      if( e != cast_expr.extents() )
-	    return false;
+	if constexpr ( std::is_same<T,D>::value ) {
+		if ( e != cast_expr.extents() ) {
+			return false;
+		}
+	}
 
-	if constexpr ( detail::has_tensor_types<T,D>::value )
-      if ( !all_extents_equal(cast_expr, e))
-	    return false;
+	if constexpr ( detail::has_tensor_types<T,D>::value ) {
+		if ( !all_extents_equal(cast_expr, e)) {
+			return false;
+		}
+	}
 
 	return true;
 
@@ -207,21 +216,29 @@ constexpr auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& exp
   using ::operator==;
   using ::operator!=;
 
-	if constexpr ( std::is_same<T,EL>::value )
-      if(e !=  expr.el.extents())
-	    return false;
+	if constexpr ( std::is_same<T,EL>::value ) {
+		if (e !=  expr.el.extents()) {
+			return false;
+		}
+	}
 
-	if constexpr ( std::is_same<T,ER>::value )
-      if(e != expr.er.extents())
-	    return false;
+	if constexpr ( std::is_same<T,ER>::value ) {
+		if (e != expr.er.extents()) {
+			return false;
+	  	}
+	}
 
-	if constexpr ( detail::has_tensor_types<T,EL>::value )
-      if(!all_extents_equal(expr.el, e))
-	    return false;
+	if constexpr ( detail::has_tensor_types<T,EL>::value ) {
+		if (!all_extents_equal(expr.el, e)) {
+			return false;
+	  	}
+	}
 
-	if constexpr ( detail::has_tensor_types<T,ER>::value )
-      if(!all_extents_equal(expr.er, e))
-	    return false;
+	if constexpr ( detail::has_tensor_types<T,ER>::value ) {
+		if (!all_extents_equal(expr.er, e)) {
+			return false;
+	  	}
+	}
 
 	return true;
 }
@@ -234,16 +251,19 @@ constexpr auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, ex
 	static_assert(detail::has_tensor_types<T,unary_tensor_expression<T,E,OP>>::value,
 	              "Error in boost::numeric::ublas::detail::all_extents_equal: Expression to evaluate should contain tensors.");
 
-  using ::operator==;
+	using ::operator==;
 
-	if constexpr ( std::is_same<T,E>::value )
-      if(e != expr.e.extents())
-	    	return false;
+	if constexpr ( std::is_same<T,E>::value ) {
+ 		if (e != expr.e.extents()) {
+			return false;
+	  }
+	}
 
-	if constexpr ( detail::has_tensor_types<T,E>::value )
-      if(!all_extents_equal(expr.e, e))
-	    	return false;
-
+	if constexpr ( detail::has_tensor_types<T,E>::value ) {
+		if (!all_extents_equal(expr.e, e)) {
+			return false;
+	  	}
+	}
 	return true;
 }
 
@@ -263,13 +283,16 @@ namespace boost::numeric::ublas::detail
 template<class tensor_type, class derived_type>
 inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& expr)
 {
-	if constexpr (detail::has_tensor_types<tensor_type, tensor_expression<tensor_type,derived_type> >::value )
-	    if(!detail::all_extents_equal(expr, lhs.extents() ))
-	    	throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
+	if constexpr (detail::has_tensor_types<tensor_type, tensor_expression<tensor_type,derived_type> >::value ) {
+		if (!detail::all_extents_equal(expr, lhs.extents() )) {
+			throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
+		}
+	}
 
 #pragma omp parallel for
-	for(auto i = 0u; i < lhs.size(); ++i)
+	for (auto i = 0u; i < lhs.size(); ++i) {
 		lhs(i) = expr()(i);
+	}
 }
 
 /** @brief Evaluates expression for a tensor_core
@@ -292,13 +315,14 @@ inline void eval(tensor_type& lhs, tensor_expression<other_tensor_type, derived_
 		"tensor_type and tensor_expresssion should have same value type"
 	);
 
-	if ( !detail::all_extents_equal(expr, lhs.extents() ) ){
+	if ( !detail::all_extents_equal(expr, lhs.extents() ) ) {
 		throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
 	}   	
 	
 	#pragma omp parallel for
-	for(auto i = 0u; i < lhs.size(); ++i)
+	for (auto i = 0u; i < lhs.size(); ++i) {
 		lhs(i) = expr()(i);
+	}
 }
 
 /** @brief Evaluates expression for a tensor_core
@@ -312,13 +336,16 @@ template<class tensor_type, class derived_type, class unary_fn>
 inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& expr, unary_fn const fn)
 {
 
-	if constexpr (detail::has_tensor_types< tensor_type, tensor_expression<tensor_type,derived_type> >::value )
-	    if(!detail::all_extents_equal( expr, lhs.extents() ))
+	if constexpr (detail::has_tensor_types< tensor_type, tensor_expression<tensor_type,derived_type> >::value ) {
+	    if (!detail::all_extents_equal( expr, lhs.extents() )) {
 	    	throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
+		}
+	}
 
 	#pragma omp parallel for
-	for(auto i = 0u; i < lhs.size(); ++i)
+	for (auto i = 0u; i < lhs.size(); ++i) {
 		fn(lhs(i), expr()(i));
+	}
 }
 
 
@@ -334,8 +361,9 @@ template<class tensor_type, class unary_fn>
 inline void eval(tensor_type& lhs, unary_fn const& fn)
 {
 #pragma omp parallel for
-	for(auto i = 0u; i < lhs.size(); ++i)
+	for (auto i = 0u; i < lhs.size(); ++i) {
 		fn(lhs(i));
+	}
 }
 
 

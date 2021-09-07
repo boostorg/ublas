@@ -64,8 +64,9 @@ auto real(detail::tensor_expression< tensor_core< TE > ,D > const& expr)
   using return_tensor_engine = tensor_engine<extents_type,layout_type,storage_type>;
   using return_tensor_type = tensor_core<return_tensor_engine>;
 
-  if( ublas::empty ( detail::retrieve_extents( expr  ) ) )
+  if( ublas::empty ( detail::retrieve_extents( expr ))){
     throw std::runtime_error("error in boost::numeric::ublas::real: tensors should not be empty.");
+  }
 
   auto a = tensor_type( expr );
   auto c = return_tensor_type( a.extents() );

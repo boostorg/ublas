@@ -48,15 +48,18 @@ inline decltype(auto) inner_prod(tensor_core< TE1 > const &a, tensor_core< TE2 >
     "Both the tensor should have the same value_type"
     );
 
-  if (a.rank() != b.rank())
+  if (a.rank() != b.rank()) {
     throw std::length_error("error in boost::numeric::ublas::inner_prod: Rank of both the tensors must be the same.");
+  }
 
-  if (a.empty() || b.empty())
-            throw std::length_error("error in boost::numeric::ublas::inner_prod: Tensors should not be empty.");
+  if (a.empty() || b.empty()) {
+    throw std::length_error("error in boost::numeric::ublas::inner_prod: Tensors should not be empty.");
+  }
 
   //if (a.extents() != b.extents())
-  if (::operator!=(a.extents(),b.extents()))
+  if (::operator!=(a.extents(),b.extents())) {
     throw std::length_error("error in boost::numeric::ublas::inner_prod: Tensor extents should be the same.");
+  }
 
   return inner(a.rank(), a.extents().data(),
                a.data(), a.strides().data(),
