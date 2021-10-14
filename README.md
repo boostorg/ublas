@@ -1,4 +1,4 @@
-Boost Linear and Multilinear Algebra Library 
+Boost Linear and Multilinear Algebra Library
 =====
 
 [![Language](https://img.shields.io/badge/C%2B%2B-20-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization)
@@ -15,7 +15,9 @@ Boost Linear and Multilinear Algebra Library
 [![Apple MacOS](https://github.com/boostorg/ublas/actions/workflows/apple.yml/badge.svg)](https://github.com/boostorg/ublas/actions/workflows/apple.yml)
 [![Clang Sanitizer](https://github.com/boostorg/ublas/actions/workflows/sanitizer.yml/badge.svg)](https://github.com/boostorg/ublas/actions/workflows/sanitizer.yml)
 [![Clang Tidy](https://github.com/boostorg/ublas/actions/workflows/clangtidy.yml/badge.svg)](https://github.com/boostorg/ublas/actions/workflows/clangtidy.yml)
-[![Codecov](https://codecov.io/gh/boostorg/ublas/branch/master/graph/badge.svg)](https://codecov.io/gh/boostorg/ublas/branch/master) 
+[![Codecov](https://codecov.io/gh/boostorg/ublas/branch/master/graph/badge.svg)](https://codecov.io/gh/boostorg/ublas/branch/master)
+
+[![docs](https://github.com/boostorg/ublas/actions/workflows/docs.yml/badge.svg?branch=feature%2Fdoc)](https://github.com/boostorg/ublas/actions/workflows/docs.yml)
 
 Boost.uBlas is a header-only library and part of the [Boost C++ libraries](http://github.com/boostorg).
 It provides a set of basic linear and multilinear algebra operations with tensors, matrices and vectors.
@@ -25,7 +27,7 @@ Simple examples of the tensor extension is provided by the [wiki page](https://g
 ## Simple Example
 
 ```cpp
-#include <boost/numeric/ublas/tensor.hpp> 
+#include <boost/numeric/ublas/tensor.hpp>
 #include <iostream>
 
 int main()
@@ -38,7 +40,7 @@ int main()
   tensor B = ones(4,6,3,2);
 
   tensor C = 2*ones(5,6,2) + A(_i,_j,_k)*B(_j,_l,_i,_m) + 5;
-  
+
   // Matlab Compatible Formatted Output
   std::cout << "C=" << C << ";" << std::endl;
 }
@@ -47,19 +49,19 @@ int main()
 ## Requirements
 * Boost.uBlas requires a C++20 compatible compiler
   * gcc version >= 10.x.x
-  * clang version >= 10.x.x 
+  * clang version >= 10.x.x
   * msvc version >= 14.28
 * Unit-tests require Boost.Test
 
 ## Discussions and Questions
 * Be sure to have read our [code of conduct](https://github.com/boostorg/ublas/wiki/Code-of-Conduct) and Boost's [discussion policy](http://www.boost.org/community/policy.html)
-* Contributors and maintainers mainly use [Discussions](https://github.com/boostorg/ublas/discussions) (previously [Gitter](https://gitter.im/boostorg/ublas)) to discuss library design or governance topics. 
+* Contributors and maintainers mainly use [Discussions](https://github.com/boostorg/ublas/discussions) (previously [Gitter](https://gitter.im/boostorg/ublas)) to discuss library design or governance topics.
 * Users of the library can choose between the following platforms preferably [Gitter](https://gitter.im/boostorg/ublas), the [Boost developers mailing list](https://lists.boost.org/mailman/listinfo.cgi/ublas) using the `[ublas]` tag at the beginning of the subject line or [Stackoverflow](http://stackoverflow.com/questions/ask?tags=c%2B%2B,boost,boost-ublas) using `boost-ublas` or `ublas` tags
 * Contact the maintainers [Cem](https://gitter.im/bassoy), [David](https://gitter.im/yimyom) or [Stefan](https://gitter.im/stefanseefeld) if you have suggestions
 
 ## Contribution
-* Be sure that you have read our [contribution guidelines](https://github.com/boostorg/ublas/wiki/Guidelines-for-Contribution) and our [code of conduct](https://github.com/boostorg/ublas/wiki/Code-of-Conduct) 
-* If you want to report a bug, create an [issue](https://github.com/boostorg/ublas/issues) 
+* Be sure that you have read our [contribution guidelines](https://github.com/boostorg/ublas/wiki/Guidelines-for-Contribution) and our [code of conduct](https://github.com/boostorg/ublas/wiki/Code-of-Conduct)
+* If you want to report a bug, create an [issue](https://github.com/boostorg/ublas/issues)
 * If you want to submit a patch, create pull request against **develop** branch.
 
 ## Directories

@@ -1,11 +1,11 @@
-name: docs
+name: Docs
 on:
   push:
     branches: [ feature/doc ]
 jobs:
   asciidoc:
     runs-on: ubuntu-latest
-    name: asciidoc
+    name: asciidoc-documentation
     steps:
     - uses: actions/checkout@v2
     - uses: ruby/setup-ruby@v1
