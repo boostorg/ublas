@@ -279,6 +279,11 @@ public:
   [[nodiscard]] inline const_reference at (I1 i1, I2 i2, Is ... is) const
   {
     static_assert (sizeof...(is)+2 == ublas::size_v<extents_type>);
+    if(sizeof...(is)+2 != this->order()){
+      throw std::invalid_argument("boost::numeric::ublas::tensor_core<tensor_static>::at : "
+        "Cannot access tensor with multi-index. "
+        "Number of provided indices does not match with tensor order.");
+    }
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is... );
     return _container[idx];
   }
