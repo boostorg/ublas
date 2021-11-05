@@ -192,7 +192,7 @@ public:
      * @note extents are automatically extracted from the temporary matrix
      *
      * @param expr matrix expression
-     */    
+     */
   template<class D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
   inline tensor_core (const matrix_expression_type<D> &expr)
@@ -208,7 +208,7 @@ public:
      * @note extents are automatically extracted from the temporary matrix
      *
      * @param expr vector expression
-     */    
+     */
   template<class D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
   inline tensor_core (const vector_expression_type<D> &expr)
@@ -294,6 +294,11 @@ public:
   [[nodiscard]] inline reference at (I1 i1, I2 i2, Is ... is)
   {
     static_assert (sizeof...(is)+2 == ublas::size_v<extents_type>);
+    if(sizeof...(is)+2 != this->order()){
+      throw std::invalid_argument("boost::numeric::ublas::tensor_core<tensor_dynamic>::at : "
+        "Cannot access tensor with multi-index. "
+        "Number of provided indices does not match with tensor order.");
+    }
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is... );
     return _container[idx];
   }
@@ -453,4 +458,3 @@ using vector_static = tensor_static<V, extents<n1>, L>;
 } // namespace boost::numeric::ublas::experimental
 
 #endif
-
