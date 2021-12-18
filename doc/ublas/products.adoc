@@ -1,21 +1,19 @@
 == Special Products
 
-[[toc]]
-
 === Functions
 
 [width="100%",cols=">50%,50%",]
 |===
-|template<class V, class E1, class E2> BOOST_UBLAS_INLINE V & 
+|template<class V, class E1, class E2> BOOST_UBLAS_INLINE V &
 |link:#product_1[axpy_prod] (const matrix_expression< E1 > &e1, const vector_expression< E2 > &e2, V &v, bool init=true) computes `v += A x` or `v = A x` in an optimized fashion.
 
-|template<class V, class E1, class E2> BOOST_UBLAS_INLINE V & 
+|template<class V, class E1, class E2> BOOST_UBLAS_INLINE V &
 |link:#product_2[axpy_prod] (const vector_expression< E1 > &e1, const matrix_expression< E2 > &e2, V &v, bool init=true) computes `v += AT x` or `v = AT x` in an optimized fashion.
 
-|template<class M, class E1, class E2> BOOST_UBLAS_INLINE M & 
+|template<class M, class E1, class E2> BOOST_UBLAS_INLINE M &
 |link:#product_3[axpy_prod] (const matrix_expression< E1 > &e1, const matrix_expression< E2 > &e2, M &m, bool init=true) computes `M += A X` or `M = A X` in an optimized fashion.
 
-|template<class M, class E1, class E2> BOOST_UBLAS_INLINE M & 
+|template<class M, class E1, class E2> BOOST_UBLAS_INLINE M &
 |link:#product_4[opb_prod] (const matrix_expression< E1 > &e1, const matrix_expression< E2 > &e2, M &m, bool init=true) computes `M += A X` or `M = A X` in an optimized fashion.
 |===
 
@@ -28,7 +26,7 @@
 a|
 [cols=",,,",]
 !===
-!BOOST_UBLAS_INLINE V& axpy_prod !(  !const matrix_expression< E1 > & 
+!BOOST_UBLAS_INLINE V& axpy_prod !(  !const matrix_expression< E1 > &
 !_e1_,
 
 ! ! !const vector_expression< E2 > &  !_e2_,
@@ -71,7 +69,7 @@ give a large speed up compared to prod.
 a|
 [cols=",,,",]
 !===
-!BOOST_UBLAS_INLINE V& axpy_prod !(  !const vector_expression< E1 > & 
+!BOOST_UBLAS_INLINE V& axpy_prod !(  !const vector_expression< E1 > &
 !_e1_,
 
 ! ! !const matrix_expression< E2 > &  !_e2_,
@@ -113,7 +111,7 @@ give a large speed up compared to prod.
 a|
 [cols=",,,",]
 !===
-!BOOST_UBLAS_INLINE M& axpy_prod !(  !const matrix_expression< E1 > & 
+!BOOST_UBLAS_INLINE M& axpy_prod !(  !const matrix_expression< E1 > &
 !_e1_,
 
 ! ! !const matrix_expression< E2 > &  !_e2_,
@@ -155,7 +153,7 @@ Up to now there are no specialisations.
 a|
 [cols=",,,",]
 !===
-!BOOST_UBLAS_INLINE M& opb_prod !(  !const matrix_expression< E1 > & 
+!BOOST_UBLAS_INLINE M& opb_prod !(  !const matrix_expression< E1 > &
 !_e1_,
 
 ! ! !const matrix_expression< E2 > &  !_e2_,
@@ -189,12 +187,3 @@ This function may give a speedup if `A` has less columns than rows,
 because the product is computed as a sum of outer products.
 
 |===
-
-'''''
-
-Copyright (©) 2000-2004 Michael Stevens, Mathias Koch, Joerg Walter,
-Gunter Winkler +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).
