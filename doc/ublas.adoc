@@ -5,74 +5,34 @@ Distributed under the Boost Software License, Version 1.0.
 (http://www.boost.org/LICENSE_1_0.txt)
 ////
 
-# Boost.Ublas: The Boost Ublas Library
+# Boost.uBlas: The Boost uBlas Library
 :toc: left
 :toclevels: 2
 :idprefix:
 :listing-caption: Code Example
 :docinfo: private-footer
+:source-highlighter: rouge
+:source-language: c++
 
 :leveloffset: +1
 
-include::ublas/overview.adoc[] 
-
 include::ublas/index.adoc[]
 
-include::ublas/vector.adoc[]
+include::ublas/overview.adoc[]
 
-include::ublas/vector_sparse.adoc[]
+include::ublas/vector-index.adoc[]
 
-include::ublas/vector_proxy.adoc[]
+include::ublas/matrix-index.adoc[]
 
-include::ublas/vector_expression.adoc[]
+include::ublas/tensor-index.adoc[]
 
-include::ublas/matrix.adoc[]
+include::ublas/misc.adoc[]
 
-include::ublas/triangular.adoc[]
+include::ublas/tutorial.adoc[]
 
-include::ublas/symmetric.adoc[]
+include::ublas/release.adoc[]
 
-include::ublas/hermitian.adoc[]
-
-include::ublas/banded.adoc[]
-
-include::ublas/matrix_sparse.adoc[]
-
-include::ublas/matrix_proxy.adoc[]
-
-include::ublas/matrix_expression.adoc[]
-
-include::ublas/tensor.adoc[]
-
-include::ublas/tensor/tensor_expression.adoc[]
-
-include::ublas/unbounded_array.adoc[]
-
-include::ublas/bounded_array.adoc[]
-
-include::ublas/range.adoc[]
-
-include::ublas/tensor/extents.adoc[]
-
-include::ublas/tensor/strides.adoc[]
-
-include::ublas/tensor/tensor_expression.adoc[]
-
-include::ublas/tensor/tensor_index.adoc[]
-
-include::ublas/storage_sparse.adoc[]
-
-include::ublas/products.adoc[]
-
-include::ublas/blas.adoc[]
-
-include::ublas/container_concept.adoc[]
-
-include::ublas/expression_concept.adoc[]
-
-include::ublas/storage_concept.adoc[]
-
-include::ublas/iterator_concept.adoc[]
+include::ublas/contributors.adoc[]
 
 :leveloffset: -1
 
@@ -81,6 +41,6 @@ include::ublas/iterator_concept.adoc[]
 
 This documentation is
 
-* Copyright 2021 Shikhar Vashistha
+* Copyright 2021 link:https://github.com/shikharvashistha[Shikhar Vashistha]
 
 and is distributed under the http://www.boost.org/LICENSE_1_0.txt[Boost Software License, Version 1.0].

@@ -1,8 +1,5 @@
 == Bounded Array Storage
 
-[[toc]]
-
-=== [#bounded_array]#Bounded Array#
 
 ==== Description
 
@@ -69,7 +66,7 @@ of the concept.
 
 [cols=",,",]
 |===
-|Member |Where defined |Description 
+|Member |Where defined |Description
 
 |`value_type`| https://www.boost.org/sgi/stl/Container.html[Container] |
 
@@ -93,7 +90,7 @@ of the concept.
 
 |`const_revere_iterator` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `std::reverse_iterator<const_iterator>`
 
-|`bounded_array ()` |link:storage_concept.html[Storage] |Creates an `unbounded_array` that holds *zero* elements. 
+|`bounded_array ()` |link:storage_concept.html[Storage] |Creates an `unbounded_array` that holds *zero* elements.
 
 |`bounded_array (size_type size)` |link:storage_concept.html[Storage] |Creates a uninitialized `bounded_array` that holds `size` elements. All the elements are default constructed.
 
@@ -136,11 +133,3 @@ of the concept.
 |`reverse_iterator rend ()` |https://www.boost.org/sgi/stl/ReversibleContainer.html[Reversible Container] |Returns a `reverse_iterator` pointing to the end of the reversed `bounded_array`.
 
 |===
-'''''
-
-Copyright (©) 2000-2004 Michael Stevens, Mathias Koch, Joerg Walter,
-Gunter Winkler +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).

@@ -1,6 +1,5 @@
-== Tensor
+== Tensor Abstract
 
-[[toc]]
 
 . Tensor +
 .. link:#tensor_1[Description] +
@@ -27,7 +26,7 @@
 
 
 The templated class `tensor<value_t,format_t,storage_t>` is the base
-container adaptor for dense tensors. Every element 
+container adaptor for dense tensors. Every element
 $(t_/ i_1, i_2, \dots, i_p)$ of a $p$-order $(n_1 \times n_2 \times \cdots
 \times n_p)$-dimensional tensor $T$ is mapped to $j$-th element of a
 one-dimensional container where $(j = \sum_ /{r=1}^p i_r \cdot w_r)$ with
@@ -48,7 +47,7 @@ int main () {
     for (auto j = 0ul; j < t.size (1); ++ j)
       for (auto i = 0ul; i < t.size (0); ++ i)
         t.at(i,j,k) = 3*i + 2*j + 5*k;
-        
+
   std::cout << t << std::endl;
 }
 ....
@@ -341,11 +340,3 @@ greater than `tensor::size()`, the tensor is resized with `v`.
 
 [#tensor_2]#[2]# Common parameters for the storage array are
 `std::array<N,T>` and `std::vector<T>`.
-
-'''''
-
-Copyright (©) 2018 Cem Bassoy +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).
