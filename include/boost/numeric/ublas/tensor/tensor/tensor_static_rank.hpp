@@ -271,7 +271,7 @@ public:
     if( c.size() != this->size()){
       throw std::length_error("boost::numeric::ublas::tensor_core: "
         "Cannot assign provided container to tensor."
-        "Number of elements do not match.");
+        "The number of elements does not match.");
     }
     _container = std::move(c);
     return *this;
@@ -293,7 +293,7 @@ public:
   template<integral I1, integral I2, integral ... Is>
   [[nodiscard]] inline constexpr const_reference at (I1 i1, I2 i2, Is ... is) const
   {
-    static_assert (sizeof...(is)+2 == std::tuple_size_v<extents_type>);
+    static_assert (sizeof...(is)+2 == std::tuple_size_v<extents_type>, "order of the static extents does not match with the arity of the access operator.");
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is...);
     return _container.at(idx);
   }
@@ -308,7 +308,7 @@ public:
   template<integral I1, integral I2, integral ... Is>
   [[nodiscard]] inline constexpr reference at (I1 i1, I2 i2, Is ... is)
   {
-    static_assert (sizeof...(Is)+2 == std::tuple_size_v<extents_type>);
+    static_assert (sizeof...(Is)+2 == std::tuple_size_v<extents_type>, "order of the static extents does not match with the arity of the access operator.");
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is...);
     return _container.at(idx);
   }
@@ -391,7 +391,7 @@ public:
   [[nodiscard]] inline constexpr decltype(auto) operator() (index::index_type<I> p, index_types ... ps) const
   {
     constexpr auto size = sizeof...(index_types)+1;
-    static_assert(size == std::tuple_size_v<extents_type>);
+    static_assert(size == std::tuple_size_v<extents_type>, "order of the static extents does not match with the arity of the access operator.");
     return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
   }
 

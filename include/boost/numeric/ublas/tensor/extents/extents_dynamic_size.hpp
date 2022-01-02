@@ -59,7 +59,7 @@ public:
   {
     if(_base.size() < 2){
       throw std::length_error("in boost::numeric::ublas::extents<> : "
-        "the extents must be atleast of order 2.");
+        "the extents must be at least of order 2.");
     }
 
     if (!ublas::is_valid(*this)){

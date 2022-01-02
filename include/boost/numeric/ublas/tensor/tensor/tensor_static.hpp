@@ -108,7 +108,7 @@ public:
   using vector_type               = vector<value_type, std::vector<value_type> >;
 
   static_assert(std::tuple_size_v<container_type> == ublas::product(extents_type{}));
-  static_assert(0ul != ublas::product(extents_type{}));
+  static_assert(0ul != ublas::product(extents_type{}), "storage size cannot be empty or all extent in static extents should be greater than 0.");
 
   /** @brief Constructs a tensor_core.
      *
@@ -296,7 +296,7 @@ public:
   template<integral I1, integral I2, integral ... Is>
   [[nodiscard]] inline constexpr const_reference at (I1 i1, I2 i2, Is ... is) const
   {
-    static_assert (sizeof...(is)+2 == ublas::size(_extents));
+    static_assert (sizeof...(is)+2 == ublas::size(_extents), "order of the static extents does not match with the arity of the access operator.");
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is... );
     return _container[idx];
   }
@@ -311,7 +311,7 @@ public:
   template<integral I1, integral I2, integral ... Is>
   [[nodiscard]] inline constexpr reference at (I1 i1, I2 i2, Is ... is)
   {
-    static_assert (sizeof...(is)+2 == ublas::size(_extents));
+    static_assert (sizeof...(is)+2 == ublas::size(_extents), "order of the static extents does not match with the arity of the access operator.");
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is... );
     return _container[idx];
   }
@@ -394,7 +394,7 @@ public:
   [[nodiscard]] inline constexpr decltype(auto) operator() (index::index_type<I> p, index_types ... ps) const
   {
     constexpr auto size = sizeof...(ps)+1;
-    static_assert(size == ublas::size(_extents));
+    static_assert(size == ublas::size(_extents), "order of the static extents does not match with the arity of the access operator.");
     return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
   }
 
@@ -459,7 +459,7 @@ namespace boost::numeric::ublas{
 // template<class V, class E, class L = layout::first_order>
 // using tensor_static = tensor_core<tensor_engine<detail::normalize_static_extents_t<E>, L, std::array<V, product(detail::normalize_static_extents_t<E>{})>>>;
 template<class V, class E, class L = layout::first_order>
-  requires (size_v<E> > 1ul && !!"the extents must be atleast of order 2."[0])
+  requires (size_v<E> > 1ul && !!"the extents must be at least of order 2."[0])
 using tensor_static = tensor_core<tensor_engine<E, L, std::array<V, product(E{})>>>;
 
 }

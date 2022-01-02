@@ -144,7 +144,7 @@ public:
     if(std::size(_container) != ublas::product(_extents)){
       throw std::invalid_argument("boost::numeric::ublas::tensor_core: "
         "Cannot construct tensor with specified std::vector instance. "
-        "Number of extents and std::vector size do not match.");
+        "The number of extents and std::vector size do not match.");
     }
   }
 
@@ -303,7 +303,7 @@ public:
     if(sizeof...(is)+2 != this->order()){
       throw std::invalid_argument("boost::numeric::ublas::tensor_core<tensor_dynamic>::at : "
         "Cannot access tensor with multi-index. "
-        "Number of provided indices does not match with tensor order.");
+        "The number of provided indices does not match with tensor order.");
     }
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is...);
     return _container.at(idx);
@@ -322,7 +322,7 @@ public:
     if(sizeof...(is)+2 != this->order()){
       throw std::invalid_argument("boost::numeric::ublas::tensor_core<tensor_dynamic>::at : "
         "Cannot access tensor with multi-index."
-        "Number of provided indices does not match with tensor order.");
+        "The number of provided indices does not match with tensor order.");
     }
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is...);
     return _container.at(idx);
@@ -410,7 +410,7 @@ public:
     if(size != this->order()){
       throw std::invalid_argument("boost::numeric::ublas::tensor_core <engine_dynamic>: "
         "Cannot multiply using Einstein notation. "
-        "Number of provided indices does not match with tensor order.");
+        "The number of provided indices does not match with tensor order.");
     }
     return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
   }
