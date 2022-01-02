@@ -84,7 +84,7 @@ public:
   using matrix_type               = matrix<value_type, layout_type, std::vector<value_type> >;
   using vector_type               = vector<value_type, std::vector<value_type> >;
 
-  explicit tensor_core () = default;
+  explicit constexpr tensor_core () noexcept = default;
 
   /** @brief Constructs a tensor_core with a \c shape
      *

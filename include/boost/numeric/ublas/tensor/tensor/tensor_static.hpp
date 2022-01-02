@@ -113,7 +113,7 @@ public:
   /** @brief Constructs a tensor_core.
      *
      */
-   inline constexpr tensor_core () noexcept = default;
+  explicit inline constexpr tensor_core () noexcept = default;
 
   /** @brief Constructs a tensor_core with a \c shape
      *
@@ -147,7 +147,26 @@ public:
      * @param other tensor_core with a different layout to be copied.
      */
   template<typename OtherTE>
-  explicit inline constexpr tensor_core (const tensor_core<OtherTE> &other)
+    requires (is_static_v< typename tensor_core<OtherTE>::extents_type >)
+  inline constexpr tensor_core (const tensor_core<OtherTE> &other)
+    : tensor_expression_type<self_type>{}
+    , _container{}
+  {
+    using other_extents_t = typename tensor_core<OtherTE>::extents_type;
+    static_assert(extents_type{} == other_extents_t{}, "error in boost::numeric::ublas::tensor_core: static extents do not match.");
+
+    ublas::copy(this->rank(), this->extents().data(),
+                this->data(), this->strides().data(),
+                other.data(), other.strides().data());
+
+  }
+
+  /** @brief Constructs a tensor_core with another tensor_core with a different layout
+     *
+     * @param other tensor_core with a different layout to be copied.
+     */
+  template<typename OtherTE>
+  inline constexpr tensor_core (const tensor_core<OtherTE> &other)
     : tensor_expression_type<self_type>{}
     , _container{}
   {

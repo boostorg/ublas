@@ -85,7 +85,7 @@ public:
   using matrix_type               = matrix<value_type, layout_type, std::vector<value_type> >;
   using vector_type               = vector<value_type, std::vector<value_type> >;
 
-  tensor_core () = default;
+  explicit constexpr tensor_core () noexcept = default;
 
   /** @brief Constructs a tensor_core with a \c shape
      *
@@ -97,8 +97,7 @@ public:
     , _extents(std::move(e))
     , _strides(ublas::to_strides(_extents,layout_type{}))
     , _container(ublas::product(_extents))
-  {
-  }
+  {}
 
   /** @brief Constructs a tensor_core with a \c shape
      *
@@ -136,11 +135,27 @@ public:
      * @param other tensor_core with a different layout to be copied.
      */
   template<typename OTE>
-  explicit inline constexpr tensor_core (const tensor_core<OTE> &other)
+    requires (is_static_rank_v<typename tensor_core<OTE>::extents_type>)
+  inline constexpr tensor_core (const tensor_core<OTE> &other)
     : tensor_expression_type<self_type>{}
     , _extents  (ublas::begin(other.extents()),ublas::end (other.extents  ()))
-    , _strides  (ublas::to_strides(_extents))
-    , _container(std::begin(other.container()),std::end   (other.container()))
+    , _strides  (ublas::to_strides(_extents, layout_type{}))
+    , _container(std::begin(other.base()),std::end   (other.base()))
+  {
+    using other_extents_t = typename tensor_core<OTE>::extents_type;
+    static_assert(ublas::size(extents_type{}) == ublas::size(other_extents_t{}));
+  }
+
+  /** @brief Constructs a tensor_core with another tensor_core with a different layout
+     *
+     * @param other tensor_core with a different layout to be copied.
+     */
+  template<typename OTE>
+  inline constexpr tensor_core (const tensor_core<OTE> &other)
+    : tensor_expression_type<self_type>{}
+    , _extents  (ublas::begin(other.extents()),ublas::end (other.extents  ()))
+    , _strides  (ublas::to_strides(_extents, layout_type{}))
+    , _container(std::begin(other.base()),std::end   (other.base()))
   {    
   }
 
