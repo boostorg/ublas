@@ -54,7 +54,7 @@ public:
   constexpr extents_core(extents_core &&) noexcept = default;
   constexpr extents_core& operator=(extents_core const&) noexcept = default;
   constexpr extents_core& operator=(extents_core &&) noexcept = default;
-  ~extents_core() = default;
+  constexpr ~extents_core() = default;
 
   [[nodiscard]] inline constexpr const_reference  at        (size_type k) const{ return m_data.at(k);  }
   [[nodiscard]] inline constexpr const_reference  operator[](size_type k) const{ return m_data[k];     }

@@ -416,7 +416,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_tensor_matrix_vector_expressions, pair,  
     for_each_in_tuple(extents,[](auto const& /*unused*/, auto& e) {
         using shape = std::decay_t<decltype(e)>;
 
-        if constexpr(ublas::product_v<shape> <= 2)
+        if constexpr(ublas::product(shape{}) <= 2)
             return;
 
         assert(ublas::size_v<shape> == 2);

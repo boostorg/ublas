@@ -21,8 +21,6 @@ struct fixture
   using extents = boost::numeric::ublas::extents<>;
 
 //  static inline auto n     = extents{};
-  static inline auto n1    = extents{1};
-  static inline auto n2    = extents{2};
   static inline auto n11   = extents{1,1};
   static inline auto n12   = extents{1,2};
   static inline auto n21   = extents{2,1};
@@ -46,8 +44,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_empty,
   namespace ublas = boost::numeric::ublas;
 
 //  BOOST_CHECK( ublas::empty(n   ));
-  BOOST_CHECK(!ublas::empty(n1  ));
-  BOOST_CHECK(!ublas::empty(n2  ));
   BOOST_CHECK(!ublas::empty(n11 ));
   BOOST_CHECK(!ublas::empty(n12 ));
   BOOST_CHECK(!ublas::empty(n21 ));
@@ -64,7 +60,7 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_empty,
 
   BOOST_CHECK_THROW( extents({1,1,0}), std::invalid_argument);
   BOOST_CHECK_THROW( extents({1,0})  , std::invalid_argument);
-  BOOST_CHECK_THROW( extents({0}  )  , std::invalid_argument);
+  BOOST_CHECK_THROW( extents({0}  )  , std::length_error    );
   BOOST_CHECK_THROW( extents({0,1})  , std::invalid_argument);
 }
 
@@ -78,8 +74,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_size,
 
 
 //  BOOST_CHECK_EQUAL(ublas::size(n   ),0);
-  BOOST_CHECK_EQUAL(ublas::size(n1  ),1);
-  BOOST_CHECK_EQUAL(ublas::size(n2  ),1);
   BOOST_CHECK_EQUAL(ublas::size(n11 ),2);
   BOOST_CHECK_EQUAL(ublas::size(n12 ),2);
   BOOST_CHECK_EQUAL(ublas::size(n21 ),2);
@@ -101,8 +95,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_at_read,
                        fixture,
                        *boost::unit_test::label("dynamic_extents") *boost::unit_test::label("at_read"))
 {
-  BOOST_CHECK_EQUAL(n1  .at(0),1);
-  BOOST_CHECK_EQUAL(n2  .at(0),2);
 
   BOOST_CHECK_EQUAL(n11 .at(0),1);
   BOOST_CHECK_EQUAL(n11 .at(1),1);
@@ -134,9 +126,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_at_write,
                         fixture,
                         *boost::unit_test::label("dynamic_extents") *boost::unit_test::label("at_write"))
 {
-  auto n3 = extents{1};
-  n3 = extents{3};
-  BOOST_CHECK_EQUAL(n3.at(0),3);
 
   auto n34 = extents{1,1};
   n34 = extents{3,4};
@@ -164,8 +153,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_operator_access_read,
                         fixture,
                         *boost::unit_test::label("dynamic_extents") *boost::unit_test::label("operator_access_read"))
 {
-  BOOST_CHECK_EQUAL(n1  [0],1);
-  BOOST_CHECK_EQUAL(n2  [0],2);
 
   BOOST_CHECK_EQUAL(n11 [0],1);
   BOOST_CHECK_EQUAL(n11 [1],1);

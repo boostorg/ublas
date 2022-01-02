@@ -35,9 +35,27 @@
 
 namespace boost::numeric::ublas::detail
 {
+  template<typename T>
+  struct normalize_static_extents;
+  
+  template<typename T, std::size_t N>
+  struct normalize_static_extents<extents_core<T,N>>{
+    using type = extents_core<T, 1ul, N>;
+  };
+  
+  template<typename T, std::size_t N, std::size_t... Ns>
+  struct normalize_static_extents<extents_core<T,N,Ns...>>{
+    using type = extents_core<T, N, Ns...>;
+  };
+  
+  template<typename T>
+  using normalize_static_extents_t = typename normalize_static_extents<T>::type;
+
 template<class V, class L, std::size_t ... ns>
 using engine_tensor_static = tensor_engine<
-  extents<ns...>, L, std::array<V,product_v<extents<ns...>>> >;
+  extents<ns...>, 
+  L, 
+  std::array<V,product(extents<ns...>{})> >;
 } // namespace boost::numeric::ublas::detail
 
 namespace boost::numeric::ublas {
@@ -89,13 +107,13 @@ public:
   using matrix_type               = matrix<value_type, layout_type, std::vector<value_type> >;
   using vector_type               = vector<value_type, std::vector<value_type> >;
 
-  static_assert(std::tuple_size_v<container_type> == ublas::product_v<extents_type>);
-  static_assert(0ul != ublas::product_v<extents_type>);
+  static_assert(std::tuple_size_v<container_type> == ublas::product(extents_type{}));
+  static_assert(0ul != ublas::product(extents_type{}));
 
   /** @brief Constructs a tensor_core.
      *
      */
-  constexpr inline tensor_core () noexcept = default;
+   inline constexpr tensor_core () noexcept = default;
 
   /** @brief Constructs a tensor_core with a \c shape
      *
@@ -104,7 +122,7 @@ public:
      *
      * @param v value with which tensor_core is initialized
      */
-  constexpr explicit inline tensor_core (value_type v)
+  explicit inline constexpr tensor_core (value_type v)
     : tensor_core()
   {
     std::fill_n(begin(),this->size(),v);
@@ -117,7 +135,7 @@ public:
      *  @param s initial tensor_core dimension extents
      *  @param a container of \c array_type that is copied according to the storage layout
      */
-  constexpr explicit inline tensor_core (container_type a) noexcept
+  explicit inline constexpr tensor_core (container_type a) noexcept
     : tensor_expression_type<self_type>{}
     , _container{std::move(a)}
   {
@@ -129,7 +147,7 @@ public:
      * @param other tensor_core with a different layout to be copied.
      */
   template<typename OtherTE>
-  explicit inline tensor_core (const tensor_core<OtherTE> &other)
+  explicit inline constexpr tensor_core (const tensor_core<OtherTE> &other)
     : tensor_expression_type<self_type>{}
     , _container{}
   {
@@ -156,7 +174,7 @@ public:
      */
   template<typename T,typename D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  inline tensor_core (const detail::tensor_expression<T,D> &expr)
+  inline constexpr tensor_core (const detail::tensor_expression<T,D> &expr)
     : tensor_expression_type<self_type>{}
     , _container{}
   {
@@ -164,9 +182,9 @@ public:
   }
 
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  explicit tensor_core( matrix_type const& m )
+  explicit constexpr tensor_core( matrix_type const& m )
   {
-    static_assert(is_matrix_v<extents_type>);
+    static_assert(is_matrix(extents_type{}));
     if(m.size1() != std::get<0>(_extents) || m.size2() != std::get<1>(_extents) ){
       throw std::invalid_argument("error in boost::numeric::ublas::tensor_core: matrix and tensor dimensions do not match.");
     }
@@ -174,9 +192,9 @@ public:
   }
 
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  constexpr explicit tensor_core (vector_type const& v)
+  explicit constexpr tensor_core (vector_type const& v)
   {
-    static_assert(is_vector_v<extents_type>);
+    static_assert(is_vector(extents_type{}));
 
     if(v.size() != std::get<0>(_extents) && v.size() != std::get<1>(_extents) ){
       throw std::invalid_argument("error in boost::numeric::ublas::tensor_core: matrix and tensor dimensions do not match.");
@@ -195,7 +213,7 @@ public:
      */    
   template<class D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  inline tensor_core (const matrix_expression_type<D> &expr)
+  inline constexpr tensor_core (const matrix_expression_type<D> &expr)
     : tensor_core(matrix_type(expr))
   {
   }
@@ -211,7 +229,7 @@ public:
      */    
   template<class D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  inline tensor_core (const vector_expression_type<D> &expr)
+  inline constexpr tensor_core (const vector_expression_type<D> &expr)
     : tensor_core(  vector_type ( expr )  )
   {
   }
@@ -221,7 +239,7 @@ public:
      *
      *  @param t tensor_core to be copied.
      */
-  constexpr inline tensor_core (const tensor_core &t) noexcept
+   inline constexpr tensor_core (const tensor_core &t) noexcept
     : tensor_expression_type<self_type>{}
     , _container{t._container}
   {}
@@ -232,13 +250,13 @@ public:
      *
      *  @param t tensor_core to be moved.
      */
-  constexpr inline tensor_core (tensor_core &&t) noexcept
+   inline constexpr tensor_core (tensor_core &&t) noexcept
     : tensor_expression_type<self_type>{}
     , _container (std::move(t._container))
   {}
 
   /// @brief Default destructor
-  ~tensor_core() = default;
+  constexpr ~tensor_core() = default;
 
   /** @brief Evaluates the tensor_expression and assigns the results to the tensor_core
      *
@@ -249,7 +267,7 @@ public:
      * @param expr expression that is evaluated.
      */
   template<class derived_type>
-  tensor_core &operator = (const tensor_expression_type<derived_type> &expr)
+  constexpr tensor_core &operator = (const tensor_expression_type<derived_type> &expr)
   {
     detail::eval(*this, expr);
     return *this;
@@ -276,9 +294,9 @@ public:
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
   template<integral I1, integral I2, integral ... Is>
-  [[nodiscard]] inline const_reference at (I1 i1, I2 i2, Is ... is) const
+  [[nodiscard]] inline constexpr const_reference at (I1 i1, I2 i2, Is ... is) const
   {
-    static_assert (sizeof...(is)+2 == ublas::size_v<extents_type>);
+    static_assert (sizeof...(is)+2 == ublas::size(_extents));
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is... );
     return _container[idx];
   }
@@ -291,9 +309,9 @@ public:
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
   template<integral I1, integral I2, integral ... Is>
-  [[nodiscard]] inline reference at (I1 i1, I2 i2, Is ... is)
+  [[nodiscard]] inline constexpr reference at (I1 i1, I2 i2, Is ... is)
   {
-    static_assert (sizeof...(is)+2 == ublas::size_v<extents_type>);
+    static_assert (sizeof...(is)+2 == ublas::size(_extents));
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is... );
     return _container[idx];
   }
@@ -376,11 +394,11 @@ public:
   [[nodiscard]] inline constexpr decltype(auto) operator() (index::index_type<I> p, index_types ... ps) const
   {
     constexpr auto size = sizeof...(ps)+1;
-    static_assert(size == ublas::size_v<extents_type>);
+    static_assert(size == ublas::size(_extents));
     return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
   }
 
-  friend void swap(tensor_core& lhs, tensor_core& rhs)
+  constexpr friend void swap(tensor_core& lhs, tensor_core& rhs)
   {
     std::swap(lhs._container, rhs._container);
   }
@@ -403,10 +421,10 @@ public:
   [[nodiscard]] inline constexpr auto empty () const noexcept   { return _container.empty();    }
   [[nodiscard]] inline constexpr auto size  () const noexcept   { return _container.size();     }
   [[nodiscard]] inline constexpr auto size  (size_type r) const { return _extents.at(r);        }
-  [[nodiscard]] inline constexpr auto rank  () const noexcept   { return ublas::size_v<extents_type>; }
+  [[nodiscard]] inline constexpr auto rank  () const noexcept   { return ublas::size(_extents); }
   [[nodiscard]] inline constexpr auto order () const noexcept   { return this->rank();                }
 
-  [[nodiscard]] constexpr inline auto const& strides   () const noexcept{ return _strides; }
+  [[nodiscard]] inline constexpr auto const& strides   () const noexcept{ return _strides; }
   [[nodiscard]] inline constexpr auto const& extents   () const noexcept{ return _extents; }
   [[nodiscard]] inline constexpr const_pointer data    () const noexcept{ return _container.data();}
   [[nodiscard]] inline constexpr pointer       data    ()       noexcept{ return _container.data();}
@@ -417,14 +435,14 @@ public:
 
 private:
   static constexpr extents_type _extents = extents_type{};
-  static constexpr strides_type _strides = to_strides_v<extents_type,layout_type>;
+  static constexpr strides_type _strides = to_strides(_extents,layout_type{});
   container_type _container;
 };
 
 
 
 //template<class V, class E, class L = layout::first_order>
-//static constexpr inline auto make_tensor(
+//static  inline constexpr auto make_tensor(
 //  typename tensor_static<V,E,L>::base_type    && a,
 //  typename tensor_static<V,E,L>::extents_type && /*unused*/,
 //  typename tensor_static<V,E,L>::layout_type  && /*unused*/)
@@ -438,8 +456,11 @@ private:
 
 namespace boost::numeric::ublas{
 
+// template<class V, class E, class L = layout::first_order>
+// using tensor_static = tensor_core<tensor_engine<detail::normalize_static_extents_t<E>, L, std::array<V, product(detail::normalize_static_extents_t<E>{})>>>;
 template<class V, class E, class L = layout::first_order>
-using tensor_static = tensor_core<tensor_engine<E, L, std::array<V, product_v<E>>>>;
+  requires (size_v<E> > 1ul && !!"the extents must be atleast of order 2."[0])
+using tensor_static = tensor_core<tensor_engine<E, L, std::array<V, product(E{})>>>;
 
 }
 

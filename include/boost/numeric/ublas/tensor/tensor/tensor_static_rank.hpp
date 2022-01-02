@@ -92,7 +92,7 @@ public:
      * @code auto t = tensor<float,3>(extents<3>{3,4,2}); @endcode
      *
      */
-  explicit inline tensor_core (extents_type e)
+  explicit inline constexpr tensor_core (extents_type e)
     : tensor_expression_type<self_type>{}
     , _extents(std::move(e))
     , _strides(ublas::to_strides(_extents,layout_type{}))
@@ -106,7 +106,7 @@ public:
      *
      */
   template<integral ... Is>
-  explicit inline tensor_core (Is ... is)
+  explicit inline constexpr tensor_core (Is ... is)
     : tensor_core(extents_type{size_type(is)...})
   {
   }
@@ -118,7 +118,7 @@ public:
      *  @param e instance of \c extents<> specifying the dimensions of tensor
      *  @param a instance of \c std::vector<value_type> to be copied
      */
-  inline tensor_core (extents_type e, container_type a)
+  inline constexpr tensor_core (extents_type e, container_type a)
     : tensor_expression_type<self_type>{}
     , _extents(std::move(e))
     , _strides(ublas::to_strides(_extents,layout_type{}))
@@ -136,7 +136,7 @@ public:
      * @param other tensor_core with a different layout to be copied.
      */
   template<typename OTE>
-  explicit inline tensor_core (const tensor_core<OTE> &other)
+  explicit inline constexpr tensor_core (const tensor_core<OTE> &other)
     : tensor_expression_type<self_type>{}
     , _extents  (ublas::begin(other.extents()),ublas::end (other.extents  ()))
     , _strides  (ublas::to_strides(_extents))
@@ -157,7 +157,7 @@ public:
      */
   template<typename T,typename D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  inline tensor_core (detail::tensor_expression<T,D> const& expr)
+  inline constexpr tensor_core (detail::tensor_expression<T,D> const& expr)
     : tensor_expression_type<self_type>{}
     , _extents  (ublas::detail::retrieve_extents(expr))
     , _strides  (ublas::to_strides(_extents,layout_type{}))
@@ -167,7 +167,7 @@ public:
   }
 
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  explicit tensor_core( matrix_type const& m )
+  explicit constexpr tensor_core( matrix_type const& m )
     : tensor_expression_type<self_type>{}
     , _extents  {m.size1(),m.size2()}
     , _strides  (ublas::to_strides(_extents,layout_type{}))
@@ -176,7 +176,7 @@ public:
   }
 
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  explicit tensor_core (vector_type const& v)
+  explicit constexpr tensor_core (vector_type const& v)
     : tensor_expression_type<self_type>{}
     , _extents  {v.size(),1}
     , _strides  (ublas::to_strides(_extents,layout_type{}))
@@ -195,7 +195,7 @@ public:
      */    
   template<class D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  inline tensor_core (const matrix_expression_type<D> &expr)
+  inline constexpr tensor_core (const matrix_expression_type<D> &expr)
     : tensor_core(matrix_type(expr))
   {
   }
@@ -211,7 +211,7 @@ public:
      */    
   template<class D>
   // NOLINTNEXTLINE(hicpp-explicit-conversions)
-  inline tensor_core (const vector_expression_type<D> &expr)
+  inline constexpr tensor_core (const vector_expression_type<D> &expr)
     : tensor_core(  vector_type ( expr )  )
   {
   }
@@ -221,7 +221,7 @@ public:
      *
      *  @param t tensor_core to be copied.
      */
-  inline tensor_core (const tensor_core &t) noexcept
+  inline constexpr tensor_core (const tensor_core &t) noexcept
     : tensor_expression_type<self_type>{}
     , _extents  (t._extents  )
     , _strides  (t._strides  )
@@ -234,7 +234,7 @@ public:
      *
      *  @param t tensor_core to be moved.
      */
-  inline tensor_core (tensor_core &&t) noexcept
+  inline constexpr tensor_core (tensor_core &&t) noexcept
     : tensor_expression_type<self_type>{}
     , _extents  (std::move(t._extents  ))
     , _strides  (std::move(t._strides  ))
@@ -242,7 +242,7 @@ public:
   {}
 
   /// @brief Default destructor
-  ~tensor_core() = default;
+  constexpr ~tensor_core() = default;
 
   /** @brief Evaluates the tensor_expression and assigns the results to the tensor_core
      *
@@ -253,20 +253,20 @@ public:
      * @param expr expression that is evaluated.
      */
   template<class derived_type>
-  tensor_core &operator = (const tensor_expression_type<derived_type> &expr)
+  constexpr tensor_core &operator = (const tensor_expression_type<derived_type> &expr)
   {
     detail::eval(*this, expr);
     return *this;
   }
 
   // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
-  tensor_core& operator=(tensor_core other) noexcept
+  constexpr tensor_core& operator=(tensor_core other) noexcept
   {
     swap (*this, other);
     return *this;
   }
 
-  tensor_core& operator=(container_type c)
+  constexpr tensor_core& operator=(container_type c)
   {
     if( c.size() != this->size()){
       throw std::length_error("boost::numeric::ublas::tensor_core: "
@@ -277,7 +277,7 @@ public:
     return *this;
   }
 
-  tensor_core& operator=(const_reference v)
+  constexpr tensor_core& operator=(const_reference v)
   {
     std::fill_n(_container.begin(), _container.size(), v);
     return *this;
@@ -291,7 +291,7 @@ public:
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
   template<integral I1, integral I2, integral ... Is>
-  [[nodiscard]] inline const_reference at (I1 i1, I2 i2, Is ... is) const
+  [[nodiscard]] inline constexpr const_reference at (I1 i1, I2 i2, Is ... is) const
   {
     static_assert (sizeof...(is)+2 == std::tuple_size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is...);
@@ -306,7 +306,7 @@ public:
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
   template<integral I1, integral I2, integral ... Is>
-  [[nodiscard]] inline reference at (I1 i1, I2 i2, Is ... is)
+  [[nodiscard]] inline constexpr reference at (I1 i1, I2 i2, Is ... is)
   {
     static_assert (sizeof...(Is)+2 == std::tuple_size_v<extents_type>);
     const auto idx = ublas::detail::to_index(_strides,i1,i2,is...);
@@ -321,7 +321,7 @@ public:
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
   template<integral ... Is>
-  [[nodiscard]] inline const_reference operator()(Is ... is) const
+  [[nodiscard]] inline constexpr const_reference operator()(Is ... is) const
   {
     return this->at(is...);
   }
@@ -334,7 +334,7 @@ public:
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
      */
   template<integral ... Is>
-  [[nodiscard]] inline reference operator()(Is ... is)
+  [[nodiscard]] inline constexpr reference operator()(Is ... is)
   {
     return this->at(is...);
   }
@@ -345,7 +345,7 @@ public:
      *
      *  @param i zero-based index where 0 <= i < this->size()
      */
-  [[nodiscard]] inline const_reference operator [] (size_type i) const {
+  [[nodiscard]] inline constexpr const_reference operator [] (size_type i) const {
     return this->_container[i];
   }
 
@@ -355,7 +355,7 @@ public:
      *
      *  @param i zero-based index where 0 <= i < this->size()
      */
-  [[nodiscard]] inline reference operator [] (size_type i) {
+  [[nodiscard]] inline constexpr reference operator [] (size_type i) {
     return this->_container[i];
   }
 
@@ -365,7 +365,7 @@ public:
      *
      *  @param i zero-based index where 0 <= i < this->size()
      */
-  [[nodiscard]] inline const_reference at (size_type i) const {
+  [[nodiscard]] inline constexpr const_reference at (size_type i) const {
     return this->_container.at(i);
   }
 
@@ -375,7 +375,7 @@ public:
      *
      *  @param i zero-based index where 0 <= i < t.size()
      */
-  [[nodiscard]] inline reference at (size_type i) {
+  [[nodiscard]] inline constexpr reference at (size_type i) {
     return this->_container.at(i);
   }
 
@@ -395,7 +395,7 @@ public:
     return std::make_pair( std::cref(*this),  std::make_tuple( p, std::forward<index_types>(ps)... ) );
   }
 
-  friend void swap(tensor_core& lhs, tensor_core& rhs)
+  constexpr friend void swap(tensor_core& lhs, tensor_core& rhs)
   {
     std::swap(lhs._extents   , rhs._extents  );
     std::swap(lhs._strides   , rhs._strides  );
@@ -403,31 +403,31 @@ public:
   }
 
 
-  [[nodiscard]] inline           auto begin  () const noexcept -> const_iterator { return _container.begin  (); }
-  [[nodiscard]] inline           auto end    () const noexcept -> const_iterator { return _container.end    (); }
-  [[nodiscard]] inline           auto begin  ()       noexcept ->       iterator { return _container.begin  (); }
-  [[nodiscard]] inline           auto end    ()       noexcept ->       iterator { return _container.end    (); }
-  [[nodiscard]] inline           auto cbegin () const noexcept -> const_iterator { return _container.cbegin (); }
-  [[nodiscard]] inline           auto cend   () const noexcept -> const_iterator { return _container.cend   (); }
+  [[nodiscard]] inline constexpr auto begin  () const noexcept -> const_iterator { return _container.begin  (); }
+  [[nodiscard]] inline constexpr auto end    () const noexcept -> const_iterator { return _container.end    (); }
+  [[nodiscard]] inline constexpr auto begin  ()       noexcept ->       iterator { return _container.begin  (); }
+  [[nodiscard]] inline constexpr auto end    ()       noexcept ->       iterator { return _container.end    (); }
+  [[nodiscard]] inline constexpr auto cbegin () const noexcept -> const_iterator { return _container.cbegin (); }
+  [[nodiscard]] inline constexpr auto cend   () const noexcept -> const_iterator { return _container.cend   (); }
 
-  [[nodiscard]] inline           auto crbegin() const noexcept -> const_reverse_iterator { return _container.crbegin(); }
-  [[nodiscard]] inline           auto crend  () const noexcept -> const_reverse_iterator { return _container.crend  (); }
-  [[nodiscard]] inline           auto rbegin () const noexcept -> const_reverse_iterator { return _container.rbegin (); }
-  [[nodiscard]] inline           auto rend   () const noexcept -> const_reverse_iterator { return _container.rend   (); }
-  [[nodiscard]] inline           auto rbegin ()       noexcept ->       reverse_iterator { return _container.rbegin (); }
-  [[nodiscard]] inline           auto rend   ()       noexcept ->       reverse_iterator { return _container.rend   (); }
+  [[nodiscard]] inline constexpr auto crbegin() const noexcept -> const_reverse_iterator { return _container.crbegin(); }
+  [[nodiscard]] inline constexpr auto crend  () const noexcept -> const_reverse_iterator { return _container.crend  (); }
+  [[nodiscard]] inline constexpr auto rbegin () const noexcept -> const_reverse_iterator { return _container.rbegin (); }
+  [[nodiscard]] inline constexpr auto rend   () const noexcept -> const_reverse_iterator { return _container.rend   (); }
+  [[nodiscard]] inline constexpr auto rbegin ()       noexcept ->       reverse_iterator { return _container.rbegin (); }
+  [[nodiscard]] inline constexpr auto rend   ()       noexcept ->       reverse_iterator { return _container.rend   (); }
 
-  [[nodiscard]] inline           auto empty ()            const noexcept { return _container.empty();    }
-  [[nodiscard]] inline           auto size  ()            const noexcept { return _container.size();     }
-  [[nodiscard]] inline           auto size  (size_type r) const          { return _extents.at(r);        }
+  [[nodiscard]] inline constexpr auto empty ()            const noexcept { return _container.empty();    }
+  [[nodiscard]] inline constexpr auto size  ()            const noexcept { return _container.size();     }
+  [[nodiscard]] inline constexpr auto size  (size_type r) const          { return _extents.at(r);        }
   [[nodiscard]] inline constexpr auto rank  ()            const noexcept { return std::tuple_size_v<extents_type>; }
   [[nodiscard]] inline constexpr auto order ()            const noexcept { return this->rank();          }
 
-  [[nodiscard]] inline           auto const& strides () const noexcept                  { return _strides; }
-  [[nodiscard]] inline           auto const& extents () const noexcept                  { return _extents; }
-  [[nodiscard]] inline           auto        data    () const noexcept -> const_pointer { return _container.data();}
-  [[nodiscard]] inline           auto        data    ()       noexcept -> pointer       { return _container.data();}
-  [[nodiscard]] inline           auto const& base    () const noexcept                  { return _container; }
+  [[nodiscard]] inline constexpr auto const& strides () const noexcept                  { return _strides; }
+  [[nodiscard]] inline constexpr auto const& extents () const noexcept                  { return _extents; }
+  [[nodiscard]] inline constexpr auto        data    () const noexcept -> const_pointer { return _container.data();}
+  [[nodiscard]] inline constexpr auto        data    ()       noexcept -> pointer       { return _container.data();}
+  [[nodiscard]] inline constexpr auto const& base    () const noexcept                  { return _container; }
 
 
 private:

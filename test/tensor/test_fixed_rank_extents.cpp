@@ -52,10 +52,8 @@ BOOST_AUTO_TEST_CASE(test_extents_static_size_ctor)
   BOOST_CHECK ( ub::size(e423) == 3);
 
 
-  BOOST_CHECK_THROW( ub::extents<2>({1,0}), 	std::invalid_argument);
-  BOOST_CHECK_THROW( ub::extents<1>({0}  ), 	std::invalid_argument);
-  BOOST_CHECK_THROW( ub::extents<2>({0,1}), 	std::invalid_argument);
-  BOOST_CHECK_THROW( ub::extents<2>({1,1,2}), std::length_error);
+  BOOST_CHECK_THROW( ub::extents<2>(1,0  ), std::invalid_argument);
+  BOOST_CHECK_THROW( ub::extents<2>(0,1  ), std::invalid_argument);
 }
 
 

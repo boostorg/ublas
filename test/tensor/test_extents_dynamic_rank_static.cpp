@@ -18,8 +18,6 @@ struct fixture
   using shape_t = boost::numeric::ublas::extents<N>;
 
 //  static inline auto n     = shape_t<0>{};
-  static inline auto n1    = shape_t<1>{1};
-  static inline auto n2    = shape_t<1>{2};
   static inline auto n11   = shape_t<2>{1,1};
   static inline auto n12   = shape_t<2>{1,2};
   static inline auto n21   = shape_t<2>{2,1};
@@ -42,8 +40,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_empty,
 {
   namespace ublas = boost::numeric::ublas;
 //  BOOST_CHECK( ublas::empty(n   ));
-  BOOST_CHECK(!ublas::empty(n1  ));
-  BOOST_CHECK(!ublas::empty(n2  ));
   BOOST_CHECK(!ublas::empty(n11 ));
   BOOST_CHECK(!ublas::empty(n12 ));
   BOOST_CHECK(!ublas::empty(n21 ));
@@ -58,10 +54,9 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_empty,
   BOOST_CHECK(!ublas::empty(n213));
   BOOST_CHECK(!ublas::empty(n432));
 
-  BOOST_CHECK_THROW( shape_t<3>({1,1,0}), std::invalid_argument);
-  BOOST_CHECK_THROW( shape_t<2>({1,0}), std::invalid_argument);
-  BOOST_CHECK_THROW( shape_t<1>({0}  ), std::invalid_argument);
-  BOOST_CHECK_THROW( shape_t<2>({0,1}), std::invalid_argument);
+  BOOST_CHECK_THROW( shape_t<3>(1,1,0), std::invalid_argument);
+  BOOST_CHECK_THROW( shape_t<2>(1,0), std::invalid_argument);
+  BOOST_CHECK_THROW( shape_t<2>(0,1), std::invalid_argument);
 }
 
 
@@ -73,8 +68,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_size,
   namespace ublas = boost::numeric::ublas;
 
 //  BOOST_CHECK_EQUAL(ublas::size(n   ),0);
-  BOOST_CHECK_EQUAL(ublas::size(n1  ),1);
-  BOOST_CHECK_EQUAL(ublas::size(n2  ),1);
   BOOST_CHECK_EQUAL(ublas::size(n11 ),2);
   BOOST_CHECK_EQUAL(ublas::size(n12 ),2);
   BOOST_CHECK_EQUAL(ublas::size(n21 ),2);
@@ -96,8 +89,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_at_read,
                         fixture,
                         *boost::unit_test::label("dynamic_extents_rank_static") *boost::unit_test::label("at_read"))
 {
-  BOOST_CHECK_EQUAL(n1  .at(0),1);
-  BOOST_CHECK_EQUAL(n2  .at(0),2);
 
   BOOST_CHECK_EQUAL(n11 .at(0),1);
   BOOST_CHECK_EQUAL(n11 .at(1),1);
@@ -129,8 +120,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_static_operator_access_read,
                         fixture,
                         *boost::unit_test::label("dynamic_extents_rank_static") *boost::unit_test::label("operator_access_read"))
 {
-  BOOST_CHECK_EQUAL(n1  [0],1);
-  BOOST_CHECK_EQUAL(n2  [0],2);
 
   BOOST_CHECK_EQUAL(n11 [0],1);
   BOOST_CHECK_EQUAL(n11 [1],1);

@@ -52,11 +52,16 @@ public:
   using const_reverse_iterator = typename base_type::const_reverse_iterator;
 
 
-  extents_core() = default;
+  constexpr extents_core() noexcept(noexcept(typename base_type::allocator_type{})) = default;
 
   explicit extents_core(base_type b)
     : _base(std::move(b))
   {
+    if(_base.size() < 2){
+      throw std::length_error("in boost::numeric::ublas::extents<> : "
+        "the extents must be atleast of order 2.");
+    }
+
     if (!ublas::is_valid(*this)){
       throw std::invalid_argument("in boost::numeric::ublas::extents<> : "
         "could not intanstiate extents<> as provided extents are not valid.");
@@ -72,7 +77,7 @@ public:
      *
      * @param l one-dimensional list of type std::initializer<int_type>
      */
-  extents_core(std::initializer_list<value_type> l)
+  constexpr extents_core(std::initializer_list<value_type> l)
     : extents_core( base_type(l) )
   {
     if (!ublas::is_valid(*this)){
@@ -102,21 +107,21 @@ public:
   }
 
   /** @brief Copy constructs extents */
-  /*constexpr*/ extents_core(extents_core const& l )
+  constexpr extents_core(extents_core const& l )
     : _base(l._base)
   {
   }
 
   /** @brief Move constructs extents */
-  /*constexpr*/ extents_core(extents_core && l ) noexcept
+  constexpr extents_core(extents_core && l ) noexcept
     : _base(std::move(l._base))
   {
   }
 
-  ~extents_core() = default;
+  constexpr ~extents_core() = default;
 
   // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions,hicpp-special-member-functions)
-  extents_core& operator=(extents_core other)
+  constexpr extents_core& operator=(extents_core other)
     noexcept(std::is_nothrow_swappable_v<base_type>)
   {
     swap (*this, other);
@@ -124,18 +129,18 @@ public:
   }
 
 
-  friend void swap(extents_core& lhs, extents_core& rhs)
+  constexpr friend void swap(extents_core& lhs, extents_core& rhs)
         noexcept(std::is_nothrow_swappable_v<base_type>)
   {
     std::swap(lhs._base,rhs._base);
   }
 
-  [[nodiscard]] inline /*constexpr*/ const_reference operator[] (size_type p) const { return this->_base[p];    }
-  [[nodiscard]] inline /*constexpr*/ const_reference at         (size_type p) const { return this->_base.at(p); }
+  [[nodiscard]] inline constexpr const_reference operator[] (size_type p) const { return this->_base[p];    }
+  [[nodiscard]] inline constexpr const_reference at         (size_type p) const { return this->_base.at(p); }
 
-  [[nodiscard]] inline /*constexpr*/ auto          size() const noexcept { return this->_base.size(); }
-  [[nodiscard]] inline /*constexpr*/ auto const&   base() const noexcept { return this->_base;        }
-  [[nodiscard]] inline /*constexpr*/ const_pointer data() const noexcept { return this->_base.data(); }
+  [[nodiscard]] inline constexpr auto          size() const noexcept { return this->_base.size(); }
+  [[nodiscard]] inline constexpr auto const&   base() const noexcept { return this->_base;        }
+  [[nodiscard]] inline constexpr const_pointer data() const noexcept { return this->_base.data(); }
 private:
   base_type _base;
 };

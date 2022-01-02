@@ -41,6 +41,7 @@ namespace boost::numeric::ublas
 template <integral T, T N>
 class extents_core<T,N> : public extents_base<extents_core<T,N>>
 {
+  static_assert(N > 1, "in boost::numeric::ublas::extents<N> : the extents must be atleast of order 2");
 public:
   using base_type       = std::array<std::size_t,N>;
   using value_type      = typename base_type::value_type;
@@ -63,15 +64,10 @@ public:
   }
 
 
-  constexpr extents_core(std::initializer_list<value_type> const& li)
-    : _base()
+  template<integral... Is>
+  constexpr extents_core(Is... is) requires (sizeof...(Is) == N)
+    : _base{static_cast<value_type>(is)...}
   {
-    if( li.size() != ublas::size(*this) ){
-      throw std::length_error("in boost::numeric::ublas::extents<N> : "
-        "could not intanstiate extents<N> as number of indices exceed N.");
-    }
-
-    std::copy(li.begin(), li.end(), _base.begin());
 
     if ( !ublas::is_valid(*this) ){
       throw std::invalid_argument("in boost::numeric::ublas::extents<N> : "
@@ -112,10 +108,10 @@ public:
     return *this;
   }
 
-  ~extents_core() = default;
+  constexpr ~extents_core() = default;
 
 
-  friend void swap(extents_core& lhs, extents_core& rhs)
+  constexpr friend void swap(extents_core& lhs, extents_core& rhs)
     noexcept(std::is_nothrow_swappable_v<base_type>)
   {
     std::swap(lhs._base, rhs._base);

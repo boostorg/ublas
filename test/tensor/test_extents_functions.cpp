@@ -25,8 +25,6 @@ struct fixture_extents_dynamic_rank
   using shape_t = boost::numeric::ublas::extents<>;
 
   static inline auto n     = shape_t{};
-  static inline auto n1    = shape_t{1};
-  static inline auto n2    = shape_t{2};
   static inline auto n11   = shape_t{1,1};
   static inline auto n12   = shape_t{1,2};
   static inline auto n21   = shape_t{2,1};
@@ -47,24 +45,21 @@ struct fixture_extents_static_rank
   template<std::size_t N>
   using extents_static_rank = boost::numeric::ublas::extents<N>;
 
-  static constexpr inline auto n     = extents_static_rank<0>{};
-  static constexpr inline auto n1    = extents_static_rank<1>{1};
-  static constexpr inline auto n2    = extents_static_rank<1>{2};
-  static constexpr inline auto n11   = extents_static_rank<2>{{1,1}};
-  static constexpr inline auto n12   = extents_static_rank<2>{{1,2}};
-  static constexpr inline auto n21   = extents_static_rank<2>{{2,1}};
-  static constexpr inline auto n22   = extents_static_rank<2>{{2,2}};
-  static constexpr inline auto n32   = extents_static_rank<2>{{3,2}};
-  static constexpr inline auto n111  = extents_static_rank<3>{{1,1,1}};
-  static constexpr inline auto n211  = extents_static_rank<3>{{2,1,1}};
-  static constexpr inline auto n121  = extents_static_rank<3>{{1,2,1}};
-  static constexpr inline auto n112  = extents_static_rank<3>{{1,1,2}};
-  static constexpr inline auto n123  = extents_static_rank<3>{{1,2,3}};
-  static constexpr inline auto n321  = extents_static_rank<3>{{3,2,1}};
-  static constexpr inline auto n213  = extents_static_rank<3>{{2,1,3}};
-  static constexpr inline auto n432  = extents_static_rank<3>{{4,3,2}};
+  static constexpr inline auto n11   = extents_static_rank<2>{1,1};
+  static constexpr inline auto n12   = extents_static_rank<2>{1,2};
+  static constexpr inline auto n21   = extents_static_rank<2>{2,1};
+  static constexpr inline auto n22   = extents_static_rank<2>{2,2};
+  static constexpr inline auto n32   = extents_static_rank<2>{3,2};
+  static constexpr inline auto n111  = extents_static_rank<3>{1,1,1};
+  static constexpr inline auto n211  = extents_static_rank<3>{2,1,1};
+  static constexpr inline auto n121  = extents_static_rank<3>{1,2,1};
+  static constexpr inline auto n112  = extents_static_rank<3>{1,1,2};
+  static constexpr inline auto n123  = extents_static_rank<3>{1,2,3};
+  static constexpr inline auto n321  = extents_static_rank<3>{3,2,1};
+  static constexpr inline auto n213  = extents_static_rank<3>{2,1,3};
+  static constexpr inline auto n432  = extents_static_rank<3>{4,3,2};
 
-  static constexpr inline auto tuple = std::make_tuple( n,n1,n2,n11,n12,n21,n22,n32,n111,n211,n121,n112,n123,n321,n213,n432 );
+  static constexpr inline auto tuple = std::make_tuple( n11,n12,n21,n22,n32,n111,n211,n121,n112,n123,n321,n213,n432 );
 
 };
 
@@ -76,8 +71,6 @@ struct fixture_extents_static
   using extents_static = boost::numeric::ublas::extents<ns...>;
 
   static inline auto n     = extents_static<>      {};
-  static inline auto n1    = extents_static<1>     {};
-  static inline auto n2    = extents_static<2>     {};
   static inline auto n11   = extents_static<1,1>   {};
   static inline auto n12   = extents_static<1,2>   {};
   static inline auto n21   = extents_static<2,1>   {};
@@ -107,8 +100,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_is_scalar,
 
   namespace ub = boost::numeric::ublas;  
   BOOST_CHECK ( !ub::is_scalar( n    ));
-  BOOST_CHECK (  ub::is_scalar( n1   ));
-  BOOST_CHECK ( !ub::is_scalar( n2   ));
   BOOST_CHECK (  ub::is_scalar( n11  ));
   BOOST_CHECK ( !ub::is_scalar( n12  ));
   BOOST_CHECK ( !ub::is_scalar( n21  ));
@@ -132,9 +123,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_rank_is_scalar,
 {
 
   namespace ub = boost::numeric::ublas;
-  BOOST_CHECK ( !ub::is_scalar( n    ));
-  BOOST_CHECK (  ub::is_scalar( n1   ));
-  BOOST_CHECK ( !ub::is_scalar( n2   ));
   BOOST_CHECK (  ub::is_scalar( n11  ));
   BOOST_CHECK ( !ub::is_scalar( n12  ));
   BOOST_CHECK ( !ub::is_scalar( n21  ));
@@ -160,8 +148,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_is_scalar,
 
   namespace ub = boost::numeric::ublas;
   BOOST_CHECK ( !ub::is_scalar( n    ));
-//FIXME:  BOOST_CHECK (  ub::is_scalar( n1   ));
-  BOOST_CHECK ( !ub::is_scalar( n2   ));
   BOOST_CHECK (  ub::is_scalar( n11  ));
   BOOST_CHECK ( !ub::is_scalar( n12  ));
   BOOST_CHECK ( !ub::is_scalar( n21  ));
@@ -187,8 +173,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_is_vector,
 
   namespace ub = boost::numeric::ublas;
   BOOST_CHECK ( !ub::is_vector( n    ));
-  BOOST_CHECK (  ub::is_vector( n1   ));
-  BOOST_CHECK (  ub::is_vector( n2   ));
   BOOST_CHECK (  ub::is_vector( n11  ));
   BOOST_CHECK (  ub::is_vector( n12  ));
   BOOST_CHECK (  ub::is_vector( n21  ));
@@ -211,9 +195,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_rank_is_vector,
 {
 
   namespace ub = boost::numeric::ublas;
-  BOOST_CHECK ( !ub::is_vector( n    ));
-  BOOST_CHECK (  ub::is_vector( n1   ));
-  BOOST_CHECK (  ub::is_vector( n2   ));
   BOOST_CHECK (  ub::is_vector( n11  ));
   BOOST_CHECK (  ub::is_vector( n12  ));
   BOOST_CHECK (  ub::is_vector( n21  ));
@@ -237,8 +218,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_is_vector,
 {
 
   namespace ub = boost::numeric::ublas;
-  BOOST_CHECK ( !ub::is_vector( n1   ));
-//FIXME:  BOOST_CHECK (  ub::is_vector( n2   ));
   BOOST_CHECK (  ub::is_vector( n11  ));
   BOOST_CHECK (  ub::is_vector( n12  ));
   BOOST_CHECK (  ub::is_vector( n21  ));
@@ -262,8 +241,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_is_matrix,
 
   namespace ub = boost::numeric::ublas;
   BOOST_CHECK ( !ub::is_matrix( n    ));
-  BOOST_CHECK (  ub::is_matrix( n1   ));
-  BOOST_CHECK (  ub::is_matrix( n2   ));
   BOOST_CHECK (  ub::is_matrix( n11  ));
   BOOST_CHECK (  ub::is_matrix( n12  ));
   BOOST_CHECK (  ub::is_matrix( n21  ));
@@ -286,9 +263,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_rank_is_matrix,
 {
 
   namespace ub = boost::numeric::ublas;
-  BOOST_CHECK ( !ub::is_matrix( n    ));
-  BOOST_CHECK (  ub::is_matrix( n1   ));
-  BOOST_CHECK (  ub::is_matrix( n2   ));
   BOOST_CHECK (  ub::is_matrix( n11  ));
   BOOST_CHECK (  ub::is_matrix( n12  ));
   BOOST_CHECK (  ub::is_matrix( n21  ));
@@ -313,8 +287,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_is_matrix,
 
   namespace ub = boost::numeric::ublas;
   BOOST_CHECK ( !ub::is_matrix( n    ));
-//FIXME:  BOOST_CHECK ( !ub::is_matrix( n1   ));
-  BOOST_CHECK ( !ub::is_matrix( n2   ));
   BOOST_CHECK (  ub::is_matrix( n11  ));
   BOOST_CHECK (  ub::is_matrix( n12  ));
   BOOST_CHECK (  ub::is_matrix( n21  ));
@@ -339,8 +311,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_is_tensor,
 
   namespace ub = boost::numeric::ublas;
   BOOST_CHECK ( !ub::is_tensor( n    ));
-  BOOST_CHECK ( !ub::is_tensor( n1   ));
-  BOOST_CHECK ( !ub::is_tensor( n2   ));
   BOOST_CHECK ( !ub::is_tensor( n11  ));
   BOOST_CHECK ( !ub::is_tensor( n12  ));
   BOOST_CHECK ( !ub::is_tensor( n21  ));
@@ -364,9 +334,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_rank_is_tensor,
 {
 
   namespace ub = boost::numeric::ublas;
-  BOOST_CHECK ( !ub::is_tensor( n    ));
-  BOOST_CHECK ( !ub::is_tensor( n1   ));
-  BOOST_CHECK ( !ub::is_tensor( n2   ));
   BOOST_CHECK ( !ub::is_tensor( n11  ));
   BOOST_CHECK ( !ub::is_tensor( n12  ));
   BOOST_CHECK ( !ub::is_tensor( n21  ));
@@ -391,8 +358,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_is_tensor,
 
   namespace ub = boost::numeric::ublas;
   BOOST_CHECK ( !ub::is_tensor( n    ));
-//FIXME:  BOOST_CHECK ( !ub::is_tensor( n1   ));
-  BOOST_CHECK ( !ub::is_tensor( n2   ));
   BOOST_CHECK ( !ub::is_tensor( n11  ));
   BOOST_CHECK ( !ub::is_tensor( n12  ));
   BOOST_CHECK ( !ub::is_tensor( n21  ));
@@ -415,8 +380,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_is_valid,
 {
 
   namespace ub = boost::numeric::ublas;
-  BOOST_CHECK (  ub::is_valid( n1   ));
-  BOOST_CHECK (  ub::is_valid( n2   ));
   BOOST_CHECK (  ub::is_valid( n11  ));
   BOOST_CHECK (  ub::is_valid( n12  ));
   BOOST_CHECK (  ub::is_valid( n21  ));
@@ -440,9 +403,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_rank_is_valid,
 {
 
   namespace ub = boost::numeric::ublas;
-  BOOST_CHECK (  ub::is_valid( n    ));
-  BOOST_CHECK (  ub::is_valid( n1   ));
-  BOOST_CHECK (  ub::is_valid( n2   ));
   BOOST_CHECK (  ub::is_valid( n11  ));
   BOOST_CHECK (  ub::is_valid( n12  ));
   BOOST_CHECK (  ub::is_valid( n21  ));
@@ -467,8 +427,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_is_valid,
 
   namespace ub = boost::numeric::ublas;
   BOOST_CHECK (  ub::is_valid( n    ));
-//FIXME:  BOOST_CHECK (  ub::is_valid( n1   ));
-//FIXME:  BOOST_CHECK (  ub::is_valid( n2   ));
   BOOST_CHECK (  ub::is_valid( n11  ));
   BOOST_CHECK (  ub::is_valid( n12  ));
   BOOST_CHECK (  ub::is_valid( n21  ));
@@ -493,8 +451,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_product,
 
   namespace ub = boost::numeric::ublas;
   BOOST_CHECK_EQUAL ( ub::product( n    ), 0U);
-  BOOST_CHECK_EQUAL ( ub::product( n1   ), 1U);
-  BOOST_CHECK_EQUAL ( ub::product( n2   ), 2U);
   BOOST_CHECK_EQUAL ( ub::product( n11  ), 1U);
   BOOST_CHECK_EQUAL ( ub::product( n12  ), 2U);
   BOOST_CHECK_EQUAL ( ub::product( n21  ), 2U);
@@ -518,9 +474,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_rank_product,
 {
 
   namespace ub = boost::numeric::ublas;
-  BOOST_CHECK_EQUAL ( ub::product( n    ), 0U);
-  BOOST_CHECK_EQUAL ( ub::product( n1   ), 1U);
-  BOOST_CHECK_EQUAL ( ub::product( n2   ), 2U);
   BOOST_CHECK_EQUAL ( ub::product( n11  ), 1U);
   BOOST_CHECK_EQUAL ( ub::product( n12  ), 2U);
   BOOST_CHECK_EQUAL ( ub::product( n21  ), 2U);
@@ -545,8 +498,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_product,
 
   namespace ub = boost::numeric::ublas;
   BOOST_CHECK_EQUAL ( ub::product( n    ), 0U);
-//FIXME:  BOOST_CHECK_EQUAL ( ub::product( n1   ), 1U);
-//FIXME:  BOOST_CHECK_EQUAL ( ub::product( n2   ), 2U);
   BOOST_CHECK_EQUAL ( ub::product( n11  ), 1U);
   BOOST_CHECK_EQUAL ( ub::product( n12  ), 2U);
   BOOST_CHECK_EQUAL ( ub::product( n21  ), 2U);
@@ -569,8 +520,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_equal,
                           *boost::unit_test::label("equal"))
 {
   BOOST_CHECK (  n   == n   );
-  BOOST_CHECK (  n1  == n1  );
-  BOOST_CHECK (  n2  == n2  );
   BOOST_CHECK (  n11 == n11 );
   BOOST_CHECK (  n12 == n12 );
   BOOST_CHECK (  n21 == n21 );
@@ -584,9 +533,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_rank_equal,
                         *boost::unit_test::label("extents_static_rank")
                           *boost::unit_test::label("equal"))
 {
-  BOOST_CHECK (  n   == n   );
-  BOOST_CHECK (  n1  == n1  );
-  BOOST_CHECK (  n2  == n2  );
   BOOST_CHECK (  n11 == n11 );
   BOOST_CHECK (  n12 == n12 );
   BOOST_CHECK (  n21 == n21 );
@@ -601,8 +547,6 @@ BOOST_FIXTURE_TEST_CASE(test_extents_static_equal,
                           *boost::unit_test::label("equal"))
 {
   BOOST_CHECK (  n   == n   );
-  BOOST_CHECK (  n1  == n1  );
-  BOOST_CHECK (  n2  == n2  );
   BOOST_CHECK (  n11 == n11 );
   BOOST_CHECK (  n12 == n12 );
   BOOST_CHECK (  n21 == n21 );
@@ -617,14 +561,11 @@ BOOST_FIXTURE_TEST_CASE(test_extents_dynamic_rank_not_equal,
                           *boost::unit_test::label("not_equal"))
 {
   BOOST_CHECK (  ! (n   != n )  );
-  BOOST_CHECK (  ! (n1  != n1)  );
-  BOOST_CHECK (  ! (n2  != n2)  );
   BOOST_CHECK (  ! (n11 != n11) );
   BOOST_CHECK (  ! (n12 != n12) );
   BOOST_CHECK (  ! (n21 != n21) );
   BOOST_CHECK (  ! (n22 != n22) );
   BOOST_CHECK (  ! (n32 != n32) );
-  BOOST_CHECK (   (n2  != n1)  );
   BOOST_CHECK (   (n11 != n12) );
   BOOST_CHECK (   (n12 != n21) );
   BOOST_CHECK (   (n21 != n22) );

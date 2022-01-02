@@ -15,6 +15,7 @@
 #include <type_traits>
 
 #include "../extents.hpp"
+#include "../extents/extents_static_functions.hpp"
 #include "../multiplication.hpp"
 #include "../type_traits.hpp"
 #include "../tags.hpp"

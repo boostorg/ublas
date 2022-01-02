@@ -97,10 +97,10 @@ struct init_static
   };
 
   template<std::size_t ...ns>
-  constexpr inline auto operator()(extents<ns...> const& /**/) const
+  constexpr inline auto operator()(extents<ns...> const& ) const
   {
     using extents_type = extents<ns...>;
-    constexpr auto p  = product_v<extents_type>;
+    constexpr auto p  = product(extents_type{});
     constexpr auto c = inner<std::make_index_sequence<p>>::value;
     using tensor = tensor_core<tensor_engine<extents_type, L, std::array<V,p>>>;
     return tensor(c);

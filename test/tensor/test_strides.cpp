@@ -28,8 +28,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_strides_ctor, value, test_types)
   namespace ublas = boost::numeric::ublas;
   constexpr auto layout = value{};
 
-  auto s1   = ublas::to_strides(extents    {1},layout);
-  auto s5   = ublas::to_strides(extents    {5},layout);
   auto s11  = ublas::to_strides(extents  {1,1},layout);
   auto s12  = ublas::to_strides(extents  {1,2},layout);
   auto s21  = ublas::to_strides(extents  {2,1},layout);
@@ -38,8 +36,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_strides_ctor, value, test_types)
   auto s123 = ublas::to_strides(extents{1,2,3},layout);
   auto s423 = ublas::to_strides(extents{4,2,3},layout);
 
-  BOOST_CHECK  (!  s1.empty());
-  BOOST_CHECK  (!  s5.empty());
   BOOST_CHECK  (! s11.empty());
   BOOST_CHECK  (! s12.empty());
   BOOST_CHECK  (! s21.empty());
@@ -48,8 +44,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( test_strides_ctor, value, test_types)
   BOOST_CHECK  (!s123.empty());
   BOOST_CHECK  (!s423.empty());
 
-  BOOST_CHECK_EQUAL (   s1.size(), 1);
-  BOOST_CHECK_EQUAL (   s5.size(), 1);
   BOOST_CHECK_EQUAL (  s11.size(), 2);
   BOOST_CHECK_EQUAL (  s12.size(), 2);
   BOOST_CHECK_EQUAL (  s21.size(), 2);
@@ -64,8 +58,6 @@ BOOST_AUTO_TEST_CASE( test_strides_ctor_access_first_order)
   namespace ublas = boost::numeric::ublas;
   constexpr auto layout = first_order{};
 
-  auto s1   = ublas::to_strides(extents    {1},layout);
-  auto s5   = ublas::to_strides(extents    {5},layout);
   auto s11  = ublas::to_strides(extents  {1,1},layout);
   auto s12  = ublas::to_strides(extents  {1,2},layout);
   auto s21  = ublas::to_strides(extents  {2,1},layout);
@@ -114,8 +106,6 @@ BOOST_AUTO_TEST_CASE( test_strides_ctor_access_last_order)
   namespace ublas = boost::numeric::ublas;
   constexpr auto layout = last_order{};
 
-  auto s1   = ublas::to_strides(extents    {1},layout);
-  auto s5   = ublas::to_strides(extents    {5},layout);
   auto s11  = ublas::to_strides(extents  {1,1},layout);
   auto s12  = ublas::to_strides(extents  {1,2},layout);
   auto s21  = ublas::to_strides(extents  {2,1},layout);

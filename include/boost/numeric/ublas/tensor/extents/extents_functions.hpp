@@ -48,21 +48,24 @@ namespace boost::numeric::ublas
 
 /** @brief Returns true if extents equals ([m,n,...,l]) with m>0,n>0,...,l>0  */
 template <class D>
-[[nodiscard]] inline constexpr bool is_valid(extents_base<D> const& e)
+[[nodiscard]] inline constexpr auto is_valid(extents_base<D> const& e)
+  -> bool
 {
   return std::all_of(begin(e),end(e), [](auto a){ return a>0UL; } );
 }
 
 /** @brief Returns true if extents equals (m,[n,...,l]) with m=1,n=1,...,l=1  */
 template <class D>
-[[nodiscard]] inline constexpr bool is_scalar(extents_base<D> const& e)
+[[nodiscard]] inline constexpr auto is_scalar(extents_base<D> const& e)
+  -> bool
 {
   return (size(e)>0) && std::all_of  (cbegin(e),cend(e),[](auto a){return a==1ul;});
 }
 
 /** @brief Returns true if extents equals (m,[n,1,...,1]) with m>=1||n>=1 && m==1||n==1*/
 template <class D>
-[[nodiscard]] inline constexpr bool is_vector(extents_base<D> const& e)
+[[nodiscard]] inline constexpr auto is_vector(extents_base<D> const& e)
+  -> bool
 {
   if (empty(e)     ) {return false;}
   if (size (e) == 1) {return front(e)>=1ul;}
@@ -79,7 +82,8 @@ template <class D>
 
 /** @brief Returns true if (m,[n,1,...,1]) with m>=1 or n>=1 */
 template <class D>
-[[nodiscard]] inline constexpr bool is_matrix(extents_base<D> const& e)
+[[nodiscard]] inline constexpr auto is_matrix(extents_base<D> const& e)
+  -> bool
 {
   if (empty(e)     ) {return false;}
   if (size (e) == 1) {return front(e)>=1ul;}
@@ -93,7 +97,8 @@ template <class D>
  * @returns true if is_valid & not (is_scalar&is_vector&is_matrix)
  */
 template <class D>
-[[nodiscard]] inline constexpr bool is_tensor(extents_base<D> const& e)
+[[nodiscard]] inline constexpr auto is_tensor(extents_base<D> const& e)
+  -> bool
 {
   return size(e) > 2 &&
          std::all_of  (cbegin(e)  ,cbegin(e)+2, [](auto a){return a>=1ul;}) && // all_of > 1UL
@@ -107,6 +112,7 @@ template <class D>
 /** @brief Computes the number of elements */
 template <class D>
 [[nodiscard]] inline constexpr auto product( extents_base<D> const& e )
+  -> std::size_t
 {
   if( empty(e) ){
     return std::size_t{0UL};
@@ -148,10 +154,17 @@ template <class D>
 //  return !( lhs == rhs) ;
 //}
 
-template<integral T, class L>
-[[nodiscard]] inline auto to_strides(extents_core<T> const& e, L /*unused*/)
+template<typename D, class L>
+[[nodiscard]] inline constexpr auto to_strides(extents_base<D> const& e, L /*unused*/)
 {
-  auto s = typename extents_core<T>::base_type(e.size(),1ul);
+  using extents_type = D;
+  auto s = typename extents_type::base_type();
+
+  if constexpr(is_dynamic_rank_v<extents_type>){
+    s.resize(size(e));
+  }
+
+  std::fill(s.begin(), s.end(), 1);
 
   if(empty(e) || is_vector(e) || is_scalar(e)){
     return s;
@@ -163,24 +176,6 @@ template<integral T, class L>
   }
   return s;
 }
-
-template<integral T, T n, class L>
-[[nodiscard]] inline auto to_strides(extents_core<T,n> const& e, L /*unused*/)
-{
-  auto s = typename extents_core<T,n>::base_type{};
-  std::fill(s.begin(),s.end(),1ul);
-
-  if(empty(e) || is_vector(e) || is_scalar(e)){
-    return s;
-  }
-  if constexpr(std::is_same_v<L,layout::first_order>){
-    std::transform(begin (e), end (e) - 1,  s.begin (),  s.begin ()+1, std::multiplies<>{});
-  } else {
-    std::transform(rbegin(e), rend(e) - 1,  s.rbegin(),  s.rbegin()+1, std::multiplies<>{});
-  }
-  return s;
-}
-
 
 
 } // namespace boost::numeric::ublas
@@ -189,7 +184,7 @@ template<integral T, T n, class L>
 template<boost::numeric::ublas::integral T, T n, T m>
 [[nodiscard]] inline constexpr bool operator==(
   boost::numeric::ublas::extents_core<T,n> const& lhs,
-  boost::numeric::ublas::extents_core<T,m> const& rhs )
+  boost::numeric::ublas::extents_core<T,m> const& rhs ) noexcept
 {
   if constexpr(m != n)
     return false;
@@ -199,7 +194,7 @@ template<boost::numeric::ublas::integral T, T n, T m>
 template<boost::numeric::ublas::integral T, T n, T m>
 [[nodiscard]] inline constexpr bool operator!=(
   boost::numeric::ublas::extents_core<T,n> const& lhs,
-  boost::numeric::ublas::extents_core<T,m> const& rhs )
+  boost::numeric::ublas::extents_core<T,m> const& rhs ) noexcept
 {
   if constexpr(m == n)
     return false;
@@ -209,7 +204,7 @@ template<boost::numeric::ublas::integral T, T n, T m>
 template<class D, class F>
 [[nodiscard]] inline constexpr bool operator==(
   boost::numeric::ublas::extents_base<D> const& lhs,
-  boost::numeric::ublas::extents_base<F> const& rhs )
+  boost::numeric::ublas::extents_base<F> const& rhs ) noexcept
 {
   return size(lhs) == size(rhs) && std::equal( begin(lhs), end  (lhs), begin(rhs) );
 }
@@ -217,7 +212,7 @@ template<class D, class F>
 template<class D, class F>
 [[nodiscard]] inline constexpr bool operator!=(
   boost::numeric::ublas::extents_base<D> const& lhs,
-  boost::numeric::ublas::extents_base<F> const& rhs )
+  boost::numeric::ublas::extents_base<F> const& rhs ) noexcept
 {
   return !( lhs == rhs) ;
 }
@@ -233,7 +228,7 @@ struct tuple_size< boost::numeric::ublas::extents_core<T,e,es...> >
 {};
 
 template<size_t i, boost::numeric::ublas::integral T, T e1, T ... es>
-[[nodiscard]] constexpr inline
+[[nodiscard]] inline constexpr
   auto get(boost::numeric::ublas::extents_core<T,e1,es...> const& e) noexcept
 {
   return std::get<i>(e.base());

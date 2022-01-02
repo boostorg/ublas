@@ -28,13 +28,13 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_static_strides_ctor, value, test_types)
 {
   namespace ublas = boost::numeric::ublas;
 
-  constexpr auto s11  = ublas::to_strides_v<extents  <1,1>,first_order>;
-  constexpr auto s12  = ublas::to_strides_v<extents  <1,2>,first_order>;
-  constexpr auto s21  = ublas::to_strides_v<extents  <2,1>,first_order>;
-  constexpr auto s23  = ublas::to_strides_v<extents  <2,3>,first_order>;
-  constexpr auto s231 = ublas::to_strides_v<extents<2,3,1>,first_order>;
-  constexpr auto s123 = ublas::to_strides_v<extents<1,2,3>,first_order>;
-  constexpr auto s423 = ublas::to_strides_v<extents<4,2,3>,first_order>;
+  constexpr auto s11  = ublas::to_strides(extents  <1,1>{},first_order{});
+  constexpr auto s12  = ublas::to_strides(extents  <1,2>{},first_order{});
+  constexpr auto s21  = ublas::to_strides(extents  <2,1>{},first_order{});
+  constexpr auto s23  = ublas::to_strides(extents  <2,3>{},first_order{});
+  constexpr auto s231 = ublas::to_strides(extents<2,3,1>{},first_order{});
+  constexpr auto s123 = ublas::to_strides(extents<1,2,3>{},first_order{});
+  constexpr auto s423 = ublas::to_strides(extents<4,2,3>{},first_order{});
 
   BOOST_CHECK_EQUAL(s11.empty(), false);
   BOOST_CHECK_EQUAL(s12.empty(), false);
@@ -57,14 +57,14 @@ BOOST_AUTO_TEST_CASE(test_static_strides_ctor_access_first_order)
 {
   namespace ublas = boost::numeric::ublas;
 
-  constexpr auto s11  = ublas::to_strides_v<extents  <1,1>,first_order>;
-  constexpr auto s12  = ublas::to_strides_v<extents  <1,2>,first_order>;
-  constexpr auto s21  = ublas::to_strides_v<extents  <2,1>,first_order>;
-  constexpr auto s23  = ublas::to_strides_v<extents  <2,3>,first_order>;
-  constexpr auto s231 = ublas::to_strides_v<extents<2,3,1>,first_order>;
-  constexpr auto s213 = ublas::to_strides_v<extents<2,1,3>,first_order>;
-  constexpr auto s123 = ublas::to_strides_v<extents<1,2,3>,first_order>;
-  constexpr auto s423 = ublas::to_strides_v<extents<4,2,3>,first_order>;
+  constexpr auto s11  = ublas::to_strides(extents  <1,1>{},first_order{});
+  constexpr auto s12  = ublas::to_strides(extents  <1,2>{},first_order{});
+  constexpr auto s21  = ublas::to_strides(extents  <2,1>{},first_order{});
+  constexpr auto s23  = ublas::to_strides(extents  <2,3>{},first_order{});
+  constexpr auto s231 = ublas::to_strides(extents<2,3,1>{},first_order{});
+  constexpr auto s213 = ublas::to_strides(extents<2,1,3>{},first_order{});
+  constexpr auto s123 = ublas::to_strides(extents<1,2,3>{},first_order{});
+  constexpr auto s423 = ublas::to_strides(extents<4,2,3>{},first_order{});
 
   BOOST_REQUIRE_EQUAL(s11.size(), 2);
   BOOST_REQUIRE_EQUAL(s12.size(), 2);
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(test_static_strides_ctor_access_first_order)
   BOOST_CHECK_EQUAL(s12[1], 1);
 
   BOOST_CHECK_EQUAL(s21[0], 1);
-  BOOST_CHECK_EQUAL(s21[1], 2); // NOTE: is this the way we want to have it?
+  BOOST_CHECK_EQUAL(s21[1], 1);
 
   BOOST_CHECK_EQUAL(s23[0], 1);
   BOOST_CHECK_EQUAL(s23[1], 2);
@@ -109,14 +109,14 @@ BOOST_AUTO_TEST_CASE(test_static_strides_ctor_access_last_order)
 {
   namespace ublas = boost::numeric::ublas;
 
-  constexpr auto s11  = ublas::to_strides_v<extents  <1,1>,last_order>;
-  constexpr auto s12  = ublas::to_strides_v<extents  <1,2>,last_order>;
-  constexpr auto s21  = ublas::to_strides_v<extents  <2,1>,last_order>;
-  constexpr auto s23  = ublas::to_strides_v<extents  <2,3>,last_order>;
-  constexpr auto s231 = ublas::to_strides_v<extents<2,3,1>,last_order>;
-  constexpr auto s213 = ublas::to_strides_v<extents<2,1,3>,last_order>;
-  constexpr auto s123 = ublas::to_strides_v<extents<1,2,3>,last_order>;
-  constexpr auto s423 = ublas::to_strides_v<extents<4,2,3>,last_order>;
+  constexpr auto s11  = ublas::to_strides(extents  <1,1>{},last_order{});
+  constexpr auto s12  = ublas::to_strides(extents  <1,2>{},last_order{});
+  constexpr auto s21  = ublas::to_strides(extents  <2,1>{},last_order{});
+  constexpr auto s23  = ublas::to_strides(extents  <2,3>{},last_order{});
+  constexpr auto s231 = ublas::to_strides(extents<2,3,1>{},last_order{});
+  constexpr auto s213 = ublas::to_strides(extents<2,1,3>{},last_order{});
+  constexpr auto s123 = ublas::to_strides(extents<1,2,3>{},last_order{});
+  constexpr auto s423 = ublas::to_strides(extents<4,2,3>{},last_order{});
 
   BOOST_REQUIRE_EQUAL(s11.size(), 2);
   BOOST_REQUIRE_EQUAL(s12.size(), 2);
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(test_static_strides_ctor_access_last_order)
   BOOST_CHECK_EQUAL(s11[0], 1);
   BOOST_CHECK_EQUAL(s11[1], 1);
 
-  BOOST_CHECK_EQUAL(s12[0], 2); //NOTE: is this the way we want the stride to be computed?
+  BOOST_CHECK_EQUAL(s12[0], 1);
   BOOST_CHECK_EQUAL(s12[1], 1);
 
   BOOST_CHECK_EQUAL(s21[0], 1);
