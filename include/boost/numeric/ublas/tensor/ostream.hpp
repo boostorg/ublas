@@ -102,7 +102,8 @@ std::ostream& operator << (std::ostream& out, class boost::numeric::ublas::tenso
     out << ']';
   }
   else if(is_vector(n)) {
-    const auto& cat = n.at(0) > n.at(1) ? ';' : ',';
+    char cat = ',';
+    if(size(n) > 1ul) cat = n.at(0) > n.at(1) ? ';' : ',';
     out << '[';
     for(auto i = 0u; i < t.size()-1; ++i){
       ublas::detail::print(out,t[i]);
