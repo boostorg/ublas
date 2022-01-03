@@ -318,6 +318,25 @@ using remove_element_t = typename detail::remove_element_impl_t<k,std::decay_t<E
 
 } //namespace boost::numeric::ublas
 
+template<boost::numeric::ublas::integral T, T n0, T n1, T... ns, T m0, T m1, T... ms>
+[[nodiscard]] inline constexpr bool operator==(
+  boost::numeric::ublas::extents_core<T, n0, n1, ns...> const& /* lhs */,
+  boost::numeric::ublas::extents_core<T, m0, m1, ms...> const& /* rhs */ ) noexcept
+{
+  return std::is_same_v<
+    boost::numeric::ublas::extents_core<T,n0, n1, ns...>,
+    boost::numeric::ublas::extents_core<T,m0, m1, ms...>
+  > ;
+}
+
+template<boost::numeric::ublas::integral T, T n0, T n1, T... ns, T m0, T m1, T... ms>
+[[nodiscard]] inline constexpr bool operator!=(
+  boost::numeric::ublas::extents_core<T, n0, n1, ns...> const& lhs,
+  boost::numeric::ublas::extents_core<T, m0, m1, ms...> const& rhs ) noexcept
+{
+  return !(lhs == rhs);
+}
+
 #endif // BOOST_NUMERIC_UBLAS_TENSOR_EXTENTS_STATIC_FUNCTIONS_HPP
 
 

@@ -153,7 +153,7 @@ public:
     , _container{}
   {
     using other_extents_t = typename tensor_core<OtherTE>::extents_type;
-    static_assert(extents_type{} == other_extents_t{}, "error in boost::numeric::ublas::tensor_core: static extents do not match.");
+    static_assert(std::is_same_v<extents_type,other_extents_t>, "error in boost::numeric::ublas::tensor_core: static extents do not match.");
 
     ublas::copy(this->rank(), this->extents().data(),
                 this->data(), this->strides().data(),
