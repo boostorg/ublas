@@ -489,7 +489,7 @@ template<class V, std::size_t n1, std::size_t n2, class L = layout::first_order>
 using matrix_static = tensor_static<V, extents<n1,n2>, L>;
 
 template<class V, std::size_t n1, class L = layout::first_order>
-using vector_static = tensor_static<V, extents<n1>, L>;
+using vector_static = tensor_static<V, extents<1ul,n1>, L>;
 } // namespace boost::numeric::ublas::experimental
 
 #endif

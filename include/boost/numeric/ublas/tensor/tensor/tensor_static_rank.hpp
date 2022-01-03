@@ -126,7 +126,7 @@ public:
     if(std::size(_container) != ublas::product(_extents)){
       throw std::length_error("boost::numeric::ublas::tensor_static_rank : "
         "Cannot construct tensor with specified container and extents. "
-        "Number of container elements do not match with the specified extents.");
+        "The number of container elements does not match with the specified extents.");
     }
   }
 

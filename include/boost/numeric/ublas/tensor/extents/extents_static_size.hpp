@@ -41,7 +41,6 @@ namespace boost::numeric::ublas
 template <integral T, T N>
 class extents_core<T,N> : public extents_base<extents_core<T,N>>
 {
-  static_assert(N > 1, "in boost::numeric::ublas::extents<N> : the extents must be at least of order 2");
 public:
   using base_type       = std::array<std::size_t,N>;
   using value_type      = typename base_type::value_type;

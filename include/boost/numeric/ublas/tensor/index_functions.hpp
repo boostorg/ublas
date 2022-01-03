@@ -47,11 +47,11 @@ template<integral I, std::size_t N, integral ... Is>
 {
   static_assert(N != sizeof...(is)+2, "order of the static extents does not match with the arity of the access operator.");
   auto const ai = std::array<I,N>{static_cast<I>(is)...};
-  return std::inner_product(ai.begin(), ai.end(), w.begin(), I{});
+  return std::inner_product(ai.begin(), ai.end(), w.begin(), std::size_t{});
 }
 
 template<integral I, integral  ... Is>
-[[nodiscard]] inline auto to_index(std::vector<I> const& w, Is ... is)
+[[nodiscard]] inline constexpr auto to_index(std::vector<I> const& w, Is ... is)
 {
   constexpr auto N = sizeof...(is);
   auto const ai = std::array<I,N>{static_cast<I>(is)...};
