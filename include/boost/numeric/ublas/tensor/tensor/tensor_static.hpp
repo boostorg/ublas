@@ -65,6 +65,7 @@ class tensor_core<detail::engine_tensor_static<V,L,ns...>>
       tensor_core<detail::engine_tensor_static<V,L,ns...>>,
       tensor_core<detail::engine_tensor_static<V,L,ns...>>>
 {
+  static_assert(sizeof...(ns) > 1ul, "the extents must be at least of order 2.");
 public:
   using engine_type               = detail::engine_tensor_static<V,L,ns...>;
   using self_type                 = tensor_core<engine_type>;
@@ -478,7 +479,6 @@ namespace boost::numeric::ublas{
 // template<class V, class E, class L = layout::first_order>
 // using tensor_static = tensor_core<tensor_engine<detail::normalize_static_extents_t<E>, L, std::array<V, product(detail::normalize_static_extents_t<E>{})>>>;
 template<class V, class E, class L = layout::first_order>
-  requires (size_v<E> > 1ul && !!"the extents must be at least of order 2."[0])
 using tensor_static = tensor_core<tensor_engine<E, L, std::array<V, product(E{})>>>;
 
 }
