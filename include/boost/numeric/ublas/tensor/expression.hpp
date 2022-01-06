@@ -40,7 +40,7 @@ struct tensor_expression
     inline
     constexpr auto const& operator()() const noexcept { return *static_cast<const expression_type*> (this); }
     
-    ~tensor_expression() = default;
+    constexpr ~tensor_expression() = default;
     tensor_expression(const tensor_expression&) = delete;
     tensor_expression(tensor_expression&&) noexcept = delete;
     tensor_expression& operator=(const tensor_expression&) = delete;
@@ -48,7 +48,7 @@ struct tensor_expression
 
 
 protected :
-    explicit tensor_expression() = default;
+    explicit constexpr tensor_expression() = default;
 };
 
 
@@ -68,7 +68,7 @@ struct binary_tensor_expression
     explicit constexpr binary_tensor_expression(expression_type_left  const& l, expression_type_right const& r, binary_operation o) : el(l) , er(r) , op(std::move(o)) {}
     constexpr binary_tensor_expression(binary_tensor_expression&& l) noexcept = delete;
     constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept = delete;
-    ~binary_tensor_expression() = default;
+    constexpr ~binary_tensor_expression() = default;
 
     binary_tensor_expression() = delete;
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
