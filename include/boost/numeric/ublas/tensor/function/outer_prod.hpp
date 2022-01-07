@@ -271,9 +271,9 @@ inline decltype(auto) outer_prod(tensor_core<TEA> const &a, tensor_core<TEB> con
 
   auto c = tensorC(valueC{});
 
-  outer(c.data(), c.rank(), data(nc), c.getStrides().data(),
-        a.data(), a.rank(), data(na), a.getStrides().data(),
-        b.data(), b.rank(), data(nb), b.getStrides().data());
+  outer(c.data(), c.rank(), data(nc), c.strides().data(),
+        a.data(), a.rank(), data(na), a.strides().data(),
+        b.data(), b.rank(), data(nb), b.strides().data());
 
   return c;
 }
