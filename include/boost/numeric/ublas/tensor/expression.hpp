@@ -145,7 +145,7 @@ struct unary_tensor_expression
     constexpr unary_tensor_expression() = delete;
     unary_tensor_expression(unary_tensor_expression const& l) = delete;
     unary_tensor_expression& operator=(unary_tensor_expression const& l) noexcept = delete;
-    ~unary_tensor_expression() = default;
+    constexpr ~unary_tensor_expression() = default;
     
     [[nodiscard]] inline constexpr
       decltype(auto) operator()(size_type i) const { return op(e(i)); }
