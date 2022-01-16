@@ -212,14 +212,14 @@ constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
 
 
 
-  auto lambda = [n, w, op](auto const& self, SizeType r, PointerIn a, ValueType k) -> ValueType
+  auto lambda = [n, w](auto const& self, SizeType r, PointerIn a, ValueType k) -> ValueType
  {
     if(r > 0u)
       for(auto d = 0u; d < n[r]; a += w[r], ++d)
         k = self(self,r-1, a, k);
     else
       for(auto d = 0u; d < n[0]; a += w[0], ++d)
-        k = op ( k, *a );
+        k += *a;
     return k;
   };
 
