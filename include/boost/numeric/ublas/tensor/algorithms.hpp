@@ -56,14 +56,12 @@ constexpr void copy(const SizeType p, SizeType const*const n,
     throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
   }
 
-
-  std::function<void(SizeType r, PointerOut c, PointerIn  a)> lambda;
-
-  lambda = [&lambda, n, wc, wa](SizeType r, PointerOut c, PointerIn a)
+  auto lambda = [n, wc, wa](auto const& self, SizeType r, PointerOut c, PointerIn a) 
+    -> void
   {
     if(r > 0){
       for(auto d = 0u; d < n[r]; c += wc[r], a += wa[r], ++d){
-        lambda(r-1, c, a );
+        self(self, r-1, c, a );
       }
     }
     else{
@@ -73,7 +71,7 @@ constexpr void copy(const SizeType p, SizeType const*const n,
     }
   };
 
-  lambda( p-1, c, a );
+  return lambda(lambda, p-1, c, a );
 }
 
 
@@ -113,19 +111,19 @@ constexpr void transform(SizeType const p,
     throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
-  std::function<void(SizeType r, PointerOut c, PointerIn a)> lambda;
-
-  lambda = [&lambda, n, wc, wa, op](SizeType r, PointerOut c, PointerIn a)
+  
+  auto lambda = [n, wc, wa, op](auto const& self, SizeType r, PointerOut c, PointerIn a) 
+    -> void
   {
     if(r > 0)
       for(auto d = 0u; d < n[r]; c += wc[r], a += wa[r], ++d)
-        lambda(r-1, c, a);
+        self(self, r-1, c, a);
     else
       for(auto d = 0u; d < n[0]; c += wc[0], a += wa[0], ++d)
         *c = op(*a);
   };
 
-  lambda( p-1, c, a );
+  return lambda(lambda, p-1, c, a );
 
 }
 
@@ -162,22 +160,20 @@ constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
     throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
-  std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
-
-  lambda = [&lambda, n, w](SizeType r, PointerIn a, ValueType k)
+  auto lambda = [n, w](auto const& self, SizeType r, PointerIn a, ValueType k)
+    -> ValueType
   {
     if(r > 0u)
       for(auto d = 0u; d < n[r]; a += w[r], ++d)
-        k = lambda(r-1, a, k);
+        k = self(self,r-1, a, k);
     else
       for(auto d = 0u; d < n[0]; a += w[0], ++d)
         k += *a;
     return k;
   };
 
-  return lambda( p-1, a,  k );
+  return lambda(lambda, p-1, a,  k );
 }
-
 /** @brief Performs a reduce operation with all elements of the tensor and an initial value
  *
  * Implements k = op ( k , A[i1,i2,...,ip] ), for all ir
@@ -213,20 +209,20 @@ constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
     throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
-  std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
 
-  lambda = [&lambda, n, w, op](SizeType r, PointerIn a, ValueType k)
-  {
+  auto lambda = [n, w ,op](auto const& self, SizeType r, PointerIn a, ValueType k) 
+    -> ValueType
+ {
     if(r > 0u)
       for(auto d = 0u; d < n[r]; a += w[r], ++d)
-        k = lambda(r-1, a, k);
+        k = self(self,r-1, a, k);
     else
       for(auto d = 0u; d < n[0]; a += w[0], ++d)
         k = op ( k, *a );
     return k;
   };
 
-  return lambda( p-1, a,  k );
+  return lambda(lambda, p-1, a,  k );
 }
 
 /** @brief Transposes a tensor
@@ -272,19 +268,18 @@ constexpr void trans( SizeType const p,  SizeType const*const na, SizeType const
     throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 
-  std::function<void(SizeType r, PointerOut c, PointerIn a)> lambda;
-
-  lambda = [&lambda, na, wc, wa, pi](SizeType r, PointerOut c, PointerIn a)
+  auto lambda = [na, wc, wa, pi](auto const& self, SizeType r, PointerOut c, PointerIn a) 
+    -> void
   {
     if(r > 0)
       for(auto d = 0u; d < na[r]; c += wc[pi[r]-1], a += wa[r], ++d)
-        lambda(r-1, c, a);
+        self(self,r-1, c, a);
     else
       for(auto d = 0u; d < na[0]; c += wc[pi[0]-1], a += wa[0], ++d)
         *c = *a;
   };
 
-  lambda( p-1, c, a );
+  return lambda( lambda ,p-1, c, a );
 }
 
 
@@ -327,19 +322,19 @@ constexpr void trans(SizeType const p,
   }
 
 
-  std::function<void(SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)> lambda;
 
-  lambda = [&lambda, na, wc, wa, pi](SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)
+  auto lambda = [na, wc, wa, pi](auto const& self, SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)
+    ->void 
   {
     if(r > 0)
       for(auto d = 0u; d < na[r]; c += wc[pi[r]-1], a += wa[r], ++d)
-        lambda(r-1, c, a);
+        self(self,r-1, c, a);
     else
       for(auto d = 0u; d < na[0]; c += wc[pi[0]-1], a += wa[0], ++d)
         *c = std::conj(*a);
   };
 
-  lambda( p-1, c, a );
+  return lambda( lambda ,p-1, c, a );
 
 }
 
@@ -348,3 +343,4 @@ constexpr void trans(SizeType const p,
 
 
 #endif
+
