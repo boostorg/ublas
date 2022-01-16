@@ -162,22 +162,20 @@ constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
     throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
-  std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
-
-  lambda = [&lambda, n, w](SizeType r, PointerIn a, ValueType k)
+auto lambda = [n, w](auto const& self, SizeType r, PointerIn a, ValueType k)
+    -> ValueType
   {
     if(r > 0u)
       for(auto d = 0u; d < n[r]; a += w[r], ++d)
-        k = lambda(r-1, a, k);
+        k = self(self,r-1, a, k);
     else
       for(auto d = 0u; d < n[0]; a += w[0], ++d)
         k += *a;
     return k;
   };
 
-  return lambda( p-1, a,  k );
+  return lambda(lambda, p-1, a,  k );
 }
-
 /** @brief Performs a reduce operation with all elements of the tensor and an initial value
  *
  * Implements k = op ( k , A[i1,i2,...,ip] ), for all ir
@@ -213,20 +211,19 @@ constexpr ValueType accumulate(SizeType const p, SizeType const*const n,
     throw std::runtime_error("Error in boost::numeric::ublas::transform: Pointers shall not be null pointers.");
 
 
-  std::function<ValueType(SizeType r, PointerIn a, ValueType k)> lambda;
 
-  lambda = [&lambda, n, w, op](SizeType r, PointerIn a, ValueType k)
-  {
+  auto lambda = [n, w](auto const& self, SizeType r, PointerIn a, ValueType k) -> ValueType
+ {
     if(r > 0u)
       for(auto d = 0u; d < n[r]; a += w[r], ++d)
-        k = lambda(r-1, a, k);
+        k = self(self,r-1, a, k);
     else
       for(auto d = 0u; d < n[0]; a += w[0], ++d)
-        k = op ( k, *a );
+        k += *a;
     return k;
   };
 
-  return lambda( p-1, a,  k );
+  return lambda(lambda, p-1, a,  k );
 }
 
 /** @brief Transposes a tensor
