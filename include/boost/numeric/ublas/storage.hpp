@@ -1100,6 +1100,11 @@ namespace boost { namespace numeric { namespace ublas {
             const_iterator (const basic_range &r, const const_subiterator_type &it):
                 container_const_reference<basic_range> (r), it_ (it) {}
 
+#ifndef BOOST_NO_CXX11_DEFAULTED_FUNCTIONS
+            BOOST_UBLAS_INLINE
+            const_iterator (const const_iterator&) = default;
+#endif
+
             // Arithmetic
             BOOST_UBLAS_INLINE
             const_iterator &operator ++ () {
@@ -1336,6 +1341,11 @@ namespace boost { namespace numeric { namespace ublas {
             BOOST_UBLAS_INLINE
             const_iterator (const basic_slice &s, const const_subiterator_type &it):
                 container_const_reference<basic_slice> (s), it_ (it) {}
+
+#ifndef BOOST_NO_CXX11_DEFAULTED_FUNCTIONS
+            BOOST_UBLAS_INLINE
+            const_iterator (const const_iterator&) = default;
+#endif
 
             // Arithmetic
             BOOST_UBLAS_INLINE
@@ -1617,6 +1627,11 @@ namespace boost { namespace numeric { namespace ublas {
             BOOST_UBLAS_INLINE
             const_iterator (const indirect_array &ia, const const_subiterator_type &it):
                 container_const_reference<indirect_array> (ia), it_ (it) {}
+
+#ifndef BOOST_NO_CXX11_DEFAULTED_FUNCTIONS
+            BOOST_UBLAS_INLINE
+            const_iterator (const const_iterator&) = default;
+#endif
 
             // Arithmetic
             BOOST_UBLAS_INLINE
