@@ -16,6 +16,7 @@
 #include <utility>
 #include <tuple>
 #include <functional>
+#include <boost/numeric/ublas/tensor/layout.hpp>
 
 template<class ... types>
 struct zip_helper;
@@ -50,22 +51,30 @@ struct zip_helper<std::tuple<types3...>, type1, types1...>
 template<class ... types>
 using zip = zip_helper<std::tuple<>,types...>;
 
+template<std::size_t N, typename FnType>
+constexpr auto static_for_each(FnType&& fn) noexcept{
+    auto helper = [fn = std::forward<FnType>(fn)]<std::size_t... Is>(std::index_sequence<Is...>){
+        (..., std::invoke(fn, std::integral_constant<std::size_t, Is>{}));
+    };
+    helper(std::make_index_sequence<N>{});
+}
 
 template<class UnaryOp, class ... Elements>
-void for_each_in_tuple(std::tuple<Elements...> const& tuple, UnaryOp&& op)
+constexpr void for_each_in_tuple(std::tuple<Elements...> const& tuple, UnaryOp&& op)
 {
-  auto invoke_op_for_tuple = [&]<std::size_t... Is>(std::index_sequence<Is...>) {
-    (..., std::invoke(op, Is, std::get<Is>(tuple)));
+  auto invoke_op_for_tuple = [&tuple, op = std::forward<UnaryOp>(op)]<typename IType>(IType id) {
+    constexpr auto i = IType::value;
+    std::invoke(op, id, std::get<i>(tuple));
   };
 
-  invoke_op_for_tuple(std::make_index_sequence<std::tuple_size_v<std::tuple<Elements...>>>{});
+  static_for_each<sizeof...(Elements)>(std::move(invoke_op_for_tuple));
 }
 
 namespace boost::numeric::ublas
 {
 
 template<class UnaryOp, class TA, class TB, std::size_t ... is>
-void for_each_in_index(std::index_sequence<is...>, TA const& a, TB const& b, UnaryOp&& op)
+constexpr void for_each_in_index(std::index_sequence<is...>, TA const& a, TB const& b, UnaryOp&& op)
 {
   (..., std::invoke(op,a,b,std::index_sequence<is>{}) );
 }
@@ -98,6 +107,34 @@ struct inner_type< std::complex<T> >{
 
 template<typename T>
 using inner_type_t = typename inner_type<T>::type;
+
+#include <boost/multiprecision/cpp_bin_float.hpp>
+namespace boost::numeric::ublas{
+  using double_extended = boost::multiprecision::cpp_bin_float_double_extended;
+  
+  // using cpp_std_types = zip<int,float,std::complex<float>>::with_t<layout::first_order, layout::last_order>;
+  using cpp_std_types = zip<int,float>::with_t<layout::first_order, layout::last_order>;
+
+  using cpp_basic_std_types = zip<int,float>::with_t<layout::first_order, layout::last_order>;
+  using layout_test_types = std::tuple<layout::first_order, layout::last_order>;
+  
+  // using test_types_with_no_layout = std::tuple<std::int32_t,std::int64_t,float,double,std::complex<float>>;
+  using test_types_with_no_layout = std::tuple<int,float>;
+
+  // using test_types = zip<int,float,std::complex<float>,double_extended>::with_t<layout::first_order, layout::last_order>;
+  using test_types = zip<int,float>::with_t<layout::first_order, layout::last_order>;
+
+  // NOTE: std::iota cannot fill the container with the complex number
+  // because the complex number does not support increment operator(++)
+  template<typename ValueType>
+  constexpr auto iota(auto& c, ValueType v) noexcept{
+     auto inc = ValueType{1};
+      for(auto& el : c){
+        el = v;
+        v += inc;
+      }
+  }
+} // namespace boost::numeric::ublas
 
 
 
