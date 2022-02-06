@@ -56,7 +56,7 @@ constexpr void copy(const SizeType p, SizeType const*const n,
     throw std::runtime_error("Error in boost::numeric::ublas::copy: Pointers shall not be null pointers.");
   }
 
-  auto lambda = [n, wc, wa](auto const& self, SizeType r, PointerOut c, PointerIn a) 
+  auto lambda = [n, wc, wa](auto const& self, SizeType r, PointerOut c, PointerIn a) -> void
   {
     if(r > 0){
       for(auto d = 0u; d < n[r]; c += wc[r], a += wa[r], ++d){
@@ -70,7 +70,7 @@ constexpr void copy(const SizeType p, SizeType const*const n,
     }
   };
 
-  lambda(lambda, p-1, c, a );
+  return lambda(lambda, p-1, c, a );
 }
 
 
@@ -111,7 +111,7 @@ constexpr void transform(SizeType const p,
 
 
   
-  auto lambda = [n, wc, wa, op](auto const& self, SizeType r, PointerOut c, PointerIn a)
+  auto lambda = [n, wc, wa, op](auto const& self, SizeType r, PointerOut c, PointerIn a) -> void
   {
     if(r > 0)
       for(auto d = 0u; d < n[r]; c += wc[r], a += wa[r], ++d)
@@ -121,7 +121,7 @@ constexpr void transform(SizeType const p,
         *c = op(*a);
   };
 
-  lambda(lambda, p-1, c, a );
+  return lambda(lambda, p-1, c, a );
 
 }
 
@@ -264,7 +264,7 @@ constexpr void trans( SizeType const p,  SizeType const*const na, SizeType const
     throw std::runtime_error("Error in boost::numeric::ublas::trans: Pointers shall not be null pointers.");
 
 
-  auto lambda = [na, wc, wa, pi](auto const& self, SizeType r, PointerOut c, PointerIn a) 
+  auto lambda = [na, wc, wa, pi](auto const& self, SizeType r, PointerOut c, PointerIn a) -> void
   {
     if(r > 0)
       for(auto d = 0u; d < na[r]; c += wc[pi[r]-1], a += wa[r], ++d)
@@ -274,7 +274,7 @@ constexpr void trans( SizeType const p,  SizeType const*const na, SizeType const
         *c = *a;
   };
 
-  lambda( lambda ,p-1, c, a );
+  return lambda( lambda ,p-1, c, a );
 }
 
 
@@ -318,7 +318,7 @@ constexpr void trans(SizeType const p,
 
 
 
-  auto lambda = [na, wc, wa, pi](auto const& self, SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a) 
+  auto lambda = [na, wc, wa, pi](auto const& self, SizeType r, std::complex<ValueType>* c, std::complex<ValueType>* a)->void 
   {
     if(r > 0)
       for(auto d = 0u; d < na[r]; c += wc[pi[r]-1], a += wa[r], ++d)
@@ -328,12 +328,15 @@ constexpr void trans(SizeType const p,
         *c = std::conj(*a);
   };
 
-  lambda( lambda ,p-1, c, a );
+  return lambda( lambda ,p-1, c, a );
 
 }
 
 
 } // namespace boost::numeric::ublas
+
+
+#endif
 
 
 #endif
