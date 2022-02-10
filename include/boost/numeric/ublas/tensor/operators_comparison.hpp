@@ -74,15 +74,15 @@ template<class T1, class T2, class L, class R, class BinaryPred>
 [[nodiscard]]
 constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,R> const& rhs, BinaryPred pred)
 {
-    constexpr bool lhs_is_tensor = std::is_same<T1,L>::value;
-    constexpr bool rhs_is_tensor = std::is_same<T2,R>::value;
+    constexpr bool lhs_is_tensor = same_exp<T1,L>;
+    constexpr bool rhs_is_tensor = same_exp<T2,R>;
     
     if constexpr (lhs_is_tensor && rhs_is_tensor)
-        return compare(static_cast<T1 const&>( lhs ), static_cast<T2 const&>( rhs ), pred);
+        return compare(lhs(), rhs(), pred);
     else if constexpr (lhs_is_tensor && !rhs_is_tensor)
-        return compare(static_cast<T1 const&>( lhs ), T2( rhs ), pred);
+        return compare(lhs(), T2( rhs ), pred);
     else if constexpr (!lhs_is_tensor && rhs_is_tensor)
-        return compare(T1( lhs ), static_cast<T2 const&>( rhs ), pred);
+        return compare(T1( lhs ), rhs(), pred);
     else
         return compare(T1( lhs ), T2( rhs ), pred);
 
@@ -92,8 +92,8 @@ template<class T, class D, class UnaryPred>
 [[nodiscard]]
 constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred pred)
 {
-    if constexpr (std::is_same<T,D>::value)
-        return compare(static_cast<T const&>( expr ), pred);
+    if constexpr (same_exp<T,D>)
+        return compare(expr(), pred);
     else
         return compare(T( expr ), pred);
 }
