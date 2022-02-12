@@ -240,7 +240,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_dynamic,
         BOOST_REQUIRE_EQUAL ( a.size1(), e[0]);
         BOOST_REQUIRE_EQUAL ( a.size2(), e[1]);
 
-        auto const expr = a + value_type(3) * a;
+        auto const three = value_type(3);
+        auto const expr = a + three * a;
 
         auto const t = tensor_t(expr);
 
