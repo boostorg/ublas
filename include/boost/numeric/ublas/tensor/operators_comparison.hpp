@@ -36,16 +36,20 @@ template<class T1, class T2, class L, class R, class BinaryPred>
 constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,R> const& rhs, BinaryPred&& pred) noexcept
     requires ( same_exp< BinaryPred, std::equal_to<> > || same_exp< BinaryPred, std::not_equal_to<> > )
 {
-    using lvalue_type = decltype(lhs()(0));
-    using rvalue_type = decltype(rhs()(0));
+    
+    auto const& lexpr = cast_tensor_expression(lhs);
+    auto const& rexpr = cast_tensor_expression(rhs);
+
+    using lvalue_type = decltype(lexpr(0));
+    using rvalue_type = decltype(rexpr(0));
     
     static_assert( same_exp< lvalue_type, rvalue_type >,
         "boost::numeric::ublas::detail::compare : "
         "both LHS and RHS should have the same value type"
     );
 
-    auto const& le = retrieve_extents(lhs);
-    auto const& re = retrieve_extents(rhs);
+    auto const& le = retrieve_extents(lexpr);
+    auto const& re = retrieve_extents(rexpr);
 
     using size_type = typename T1::size_type;
 
@@ -73,9 +77,6 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
     auto const [status, size] = cal_size(le, re);
 
     for(auto i = size_type{}; i < size; ++i){
-        auto const& lexpr = cast_tensor_expression(lhs);
-        auto const& rexpr = cast_tensor_expression(rhs);
-        
         if(!std::invoke(pred, lexpr(i), rexpr(i)))
             return false;
     }
@@ -92,16 +93,19 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
         is_static_v< std::decay_t< decltype(retrieve_extents(rhs)) > > 
     )
 {
-    using lvalue_type = decltype(lhs()(0));
-    using rvalue_type = decltype(rhs()(0));
+    auto const& lexpr = cast_tensor_expression(lhs);
+    auto const& rexpr = cast_tensor_expression(rhs);
+
+    using lvalue_type = decltype(lexpr(0));
+    using rvalue_type = decltype(rexpr(0));
     
     static_assert( same_exp< lvalue_type, rvalue_type >,
         "boost::numeric::ublas::detail::compare : "
         "both LHS and RHS should have the same value type"
     );
 
-    auto const& le = retrieve_extents(lhs);
-    auto const& re = retrieve_extents(rhs);
+    auto const& le = retrieve_extents(lexpr);
+    auto const& re = retrieve_extents(rexpr);
 
     using size_type = typename T1::size_type;
 
@@ -134,9 +138,6 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
     size_type const size = cal_size(le, re);
 
     for(auto i = size_type{}; i < size; ++i){
-        auto const& lexpr = cast_tensor_expression(lhs);
-        auto const& rexpr = cast_tensor_expression(rhs);
-        
         if(!std::invoke(pred, lexpr(i), rexpr(i)))
             return false;
     }
@@ -149,7 +150,8 @@ template<class T, class D, class UnaryPred>
 [[nodiscard]]
 constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred&& pred) noexcept
 {
-    auto const& e = retrieve_extents(expr);
+    auto const& ue = cast_tensor_expression(expr);
+    auto const& e = retrieve_extents(ue);
 
     using size_type = typename T::size_type;
 
@@ -168,8 +170,6 @@ constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred&& pred) noe
     size_type const size = cal_size(e);
 
     for(auto i = size_type{}; i < size; ++i){
-        auto const& ue = cast_tensor_expression(expr);
-
         if(!std::invoke(pred, ue(i)))
             return false;
     }
