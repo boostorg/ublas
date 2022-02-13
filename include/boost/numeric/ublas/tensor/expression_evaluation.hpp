@@ -134,17 +134,20 @@ constexpr auto& retrieve_extents(binary_tensor_expression<T,EL,ER,OP> const& exp
 	static_assert(has_tensor_types_v<T,binary_tensor_expression<T,EL,ER,OP>>,
 	              "Error in boost::numeric::ublas::detail::retrieve_extents: Expression to evaluate should contain tensors.");
 
+	auto const& lexpr = expr.left_expr();
+	auto const& rexpr = expr.right_expr();
+
 	if constexpr ( same_exp<T,EL> )
-	    return expr.el.extents();
+	    return lexpr.extents();
 
 	else if constexpr ( same_exp<T,ER> )
-	    return expr.er.extents();
+	    return rexpr.extents();
 
 	else if constexpr ( has_tensor_types_v<T,EL> )
-	    return retrieve_extents(expr.el);
+	    return retrieve_extents(lexpr);
 
 	else if constexpr ( has_tensor_types_v<T,ER> )
-	    return retrieve_extents(expr.er);
+	    return retrieve_extents(rexpr);
 }
 
 #ifdef _MSC_VER
@@ -164,12 +167,14 @@ constexpr auto& retrieve_extents(unary_tensor_expression<T,E,OP> const& expr)
 
 	static_assert(has_tensor_types_v<T,unary_tensor_expression<T,E,OP>>,
 	              "Error in boost::numeric::ublas::detail::retrieve_extents: Expression to evaluate should contain tensors.");
+	
+	auto const& uexpr = expr.expr();
 
 	if constexpr ( same_exp<T,E> )
-	    return expr.e.extents();
+	    return uexpr.extents();
 
 	else if constexpr ( has_tensor_types_v<T,E>  )
-	    return retrieve_extents(expr.e);
+	    return retrieve_extents(uexpr);
 }
 
 } // namespace boost::numeric::ublas::detail
@@ -221,20 +226,23 @@ constexpr auto all_extents_equal(binary_tensor_expression<T,EL,ER,OP> const& exp
 	using ::operator==;
 	using ::operator!=;
 
+	auto const& lexpr = expr.left_expr();
+	auto const& rexpr = expr.right_expr();
+
 	if constexpr ( same_exp<T,EL> )
-      if(e !=  expr.el.extents())
+      if(e !=  lexpr.extents())
 	    return false;
 
 	if constexpr ( same_exp<T,ER> )
-      if(e != expr.er.extents())
+      if(e != rexpr.extents())
 	    return false;
 
 	if constexpr ( has_tensor_types_v<T,EL> )
-      if(!all_extents_equal(expr.el, e))
+      if(!all_extents_equal(lexpr, e))
 	    return false;
 
 	if constexpr ( has_tensor_types_v<T,ER> )
-      if(!all_extents_equal(expr.er, e))
+      if(!all_extents_equal(rexpr, e))
 	    return false;
 
 	return true;
@@ -250,12 +258,14 @@ constexpr auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, ex
 
   	using ::operator==;
 
+	auto const& uexpr = expr.expr();
+
 	if constexpr ( same_exp<T,E> )
-      if(e != expr.e.extents())
+      if(e != uexpr.extents())
 	    	return false;
 
 	if constexpr ( has_tensor_types_v<T,E> )
-      if(!all_extents_equal(expr.e, e))
+      if(!all_extents_equal(uexpr, e))
 	    	return false;
 
 	return true;
@@ -281,9 +291,11 @@ inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> 
 	    if(!all_extents_equal(expr, lhs.extents() ))
 	    	throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
 
-#pragma omp parallel for
+	auto const& rhs = cast_tensor_exression(expr);
+	
+	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
-		lhs(i) = expr()(i);
+		lhs(i) = rhs(i);
 }
 
 /** @brief Evaluates expression for a tensor_core
@@ -310,9 +322,11 @@ inline void eval(tensor_type& lhs, tensor_expression<other_tensor_type, derived_
 		throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
 	}   	
 	
+	auto const& rhs = cast_tensor_exression(expr);
+
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
-		lhs(i) = expr()(i);
+		lhs(i) = rhs(i);
 }
 
 /** @brief Evaluates expression for a tensor_core
@@ -330,9 +344,11 @@ inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> 
 	    if(!all_extents_equal( expr, lhs.extents() ))
 	    	throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
 
+	auto const& rhs = cast_tensor_exression(expr);
+
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
-		fn(lhs(i), expr()(i));
+		fn(lhs(i), rhs(i));
 }
 
 
@@ -347,7 +363,7 @@ inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> 
 template<class tensor_type, class unary_fn>
 inline void eval(tensor_type& lhs, unary_fn const& fn)
 {
-#pragma omp parallel for
+	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
 		fn(lhs(i));
 }

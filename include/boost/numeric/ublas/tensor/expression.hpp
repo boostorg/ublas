@@ -43,6 +43,33 @@ static constexpr bool does_exp_need_cast_v = does_exp_need_cast< std::decay_t<T>
 template<typename E, typename T>
 struct does_exp_need_cast< tensor_expression<T,E> > : std::true_type{};
 
+/**
+ * @brief It is a safer way of casting `tensor_expression` because it handles
+ * recursive expressions. Otherwise, in most of the cases, we try to access
+ * `operator()`, which requires a parameter argument, that is not supported
+ * by the `tensor_expression` class and might give an error if it is not casted
+ * properly.
+ * 
+ * @tparam T type of the tensor
+ * @tparam E type of the child stored inside tensor_expression
+ * @param  e tensor_expression that needs to be casted
+ * @return   child of tensor_expression that is not tensor_expression
+ */
+template<typename T, typename E>
+constexpr auto const& cast_tensor_exression(tensor_expression<T,E> const& e) noexcept{
+    auto const& res = e();
+    if constexpr(does_exp_need_cast_v<decltype(res)>)
+        return cast_tensor_exression(res);
+    else 
+        return res;
+}
+
+
+// FIXME: remove it when template expression support for the old matrix and vector is removed
+/// @brief No Op: Any expression other than `tensor_expression`.
+template<typename E>
+constexpr auto const& cast_tensor_exression(E const& e) noexcept{ return e; }
+
 template<typename E, typename T>
 constexpr auto is_tensor_expression_impl(tensor_expression<T,E> const*) -> std::true_type;
 
@@ -137,33 +164,15 @@ struct binary_tensor_expression
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
     binary_tensor_expression& operator=(binary_tensor_expression const& l) noexcept = delete;
 
+    constexpr auto const& left_expr() const noexcept{ return cast_tensor_exression(el); }
+    constexpr auto const& right_expr() const noexcept{ return cast_tensor_exression(er); }
 
     [[nodiscard]] inline 
-    constexpr decltype(auto) operator()(size_type i) const 
-        requires (does_exp_need_cast_v<expression_type_left> && does_exp_need_cast_v<expression_type_right>)
-    { 
-        return op(el()(i), er()(i));
+    constexpr decltype(auto) operator()(size_type i) const {
+        return op(left_expr()(i), right_expr()(i));
     }
 
-    [[nodiscard]] inline 
-    constexpr decltype(auto) operator()(size_type i) const 
-        requires (does_exp_need_cast_v<expression_type_left> && !does_exp_need_cast_v<expression_type_right>)
-    { 
-        return op(el()(i), er(i));
-    }
-
-    [[nodiscard]] inline 
-    constexpr decltype(auto) operator()(size_type i) const 
-        requires (!does_exp_need_cast_v<expression_type_left> && does_exp_need_cast_v<expression_type_right>)
-    { 
-        return op(el(i), er()(i));
-    }
-
-    [[nodiscard]] inline 
-    constexpr decltype(auto) operator()(size_type i) const { 
-        return op(el(i), er(i)); 
-    }
-
+private:
     expression_type_left el;
     expression_type_right er;
     binary_operation op;
@@ -211,19 +220,15 @@ struct unary_tensor_expression
     constexpr unary_tensor_expression() = delete;
     unary_tensor_expression(unary_tensor_expression const& l) = delete;
     unary_tensor_expression& operator=(unary_tensor_expression const& l) noexcept = delete;
-    
-    [[nodiscard]] inline constexpr
-    decltype(auto) operator()(size_type i) const 
-        requires does_exp_need_cast_v<expression_type>
-    {
-        return op(e()(i));
-    }
+
+    constexpr auto const& expr() const noexcept{ return cast_tensor_exression(e); }
 
     [[nodiscard]] inline constexpr
-    decltype(auto) operator()(size_type i) const { 
-        return op(e(i));
+    decltype(auto) operator()(size_type i) const {
+        return op(expr()(i));
     }
 
+private:
     expression_type e;
     unary_operation op;
 };
