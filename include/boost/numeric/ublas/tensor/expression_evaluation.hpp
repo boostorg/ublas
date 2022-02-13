@@ -291,8 +291,8 @@ inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> 
 	    if(!all_extents_equal(expr, lhs.extents() ))
 	    	throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
 
-	auto const& rhs = cast_tensor_exression(expr);
-	
+	auto const& rhs = cast_tensor_expression(expr);
+
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
 		lhs(i) = rhs(i);
@@ -322,7 +322,7 @@ inline void eval(tensor_type& lhs, tensor_expression<other_tensor_type, derived_
 		throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
 	}   	
 	
-	auto const& rhs = cast_tensor_exression(expr);
+	auto const& rhs = cast_tensor_expression(expr);
 
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
@@ -344,7 +344,7 @@ inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> 
 	    if(!all_extents_equal( expr, lhs.extents() ))
 	    	throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
 
-	auto const& rhs = cast_tensor_exression(expr);
+	auto const& rhs = cast_tensor_expression(expr);
 
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)

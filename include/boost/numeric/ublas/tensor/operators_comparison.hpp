@@ -31,122 +31,152 @@ class tensor_core;
 namespace boost::numeric::ublas::detail
 {
 
-template<class T1, class T2, class BinaryPred>
+template<class T1, class T2, class L, class R, class BinaryPred>
 [[nodiscard]] inline 
-constexpr bool compare(tensor_core<T1> const& lhs, tensor_core<T2> const& rhs, BinaryPred&& pred) noexcept
+constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,R> const& rhs, BinaryPred&& pred) noexcept
     requires ( same_exp< BinaryPred, std::equal_to<> > || same_exp< BinaryPred, std::not_equal_to<> > )
 {
-    static_assert( std::is_same_v<typename tensor_core<T1>::value_type, typename tensor_core<T2>::value_type>,
-        "boost::numeric::ublas::detail::compare(tensor_core<T1> const&, tensor_core<T2> const&, BinaryPred) : "
-        "LHS and RHS both should have the same value type"
+    using lvalue_type = decltype(lhs()(0));
+    using rvalue_type = decltype(rhs()(0));
+    
+    static_assert( same_exp< lvalue_type, rvalue_type >,
+        "boost::numeric::ublas::detail::compare : "
+        "both LHS and RHS should have the same value type"
     );
 
-    using lex_t = typename tensor_core<T1>::extents_type;
-    using rex_t = typename tensor_core<T2>::extents_type;
+    auto const& le = retrieve_extents(lhs);
+    auto const& re = retrieve_extents(rhs);
 
-    if constexpr(is_static_v<lex_t> && is_static_v<rex_t>){
-        if constexpr(!same_exp<lex_t,rex_t>) 
-            return false;
-    }else{
-        if(::operator!=(lhs.extents(),rhs.extents())){
-            return false;
+    using size_type = typename T1::size_type;
+
+    // returns the pair containing false if extents are not equal 
+    // else true, and the size of the container.
+    constexpr auto cal_size = [](auto const& le, auto const& re) 
+        -> std::pair<bool, size_type>
+    {
+        using lex_t = std::decay_t< decltype(le) >;
+        using rex_t = std::decay_t< decltype(re) >;
+
+        if constexpr(is_static_v< lex_t > && is_static_v< rex_t >){
+            if constexpr(!same_exp< lex_t, rex_t >) 
+                return { false, size_type{} };
+
+            return { true, product_v< lex_t > };
+        } else {
+            if(::operator!=(le,re))
+                return { false, size_type{} };
+
+            return { true, product( le ) };
         }
+    };
+
+    auto const [status, size] = cal_size(le, re);
+
+    for(auto i = size_type{}; i < size; ++i){
+        auto const& lexpr = cast_tensor_expression(lhs);
+        auto const& rexpr = cast_tensor_expression(rhs);
+        
+        if(!std::invoke(pred, lexpr(i), rexpr(i)))
+            return false;
     }
 
-    return std::equal(lhs.begin(), lhs.end(), rhs.begin(), std::forward<BinaryPred>(pred));
+    // return false if the status is false
+    return ( true & status );
 }
 
-template<class T1, class T2, class BinaryPred>
+template<class T1, class T2, class L, class R, class BinaryPred>
 [[nodiscard]] inline 
-constexpr bool compare(tensor_core<T1> const& lhs, tensor_core<T2> const& rhs, BinaryPred&& pred)
+constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,R> const& rhs, BinaryPred&& pred) 
     noexcept( 
-        is_static_v<typename tensor_core<T1>::extents_type> && 
-        is_static_v<typename tensor_core<T2>::extents_type> 
+        is_static_v< std::decay_t< decltype(retrieve_extents(lhs)) > > && 
+        is_static_v< std::decay_t< decltype(retrieve_extents(rhs)) > > 
     )
 {
-    static_assert( std::is_same_v<typename tensor_core<T1>::value_type, typename tensor_core<T2>::value_type>,
-        "boost::numeric::ublas::detail::compare(tensor_core<T1> const&, tensor_core<T2> const&, BinaryPred) : "
-        "LHS and RHS both should have the same value type"
+    using lvalue_type = decltype(lhs()(0));
+    using rvalue_type = decltype(rhs()(0));
+    
+    static_assert( same_exp< lvalue_type, rvalue_type >,
+        "boost::numeric::ublas::detail::compare : "
+        "both LHS and RHS should have the same value type"
     );
 
-    using lex_t = typename tensor_core<T1>::extents_type;
-    using rex_t = typename tensor_core<T2>::extents_type;
+    auto const& le = retrieve_extents(lhs);
+    auto const& re = retrieve_extents(rhs);
 
-    if constexpr(is_static_v<lex_t> && is_static_v<rex_t>){
-        static_assert(same_exp<lex_t,rex_t>, 
-            "boost::numeric::ublas::detail::compare(tensor_core<T1> const&, tensor_core<T2> const&, BinaryPred) : "
-            "cannot compare tensors with different shapes."
-        );
-    }else{
-        if(::operator!=(lhs.extents(),rhs.extents())){
-            throw std::runtime_error(
-                "boost::numeric::ublas::detail::compare(tensor_core<T1> const&, tensor_core<T2> const&, BinaryPred) : "
+    using size_type = typename T1::size_type;
+
+    // returns the size of the container
+    constexpr auto cal_size = [](auto const& le, auto const& re) 
+        -> size_type
+    {
+        using lex_t = std::decay_t< decltype(le) >;
+        using rex_t = std::decay_t< decltype(re) >;
+
+        if constexpr(is_static_v< lex_t > && is_static_v< rex_t >){
+            static_assert(same_exp< lex_t, rex_t >, 
+                "boost::numeric::ublas::detail::compare : "
                 "cannot compare tensors with different shapes."
             );
+
+            return product_v< lex_t >;
+        }else{
+            if(::operator!=(le,re)){
+                throw std::runtime_error(
+                    "boost::numeric::ublas::detail::compare : "
+                    "cannot compare tensors with different shapes."
+                );
+            }
+
+            return product( le );
         }
+    };
+
+    size_type const size = cal_size(le, re);
+
+    for(auto i = size_type{}; i < size; ++i){
+        auto const& lexpr = cast_tensor_expression(lhs);
+        auto const& rexpr = cast_tensor_expression(rhs);
+        
+        if(!std::invoke(pred, lexpr(i), rexpr(i)))
+            return false;
     }
 
-    return std::equal(lhs.begin(), lhs.end(), rhs.begin(), std::forward<BinaryPred>(pred));
+    return true;
 }
 
-template<class T, class UnaryPred>
-[[nodiscard]] inline 
-constexpr bool compare(tensor_core<T> const& rhs, UnaryPred&& pred) noexcept
-{
-    return std::all_of(rhs.begin(), rhs.end(), std::forward<UnaryPred>(pred));
-}
-
-
-template<class T1, class T2, class L, class R, class BinaryPred>
-[[nodiscard]]
-constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,R> const& rhs, BinaryPred&& pred) noexcept
-    requires (same_exp<T1,L> && same_exp<T2,R>)
-{
-    return compare(lhs(), rhs(), std::forward<BinaryPred>(pred));
-}
-
-template<class T1, class T2, class L, class R, class BinaryPred>
-[[nodiscard]]
-constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,R> const& rhs, BinaryPred&& pred)
-    requires (same_exp<T1,L> && !same_exp<T2,R>)
-{
-    auto const r = T2(rhs); // FIXME: why are we constructing a whole new tensor?
-    return compare(lhs(), r, std::forward<BinaryPred>(pred));
-}
-
-template<class T1, class T2, class L, class R, class BinaryPred>
-[[nodiscard]]
-constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,R> const& rhs, BinaryPred&& pred)
-    requires (!same_exp<T1,L> && same_exp<T2,R>)
-{
-    auto const l = T1(lhs); // FIXME: why are we constructing a whole new tensor?
-    return compare(l, rhs(), std::forward<BinaryPred>(pred));
-}
-
-template<class T1, class T2, class L, class R, class BinaryPred>
-[[nodiscard]]
-constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,R> const& rhs, BinaryPred&& pred)
-{
-    auto const l = T1(lhs); // FIXME: why are we constructing a whole new tensor?
-    auto const r = T2(rhs); // FIXME: why are we constructing a whole new tensor?
-    return compare(l, r, std::forward<BinaryPred>(pred));
-}
 
 template<class T, class D, class UnaryPred>
 [[nodiscard]]
 constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred&& pred) noexcept
-    requires same_exp<T,D>
 {
-    return compare(expr(), std::forward<UnaryPred>(pred));
+    auto const& e = retrieve_extents(expr);
+
+    using size_type = typename T::size_type;
+
+    // returns the size of the container
+    constexpr auto cal_size = [](auto const& e) 
+        -> size_type
+    {
+        using extents_t = std::decay_t< decltype(e) >;
+        
+        if constexpr(is_static_v< extents_t >)
+            return product_v< extents_t >;
+        else
+            return product( e );
+    };
+
+    size_type const size = cal_size(e);
+
+    for(auto i = size_type{}; i < size; ++i){
+        auto const& ue = cast_tensor_expression(expr);
+
+        if(!std::invoke(pred, ue(i)))
+            return false;
+    }
+
+    return true;
 }
 
-template<class T, class D, class UnaryPred>
-[[nodiscard]]
-constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred&& pred)
-{
-    auto const e = T(expr); // FIXME: why are we constructing a whole new tensor?
-    return compare(e, std::forward<UnaryPred>(pred));
-}
 
 } // namespace boost::numeric::ublas::detail
 
