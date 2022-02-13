@@ -56,7 +56,7 @@ struct does_exp_need_cast< tensor_expression<T,E> > : std::true_type{};
  * @return   child of tensor_expression that is not tensor_expression
  */
 template<typename T, typename E>
-constexpr auto const& cast_tensor_exression(tensor_expression<T,E> const& e) noexcept{
+[[nodiscard]] constexpr auto const& cast_tensor_exression(tensor_expression<T,E> const& e) noexcept{
     auto const& res = e();
     if constexpr(does_exp_need_cast_v<decltype(res)>)
         return cast_tensor_exression(res);
@@ -68,7 +68,7 @@ constexpr auto const& cast_tensor_exression(tensor_expression<T,E> const& e) noe
 // FIXME: remove it when template expression support for the old matrix and vector is removed
 /// @brief No Op: Any expression other than `tensor_expression`.
 template<typename E>
-constexpr auto const& cast_tensor_exression(E const& e) noexcept{ return e; }
+[[nodiscard]] constexpr auto const& cast_tensor_exression(E const& e) noexcept{ return e; }
 
 template<typename E, typename T>
 constexpr auto is_tensor_expression_impl(tensor_expression<T,E> const*) -> std::true_type;
@@ -164,8 +164,8 @@ struct binary_tensor_expression
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
     binary_tensor_expression& operator=(binary_tensor_expression const& l) noexcept = delete;
 
-    constexpr auto const& left_expr() const noexcept{ return cast_tensor_exression(el); }
-    constexpr auto const& right_expr() const noexcept{ return cast_tensor_exression(er); }
+    [[nodiscard]] constexpr auto const& left_expr() const noexcept{ return cast_tensor_exression(el); }
+    [[nodiscard]] constexpr auto const& right_expr() const noexcept{ return cast_tensor_exression(er); }
 
     [[nodiscard]] inline 
     constexpr decltype(auto) operator()(size_type i) const {
@@ -221,7 +221,7 @@ struct unary_tensor_expression
     unary_tensor_expression(unary_tensor_expression const& l) = delete;
     unary_tensor_expression& operator=(unary_tensor_expression const& l) noexcept = delete;
 
-    constexpr auto const& expr() const noexcept{ return cast_tensor_exression(e); }
+    [[nodiscard]] constexpr auto const& expr() const noexcept{ return cast_tensor_exression(e); }
 
     [[nodiscard]] inline constexpr
     decltype(auto) operator()(size_type i) const {
