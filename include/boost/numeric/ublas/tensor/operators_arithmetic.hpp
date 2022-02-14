@@ -191,7 +191,13 @@ template<typename EL, typename ER>
     (boost::numeric::ublas::detail::TensorExpression<EL>) &&
     (boost::numeric::ublas::detail::TensorExpression<ER>)
   )
-inline constexpr auto operator+( EL&& lhs, ER&& rhs ) 
+inline constexpr auto operator+( EL&& lhs, ER&& rhs )
+  noexcept(
+    std::is_same_v<
+      boost::numeric::ublas::detail::real_expression_type_t<EL>,
+      boost::numeric::ublas::detail::real_expression_type_t<ER>
+    >
+  )
 {
 
   using ltensor_t = boost::numeric::ublas::detail::real_expression_type_t<EL>;
@@ -220,7 +226,13 @@ template<typename EL, typename ER>
     (boost::numeric::ublas::detail::TensorExpression<EL>) &&
     (boost::numeric::ublas::detail::TensorExpression<ER>)
   )
-inline constexpr auto operator-( EL&& lhs, ER&& rhs ) 
+inline constexpr auto operator-( EL&& lhs, ER&& rhs )
+  noexcept(
+    std::is_same_v<
+      boost::numeric::ublas::detail::real_expression_type_t<EL>,
+      boost::numeric::ublas::detail::real_expression_type_t<ER>
+    >
+  )
 {
 
   using ltensor_t = boost::numeric::ublas::detail::real_expression_type_t<EL>;
@@ -248,7 +260,13 @@ template<typename EL, typename ER>
     (boost::numeric::ublas::detail::TensorExpression<EL>) &&
     (boost::numeric::ublas::detail::TensorExpression<ER>)
   )
-inline constexpr auto operator*( EL&& lhs, ER&& rhs ) 
+inline constexpr auto operator*( EL&& lhs, ER&& rhs )
+  noexcept(
+    std::is_same_v<
+      boost::numeric::ublas::detail::real_expression_type_t<EL>,
+      boost::numeric::ublas::detail::real_expression_type_t<ER>
+    >
+  )
 {
 
   using ltensor_t = boost::numeric::ublas::detail::real_expression_type_t<EL>;
@@ -276,7 +294,13 @@ template<typename EL, typename ER>
     (boost::numeric::ublas::detail::TensorExpression<EL>) &&
     (boost::numeric::ublas::detail::TensorExpression<ER>)
   )
-inline constexpr auto operator/( EL&& lhs, ER&& rhs ) 
+inline constexpr auto operator/( EL&& lhs, ER&& rhs )
+  noexcept(
+    std::is_same_v<
+      boost::numeric::ublas::detail::real_expression_type_t<EL>,
+      boost::numeric::ublas::detail::real_expression_type_t<ER>
+    >
+  )
 {
 
   using ltensor_t = boost::numeric::ublas::detail::real_expression_type_t<EL>;

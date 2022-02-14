@@ -48,6 +48,12 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
         "both LHS and RHS should have the same value type"
     );
 
+    static_assert(
+        std::is_invocable_r_v<bool, BinaryPred, lvalue_type, rvalue_type>,
+        "boost::numeric::ublas::detail::compare(lhs,rhs,pred) :"
+        "predicate must be a binary predicate, and it must return a bool"
+    );
+
     auto const& le = retrieve_extents(lexpr);
     auto const& re = retrieve_extents(rexpr);
 
@@ -104,6 +110,12 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
         "both LHS and RHS should have the same value type"
     );
 
+    static_assert(
+        std::is_invocable_r_v<bool, BinaryPred, lvalue_type, rvalue_type>,
+        "boost::numeric::ublas::detail::compare(lhs,rhs,pred) :"
+        "predicate must be a binary predicate, and it must return a bool"
+    );
+
     auto const& le = retrieve_extents(lexpr);
     auto const& re = retrieve_extents(rexpr);
 
@@ -154,6 +166,12 @@ constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred&& pred) noe
     auto const& e = retrieve_extents(ue);
 
     using size_type = typename T::size_type;
+    
+    static_assert(
+        std::is_invocable_r_v<bool, UnaryPred, decltype(ue(0))>,
+        "boost::numeric::ublas::detail::compare(expr,pred) :"
+        "predicate must be an unary predicate, and it must return a bool"
+    );
 
     // returns the size of the container
     constexpr auto cal_size = [](auto const& e) 
@@ -201,7 +219,11 @@ template<class T1, class T2, class L, class R>
 [[nodiscard]] inline 
 constexpr auto operator< (
     boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs
+)noexcept( 
+    boost::numeric::ublas::is_static_v< std::decay_t< decltype(boost::numeric::ublas::detail::retrieve_extents(lhs)) > > && 
+    boost::numeric::ublas::is_static_v< std::decay_t< decltype(boost::numeric::ublas::detail::retrieve_extents(rhs)) > > 
+) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::less<>{} );
 }
 
@@ -209,7 +231,11 @@ template<class T1, class T2, class L, class R>
 [[nodiscard]] inline 
 constexpr auto operator<=(
     boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs
+)noexcept( 
+    boost::numeric::ublas::is_static_v< std::decay_t< decltype(boost::numeric::ublas::detail::retrieve_extents(lhs)) > > && 
+    boost::numeric::ublas::is_static_v< std::decay_t< decltype(boost::numeric::ublas::detail::retrieve_extents(rhs)) > > 
+) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::less_equal<>{} );
 }
 
@@ -217,7 +243,11 @@ template<class T1, class T2, class L, class R>
 [[nodiscard]] inline 
 constexpr auto operator> (
     boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs
+)noexcept( 
+    boost::numeric::ublas::is_static_v< std::decay_t< decltype(boost::numeric::ublas::detail::retrieve_extents(lhs)) > > && 
+    boost::numeric::ublas::is_static_v< std::decay_t< decltype(boost::numeric::ublas::detail::retrieve_extents(rhs)) > > 
+) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::greater<>{} );
 }
 
@@ -225,7 +255,11 @@ template<class T1, class T2, class L, class R>
 [[nodiscard]] inline 
 constexpr auto operator>=(
     boost::numeric::ublas::detail::tensor_expression<T1,L> const& lhs,
-    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs) {
+    boost::numeric::ublas::detail::tensor_expression<T2,R> const& rhs
+)noexcept( 
+    boost::numeric::ublas::is_static_v< std::decay_t< decltype(boost::numeric::ublas::detail::retrieve_extents(lhs)) > > && 
+    boost::numeric::ublas::is_static_v< std::decay_t< decltype(boost::numeric::ublas::detail::retrieve_extents(rhs)) > > 
+) {
     return boost::numeric::ublas::detail::compare( lhs, rhs, std::greater_equal<>{} );
 }
 
@@ -245,22 +279,22 @@ constexpr auto operator!=( typename T::value_type lhs, boost::numeric::ublas::de
 }
 template<class T, class D>
 [[nodiscard]] inline 
-constexpr auto operator< ( typename T::value_type lhs, boost::numeric::ublas::detail::tensor_expression<T,D> const& rhs) {
+constexpr auto operator< ( typename T::value_type lhs, boost::numeric::ublas::detail::tensor_expression<T,D> const& rhs) noexcept{
     return boost::numeric::ublas::detail::compare( rhs, [lhs](auto const& r){ return lhs <  r; } );
 }
 template<class T, class D>
 [[nodiscard]] inline 
-constexpr auto operator<=( typename T::value_type lhs, boost::numeric::ublas::detail::tensor_expression<T,D> const& rhs) {
+constexpr auto operator<=( typename T::value_type lhs, boost::numeric::ublas::detail::tensor_expression<T,D> const& rhs) noexcept{
     return boost::numeric::ublas::detail::compare( rhs, [lhs](auto const& r){ return lhs <= r; } );
 }
 template<class T, class D>
 [[nodiscard]] inline 
-constexpr auto operator> ( typename T::value_type lhs, boost::numeric::ublas::detail::tensor_expression<T,D> const& rhs) {
+constexpr auto operator> ( typename T::value_type lhs, boost::numeric::ublas::detail::tensor_expression<T,D> const& rhs) noexcept{
     return boost::numeric::ublas::detail::compare( rhs, [lhs](auto const& r){ return lhs >  r; } );
 }
 template<class T, class D>
 [[nodiscard]] inline 
-constexpr auto operator>=( typename T::value_type lhs, boost::numeric::ublas::detail::tensor_expression<T,D> const& rhs) {
+constexpr auto operator>=( typename T::value_type lhs, boost::numeric::ublas::detail::tensor_expression<T,D> const& rhs) noexcept{
     return boost::numeric::ublas::detail::compare( rhs, [lhs](auto const& r){ return lhs >= r; } );
 }
 
@@ -277,22 +311,22 @@ constexpr auto operator!=( boost::numeric::ublas::detail::tensor_expression<T,D>
 }
 template<class T, class D>
 [[nodiscard]] inline 
-constexpr auto operator< ( boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs, typename T::value_type rhs) {
+constexpr auto operator< ( boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs, typename T::value_type rhs) noexcept{
     return boost::numeric::ublas::detail::compare( lhs, [rhs](auto const& l){ return l <  rhs; } );
 }
 template<class T, class D>
 [[nodiscard]] inline 
-constexpr auto operator<=( boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs, typename T::value_type rhs) {
+constexpr auto operator<=( boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs, typename T::value_type rhs) noexcept{
     return boost::numeric::ublas::detail::compare( lhs, [rhs](auto const& l){ return l <= rhs; } );
 }
 template<class T, class D>
 [[nodiscard]] inline 
-constexpr auto operator> ( boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs, typename T::value_type rhs) {
+constexpr auto operator> ( boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs, typename T::value_type rhs) noexcept{
     return boost::numeric::ublas::detail::compare( lhs, [rhs](auto const& l){ return l >  rhs; } );
 }
 template<class T, class D>
 [[nodiscard]] inline 
-constexpr auto operator>=( boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs, typename T::value_type rhs) {
+constexpr auto operator>=( boost::numeric::ublas::detail::tensor_expression<T,D> const& lhs, typename T::value_type rhs) noexcept{
     return boost::numeric::ublas::detail::compare( lhs, [rhs](auto const& l){ return l >= rhs; } );
 }
 
