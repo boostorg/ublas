@@ -277,57 +277,66 @@ constexpr auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, ex
 namespace boost::numeric::ublas::detail
 {
 
-
 /** @brief Evaluates expression for a tensor_core
  *
- * Assigns the results of the expression to the tensor_core.
+ * Applies a binary function to the results of the expressions before the assignment.
+ * Usually applied needed for binary operators such as A += C;
  *
  * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
 */
-template<class tensor_type, class derived_type>
-inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& expr)
+template<class TensorEngine, class BinaryFn>
+	requires 
+		std::is_invocable_r_v<void, BinaryFn, 
+			typename tensor_core<TensorEngine>::reference,
+			typename tensor_core<TensorEngine>::const_reference
+		>
+inline void eval(tensor_core<TensorEngine>& lhs, TensorExpression auto const& expr, BinaryFn&& fn)
 {
-	if constexpr (has_tensor_types_v<tensor_type, tensor_expression<tensor_type,derived_type> > )
-	    if(!all_extents_equal(expr, lhs.extents() ))
-	    	throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
+	using rtensor_t   = typename std::decay_t<decltype(expr)>::tensor_type;
+	using ltensor_t   = tensor_core<TensorEngine>;
+	using lvalue_type = typename ltensor_t::value_type;
+	using rvalue_type = typename rtensor_t::value_type;
+	using lextents_t  = typename ltensor_t::extents_type;
+	using rextents_t  = typename rtensor_t::extents_type;
 
-	auto const& rhs = cast_tensor_expression(expr);
-
-	#pragma omp parallel for
-	for(auto i = 0u; i < lhs.size(); ++i)
-		lhs(i) = rhs(i);
-}
-
-/** @brief Evaluates expression for a tensor_core
- *
- * Assigns the results of the expression to the tensor_core.
- *
- * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
-*/
-template<typename tensor_type, typename other_tensor_type, typename derived_type>
-inline void eval(tensor_type& lhs, tensor_expression<other_tensor_type, derived_type> const& expr)
-{
-
-//	static_assert(is_valid_tensor_v<tensor_type> && is_valid_tensor_v<other_tensor_type>,
-//		"boost::numeric::ublas::detail::eval(tensor_type&, tensor_expression<other_tensor_type, derived_type> const&) : "
-//		"tensor_type and tensor_expresssion should be a valid tensor type"
-//	);
-
-	static_assert(std::is_same_v<typename tensor_type::value_type, typename other_tensor_type::value_type>,
-		"boost::numeric::ublas::detail::eval(tensor_type&, tensor_expression<other_tensor_type, derived_type> const&) : "
-		"tensor_type and tensor_expresssion should have same value type"
+	static_assert(std::is_same_v<lvalue_type, rvalue_type>,
+		"boost::numeric::ublas::detail::eval(tensor_core<TensorEngine>&, TensorExpression auto const&) : "
+		"both LHS and RHS tensors should have same value type"
 	);
 
-	if ( !all_extents_equal(expr, lhs.extents() ) ){
-		throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
-	}   	
-	
+	if constexpr(is_static_v<lextents_t> && is_static_v<rextents_t>){
+		static_assert(std::is_same_v<lextents_t,rextents_t>,
+			"boost::numeric::ublas::tensor_core: "
+			"both LHS and RHS tensors should have same shape."
+		);
+	}else{
+		if ( !all_extents_equal( expr, lhs.extents() ) ){
+			throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
+		}   	
+	}
+
 	auto const& rhs = cast_tensor_expression(expr);
 
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
-		lhs(i) = rhs(i);
+		std::invoke(fn, lhs(i), rhs(i));
 }
+
+/** @brief Evaluates expression for a tensor_core
+ *
+ * Assigns the results of the expression to the tensor_core.
+ *
+ * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
+*/
+template<typename TensorEngine>
+inline void eval(tensor_core<TensorEngine>& lhs, TensorExpression auto const& expr)
+{
+	eval(lhs, expr, [](auto& l, auto const& r){
+		l = r;
+	});
+}
+
+
 
 /** @brief Evaluates expression for a tensor_core
  *
@@ -336,36 +345,13 @@ inline void eval(tensor_type& lhs, tensor_expression<other_tensor_type, derived_
  *
  * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
 */
-template<class tensor_type, class derived_type, class unary_fn>
-inline void eval(tensor_type& lhs, tensor_expression<tensor_type, derived_type> const& expr, unary_fn const fn)
-{
-
-	if constexpr (has_tensor_types_v< tensor_type, tensor_expression<tensor_type,derived_type> > )
-	    if(!all_extents_equal( expr, lhs.extents() ))
-	    	throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
-
-	auto const& rhs = cast_tensor_expression(expr);
-
-	#pragma omp parallel for
-	for(auto i = 0u; i < lhs.size(); ++i)
-		fn(lhs(i), rhs(i));
-}
-
-
-
-/** @brief Evaluates expression for a tensor_core
- *
- * Applies a unary function to the results of the expressions before the assignment.
- * Usually applied needed for unary operators such as A += C;
- *
- * \note Checks if shape of the tensor_core matches those of all tensors within the expression.
-*/
-template<class tensor_type, class unary_fn>
-inline void eval(tensor_type& lhs, unary_fn const& fn)
+template<class TensorEngine, class UnaryFn>
+	requires std::is_invocable_r_v<void, UnaryFn, typename tensor_core<TensorEngine>::reference>
+inline void eval(tensor_core<TensorEngine>& lhs, UnaryFn&& fn)
 {
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)
-		fn(lhs(i));
+		std::invoke(fn, lhs(i));
 }
 
 
