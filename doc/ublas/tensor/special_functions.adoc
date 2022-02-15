@@ -23,7 +23,7 @@ generated and that you can combine entrywise and compare operations as well as c
 | Inner Product | `inner_prod()` |`auto a = inner_prod(X,Y);`
 | Outer Product | `outer_prod()` |`auto Z = outer_prod(X,Y);`
 | Frobenius Norm | `norm()` |`auto a = norm(X);`
-|Extract Real Values | `real()` |`auto Y = real(X);`| 
+|Extract Real Values | `real()` |`auto Y = real(X);`
 | Extract Imaginary Values | `imag()` |`auto Y = imag(X);`
 | Compute Complex Conjugate | `conj()` |`auto Y = conj(X);`
 |===
