@@ -123,16 +123,30 @@ struct tensor_expression
     inline
     constexpr auto const& operator()() const noexcept { return *static_cast<const expression_type*> (this); }
     
-    constexpr tensor_expression(tensor_expression&&) noexcept = default;
-    constexpr tensor_expression& operator=(tensor_expression&&) noexcept = default;
     constexpr ~tensor_expression() = default;
 
+    /// @brief The copy constructor is deleted to avoid expensive copies or sometimes object slicing.
     tensor_expression(const tensor_expression&) = delete;
     tensor_expression& operator=(const tensor_expression&) = delete;
-
+    constexpr tensor_expression& operator=(tensor_expression&&) noexcept = delete;
 
 protected :
+    /**
+     * @brief This is the only way to discourage the users from using `std::move` on the local 
+     * expression because it works differently from the standard way to move the objects. This weird 
+     * behaviour is due to `const reference`, which is impossible to move without constructing a new object. 
+     * If the variable goes out of the scope, stored as a `const reference` inside the expression, 
+     * it will be destroyed that will result in a dangling pointer. But this behaviour is helpful 
+     * for the construction of an expression because the expression might contain a `const reference` 
+     * object that will be passed around as a `const reference` rather than a copy, and we do not need to 
+     * construct a whole new chunky object because, under the hood, we are just passing pointers around.
+     * 
+     */
+    constexpr tensor_expression(tensor_expression&&) noexcept = default;
     explicit tensor_expression() = default;
+
+    /// @brief This the only way to access the protected move constructor of other expressions.
+    template<class, class> friend struct tensor_expression;
 };
 
 
@@ -157,20 +171,36 @@ struct binary_tensor_expression
         , er(std::forward<RightExp>(r)) 
         , op(std::forward<OPType>(o)) 
     {}
-    constexpr binary_tensor_expression(binary_tensor_expression&& l) noexcept = default;
-    constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept = default;
     constexpr ~binary_tensor_expression() = default;
 
+    /// @brief The copy constructor is deleted to avoid expensive copies or sometimes object slicing.
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
     binary_tensor_expression& operator=(binary_tensor_expression const& l) noexcept = delete;
+    constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept = delete;
 
     [[nodiscard]] constexpr auto const& left_expr() const noexcept{ return cast_tensor_expression(el); }
     [[nodiscard]] constexpr auto const& right_expr() const noexcept{ return cast_tensor_expression(er); }
 
     [[nodiscard]] inline 
-    constexpr decltype(auto) operator()(size_type i) const {
-        return op(left_expr()(i), right_expr()(i));
-    }
+    constexpr decltype(auto) operator()(size_type i) const { return op(left_expr()(i), right_expr()(i)); }
+
+protected:
+    /**
+     * @brief This is the only way to discourage the users from using `std::move` on the local 
+     * expression because it works differently from the standard way to move the objects. This weird 
+     * behaviour is due to `const reference`, which is impossible to move without constructing a new object. 
+     * If the variable goes out of the scope, stored as a `const reference` inside the expression, 
+     * it will be destroyed that will result in a dangling pointer. But this behaviour is helpful 
+     * for the construction of an expression because the expression might contain a `const reference` 
+     * object that will be passed around as a `const reference` rather than a copy, and we do not need to 
+     * construct a whole new chunky object because, under the hood, we are just passing pointers around.
+     * 
+     */
+    constexpr binary_tensor_expression(binary_tensor_expression&& l) noexcept = default;
+    
+    /// @brief This the only way to access the protected move constructor of other expressions.
+    template<class, class, class> friend struct unary_tensor_expression;
+    template<class, class, class, class> friend struct binary_tensor_expression;
 
 private:
     expression_type_left el;
@@ -213,20 +243,37 @@ struct unary_tensor_expression
         : e(std::forward<Exp>(ee))
         , op(std::forward<OPType>(o)) 
     {}
-    constexpr unary_tensor_expression(unary_tensor_expression&& l) noexcept = default;
-    constexpr unary_tensor_expression& operator=(unary_tensor_expression&& l) noexcept = default;
     constexpr ~unary_tensor_expression() = default;
 
     constexpr unary_tensor_expression() = delete;
+
+    /// @brief The copy constructor is deleted to avoid expensive copies or sometimes object slicing.
     unary_tensor_expression(unary_tensor_expression const& l) = delete;
     unary_tensor_expression& operator=(unary_tensor_expression const& l) noexcept = delete;
+    constexpr unary_tensor_expression& operator=(unary_tensor_expression&& l) noexcept = delete;
 
     [[nodiscard]] constexpr auto const& expr() const noexcept{ return cast_tensor_expression(e); }
 
     [[nodiscard]] inline constexpr
-    decltype(auto) operator()(size_type i) const {
-        return op(expr()(i));
-    }
+    decltype(auto) operator()(size_type i) const { return op(expr()(i)); }
+
+protected:
+    /**
+     * @brief This is the only way to discourage the users from using `std::move` on the local 
+     * expression because it works differently from the standard way to move the objects. This weird 
+     * behaviour is due to `const reference`, which is impossible to move without constructing a new object. 
+     * If the variable goes out of the scope, stored as a `const reference` inside the expression, 
+     * it will be destroyed that will result in a dangling pointer. But this behaviour is helpful 
+     * for the construction of an expression because the expression might contain a `const reference` 
+     * object that will be passed around as a `const reference` rather than a copy, and we do not need to 
+     * construct a whole new chunky object because, under the hood, we are just passing pointers around.
+     * 
+     */
+    constexpr unary_tensor_expression(unary_tensor_expression&& l) noexcept = default;
+
+    /// @brief This the only way to access the protected move constructor of other expressions.
+    template<class, class, class> friend struct unary_tensor_expression;
+    template<class, class, class, class> friend struct binary_tensor_expression;
 
 private:
     expression_type e;
