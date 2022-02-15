@@ -1,0 +1,31 @@
+== Special Functions 
+
+
+=== [#Special Functions]#Special Functions used in tensor with their description#
+
+==== Description
+
+* The following free tensor functions are implemented in link:https://github.com/boostorg/ublas/blob/master/include/boost/numeric/ublas/tensor/functions.hpp[functions.hpp]
+* Internally they call generic functions, defined in link:https://github.com/boostorg/ublas/blob/master/include/boost/numeric/ublas/tensor/multiplication.hpp[multiplication.hpp]
+and link:https://github.com/boostorg/ublas/blob/master/include/boost/numeric/ublas/tensor/algorithms.hpp[algorithms.hpp],that are implemented in terms of pointers, strides and offsets. 
+* Note that the functions are evaluated immediately and no expression object is
+generated and that you can combine entrywise and compare operations as well as computed assignments with these free functions. 
+
+==== Special functions and their examples
+
+[cols=",,",]
+|===
+| Operations | Operators | Example  
+| Tensor Transposition | `trans()` |`auto Z = trans(X,{4,3,2})` 
+|k-mode Tensor-Times-Vector | `prod()` |`auto Z = prod(X,v,2);` 
+|k-mode Tensor-Times-Matrix | `prod()` |`auto Z = prod(X,A,2);` 
+|Tensor-Times-Tensor | `prod()` |`auto Z = prod(X,Y,{1,3});`, `auto Z =prod(X,Y,\{1,3},\{4,2});` 
+| Inner Product | `inner_prod()` |`auto a = inner_prod(X,Y);`
+| Outer Product | `outer_prod()` |`auto Z = outer_prod(X,Y);`
+| Frobenius Norm | `norm()` |`auto a = norm(X);`
+|Extract Real Values | `real()` |`auto Y = real(X);`| 
+| Extract Imaginary Values | `imag()` |`auto Y = imag(X);`
+| Compute Complex Conjugate | `conj()` |`auto Y = conj(X);`
+|===
+Examples for the usage of special functions are given in the example file 
+link:https://github.com/boostorg/ublas/blob/master/examples/tensor/prod_expressions.cpp[prod_expressions.cpp]
