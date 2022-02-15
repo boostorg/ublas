@@ -181,8 +181,8 @@ struct binary_tensor_expression
     [[nodiscard]] constexpr auto const& left_expr() const noexcept{ return cast_tensor_expression(el); }
     [[nodiscard]] constexpr auto const& right_expr() const noexcept{ return cast_tensor_expression(er); }
 
-    [[nodiscard]] inline 
-    constexpr decltype(auto) operator()(size_type i) const { return op(left_expr()(i), right_expr()(i)); }
+    [[nodiscard]] inline constexpr
+    decltype(auto) operator()(size_type i) const { return std::invoke(op, left_expr()(i), right_expr()(i)); }
 
 protected:
     /**
@@ -255,7 +255,7 @@ struct unary_tensor_expression
     [[nodiscard]] constexpr auto const& expr() const noexcept{ return cast_tensor_expression(e); }
 
     [[nodiscard]] inline constexpr
-    decltype(auto) operator()(size_type i) const { return op(expr()(i)); }
+    decltype(auto) operator()(size_type i) const { return std::invoke(op, expr()(i)); }
 
 protected:
     /**
