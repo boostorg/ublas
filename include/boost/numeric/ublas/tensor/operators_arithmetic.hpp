@@ -191,29 +191,17 @@ template<typename EL, typename ER>
     (boost::numeric::ublas::detail::TensorExpression<EL>) &&
     (boost::numeric::ublas::detail::TensorExpression<ER>)
   )
-inline constexpr auto operator+( EL&& lhs, ER&& rhs )
-  noexcept(
-    std::is_same_v<
-      boost::numeric::ublas::detail::real_expression_type_t<EL>,
-      boost::numeric::ublas::detail::real_expression_type_t<ER>
-    >
-  )
+inline constexpr auto operator+( EL&& lhs, ER&& rhs ) noexcept
 {
 
   using ltensor_t = boost::numeric::ublas::detail::real_expression_type_t<EL>;
   using rtensor_t = boost::numeric::ublas::detail::real_expression_type_t<ER>;
+  using lvalue_t  = typename ltensor_t::value_type;
+  using rvalue_t  = typename rtensor_t::value_type;
 
-  static_assert( std::is_same_v< typename ltensor_t::value_type, typename rtensor_t::value_type>,
+  static_assert( std::is_same_v< lvalue_t, rvalue_t >,
                 "operator+() : LHS tensor and RHS tensor should have the same value type"
                 );
-
-  if constexpr( !std::is_same_v<ltensor_t,rtensor_t> ){
-    auto const& e = boost::numeric::ublas::detail::retrieve_extents(rhs);
-
-    if( !boost::numeric::ublas::detail::all_extents_equal(lhs,e) ){
-      throw std::runtime_error("operator+() : LHS tensor and RHS tensor should have equal extents");
-    }
-  }
 
   return boost::numeric::ublas::detail::make_binary_tensor_expression<ltensor_t> (
     std::forward<EL>(lhs), std::forward<ER>(rhs), [](auto const& l, auto const& r){ return l + r; }
@@ -226,29 +214,17 @@ template<typename EL, typename ER>
     (boost::numeric::ublas::detail::TensorExpression<EL>) &&
     (boost::numeric::ublas::detail::TensorExpression<ER>)
   )
-inline constexpr auto operator-( EL&& lhs, ER&& rhs )
-  noexcept(
-    std::is_same_v<
-      boost::numeric::ublas::detail::real_expression_type_t<EL>,
-      boost::numeric::ublas::detail::real_expression_type_t<ER>
-    >
-  )
+inline constexpr auto operator-( EL&& lhs, ER&& rhs ) noexcept
 {
 
   using ltensor_t = boost::numeric::ublas::detail::real_expression_type_t<EL>;
   using rtensor_t = boost::numeric::ublas::detail::real_expression_type_t<ER>;
+  using lvalue_t  = typename ltensor_t::value_type;
+  using rvalue_t  = typename rtensor_t::value_type;
 
-  static_assert( std::is_same_v< typename ltensor_t::value_type, typename rtensor_t::value_type>,
+  static_assert( std::is_same_v< lvalue_t, rvalue_t >,
                 "operator-() : LHS tensor and RHS tensor should have the same value type"
                 );
-
-  if constexpr( !std::is_same_v<ltensor_t,rtensor_t> ){
-    auto const& e = boost::numeric::ublas::detail::retrieve_extents(rhs);
-
-    if( !boost::numeric::ublas::detail::all_extents_equal(lhs,e) ){
-      throw std::runtime_error("operator-() : LHS tensor and RHS tensor should have equal extents");
-    }
-  }
 
   return boost::numeric::ublas::detail::make_binary_tensor_expression<ltensor_t> (
     std::forward<EL>(lhs), std::forward<ER>(rhs), [](auto const& l, auto const& r){ return l - r; }
@@ -260,29 +236,17 @@ template<typename EL, typename ER>
     (boost::numeric::ublas::detail::TensorExpression<EL>) &&
     (boost::numeric::ublas::detail::TensorExpression<ER>)
   )
-inline constexpr auto operator*( EL&& lhs, ER&& rhs )
-  noexcept(
-    std::is_same_v<
-      boost::numeric::ublas::detail::real_expression_type_t<EL>,
-      boost::numeric::ublas::detail::real_expression_type_t<ER>
-    >
-  )
+inline constexpr auto operator*( EL&& lhs, ER&& rhs ) noexcept
 {
 
   using ltensor_t = boost::numeric::ublas::detail::real_expression_type_t<EL>;
   using rtensor_t = boost::numeric::ublas::detail::real_expression_type_t<ER>;
+  using lvalue_t  = typename ltensor_t::value_type;
+  using rvalue_t  = typename rtensor_t::value_type;
 
-  static_assert( std::is_same_v< typename ltensor_t::value_type, typename rtensor_t::value_type>,
+  static_assert( std::is_same_v< lvalue_t, rvalue_t >,
                 "operator*() : LHS tensor and RHS tensor should have the same value type"
                 );
-
-  if constexpr( !std::is_same_v<ltensor_t,rtensor_t> ){
-    auto const& e = boost::numeric::ublas::detail::retrieve_extents(rhs);
-
-    if( !boost::numeric::ublas::detail::all_extents_equal(lhs,e) ){
-      throw std::runtime_error("operator*() : LHS tensor and RHS tensor should have equal extents");
-    }
-  }
 
   return boost::numeric::ublas::detail::make_binary_tensor_expression<ltensor_t> (
     std::forward<EL>(lhs), std::forward<ER>(rhs), [](auto const& l, auto const& r){ return l * r; }
@@ -294,29 +258,17 @@ template<typename EL, typename ER>
     (boost::numeric::ublas::detail::TensorExpression<EL>) &&
     (boost::numeric::ublas::detail::TensorExpression<ER>)
   )
-inline constexpr auto operator/( EL&& lhs, ER&& rhs )
-  noexcept(
-    std::is_same_v<
-      boost::numeric::ublas::detail::real_expression_type_t<EL>,
-      boost::numeric::ublas::detail::real_expression_type_t<ER>
-    >
-  )
+inline constexpr auto operator/( EL&& lhs, ER&& rhs ) noexcept
 {
 
   using ltensor_t = boost::numeric::ublas::detail::real_expression_type_t<EL>;
   using rtensor_t = boost::numeric::ublas::detail::real_expression_type_t<ER>;
+  using lvalue_t  = typename ltensor_t::value_type;
+  using rvalue_t  = typename rtensor_t::value_type;
 
-  static_assert( std::is_same_v< typename ltensor_t::value_type, typename rtensor_t::value_type>,
+  static_assert( std::is_same_v< lvalue_t, rvalue_t >,
                 "operator/() : LHS tensor and RHS tensor should have the same value type"
                 );
-
-  if constexpr( !std::is_same_v<ltensor_t,rtensor_t> ){
-    auto const& e = boost::numeric::ublas::detail::retrieve_extents(rhs);
-
-    if( !boost::numeric::ublas::detail::all_extents_equal(lhs,e) ){
-      throw std::runtime_error("operator/() : LHS tensor and RHS tensor should have equal extents");
-    }
-  }
 
   return boost::numeric::ublas::detail::make_binary_tensor_expression<ltensor_t> (
     std::forward<EL>(lhs), std::forward<ER>(rhs), [](auto const& l, auto const& r){ return l / r; }

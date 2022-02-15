@@ -145,7 +145,7 @@ protected :
     constexpr tensor_expression(tensor_expression&&) noexcept = default;
     explicit tensor_expression() = default;
 
-    /// @brief This the only way to access the protected move constructor of other expressions.
+    /// @brief This is the only way to access the protected move constructor of other expressions.
     template<class, class> friend struct tensor_expression;
 };
 
@@ -198,7 +198,7 @@ protected:
      */
     constexpr binary_tensor_expression(binary_tensor_expression&& l) noexcept = default;
     
-    /// @brief This the only way to access the protected move constructor of other expressions.
+    /// @brief This is the only way to access the protected move constructor of other expressions.
     template<class, class, class> friend struct unary_tensor_expression;
     template<class, class, class, class> friend struct binary_tensor_expression;
 
@@ -271,7 +271,7 @@ protected:
      */
     constexpr unary_tensor_expression(unary_tensor_expression&& l) noexcept = default;
 
-    /// @brief This the only way to access the protected move constructor of other expressions.
+    /// @brief This is the only way to access the protected move constructor of other expressions.
     template<class, class, class> friend struct unary_tensor_expression;
     template<class, class, class, class> friend struct binary_tensor_expression;
 
