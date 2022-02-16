@@ -115,6 +115,10 @@ namespace boost::numeric::ublas{
   // using cpp_std_types = zip<int,float,std::complex<float>>::with_t<layout::first_order, layout::last_order>;
   using cpp_std_types = zip<int,float>::with_t<layout::first_order, layout::last_order>;
 
+  // CPP Standard: The effect of instantiating the template complex for any other type than float, double, and long double is unspecified. 
+  // Implementations may forbid instantiation of such specializations.
+  using cpp_basic_std_floating_types = zip<float>::with_t<layout::first_order, layout::last_order>;
+
   using cpp_basic_std_types = zip<int,float>::with_t<layout::first_order, layout::last_order>;
   using layout_test_types = std::tuple<layout::first_order, layout::last_order>;
   
