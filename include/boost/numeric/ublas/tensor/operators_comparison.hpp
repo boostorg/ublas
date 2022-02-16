@@ -73,14 +73,14 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
     using rvalue_type = decltype(rexpr(0));
     
     static_assert( same_exp< lvalue_type, rvalue_type >,
-        "boost::numeric::ublas::detail::compare : "
+        "boost::numeric::ublas::detail::compare(tensor_expresion const& lhs, tensor_expresion const& rhs, BinaryFn&& pred) : "
         "both LHS and RHS should have the same value type"
     );
 
     static_assert(
         std::is_invocable_r_v<bool, BinaryPred, lvalue_type, rvalue_type>,
-        "boost::numeric::ublas::detail::compare(lhs,rhs,pred) :"
-        "predicate must be a binary predicate, and it must return a bool"
+        "boost::numeric::ublas::detail::compare(tensor_expresion const& lhs, tensor_expresion const& rhs, BinaryFn&& pred) : "
+        "the predicate must be a binary predicate, and it must return a bool"
     );
 
     auto const& le = retrieve_extents(lexpr);
@@ -97,20 +97,16 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
         using rex_t = std::decay_t< decltype(re) >;
 
         if constexpr(is_static_v< lex_t > && is_static_v< rex_t >){
-            if constexpr(!same_exp< lex_t, rex_t >) 
-                return { false, size_type{} };
-
-            return { true, product_v< lex_t > };
+            constexpr bool is_same = same_exp< lex_t, rex_t >;
+            return { is_same, is_same ? product_v< lex_t > : size_type{} };
         } else {
-            if(::operator!=(le,re))
-                return { false, size_type{} };
-
-            return { true, product( le ) };
+            bool const is_same = ::operator==(le,re);
+            return { is_same, is_same ? product( le ) : size_type{} };
         }
     };
 
     auto const [status, size] = cal_size(le, re);
-
+    
     for(auto i = size_type{}; i < size; ++i){
         if(!std::invoke(pred, lexpr(i), rexpr(i)))
             return false;
@@ -136,14 +132,14 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
     using rvalue_type = decltype(rexpr(0));
     
     static_assert( same_exp< lvalue_type, rvalue_type >,
-        "boost::numeric::ublas::detail::compare : "
+        "boost::numeric::ublas::detail::compare(tensor_expresion const& lhs, tensor_expresion const& rhs, BinaryFn&& pred) : "
         "both LHS and RHS should have the same value type"
     );
 
     static_assert(
         std::is_invocable_r_v<bool, BinaryPred, lvalue_type, rvalue_type>,
-        "boost::numeric::ublas::detail::compare(lhs,rhs,pred) :"
-        "predicate must be a binary predicate, and it must return a bool"
+        "boost::numeric::ublas::detail::compare(tensor_expresion const& lhs, tensor_expresion const& rhs, BinaryFn&& pred) : "
+        "the predicate must be a binary predicate, and it must return a bool"
     );
 
     auto const& le = retrieve_extents(lexpr);
@@ -160,7 +156,7 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
 
         if constexpr(is_static_v< lex_t > && is_static_v< rex_t >){
             static_assert(same_exp< lex_t, rex_t >, 
-                "boost::numeric::ublas::detail::compare : "
+                "boost::numeric::ublas::detail::compare(tensor_expresion const& lhs, tensor_expresion const& rhs, BinaryFn&& pred) : "
                 "cannot compare tensors with different shapes."
             );
 
@@ -168,7 +164,7 @@ constexpr bool compare(tensor_expression<T1,L> const& lhs, tensor_expression<T2,
         }else{
             if(::operator!=(le,re)){
                 throw std::runtime_error(
-                    "boost::numeric::ublas::detail::compare : "
+                    "boost::numeric::ublas::detail::compare(tensor_expresion const& lhs, tensor_expresion const& rhs, BinaryFn&& pred) : "
                     "cannot compare tensors with different shapes."
                 );
             }
@@ -195,27 +191,17 @@ constexpr bool compare(tensor_expression<T,D> const& expr, UnaryPred&& pred) noe
     auto const& ue = cast_tensor_expression(expr);
     auto const& e = retrieve_extents(ue);
 
-    using size_type = typename T::size_type;
+    using size_type  = typename T::size_type;
+    using value_type = decltype(ue(0));
+    using extents_t  = std::decay_t< decltype(e) >;
     
     static_assert(
-        std::is_invocable_r_v<bool, UnaryPred, decltype(ue(0))>,
-        "boost::numeric::ublas::detail::compare(expr,pred) :"
-        "predicate must be an unary predicate, and it must return a bool"
+        std::is_invocable_r_v<bool, UnaryPred, value_type>,
+        "boost::numeric::ublas::detail::compare(tensor_expresion const& expr, UnaryPred&& pred) : "
+        "the predicate must be an unary predicate, and it must return a bool"
     );
 
-    // returns the size of the container
-    constexpr auto cal_size = [](auto const& e) 
-        -> size_type
-    {
-        using extents_t = std::decay_t< decltype(e) >;
-        
-        if constexpr(is_static_v< extents_t >)
-            return product_v< extents_t >;
-        else
-            return product( e );
-    };
-
-    size_type const size = cal_size(e);
+    size_type const size = is_static_v< extents_t > ? product_v< extents_t > : product( e );;
 
     for(auto i = size_type{}; i < size; ++i){
         if(!std::invoke(pred, ue(i)))

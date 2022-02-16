@@ -267,33 +267,41 @@ inline void eval(tensor_core<TensorEngine>& lhs, TensorExpression auto const& ex
 		is_static_v< std::decay_t< decltype(retrieve_extents(expr)) > > 
 	)
 {
-	using rtensor_t   = typename std::decay_t<decltype(expr)>::tensor_type;
+	auto const& rhs = cast_tensor_expression(expr);
+
 	using ltensor_t   = tensor_core<TensorEngine>;
 	using lvalue_type = typename ltensor_t::value_type;
-	using rvalue_type = typename rtensor_t::value_type;
 	using lextents_t  = typename ltensor_t::extents_type;
-	using rextents_t  = typename rtensor_t::extents_type;
+	using rvalue_type = std::decay_t< decltype(rhs(0)) >;
+	using rextents_t  = std::decay_t< decltype(retrieve_extents(expr)) >;
 
 	static_assert(std::is_same_v<lvalue_type, rvalue_type>,
-		"boost::numeric::ublas::detail::eval(tensor_core<TensorEngine>&, TensorExpression auto const&) : "
+		"boost::numeric::ublas::detail::eval(tensor_core& lhs, tensor_expresion const& rhs, BinaryFn&& fn) : "
 		"both LHS and RHS tensors should have same value type"
 	);
 
 	if constexpr(is_static_v<lextents_t> && is_static_v<rextents_t>){
 		static_assert(std::is_same_v<lextents_t,rextents_t>,
-			"boost::numeric::ublas::tensor_core: "
+			"boost::numeric::ublas::detail::eval(tensor_core& lhs, tensor_expresion const& rhs, BinaryFn&& fn) : "
 			"both LHS and RHS tensors should have same shape."
 		);
 	}else{
 		if ( !all_extents_equal( expr, lhs.extents() ) ){
-			throw std::runtime_error("Error in boost::numeric::ublas::tensor_core: expression contains tensors with different shapes.");
+			throw std::runtime_error(
+				"boost::numeric::ublas::detail::eval(tensor_core& lhs, tensor_expresion const& rhs, BinaryFn&& fn) : "
+				"both LHS and RHS tensors should have same shape."
+			);
 		}   	
 	}
 
-	auto const& rhs = cast_tensor_expression(expr);
+	auto const size = lhs.size();
 
+	/// FIXME: add 'simd' clause and 'if' clause that will be used as a starting point
+	/// for threads to start, otherwise, it's very expansive to use threads for small
+	/// sized containers.
+	/// @code #pragma omp parallel for simd if(size > SOME_SIZE) @endcode
 	#pragma omp parallel for
-	for(auto i = 0u; i < lhs.size(); ++i)
+	for(auto i = 0u; i < size; ++i)
 		std::invoke(fn, lhs(i), rhs(i));
 }
 
@@ -329,8 +337,14 @@ template<class TensorEngine, class UnaryFn>
 inline void eval(tensor_core<TensorEngine>& lhs, UnaryFn&& fn)
 	noexcept( is_static_v< std::decay_t< decltype(retrieve_extents(lhs)) > > )
 {
+	auto const size = lhs.size();
+
+	/// FIXME: add 'simd' clause and 'if' clause that will be used as a starting point
+	/// for threads to start, otherwise, it's very expansive to use threads for small
+	/// sized containers.
+	/// @code #pragma omp parallel for simd if(size > SOME_SIZE) @endcode
 	#pragma omp parallel for
-	for(auto i = 0u; i < lhs.size(); ++i)
+	for(auto i = 0u; i < size; ++i)
 		std::invoke(fn, lhs(i));
 }
 
