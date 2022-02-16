@@ -122,13 +122,14 @@ struct tensor_expression
 
     inline
     constexpr auto const& operator()() const noexcept { return *static_cast<const expression_type*> (this); }
-    
-    constexpr ~tensor_expression() = default;
 
     /// @brief The copy constructor is deleted to avoid expensive copies or sometimes object slicing.
     tensor_expression(const tensor_expression&) = delete;
     tensor_expression& operator=(const tensor_expression&) = delete;
+    
     constexpr tensor_expression& operator=(tensor_expression&&) noexcept = delete;
+    
+    constexpr ~tensor_expression() = default;
 
 protected :
     /**
@@ -171,12 +172,14 @@ struct binary_tensor_expression
         , er(std::forward<RightExp>(r)) 
         , op(std::forward<OPType>(o)) 
     {}
-    constexpr ~binary_tensor_expression() = default;
 
     /// @brief The copy constructor is deleted to avoid expensive copies or sometimes object slicing.
     binary_tensor_expression(const binary_tensor_expression& l) = delete;
     binary_tensor_expression& operator=(binary_tensor_expression const& l) noexcept = delete;
+    
     constexpr binary_tensor_expression& operator=(binary_tensor_expression&& l) noexcept = delete;
+    
+    constexpr ~binary_tensor_expression() = default;
 
     [[nodiscard]] constexpr auto const& left_expr() const noexcept{ return cast_tensor_expression(el); }
     [[nodiscard]] constexpr auto const& right_expr() const noexcept{ return cast_tensor_expression(er); }
@@ -237,20 +240,21 @@ struct unary_tensor_expression
     using derived_type = tensor_expression <T, unary_tensor_expression<T,E,OP>>;
 
     using size_type = typename tensor_type::size_type;
+    
+    constexpr unary_tensor_expression() = delete;
 
     template<same_exp<E> Exp, typename OPType>
     explicit constexpr unary_tensor_expression(Exp&& ee, OPType&& o) 
         : e(std::forward<Exp>(ee))
         , op(std::forward<OPType>(o)) 
     {}
-    constexpr ~unary_tensor_expression() = default;
-
-    constexpr unary_tensor_expression() = delete;
-
+    
     /// @brief The copy constructor is deleted to avoid expensive copies or sometimes object slicing.
     unary_tensor_expression(unary_tensor_expression const& l) = delete;
     unary_tensor_expression& operator=(unary_tensor_expression const& l) noexcept = delete;
+    
     constexpr unary_tensor_expression& operator=(unary_tensor_expression&& l) noexcept = delete;
+    constexpr ~unary_tensor_expression() = default;
 
     [[nodiscard]] constexpr auto const& expr() const noexcept{ return cast_tensor_expression(e); }
 

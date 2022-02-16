@@ -262,6 +262,10 @@ template<class TensorEngine, class BinaryFn>
 			typename tensor_core<TensorEngine>::const_reference
 		>
 inline void eval(tensor_core<TensorEngine>& lhs, TensorExpression auto const& expr, BinaryFn&& fn)
+	noexcept( 
+		is_static_v< std::decay_t< decltype(retrieve_extents(lhs)) > > && 
+		is_static_v< std::decay_t< decltype(retrieve_extents(expr)) > > 
+	)
 {
 	using rtensor_t   = typename std::decay_t<decltype(expr)>::tensor_type;
 	using ltensor_t   = tensor_core<TensorEngine>;
@@ -301,10 +305,14 @@ inline void eval(tensor_core<TensorEngine>& lhs, TensorExpression auto const& ex
 */
 template<typename TensorEngine>
 inline void eval(tensor_core<TensorEngine>& lhs, TensorExpression auto const& expr)
+	noexcept( 
+		is_static_v< std::decay_t< decltype(retrieve_extents(lhs)) > > && 
+		is_static_v< std::decay_t< decltype(retrieve_extents(expr)) > > 
+	)
 {
-	eval(lhs, expr, [](auto& l, auto const& r){
-		l = r;
-	});
+	using value_type = typename tensor_core<TensorEngine>::value_type;
+
+	eval(lhs, expr, [](value_type& l, value_type const& r){ l = r; });
 }
 
 
@@ -319,6 +327,7 @@ inline void eval(tensor_core<TensorEngine>& lhs, TensorExpression auto const& ex
 template<class TensorEngine, class UnaryFn>
 	requires std::is_invocable_r_v<void, UnaryFn, typename tensor_core<TensorEngine>::reference>
 inline void eval(tensor_core<TensorEngine>& lhs, UnaryFn&& fn)
+	noexcept( is_static_v< std::decay_t< decltype(retrieve_extents(lhs)) > > )
 {
 	#pragma omp parallel for
 	for(auto i = 0u; i < lhs.size(); ++i)

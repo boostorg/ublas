@@ -411,37 +411,37 @@ inline constexpr auto& operator += (
   boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> const& expr
 ){
   using value_type  = typename boost::numeric::ublas::tensor_core<T>::value_type;
-  boost::numeric::ublas::detail::eval(lhs, expr(), [](value_type& l, value_type const& r) { l+=r; } );
+  boost::numeric::ublas::detail::eval(lhs, expr, [](value_type& l, value_type const& r) { l+=r; } );
   return lhs;
 }
 
 template<class T, class D>
 inline constexpr auto& operator -= (
   boost::numeric::ublas::tensor_core<T>& lhs,
-  const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> &expr
+  boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> const& expr
 ){
   using value_type  = typename boost::numeric::ublas::tensor_core<T>::value_type;
-  boost::numeric::ublas::detail::eval(lhs, expr(), [](value_type& l, value_type const& r) { l-=r; } );
+  boost::numeric::ublas::detail::eval(lhs, expr, [](value_type& l, value_type const& r) { l-=r; } );
   return lhs;
 }
 
 template<class T, class D>
 inline constexpr auto& operator *= (
   boost::numeric::ublas::tensor_core<T>& lhs,
-  const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> &expr
+  boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> const& expr
 ){
   using value_type  = typename boost::numeric::ublas::tensor_core<T>::value_type;
-  boost::numeric::ublas::detail::eval(lhs, expr(), [](value_type& l, value_type const& r) { l*=r; } );
+  boost::numeric::ublas::detail::eval(lhs, expr, [](value_type& l, value_type const& r) { l*=r; } );
   return lhs;
 }
 
 template<class T, class D>
 inline constexpr auto& operator /= (
   boost::numeric::ublas::tensor_core<T>& lhs,
-  const boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> &expr
+  boost::numeric::ublas::detail::tensor_expression<boost::numeric::ublas::tensor_core<T>,D> const& expr
 ){
   using value_type  = typename boost::numeric::ublas::tensor_core<T>::value_type;
-  boost::numeric::ublas::detail::eval(lhs, expr(), [](value_type& l, value_type const& r) { l/=r; } );
+  boost::numeric::ublas::detail::eval(lhs, expr, [](value_type& l, value_type const& r) { l/=r; } );
   return lhs;
 }
 
@@ -452,7 +452,7 @@ template<class TensorEngine>
 inline constexpr auto& operator += (
     boost::numeric::ublas::tensor_core<TensorEngine>& lhs,
     typename boost::numeric::ublas::tensor_core<TensorEngine>::value_type r
-){
+) noexcept{
   using value_type  = typename boost::numeric::ublas::tensor_core<TensorEngine>::value_type;
   boost::numeric::ublas::detail::eval(lhs, [r](value_type& l) { l+=r; } );
   return lhs;
@@ -462,7 +462,7 @@ template<class TensorEngine>
 inline constexpr auto& operator -= (
   boost::numeric::ublas::tensor_core<TensorEngine>& lhs,
   typename boost::numeric::ublas::tensor_core<TensorEngine>::value_type r
-){
+) noexcept{
   using value_type  = typename boost::numeric::ublas::tensor_core<TensorEngine>::value_type;
   boost::numeric::ublas::detail::eval(lhs, [r](value_type& l) { l-=r; } );
   return lhs;
@@ -472,7 +472,7 @@ template<class TensorEngine>
 inline constexpr auto& operator *= (
   boost::numeric::ublas::tensor_core<TensorEngine>& lhs,
   typename boost::numeric::ublas::tensor_core<TensorEngine>::value_type r
-){
+) noexcept{
   using value_type  = typename boost::numeric::ublas::tensor_core<TensorEngine>::value_type;
   boost::numeric::ublas::detail::eval(lhs, [r](value_type& l) { l*=r; } );
   return lhs;
@@ -482,7 +482,7 @@ template<class TensorEngine>
 inline constexpr auto& operator /= (
   boost::numeric::ublas::tensor_core<TensorEngine>& lhs,
   typename boost::numeric::ublas::tensor_core<TensorEngine>::value_type r
-){
+) noexcept{
   using value_type  = typename boost::numeric::ublas::tensor_core<TensorEngine>::value_type;
   boost::numeric::ublas::detail::eval(lhs, [r](value_type& l) { l/=r; } );
   return lhs;
@@ -498,9 +498,10 @@ inline constexpr
 
 template<typename E>
   requires boost::numeric::ublas::detail::TensorExpression<E>
-inline constexpr auto operator -(E&& e) {
+inline constexpr auto operator -(E&& e) noexcept{
   using tensor_type = boost::numeric::ublas::detail::real_expression_type_t<E>;
   using value_type  = typename tensor_type::value_type;
+  
   return boost::numeric::ublas::detail::make_unary_tensor_expression<tensor_type> (
     std::forward<E>(e), std::negate<value_type>{} 
   );
@@ -515,7 +516,7 @@ inline constexpr auto operator -(E&& e) {
 */
 
 template<class tensor_type_left, class tuple_type_left, class tensor_type_right, class tuple_type_right>
-auto operator*(
+constexpr auto operator*(
   std::pair< tensor_type_left  const&, tuple_type_left  > lhs,
   std::pair< tensor_type_right const&, tuple_type_right > rhs)
 {
@@ -528,7 +529,7 @@ auto operator*(
   auto multi_index_left  = lhs.second;
   auto multi_index_right = rhs.second;
 
-  static constexpr auto num_equal_ind = ublas::number_equal_indexes<tuple_type_left, tuple_type_right>::value;
+  constexpr auto num_equal_ind = ublas::number_equal_indexes<tuple_type_left, tuple_type_right>::value;
 
   if constexpr ( num_equal_ind == 0  ){
     return tensor_left * tensor_right;
