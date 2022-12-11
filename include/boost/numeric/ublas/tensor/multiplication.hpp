@@ -344,7 +344,7 @@ void ttv0(SizeType const r,
  * [n]   = size(B(..,:,..))
  *
  *
- * @param[in]  k     if k = 0
+ * @param[in]  k     C[i1] = sum(A[i1,i2] * B[i2]) if k = 1 or C[i2] = sum(A[i1,i2] * B[i1]) if k = 0
  * @param[in]  m     number of rows of A
  * @param[in]  n     number of columns of A
  * @param[out] c     pointer to C

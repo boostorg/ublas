@@ -10,13 +10,15 @@
 //  Google and Fraunhofer IOSB, Ettlingen, Germany
 //
 
-#include <boost/test/unit_test.hpp>
 #include "../fixture_utility.hpp"
+#include <boost/test/unit_test.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 
+#include <boost/numeric/ublas/tensor/multiplication.hpp>
+
 BOOST_AUTO_TEST_SUITE(test_multiplication_mtv, 
-    *boost::unit_test::description("Validate Matrix Times Vector")
+    *boost::unit_test::description("Test Matrix Times Vector")
 )
 
 
@@ -62,11 +64,13 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_extents_dynamic,
                 auto wc = ublas::to_strides(nc,layout_type{});
                 auto c  = vector_t  (ublas::product(nc), value_type{0});
 
-                ublas::detail::recursive::mtv(
+                ublas::detail::recursive::mtv(                   
                     m,
-                    c.data(), nc.data(), wc.data(),
-                    a.data(), na.data(), wa.data(),
-                    b.data());
+                    na[0],
+                    na[1],
+                    c.data(), 1ul,
+                    a.data(), wa[0], wa[1],
+                    b.data(), 1ul);
 
                 auto v = value_type{static_cast<inner_t>(na[m])};
                 BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
@@ -123,9 +127,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_extents_static_rank,
 
                     ublas::detail::recursive::mtv(
                         m,
-                        c.data(), nc.data(), wc.data(),
-                        a.data(), na.data(), wa.data(),
-                        b.data());
+                        na[0],
+                        na[1],
+                        c.data(), 1ul,
+                        a.data(), wa[0], wa[1],
+                        b.data(), 1ul);
 
                     auto v = value_type{static_cast<inner_t>(na[m])};
                     BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
@@ -214,11 +220,14 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_extents_static,
                     auto c = std::array<value_type, ublas::product_v<nc_type> >();
                     std::fill(std::begin(c), std::end(c), value_type{0});
 
+
                     ublas::detail::recursive::mtv(
                         m,
-                        c.data(), nc.data(), wc.data(),
-                        a.data(), na.data(), wa.data(),
-                        b.data());
+                        na[0],
+                        na[1],
+                        c.data(), 1ul,
+                        a.data(), wa[0], wa[1],
+                        b.data(), 1ul);
 
                     auto v = value_type{static_cast<inner_t>(na[m])};
                     BOOST_CHECK(std::equal(c.begin(),c.end(),a.begin(), [v](auto cc, auto aa){return cc == v*aa;}));
