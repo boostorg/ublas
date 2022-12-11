@@ -91,69 +91,57 @@ auto to_extents(spans_type const& spans)
 
 /*! @brief Auxiliary function for subtensor which possibly transforms a span instance
  *
- * transform_span(span()     ,4) -> span(0,3)
- * transform_span(span(1,1)  ,4) -> span(1,1)
- * transform_span(span(1,3)  ,4) -> span(1,3)
- * transform_span(span(2,end),4) -> span(2,3)
- * transform_span(span(end)  ,4) -> span(3,3)
+ * transform(span()     ,4) -> span(0,3)
+ * transform(span(1,1)  ,4) -> span(1,1)
+ * transform(span(1,3)  ,4) -> span(1,3)
+ * transform(span(2,end),4) -> span(2,3)
+ * transform(span(end)  ,4) -> span(3,3)
  *
  * @note span is zero-based indexed.
  *
  * @param[in] s      span that is going to be transformed
  * @param[in] extent extent that is maybe used for the tranformation
  */
-template<class size_type, class span_tag>
-auto transform_span(span<span_tag, size_type> const& s, std::size_t const extent)
+template<integral size_type>
+auto transform(span<size_type> const& s, size_type const extent)
 {
-  using span_type = span<span_tag, size_type>;
+    using span_type = span<size_type>;
 
-  std::size_t first = s.first();
-  std::size_t last  = s.last ();
-  std::size_t size  = s.size ();
+    std::size_t first = s.first();
+    std::size_t last  = s.last ();
+    std::size_t size  = s.size ();
 
-  auto const extent0 = extent-1;
+    auto const extent0 = extent-size_type(1u);
 
-  auto constexpr is_sliced = std::is_same<span_tag,boost::numeric::ublas::tag::sliced>::value;
-
-
-  if constexpr ( is_sliced ){
-    if(size == 0)        return span_type(0       , extent0);
-    else if(first== max) return span_type(extent0 , extent0);
-    else if(last == max) return span_type(first   , extent0);
-    else                 return span_type(first   , last  );
-  }
-  else {
     size_type step  = s.step ();
-    if(size == 0)        return span_type(0       , size_type(1), extent0);
-    else if(first== max) return span_type(extent0 , step, extent0);
-    else if(last == max) return span_type(first   , step, extent0);
-    else                 return span_type(first   , step, last  );
-  }
-  return span_type{};
+    if(size == 0)                   return span_type(0       , 1u,   extent0);
+    else if(first== span_type::max) return span_type(extent0 , step, extent0);
+    else if(last == span_type::max) return span_type(first   , step, extent0);
+    else                            return span_type(first   , step, last   );
 }
 
 
-template<std::size_t r, std::size_t n, class Span, class ... Spans>
-void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans );
+template<std::size_t r, std::size_t n, integral size_type, class Span, class ... Spans>
+void transform_impl (extents<> const& extents, std::array<Span,n>& span_array, size_type arg, Spans&& ... spans );
 
-template<std::size_t r, std::size_t n, class size_type, class span_tag, class Span, class ... Spans>
-void transform_spans_impl(extents<> const& extents, std::array<Span, n>& span_array, span<span_tag,size_type> const& s, Spans&& ... spans)
+template<std::size_t r, std::size_t n, integral size_type, class Span, class ... Spans>
+void transform_impl(extents<> const& extents, std::array<Span, n>& span_array, span<size_type> const& s, Spans&& ... spans)
 {
-  std::get<r>(span_array) = transform_span(s, extents[r]);
+  std::get<r>(span_array) = transform(s, extents[r]);
   static constexpr auto nspans = sizeof...(spans);
   static_assert (n==(nspans+r+1),"Static error in boost::numeric::ublas::detail::transform_spans_impl: size mismatch");
   if constexpr (nspans>0)
-    transform_spans_impl<r+1>(extents, span_array, std::forward<Spans>(spans)...);
+    transform_impl<r+1>(extents, span_array, std::forward<Spans>(spans)...);
 }
 
-template<std::size_t r, std::size_t n, class Span, class ... Spans>
-void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_array, std::size_t arg, Spans&& ... spans )
+template<std::size_t r, std::size_t n, integral size_type, class Span, class ... Spans>
+void transform_impl (extents<> const& extents, std::array<Span,n>& span_array, size_type arg, Spans&& ... spans )
 {
   static constexpr auto nspans = sizeof...(Spans);
   static_assert (n==(nspans+r+1),"Static error in boost::numeric::ublas::detail::transform_spans_impl: size mismatch");
-  std::get<r>(span_array) = transform_span(Span(arg), extents[r]);
+  std::get<r>(span_array) = transform(Span(arg), extents[r]);
   if constexpr (nspans>0)
-    transform_spans_impl<r+1>(extents, span_array, std::forward<Spans>(spans) ... );
+    transform_impl<r+1>(extents, span_array, std::forward<Spans>(spans) ... );
 
 }
 
@@ -169,14 +157,14 @@ void transform_spans_impl (extents<> const& extents, std::array<Span,n>& span_ar
  * @param[in] spans spans with which the subtensor is created
  */
 template<class span_type, class ... Spans>
-auto generate_span_array(extents<> const& extents, Spans&& ... spans)
+auto generate_array(extents<> const& extents, Spans&& ... spans)
 {
   constexpr static auto n = sizeof...(Spans);
   if(extents.size() != n)
     throw std::runtime_error("Error in boost::numeric::ublas::generate_span_vector() when creating subtensor: the number of spans does not match with the tensor rank.");
   std::array<span_type,n> span_array;
   if constexpr (n>0)
-      transform_spans_impl<0>( extents, span_array, std::forward<Spans>(spans)... );
+      transform_impl<0>( extents, span_array, std::forward<Spans>(spans)... );
   return span_array;
 }
 
@@ -192,9 +180,9 @@ auto generate_span_array(extents<> const& extents, Spans&& ... spans)
  * @param[in] spans spans with which the subtensor is created
  */
 template<class span_type, class ... Spans>
-auto generate_span_vector(extents<> const& extents, Spans&& ... spans)
+auto generate_vector(extents<> const& extents, Spans&& ... spans)
 {
-  auto span_array = generate_span_array<span_type>(extents,std::forward<Spans>(spans)...);
+  auto span_array = generate_array<span_type>(extents,std::forward<Spans>(spans)...);
   return std::vector<span_type>(span_array.begin(), span_array.end());
 }
 

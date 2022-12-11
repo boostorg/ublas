@@ -29,11 +29,9 @@ namespace boost::numeric::ublas {
 
 /** @brief A view of a dense tensor of values of type \c T.
 	*
-	* @tparam T type of the objects stored in the tensor (like int, double, complex,...)
-	* @tparam F
-	* @tparam A The type of the storage array of the tensor. Default is \c unbounded_array<T>. \c <bounded_array<T> and \c std::vector<T> can also be used
+    * @tparam T tensor type
 */
-template<class S, class T>
+template<class T>
 class subtensor;
 
 
@@ -48,22 +46,20 @@ class subtensor;
 		* @tparam A The type of the storage array of the tensor. Default is \c unbounded_array<T>. \c <bounded_array<T> and \c std::vector<T> can also be used
 		*/
 template<class T, class F>
-class subtensor <tag::sliced, tensor_dynamic<T,F>>
+class subtensor <tensor_dynamic<T,F>>
     : public detail::tensor_expression<
-        subtensor<tag::sliced,tensor_dynamic<T,F>> ,
-        subtensor<tag::sliced,tensor_dynamic<T,F>> >
+        subtensor<tensor_dynamic<T,F>> ,
+        subtensor<tensor_dynamic<T,F>> >
 {
 
   static_assert( std::is_same<F,layout::first_order>::value || std::is_same<F,layout::last_order >::value,
                 "boost::numeric::tensor template class only supports first- or last-order storage formats.");
 
   using tensor_type = tensor_dynamic<T,F>;
-  using self_type  = subtensor<tag::sliced, tensor_type>;
+  using self_type  = subtensor<tensor_type>;
 public:
 
-  using domain_tag = tag::sliced;
-
-  using span_type = span<domain_tag,std::size_t>;
+  using span_type = sspan;
 
   template<class derived_type>
   using tensor_expression_type = detail::tensor_expression<self_type,derived_type>;
@@ -116,23 +112,23 @@ public:
 	 */
 	BOOST_UBLAS_INLINE
 	subtensor (tensor_type& t)
-		: super_type    ()
-		, spans_        ()
-		, extents_      (t.extents())
-		, strides_      (t.strides())
-		, span_strides_ (t.strides())
-		, data_         (t.data())
+        : super_type    ()
+        , spans_        ()
+        , extents_      (t.extents())
+        , strides_      (t.strides())
+        , span_strides_ (t.strides())
+        , data_         (t.data())
 	{
 	}
 
 	template<typename ... span_types>
-	subtensor(tensor_type& t, span_types&& ... spans)
-			: super_type     ()
-      , spans_         (detail::generate_span_vector<span_type>(t.extents(),std::forward<span_types>(spans)...))
-      , extents_       (detail::to_extents(spans_))
-    , strides_         (ublas::to_strides(extents_,layout_type{}))
-      , span_strides_  (detail::to_span_strides(t.strides(),spans_))
-      , data_          {t.data() + detail::to_offset(t.strides(), spans_)}
+    subtensor(tensor_type& t, span_types&& ... spans)
+        : super_type     ()
+        , spans_         (detail::generate_vector<span_type>(t.extents(),std::forward<span_types>(spans)...))
+        , extents_       (detail::to_extents(spans_))
+        , strides_       (ublas::to_strides(extents_,layout_type{}))
+        , span_strides_  (detail::to_span_strides(t.strides(),spans_))
+        , data_          {t.data() + detail::to_offset(t.strides(), spans_)}
 	{
 //		if( m == nullptr)
 //			throw std::length_error("Error in tensor_view<T>::tensor_view : multi_array_type is nullptr.");
@@ -145,16 +141,16 @@ public:
 	 *
    * @note is similar to a handle to a tensor
 	 */
-  explicit
-  subtensor (tensor_type const& t)
-    : super_type    ()
-    , spans_        ()
-    , extents_      (t.extents())
-    , strides_      (t.strides())
-    , span_strides_ (t.strides())
-    , data_         (t.data())
-  {
-  }
+    explicit
+    subtensor (tensor_type const& t)
+        : super_type    ()
+        , spans_        ()
+        , extents_      (t.extents())
+        , strides_      (t.strides())
+        , span_strides_ (t.strides())
+        , data_         (t.data())
+    {
+    }
 
 
 

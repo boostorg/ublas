@@ -21,13 +21,6 @@
 
 #include "concepts.hpp"
 
-namespace boost::numeric::ublas::tag{
-
-struct sliced  {};
-struct strided {};
-
-} // namespace boost::numeric::ublas::tag
-
 
 namespace boost::numeric::ublas {
 
@@ -43,21 +36,17 @@ namespace boost::numeric::ublas {
 	*/
 
 
+//template<class unsigned_type>
+//class span;
 
-//using offsets = std::vector<std::ptrdiff_t>;
-
-template<class span_tag, class unsigned_type>
-class span;
-
-
-static constexpr inline std::size_t max = std::numeric_limits<std::size_t>::max();
-
-template<>
-class span<tag::strided, std::size_t>
+template<integral unsigned_type>
+class span
 {
 public:
-	using span_tag = tag::strided;
-	using value_type = std::size_t;
+    using value_type = unsigned_type;
+
+    static constexpr inline value_type max = std::numeric_limits<value_type>::max();
+
 
 	// covers the complete range of one dimension
 	// e.g. a(:)
@@ -91,6 +80,13 @@ public:
 			size_ = (last_-first_)/s+value_type(1);
 		}
 	}
+
+    // covers a linear range of one dimension
+    // e.g. a(1:n)
+    span(value_type f, value_type l)
+        : span(f,1,l)
+    {
+    }
 
 	// covers only one index of one dimension
 	// e.g. a(1) or a(end)
@@ -142,105 +138,34 @@ protected:
 	value_type first_, last_ , step_, size_;
 };
 
-using strided_span = span<tag::strided, std::size_t>;
+using sspan = span<std::size_t>;
 
 } // namespace
 
 
-/////////////
-
-namespace boost::numeric::ublas {
-
-template<>
-class span<tag::sliced, std::size_t> :
-		private span<tag::strided, std::size_t>
-{
-	using super_type = span<tag::strided,std::size_t>;
-public:
-	using span_tag = tag::sliced;
-	using value_type = typename super_type::value_type;
-	constexpr explicit span()
-		: super_type()
-	{
-	}
-
-	span(value_type f, value_type l)
-		: super_type(f, value_type(1), l )
-	{
-	}
-
-	span(value_type n)
-		: super_type(n)
-	{
-	}
-
-	span(span const& other)
-		: super_type(other)
-	{
-	}
-
-  inline span& operator=(const span &other)
-	{
-		super_type::operator=(other);
-		return *this;
-	}
-
-	~span() = default;
-
-  inline value_type operator[] (std::size_t idx) const
-	{
-		return super_type::operator [](idx);
-	}
-
-  inline auto first() const {return super_type::first(); }
-  inline auto last () const {return super_type::last (); }
-  inline auto step () const {return super_type::step (); }
-  inline auto size () const {return super_type::size (); }
-
-  inline span operator()(const span &rhs) const
-	{
-		auto const& lhs = *this;
-		return span( rhs.first_ + lhs.first_, rhs.last_  + lhs.first_ );
-	}
-};
-
-using sliced_span = span<tag::sliced, std::size_t>;
-
-
-template<integral unsigned_type_left, integral unsigned_type_right>
-inline auto ran(unsigned_type_left f, unsigned_type_right l)
-{
-	return sliced_span(f,l);
-}
-
-template<integral unsigned_type_left, integral unsigned_type_middle, integral unsigned_type_right>
-inline auto ran(unsigned_type_left f, unsigned_type_middle s, unsigned_type_right l)
-{
-	return strided_span(f,s,l);
-}
-
-} // namespace
-
-
-template <class span_tag, class unsigned_type>
-std::ostream& operator<< (std::ostream& out,  boost::numeric::ublas::span<span_tag,unsigned_type> const& s)
+template <boost::numeric::ublas::integral unsigned_type>
+std::ostream& operator<< (std::ostream& out,  boost::numeric::ublas::span<unsigned_type> const& s)
 {
   return out << "[" << s.first() << ":" << s.step() << ":" << s.last() << "]" << std::endl;
 }
 
-template<class span_tag_lhs, class span_tag_rhs, class unsigned_type>
+template<
+        boost::numeric::ublas::integral unsigned_type_lhs,
+        boost::numeric::ublas::integral unsigned_type_rhs>
 inline bool operator==(
-		boost::numeric::ublas::span<span_tag_lhs,unsigned_type> const& lhs,
-		boost::numeric::ublas::span<span_tag_rhs,unsigned_type> const& rhs)
+        boost::numeric::ublas::span<unsigned_type_lhs> const& lhs,
+        boost::numeric::ublas::span<unsigned_type_rhs> const& rhs)
 {
 	return lhs.first() == rhs.first() && lhs.last() == rhs.last() && lhs.step() == rhs.step();
 }
 
 
-template<class span_tag_lhs, class span_tag_rhs, class unsigned_type>
+template<
+        boost::numeric::ublas::integral unsigned_type_lhs,
+        boost::numeric::ublas::integral unsigned_type_rhs>
 inline bool operator!=(
-		boost::numeric::ublas::span<span_tag_lhs,unsigned_type> const& lhs,
-		boost::numeric::ublas::span<span_tag_rhs,unsigned_type> const& rhs)
+        boost::numeric::ublas::span<unsigned_type_lhs> const& lhs,
+        boost::numeric::ublas::span<unsigned_type_rhs> const& rhs)
 {
 	return lhs.first() != rhs.first() || lhs.last() != rhs.last() || lhs.step() != rhs.step();
 }

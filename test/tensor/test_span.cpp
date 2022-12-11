@@ -17,7 +17,7 @@
 BOOST_AUTO_TEST_SUITE( span_testsuite );
 
 struct fixture {
-	using span_type  = boost::numeric::ublas::strided_span;
+    using span_type  = boost::numeric::ublas::sspan;
 
 	fixture() :
 		spans {
@@ -39,7 +39,7 @@ struct fixture {
 
 BOOST_FIXTURE_TEST_CASE( ctor_test, fixture )
 {
-	using span_type = boost::numeric::ublas::strided_span;
+    using span_type = typename fixture::span_type;
 
 	BOOST_CHECK_EQUAL (spans[0].first(),0);
 	BOOST_CHECK_EQUAL (spans[0].step (),0);
@@ -96,8 +96,7 @@ BOOST_FIXTURE_TEST_CASE( ctor_test, fixture )
 
 BOOST_FIXTURE_TEST_CASE( copy_ctor_test, fixture )
 {
-	using span_type = boost::numeric::ublas::strided_span;
-
+    using span_type = typename fixture::span_type;
 
 	BOOST_CHECK_EQUAL (span_type(spans[0]).first(),0);
 	BOOST_CHECK_EQUAL (span_type(spans[0]).step (),0);
@@ -231,28 +230,6 @@ BOOST_FIXTURE_TEST_CASE( access_operator_test, fixture )
 	BOOST_CHECK_EQUAL(spans[8][1], 4);
 	BOOST_CHECK_EQUAL(spans[8][2], 7);
 
-}
-
-BOOST_FIXTURE_TEST_CASE( ran_test, fixture )
-{
-	using namespace boost::numeric::ublas;
-
-	BOOST_CHECK ( ( ran(0,0,0) == spans[0]) );
-
-	BOOST_CHECK ( ( ran(0,1,0) == spans[2]) );
-	BOOST_CHECK ( ( ran(0,  0) == spans[2]) );
-
-
-	BOOST_CHECK ( ( ran(0,1,2) == spans[3]) );
-	BOOST_CHECK ( ( ran(0,  2) == spans[3]) );
-
-	BOOST_CHECK ( ( ran(1,1,2) == spans[4]) );
-	BOOST_CHECK ( ( ran(1,  2) == spans[4]) );
-
-	BOOST_CHECK ( ( ran(0,2,4) == spans[5]) );
-	BOOST_CHECK ( ( ran(1,2,4) == spans[6]) );
-	BOOST_CHECK ( ( ran(1,3,5) == spans[7]) );
-	BOOST_CHECK ( ( ran(1,3,7) == spans[8]) );
 }
 
 BOOST_AUTO_TEST_SUITE_END();

@@ -56,7 +56,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( subtensor_ctor1_test, value,  test_types, fixt
   using value_type     = typename value::first_type;
   using layout_type    = typename value::second_type;
   using tensor_type    = ublas::tensor_dynamic<value_type, layout_type>;
-  using subtensor_type = ublas::subtensor<ublas::tag::sliced, tensor_type>;
+  using subtensor_type = ublas::subtensor<tensor_type>;
 
 
   auto check = [](auto const& e) {
@@ -88,8 +88,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
   using tensor_type = ub::tensor_dynamic<value_type, layout_type>;
-  using subtensor_type = ub::subtensor<ub::tag::sliced, tensor_type>;
-  using span  = ub::sliced_span;
+  using subtensor_type = ub::subtensor<tensor_type>;
+  using span_type = typename subtensor_type::span_type;
 
 
   {
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
 
   {
     auto A    = tensor_type{1,2};
-    auto Asub = subtensor_type( A, 0, span{}  );
+    auto Asub = subtensor_type( A, 0, span_type{}  );
 
     BOOST_CHECK( Asub.span_strides() == A.strides() );
     BOOST_CHECK( Asub.strides() == A.strides() );
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
 
   {
     auto A    = tensor_type{4,3};
-    auto Asub = subtensor_type( A, span(1,2), span(1,ub::max)  );
+    auto Asub = subtensor_type( A, span_type(1,2), span_type(1,span_type::max)  );
     auto B    = tensor_type(Asub.getExtents()());
 
     BOOST_CHECK_EQUAL( Asub.span_strides().at(0), A.strides().at(0) );
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( subtensor_ctor2_test, value,  test_types )
 
   {
     auto A    = tensor_type{4,3,5};
-    auto Asub = subtensor_type( A, span(1,2), span(1,ub::max), span(2,4)  );
+    auto Asub = subtensor_type( A, span_type(1,2), span_type(1,span_type::max), span_type(2,4)  );
 
     auto B    = tensor_type(Asub.getExtents()());
 
@@ -215,8 +215,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(subtensor_copy_ctor_test, value,  test_types, f
   using value_type  = typename value::first_type;
   using layout_type = typename value::second_type;
   using tensor_type = ublas::tensor_dynamic<value_type, layout_type>;
-  using subtensor_type = ublas::subtensor<ublas::tag::sliced, tensor_type>;
-  //  using span  = ub::sliced_span;
+  using subtensor_type = ublas::subtensor<tensor_type>;
+  using span_type = typename subtensor_type::span_type;
 
 
 
