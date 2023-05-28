@@ -90,7 +90,7 @@ test-suite boost-ublas-tensor-test
         #
         test_access.cpp
         test_einstein_notation.cpp
-        test_main.cpp
+        # test_main.cpp
         test_multi_index.cpp
         test_multi_index_utility.cpp
         test_span.cpp

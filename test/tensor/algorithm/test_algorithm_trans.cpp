@@ -219,7 +219,7 @@ constexpr auto generate_permuated_extents() noexcept{
     constexpr auto sz = ublas::size_v<E>;
 
     
-    constexpr auto helper = []<std::size_t... Is>(std::index_sequence<Is...> ids){
+    constexpr auto helper = []<std::size_t... Is>(std::index_sequence<Is...> /*ids*/){
         constexpr auto helper1 = [](){
             std::array<std::size_t,sz> pi;
             (( pi[sz - Is - 1ul] = ublas::get_v<E,Is> ),...);

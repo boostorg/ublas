@@ -214,9 +214,9 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_extents_static,
                     std::fill(std::begin(b), std::end(b), value_type{1});
 
                     using nc_type = decltype( generate_result_extents<extents_type, rank, m>() );
-                    auto nc = ublas::to_array_v<nc_type>;
+                    //auto nc = ublas::to_array_v<nc_type>;
                     // FIXME: use strides_v after the fix
-                    auto wc = get_strides<layout_type>(nc);
+                    // auto wc = get_strides<layout_type>(nc);
                     auto c = std::array<value_type, ublas::product_v<nc_type> >();
                     std::fill(std::begin(c), std::end(c), value_type{0});
 

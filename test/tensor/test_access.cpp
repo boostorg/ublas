@@ -238,12 +238,12 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE( test_compute_multi_index, layout_t,  layout_ty
       auto const& ii = iref[kk];
       auto i = multi_index_t(w.size());
       ub::detail::compute_multi_index(jj, w.begin(), w.end(), i.begin(), layout_t{});
-//      std::cout << "j= " << jj << std::endl;
-//      std::cout << "i= [ "; for(auto iii : i) std::cout << iii << " "; std::cout << "];" << std::endl;
-//      std::cout << "ii_ref = [ "; for(auto iii : ii) std::cout << iii << " "; std::cout << "];" << std::endl;
-//      std::cout << "n= [ "; for(auto iii : n) std::cout << iii << " "; std::cout << "];" << std::endl;
-//      std::cout << "w= [ "; for(auto iii : w) std::cout << iii << " "; std::cout << "];" << std::endl;
-//      std::cout << std::endl;
+      std::cout << "j= " << jj << std::endl;
+      std::cout << "i= [ "; for(auto iii : i) std::cout << iii << " "; std::cout << "];" << std::endl;
+      std::cout << "ii_ref = [ "; for(auto iii : ii) std::cout << iii << " "; std::cout << "];" << std::endl;
+      std::cout << "n= [ "; for(auto iii : n) std::cout << iii << " "; std::cout << "];" << std::endl;
+      std::cout << "w= [ "; for(auto iii : w) std::cout << iii << " "; std::cout << "];" << std::endl;
+      std::cout << std::endl;
       BOOST_CHECK ( std::equal(i.begin(),i.end(),ii.begin()) ) ;
     }
   }

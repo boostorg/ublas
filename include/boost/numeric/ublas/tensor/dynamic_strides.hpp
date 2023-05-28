@@ -83,8 +83,8 @@ public:
         if( !valid(n) )
             throw std::runtime_error("Error in boost::numeric::ublas::basic_strides() : shape is not valid.");
 
-//        if( is_vector(s) || is_scalar(s) ) /* */
-//            return;
+        if( is_vector(n) || is_scalar(n) ) /* */
+            return;
 
         const auto p = this->size();
 
