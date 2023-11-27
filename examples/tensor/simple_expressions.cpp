@@ -65,6 +65,53 @@ int main()
     std::cout << "% --------------------------- " << std::endl << std::endl;
     std::cout << "F=" << F << ";" << std::endl << std::endl;
 
+    // Calling overloaded operators
+    // and mixing expression templates with prvalues, rvalues, and lvalues
+    {
+      // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+      auto G = tensor(shape{3,3}, 3.f);
+      auto E_9 = G + G + G;
+
+      // formatted output
+      std::cout << "% --------------------------- " << std::endl;
+      std::cout << "% --------------------------- " << std::endl << std::endl;
+      std::cout << "E(9)=" << tensor(E_9) << ";" << std::endl << std::endl;
+
+      // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+      auto E_6 = G + 3.f;
+
+      // formatted output
+      std::cout << "% --------------------------- " << std::endl;
+      std::cout << "% --------------------------- " << std::endl << std::endl;
+      std::cout << "E(6)=" << tensor(E_6) << ";" << std::endl << std::endl;
+
+      // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+      auto const four = 4.f;
+      auto E_10 = E_6 + four;
+
+      // formatted output
+      std::cout << "% --------------------------- " << std::endl;
+      std::cout << "% --------------------------- " << std::endl << std::endl;
+      std::cout << "E(10)=" << tensor(E_10) << ";" << std::endl << std::endl;
+
+      // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+      auto E_23 = E_10 + E_10 + tensor(shape{3,3}, 3.f);
+
+      // formatted output
+      std::cout << "% --------------------------- " << std::endl;
+      std::cout << "% --------------------------- " << std::endl << std::endl;
+      std::cout << "E(23)=" << tensor(E_23) << ";" << std::endl << std::endl;
+
+      // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+      auto E_9_7 = tensor(shape{3,3}, 5.4f) + 4.3f;
+
+      // formatted output
+      std::cout << "% --------------------------- " << std::endl;
+      std::cout << "% --------------------------- " << std::endl << std::endl;
+      std::cout << "E(9.7)=" << tensor(E_9_7) << ";" << std::endl << std::endl;
+
+    }
+
   }  catch (const std::exception& e) {
     std::cerr << "Cought exception " << e.what();
     std::cerr << "in the main function of simple expression." << std::endl;

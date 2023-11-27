@@ -37,41 +37,40 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_dynamic,
     using strides_t = typename tensor_t::strides_type;
     using fixture_type = boost::numeric::ublas::tuple_fixture_tensor_dynamic<TestTupleType>;
     
-    // FIXME: Enable this test after the expressions are fixed
-    // BOOST_TEST_CONTEXT("[Dynamic Tensor Assignment Operator] assigning tensor expression"){
+    BOOST_TEST_CONTEXT("[Dynamic Tensor Assignment Operator] assigning tensor expression"){
         
-    //     auto const e = fixture_type::t32.extents();
+        auto const e = fixture_type::t32.extents();
 
-    //     auto const a = tensor_t(e, value_type(1));
-    //     BOOST_REQUIRE_EQUAL ( a.size(), 6ul);
-    //     BOOST_REQUIRE_EQUAL ( a.rank(), 2ul);
-    //     BOOST_REQUIRE       (!a.empty());
+        auto const a = tensor_t(e, value_type(1));
+        BOOST_REQUIRE_EQUAL ( a.size(), 6ul);
+        BOOST_REQUIRE_EQUAL ( a.rank(), 2ul);
+        BOOST_REQUIRE       (!a.empty());
 
-    //     auto const three = value_type(3);
-    //     auto const expr = a + three * a;
+        auto const three = value_type(3);
+        auto const expr = a + three * a;
         
-    //     auto t = tensor_t(e);
-    //     t = expr;
+        auto t = tensor_t(e);
+        t = expr;
 
-    //     BOOST_REQUIRE_EQUAL ( t.size(), 6ul);
-    //     BOOST_REQUIRE_EQUAL ( t.rank(), 2ul);
-    //     BOOST_REQUIRE       (!t.empty());
-    //     BOOST_CHECK_NO_THROW( (void)t.at(3ul));
-    //     BOOST_CHECK_THROW   ( (void)t.at(0,1,1),   std::invalid_argument);
-    //     BOOST_CHECK_THROW   ( (void)t.at(0,1,2),   std::invalid_argument);
-    //     BOOST_CHECK_THROW   ( (void)t.at(25ul),    std::out_of_range);
-    //     BOOST_CHECK_THROW   ( (void)t.at(5,2),     std::out_of_range);
+        BOOST_REQUIRE_EQUAL ( t.size(), 6ul);
+        BOOST_REQUIRE_EQUAL ( t.rank(), 2ul);
+        BOOST_REQUIRE       (!t.empty());
+        BOOST_CHECK_NO_THROW( (void)t.at(3ul));
+        BOOST_CHECK_THROW   ( (void)t.at(0,1,1),   std::invalid_argument);
+        BOOST_CHECK_THROW   ( (void)t.at(0,1,2),   std::invalid_argument);
+        BOOST_CHECK_THROW   ( (void)t.at(25ul),    std::out_of_range);
+        BOOST_CHECK_THROW   ( (void)t.at(5,2),     std::out_of_range);
         
-    //     BOOST_REQUIRE ( t.extents() == e );
-    //     auto const strides = (std::is_same_v<layout_type,ublas::layout::first_order> ? strides_t{1, 3} : strides_t{2ul, 1ul});
-    //     BOOST_REQUIRE_EQUAL_COLLECTIONS(std::begin(t.strides()), std::end(t.strides()), std::begin(strides), std::end(strides));
+        BOOST_REQUIRE ( t.extents() == e );
+        auto const strides = (std::is_same_v<layout_type,ublas::layout::first_order> ? strides_t{1, 3} : strides_t{2ul, 1ul});
+        BOOST_REQUIRE_EQUAL_COLLECTIONS(std::begin(t.strides()), std::end(t.strides()), std::begin(strides), std::end(strides));
         
-    //     auto const four = value_type(4);
-    //     for(auto i = 0ul; i < t.size(); ++i){
-    //         BOOST_TEST_CHECKPOINT("[Tensor Expression  Assignment] testing tensor element(" << i << ") = " <<t[i]);
-    //         BOOST_REQUIRE_EQUAL(t[i], four);
-    //     }
-    // }
+        auto const four = value_type(4);
+        for(auto i = 0ul; i < t.size(); ++i){
+            BOOST_TEST_CHECKPOINT("[Tensor Expression  Assignment] testing tensor element(" << i << ") = " <<t[i]);
+            BOOST_REQUIRE_EQUAL(t[i], four);
+        }
+    }
 
     BOOST_TEST_CONTEXT("[Dynamic Tensor Copy Assignment Operator] copying tensor"){
         auto o = fixture_type::t32;
@@ -195,40 +194,39 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static_rank,
         }
     }
 
-    // FIXME: Enable this test after the expressions are fixed
-    // BOOST_TEST_CONTEXT("[Static Rank Tensor Assignment Operator] assigning tensor expression"){
+    BOOST_TEST_CONTEXT("[Static Rank Tensor Assignment Operator] assigning tensor expression"){
         
-    //     auto const e = fixture_type::t32.extents();
+        auto const e = fixture_type::t32.extents();
 
-    //     auto a = tensor_t(e);
-    //     a = value_type(1);
-    //     BOOST_REQUIRE_EQUAL ( a.size(), 6ul);
-    //     BOOST_REQUIRE_EQUAL ( a.rank(), 2ul);
-    //     BOOST_REQUIRE       (!a.empty());
+        auto a = tensor_t(e);
+        a = value_type(1);
+        BOOST_REQUIRE_EQUAL ( a.size(), 6ul);
+        BOOST_REQUIRE_EQUAL ( a.rank(), 2ul);
+        BOOST_REQUIRE       (!a.empty());
 
-    //     auto const three = value_type(3);
-    //     auto const expr = a + three * a;
+        auto const three = value_type(3);
+        auto const expr = a + three * a;
         
-    //     auto t = tensor_t(e);
-    //     t = expr;
+        auto t = tensor_t(e);
+        t = expr;
 
-    //     BOOST_REQUIRE_EQUAL ( t.size(), 6ul);
-    //     BOOST_REQUIRE_EQUAL ( t.rank(), 2ul);
-    //     BOOST_REQUIRE       (!t.empty());
-    //     BOOST_CHECK_NO_THROW( (void)t.at(3ul));
-    //     BOOST_CHECK_THROW   ( (void)t.at(25ul),    std::out_of_range);
-    //     BOOST_CHECK_THROW   ( (void)t.at(5,2),     std::out_of_range);
+        BOOST_REQUIRE_EQUAL ( t.size(), 6ul);
+        BOOST_REQUIRE_EQUAL ( t.rank(), 2ul);
+        BOOST_REQUIRE       (!t.empty());
+        BOOST_CHECK_NO_THROW( (void)t.at(3ul));
+        BOOST_CHECK_THROW   ( (void)t.at(25ul),    std::out_of_range);
+        BOOST_CHECK_THROW   ( (void)t.at(5,2),     std::out_of_range);
         
-    //     BOOST_REQUIRE ( t.extents() == e );
-    //     auto const strides = (std::is_same_v<layout_type,ublas::layout::first_order> ? strides_t{1, 3} : strides_t{2ul, 1ul});
-    //     BOOST_REQUIRE_EQUAL_COLLECTIONS(std::begin(t.strides()), std::end(t.strides()), std::begin(strides), std::end(strides));
+        BOOST_REQUIRE ( t.extents() == e );
+        auto const strides = (std::is_same_v<layout_type,ublas::layout::first_order> ? strides_t{1, 3} : strides_t{2ul, 1ul});
+        BOOST_REQUIRE_EQUAL_COLLECTIONS(std::begin(t.strides()), std::end(t.strides()), std::begin(strides), std::end(strides));
         
-    //     auto const four = value_type(4);
-    //     for(auto i = 0ul; i < t.size(); ++i){
-    //         BOOST_TEST_CHECKPOINT("[Tensor Expression  Assignment] testing tensor element(" << i << ") = " <<t[i]);
-    //         BOOST_REQUIRE_EQUAL(t[i], four);
-    //     }
-    // }
+        auto const four = value_type(4);
+        for(auto i = 0ul; i < t.size(); ++i){
+            BOOST_TEST_CHECKPOINT("[Tensor Expression  Assignment] testing tensor element(" << i << ") = " <<t[i]);
+            BOOST_REQUIRE_EQUAL(t[i], four);
+        }
+    }
 
     BOOST_TEST_CONTEXT("[Static Rank Tensor Copy Assignment Operator] copying tensor"){
         auto o = fixture_type::t32;
@@ -327,38 +325,37 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static,
         }
     }
 
-    // FIXME: Enable this test after the expressions are fixed
-    // BOOST_TEST_CONTEXT("[Static Tensor Assignment Operator] assigning tensor expression"){
+    BOOST_TEST_CONTEXT("[Static Tensor Assignment Operator] assigning tensor expression"){
         
-    //     auto const a = tensor_t(value_type(1));
-    //     BOOST_REQUIRE_EQUAL ( a.size(), 6ul);
-    //     BOOST_REQUIRE_EQUAL ( a.rank(), 2ul);
-    //     BOOST_REQUIRE       (!a.empty());
+        auto const a = tensor_t(value_type(1));
+        BOOST_REQUIRE_EQUAL ( a.size(), 6ul);
+        BOOST_REQUIRE_EQUAL ( a.rank(), 2ul);
+        BOOST_REQUIRE       (!a.empty());
 
-    //     auto const three = value_type(3);
-    //     auto const expr = a + three * a;
+        auto const three = value_type(3);
+        auto const expr = a + three * a;
         
-    //     auto t = tensor_t();
-    //     t = expr;
+        auto t = tensor_t();
+        t = expr;
 
-    //     BOOST_REQUIRE_EQUAL ( t.size(), 6ul);
-    //     BOOST_REQUIRE_EQUAL ( t.rank(), 2ul);
-    //     BOOST_REQUIRE       (!t.empty());
-    //     // TODO: Enable after adding bounds checking to static tensor
-    //     // BOOST_CHECK_NO_THROW( (void)t.at(3ul));
-    //     // BOOST_CHECK_THROW   ( (void)t.at(25ul),    std::out_of_range);
-    //     // BOOST_CHECK_THROW   ( (void)t.at(5,2),     std::out_of_range);
+        BOOST_REQUIRE_EQUAL ( t.size(), 6ul);
+        BOOST_REQUIRE_EQUAL ( t.rank(), 2ul);
+        BOOST_REQUIRE       (!t.empty());
+        // TODO: Enable after adding bounds checking to static tensor
+        // BOOST_CHECK_NO_THROW( (void)t.at(3ul));
+        // BOOST_CHECK_THROW   ( (void)t.at(25ul),    std::out_of_range);
+        // BOOST_CHECK_THROW   ( (void)t.at(5,2),     std::out_of_range);
         
-    //     BOOST_REQUIRE ( t.extents() == shape_t{} );
-    //     auto const strides = (std::is_same_v<layout_type,ublas::layout::first_order> ? strides_t{1, 3} : strides_t{2ul, 1ul});
-    //     BOOST_REQUIRE_EQUAL_COLLECTIONS(std::begin(t.strides()), std::end(t.strides()), std::begin(strides), std::end(strides));
+        BOOST_REQUIRE ( t.extents() == shape_t{} );
+        auto const strides = (std::is_same_v<layout_type,ublas::layout::first_order> ? strides_t{1, 3} : strides_t{2ul, 1ul});
+        BOOST_REQUIRE_EQUAL_COLLECTIONS(std::begin(t.strides()), std::end(t.strides()), std::begin(strides), std::end(strides));
         
-    //     auto const four = value_type(4);
-    //     for(auto i = 0ul; i < t.size(); ++i){
-    //         BOOST_TEST_CHECKPOINT("[Tensor Expression  Assignment] testing tensor element(" << i << ") = " <<t[i]);
-    //         BOOST_REQUIRE_EQUAL(t[i], four);
-    //     }
-    // }
+        auto const four = value_type(4);
+        for(auto i = 0ul; i < t.size(); ++i){
+            BOOST_TEST_CHECKPOINT("[Tensor Expression  Assignment] testing tensor element(" << i << ") = " <<t[i]);
+            BOOST_REQUIRE_EQUAL(t[i], four);
+        }
+    }
 
     BOOST_TEST_CONTEXT("[Static Tensor Copy Assignment Operator] copying tensor"){
         auto const o = tensor_t(value_type(1));

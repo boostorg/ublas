@@ -47,7 +47,7 @@ BOOST_TEST_DECORATOR(
 )
 BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_dynamic,
     TestTupleType,
-    boost::numeric::ublas::cpp_basic_std_types,
+    boost::numeric::ublas::cpp_basic_std_floating_types,
     boost::numeric::ublas::tuple_fixture_tensor_dynamic<TestTupleType>
 )
 {
@@ -72,15 +72,15 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_dynamic,
             auto r00 = complex_tensor_t(n);
 
             tensor_type b = (a+a) / value_type{2};
-            tensor_type r1 = ublas::real( (a+a) / value_type{2}  );
+            tensor_type r1 =  ublas::real( (a+a) / value_type{2}  );
             std::transform(  b.begin(), b.end(), r0.begin(), [](auto const& l){ return std::real( l );  }   );
             BOOST_CHECK_EQUAL_COLLECTIONS(r0.begin(), r0.end(), r1.begin(), r1.end());
 
-            tensor_type r2 = ublas::imag( (a+a) / value_type{2}  );
+            tensor_type r2 =  ublas::imag( (a+a) / value_type{2}  );
             std::transform(  b.begin(), b.end(), r0.begin(), [](auto const& l){ return std::imag( l );  }   );
             BOOST_CHECK_EQUAL_COLLECTIONS(r0.begin(), r0.end(), r2.begin(), r2.end());
             
-            complex_tensor_t r3 = ublas::conj( (a+a) / value_type{2}  );
+            complex_tensor_t r3 =  ublas::conj( (a+a) / value_type{2}  );
             std::transform(  b.begin(), b.end(), r00.begin(), [](auto const& l){ return std::conj( l );  }   );
             BOOST_CHECK_EQUAL_COLLECTIONS(r00.begin(), r00.end(), r3.begin(), r3.end());
 
@@ -118,7 +118,7 @@ BOOST_TEST_DECORATOR(
 )
 BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static_rank,
     TestTupleType,
-    boost::numeric::ublas::cpp_basic_std_types,
+    boost::numeric::ublas::cpp_basic_std_floating_types,
     boost::numeric::ublas::tuple_fixture_tensor_static_rank<TestTupleType>
 )
 {
@@ -194,7 +194,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static_rank,
 // )
 // BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static,
 //     TestTupleType,
-//     boost::numeric::ublas::cpp_basic_std_types,
+//     boost::numeric::ublas::cpp_basic_std_floating_types,
 //     boost::numeric::ublas::tuple_fixture_tensor_static<TestTupleType>
 // )
 // {

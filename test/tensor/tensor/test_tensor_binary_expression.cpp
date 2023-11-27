@@ -46,8 +46,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_dynamic,
             auto uexpr1 = ublas::detail::make_unary_tensor_expression<tensor_t>( t, uplus1 );
             auto uexpr2 = ublas::detail::make_unary_tensor_expression<tensor_t>( t, uplus2 );
 
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr1.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr2.e) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr1.expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr2.expr()) >, tensor_t > )   );
 
             for(auto i = 0ul; i < t.size(); ++i){
                 BOOST_CHECK_EQUAL( uexpr1(i), uplus1(t(i))  );
@@ -59,8 +59,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_dynamic,
 
             auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_t>( uexpr1, uexpr2, bplus );
 
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.el.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.er.e) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.left_expr().expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.right_expr().expr()) >, tensor_t > )   );
 
 
             for(auto i = 0ul; i < t.size(); ++i){
@@ -69,10 +69,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_dynamic,
 
             auto bexpr_bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_t>( bexpr_uexpr, t, bminus );
 
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.el.el.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.el.er.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.er) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.er) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.left_expr().left_expr().expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.left_expr().right_expr().expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.right_expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.right_expr()) >, tensor_t > )   );
 
             for(auto i = 0ul; i < t.size(); ++i){
                 BOOST_CHECK_EQUAL( bexpr_bexpr_uexpr(i), bminus(bexpr_uexpr(i),t(i))  );
@@ -113,8 +113,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static_rank,
             auto uexpr1 = ublas::detail::make_unary_tensor_expression<tensor_t>( t, uplus1 );
             auto uexpr2 = ublas::detail::make_unary_tensor_expression<tensor_t>( t, uplus2 );
 
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr1.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr2.e) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr1.expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr2.expr()) >, tensor_t > )   );
 
             for(auto i = 0ul; i < t.size(); ++i){
                 BOOST_CHECK_EQUAL( uexpr1(i), uplus1(t(i))  );
@@ -126,8 +126,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static_rank,
 
             auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_t>( uexpr1, uexpr2, bplus );
 
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.el.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.er.e) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.left_expr().expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.right_expr().expr()) >, tensor_t > )   );
 
 
             for(auto i = 0ul; i < t.size(); ++i){
@@ -136,10 +136,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static_rank,
 
             auto bexpr_bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_t>( bexpr_uexpr, t, bminus );
 
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.el.el.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.el.er.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.er) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.er) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.left_expr().left_expr().expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.left_expr().right_expr().expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.right_expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.right_expr()) >, tensor_t > )   );
 
             for(auto i = 0ul; i < t.size(); ++i){
                 BOOST_CHECK_EQUAL( bexpr_bexpr_uexpr(i), bminus(bexpr_uexpr(i),t(i))  );
@@ -180,8 +180,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static,
             auto uexpr1 = ublas::detail::make_unary_tensor_expression<tensor_t>( t, uplus1 );
             auto uexpr2 = ublas::detail::make_unary_tensor_expression<tensor_t>( t, uplus2 );
 
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr1.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr2.e) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr1.expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr2.expr()) >, tensor_t > )   );
 
             for(auto i = 0ul; i < t.size(); ++i){
                 BOOST_CHECK_EQUAL( uexpr1(i), uplus1(t(i))  );
@@ -193,8 +193,8 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static,
 
             auto bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_t>( uexpr1, uexpr2, bplus );
 
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.el.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.er.e) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.left_expr().expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_uexpr.right_expr().expr()) >, tensor_t > )   );
 
 
             for(auto i = 0ul; i < t.size(); ++i){
@@ -203,10 +203,10 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static,
 
             auto bexpr_bexpr_uexpr = ublas::detail::make_binary_tensor_expression<tensor_t>( bexpr_uexpr, t, bminus );
 
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.el.el.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.el.er.e) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.er) >, tensor_t > )   );
-            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.er) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.left_expr().left_expr().expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.left_expr().right_expr().expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.right_expr()) >, tensor_t > )   );
+            BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(bexpr_bexpr_uexpr.right_expr()) >, tensor_t > )   );
 
             for(auto i = 0ul; i < t.size(); ++i){
                 BOOST_CHECK_EQUAL( bexpr_bexpr_uexpr(i), bminus(bexpr_uexpr(i),t(i))  );
