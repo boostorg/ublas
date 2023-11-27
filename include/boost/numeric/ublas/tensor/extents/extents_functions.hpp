@@ -77,6 +77,37 @@ template <class D>
 //         std::all_of(cbegin(e)+2,cend(e)    , [](auto a){return a==1UL;});
 }
 
+/** @brief Returns true if extents equals (m,[1,1,...,1]) with m>=1 */
+template <class D>
+[[nodiscard]] inline constexpr bool is_row_vector(extents_base<D> const& e)
+{
+  if (empty(e) || size(e) == 1  ) {return false;}
+
+  if(cbegin(e)[0] ==  1ul &&
+      cbegin(e)[1] >  1ul &&
+      std::all_of(cbegin(e)+2ul,cend  (e) , [](auto a){return a==1ul;})){
+    return true;
+  }
+
+  return false;
+}
+
+
+/** @brief Returns true if extents equals (m,[1,1,...,1]) with m>=1 */
+template <class D>
+[[nodiscard]] inline constexpr bool is_col_vector(extents_base<D> const& e)
+{
+  if (empty(e) || size(e) == 1  ) {return false;}
+
+  if(cbegin(e)[0] >  1ul &&
+      cbegin(e)[1] == 1ul &&
+      std::all_of(cbegin(e)+2ul,cend  (e) , [](auto a){return a==1ul;})){
+    return true;
+  }
+
+  return false;
+}
+
 /** @brief Returns true if (m,[n,1,...,1]) with m>=1 or n>=1 */
 template <class D>
 [[nodiscard]] inline constexpr bool is_matrix(extents_base<D> const& e)
@@ -153,9 +184,10 @@ template<integral T, class L>
 {
   auto s = typename extents_core<T>::base_type(e.size(),1ul);
 
-  if(empty(e) || is_vector(e) || is_scalar(e)){
+  if(empty(e) || is_scalar(e) || is_vector(e)){
     return s;
-  }
+  }  
+
   if constexpr(std::is_same_v<L,layout::first_order>){
     std::transform(begin (e), end (e) - 1,  s.begin (),  s.begin ()+1, std::multiplies<>{});
   } else {
@@ -170,9 +202,10 @@ template<integral T, T n, class L>
   auto s = typename extents_core<T,n>::base_type{};
   std::fill(s.begin(),s.end(),1ul);
 
-  if(empty(e) || is_vector(e) || is_scalar(e)){
+  if(empty(e) || is_scalar(e) || is_vector(e)){
     return s;
   }
+
   if constexpr(std::is_same_v<L,layout::first_order>){
     std::transform(begin (e), end (e) - 1,  s.begin (),  s.begin ()+1, std::multiplies<>{});
   } else {
