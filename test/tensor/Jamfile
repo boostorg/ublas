@@ -11,7 +11,7 @@
 #  Google and Fraunhofer IOSB, Ettlingen, Germany
 #
 
-import ../../../../config/checks/config : requires ;
+import config : requires ;
 
 project boost/ublas/test/tensor
     : requirements
