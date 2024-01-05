@@ -6,7 +6,7 @@
 
 ==== Description
 
-The templated class `tensor_expression<T,E>` is required to be a public
+The templated class `tensor_expression<T, E>` is required to be a public
 base of all classes. There is no Tensor Expression concept defined.
 
 ==== Definition
