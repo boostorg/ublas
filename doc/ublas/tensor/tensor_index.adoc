@@ -2,32 +2,32 @@
 
 [[toc]]
 
-=== [#tensor index]#tensor_index<value_t, storage_t, array_t, N>#
+=== [#tensor index]#Tensor Index#
 
 ==== Description
 
-The template class `tensor_index` decorates the
-link:../tensor.html#tensor[tensor] template class with indices for
+The template class `index_type` decorates the
+link:../tensor.adoc[tensor] template class with indices for
 tensor contraction.
 
 ==== Example
 
 [source, cpp]
 ....
-#include <boost/numeric/ublas/tensor/einstein.hpp>
+#include <boost/numeric/ublas/tensor.hpp>
 
 int main () {
     using namespace boost::numeric::ublas;
-    shape s{4,3,2};
-    for (auto i = 0u; i < s.size(); ++i) {
-        std::cout << s.at(i) << std::endl;
-    }
+    using namespace boost::numeric::ublas::index;
+    tensor<double> A = tensor<double>{4, 3, 2};
+    tensor<double> B = A(_i, _j, _) * A(_, _j, _k);
+    std::cout << B << '\n';
 }
 ....
 
 ==== Definition
 
-Defined in the header tensor/tensor_einstein.hpp.
+Defined in the header tensor/index.hpp.
 
 ==== Public base classes
 
@@ -38,10 +38,7 @@ None.
 [cols=",,",]
 |===
 |Parameter |Description |
-|`value_t` |The type of object stored in the tensor. |
-|`format_t` |Storage organization of the tensor. |
-|`storage_t` |The type of the storage array of the tensor. |
-|`N` |Number of indices provided. |
+|`I` |Integer for einstein summation notation. |
 |===
 
 '''''

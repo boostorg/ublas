@@ -21,7 +21,7 @@ namespace boost::numeric::ublas::index {
 
 /** @brief Proxy template class for the einstein summation notation
  *
- * @note index::index_type<K> for 0<=K<=16 is used in tensor::operator()
+ * @note index::index_type<K> for 0<=K<=26 is used in tensor::operator()
  *
  * @tparam I wrapped integer
 */
