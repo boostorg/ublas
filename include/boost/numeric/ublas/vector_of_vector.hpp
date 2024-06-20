@@ -141,13 +141,13 @@ namespace boost { namespace numeric { namespace ublas {
             data ().resize (sizeM + 1, preserve);
             if (preserve) {
                 for (size_type i = 0; (i <= oldM) && (i < sizeM); ++ i)
-                    ref (data () [i]).resize (sizem, preserve);
+					boost::numeric::ublas::ref (data () [i]).resize (sizem, preserve);
                 for (size_type i = oldM+1; i < sizeM; ++ i) // create new vector elements
                     data_.insert_element (i, vector_data_value_type ()) .resize (sizem, false);
                 if (sizeM > oldM) {
                     data_.insert_element (sizeM, vector_data_value_type ());
                 } else {
-                    ref (data () [sizeM]).resize (0, false);
+                    boost::numeric::ublas::ref (data () [sizeM]).resize (0, false);
                 }
             } else {
                 for (size_type i = 0; i < sizeM; ++ i) 
@@ -298,7 +298,7 @@ namespace boost { namespace numeric { namespace ublas {
         true_reference insert_element (size_type i, size_type j, const_reference t) {
             const size_type elementM = layout_type::index_M (i, j);
             const size_type elementm = layout_type::index_m (i, j);
-            vector_data_value_type& vd (ref (data () [elementM]));
+			vector_data_value_type& vd (boost::numeric::ublas::ref (data () [elementM]));
             storage_invariants ();
             return vd.insert_element (elementm, t);
         }
@@ -306,7 +306,7 @@ namespace boost { namespace numeric { namespace ublas {
         void append_element (size_type i, size_type j, const_reference t) {
             const size_type elementM = layout_type::index_M (i, j);
             const size_type elementm = layout_type::index_m (i, j);
-            vector_data_value_type& vd (ref (data () [elementM]));
+            vector_data_value_type& vd (boost::numeric::ublas::ref (data () [elementM]));
             storage_invariants ();
             return vd.append_element (elementm, t);
         }
@@ -323,7 +323,7 @@ namespace boost { namespace numeric { namespace ublas {
             const size_type sizeM = layout_type::size_M (size1_, size2_);
             // FIXME should clear data () if this is done via value_type/*zero*/() then it is not size preserving
             for (size_type i = 0; i < sizeM; ++ i)
-                ref (data () [i]).clear ();
+				boost::numeric::ublas::ref (data () [i]).clear ();
             storage_invariants ();
         }
 
@@ -337,7 +337,7 @@ namespace boost { namespace numeric { namespace ublas {
 
         BOOST_UBLAS_INLINE
         true_reference at_element (size_type i, size_type j) {
-            return ref (ref (data () [layout_type::index_M (i, j)]) [layout_type::index_m (i, j)]);
+            return boost::numeric::ublas::ref (boost::numeric::ublas::ref (data () [layout_type::index_M (i, j)]) [layout_type::index_m (i, j)]);
         }
 
     public:
