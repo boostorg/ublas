@@ -5,45 +5,45 @@
 
 name: "Apple MacOS"
 
-on: 
+on:
   push:
-    paths-ignore: 
+    paths-ignore:
       - '**.md'
       - 'doc/**'
   pull_request:
-    paths-ignore: 
+    paths-ignore:
       - '**.md'
       - 'doc/**'
 jobs:
   build:
     name: "MacOS 11 clang -std=c++${{matrix.cxxstd}}"
-    runs-on: macos-11
+    runs-on: macos-latest
     strategy:
       fail-fast: true
       matrix:
-        cxxstd: [2a]
+        cxxstd: [20,23]
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Git Clone Boost.uBlas
       run: |
         cd ${GITHUB_WORKSPACE}
         cd ..
-        
+
         git clone -b master --depth 1 https://github.com/boostorg/boost.git boost-root
         cd boost-root
         echo "BOOST_ROOT=${PWD}" >> ${GITHUB_ENV}
         echo $BOOST_ROOT
-                
+
         git submodule update --init --depth=1 --jobs 8 tools/build
         git submodule update --init --depth=1 --jobs 8 libs/config
         git submodule update --init --depth=1 --jobs 8 tools/boostdep
-        
+
         mkdir -p libs/numeric/
         cp -rp ${GITHUB_WORKSPACE}/. libs/numeric/ublas
         python tools/boostdep/depinst/depinst.py -g " --depth=1" -I benchmarks numeric/ublas
-        
+
     - name: Bootstrap and Compile Boost.uBlas
       run: |
         cd $BOOST_ROOT
@@ -51,22 +51,22 @@ jobs:
         ./b2 -j8 headers
         echo "using clang : : $(brew --prefix llvm)/bin/clang++ ;" >> ~/user-config.jam;
 
-       
+
     - name: Test Benchmarks
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j8 benchmarks cxxstd=${{matrix.cxxstd}}
-        
+
     - name: Test Tensor Examples
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j8 examples/tensor cxxstd=${{matrix.cxxstd}}
-        
+
     - name: Test Tensor
       run: |
         cd $BOOST_ROOT
         cd libs/numeric/ublas
         $BOOST_ROOT/b2 -j8 test/tensor cxxstd=${{matrix.cxxstd}}
-        
+
