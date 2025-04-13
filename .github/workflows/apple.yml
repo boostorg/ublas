@@ -16,7 +16,7 @@ on:
       - 'doc/**'
 jobs:
   build:
-    name: "MacOS 11 clang -std=c++${{matrix.cxxstd}}"
+    name: "MacOS clang -std=c++${{matrix.cxxstd}}"
     runs-on: macos-latest
     strategy:
       fail-fast: true
@@ -49,7 +49,7 @@ jobs:
         cd $BOOST_ROOT
         ./bootstrap.sh
         ./b2 -j8 headers
-        echo "using clang : : $(brew --prefix llvm)/bin/clang++ ;" >> ~/user-config.jam;
+        echo "using clang ;" >> ~/user-config.jam;
 
 
     - name: Test Benchmarks
