@@ -25,7 +25,8 @@ jobs:
 #           - {os: windows-2019, toolset: msvc, version: 14.28, cxxstd: 11}
 #           - {os: windows-2019, toolset: msvc, version: 14.28, cxxstd: 17}
 #           - {os: windows-2019, toolset: msvc, version: 14.29, cxxstd: latest}
-           - {os: windows-2022, toolset: msvc, version: 14.30, cxxstd: latest}
+#           - {os: windows-2022, toolset: msvc, version: 14.30, cxxstd: latest}
+           - {os: windows-2022, toolset: msvc, cxxstd: latest, toolsetver: 14.3 }
 
      steps:
       - uses: actions/checkout@v4
@@ -52,7 +53,7 @@ jobs:
 
 
           echo "BOOST_ROOT=$pwd" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          echo "TOOLSET=${{matrix.config.toolset}}-${{matrix.config.version}}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          echo "TOOLSET=${{matrix.config.toolset}}-${{matrix.config.toolsetver}}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Prepare BOOST_ROOT
         shell: powershell
