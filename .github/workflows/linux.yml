@@ -20,10 +20,10 @@ jobs:
     name: Ubuntu "cxx=${{matrix.config.cxx}}, std=c++${{matrix.config.cxxstd}}, variant=c++${{matrix.config.variant}}"
     runs-on: ubuntu-latest
     container:
-      image: ${{matrix.container}}
+      image: ${{matrix.config.container}}
       volumes:
         - /node20217:/node20217:rw,rshared
-        - ${{ startsWith(matrix.container, 'ubuntu:1') && '/node20217:/__e/node20:ro,rshared' || ' ' }}
+        - ${{ startsWith(matrix.config.container, 'ubuntu:1') && '/node20217:/__e/node20:ro,rshared' || ' ' }}
     strategy:
       fail-fast: false
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
@@ -38,13 +38,13 @@ jobs:
 
     steps:
     - name: Setup container environment
-      if: matrix.container
+      if: matrix.config.container
       run: |
         apt-get update
         apt-get -y install sudo python3 git g++ curl xz-utils
 
     - name: Install nodejs20glibc2.17
-      if: ${{ startsWith( matrix.container, 'ubuntu:1' ) }}
+      if: ${{ startsWith( matrix.config.container, 'ubuntu:1' ) }}
       run: |
         curl -LO https://archives.boost.io/misc/node/node-v20.9.0-linux-x64-glibc-217.tar.xz
         tar -xf node-v20.9.0-linux-x64-glibc-217.tar.xz --strip-components 1 -C /node20217
