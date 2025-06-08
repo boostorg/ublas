@@ -21,8 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Clang 11
-        run: sudo apt-get update && sudo apt-get install -y clang-11 clang-tidy
+      - name: Install Clang
+        run: sudo apt-get update && sudo apt-get install -y clang clang-tidy
 
       - name: Setup
         run: sudo apt-get update && sudo apt-get -y install sudo python3 git g++ curl xz-utils
