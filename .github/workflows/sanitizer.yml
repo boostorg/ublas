@@ -28,12 +28,12 @@ jobs:
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
       matrix:
         config:
-          - { name: clang, description: address and leak,   cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=address -fno-omit-frame-pointer, ldflags: -fsanitize=address  , container: ubuntu:20.04 }
-          - { name: clang, description: undefined behavior, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=undefined,                       ldflags: -fsanitize=undefined, container: ubuntu:20.04 }
-          - { name: clang, description: thread,             cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=thread,                          ldflags: -fsanitize=thread   , container: ubuntu:20.04 }
-          - { name: gcc,   description: address and leak,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=address -fno-omit-frame-pointer, ldflags: -fsanitize=address -fopenmp, container: ubuntu:20.04 }
-#          - { name: gcc,   description: undefined behavior, cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=undefined,                       ldflags: -fsanitize=undefined -fopenmp, container: ubuntu:20.04 }
-#          - { name: gcc,   description: thread,             cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=thread,                          ldflags: -fsanitize=thread -fopenmp, container: ubuntu:20.04 }
+          - { name: clang, description: address and leak,   cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=address -fno-omit-frame-pointer, ldflags: -fsanitize=address  , container: 'ubuntu:20.04' }
+          - { name: clang, description: undefined behavior, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=undefined,                       ldflags: -fsanitize=undefined, container: 'ubuntu:20.04' }
+          - { name: clang, description: thread,             cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , cxxflags:          -fsanitize=thread,                          ldflags: -fsanitize=thread   , container: 'ubuntu:20.04' }
+          - { name: gcc,   description: address and leak,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=address -fno-omit-frame-pointer, ldflags: -fsanitize=address -fopenmp, container: 'ubuntu:20.04' }
+#          - { name: gcc,   description: undefined behavior, cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=undefined,                       ldflags: -fsanitize=undefined -fopenmp, container: 'ubuntu:20.04' }
+#          - { name: gcc,   description: thread,             cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp -fsanitize=thread,                          ldflags: -fsanitize=thread -fopenmp, container: 'ubuntu:20.04' }
 
     steps:
       - name: Setup container environment

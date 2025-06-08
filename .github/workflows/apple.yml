@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cxxstd: [20,23]
+        cxxstd: [20,2b]
 
     steps:
     - uses: actions/checkout@v2

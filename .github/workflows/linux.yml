@@ -29,12 +29,12 @@ jobs:
       # If any compiler fails to compile, continue CI for next compiler in matrix instead of failing early
       matrix:
         config:
-          - { name: clang, cc: clang-10, cxx: clang++-10, cxxstd: 20, variant: debug,   opt: off, container: ubuntu:20.04 }
-          - { name: clang, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off, container: ubuntu:20.04 }
-          - { name: clang, cc: clang-10, cxx: clang++-10, cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp, ldflags: -lgomp=libomp5, container: ubuntu:20.04 }
-          - { name: clang, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp, ldflags: -lgomp=libomp5, container: ubuntu:20.04 }
-          - { name: gcc,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: debug,   opt: off, container: ubuntu:20.04 }
-          - { name: gcc,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp, ldflags: -lgomp, container: ubuntu:20.04 }
+          - { name: clang, cc: clang-10, cxx: clang++-10, cxxstd: 20, variant: debug,   opt: off, container: 'ubuntu:20.04' }
+          - { name: clang, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off, container: 'ubuntu:20.04' }
+          - { name: clang, cc: clang-10, cxx: clang++-10, cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp, ldflags: -lgomp=libomp5, container: 'ubuntu:20.04' }
+          - { name: clang, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp, ldflags: -lgomp=libomp5, container: 'ubuntu:20.04' }
+          - { name: gcc,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: debug,   opt: off, container: 'ubuntu:20.04' }
+          - { name: gcc,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, cxxflags: -fopenmp, ldflags: -lgomp, container: 'ubuntu:20.04' }
 
     steps:
     - name: Setup container environment
