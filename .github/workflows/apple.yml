@@ -19,7 +19,7 @@ jobs:
     name: "MacOS clang -std=c++${{matrix.cxxstd}}"
     runs-on: macos-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         cxxstd: [20,23]
 
