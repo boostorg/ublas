@@ -1,0 +1,36 @@
+////
+Copyright 2021 Shikhar Vashistha
+
+Distributed under the Boost Software License, Version 1.0.
+(http://www.boost.org/LICENSE_1_0.txt)
+////
+
+# Matrix
+:toc: left
+:toclevels: 2
+:idprefix:
+:listing-caption: Code Example
+:docinfo: private-footer
+:source-highlighter: rouge
+:source-language: c++
+
+:leveloffset: +1
+
+include::matrix.adoc[]
+
+include::triangular.adoc[]
+
+include::symmetric.adoc[]
+
+include::hermitian.adoc[]
+
+include::banded.adoc[]
+
+include::matrix_sparse.adoc[]
+
+include::matrix_proxy.adoc[]
+
+include::matrix_expression.adoc[]
+
+
+:leveloffset: -1

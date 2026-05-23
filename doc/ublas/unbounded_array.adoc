@@ -1,9 +1,5 @@
 == Unbounded Array Storage
 
-[[toc]]
-
-=== [#unbounded_array]#Unbounded Array#
-
 ==== Description
 
 The templated class `unbounded_array<T, ALLOC>` implements a unbounded
@@ -130,18 +126,10 @@ of the concept.
 
 |`const_reverse_iterator rbegin () const` |https://www.boost.org/sgi/stl/ReversibleContainer.html[ReversibleContainer] |Returns a `const_reverse_iterator` pointing to the beginning of the reversed `unbounded_array`.
 
-|`const_reverse_iterator rend () const` |https://www.boost.org/sgi/stl/ReversibleContainer.html[ReversibleContainer] |Returns a `const_reverse_iterator` pointing to the end of the reversed `unbounded_array`. 
+|`const_reverse_iterator rend () const` |https://www.boost.org/sgi/stl/ReversibleContainer.html[ReversibleContainer] |Returns a `const_reverse_iterator` pointing to the end of the reversed `unbounded_array`.
 
 |`reverse_iterator rbegin ()` |https://www.boost.org/sgi/stl/ReversibleContainer.html[ReversibleContainer] |Returns a `reverse_iterator` pointing to the beginning of the reversed `unbounded_array`.
 
 |`reverse_iterator rend ()` |https://www.boost.org/sgi/stl/ReversibleContainer.html[ReversibleContainer] |Returns a `reverse_iterator` pointing to the end of the reversed `unbounded_array`.
 
 |===
-
-'''''
-
-Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).

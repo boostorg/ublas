@@ -1,6 +1,5 @@
-== Strides
+== Tensor Strides
 
-[[toc]]
 
 === [#extents]#basic_strides<size_type, format_type>#
 
@@ -20,13 +19,13 @@ int main () {
     using namespace boost::numeric::ublas;
     auto wf = strides<first_order>(shape{4,3,2});
     for (auto i = 0u; i < wf.size(); ++i)
-        std::cout << wf.at(i) << std::endl;    
+        std::cout << wf.at(i) << std::endl;
         // 1,4,12
-        
+
     auto wl = strides<first_order>(shape{4,3,2});
     for (auto i = 0u; i < wl.size(); ++i)
-        std::cout << wl.at(i) << std::endl;    
-        // 6,2,1        
+        std::cout << wl.at(i) << std::endl;
+        // 6,2,1
 }
 ....
 
@@ -145,11 +144,3 @@ sequence container holding all elements.
 |Returns relative memory location depending on the indices `i`,
 `is ...` and stride vector `w` (recursive function).
 |===
-
-'''''
-
-Copyright (©) 2018 Cem Bassoy +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).

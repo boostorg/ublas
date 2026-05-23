@@ -1,6 +1,5 @@
 == Level 3 BLAS
 
-[[toc]]
 
 '''''
 
@@ -219,12 +218,3 @@ _m3^H^_) + (_m3_ * (_t2_ * _m2_)^H^)
   use opb_prod()
 
 |===
-
-'''''
-
-Copyright (©) 2000-2004 Michael Stevens, Mathias Koch, Joerg Walter,
-Gunter Winkler +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt).

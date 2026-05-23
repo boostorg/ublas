@@ -1,8 +1,5 @@
-== Matrix
+== Matrix Abstract
 
-[[toc]]
-
-=== [#matrix]#Matrix#
 
 ==== Description
 
@@ -542,11 +539,3 @@ to the end of the `scalar_matrix`.
 `const_reverse_iterator2` pointing to the end of the reversed
 `scalar_matrix`.
 |===
-
-'''''
-
-Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).

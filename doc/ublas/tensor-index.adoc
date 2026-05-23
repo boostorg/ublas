@@ -1,0 +1,31 @@
+////
+Copyright 2021 Shikhar Vashistha
+
+Distributed under the Boost Software License, Version 1.0.
+(http://www.boost.org/LICENSE_1_0.txt)
+////
+
+# Tensor
+:toc: left
+:toclevels: 2
+:idprefix:
+:listing-caption: Code Example
+:docinfo: private-footer
+:source-highlighter: rouge
+:source-language: c++
+
+:leveloffset: +1
+
+include::tensor/tensor_index.adoc[]
+
+include::tensor.adoc[]
+
+include::tensor/tensor_expression.adoc[]
+
+include::tensor/extents.adoc[]
+
+include::tensor/strides.adoc[]
+
+include::tensor/tensor_expression.adoc[]
+
+:leveloffset: -1

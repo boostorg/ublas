@@ -1,0 +1,46 @@
+////
+Copyright 2021 Shikhar Vashistha
+
+Distributed under the Boost Software License, Version 1.0.
+(http://www.boost.org/LICENSE_1_0.txt)
+////
+
+# Miscellaneous
+:toc: left
+:toclevels: 2
+:idprefix:
+:listing-caption: Code Example
+:docinfo: private-footer
+:source-highlighter: rouge
+:source-language: c++
+
+:leveloffset: +1
+
+include::unbounded_array.adoc[]
+
+include::bounded_array.adoc[]
+
+include::types_overview.adoc[]
+
+include::range.adoc[]
+
+include::options.adoc[]
+
+include::storage_sparse.adoc[]
+
+include::range.adoc[]
+
+include::products.adoc[]
+
+include::blas.adoc[]
+
+include::container_concept.adoc[]
+
+include::expression_concept.adoc[]
+
+include::storage_concept.adoc[]
+
+include::iterator_concept.adoc[]
+
+
+:leveloffset: -1

@@ -1,6 +1,5 @@
 == Range and Slice Storage
 
-[[toc]]
 
 === [#range]#Range<SizeType,DistanceType>#
 
@@ -180,12 +179,3 @@ the end of the `slice`.
 * None all strides are vaild. However when an index is returned or an
 iterator is dereferenced its value must be representable as the
 size_type.
-
-'''''
-
-Copyright (©) 2000-2004 Michael Stevens, Mathias Koch, Joerg Walter,
-Gunter Winkler +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).

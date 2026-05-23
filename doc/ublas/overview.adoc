@@ -1,6 +1,5 @@
-== uBLAS Overview
+== Overview
 
-[[toc]]
 
 === Rationale
 
@@ -572,11 +571,3 @@ For larger vectors and matrices the general abstraction penalty for
 using classes seems to decrease, the small loss when using generic
 vector and matrix classes seems to remain. The difference w.r.t. alias
 assumptions remains visible, too.
-
-'''''
-
-Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).
