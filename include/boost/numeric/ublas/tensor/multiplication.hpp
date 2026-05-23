@@ -389,7 +389,7 @@ void mtv(SizeType const m,
 template <class PointerOut, class PointerIn1, class PointerIn2, class SizeType>
 void mtm(PointerOut c, SizeType const*const nc, SizeType const*const wc,
          PointerIn1 a, SizeType const*const na, SizeType const*const wa,
-         PointerIn2 b, SizeType const*const nb, SizeType const*const wb)
+         PointerIn2 b, [[maybe_unused]] SizeType const*const nb, SizeType const*const wb)
 {
 
   // C(i,j) = A(i,k) * B(k,j)

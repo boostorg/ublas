@@ -52,11 +52,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_dynamic,
                 BOOST_CHECK_EQUAL( uexpr_uexpr(i), uplus1(uplus1(t(i)))  );
             }
 
-            const auto & uexpr_e = uexpr.e;
+            const auto & uexpr_e = uexpr.expr();
 
             BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr_e) >, tensor_t > )   );
 
-            const auto & uexpr_uexpr_e_e = uexpr_uexpr.e.e;
+            const auto & uexpr_uexpr_e_e = uexpr_uexpr.expr().expr();
 
             BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr_uexpr_e_e) >, tensor_t > )   );
         }
@@ -101,11 +101,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static_rank,
                 BOOST_CHECK_EQUAL( uexpr_uexpr(i), uplus1(uplus1(t(i)))  );
             }
 
-            const auto & uexpr_e = uexpr.e;
+            const auto & uexpr_e = uexpr.expr();
 
             BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr_e) >, tensor_t > )   );
 
-            const auto & uexpr_uexpr_e_e = uexpr_uexpr.e.e;
+            const auto & uexpr_uexpr_e_e = uexpr_uexpr.expr().expr();
 
             BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr_uexpr_e_e) >, tensor_t > )   );
         }
@@ -150,11 +150,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_tensor_static,
                 BOOST_CHECK_EQUAL( uexpr_uexpr(i), uplus1(uplus1(t(i)))  );
             }
 
-            const auto & uexpr_e = uexpr.e;
+            const auto & uexpr_e = uexpr.expr();
 
             BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr_e) >, tensor_t > )   );
 
-            const auto & uexpr_uexpr_e_e = uexpr_uexpr.e.e;
+            const auto & uexpr_uexpr_e_e = uexpr_uexpr.expr().expr();
 
             BOOST_CHECK( ( std::is_same_v< std::decay_t< decltype(uexpr_uexpr_e_e) >, tensor_t > )   );
         }
