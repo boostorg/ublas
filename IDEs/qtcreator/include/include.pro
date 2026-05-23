@@ -4,6 +4,7 @@ TARGET = ublas
 CONFIG += staticlib depend_includepath
 CONFIG -= qt
 CONFIG += c++20
+
 INCLUDE_DIR=../../../include
 
 include(detail/detail.pri)

@@ -112,6 +112,7 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(test_strides_static_rank_ctr,
         check(n1111, 4ul);
         check(n4231, 4ul);
     }
+
 }
 
 BOOST_TEST_DECORATOR(
