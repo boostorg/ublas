@@ -17,13 +17,16 @@ on:
 jobs:
   check:
     name: Linux Clang-Tidy
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         
-      - name: Install Clang 11
-        run: sudo apt-get update && sudo apt-get install -y clang-11 clang-tidy-11
-      
+      - name: Install Clang
+        run: sudo apt-get update && sudo apt-get install -y clang clang-tidy
+
+      - name: Setup
+        run: sudo apt-get update && sudo apt-get -y install sudo python3 git g++ curl xz-utils
+
       - name: "Install Boost from Source"
         run: |
           cd ..
@@ -33,15 +36,15 @@ jobs:
           ./b2 headers
           sudo cp -r -L boost /usr/include
           rm -rf boost
-      
+
       - name: "Run Clang-Tidy"
-        run: clang-tidy-11 examples/tensor/*.cpp test/tensor/*.cpp -- -Iinclude -std=c++20 > reports.txt
+        run: clang-tidy examples/tensor/*.cpp test/tensor/*.cpp -- -Iinclude -std=c++20 > reports.txt
 
       - name: "Print Clang-Tidy Report"
         run: cat reports.txt
                 
-      - uses: actions/setup-python@v2
-          
+      - uses: actions/setup-python@v5
+          with: { 'python-version': '3' }
       - name: "Post review comments"
         if: github.event.pull_request.head.repo.full_name == github.repository
         run: |
