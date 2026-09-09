@@ -29,7 +29,7 @@ jobs:
       matrix:
         config:
           - { name: clang, description: address and leak,   cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , b2args: address-sanitizer=on, cxxflags: -fno-omit-frame-pointer, container: 'ubuntu:20.04' }
-          - { name: clang, description: undefined behavior, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , b2args: undefined-sanitizer=on, container: 'ubuntu:20.04' }
+          - { name: clang, description: undefined behavior, cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , b2args: undefined-sanitizer=on, ldflags: -shared-libsan, container: 'ubuntu:20.04' }
           - { name: clang, description: thread,             cc: clang-11, cxx: clang++-11, cxxstd: 20, variant: debug,   opt: off  , b2args: thread-sanitizer=on, container: 'ubuntu:20.04' }
           - { name: gcc,   description: address and leak,   cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, b2args: address-sanitizer=on, cxxflags: -fopenmp -fno-omit-frame-pointer, ldflags: -fopenmp, container: 'ubuntu:20.04' }
 #          - { name: gcc,   description: undefined behavior, cc: gcc-10,   cxx: g++-10,     cxxstd: 20, variant: release, opt: speed, b2args: undefined-sanitizer=on, cxxflags: -fopenmp, ldflags: -fopenmp, container: 'ubuntu:20.04' }
