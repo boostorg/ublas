@@ -56,11 +56,11 @@ jobs:
 
     - name: Install Clang 10
       if: matrix.config.cxx == 'clang++-10'
-      run: sudo apt-get update && sudo apt-get install -y clang-10
+      run: sudo apt-get update && sudo apt-get install -y clang-10 libstdc++-10-dev
 
     - name: Install Clang 11
       if: matrix.config.cxx == 'clang++-11'
-      run: sudo apt-get update && sudo apt-get install -y clang-11
+      run: sudo apt-get update && sudo apt-get install -y clang-11 libstdc++-10-dev
 
     - uses: actions/checkout@v4
 

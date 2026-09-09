@@ -16,8 +16,8 @@ import config : requires ;
 
 project boost/ublas/test/tensor
     : requirements
-      <toolset>gcc:<cxxflags>"-Wall -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable"
-      <toolset>clang:<cxxflags>"-Wall -Wno-unknown-pragmas -Wno-sign-compare"
+      <toolset>gcc:<cxxflags>"-Wall -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -ffp-contract=off"
+      <toolset>clang:<cxxflags>"-Wall -Wno-unknown-pragmas -Wno-sign-compare -ffp-contract=off"
       [ requires cxx17_if_constexpr ]
     ;
 

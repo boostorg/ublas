@@ -235,6 +235,7 @@ constexpr auto all_extents_equal(unary_tensor_expression<T,E,OP> const& expr, ex
 	              "Error in boost::numeric::ublas::detail::all_extents_equal: Expression to evaluate should contain tensors.");
 
   using ::operator==;
+  using ::operator!=;
 
 	if constexpr ( std::is_same<T,E>::value )
       if(e != expr.e.extents())

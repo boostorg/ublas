@@ -55,6 +55,13 @@ jobs:
       - name: Install GCC 10
         run: sudo apt-get update && sudo apt-get install -y g++-10 libomp-dev
 
+      - name: Locate UBSan runtime
+        if: matrix.config.description == 'undefined behavior'
+        run: |
+          UBSAN_DIR="$(dirname "$(${{matrix.config.cxx}} -print-file-name=libclang_rt.ubsan_standalone-x86_64.so)")"
+          echo "UBSAN_DIR=$UBSAN_DIR"
+          echo "LD_LIBRARY_PATH=$UBSAN_DIR:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+
       - uses: actions/checkout@v4
 
       - name: Git Clone Boost.uBlas
