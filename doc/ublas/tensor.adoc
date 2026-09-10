@@ -292,10 +292,10 @@ elements. If `sizeof...(is)==0`, `tensor::operator[i]` is called.
 |===
 |Member function |Description
 
-|`template<std::size_t I, class ... index_types>  tensor_index operator()(indices::Index<I> p, index_types ... ps)`
-|Returns a link:tensor/tensor_index.html[tensor index] instance with
+|`template<std::size_t I, class ... index_types> decltype(auto) operator()(index::index_type<I> p, index_types ... ps) const`
+|Returns a link:tensor/tensor_index.adoc[tensor index] instance with
 index objects `(p,ps...)` for a tensor contraction where
-`sizeof...(ps)+1` must be equal to `tensor::order()`.
+`sizeof...(ps) + 1` must be equal to `tensor::order()`.
 |===
 
 ===== vi. [#tensor_16]#Iterators#

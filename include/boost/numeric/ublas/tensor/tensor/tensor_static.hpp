@@ -367,7 +367,7 @@ public:
   /** @brief Generates a tensor_core index for tensor_core contraction
      *
      *
-     *  @code auto Ai = A(_i,_j,k); @endcode
+     *  @code auto Ai = A(_i,_j,_k); @endcode
      *
      *  @param i placeholder
      *  @param is zero-based indices where 0 <= is[r] < this->size(r) where  0 < r < this->rank()
