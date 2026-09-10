@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2018-2019, Cem Bassoy, cem.bassoy@gmail.com
+//  Copyright (c) 2018, Cem Bassoy, cem.bassoy@gmail.com
 //
 //  Distributed under the Boost Software License, Version 1.0. (See
 //  accompanying file LICENSE_1_0.txt or copy at
@@ -13,14 +13,11 @@
 #define BOOST_UBLAS_TENSOR_INDEX_HPP
 
 
-#include <cstddef>
 #include <array>
+#include <cstddef>
 #include <vector>
 
-namespace boost {
-namespace numeric {
-namespace ublas {
-namespace index {
+namespace boost::numeric::ublas::index {
 
 /** @brief Proxy template class for the einstein summation notation
  *
@@ -31,20 +28,20 @@ namespace index {
 template<std::size_t I>
 struct index_type
 {
-	static constexpr std::size_t value = I;
+    static constexpr std::size_t value = I;
 
-	constexpr bool operator == (std::size_t other) const { return value == other; }
-	constexpr bool operator != (std::size_t other) const { return value != other; }
+    constexpr bool operator == (std::size_t other) const { return value == other; }
+    constexpr bool operator != (std::size_t other) const { return value != other; }
 
-	template <std::size_t K>
-	constexpr bool operator == (index_type<K> /*other*/) const {  return I==K; }
-	template <std::size_t  K>
-	constexpr bool operator != (index_type<K> /*other*/) const {  return I!=K; }
+    template <std::size_t K>
+    constexpr bool operator == (index_type<K> /*other*/) const {  return I==K; }
+    template <std::size_t  K>
+    constexpr bool operator != (index_type<K> /*other*/) const {  return I!=K; }
 
-	constexpr bool operator == (index_type /*other*/) const {  return true;  }
-	constexpr bool operator != (index_type /*other*/) const {  return false; }
+    constexpr bool operator == (index_type /*other*/) const {  return true;  }
+    constexpr bool operator != (index_type /*other*/) const {  return false; }
 
-	constexpr std::size_t operator()() const { return I; }
+    constexpr std::size_t operator()() const { return I; }
 };
 
 /** @brief Proxy classes for the einstein summation notation
@@ -80,10 +77,7 @@ static constexpr index_type<24> _x;
 static constexpr index_type<25> _y;
 static constexpr index_type<26> _z;
 
-} // namespace indices
+} // namespace boost::numeric::ublas::index
 
-}
-}
-}
 
 #endif // _BOOST_UBLAS_TENSOR_INDEX_HPP_

@@ -1,0 +1,147 @@
+== Unbounded Array Storage
+
+[[toc]]
+
+=== [#unbounded_array]#Unbounded Array#
+
+==== Description
+
+The templated class `unbounded_array<T, ALLOC>` implements a unbounded
+storage array using an allocator. The unbounded array is similar to a
+`std::vector` in that in can grow in size beyond any fixed bound.
+However `unbounded_array` is aimed at optimal performance. Therefore
+`unbounded_array` does not model a `Sequence` like `std::vector` does.
+
+When resized `unbounded_array` will reallocate it's storage even if the
+new size requirement is smaller. It is therefore inefficient to resize a
+`unbounded_array`
+
+==== Example
+
+[source, cpp]
+....
+#include <boost/numeric/ublas/storage.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    unbounded_array<double> a (3);
+    for (unsigned i = 0; i < a.size (); ++ i) {
+        a [i] = i;
+        std::cout << a [i] << std::endl;
+    }
+}
+....
+
+==== Definition
+
+Defined in the header storage.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`T` |The type of object stored in the array. |
+|`ALLOC` |An STL Allocator |std::allocator
+|===
+
+==== Model of
+
+link:storage_concept.html[Storage]
+
+==== Type requirements
+
+None, except for those imposed by the requirements of Storage.
+
+==== Public base classes
+
+None.
+
+==== Members
+
+* The description does not describe what the member actually does, this
+can be looked up in the corresponding concept documentation, but instead
+contains a remark on the implementation of the member inside this model
+of the concept.
+* Typography:
+** Members that are not part of the implemented concepts are in blue.
+
+[cols=,,,]
+|===
+|Member |Where defined |Description
+
+|`value_type` |https://www.boost.org/sgi/stl/Container.html[Container] |
+
+|`pointer` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `value_type*`
+
+|`const_pointer` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `const value_type*`
+
+|`reference` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `value_type&`
+
+|`const_reference` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `const value_type&`
+
+|`size_type` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `Alloc::size_type`
+
+|`difference_type` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `Alloc::difference_type`
+
+|`iterator` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `pointer`
+
+|`const_iterator` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `const_pointer`
+
+|`revere_iterator` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `std::reverse_iterator<iterator>`
+
+|`const_revere_iterator` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `std::reverse_iterator<const_iterator>`
+
+|[blue]#allocator_type# | |Defined as ALLOC
+
+|`explicit unbounded_array (ALLOC &a = ALLOC())` |link:storage_concept.html[Storage] |Creates an `unbounded_array` that holds zero elements, using a specified allocator.
+
+|`explicit unbounded_array (size_type size, ALLOC &a = ALLOC())` |link:storage_concept.html[Storage] |Creates a uninitialized `unbounded_array` that holds `size` elements, using a specified allocator. All the elements are default constructed.
+
+|`unbounded_array (size_type size, const T& init, ALLOC& a = ALLOC())` |link:storage_concept.html[Storage] |Creates an initialized `unbounded_array` that holds `size` elements,using a specified allocator. All the elements are constructed from the `init` value.
+
+|`unbounded_array (const unbounded_array &a)` |https://www.boost.org/sgi/stl/Container.html[Container] |The copy constructor.
+
+|`~unbounded_array ()` |https://www.boost.org/sgi/stl/Container.html[Container] |Deallocates the `unbounded_array` itself.
+
+|`void resize (size_type n)` |link:storage_concept.html[Storage] |Reallocates an `unbounded_array` to hold `n` elements. Values are uninitialised.
+
+|`void resize(size_type n, const T& t)` |link:storage_concept.html[Storage] |Reallocates an `unbounded_array` to hold `n` elements. Values are copies of `t`
+
+|`size_type size () const` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns the size of the `unbounded_array`.
+
+|`const_reference operator [] (size_type i) const` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a `const` reference of the `i` -th element.
+
+|`reference operator [] (size_type i)` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a reference of the `i`-th element.
+
+|`unbounded_array &operator = (const unbounded_array &a)` |https://www.boost.org/sgi/stl/Container.html[Container] |The assignment operator.
+
+|[blue]#`unbounded_array &assign_temporary (unbounded_array &a)`# | |Assigns a temporary. May change the array `a`.
+
+|`void swap (unbounded_array &a)` |https://www.boost.org/sgi/stl/Container.html[Container] |Swaps the contents of the arrays.
+
+|`const_iterator begin () const` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a `const_iterator` pointing to the beginning of the `unbounded_array`.
+
+|`const_iterator end () const` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a `const_iterator` pointing to the end of the `unbounded_array`.
+
+|`iterator begin ()` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a `iterator` pointing to the beginning of the `unbounded_array`.
+
+|`iterator end ()` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a `iterator` pointing to the end of the `unbounded_array`.
+
+|`const_reverse_iterator rbegin () const` |https://www.boost.org/sgi/stl/ReversibleContainer.html[ReversibleContainer] |Returns a `const_reverse_iterator` pointing to the beginning of the reversed `unbounded_array`.
+
+|`const_reverse_iterator rend () const` |https://www.boost.org/sgi/stl/ReversibleContainer.html[ReversibleContainer] |Returns a `const_reverse_iterator` pointing to the end of the reversed `unbounded_array`. 
+
+|`reverse_iterator rbegin ()` |https://www.boost.org/sgi/stl/ReversibleContainer.html[ReversibleContainer] |Returns a `reverse_iterator` pointing to the beginning of the reversed `unbounded_array`.
+
+|`reverse_iterator rend ()` |https://www.boost.org/sgi/stl/ReversibleContainer.html[ReversibleContainer] |Returns a `reverse_iterator` pointing to the end of the reversed `unbounded_array`.
+
+|===
+
+'''''
+
+Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

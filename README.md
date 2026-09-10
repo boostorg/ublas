@@ -1,46 +1,73 @@
-Boost.uBLAS Linear Algebra Library 
+Boost Linear and Multilinear Algebra Library 
 =====
-Boost.uBLAS is part of the [Boost C++ Libraries](http://github.com/boostorg). It is directed towards scientific computing on the level of basic linear algebra constructions with matrices and vectors and their corresponding abstract operations. 
 
+[![Language](https://img.shields.io/badge/C%2B%2B-20-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization)
+[![License](https://img.shields.io/badge/license-BSL-blue.svg)](https://opensource.org/licenses/BSL-1.0)
+[![Documentation](https://img.shields.io/badge/ublas-documentation-blue.svg)](https://www.boost.org/doc/libs/1_69_0/libs/numeric/ublas/doc/index.html)
+[![Wiki](https://img.shields.io/badge/ublas-wiki-blue.svg)](https://github.com/boostorg/ublas/wiki)
+[![Mailing List](https://img.shields.io/badge/ublas-mailing%20list-4eb899.svg)](https://lists.boost.org/mailman/listinfo.cgi/ublas)
+[![Discussions](https://img.shields.io/badge/ublas-discussions-blue)](https://github.com/boostorg/ublas/discussions)
+[![Gitter](https://img.shields.io/badge/ublas-chat%20on%20gitter-4eb899.svg)](https://gitter.im/boostorg/ublas)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/boostorg/ublas/wiki/Code-of-Conduct)
 
-## Documentation 
-uBLAS is documented at [boost.org](https://www.boost.org/doc/libs/1_69_0/libs/numeric/ublas/doc/index.html).
-The development has a [wiki page](https://github.com/uBLAS/ublas/wiki).
-The tensor extension has a separate [wiki page](https://github.com/BoostGSoC18/tensor/wiki).
+[![Windows](https://github.com/boostorg/ublas/actions/workflows/windows.yml/badge.svg)](https://github.com/boostorg/ublas/actions/workflows/windows.yml)
+[![Linux](https://github.com/boostorg/ublas/actions/workflows/linux.yml/badge.svg)](https://github.com/boostorg/ublas/actions/workflows/linux.yml)
+[![Apple MacOS](https://github.com/boostorg/ublas/actions/workflows/apple.yml/badge.svg)](https://github.com/boostorg/ublas/actions/workflows/apple.yml)
+[![Clang Sanitizer](https://github.com/boostorg/ublas/actions/workflows/sanitizer.yml/badge.svg)](https://github.com/boostorg/ublas/actions/workflows/sanitizer.yml)
+[![Clang Tidy](https://github.com/boostorg/ublas/actions/workflows/clangtidy.yml/badge.svg)](https://github.com/boostorg/ublas/actions/workflows/clangtidy.yml)
+[![Codecov](https://codecov.io/gh/boostorg/ublas/branch/master/graph/badge.svg)](https://codecov.io/gh/boostorg/ublas/branch/master) 
 
-## License
-Distributed under the [Boost Software License, Version 1.0](http://www.boost.org/LICENSE_1_0.txt).
+Boost.uBlas is a header-only library and part of the [Boost C++ libraries](http://github.com/boostorg).
+It provides a set of basic linear and multilinear algebra operations with tensors, matrices and vectors.
+uBLAS is documented at [boost.org](https://www.boost.org/doc/libs/1_69_0/libs/numeric/ublas/doc/index.html) or in [docs](https://github.com/BoostGSoC21/ublas/blob/develop/doc/ublas.adoc).
+Simple examples of the tensor extension is provided by the [wiki page](https://github.com/boostorg/ublas/wiki/Tensor).
 
-## Properties
-* Header-only
-* Tensor extension requires C++17 compatible compiler, compiles with
-  * gcc 7.3.0
-  * clang 6.0
-  * msvc 14.1
+## Simple Example
+
+```cpp
+#include <boost/numeric/ublas/tensor.hpp> 
+#include <iostream>
+
+int main()
+{
+  using namespace boost::numeric::ublas::index;
+  using tensor  = boost::numeric::ublas::tensor_dynamic<float>;
+  auto ones     = boost::numeric::ublas::ones<float>{};
+
+  tensor A = ones(3,4,5);
+  tensor B = ones(4,6,3,2);
+
+  tensor C = 2*ones(5,6,2) + A(_i,_j,_k)*B(_j,_l,_i,_m) + 5;
+  
+  // Matlab Compatible Formatted Output
+  std::cout << "C=" << C << ";" << std::endl;
+}
+```
+
+## Requirements
+* Boost.uBlas requires a C++20 compatible compiler
+  * gcc version >= 10.x.x
+  * clang version >= 10.x.x 
+  * msvc version >= 14.28
 * Unit-tests require Boost.Test
 
-## Build Status
+## Discussions and Questions
+* Be sure to have read our [code of conduct](https://github.com/boostorg/ublas/wiki/Code-of-Conduct) and Boost's [discussion policy](http://www.boost.org/community/policy.html)
+* Contributors and maintainers mainly use [Discussions](https://github.com/boostorg/ublas/discussions) (previously [Gitter](https://gitter.im/boostorg/ublas)) to discuss library design or governance topics. 
+* Users of the library can choose between the following platforms preferably [Gitter](https://gitter.im/boostorg/ublas), the [Boost developers mailing list](https://lists.boost.org/mailman/listinfo.cgi/ublas) using the `[ublas]` tag at the beginning of the subject line or [Stackoverflow](http://stackoverflow.com/questions/ask?tags=c%2B%2B,boost,boost-ublas) using `boost-ublas` or `ublas` tags
+* Contact the maintainers [Cem](https://gitter.im/bassoy), [David](https://gitter.im/yimyom) or [Stefan](https://gitter.im/stefanseefeld) if you have suggestions
 
-Branch          | Travis | Appveyor | codecov.io | Docs |
-:-------------: | ------ | -------- | ---------- | ---- |
-[`master`](https://github.com/boostorg/ublas/tree/master) | [![Build Status](https://travis-ci.org/boostorg/ublas.svg?branch=master)](https://travis-ci.org/boostorg/ublas) | [![Build status](https://ci.appveyor.com/api/projects/status/ctu3wnfowa627ful/branch/master?svg=true)](https://ci.appveyor.com/project/stefanseefeld/ublas/branch/master) | [![codecov](https://codecov.io/gh/boostorg/ublas/branch/master/graph/badge.svg)](https://codecov.io/gh/boostorg/ublas/branch/master) | [![Documentation](https://img.shields.io/badge/docs-develop-brightgreen.svg)](http://www.boost.org/doc/libs/release/libs/numeric)
-[`develop`](https://github.com/boostorg/ublas/tree/develop) | [![Build Status](https://travis-ci.org/boostorg/ublas.svg?branch=develop)](https://travis-ci.org/boostorg/ublas) | [![Build status](https://ci.appveyor.com/api/projects/status/ctu3wnfowa627ful/branch/develop?svg=true)](https://ci.appveyor.com/project/stefanseefeld/ublas/branch/develop) | [![codecov](https://codecov.io/gh/boostorg/ublas/branch/develop/graph/badge.svg)](https://codecov.io/gh/boostorg/ublas/branch/develop) | [![Documentation](https://img.shields.io/badge/docs-develop-brightgreen.svg)](http://www.boost.org/doc/libs/release/libs/numeric)
-
+## Contribution
+* Be sure that you have read our [contribution guidelines](https://github.com/boostorg/ublas/wiki/Guidelines-for-Contribution) and our [code of conduct](https://github.com/boostorg/ublas/wiki/Code-of-Conduct) 
+* If you want to report a bug, create an [issue](https://github.com/boostorg/ublas/issues) 
+* If you want to submit a patch, create pull request against **develop** branch.
 
 ## Directories
 
-| Name        | Purpose                        |
-| ----------- | ------------------------------ |
-| `doc`       | documentation                  |
-| `examples`  | example files                  |
-| `include`   | headers                        |
-| `test`      | unit tests                     |
-| `benchmarks`| timing and benchmarking        |
-
-## More information
-
-* Ask questions in [stackoverflow](http://stackoverflow.com/questions/ask?tags=c%2B%2B,boost,boost-ublas) with `boost-ublas` or `ublas` tags.
-* Report [bugs](https://github.com/boostorg/ublas/issues) and be sure to mention Boost version, platform and compiler you're using. A small compilable code sample to reproduce the problem is always good as well.
-* Submit your patches as pull requests against **develop** branch. Note that by submitting patches you agree to license your modifications under the [Boost Software License, Version 1.0](http://www.boost.org/LICENSE_1_0.txt).
-* Developer discussions about the library are held on the [Boost developers mailing list](https://lists.boost.org/mailman/listinfo.cgi/ublas). Be sure to read the [discussion policy](http://www.boost.org/community/policy.html) before posting and add the `[ublas]` tag at the beginning of the subject line
-* For any other questions, you can contact David, Stefan or Cem: david.bellot-AT-gmail-DOT-com, cem.bassoy-AT-gmail-DOT-com stefan-AT-seefeld-DOT-name
+| Name         | Purpose                 |
+| ------------ | ----------------------- |
+| `doc`        | documentation           |
+| `examples`   | example files           |
+| `include`    | headers                 |
+| `test`       | unit tests              |
+| `benchmarks` | timing and benchmarking |

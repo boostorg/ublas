@@ -1,0 +1,913 @@
+== Vector Expressions
+
+[[toc]]
+
+=== [#vector_expression]#Vector Expression#
+
+==== Description
+
+The templated class `vector_expression<E>` is required to be a public
+base of all classes which model the Vector Expression concept.
+
+==== Definition
+
+Defined in the header expression_types.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`E` |The type of the vector expression. | 
+|===
+
+==== Model of
+
+None. +++Not a Vector Expression+++!
+
+==== Type requirements
+
+None.
+
+==== Public base classes
+
+None.
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`const expression_type &operator () () const` |Returns a `const`
+reference of the expression.
+
+|`expression_type &operator () ()` |Returns a reference of the
+expression.
+|===
+
+==== Notes
+
+The `range`, `slice` and `project` functions have been removed. Use the
+free functions defined in link:vector_proxy.html[vector proxy] instead.
+
+=== [#vector_container]#Vector Container#
+
+==== Description
+
+The templated class `vector_container<C>` is required to be a public
+base of all classes which model the Vector concept. This includes the
+class `vector` itself.
+
+==== Definition
+
+Defined in the header expression_types.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`C` |The type of the vector container. | 
+|===
+
+==== Model of
+
+None. +++Not a Vector Expression OR Vector+++!
+
+==== Type requirements
+
+None.
+
+==== Public base classes
+
+`vector_expression<C>`
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`const container_type &operator () () const` |Returns a `const`
+reference of the container.
+
+|`container_type &operator () ()` |Returns a reference of the container.
+|===
+
+=== [#vector_references]#Vector References#
+
+==== Reference
+
+===== Description
+
+The templated class `vector_reference<E>` contains a reference to a
+vector expression.
+
+===== Definition
+
+Defined in the header vector_expression.hpp.
+
+===== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`E` |The type of the vector expression. | 
+|===
+
+===== Model of
+
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Type requirements
+
+None, except for those imposed by the requirements of
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Public base classes
+
+`vector_expression<vector_reference<E> >`
+
+===== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`vector_reference (expression_type &e)` |Constructs a reference of the
+expression.
+
+|`void resize (size_type size)` |Resizes the expression to hold at most
+`size` elements.
+
+|`size_type size () const` |Returns the size of the expression.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`reference operator () (size_type i)` |Returns a reference of the
+`i`-th element.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the expression.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the expression.
+
+|`iterator begin ()` |Returns a `iterator` pointing to the beginning of
+the expression.
+
+|`iterator end ()` |Returns a `iterator` pointing to the end of the
+expression.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+expression.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed expression.
+
+|`reverse_iterator rbegin ()` |Returns a `reverse_iterator` pointing to
+the beginning of the reversed expression.
+
+|`reverse_iterator rend ()` |Returns a `reverse_iterator` pointing to
+the end of the reversed expression.
+|===
+
+=== [#vector_operations]#Vector Operations#
+
+==== Unary Operation Description
+
+===== Description
+
+The templated class `vector_unary<E, F>` describes a unary vector
+operation.
+
+===== Definition
+
+Defined in the header vector_expression.hpp.
+
+===== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`E` |The type of the vector expression. | 
+|`F` |The type of the operation. | 
+|===
+
+===== Model of
+
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Type requirements
+
+None, except for those imposed by the requirements of
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Public base classes
+
+`vector_expression<vector_unary<E, F> >`
+
+===== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`vector_unary (const expression_type &e)` |Constructs a description of
+the expression.
+
+|`size_type size () const` |Returns the size of the expression.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the expression.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the expression.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+expression.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed expression.
+|===
+
+==== Unary Operations
+
+===== Prototypes
+
+[source,cpp]
+....
+template<class E, class F>
+    struct vector_unary_traits {
+        typedef vector_unary<typename E::const_closure_type, F> expression_type;
+        typedef expression_type result_type;
+     };
+
+    // (- v) [i] = - v [i]
+    template<class E>
+     typename vector_unary_traits<E, scalar_negate<typename E::value_type> >::result_type
+    operator - (const vector_expression<E> &e);
+
+    // (conj v) [i] = conj (v [i])
+    template<class E>
+     typename vector_unary_traits<E, scalar_conj<typename E::value_type> >::result_type
+    conj (const vector_expression<E> &e);
+
+    // (real v) [i] = real (v [i])
+    template<class E>
+     typename vector_unary_traits<E, scalar_real<typename E::value_type> >::result_type
+    real (const vector_expression<E> &e);
+
+    // (imag v) [i] = imag (v [i])
+    template<class E>
+     typename vector_unary_traits<E, scalar_imag<typename E::value_type> >::result_type
+    imag (const vector_expression<E> &e);
+
+    // (trans v) [i] = v [i]
+    template<class E>
+     typename vector_unary_traits<E, scalar_identity<typename E::value_type> >::result_type
+    trans (const vector_expression<E> &e);
+
+    // (herm v) [i] = conj (v [i])
+    template<class E>
+     typename vector_unary_traits<E, scalar_conj<typename E::value_type> >::result_type
+    herm (const vector_expression<E> &e);
+....
+
+===== Description
+
+`operator -` computes the additive inverse of a vector expression.
+`conj` computes the complex conjugate of a vector expression. `real` and
+`imag` compute the real and imaginary parts of a vector expression.
+`trans` computes the transpose of a vector expression. `herm` computes
+the hermitian, i.e. the complex conjugate of the transpose of a vector
+expression.
+
+===== Definition
+
+Defined in the header vector_expression.hpp.
+
+===== Type requirements
+
+* `E` is a model of
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Preconditions
+
+None.
+
+===== Complexity
+
+Linear depending from the size of the vector expression.
+
+===== Examples
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    vector<std::complex<double> > v (3);
+    for (unsigned i = 0; i < v.size (); ++ i)
+        v (i) = std::complex<double> (i, i);
+
+    std::cout << - v << std::endl;
+    std::cout << conj (v) << std::endl;
+    std::cout << real (v) << std::endl;
+    std::cout << imag (v) << std::endl;
+    std::cout << trans (v) << std::endl;
+    std::cout << herm (v) << std::endl;
+}
+....
+
+==== Binary Operation Description
+
+===== Description
+
+The templated class `vector_binary<E1, E2, F>` describes a binary vector
+operation.
+
+===== Definition
+
+Defined in the header vector_expression.hpp.
+
+===== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`E1` |The type of the first vector expression. |
+|`E2` |The type of the second vector expression. |
+|`F` |The type of the operation. |
+|===
+
+===== Model of
+
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Type requirements
+
+None, except for those imposed by the requirements of
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Public base classes
+
+`vector_expression<vector_binary<E1, E2, F> >`
+
+===== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`vector_binary (const expression1_type &e1, const expression2_type &e2)`
+|Constructs a description of the expression.
+
+|`size_type size () const` |Returns the size of the expression.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the expression.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the expression.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+expression.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed expression.
+|===
+
+==== Binary Operations
+
+===== Prototypes
+
+[source,cpp]
+....
+template<class E1, class E2, class F>
+    struct vector_binary_traits {
+        typedef vector_binary<typename E1::const_closure_type,
+                               typename E2::const_closure_type, F> expression_type;
+        typedef expression_type result_type;
+     };
+
+    // (v1 + v2) [i] = v1 [i] + v2 [i]
+    template<class E1, class E2>
+    typename vector_binary_traits<E1, E2, scalar_plus<typename E1::value_type,
+                                                       typename E2::value_type> >::result_type
+    operator + (const vector_expression<E1> &e1,
+                 const vector_expression<E2> &e2);
+
+    // (v1 - v2) [i] = v1 [i] - v2 [i]
+    template<class E1, class E2>
+    typename vector_binary_traits<E1, E2, scalar_minus<typename E1::value_type,
+                                                        typename E2::value_type> >::result_type
+    operator - (const vector_expression<E1> &e1,
+                 const vector_expression<E2> &e2);
+....
+
+===== Description
+
+`operator +` computes the sum of two vector expressions. `operator -`
+computes the difference of two vector expressions.
+
+===== Definition
+
+Defined in the header vector_expression.hpp.
+
+===== Type requirements
+
+* `E1` is a model of
+link:expression_concept.html#vector_expression[Vector Expression] .
+* `E2` is a model of
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Preconditions
+
+* `e1 ().size () == e2 ().size ()`
+
+===== Complexity
+
+Linear depending from the size of the vector expressions.
+
+===== Examples
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    vector<double> v1 (3), v2 (3);
+    for (unsigned i = 0; i < std::min (v1.size (), v2.size ()); ++ i)
+        v1 (i) = v2 (i) = i;
+
+    std::cout << v1 + v2 << std::endl;
+    std::cout << v1 - v2 << std::endl;
+}
+....
+
+==== Binary Outer Operation Description
+
+===== Description
+
+The templated class `vector_matrix_binary<E1, E2, F>` describes a binary
+outer vector operation.
+
+===== Definition
+
+Defined in the header matrix_expression.hpp.
+
+===== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`E1` |The type of the first vector expression. |
+|`E2` |The type of the second vector expression. |
+|`F` |The type of the operation. |
+|===
+
+===== Model of
+
+link:expression_concept.html#matrix_expression[Matrix Expression] .
+
+===== Type requirements
+
+None, except for those imposed by the requirements of
+link:expression_concept.html#matrix_expression[Matrix Expression] .
+
+===== Public base classes
+
+`matrix_expression<vector_matrix_binary<E1, E2, F> >`
+
+===== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`vector_matrix_binary (const expression1_type &e1, const expression2_type &e2)`
+|Constructs a description of the expression.
+
+|`size_type size1 () const` |Returns the number of rows.
+
+|`size_type size2 () const` |Returns the number of columns.
+
+|`const_reference operator () (size_type i, size_type j) const` |Returns
+the value of the `j`-th element in the `i`-th row.
+
+|`const_iterator1 begin1 () const` |Returns a `const_iterator1` pointing
+to the beginning of the expression.
+
+|`const_iterator1 end1 () const` |Returns a `const_iterator1` pointing
+to the end of the expression.
+
+|`const_iterator2 begin2 () const` |Returns a `const_iterator2` pointing
+to the beginning of the expression.
+
+|`const_iterator2 end2 () const` |Returns a `const_iterator2` pointing
+to the end of the expression.
+
+|`const_reverse_iterator1 rbegin1 () const` |Returns a
+`const_reverse_iterator1` pointing to the beginning of the reversed
+expression.
+
+|`const_reverse_iterator1 rend1 () const` |Returns a
+`const_reverse_iterator1` pointing to the end of the reversed
+expression.
+
+|`const_reverse_iterator2 rbegin2 () const` |Returns a
+`const_reverse_iterator2` pointing to the beginning of the reversed
+expression.
+
+|`const_reverse_iterator2 rend2 () const` |Returns a
+`const_reverse_iterator2` pointing to the end of the reversed
+expression.
+|===
+
+==== Binary Outer Operations
+
+===== Prototypes
+
+[source,cpp]
+....
+template<class E1, class E2, class F>
+    struct vector_matrix_binary_traits {
+        typedef vector_matrix_binary<typename E1::const_closure_type,
+                                      typename E2::const_closure_type, F> expression_type;
+        typedef expression_type result_type;
+     };
+
+    // (outer_prod (v1, v2)) [i] [j] = v1 [i] * v2 [j]
+    template<class E1, class E2>
+    typename vector_matrix_binary_traits<E1, E2, scalar_multiplies<typename E1::value_type, typename E2::value_type> >::result_type
+    outer_prod (const vector_expression<E1> &e1,
+                 const vector_expression<E2> &e2);
+....
+
+===== Description
+
+`outer_prod` computes the outer product of two vector expressions.
+
+===== Definition
+
+Defined in the header matrix_expression.hpp.
+
+===== Type requirements
+
+* `E1` is a model of
+link:expression_concept.html#vector_expression[Vector Expression] .
+* `E2` is a model of
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Preconditions
+
+None.
+
+===== Complexity
+
+Quadratic depending from the size of the vector expressions.
+
+===== Examples
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    vector<double> v1 (3), v2 (3);
+    for (unsigned i = 0; i < std::min (v1.size (), v2.size ()); ++ i)
+        v1 (i) = v2 (i) = i;
+
+    std::cout << outer_prod (v1, v2) << std::endl;
+}
+....
+
+==== Scalar Vector Operation Description
+
+===== Description
+
+The templated classes `vector_binary_scalar1<E1, E2, F>` and
+`vector_binary_scalar2<E1, E2, F>` describe binary operations between a
+scalar and a vector.
+
+===== Definition
+
+Defined in the header vector_expression.hpp.
+
+===== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`E1/E2` |The type of the scalar expression. |
+|`E2/E1` |The type of the vector expression. |
+|`F` |The type of the operation. |
+|===
+
+===== Model of
+
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Type requirements
+
+None, except for those imposed by the requirements of
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Public base classes
+
+`vector_expression<vector_binary_scalar1<E1, E2, F> >` and
+`vector_expression<vector_binary_scalar2<E1, E2, F> >` resp.
+
+===== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`vector_binary_scalar1 (const expression1_type &e1, const expression2_type &e2)`
+|Constructs a description of the expression.
+
+|`vector_binary_scalar2 (const expression1_type &e1, const expression2_type &e2)`
+|Constructs a description of the expression.
+
+|`size_type size () const` |Returns the size of the expression.
+
+|`const_reference operator () (size_type i) const` |Returns the value of
+the `i`-th element.
+
+|`const_iterator begin () const` |Returns a `const_iterator` pointing to
+the beginning of the expression.
+
+|`const_iterator end () const` |Returns a `const_iterator` pointing to
+the end of the expression.
+
+|`const_reverse_iterator rbegin () const` |Returns a
+`const_reverse_iterator` pointing to the beginning of the reversed
+expression.
+
+|`const_reverse_iterator rend () const` |Returns a
+`const_reverse_iterator` pointing to the end of the reversed expression.
+|===
+
+==== Scalar Vector Operations
+
+===== Prototypes
+
+[source,cpp]
+....
+template<class T1, class E2, class F>
+    struct vector_binary_scalar1_traits {
+        typedef vector_binary_scalar1<scalar_const_reference<T1>,
+                                      typename E2::const_closure_type, F> expression_type;
+        typedef expression_type result_type;
+    };
+
+    // (t * v) [i] = t * v [i]
+    template<class T1, class E2>
+    typename vector_binary_scalar1_traits<T1, E2, scalar_multiplies<T1, typename E2::value_type> >::result_type
+    operator * (const T1 &e1,
+                const vector_expression<E2> &e2);
+
+    template<class E1, class T2, class F>
+    struct vector_binary_scalar2_traits {
+        typedef vector_binary_scalar2<typename E1::const_closure_type,
+                                      scalar_const_reference<T2>, F> expression_type;
+        typedef expression_type result_type;
+    };
+
+    // (v * t) [i] = v [i] * t
+    template<class E1, class T2>
+    typename vector_binary_scalar2_traits<E1, T2, scalar_multiplies<typename E1::value_type, T2> >::result_type
+    operator * (const vector_expression<E1> &e1,
+                const T2 &e2);
+
+    // (v / t) [i] = v [i] / t
+    template<class E1, class T2>
+    typename vector_binary_scalar2_traits<E1, T2, scalar_divides<typename E1::value_type, T2> >::result_type
+    operator / (const vector_expression<E1> &e1,
+                const T2 &e2);
+....
+
+===== Description
+
+`operator *` computes the product of a scalar and a vector expression.
+`operator /` multiplies the vector with the reciprocal of the scalar.
+
+===== Definition
+
+Defined in the header vector_expression.hpp.
+
+===== Type requirements
+
+* `T1/T2` is a model of
+link:expression_concept.html#scalar_expression[Scalar Expression] .
+* `E2/E1` is a model of
+link:expression_concept.html#vector_expression[Vector Expression] .
+
+===== Preconditions
+
+None.
+
+===== Complexity
+
+Linear depending from the size of the vector expression.
+
+===== Examples
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    vector<double> v (3);
+    for (unsigned i = 0; i < v.size (); ++ i)
+        v (i) = i;
+
+    std::cout << 2.0 * v << std::endl;
+    std::cout << v * 2.0 << std::endl;
+}
+....
+
+=== [#vector_reductions]#Vector Reductions#
+
+==== Unary Reductions
+
+===== Prototypes
+
+[source,cpp]
+....
+template<class E, class F>
+    struct vector_scalar_unary_traits {
+         typedef typename F::result_type result_type;
+    };
+
+    // sum v = sum (v [i])
+    template<class E>
+    typename vector_scalar_unary_traits<E, vector_sum<typename E::value_type> >::result_type
+    sum (const vector_expression<E> &e);
+
+    // norm_1 v = sum (abs (v [i]))
+    template<class E>
+    typename vector_scalar_unary_traits<E, vector_norm_1<typename E::value_type> >::result_type
+    norm_1 (const vector_expression<E> &e);
+
+    // norm_2 v = sqrt (sum (v [i] * v [i]))
+    template<class E>
+    typename vector_scalar_unary_traits<E, vector_norm_2<typename E::value_type> >::result_type
+    norm_2 (const vector_expression<E> &e);
+
+    // norm_2_square v = sum (v [i] * v [i])
+    template<class E>
+    typename vector_scalar_unary_traits<E, vector_norm_2_square<typename E::value_type> >::result_type
+    norm_2_square (const vector_expression<E> &e);
+
+    // norm_inf v = max (abs (v [i]))
+    template<class E>
+    typename vector_scalar_unary_traits<E, vector_norm_inf<typename E::value_type> >::result_type
+    norm_inf (const vector_expression<E> &e);
+
+    // index_norm_inf v = min (i: abs (v [i]) == max (abs (v [i])))
+    template<class E>
+    typename vector_scalar_unary_traits<E, vector_index_norm_inf<typename E::value_type> >::result_type
+    index_norm_inf (const vector_expression<E> &e);
+....
+
+===== Description
+
+`sum` computes the sum of the vector expression's elements. `norm_1`,
+`norm_2` and `norm_inf` compute the corresponding __||.||__~_1_~,
+__||.||__~_2_~ and __||.||__~_inf_~ vector norms. `index_norm_1`
+computes the index of the vector expression's first element having
+maximal absolute value.
+
+===== Definition
+
+Defined in the header vector_expression.hpp.
+
+===== Type requirements
+
+* `E` is a model of link:#vector_expression[Vector Expression] .
+
+===== Preconditions
+
+None.
+
+===== Complexity
+
+Linear depending from the size of the vector expression.
+
+===== Examples
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    vector<double> v (3);
+    for (unsigned i = 0; i < v.size (); ++ i)
+        v (i) = i;
+
+    std::cout << sum (v) << std::endl;
+    std::cout << norm_1 (v) << std::endl;
+    std::cout << norm_2 (v) << std::endl;
+    std::cout << norm_inf (v) << std::endl;
+    std::cout << index_norm_inf (v) << std::endl;
+}
+....
+
+==== Binary Reductions
+
+===== Prototypes
+
+[source,cpp]
+....
+template<class E1, class E2, class F>
+    struct vector_scalar_binary_traits {
+        typedef typename F::result_type result_type;
+    };
+
+    // inner_prod (v1, v2) = sum (v1 [i] * v2 [i])
+    template<class E1, class E2>
+    typename vector_scalar_binary_traits<E1, E2, vector_inner_prod<typename E1::value_type,
+                                                                   typename E2::value_type,
+                                                                   typename promote_traits<typename E1::value_type,
+                                                                                           typename E2::value_type>::promote_type> >::result_type
+    inner_prod (const vector_expression<E1> &e1,
+                const vector_expression<E2> &e2);
+
+    template<class E1, class E2>
+    typename vector_scalar_binary_traits<E1, E2, vector_inner_prod<typename E1::value_type,
+                                                                   typename E2::value_type,
+                                                                   typename type_traits<typename promote_traits<typename E1::value_type,
+                                                                                                                typename E2::value_type>::promote_type>::precision_type> >::result_type
+    prec_inner_prod (const vector_expression<E1> &e1,
+                     const vector_expression<E2> &e2);
+....
+
+===== Description
+
+`inner_prod` computes the inner product of the vector expressions.
+`prec_inner_prod` computes the double precision inner product of the
+vector expressions`.`
+
+===== Definition
+
+Defined in the header vector_expression.hpp.
+
+===== Type requirements
+
+* `E1` is a model of link:#vector_expression[Vector Expression] .
+* `E2` is a model of link:#vector_expression[Vector Expression] .
+
+===== Preconditions
+
+* `e1 ().size () == e2 ().size ()`
+
+===== Complexity
+
+Linear depending from the size of the vector expressions.
+
+===== Examples
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/vector.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    vector<double> v1 (3), v2 (3);
+    for (unsigned i = 0; i < std::min (v1.size (), v2.size ()); ++ i)
+        v1 (i) = v2 (i) = i;
+
+    std::cout << inner_prod (v1, v2) << std::endl;
+}
+....
+
+'''''
+
+Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

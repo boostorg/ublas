@@ -1,0 +1,352 @@
+== Overview of Tensor, Matrix- and Vector Types
+
+[[toc]]
+
+Contents:
+  +
+  link:#vectors[Vectors]
+  +
+  link:#vector_proxies[Vector Proxies]
+  +
+  link:#matrices[Matrices]
+  +
+  link:#matrix_proxies[Matrix Proxies]
+  +
+  link:#tensors[Tensors]
+  +
+  link:#storage_layout[Special Storage Layouts]
+
+=== Notation
+
+[cols=",",]
+|===
+|`T` |is the data type. For general linear algebra operations this will
+be a real type e.g. `double`, ...
+
+|`F` |is the orientation type, either `row_major` or `column_major` for
+matrices and `first_order` or `last_order` for tensors
+
+|`A, IA, TA` |is an array storage type, e.g.
+`std::vector, bounded_array, unbounded_array, ...`
+
+|`TRI` |is a triangular functor:
+`lower, unit_lower, strict_lower, upper, unit_upper, strict_upper`
+
+|`M, N, K` |are unsigned integer sizes (`std::size_t`)
+
+|`IB` |is an index base (`std::size_t`)
+
+|`VEC` |is any vector type
+
+|`MAT` |is any matrix type
+
+|`TEN` |is any tensor type
+
+|`[...]` |denote optional arguments - for more details look at the
+section "storage layout".
+|===
+
+=== [#vectors]#Vectors#
+
+[width="100%",cols="50%,50%",options="header",]
+|===
+|Definition |Description
+|`vector<T [, A]>   v(size);` |a dense vector of values of type `T` of
+variable size. A storage type `A` can be specified which defaults to
+`unbounded_array`. Elements are constructed by `A`, which need not
+initialise their value.
+
+|`bounded_vector<T, N>   v;` |a dense vector of values of type `T` of
+variable size but with maximum `N`. The default constructor creates `v`
+with size `N`. Elements are constructed by the storage type
+`bounded_array`, which need not initialise their value.
+
+|`c_vector<T, M>   v(size);` |a dense vector of values of type `T` with
+the given size. The data is stored as an ordinary C++ array `T data_[M]`
+
+|`zero_vector<T>   v(size);` |the zero vector of type `T` with the given
+size.
+
+|`unit_vector<T>   v(size, index);` |the unit vector of type `T` with
+the given size. The vector is zero other then a single specified
+element. +
+`index` should be less than `size`.
+
+|`mapped_vector<T [, S]>   v(size);` |a sparse vector of values of type
+`T` of variable size. The sparse storage type `S` can be
+`std::map<size_t, T>` or `map_array<size_t, T>`.
+
+|`compressed_vector<T [,IB, IA, TA]>   v(size);` |a sparse vector of
+values of type `T` of variable size. The non zero values are stored as
+two seperate arrays - an index array and a value array. The index array
+is always sorted and there is at most one entry for each index.
+
+|`coordinate_vector<T [,IB, IA, TA]>   v(size);` |a sparse vector of
+values of type `T` of variable size. The non zero values are stored as
+two seperate arrays - an index array and a value array. The arrays may
+be out of order with multiple entries for each vector element. If there
+are multiple values for the same index the sum of these values is the
+real value.
+|===
+
+_Note:_ the default types are defined in `boost/numeric/ublas/fwd.hpp`.
+
+=== [#vector_proxies]#Vector Proxies#
+
+[cols=",",options="header",]
+|===
+|Definition |Description
+|`vector_range<VEC>   vr(v, range);` |a vector referencing a continuous
+subvector of elements of vector `v` containing all elements specified by
+`range`.
+
+|`vector_slice<VEC>   vs(v, slice);` |a vector referencing a non
+continuous subvector of elements of vector `v` containing all elements
+specified by `slice`.
+
+|`matrix_row<MAT>   vr(m, index);` |a vector referencing the `index`-th
+row of matrix `m`
+
+|`matrix_column<MAT>   vc(m, index);` |a vector referencing the
+`index`-th column of matrix `m`
+|===
+
+=== [#matrices]#Matrices#
+
+[cols=",",options="header",]
+|===
+|Definition |Description
+|`matrix<T [, F, A]>   m(size1, size2);` |a dense matrix of values of
+type `T` of variable size. A storage type `A` can be specified which
+defaults to `unbounded_array`. The orientation functor `F` defaults to
+`row_major`. Elements are constructed by `A`, which need not initialise
+their value.
+
+|`bounded_matrix<T, M, N [, F]>   m;` |a dense matrix of type `T` with
+variable size with maximum `M`-by-`N`. The orientation functor `F`
+defaults to `row_major`. The default constructor creates `m` with size
+`M`-by-`N`. Elements are constructed by the storage type
+`bounded_array`, which need not initialise their value.
+
+|`c_matrix<T, M, N>   m(size1, size2);` |a dense matrix of values of
+type `T` with the given size. The data is stored as an ordinary C++
+array `T data_[N][M]`
+
+|`vector_of_vector<T [, F, A]>   m(size1, size2);` |a dense matrix of
+values of type `T` with the given size. The data is stored as a vector
+of vectors. The orientation `F` defaults to `row_major`. The storage
+type `S` defaults to `unbounded_array<unbounded_array<T> >`
+
+|`zero_matrix<T>   m(size1, size2);` |a zero matrix of type `T` with the
+given size.
+
+|`identity_matrix<T>   m(size1, size2);` |an identity matrix of type `T`
+with the given size. The values are `v(i,j) = (i==j)?T(1):T()`.
+
+|`scalar_matrix<T>   m(size1, size2, value);` |a matrix of type `T` with
+the given size that has the value `value` everywhere.
+
+|`triangular_matrix<T [, TRI, F, A]>   m(size);` |a triangular matrix of
+values of type `T` of variable size. Only the nonzero elements are
+stored in the given order `F`. ("triangular packed storage") The
+triangular type `F` defaults to `lower`, the orientation type `F`
+defaults to `row_major`.
+
+|`banded_matrix<T [, F, A]>   m(size1, size2, n_lower, n_upper);` |a
+banded matrix of values of type `T` of variable size with `n_lower` sub
+diagonals and `n_upper` super diagonals. Only the nonzero elements are
+stored in the given order `F`. ("packed storage")
+
+|`symmetric_matrix<T [, TRI, F, A]>   m(size);` |a symmetric matrix of
+values of type `T` of variable size. Only the given triangular matrix is
+stored in the given order `F`.
+
+|`hermitian_matrix<T [, TRI, F, A]>   m(size);` |a hermitian matrix of
+values of type `T` of variable size. Only the given triangular matrix is
+stored using the order `F`.
+
+|`mapped_matrix<T, [F, S]>   m(size1, size2 [, non_zeros]);` |a sparse
+matrix of values of type `T` of variable size. The sparse storage type
+`S` can be either `std::map<size_t, std::map<size_t, T> >` or
+`map_array<size_t, map_array<size_t, T> >`.
+
+|`sparse_vector_of_sparse_vector<T, [F, C]>   m(size1, size2 [, non_zeros]);`
+|a sparse matrix of values of type `T` of variable size.
+
+|`compressed_matrix<T, [F, IB, IA, TA]>   m(size1, size2 [, non_zeros]);`
+|a sparse matrix of values of type `T` of variable size. The values are
+stored in compressed row/column storage.
+
+|`coordinate_matrix<T, [F, IB, IA, TA]>   m(size1, size2 [, non_zeros]);`
+|a sparse matrix of values of type `T` of variable size. The values are
+stored in 3 parallel array as triples (i, j, value). More than one value
+for each pair of indices is possible, the real value is the sum of all.
+
+|`generalized_vector_of_vector<T, F, A>   m(size1, size2 [, non_zeros]);`
+|a sparse matrix of values of type `T` of variable size. The values are
+stored as a vector of sparse vectors, e.g.
+`generalized_vector_of_vector<double, row_major, unbounded_array<coordinate_vector<double> > >`
+|===
+
+_Note:_ the default types are defined in `boost/numeric/ublas/fwd.hpp`.
+
+=== [#matrix_proxies]#Matrix Proxies#
+
+[cols=",",options="header",]
+|===
+|Definition |Description
+|`triangular_adaptor<MAT, TRI>   ta(m);` |a triangular matrix
+referencing a selection of elements of the matrix `m`.
+
+|`symmetric_adaptor<MAT, TRI>   sa(m);` |a symmetric matrix referencing
+a selection of elements of the matrix `m`.
+
+|`hermitian_adaptor<MAT, TRI>   ha(m);` |a hermitian matrix referencing
+a selection of elements of the matrix `m`.
+
+|`banded_adaptor<MAT>   ba(m, n_lower, n_upper);` |a banded matrix
+referencing a selection of elements of the matrix `m`.
+
+|`matrix_range<MAT, TRI>   mr(m, range1, range2);` |a matrix referencing
+a submatrix of elements in the matrix `m`.
+
+|`matrix_slice<MAT, TRI>   ms(m, slice1, slice2);` |a matrix referencing
+a non continues submatrix of elements in the matrix `m`.
+|===
+
+=== [#tensors]#Tensors#
+
+[cols=",",options="header",]
+|===
+|Definition |Description
+|`tensor<T [, F, A]>   t(size1, size2, ... );` |a dense matrix of values
+of type `T` of variable size. A storage type `A` can be specified which
+defaults to `std::vector<T>`. The orientation type `F` defaults to
+`first_order`. Elements are constructed by `A`, which need not
+initialise their value.
+|===
+
+=== [#storage_layout]#Special Storage Layouts#
+
+The library supports conventional dense, packed and basic sparse vector
+and matrix storage layouts. The description of the most common
+constructions of vectors and matrices comes next.
+
+[width="100%",cols="50%,50%",]
+|===
+|Construction |Comment
+
+|`vector<T,  std::vector<T> >   v (size)` |a dense vector, storage is
+provided by a standard vector. +
+The storage layout usually is BLAS compliant.
+
+|`vector<T,  unbounded_array<T> >   v (size)` |a dense vector, storage
+is provided by a heap-based array. +
+The storage layout usually is BLAS compliant.
+
+|`vector<T,  bounded_array<T, N> >   v (size)` |a dense vector, storage
+is provided by a stack-based array. +
+The storage layout usually is BLAS compliant.
+
+|`mapped_vector<T,  std::map<std::size_t, T> >   v (size, non_zeros)` |a
+sparse vector, storage is provided by a standard map.
+
+|`mapped_vector<T,  map_array<std::size_t, T> >   v (size, non_zeros)`
+|a sparse vector, storage is provided by a map array.
+
+|`matrix<T,  row_major,  std::vector<T> >   m (size1, size2)` |a dense
+matrix, orientation is row major, storage is provided by a standard
+vector.
+
+|`matrix<T,  column_major,  std::vector<T> >   m (size1, size2)` |a
+dense matrix, orientation is column major, storage is provided by a
+standard vector. +
+The storage layout usually is BLAS compliant.
+
+|`matrix<T,  row_major,  unbounded_array<T> >   m (size1, size2)` |a
+dense matrix, orientation is row major, storage is provided by a
+heap-based array.
+
+|`matrix<T,  column_major,  unbounded_array<T> >   m (size1, size2)` |a
+dense matrix, orientation is column major, storage is provided by a
+heap-based array. +
+The storage layout usually is BLAS compliant.
+
+|`matrix<T,  row_major,  bounded_array<T, N1 * N2> >   m (size1, size2)`
+|a dense matrix, orientation is row major, storage is provided by a
+stack-based array.
+
+|`matrix<T,  column_major,  bounded_array<T, N1 * N2> >   m (size1, size2)`
+|a dense matrix, orientation is column major, storage is provided by a
+stack-based array. +
+The storage layout usually is BLAS compliant.
+
+|`triangular_matrix<T,  row_major, F, A>   m (size)` |a packed
+triangular matrix, orientation is row major.
+
+|`triangular_matrix<T,  column_major, F, A>   m (size)` |a packed
+triangular matrix, orientation is column major. +
+The storage layout usually is BLAS compliant.
+
+|`banded_matrix<T,  row_major, A>   m (size1, size2, lower, upper)` |a
+packed banded matrix, orientation is row major.
+
+|`banded_matrix<T,  column_major, A>   m (size1, size2, lower, upper)`
+|a packed banded matrix, orientation is column major. +
+The storage layout usually is BLAS compliant.
+
+|`symmetric_matrix<T,  row_major, F, A>   m (size)` |a packed symmetric
+matrix, orientation is row major.
+
+|`symmetric_matrix<T,  column_major, F, A>   m (size)` |a packed
+symmetric matrix, orientation is column major. +
+The storage layout usually is BLAS compliant.
+
+|`hermitian_matrix<T,  row_major, F, A>   m (size)` |a packed hermitian
+matrix, orientation is row major.
+
+|`hermitian_matrix<T,  column_major, F, A>   m (size)` |a packed
+hermitian matrix, orientation is column major. +
+The storage layout usually is BLAS compliant.
+
+|`mapped_matrix<T,  row_major,  std::map<std::size_t, T> >   m (size1, size2, non_zeros)`
+|a sparse matrix, orientation is row major, storage is provided by a
+standard map.
+
+|`mapped_matrix<T,  column_major,  std::map<std::size_t, T> >   m (size1, size2, non_zeros)`
+|a sparse matrix, orientation is column major, storage is provided by a
+standard map.
+
+|`mapped_matrix<T,  row_major,  map_array<std::size_t, T> >   m (size1, size2, non_zeros)`
+|a sparse matrix, orientation is row major, storage is provided by a map
+array.
+
+|`mapped_matrix<T,  column_major,  map_array<std::size_t, T> >   m (size1, size2, non_zeros)`
+|a sparse matrix, orientation is column major, storage is provided by a
+map array.
+
+|`compressed_matrix<T,  row_major>   m (size1, size2, non_zeros)` |a
+compressed matrix, orientation is row major. +
+The storage layout usually is BLAS compliant.
+
+|`compressed_matrix<T,  column_major>   m (size1, size2, non_zeros)` |a
+compressed matrix, orientation is column major. +
+The storage layout usually is BLAS compliant.
+
+|`coordinate_matrix<T,  row_major>   m (size1, size2, non_zeros)` |a
+coordinate matrix, orientation is row major. +
+The storage layout usually is BLAS compliant.
+
+|`coordinate_matrix<T,  column_major>   m (size1, size2, non_zeros)` |a
+coordinate matrix, orientation is column major. +
+The storage layout usually is BLAS compliant.
+|===
+
+'''''
+
+Copyright (©) 2000-2004 Joerg Walter, Mathias Koch, Gunter Winkler,
+Michael Stevens +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

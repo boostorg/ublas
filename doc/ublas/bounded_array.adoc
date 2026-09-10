@@ -1,0 +1,146 @@
+== Bounded Array Storage
+
+[[toc]]
+
+=== [#bounded_array]#Bounded Array#
+
+==== Description
+
+The templated class `bounded_array<T, N, ALLOC>` implements a bounded
+storage array. The bounded array is similar to a C++ array type in that
+its maximum size is bounded by N and is allocated on the stack instead
+of the heap. Similarly a `bounded_array` requires no secondary storage
+and ALLOC is only used to specify `size_type` and `difference_type`.
+
+When resized `bounded_array` never reallocated the storage. It is
+therefore always efficient to resize a `bounded_array` but the size
+bound N must not be exceeded.
+
+==== Example
+
+[source, cpp]
+....
+#include <boost/numeric/ublas/storage.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    bounded_array<double, 3> a (3);
+    for (unsigned i = 0; i < a.size (); ++ i) {
+        a [i] = i;
+        std::cout << a [i] << std::endl;
+    }
+}
+....
+
+==== Definition
+
+Defined in the header storage.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+|`T` |The type of object stored in the array. |
+|`N` |The allocation size of the array. |
+|`ALLOC` |An STL Allocator |std::allocator
+|===
+
+==== Model of
+
+link:storage_concept.html[Storage]
+
+==== Type requirements
+
+None, except for those imposed by the requirements of Storage.
+
+==== Public base classes
+
+None.
+
+==== Members
+
+* The description does not describe what the member actually does, this
+can be looked up in the corresponding concept documentation, but instead
+contains a remark on the implementation of the member inside this model
+of the concept.
+* Typography:
+** Members that are not part of the implemented concepts are in blue.
+
+[cols=",,",]
+|===
+|Member |Where defined |Description 
+
+|`value_type`| https://www.boost.org/sgi/stl/Container.html[Container] |
+
+|`pointer` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `value_type*`
+
+|`const_pointer` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `const value_type*`
+
+|`reference` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `value_type&`
+
+|`const_reference` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `const value_type&`
+
+|`size_type` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `Alloc::size_type`
+
+|`difference_type` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `Alloc::difference_type`
+
+|`iterator` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `pointer`
+
+|`const_iterator` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `const_pointer`
+
+|`revere_iterator` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `std::reverse_iterator<iterator>`
+
+|`const_revere_iterator` |https://www.boost.org/sgi/stl/Container.html[Container] |Defined as `std::reverse_iterator<const_iterator>`
+
+|`bounded_array ()` |link:storage_concept.html[Storage] |Creates an `unbounded_array` that holds *zero* elements. 
+
+|`bounded_array (size_type size)` |link:storage_concept.html[Storage] |Creates a uninitialized `bounded_array` that holds `size` elements. All the elements are default constructed.
+
+|`bounded_array (size_type size, const T& init)` |link:storage_concept.html[Storage] |Creates an initialized `bounded_array` that holds `size` elements. All the elements are constructed from the `init` value.
+
+|`bounded_array (const bounded_array &c)` |https://www.boost.org/sgi/stl/Container.html[Container] |The copy constructor.
+
+|`~bounded_array ()` |https://www.boost.org/sgi/stl/Container.html[Container] |Deallocates the `bounded_array` itself.
+
+|`void resize (size_type size)` |link:storage_concept.html[Storage] |Reallocates a `bounded_array` to hold `size` elements.
+
+|`void resize (size_type size, const T& t)` |link:storage_concept.html[Storage] |Reallocates a `bounded_array` to hold `size` elements.
+
+|`size_type size () const` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns the size of the `bounded_array`.
+
+|`const_reference operator [] (size_type i) const` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a `const` reference of the `i` -th element.
+
+|`reference operator [] (size_type i)` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a reference of the `i`-th element.
+
+|`bounded_array &operator = (const bounded_array &a)` |https://www.boost.org/sgi/stl/Container.html[Container] |The assignment operator.
+
+|`bounded_array &assign_temporary (bounded_array &a)` | |Assigns a temporary. May change the array `a`.
+
+|`void swap (bounded_array &a)` |https://www.boost.org/sgi/stl/Container.html[Container] |Swaps the contents of the arrays.
+
+|`const_iterator begin () const` |https://www.boost.org/sgi/stl/Container.html[Container]| Returns a `const_iterator` pointing to the beginning of the `bounded_array`.
+
+|`const_iterator end () const` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a `const_iterator` pointing to the end of the `bounded_array`.
+
+|`iterator begin ()` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a `iterator` pointing to the beginning of the `bounded_array`.
+
+|`iterator end ()` |https://www.boost.org/sgi/stl/Container.html[Container] |Returns a `iterator` pointing to the end of the `bounded_array`.
+
+|`const_reverse_iterator rbegin () const` |https://www.boost.org/sgi/stl/ReversibleContainer.html[Reversible Container] |Returns a `const_reverse_iterator` pointing to the beginning of the reversed `bounded_array`.
+
+|`const_reverse_iterator rend () const` |https://www.boost.org/sgi/stl/ReversibleContainer.html[Reversible Container] |Returns a `const_reverse_iterator` pointing to the end of the reversed `bounded_array`.
+
+|`reverse_iterator rbegin ()` |https://www.boost.org/sgi/stl/ReversibleContainer.html[Reversible Container] |Returns a `reverse_iterator` pointing to the beginning of the reversed `bounded_array`.
+
+|`reverse_iterator rend ()` |https://www.boost.org/sgi/stl/ReversibleContainer.html[Reversible Container] |Returns a `reverse_iterator` pointing to the end of the reversed `bounded_array`.
+
+|===
+'''''
+
+Copyright (©) 2000-2004 Michael Stevens, Mathias Koch, Joerg Walter,
+Gunter Winkler +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

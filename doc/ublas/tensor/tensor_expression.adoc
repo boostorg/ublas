@@ -1,0 +1,175 @@
+== Tensor Expressions
+
+[[toc]]
+
+=== [#tensor_expression]#Tensor Expression#
+
+==== Description
+
+The templated class `tensor_expression<T,E>` is required to be a public
+base of all classes. There is no Tensor Expression concept defined.
+
+==== Definition
+
+Defined in the header tensor/expression.hpp.
+
+==== Model of
+
+None. +++Not a Tensor Expression+++!
+
+==== Type requirements
+
+None.
+
+==== Public base classes
+
+`ublas_expression<E>`.
+
+==== Template parameters
+
+[cols=",",]
+|===
+|Parameter |Description
+|`T` |The type of the tensor.
+|`E` |The type of the tensor expression.
+|===
+
+==== Member types
+
+[cols=",",]
+|===
+|Member type |Description
+|`expression_type` |Type of the derived expression which is `E`.
+|`type_category` |Tag for categorization which is `tensor_tag`.
+|`tensor_type` |Reference type which is `T`.
+|===
+
+==== Public Member Functions
+
+[cols=",",]
+|===
+|Member |Description
+
+|`const expression_type &operator()() const` |Returns a `const`
+reference to the derived expression.
+|===
+
+=== [#entrywise_tensor_operations]#Entrywise Tensor Operations#
+
+==== [#binary_tensor_expression]#Binary Tensor Expression#
+
+===== Description
+
+The templated class `binary_tensor_expression<T,EL,ER,OP>` contains a
+constant reference to a left and right expression that can be evaluated
+by using the access operator.
+
+===== Definition
+
+Defined in the header tensor/expression.hpp.
+
+===== Model of
+
+Tensor Expression
+
+===== Type requirements
+
+None.
+
+===== Public base classes
+
+`tensor_expression<T,binary_tensor_expression<T,EL,ER,OP>>`
+
+===== Template parameters
+
+[cols=",",]
+|===
+|Parameter |Description
+|`T` |Type of the tensor.
+|`EL` |Type of the left binary tensor expression.
+|`ER` |Type of the right binary tensor expression.
+|`OP` |Type of the binary operation.
+|===
+
+===== Member types
+
+[cols=",",]
+|===
+|Member type |Description
+|`expression_type_left` |Type of the left expression which is `EL`.
+|`expression_type_right` |Type of the right expression which is `ER`.
+|`tensor_type` |Reference type which is `T`.
+|`binary_operation` |Type of the binary operation which is `OP`.
+|===
+
+===== Public Member Functions
+
+[cols=",",]
+|===
+|Member |Description
+
+|`decltype(auto) operator()(std::size_t i) const` |Returns a `const`
+reference to the i-th element of the expression.
+|===
+
+==== [#unary_tensor_expression]#Unary Tensor Expression#
+
+===== Description
+
+The templated class `unary_tensor_expression<T,E,OP>` contains a
+constant reference to an expression that can be evaluated by using the
+access operator.
+
+===== Definition
+
+Defined in the header tensor/expression.hpp.
+
+===== Model of
+
+Tensor Expression
+
+===== Type requirements
+
+None.
+
+===== Public base classes
+
+`tensor_expression<T,unary_tensor_expression<T,E,OP>>`
+
+===== Template parameters
+
+[cols=",",]
+|===
+|Parameter |Description
+|`T` |Type of the tensor.
+|`E` |Type of the unary tensor expression.
+|`OP` |Type of the unary operation.
+|===
+
+===== Member types
+
+[cols=",",]
+|===
+|Member type |Description
+|`expression_type` |Type of the expression which is `E`.
+|`tensor_type` |Reference type which is `T`.
+|`unary_operation` |Type of the unary operation which is `OP`.
+|===
+
+===== Public Member Functions
+
+[cols=",",]
+|===
+|Member |Description
+
+|`decltype(auto) operator()(std::size_t i) const` |Returns a `const`
+reference to the i-th element of the expression.
+|===
+
+'''''
+
+Copyright (©) 2018 Cem Bassoy +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

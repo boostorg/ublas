@@ -1,0 +1,200 @@
+== Special Products
+
+[[toc]]
+
+=== Functions
+
+[width="100%",cols=">50%,50%",]
+|===
+|template<class V, class E1, class E2> BOOST_UBLAS_INLINE V & 
+|link:#product_1[axpy_prod] (const matrix_expression< E1 > &e1, const vector_expression< E2 > &e2, V &v, bool init=true) computes `v += A x` or `v = A x` in an optimized fashion.
+
+|template<class V, class E1, class E2> BOOST_UBLAS_INLINE V & 
+|link:#product_2[axpy_prod] (const vector_expression< E1 > &e1, const matrix_expression< E2 > &e2, V &v, bool init=true) computes `v += AT x` or `v = AT x` in an optimized fashion.
+
+|template<class M, class E1, class E2> BOOST_UBLAS_INLINE M & 
+|link:#product_3[axpy_prod] (const matrix_expression< E1 > &e1, const matrix_expression< E2 > &e2, M &m, bool init=true) computes `M += A X` or `M = A X` in an optimized fashion.
+
+|template<class M, class E1, class E2> BOOST_UBLAS_INLINE M & 
+|link:#product_4[opb_prod] (const matrix_expression< E1 > &e1, const matrix_expression< E2 > &e2, M &m, bool init=true) computes `M += A X` or `M = A X` in an optimized fashion.
+|===
+
+'''''
+
+[#product_1]#1.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!BOOST_UBLAS_INLINE V& axpy_prod !(  !const matrix_expression< E1 > & 
+!_e1_,
+
+! ! !const vector_expression< E2 > &  !_e2_,
+
+! ! !V &  !_v_,
+
+! ! !bool  !_init_ = `true`
+
+! !)  ! !
+!===
+
+|===
+
+[width="100%",cols="50%,50%",]
+|===
+|  a|
+computes `v += A x` or `v = A x` in an optimized fashion.
+
+*Parameters:*::
+ _e1_  the matrix expression `A`,
+ _e2_  the vector expression `x`,
+ _v_  the result vector `v`,
+ _init_  a boolean parameter
+
+
+`axpy_prod(A, x, v, init)` implements the well known axpy-product.
+Setting _init_ to `true` is equivalent to call `v.clear()` before
+`axpy_prod`. Currently _init_ defaults to `true`, but this may change in
+the future.
+
+Up to now there are some specialisation for compressed matrices that
+give a large speed up compared to prod.
+
+|===
+
+[#product_2]#2.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!BOOST_UBLAS_INLINE V& axpy_prod !(  !const vector_expression< E1 > & 
+!_e1_,
+
+! ! !const matrix_expression< E2 > &  !_e2_,
+
+! ! !V &  !_v_,
+
+! ! !bool  !_init_ = `true`
+
+! !)  ! !
+!===
+
+|===
+
+[width="100%",cols="50%,50%",]
+|===
+|  a|
+computes `v += AT x` or `v = AT x` in an optimized fashion.
+
+*Parameters:*::
+  _e1_  the vector expression `x`,
+  _e2_  the matrix expression `A`,
+  _v_  the result vector `v`,
+  _init_  a boolean parameter
+
+`axpy_prod(x, A, v, init)` implements the well known axpy-product.
+Setting _init_ to `true` is equivalent to call `v.clear()` before
+`axpy_prod`. Currently _init_ defaults to `true`, but this may change in
+the future.
+
+Up to now there are some specialisation for compressed matrices that
+give a large speed up compared to prod.
+
+|===
+
+[#product_3]#3.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!BOOST_UBLAS_INLINE M& axpy_prod !(  !const matrix_expression< E1 > & 
+!_e1_,
+
+! ! !const matrix_expression< E2 > &  !_e2_,
+
+! ! !M &  !_m_,
+
+! ! !bool  !_init_ = `true`
+
+! !)  ! !
+!===
+
+|===
+
+[width="100%",cols="50%,50%",]
+|===
+|  a|
+computes `M += A X` or `M = A X` in an optimized fashion.
+
+*Parameters:*::
+  _e1_  !the matrix expression `A`,
+  _e2_  !the matrix expression `X`,
+  _m_  !the result matrix `M`,
+  _init_  !a boolean parameter
+
+
+`axpy_prod(A, X, M, init)` implements the well known axpy-product.
+Setting _init_ to `true` is equivalent to call `M.clear()` before
+`axpy_prod`. Currently _init_ defaults to `true`, but this may change in
+the future.
+
+Up to now there are no specialisations.
+
+|===
+
+[#product_4]#4.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!BOOST_UBLAS_INLINE M& opb_prod !(  !const matrix_expression< E1 > & 
+!_e1_,
+
+! ! !const matrix_expression< E2 > &  !_e2_,
+
+! ! !M &  !_m_,
+
+! ! !bool  !_init_ = `true`
+
+! !)  ! !
+!===
+
+|===
+
+[width="100%",cols="50%,50%",]
+|===
+|  a|
+computes `M += A X` or `M = A X` in an optimized fashion.
+
+*Parameters:*::
+  _e1_  the matrix expression `A`
+  _e2_  the matrix expression `X`
+  _m_  the result matrix `M`
+  _init_  a boolean parameter
+
+`opb_prod(A, X, M, init)` implements the well known axpy-product.
+Setting _init_ to `true` is equivalent to call `M.clear()` before
+`opb_prod`. Currently _init_ defaults to `true`, but this may change in
+the future.
+
+This function may give a speedup if `A` has less columns than rows,
+because the product is computed as a sum of outer products.
+
+|===
+
+'''''
+
+Copyright (©) 2000-2004 Michael Stevens, Mathias Koch, Joerg Walter,
+Gunter Winkler +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).
