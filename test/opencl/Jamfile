@@ -13,7 +13,7 @@ import ../../clblas ;
 using opencl ;
 using clblas ;
 
-project boost/ublas/test/opencl
+project
     : requirements
       <toolset>gcc:<cxxflags>-Wno-ignored-attributes
       <toolset>clang:<cxxflags>-Wno-ignored-attributes

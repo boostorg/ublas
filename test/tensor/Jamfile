@@ -11,18 +11,19 @@
 #  Google and Fraunhofer IOSB, Ettlingen, Germany
 #
 
-import ../../../../config/checks/config : requires ;
+import-search /boost/config/checks ;
+import config : requires ;
 
 project boost/ublas/test/tensor
     : requirements
-      <toolset>gcc:<cxxflags>"-Wall -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable"
-      <toolset>clang:<cxxflags>"-Wall -Wno-unknown-pragmas -Wno-sign-compare"
+      <toolset>gcc:<cxxflags>"-Wall -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -ffp-contract=off"
+      <toolset>clang:<cxxflags>"-Wall -Wno-unknown-pragmas -Wno-sign-compare -ffp-contract=off"
       [ requires cxx17_if_constexpr ]
     ;
 
 alias unit_test_framework
     : # sources
-        /boost//unit_test_framework
+        /boost/test//boost_unit_test_framework
     ;
 
 # make aliases explicit so the libraries will only be built when requested
@@ -93,6 +94,6 @@ test-suite boost-ublas-tensor-test
           :
           : test_tensor
           :
-          # 
+          #
     ]
     ;
