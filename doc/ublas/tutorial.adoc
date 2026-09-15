@@ -1,0 +1,190 @@
+= Boost.uBlas Tutorial
+
+For the official Boost.uBlas documentation visit https://boostorg.github.io/ublas/[here]
+
+You can find a set of tutorials and educational materials by the Boost community at link:abc.com[Boost.uBlas Tutorials].
+The goal of this page is to provide high-quality resources by the Boost.uBlas project, both for self-learning and for teaching classes with, in the format of https://godbolt.org/[Godbolt].
+If you're interested in adding your own content, check the Boost.uBlas repository on https://github.com/boostorg/ublas[GitHub].
+
+== Boost.uBlas Vector
+
+=== What is a vector ?
+
+Vectors are sequence containers representing arrays that can change in size.
+Just like arrays, vectors use contiguous storage locations for their elements, which means that their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently as in arrays.
+But unlike arrays, their size can change dynamically, with their storage being handled automatically by the container.
+Internally, vectors use a dynamically allocated array to store their elements.
+This array may need to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new array and moving all elements to it.
+This is a relatively expensive task in terms of processing time, and thus, vectors do not reallocate each time an element is added to the container.
+Instead, vector containers may allocate some extra storage to accommodate for possible growth, and thus the container may have an actual capacity greater than the storage strictly needed to contain its elements (i.e., its size).
+Libraries can implement different strategies for growth to balance between memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing intervals of size so that the insertion of individual elements at the end of the vector can be provided with amortized constant time complexity (see push_back).
+Therefore, compared to arrays, vectors consume more memory in exchange for the ability to manage storage and grow dynamically in an efficient way.
+Compared to the other dynamic sequence containers (deques, lists and forward_lists), vectors are very efficient accessing its elements (just like arrays) and relatively efficient adding or removing elements from its end.
+For operations that involve inserting or removing elements at positions other than the end, they perform worse than the others, and have less consistent iterators and references than lists and forward_lists.
+
+=== Why a vector ?
+
+The elements are stored contiguously, which means that elements can be accessed not only through iterators, but also using offsets to regular pointers to elements.
+This means that a pointer to an element of a vector may be passed to any function that expects a pointer to an element of an array.
+The storage of the vector is handled automatically, being expanded and contracted as needed.
+Vectors usually occupy more space than static arrays, because more memory is allocated to handle future growth.
+This way a vector does not need to reallocate each time an element is inserted, but only when the additional memory is exhausted.
+The complexity (efficiency) of common operations on vectors is as follows:
+
+* Random access - constant 𝓞(1)
+* Insertion or removal of elements at the end - amortized constant 𝓞(1)
+* Insertion or removal of elements - linear in the distance to the end of the vector 𝓞(n)
+
+=== How to create a vector in Boost.uBlas ?
+
+----
+#include <boost/numeric/ublas/vector.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    vector<int> v (3);
+    for (unsigned i = 0; i < v.size (); ++ i) {
+        v (i) = i;
+    }
+    std::cout << v << '\n';
+}
+----
+
+== Boost.uBlas Matrix
+
+=== What is a matrix ?
+
+A matrix is a specialized 2-D array that retains its 2-D nature through operations.
+It has certain special operators, such as *(matrix multiplication)* and *(matrix power)*.
+Just like vectors, matrix use contiguous storage locations for their elements, which means that their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently as in vectors.
+But unlike vectors, their size can change dynamically, with their storage being handled automatically by the container.
+Internally, matrix use a dynamically allocated array to store their elements.
+This array may need to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new array and moving all elements to it.
+This is a relatively expensive task in terms of processing time, and thus, vectors do not reallocate each time an element is added to the container.
+Instead, vector containers may allocate some extra storage to accommodate for possible growth, and thus the container may have an actual capacity greater than the storage strictly needed to contain its elements (i.e., its size).
+Libraries can implement different strategies for growth to balance between memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing intervals of size so that the insertion of individual elements at the end of the vector can be provided with amortized constant time complexity (see push_back).
+Therefore, compared to vectors, vectors consume more memory in exchange for the ability to manage storage and grow dynamically in an efficient way.
+Compared to the other dynamic sequence containers (deques, lists and forward_lists), vectors are very efficient accessing its elements (just like vectors) and relatively efficient adding or removing elements from its end.
+For operations that involve inserting or removing elements at positions other than the end, they perform worse than the others, and have less consistent iterators and references than lists and forward_lists.
+
+=== Why a matrix ?
+
+The elements are stored contiguously, which means that elements can be accessed not only through iterators, but also using offsets to regular pointers to elements.
+This means that a pointer to an element of a vector may be passed to any function that expects a pointer to an element of an array.
+The storage of the vector is handled automatically, being expanded and contracted as needed.
+Vectors usually occupy more space than static arrays, because more memory is allocated to handle future growth.
+This way a vector does not need to reallocate each time an element is inserted, but only when the additional memory is exhausted.
+The complexity (efficiency) of common operations on vectors is as follows:
+
+* Random access - constant 𝓞(1)
+* Insertion or removal of elements at the end - amortized constant 𝓞(1)
+* Insertion or removal of elements - linear in the distance to the end of the vector 𝓞(n)
+
+=== How to create a matrix in Boost.uBlas ?
+
+----
+#include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    matrix<int> m (3, 3);
+    for (unsigned i = 0; i < m.size1(); ++ i){
+        for (unsigned j = 0; j < m.size2(); ++ j){
+            m (i, j) = 3 * i + j;
+        }
+     }
+    std::cout << m << std::endl;
+}
+----
+
+== Boost.uBlas Matrix
+
+=== What is a matrix ?
+
+In mathematics, a matrix (plural matrices) is a rectangular array or table of numbers, symbols, or expressions, arranged in rows and columns, which is used to represent a mathematical object or a property of such an object.
+For example,
+
+is a matrix with two rows and three columns;
+one say often a "two by three matrix", a "2×3-matrix", or a matrix of dimension 2×3.
+
+Without further specifications, matrices represent linear maps, and allow explicit computations in linear algebra.
+Therefore, the study of matrices is a large part of linear algebra, and most properties and operations of abstract linear algebra can be expressed in terms of matrices.
+For example, matrix multiplication represents composition of linear maps.
+
+=== Why a matrix ?
+
+Working with matrices is a way to deal with a lot of numbers at the same time in a reduced space and practical way.
+Suppose we have a system of equations:
+
+We can see that it has a repeating pattern, that for every equation, we have values multiplied by x, y and z.
+With matrices we have a way to write this system without repeating these and in a much more elegant way:
+
+With this, adding one more equation to the system is a matter of adding numbers to the first and the last matrix, without touching the [x y z] matrix, since they keep repeating.
+(Those who already did endless exercise lists of equation systems knows how boring is to keep writing x, y, z over and over and over hehe) Neural networks often use too many values and operations, and write down every one of them would be impractical, so we need a way to compact things as much as possible to make them easier.
+Matrices help us with it.
+
+Of course, these are not the only reasons to use function notations and matrices: With these we can write theorems and equations that generalize to any rule or any quantity of values.
+Another nice reason is that matrices are cpu/gpu friendly;
+computers take advantage of matrices to speed up processing their expressions.
+
+=== How to create a matrix in Boost.uBlas ?
+
+----
+#include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    matrix<double> m (3, 3);
+    for (unsigned i = 0; i < m.size1 (); ++ i)
+        for (unsigned j = 0; j < m.size2 (); ++ j)
+            m (i, j) = 3 * i + j;
+    std::cout << m << std::endl;
+}
+----
+
+== Boost.uBlas Tensor
+
+In mathematics, a tensor is an algebraic object that describes a multilinear relationship between sets of algebraic objects related to a vector space.
+Objects that tensors may map between include vectors and scalars, and even other tensors.
+There are many types of tensors, including scalars and vectors, dual vectors, multilinear maps between vector spaces, and even some operations such as the dot product.
+Tensors are defined independent of any basis, although they are often referred to by their components in a basis related to a particular coordinate system.
+Tensors have become important in physics because they provide a concise mathematical framework for formulating and solving physics problems in areas such as mechanics, electrodynamics, or general relativity and others.
+In applications, it is common to study situations in which a different tensor can occur at each point of an object;
+
+=== Why a Tensor ?
+
+One way to understand the importance of tensor calculus is to consider geometric complications when drawing right angles.
+If you are developing a system that uses the flat-earth model, you can draw right angles using the Pythagorean Theorem.
+The limits of the Pythagorean Theorem become clear when you try to draw a right angle on a spherical surface.
+In this case, the Pythagorean Theorem no longer works.
+It's here that the metric tensor comes to the rescue.
+It generalizes coordinates and geometries so that distance can be measured in any given space.
+The magic of tensors comes from their special transformational properties that enable them to describe the same physics in all reference frames.
+
+Think of a tensor as a multi-linear map.
+Given a set of coordinates (or expand out to functions or other objects), each of these coordinates can be transformed according to a set of rules (linear transformations) into a new set of coordinates.
+The key here is that each coordinate can have a unique transformation.
+For example, you can stretch or distort different coordinates in different ways.
+If we take a rectangular piece of bubble gum with edges on the x, y, and z-axes, and then squeeze the bubble gum on the x-axis (one-dimension input), the x dimension will compress a certain amount, while the y and z dimensions will expand a given amount.
+This results in output changes in three dimensions while maintaining a constant volume.
+Assuming a linearity of the squeezing reaction, the behavior can also be calculated using a metric tensor if the gum is squeezed off-axis.
+
+=== How to create a tensor in Boost.uBlas ?
+
+----
+#include <boost/numeric/ublas/tensor.hpp>
+
+int main () {
+  using namespace boost::numeric::ublas;
+  tensor<double> t{4,2,3};
+  for (auto k = 0ul; k < t.size (2); ++ k)
+    for (auto j = 0ul; j < t.size (1); ++ j)
+      for (auto i = 0ul; i < t.size (0); ++ i)
+        t.at(i,j,k) = 3*i + 2*j + 5*k;
+
+  std::cout << t << std::endl;
+}
+----

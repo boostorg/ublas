@@ -1,6 +1,5 @@
 == Sparse Matricies
 
-[[toc]]
 
 === [#mapped_matrix]#Mapped Matrix#
 
@@ -12,7 +11,7 @@ xn_)-dimensional sparse matrix and _0 < = i < m_, _0 < = j < n_ the
 non-zero elements __h__~_i,j_~ are mapped via _(i x n + j)_ for row
 major orientation or via _(i + j x m)_ for column major orientation to
 consecutive elements of the associative container, i.e. for elements _k_
-= __m__~_i1,j1_~ and __k + 1 = __m__~_i2,j2_~ 
+= __m__~_i1,j1_~ and __k + 1 = __m__~_i2,j2_~
 of the container holds __i__~_1_~ __< i__~_2_~ or
 __(i__~_1_~ __= i__~_2_~ and __j__~_1_~ __< j__~_2_~_)_ with row major
 orientation or __j__~_1_~ __< j__~_2_~ or __(j__~_1_~ __= j__~_2_~ and
@@ -650,11 +649,3 @@ organization are `row_major` and `column_major`.
 
 [#coordinate_matrix_3]#[3]# Supported parameters for the adapted array
 are `unbounded_array<>` , `bounded_array<>` and `std::vector<>` .
-
-'''''
-
-Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).

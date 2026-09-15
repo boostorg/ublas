@@ -1,6 +1,5 @@
 == Overview of Tensor, Matrix and Vector Operations
 
-[[toc]]
 
 Contents:::
   link:#blas[Basic Linear Algebra]
@@ -40,11 +39,11 @@ w = t * u; w = u * t; w = u / t;
 ==== computed assignments
 
 ....
-X += Y; X -= Y; 
-C += A; C -= A; 
-w += u; w -= u; 
-X *= t; X /= t; 
-C *= t; C /= t; 
+X += Y; X -= Y;
+C += A; C -= A;
+w += u; w -= u;
+X *= t; X /= t;
+C *= t; C /= t;
 w *= t; w /= t;
 ....
 
@@ -87,7 +86,7 @@ t = norm_inf(v); i = index_norm_inf(v);
 t = norm_1(v);   t = norm_2(v);
 t = norm_2_square(v);
 t = norm_inf(A); i = index_norm_inf(A);
-t = norm_1(A);   t = norm_frobenius(A); 
+t = norm_1(A);   t = norm_frobenius(A);
 t = norm(X);
 ....
 
@@ -241,7 +240,7 @@ What is the complexity (the number of add and multiply operations)
 required to compute the following?
 
 ....
- R = prod(A, prod(B,C)); 
+ R = prod(A, prod(B,C));
 ....
 
 Firstly the complexity depends on matrix size. Also since prod is
@@ -272,12 +271,3 @@ matrix<float>, the choice is easy. However if the value_type is mixed
 (int with float or double) or the matrix type is mixed (sparse with
 symmetric) the best solution is not so obvious. It is up to you! It
 depends on numerical properties of A and the result of the prod(B,C).
-
-'''''
-
-Copyright (©) 2000-2007 Joerg Walter, Mathias Koch, Gunter Winkler,
-Michael Stevens +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).

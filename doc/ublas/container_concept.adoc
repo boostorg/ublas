@@ -1,6 +1,5 @@
 == Container Concepts
 
-[[toc]]
 
 === [#vector]#Vector#
 
@@ -214,11 +213,11 @@ Expression] .
 
 [width="100%",cols=",,,,",options="header",]
 |===
-|Name |Expression |Precondition |Semantics |Postcondition 
+|Name |Expression |Precondition |Semantics |Postcondition
 
 |Sizing constructor |`M m (n1, n2)` |`n1 >= 0` and `n2 >= 0` |Allocates a matrix of `n1` rows and `n2` columns. |`m.size1 () == n1` and `m.size2 () == n2`.
 
-|Insert |`m.insert_element (i, j, t)` |`0 < = i < m.size1 ()`, + `0 < = j < m.size2 ()`. |Inserts an element at `m (i, j)` with value `t`. The storage requirement of the Matrix may be increased. `m (i, j)` is equal to `t`. |`m(i,j)` is equal to `t`. 
+|Insert |`m.insert_element (i, j, t)` |`0 < = i < m.size1 ()`, + `0 < = j < m.size2 ()`. |Inserts an element at `m (i, j)` with value `t`. The storage requirement of the Matrix may be increased. `m (i, j)` is equal to `t`. |`m(i,j)` is equal to `t`.
 
 |Erase |`m.erase_element (i, j)` |`0 <= i < m.size1 ()`and ` 0 <= j < m.size2` |Destroys the element as `m (i, j)` and replaces it with the default `value_type ()`. The storage requirement of the Matrix may be decreased. |`m (i, j)` is equal to `value_type ()`.
 
@@ -384,12 +383,3 @@ The run-time complexity of resize is at most linear in the tensor's size
 being a refinement of the TensorExpression. Being a refinement of the
 TensorExpression is only important for the template-expression engine
 but not the user.
-
-'''''
-
-Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
-Copyright (©) 2018 Cem Bassoy +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).

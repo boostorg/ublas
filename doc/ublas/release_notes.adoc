@@ -1,8 +1,5 @@
-== Boost Basic Linear Algebra - Release Notes
+== Boost Basic Linear Algebra
 
-link:index.html[back to uBLAS home]
-
-[[toc]]
 
 === Release 1.70.0
 
@@ -70,11 +67,3 @@ DefaultConstructible to concept checks
 === Release 1.40.0 and before
 
 * Release notes were not available in this form.
-
-'''''
-
-Copyright (©) 2000-2009 Joerg Walter, Mathias Koch, Gunter Winkler +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).

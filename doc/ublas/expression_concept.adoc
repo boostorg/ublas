@@ -1,6 +1,5 @@
 == Expression Concepts
 
-[[toc]]
 
 === [#scalar_expression]#Scalar Expression#
 
@@ -594,11 +593,3 @@ from `m.rbegin2 ()` to `m.rend2 ()`.
 * `matrix_binary_scalar1`
 * `matrix_binary_scalar2`
 * `matrix_matrix_binary`
-
-'''''
-
-Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
-Copyright (©) 2021 Shikhar Vashistha +
-Use, modification and distribution are subject to the Boost Software
-License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
-http://www.boost.org/LICENSE_1_0.txt ).
