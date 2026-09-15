@@ -58,7 +58,7 @@ int main()
 * Contact the maintainers [Cem](https://gitter.im/bassoy), [David](https://gitter.im/yimyom) or [Stefan](https://gitter.im/stefanseefeld) if you have suggestions
 
 ## Contribution
-* Be sure that you have read our [contribution guidelines](https://github.com/boostorg/ublas/wiki/Guidelines-for-Contribution) and our [code of conduct](https://github.com/boostorg/ublas/wiki/Code-of-Conduct) 
+* Be sure that you have read our [guidelines for contributors](https://github.com/boostorg/ublas/wiki/Guidelines-for-Contributors) and our [code of conduct](https://github.com/boostorg/ublas/wiki/Code-of-Conduct) 
 * If you want to report a bug, create an [issue](https://github.com/boostorg/ublas/issues) 
 * If you want to submit a patch, create pull request against **develop** branch.
 
