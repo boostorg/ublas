@@ -4,8 +4,10 @@
 # Boost Software License, Version 1.0. (See accompanying file
 # LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-project boost/ublas/benchmarks
-    : requirements <library>/boost/program_options//boost_program_options
+project
+    : requirements
+        <library>/boost/ublas//boost_ublas
+        <library>/boost/program_options//boost_program_options
     ;
 
 exe add : add.cpp ;

@@ -1,0 +1,604 @@
+== Expression Concepts
+
+[[toc]]
+
+=== [#scalar_expression]#Scalar Expression#
+
+==== Description
+
+A Scalar Expression is an expression convertible to a scalar type.
+
+==== Refinement of
+
+Default Constructible.
+
+==== Associated types
+
+[cols=",,",]
+|===
+|Public base |scaler_expression<S> |S must be derived from this public
+base type.
+
+|Value type |`value_type` |The type of the scalar expression.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`S` |A type that is a model of Scalar Expression
+|===
+
+==== Definitions
+
+==== Valid expressions
+
+In addition to the expressions defined in Default Constructible the
+following expressions must be valid.
+
+[cols=",,,",]
+|===
+|Name |Expression |Type requirements |Return type
+|Evaluation |`operator value_type () const` |  |`value_type`
+|===
+
+==== Expression semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in Default Constructible.
+
+[cols=",,,,",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition
+
+|Evaluation |`operator value_type () const` |  |  Evaluates the scalar
+expression. | 
+|===
+
+==== Complexity guarantees
+
+The run-time complexity of the evaluation is specific for the evaluated
+scalar expression.
+
+==== Invariants
+
+==== Models
+
+* `vector_scalar_unary`
+* `vector_scalar_binary`
+
+=== [#vector_expression]#Vector Expression#
+
+==== Description
+
+A Vector Expression is an expression evaluatable to a vector. Vector
+Expression provides an
+link:iterator_concept.html#indexed_bidirectional_iterator[Indexed
+Bidirectional Iterator] or an
+link:iterator_concept.html#indexed_random_access_iterator[Indexed Random
+Access Iterator] .
+
+==== Refinement of
+
+Default Constructible.
+
+==== Associated types
+
+[width="100%",cols="34%,33%,33%",]
+|===
+|Public base |vector_expression<V> |V must be derived from this public
+base type.
+
+|Value type |`value_type` |The element type of the vector expression.
+
+|Reference type |`reference` |The return type when accessing an element
+of a vector expression. +
+Convertable to a`value_type`.
+
+|Const reference type |`const_reference` |The return type when accessing
+an element of a constant vector expression. +
+Convertable to a`value_type`.
+
+|Size type |`size_type` |The index type of the vector expression. Am
+unsigned integral type used to represent size and index values. +
+Can represent any nonnegative value of `difference_type`.
+
+|Distance type |`difference_type` |A signed integral type used to
+represent the distance between two of the vector expression's iterators.
+
+|Const iterator type |`const_iterator` |A type of iterator that may be
+used to examine a vector expression's elements.
+
+|Iterator type |`iterator` |A type of iterator that may be used to
+modify a vector expression's elements.
+
+|Const reverse iterator type |`const_reverse_iterator` |A Reverse
+Iterator adaptor whose base iterator type is the vector expression's
+const iterator type.
+
+|Reverse iterator type |`reverse_iterator` |A Reverse Iterator adaptor
+whose base iterator type is the vector expression's iterator type.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`V` |A type that is a model of Vector Expression
+|`v, v1, v2` |Object of type `V`
+|`i` |Object of a type convertible to `size_type`
+|`t` |Object of a type convertible to `value_type`
+|===
+
+==== Definitions
+
+==== Valid expressions
+
+In addition to the expressions defined in Default Constructible the
+following expressions must be valid.
+
+[cols=",,,",]
+|===
+|Name |Expression |Type requirements |Return type
+
+|Beginning of range |`v.begin ()` |  |`const_iterator`
+
+| |`v.begin ()` |`v` is mutable. |`iterator`
+
+|End of range |`v.end ()` |  |`const_iterator`
+
+| |`v.end ()` |`v` is mutable. |`iterator`
+
+|Size |`v.size ()` |  |`size_type`
+
+|Swap |`v1.swap (v2)` |`v1` and `v2` are mutable. |`void`
+
+|Beginning of reverse range |`v.rbegin ()` |  |`const_reverse_iterator`
+
+| |`v.rbegin ()` |`v` is mutable. |`reverse_iterator`
+
+|End of reverse range |`v.rend ()` |  |`const_reverse_iterator`
+
+| |`v.rend ()` |`v` is mutable. |`reverse_iterator`
+
+|Element access |`v (i)` |`i` is convertible to `size_type`.
+|Convertible to `value_type`.
+
+|Assignment |`v2 = v1` |`v2` is mutable and `v1` is convertible to `V`.
+|`V &`
+
+| |`v2.assign (v1)` |`v2` is mutable and `v1` is convertible to `V`.
+|`V &`
+
+|Computed assignment |`v2 += v1` |`v2` is mutable and `v1` is
+convertible to `V`. |`V &`
+
+| |`v2.plus_assign (v1)` |`v2` is mutable and `v1` is convertible to
+`V`. |`V &`
+
+| |`v2 -= v1` |`v2` is mutable and `v1` is convertible to `V`. |`V &`
+
+| |`v2.minus_assign (v1)` |`v2` is mutable and `v1` is convertible to
+`V`. |`V &`
+
+| |`v *= t` |`v` is mutable and `t` is convertible to `value_type`.
+|`V &`
+|===
+
+==== Expression semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in Default Constructible.
+
+[cols=",,,,",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition
+
+|Beginning of range |`v.begin ()` |  |Returns an iterator pointing to
+the first element in the vector expression. |`v.begin ()` is either
+dereferenceable or past-the-end. It is past-the-end if and only if
+`v.size () == 0`.
+
+|End of range |`v.end ()` |  |Returns an iterator pointing one past the
+last element in the vector expression. |`v.end ()` is past-the-end.
+
+|Size |`v.size ()` |  |Returns the size of the vector expression, that
+is, its number of elements. |`v.size () >= 0`
+
+|Swap |`v1.swap (v2)` |  |Equivalent to `swap (v1, v2)`. | 
+
+|Beginning of reverse range |`v.rbegin ()` |  |Equivalent to
+`reverse_iterator (v.end ())`. |`v.rbegin ()` is either dereferenceable
+or past-the-end. It is past-the-end if and only if `v.size () == 0`.
+
+|End of reverse range |`v.rend ()` |  |Equivalent to
+`reverse_iterator (v.begin ())`. |`v.rend ()` is past-the-end.
+
+|Element access |`v (i)` |`0 <= i < v.size ()` |Returns the `i`-th
+element of the vector expression. | 
+
+|Assignment |`v2 = v1` |`v1.size () == v2.size ()` |Assigns every
+element of the evaluated vector expression `v1` to the corresponding
+element of `v2` . | 
+
+| |`v2.assign (v1)` |`v1.size () == v2.size ()` |Assigns every element
+of `v1` to the corresponding element of `v2`. | 
+
+|Computed assignment |`v2 += v1` |`v1.size () == v2.size ()` |Adds every
+element of the evaluated vector expression `v1` to the corresponding
+element of `v2`. | 
+
+| |`v2.plus_assign (v1)` |`v1.size () == v2.size ()` |Adds every element
+of `v1` to the corresponding element of `v2`. | 
+
+| |`v2 -= v1` |`v1.size () == v2.size ()` |Subtracts every element of
+the evaluated vector expression `v1` from the corresponding element of
+`v2` . | 
+
+| |`v2.minus_assign (v1)` |`v1.size () == v2.size ()` |Subtracts every
+element of `v1` from the corresponding element of `v2`. | 
+
+| |`v *= t` |  |Multiplies every element of `v` with `t` . | 
+|===
+
+==== Complexity guarantees
+
+The run-time complexity of `begin ()` and `end ()` is specific for the
+evaluated vector expression, typically amortized constant time.
+
+The run-time complexity of `size ()` is constant time.
+
+The run-time complexity of `swap ()` is specific for the evaluated
+vector expression, typically constant time.
+
+The run-time complexity of `rbegin ()` and `rend ()` is specific for the
+evaluated vector expression, typically amortized constant time.
+
+The run-time complexity of the element access is specific for the
+evaluated vector expression, typically amortized constant time for the
+dense and logarithmic for the sparse case.
+
+The run-time complexity of the arithmetic operations is specific for the
+evaluated vector expressions, typically linear in the size of the
+expressions.
+
+==== Invariants
+
+[cols=",",]
+|===
+|Valid range |For any vector expression `v`, `[v.begin (), v.end ())` is
+a valid range.
+
+|Completeness |An algorithm that iterates through the range
+`[v.begin (), v.end ())` will pass through every element of `v` .
+
+|Valid reverse range |`[v.rbegin (), v.rend ())` is a valid range.
+
+|Equivalence of ranges |The distance from `v.begin ()` to `v.end ()` is
+the same as the distance from `v.rbegin ()` to `v.rend ()`.
+|===
+
+==== Models
+
+* `vector_range;`
+* `vector_slice`
+* `matrix_row`
+* `matrix_column`
+* `matrix_vector_range`
+* `matrix_vector_slice`
+* `vector_unary`
+* `vector_binary`
+* `vector_binary_scalar1`
+* `vector_binary_scalar2`
+* `matrix_vector_unary1`
+* `matrix_vector_unary2`
+* `matrix_vector_binary1`
+* `matrix_vector_binary2`
+
+=== [#matrix_expression]#Matrix Expression#
+
+==== Description
+
+A Matrix Expression is an expression evaluatable to a matrix. Matrix
+Expression provides an
+link:iterator_concept.html#indexed_bidirectional_cr_iterator[Indexed
+Bidirectional Column/Row Iterator] or an
+link:iterator_concept.html#indexed_random_access_cr_iterator[Indexed
+Random Access Column/Row Iterator] .
+
+==== Refinement of
+
+Default Constructible.
+
+==== Associated types
+
+===== immutable types
+
+[width="100%",cols="34%,33%,33%",]
+|===
+|Public base |`matrix_expression<M>` |M must be derived from this public
+base type.
+
+|Value type |`value_type` |The element type of the matrix expression.
+
+|Const reference type |`const_reference` |The return type when accessing
+an element of a constant matrix expression. +
+Convertable to a `value_type`.
+
+|Size type |`size_type` |The index type of the matrix expression. Am
+unsigned integral type used to represent size and index values. +
+Can represent any nonnegative value of `difference_type`.
+
+|Distance type |`difference_type` |A signed integral type used to
+represent the distance between two of the matrix expression's iterators.
+
+|Const iterator types |`const_iterator1` |A type of column iterator that
+may be used to examine a matrix expression's elements.
+
+| |`const_iterator2` |A type of row iterator that may be used to examine
+a matrix expression's elements.
+
+|Const reverse iterator types |`const_reverse_iterator1` |A Reverse
+Iterator adaptor whose base iterator type is the matrix expression's
+const column iterator type.
+
+| |`const_reverse_iterator2` |A Reverse Iterator adaptor whose base
+iterator type is the matrix expression's const row iterator type.
+|===
+
+===== mutable types
+
+[width="100%",cols="34%,33%,33%",]
+|===
+|Reference type |`reference` |The return type when accessing an element
+of a matrix expression. +
+Convertable to a `value_type`.
+
+|Iterator types |`iterator1` |A type of column iterator that may be used
+to modify a matrix expression's elements.
+
+| |`iterator2` |A type of row iterator that may be used to modify a
+matrix expression's elements.
+
+|Reverse iterator types |`reverse_iterator1` |A Reverse Iterator adaptor
+whose base iterator type is the matrix expression's column iterator
+type.
+
+| |`reverse_iterator2` |A Reverse Iterator adaptor whose base iterator
+type is the matrix expression's row iterator type.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`M` |A type that is a model of Matrix Expression
+|`m, m1, m2` |Object of type `M`
+|`i, j` |Objects of a type convertible to `size_type`
+|`t` |Object of a type convertible to `value_type`
+|===
+
+==== Definitions
+
+==== Valid expressions
+
+In addition to the expressions defined in Default Constructible the
+following expressions must be valid.
+
+===== immutable expressions
+
+[cols=",,,",options="header",]
+|===
+|Name |Expression |Type requirements |Return type
+|Size |`m.size1 ()` |  |`size_type`
+| |`m.size2 ()` |  |`size_type`
+|===
+
+===== possibly mutable expressions
+
+[cols=",,,",]
+|===
+|Name |Expression |Type requirements |Return type
+
+|Beginning of range |`m.begin1 ()` |  |`const_iterator1`
+
+| |`m.begin2 ()` |  |`const_iterator2`
+
+| |`m.begin1 ()` |`m` is mutable.  |`iterator1`
+
+| |`m.begin2 ()` |`m` is mutable. |`iterator2`
+
+|End of range |`m.end1 ()` |  |`const_iterator1`
+
+| |`m.end2 ()` |  |`const_iterator2`
+
+| |`m.end1 ()` |`m` is mutable.  |`iterator1`
+
+| |`m.end2 ()` |`m` is mutable. |`iterator2`
+
+|Swap |`m1.swap (m2)` |`m1` and `m2` are mutable.  |`void`
+
+|Beginning of reverse range |`m.rbegin1 ()` | 
+|`const_reverse_iterator1`
+
+| |`m.rbegin2 ()` |  |`const_reverse_iterator2`
+
+| |`m.rbegin1 ()` |`m` is mutable.  |`reverse_iterator1`
+
+| |`m.rbegin2 ()` |`m` is mutable. |`reverse_iterator2`
+
+|End of reverse range |`m.rend1 ()` |  |`const_reverse_iterator1`
+
+| |`m.rend2 ()` |  |`const_reverse_iterator2`
+
+| |`m.rend1 ()` |`m` is mutable. |`reverse_iterator1`
+
+| |`m.rend2 ()` |`m` is mutable. |`reverse_iterator2`
+
+|Element access |`m (i, j)` |`i` and `j` are convertible to `size_type`
+. |Convertible to `value_type`.
+
+|Assignment |`m2 = m1` |`m2` is mutable and `m1` is convertible to `M`.
+|`M &`
+
+| |`m2.assign (m1)` |`m2` is mutable and `m1` is convertible to `M`.
+|`M &`
+
+|Computed assignment |`m2 += m1` |`m2` is mutable and `m1` is
+convertible to `M`. |`M &`
+
+| |`m2.plus_assign (m1)` |`m2` is mutable and `m1` is convertible to
+`M`. |`M &`
+
+| |`m2 -= m1` |`m2` is mutable and `m1` is convertible to `M`. |`M &`
+
+| |`m2.minus_assign (m1)` |`m2` is mutable and `m1` is convertible to
+`M`. |`M &`
+
+| |`m *= t` |`m` is mutable and `t` is convertible to `value_type`.
+|`M &`
+|===
+
+==== Expression semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in Default Constructible.
+
+[cols=",,,,",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition
+
+|Beginning of range |`m.begin1 ()` |  |Returns an iterator pointing to
+the first element in the first column of a matrix expression.
+|`m.begin1 ()` is either dereferenceable or past-the-end. It is
+past-the-end if and only if `m.size1 () == 0`.
+
+| |`m.begin2 ()` |  |Returns an iterator pointing to the first element
+in the first row of a matrix expression. |`m.begin2 ()` is either
+dereferenceable or past-the-end. It is past-the-end if and only if
+`m.size2 () == 0`.
+
+|End of range |`m.end1 ()` |  |Returns an iterator pointing one past the
+last element in the matrix expression. |`m.end1 ()` is past-the-end.
+
+| |`m.end2 ()` |  |Returns an iterator pointing one past the last
+element in the matrix expression. |`m.end2 ()` is past-the-end.
+
+|Size |`m.size1 ()` |  |Returns the number of rows of the matrix
+expression. |`m.size1 () >= 0`
+
+| |`m.size2 ()` |  |Returns the number of columns of the matrix
+expression. |`m.size2 () >= 0`
+
+|Swap |`m1.swap (m2)` |  |Equivalent to `swap (m1, m2)`. | 
+
+|Beginning of reverse range |`m.rbegin1 ()` |  |Equivalent to
+`reverse_iterator1 (m.end1 ())`. |`m.rbegin1 ()` is either
+dereferenceable or past-the-end. It is past-the-end if and only if
+`m.size1 () == 0`.
+
+| |`m.rbegin2 ()` |  |Equivalent to `reverse_iterator2 (m.end2 ())`.
+|`m.rbegin2 ()` is either dereferenceable or past-the-end. It is
+past-the-end if and only if `m.size2 () == 0`.
+
+|End of reverse range |`m.rend1 ()` |  |Equivalent to
+`reverse_iterator1 (m.begin1 ())`. |`m.rend1 ()` is past-the-end.
+
+| |`m.rend2 ()` |  |Equivalent to `reverse_iterator2 (m.begin2 ())`.
+|`m.rend2 ()` is past-the-end.
+
+|Element access |`m (i, j)` |`0 <= i < m.size1 ()` and
+`0 <= j < m.size2 ()` |Returns the `j`-th element of the `i`-th row of
+the matrix expression. | 
+
+|Assignment |`m2 = m1` |`m1.size1 () == m2.size1 ()` and
+` m1.size2 () == m2.size2 ()` |Assigns every element of the evaluated
+matrix expression `m1` to the corresponding element of `m2` . | 
+
+| |`m2.assign (m1)` |`m1.size1 () == m2.size1 ()` and
+` m1.size2 () == m2.size2 ()` |Assigns every element of `m1` to the
+corresponding element of `m2`. | 
+
+|Computed assignment |`m2 += m1` |`m1.size1 () == m2.size1 ()` and
+` m1.size2 () == m2.size2 ()` |Adds every element of the evaluated
+matrix expression `m1` to the corresponding element of `m2`. | 
+
+| |`m2.plus_assign (m1)` |`m1.size1 () == m2.size1 ()` and
+` m1.size2 () == m2.size2 ()` |Adds every element of `m1` to the
+corresponding element of `m2`. | 
+
+| |`m2 -= m1` |`m1.size1 () == m2.size1 ()` and
+` m1.size2 () == m2.size2 ()` |Subtracts every element of the evaluated
+matrix expression `m1` from the corresponding element of `m2` . | 
+
+| |`m2.minus_assign (m1)` |`m1.size1 () == m2.size1 ()` and
+` m1.size2 () == m2.size2 ()` |Subtracts every element of `m1` from the
+corresponding element of `m2`. | 
+
+| |`m *= t` |  |Multiplies every element of `m` with `t` . | 
+|===
+
+==== Complexity guarantees
+
+The run-time complexity of `begin1 ()`, `begin2 ()` , `end1 ()` and
+`end2 ()` is specific for the evaluated matrix expression.
+
+The run-time complexity of `size1 ()` and `size2 ()` is constant time.
+
+The run-time complexity of `swap ()` is specific for the evaluated
+matrix expression, typically constant time.
+
+The run-time complexity of `rbegin1 ()`, `rbegin2 ()` , `rend1 ()` and
+`rend2 ()` is specific for the evaluated matrix expression.
+
+The run-time complexity of the element access is specific for the
+evaluated matrix expression, typically amortized constant time for the
+dense and logarithmic for the sparse case.
+
+The run-time complexity of the arithmetic operations is specific for the
+evaluated matrix expressions, typically quadratic in the size of the
+proxies.
+
+==== Invariants
+
+[cols=",",]
+|===
+|Valid range |For any matrix expression `m`, `[m.begin1 (), m.end1 ())`
+and `[m.begin2 (), m.end2 ())` are valid ranges.
+
+|Completeness |An algorithm that iterates through the range
+`[m.begin1 (), m.end1 ())` will pass through every row of `m` , an
+algorithm that iterates through the range `[m.begin2 (), m.end2 ())`
+will pass through every column of `m` .
+
+|Valid reverse range |`[m.rbegin1 (), m.rend1 ())` and
+`[m.rbegin2 (), m.rend2 ())` are valid ranges.
+
+|Equivalence of ranges |The distance from `m.begin1 ()` to `m.end1 ()`
+is the same as the distance from `m.rbegin1 ()` to `m.rend1 ()` and the
+distance from `m.begin2 ()` to `m.end2 ()` is the same as the distance
+from `m.rbegin2 ()` to `m.rend2 ()`.
+|===
+
+==== Models
+
+* `matrix_range`
+* `matrix_slice;`
+* `triangular_adaptor`
+* `symmetric_adaptor`
+* `banded_adaptor`
+* `vector_matrix_binary`
+* `matrix_unary1`
+* `matrix_unary2`
+* `matrix_binary`
+* `matrix_binary_scalar1`
+* `matrix_binary_scalar2`
+* `matrix_matrix_binary`
+
+'''''
+
+Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

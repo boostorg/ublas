@@ -1,0 +1,401 @@
+== Symmetric Matrix
+
+[[toc]]
+
+=== [#symmetric_matrix]#Symmetric Matrix#
+
+==== Description
+
+The templated class `symmetric_matrix<T, F1, F2, A>` is the base
+container adaptor for symmetric matrices. For a _(n x n_ )-dimensional
+symmetric matrix and _0 < = i < n_, _0 < = j < n_ holds __s__~_i,j_~=
+__s__~_j,i_~. The storage of symmetric matrices is packed.
+
+==== Example
+
+[source, cpp]
+....
+#include <boost/numeric/ublas/symmetric.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    symmetric_matrix<double, lower> ml (3, 3);
+    for (unsigned i = 0; i < ml.size1 (); ++ i)
+        for (unsigned j = 0; j <= i; ++ j)
+            ml (i, j) = 3 * i + j;
+    std::cout << ml << std::endl;
+    symmetric_matrix<double, upper> mu (3, 3);
+    for (unsigned i = 0; i < mu.size1 (); ++ i)
+        for (unsigned j = i; j < mu.size2 (); ++ j)
+            mu (i, j) = 3 * i + j;
+    std::cout << mu << std::endl;
+}
+....
+
+==== Definition
+
+Defined in the header symmetric.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`T` |The type of object stored in the matrix. |
+
+|`F1` |Functor describing the type of the symmetric matrix.
+link:#symmetric_matrix_1[[1]] |`lower`
+
+|`F2` |Functor describing the storage organization.
+link:#symmetric_matrix_2[[2]] |`row_major`
+
+|`A` |The type of the adapted array. link:#symmetric_matrix_3[[3]]
+|`unbounded_array<T>`
+|===
+
+==== Model of
+
+link:container_concept.html#matrix[Matrix] .
+
+==== Type requirements
+
+None, except for those imposed by the requirements of
+link:container_concept.html#matrix[Matrix] .
+
+==== Public base classes
+
+`matrix_container<symmetric_matrix<T, F1, F2, A> >`
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`symmetric_matrix (size_type size)` |Allocates an uninitialized
+`symmetric_matrix` that holds `size` rows of `size` elements.
+
+|`symmetric_matrix (const symmetric_matrix &m)` |The copy constructor.
+
+|`template<class AE> symmetric_matrix (const matrix_expression<AE> &ae)`
+|The extended copy constructor.
+
+|`void resize (size_type size, bool preserve = true)` |Reallocates a
+`symmetric_matrix` to hold `size` rows of `size` elements. The existing
+elements of the `symmetric_matrix` are preseved when specified.
+
+|`size_type size1 () const` |Returns the number of rows.
+
+|`size_type size2 () const` |Returns the number of columns.
+
+|`const_reference operator () (size_type i, size_type j) const` |Returns
+a `const` reference of the `j` -th element in the `i`-th row.
+
+|`reference operator () (size_type i, size_type j)` |Returns a reference
+of the `j`-th element in the `i`-th row.
+
+|`symmetric_matrix &operator = (const symmetric_matrix &m)` |The
+assignment operator.
+
+|`symmetric_matrix &assign_temporary (symmetric_matrix &m)` |Assigns a
+temporary. May change the symmetric matrix `m` .
+
+|`template<class AE> symmetric_matrix &operator = (const matrix_expression<AE> &ae)`
+|The extended assignment operator.
+
+|`template<class AE> symmetric_matrix &assign (const matrix_expression<AE> &ae)`
+|Assigns a matrix expression to the symmetric matrix. Left and right
+hand side of the assignment should be independent.
+
+|`template<class AE> symmetric_matrix &operator += (const matrix_expression<AE> &ae)`
+|A computed assignment operator. Adds the matrix expression to the
+symmetric matrix.
+
+|`template<class AE> symmetric_matrix &plus_assign (const matrix_expression<AE> &ae)`
+|Adds a matrix expression to the symmetric matrix. Left and right hand
+side of the assignment should be independent.
+
+|`template<class AE> symmetric_matrix &operator -= (const matrix_expression<AE> &ae)`
+|A computed assignment operator. Subtracts the matrix expression from
+the symmetric matrix.
+
+|`template<class AE> symmetric_matrix &minus_assign (const matrix_expression<AE> &ae)`
+|Subtracts a matrix expression from the symmetric matrix. Left and right
+hand side of the assignment should be independent.
+
+|`template<class AT> symmetric_matrix &operator *= (const AT &at)` |A
+computed assignment operator. Multiplies the symmetric matrix with a
+scalar.
+
+|`template<class AT> symmetric_matrix &operator /= (const AT &at)` |A
+computed assignment operator. Divides the symmetric matrix through a
+scalar.
+
+|`void swap (symmetric_matrix &m)` |Swaps the contents of the symmetric
+matrices.
+
+|`void insert (size_type i, size_type j, const_reference t)` |Inserts
+the value `t` at the `j`-th element of the `i`-th row.
+
+|`void erase (size_type i, size_type j)` |Erases the value at the `j`-th
+elemenst of the `i`-th row.
+
+|`void clear ()` |Clears the matrix.
+
+|`const_iterator1 begin1 () const` |Returns a `const_iterator1` pointing
+to the beginning of the `symmetric_matrix`.
+
+|`const_iterator1 end1 () const` |Returns a `const_iterator1` pointing
+to the end of the `symmetric_matrix`.
+
+|`iterator1 begin1 ()` |Returns a `iterator1` pointing to the beginning
+of the `symmetric_matrix`.
+
+|`iterator1 end1 ()` |Returns a `iterator1` pointing to the end of the
+`symmetric_matrix`.
+
+|`const_iterator2 begin2 () const` |Returns a `const_iterator2` pointing
+to the beginning of the `symmetric_matrix`.
+
+|`const_iterator2 end2 () const` |Returns a `const_iterator2` pointing
+to the end of the `symmetric_matrix`.
+
+|`iterator2 begin2 ()` |Returns a `iterator2` pointing to the beginning
+of the `symmetric_matrix`.
+
+|`iterator2 end2 ()` |Returns a `iterator2` pointing to the end of the
+`symmetric_matrix`.
+
+|`const_reverse_iterator1 rbegin1 () const` |Returns a
+`const_reverse_iterator1` pointing to the beginning of the reversed
+`symmetric_matrix`.
+
+|`const_reverse_iterator1 rend1 () const` |Returns a
+`const_reverse_iterator1` pointing to the end of the reversed
+`symmetric_matrix`.
+
+|`reverse_iterator1 rbegin1 ()` |Returns a `reverse_iterator1` pointing
+to the beginning of the reversed `symmetric_matrix`.
+
+|`reverse_iterator1 rend1 ()` |Returns a `reverse_iterator1` pointing to
+the end of the reversed `symmetric_matrix`.
+
+|`const_reverse_iterator2 rbegin2 () const` |Returns a
+`const_reverse_iterator2` pointing to the beginning of the reversed
+`symmetric_matrix`.
+
+|`const_reverse_iterator2 rend2 () const` |Returns a
+`const_reverse_iterator2` pointing to the end of the reversed
+`symmetric_matrix`.
+
+|`reverse_iterator2 rbegin2 ()` |Returns a `reverse_iterator2` pointing
+to the beginning of the reversed `symmetric_matrix`.
+
+|`reverse_iterator2 rend2 ()` |Returns a `reverse_iterator2` pointing to
+the end of the reversed `symmetric_matrix`.
+|===
+
+==== Notes
+
+[#symmetric_matrix_1]#[1]# Supported parameters for the type of the
+symmetric matrix are `lower` and `upper`.
+
+[#symmetric_matrix_2]#[2]# Supported parameters for the storage
+organization are `row_major` and `column_major`.
+
+[#symmetric_matrix_3]#[3]# Supported parameters for the adapted array
+are `unbounded_array<T>` , `bounded_array<T>` and `std::vector<T>` .
+
+=== [#symmetric_adaptor]#Symmetric Adaptor#
+
+==== Description
+
+The templated class `symmetric_adaptor<M, F>` is a symmetric matrix
+adaptor for other matrices.
+
+==== Example
+
+[source, cpp]
+....
+#include <boost/numeric/ublas/symmetric.hpp>
+#include <boost/numeric/ublas/io.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    matrix<double> m (3, 3);
+    symmetric_adaptor<matrix<double>, lower> sal (m);
+    for (unsigned i = 0; i < sal.size1 (); ++ i)
+        for (unsigned j = 0; j <= i; ++ j)
+            sal (i, j) = 3 * i + j;
+    std::cout << sal << std::endl;
+    symmetric_adaptor<matrix<double>, upper> sau (m);
+    for (unsigned i = 0; i < sau.size1 (); ++ i)
+        for (unsigned j = i; j < sau.size2 (); ++ j)
+            sau (i, j) = 3 * i + j;
+    std::cout << sau << std::endl;
+}
+....
+
+==== Definition
+
+Defined in the header symmetric.hpp.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`M` |The type of the adapted matrix. |
+
+|`F` |Functor describing the type of the symmetric adaptor.
+link:#symmetric_adaptor_1[[1]] |`lower`
+|===
+
+==== Model of
+
+link:expression_concept.html#matrix_expression[Matrix Expression] .
+
+==== Type requirements
+
+None, except for those imposed by the requirements of
+link:expression_concept.html#matrix_expression[Matrix Expression] .
+
+==== Public base classes
+
+`matrix_expression<symmetric_adaptor<M, F> >`
+
+==== Members
+
+[cols=",",]
+|===
+|Member |Description
+
+|`symmetric_adaptor ()` |Constructs a `symmetric_adaptor` that holds
+zero rows of zero elements.
+
+|`symmetric_adaptor (matrix_type &data)` |Constructs a
+`symmetric_adaptor` of a matrix.
+
+|`symmetric_adaptor (const symmetric_adaptor &m)` |The copy constructor.
+
+|`template<class AE> symmetric_adaptor (const matrix_expression<AE> &ae)`
+|The extended copy constructor.
+
+|`size_type size1 () const` |Returns the number of rows.
+
+|`size_type size2 () const` |Returns the number of columns.
+
+|`const_reference operator () (size_type i, size_type j) const` |Returns
+a `const` reference of the `j` -th element in the `i`-th row.
+
+|`reference operator () (size_type i, size_type j)` |Returns a reference
+of the `j`-th element in the `i`-th row.
+
+|`symmetric_adaptor &operator = (const symmetric_adaptor &m)` |The
+assignment operator.
+
+|`symmetric_adaptor &assign_temporary (symmetric_adaptor &m)` |Assigns a
+temporary. May change the symmetric adaptor `m`.
+
+|`template<class AE> symmetric_adaptor &operator = (const matrix_expression<AE> &ae)`
+|The extended assignment operator.
+
+|`template<class AE> symmetric_adaptor &assign (const matrix_expression<AE> &ae)`
+|Assigns a matrix expression to the symmetric adaptor. Left and right
+hand side of the assignment should be independent.
+
+|`template<class AE> symmetric_adaptor &operator += (const matrix_expression<AE> &ae)`
+|A computed assignment operator. Adds the matrix expression to the
+symmetric adaptor.
+
+|`template<class AE> symmetric_adaptor &plus_assign (const matrix_expression<AE> &ae)`
+|Adds a matrix expression to the symmetric adaptor. Left and right hand
+side of the assignment should be independent.
+
+|`template<class AE> symmetric_adaptor &operator -= (const matrix_expression<AE> &ae)`
+|A computed assignment operator. Subtracts the matrix expression from
+the symmetric adaptor.
+
+|`template<class AE> symmetric_adaptor &minus_assign (const matrix_expression<AE> &ae)`
+|Subtracts a matrix expression from the symmetric adaptor. Left and
+right hand side of the assignment should be independent.
+
+|`template<class AT> symmetric_adaptor &operator *= (const AT &at)` |A
+computed assignment operator. Multiplies the symmetric adaptor with a
+scalar.
+
+|`template<class AT> symmetric_adaptor &operator /= (const AT &at)` |A
+computed assignment operator. Divides the symmetric adaptor through a
+scalar.
+
+|`void swap (symmetric_adaptor &m)` |Swaps the contents of the symmetric
+adaptors.
+
+|`const_iterator1 begin1 () const` |Returns a `const_iterator1` pointing
+to the beginning of the `symmetric_adaptor`.
+
+|`const_iterator1 end1 () const` |Returns a `const_iterator1` pointing
+to the end of the `symmetric_adaptor`.
+
+|`iterator1 begin1 ()` |Returns a `iterator1` pointing to the beginning
+of the `symmetric_adaptor`.
+
+|`iterator1 end1 ()` |Returns a `iterator1` pointing to the end of the
+`symmetric_adaptor`.
+
+|`const_iterator2 begin2 () const` |Returns a `const_iterator2` pointing
+to the beginning of the `symmetric_adaptor`.
+
+|`const_iterator2 end2 () const` |Returns a `const_iterator2` pointing
+to the end of the `symmetric_adaptor`.
+
+|`iterator2 begin2 ()` |Returns a `iterator2` pointing to the beginning
+of the `symmetric_adaptor`.
+
+|`iterator2 end2 ()` |Returns a `iterator2` pointing to the end of the
+`symmetric_adaptor`.
+
+|`const_reverse_iterator1 rbegin1 () const` |Returns a
+`const_reverse_iterator1` pointing to the beginning of the reversed
+`symmetric_adaptor`.
+
+|`const_reverse_iterator1 rend1 () const` |Returns a
+`const_reverse_iterator1` pointing to the end of the reversed
+`symmetric_adaptor`.
+
+|`reverse_iterator1 rbegin1 ()` |Returns a `reverse_iterator1` pointing
+to the beginning of the reversed `symmetric_adaptor`.
+
+|`reverse_iterator1 rend1 ()` |Returns a `reverse_iterator1` pointing to
+the end of the reversed `symmetric_adaptor`.
+
+|`const_reverse_iterator2 rbegin2 () const` |Returns a
+`const_reverse_iterator2` pointing to the beginning of the reversed
+`symmetric_adaptor`.
+
+|`const_reverse_iterator2 rend2 () const` |Returns a
+`const_reverse_iterator2` pointing to the end of the reversed
+`symmetric_adaptor`.
+
+|`reverse_iterator2 rbegin2 ()` |Returns a `reverse_iterator2` pointing
+to the beginning of the reversed `symmetric_adaptor`.
+
+|`reverse_iterator2 rend2 ()` |Returns a `reverse_iterator2` pointing to
+the end of the reversed `symmetric_adaptor`.
+|===
+
+==== Notes
+
+[#symmetric_adaptor_1]#[1]# Supported parameters for the type of the
+symmetric adaptor are `lower` and `upper`.
+
+'''''
+
+Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

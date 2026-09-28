@@ -1,0 +1,639 @@
+== Iterator Concepts
+
+[[toc]]
+
+An Iterator is a restricted pointer-like object pointing into a vector
+or matrix container.
+
+=== [#indexed_bidirectional_iterator]#Indexed Bidirectional Iterator#
+
+==== Description
+
+An Indexed Bidirectional Iterator is an iterator of a container that can
+be dereferenced, incremented, decremented and carries index information.
+
+==== Refinement of
+
+Assignable, Equality Comparable, Default Constructible.
+
+==== Associated types
+
+[cols=",",]
+|===
+|Value type |The type of the value obtained by dereferencing a Indexed
+Bidirectional Iterator
+
+|Container type |The type of the container a Indexed Bidirectional
+Iterator points into.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`I` |A type that is a model of Indexed Bidirectional Iterator
+|`T` |The value type of `I`
+|`C` |The container type of `I`
+|`it`, `itt, it1`, `it2` |Objects of type `I`
+|`t` |Object of type `T`
+|`c` |Object of type `C`
+|===
+
+==== Definitions
+
+A Indexed Bidirectional Iterator may be _mutable_, meaning that the
+values referred to by objects of that type may be modified, or
+_constant_ , meaning that they may not. If an iterator type is mutable,
+this implies that its value type is a model of Assignable; the converse,
+though, is not necessarily true.
+
+A Indexed Bidirectional Iterator may have a _singular_ value, meaning
+that the results of most operations, including comparison for equality,
+are undefined. The only operation that is guaranteed to be supported is
+assigning a nonsingular iterator to a singular iterator.
+
+A Indexed Bidirectional Iterator may have a _dereferenceable_ value,
+meaning that dereferencing it yields a well-defined value.
+Dereferenceable iterators are always nonsingular, but the converse is
+not true.
+
+An Indexed Bidirectional Iterator is _past-the-end_ if it points beyond
+the last element of a container. Past-the-end values are nonsingular and
+nondereferenceable.
+
+==== Valid expressions
+
+In addition to the expressions defined for Assignable, Equality
+Comparable and Default Constructible, the following expressions must be
+valid.
+
+[cols=",,,",]
+|===
+|Name |Expression |Type requirements |Return type
+|Default constructor |`I it` |  | 
+|Dereference |`*it` |  |Convertible to `T`.
+|Dereference assignment |`*it = t` |`I` is mutable. | 
+|Member access |`it->m` |`T` is a type for which `t.m` is defined. | 
+|Preincrement |`++ it` |  |`I &`
+|Postincrement |`it ++` |  |`I`
+|Predecrement |`-- it` |  |`I &`
+|Postdecrement |`it --` |  |`I`
+|Index |`it.index ()` |  |`C::size_type`
+|===
+
+==== Expression Semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in, Assignable, Equality Comparable and Default
+Constructible.
+
+[width="100%",cols="20%,20%,20%,20%,20%",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition
+
+|Default constructor |`I it` |  |  |`it` is singular.
+
+|Dereference |`*it` |`it` is dereferenceable. |  | 
+
+|Dereference assignment |`*it = t` |Same as for `*it`. |  |`*it` is a
+copy of t.
+
+|Member access |`it->m` |`it` is dereferenceable. |Equivalent to
+`(*it).m` | 
+
+|Preincrement |`++ it` |`it` is dereferenceable. |`it` is modified to
+point to the next element. |`it` is dereferenceable or past-the-end.
+` &it == &++ it`. +
+If `it1 == it2`, +
+then `++ it1 == ++ it2`.
+
+|Postincrement |`it ++` |Same as for `++ it`. |Equivalent to +
+`{  I itt = it;  ++ it;  return itt; }` |`it` is dereferenceable or
+past-the-end.
+
+|Predecrement |`-- it` |`it` is dereferenceable or past-the-end. +
+There exists a dereferenceable iterator `itt` such that `it == ++ itt`.
+|`it` is modified to point to the previous element. |`it` is
+dereferenceable. +
+`&it = &-- it`. +
+If `it1 == it2`, +
+then `-- it1 == -- it2`. +
+If `it2` is dereferenceable and `it1 == ++it2`, +
+then `--it1 == it2`.
+
+|Postdecrement |`it --` |Same as for -- `it`. |Equivalent to +
+`{  I itt = it;  -- it;  return itt; }` |`it` is dereferenceable. 
+
+|Index |`it.index ()` |`it` is dereferenceable. |`it.index () >= 0` +
+and +
+`it.index () < it ().size ()` |If `it1 == it2`, +
+then `it1.index () == it2.index ()`. +
+If `it1 == it2`, +
+then `it1.index () < (++ it2).index ()`. +
+If `it1 == it2`, +
+then `it1.index () > (-- it2).index ()`.
+|===
+
+==== Complexity guarantees
+
+The complexity of operations on indexed bidirectional iterators is
+guaranteed to be amortized constant time.
+
+==== Invariants
+
+[cols=",",]
+|===
+|Identity |`it1 == it2` if and only if `&*it1 == &*it2`.
+
+|Symmetry of increment and decrement |If `it` is dereferenceable, then
+`++ it; --it;` is a null operation. Similarly, `-- it; ++ it;` is a null
+operation.
+
+|Relation between iterator index and container element operator |If `it`
+is dereferenceable, `*it == it () (it.index ())`.
+|===
+
+==== Models
+
+* `sparse_vector::iterator`
+
+=== [#indexed_random_access_iterator]#Indexed Random Access Iterator#
+
+==== Description
+
+An Indexed Random Access Iterator is an iterator of a container that can
+be dereferenced, moved forward, moved backward and carries index
+information.
+
+==== Refinement of
+
+LessThanComparable, link:#indexed_bidirectional_iterator[Indexed
+Bidirectional Iterator] .
+
+==== Associated types
+
+[cols=",",]
+|===
+|Value type |The type of the value obtained by dereferencing a Indexed
+Random Access Iterator
+
+|Container type |The type of the container a Indexed Random Access
+Iterator points into.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`I` |A type that is a model of Indexed Random Access Iterator
+|`T` |The value type of `I`
+|`C` |The container type of `I`
+|`it`, `itt, it1`, `it2` |Objects of type `I`
+|`t` |Object of type `T`
+|`n` |Object of type `C::difference_type`
+|===
+
+==== Definitions
+
+An Indexed Random Access Iterator `it1` is _reachable_ from an Indexed
+Random Access Iterator `it2` if, after applying `operator ++` to `it2` a
+finite number of times, `it1 == it2`.
+
+==== Valid expressions
+
+In addition to the expressions defined for
+link:#indexed_bidirectional_iterator[Indexed Bidirectional Iterator] ,
+the following expressions must be valid.
+
+[cols=",,,",]
+|===
+|Name |Expression |Type requirements |Return type
+|Forward motion |`it += n` |  |`I &`
+|Iterator addition |`it + n` |  |`I`
+|Backward motion |`i -= n` |  |`I &`
+|Iterator subtraction |`it - n` |  |`I` 
+|Difference |`it1 - it2` |  |`C::difference_type`
+|Element operator |`it [n]` |  |Convertible to `T`.
+|Element assignment |`it [n] = t` |`I` is mutable |Convertible to `T`.
+|===
+
+==== Expression Semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in, link:#indexed_bidirectional_iterator[Indexed
+Bidirectional Iterator] .
+
+[width="100%",cols="20%,20%,20%,20%,20%",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition
+
+|Forward motion |`it += n` |Including `it` itself, there must be `n`
+dereferenceable or past-the-end iterators following or preceding `it`,
+depending on whether `n` is positive or negative. |If `n > 0`,
+equivalent to executing `++ it` `n` times. If `n < 0`, equivalent to
+executing `-- it` `n` times. If `n == 0`, this is a null operation.
+|`it` is dereferenceable or past-the-end.
+
+|Iterator addition |`it + n` |Same as for `i += n`. |Equivalent to +
+`{  I itt = it;  return itt += n; }` |Result is dereferenceable or
+past-the-end.
+
+|Backward motion |`it -= n` |Including `it` itself, there must be `n`
+dereferenceable or past-the-end iterators preceding or following `it`,
+depending on whether `n` is positive or negative. |Equivalent to
+`it += (-n)`. |`it` is dereferenceable or past-the-end.
+
+|Iterator subtraction |`it - n` |Same as for `i -= n`. |Equivalent to +
+`{  I itt = it;  return itt -= n; }` |Result is dereferenceable or
+past-the-end.
+
+|Difference |`it1 - it2` |Either `it1` is reachable from `it2` or `it2`
+is reachable from `it1`, or both. |Returns a number `n` such that
+`it1 == it2 + n` | 
+
+|Element operator |`it [n]` |`it + n` exists and is dereferenceable.
+|Equivalent to `*(it + n)` | 
+
+|Element assignment |`i[n] = t` |Same as for `it [n]`. |Equivalent to
+`*(it + n) = t` | 
+|===
+
+==== Complexity guarantees
+
+The complexity of operations on indexed random access iterators is
+guaranteed to be amortized constant time.
+
+==== Invariants
+
+[cols=",",]
+|===
+|Symmetry of addition and subtraction |If `it + n` is well-defined, then
+`it += n; it -= n;` and `(it + n) - n` are null operations. Similarly,
+if `it - n` is well-defined, then `it -= n; it += n;` and `(it - n) + n`
+are null operations.
+
+|Relation between distance and addition |If `it1 - it2` is well-defined,
+then `it1 == it2 + (it1 - it2)`.
+
+|Reachability and distance |If `it1` is reachable from `it2`, then
+`it1 - it2 >= 0`.
+|===
+
+==== Models
+
+* `vector::iterator`
+
+=== [#indexed_bidirectional_cr_iterator]#Indexed Bidirectional Column/Row Iterator#
+
+==== Description
+
+An Indexed Bidirectional Column/Row Iterator is an iterator of a
+container that can be dereferenced, incremented, decremented and carries
+index information.
+
+==== Refinement of
+
+Assignable, Equality Comparable, Default Constructible.
+
+==== Associated types
+
+[cols=",",]
+|===
+|Value type |The type of the value obtained by dereferencing a Indexed
+Bidirectional Column/Row Iterator
+
+|Container type |The type of the container a Indexed Bidirectional
+Column/Row Iterator points into.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`I1` |A type that is a model of Indexed Bidirectional Column/Row
+Iterator
+
+|`I2` |A type that is a model of Indexed Bidirectional Row/Column
+Iterator
+
+|`T` |The value type of `I1` and `I2`
+
+|`C` |The container type of `I1` and `I2`
+
+|`it1`, `it1t, it11`, `it12` |Objects of type `I1`
+
+|`it2`, `it2t` |Objects of type `I2`
+
+|`t` |Object of type `T`
+
+|`c` |Object of type `C`
+|===
+
+==== Definitions
+
+==== Valid expressions
+
+In addition to the expressions defined for Assignable, Equality
+Comparable and Default Constructible, the following expressions must be
+valid.
+
+[cols=",,,",]
+|===
+|Name |Expression |Type requirements |Return type
+|Default constructor |`I1 it` |  | 
+|Dereference |`*it` |  |Convertible to `T`.
+|Dereference assignment |`*it = t` |`I1` is mutable. | 
+|Member access |`it->m` |`T` is a type for which `t.m` is defined. | 
+|Preincrement |`++ it` |  |`I1 &`
+|Postincrement |`it ++` |  |`I1`
+|Predecrement |`-- it` |  |`I1 &`
+|Postdecrement |`it --` |  |`I1`
+|Row Index |`it.index1 ()` |  |`C::size_type`
+|Column Index |`it.index2 ()` |  |`C::size_type`
+|Row/Column Begin |`it.begin ()` |  |`I2`
+|Row/Column End |`it.end ()` |  |`I2`
+|Reverse Row/Column Begin |`it.rbegin ()` |  |`reverse_iterator<I2>`
+|Reverse Row/Column End |`it.rend ()` |  |`reverse_iterator<I2>`
+|===
+
+==== Expression Semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in, Assignable, Equality Comparable and Default
+Constructible.
+
+[width="100%",cols="20%,20%,20%,20%,20%",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition
+
+|Default constructor |`I1 it` |  |  |`it` is singular.
+
+|Dereference |`*it` |`it` is dereferenceable. |  | 
+
+|Dereference assignment |`*it = t` |Same as for `*it`. |  |`*it` is a
+copy of t.
+
+|Member access |`it->m` |`it` is dereferenceable. |Equivalent to
+`(*it).m` | 
+
+|Preincrement |`++ it` |`it` is dereferenceable. |`it` is modified to
+point to the next element of the column/row, i.e. for column iterators
+holds +
+`it.index1 () < (++ it).index1 ()` and +
+`it.index2 () == (++ it).index2 ()`, +
+for row iterators holds +
+`it.index1 () == (++ it).index1 ()` and +
+`it.index2 () < (++ it).index2 ()`. + |`it` is dereferenceable or
+past-the-end. ` &it == &++ it`. +
+If `it1 == it2`, +
+then `++ it1 == ++ it2`.
+
+|Postincrement |`it ++` |Same as for `++ it`. |Equivalent to +
+`{  I1 itt = it;  ++ it;  return itt; }` |`it` is dereferenceable or
+past-the-end.
+
+|Predecrement |`-- it` |`it` is dereferenceable or past-the-end. +
+There exists a dereferenceable iterator `itt` such that `it == ++ itt`.
+|`it` is modified to point to the previous  element of the column/row,
+i.e. for column iterators holds +
+`it.index1 () > (-- it).index1 ()` and +
+`it.index2 () == (-- it).index2 ()`, +
+for row iterators holds +
+`it.index1 () == (-- it).index1 ()` and +
+`it.index2 () > (-- it).index2 ()`. |`it` is dereferenceable. +
+`&it = &-- it`. +
+If `it1 == it2`, +
+then `-- it1 == -- it2`.
+
+|Postdecrement |`it --` |Same as for -- `it`. |Equivalent to +
+`{  I1 itt = it;  -- it;  return itt; }` |`it` is dereferenceable. 
+
+|Row Index |`it.index1 ()` |If `it` is a Row iterator then `it` must be
+dereferenceable. |`it.index1 () >= 0` and +
+`it.index1 () < it () .size1 ()` |If `it1 == it2`, +
+then `it1.index1 () == 12.index1 ()`. +
+If `it1`, `it2` are Row Iterators with `it1 == it2`, +
+then `it1.index1 () < (++ it2`).`index1 ()`. +
+and `it1.index1 () > (-- it2`).`index1 ()`.
+
+|Column Index |`it.index2 ()` |If `it` is a Column iterator then `it`
+must be dereferenceable. |`it.index2 () >= 0` and +
+`it.index2 () < it () .size2 ()` |If `it1 == it2`, +
+then `it1.index2 () == it2`.`index2 ()` . +
+If `it1`, `it2` are Column Iterators with `it1 == i12`, +
+then `it1.index2 () < (++ it2`).`index2 ()`. +
+end `it1.index2 () > (-- it2`).`index2 ()`.
+
+|Row/Column Begin |`it.begin ()` |`it` is dereferenceable. a|
+If `it` is a Column Iterator, +
+then `it2 = it.begin ()` is a Row Iterator +
+with `it2.index1 () == it.index1 ()`.
+
+If `it` is a Row Iterator, +
+then `it2 = it.begin ()` is a Column Iterator +
+with `it2.index2 () == it.index2 ()`.
+
+| 
+
+|Row/Column End |`it.end ()` |`it` is dereferenceable. a|
+If `it` is a Column Iterator, +
+then `it2 = it.end ()` is a Row Iterator +
+with `it2.index1 () == it.index1 ()`.
+
+If `it` is a Row Iterator, +
+then `it2 = it.end ()` is a Column Iterator +
+with `it2.index2 () == it.index2 ()`.
+
+| 
+
+|Reverse Row/Column Begin |`it.rbegin ()` |`it` is dereferenceable.
+|Equivalent to `reverse_iterator<I2> (it.end ())`. | 
+
+|Reverse Row/Column End |`it.rend ()` |`it` is dereferenceable.
+|Equivalent to `reverse_iterator<I2> (it.begin ())`. | 
+|===
+
+==== Complexity guarantees
+
+The complexity of operations on indexed bidirectional column/row
+iterators is guaranteed to be logarithmic depending on the size of the
+container. The complexity of one iterator (depending on the storage
+layout) can be lifted to be amortized constant time. The complexity of
+the other iterator (depending on the storage layout and the container)
+can be lifted to be amortized constant time for the first row/first
+column respectively.
+
+==== Invariants
+
+[width="100%",cols="50%,50%",]
+|===
+|Identity |`it1 == it2` if and only if `&*it1 == &*it2`.
+
+|Symmetry of increment and decrement |If `it` is dereferenceable, then
+`++ it; --it;` is a null operation. Similarly, `-- it; ++ it;` is a null
+operation.
+
+|Relation between iterator index and container element operator |If `it`
+is dereferenceable, `*it == it () (it.index1 (), it.index2 ())`
+
+|Relation between iterator column/row begin and iterator index a|
+If `it` is a Column Iterator and `it2 = it.begin ()` then
+`it2.index2 () < it2t.index2 ()` for all `it2t` with `it2t () == it2 ()`
+and `it2t ().index1 () == it2 ().index1 ()`.
+
+If `it` is a Row Iterator and `it2 = it.begin ()` then
+`it2.index1 () < it2t.index1 ()` for all `it2t` with `it2t () == it2 ()`
+and `it2t ().index2 () == it2 ().index2 ()`.
+
+|Relation between iterator column/row end and iterator index a|
+If `it` is a Column Iterator and `it2 = it.end ()` then
+`it2.index2 () > it2t.index2 ()` for all `it2t` with `it2t () == it2 ()`
+and `it2t ().index1 () == it2 ().index1 ()`.
+
+If `it` is a Row Iterator and `it2 = it.end ()` then
+`it2.index1 () > it2t.index1 ()` for all `it2t` with `it2t () == it2 ()`
+and `it2t ().index2 () == it2 ().index2 ()`.
+
+|===
+
+==== Models
+
+* `sparse_matrix::iterator1`
+* `sparse_matrix::iterator2`
+
+=== [#indexed_random_access_cr_iterator]#Indexed Random Access Column/Row Iterator#
+
+==== Description
+
+An Indexed Random Access Column/Row Iterator is an iterator of a
+container that can be dereferenced, incremented, decremented and carries
+index information.
+
+==== Refinement of
+
+link:#indexed_bidirectional_cr_iterator[Indexed Bidirectional Column/Row
+Iterator] .
+
+==== Associated types
+
+[cols=",",]
+|===
+|Value type |The type of the value obtained by dereferencing a Indexed
+Random Access Column/Row Iterator
+
+|Container type |The type of the container a Indexed Random Access
+Column/Row Iterator points into.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`I` |A type that is a model of Indexed Random Access Column/Row
+Iterator
+
+|`T` |The value type of `I`
+
+|`C` |The container type of `I`
+
+|`it`, `itt, it1`, `it2` |Objects of type `I`
+
+|`t` |Object of type `T`
+
+|`c` |Object of type `C`
+|===
+
+==== Definitions
+
+==== Valid expressions
+
+In addition to the expressions defined for
+link:#indexed_bidirectional_cr_iterator[Indexed Bidirectional Column/Row
+Iterator] , the following expressions must be valid.
+
+[cols=",,,",]
+|===
+|Name |Expression |Type requirements |Return type
+|Forward motion |`it += n` |  |`I &`
+|Iterator addition |`it + n` |  |`I`
+|Backward motion |`i -= n` |  |`I &`
+|Iterator subtraction |`it - n` |  |`I` 
+|Difference |`it1 - it2` |  |`C::difference_type`
+|Element operator |`it [n]` |  |Convertible to `T`.
+|Element assignment |`it [n] = t` |`I` is mutable |Convertible to `T`.
+|===
+
+==== Expression Semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in, link:#indexed_bidirectional_cr_iterator[Indexed
+Bidirectional Column/Row Iterator] .
+
+[width="100%",cols="20%,20%,20%,20%,20%",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition
+
+|Forward motion |`it += n` |Including `it` itself, there must be `n`
+dereferenceable or past-the-end iterators following or preceding `it`,
+depending on whether `n` is positive or negative. |If `n > 0`,
+equivalent to executing `++ it` `n` times. If `n < 0`, equivalent to
+executing `-- it` `n` times. If `n == 0`, this is a null operation.
+|`it` is dereferenceable or past-the-end.
+
+|Iterator addition |`it + n` |Same as for `i += n`. |Equivalent to +
+`{  I itt = it;  return itt += n; }` |Result is dereferenceable or
+past-the-end.
+
+|Backward motion |`it -= n` |Including `it` itself, there must be `n`
+dereferenceable or past-the-end iterators preceding or following `it`,
+depending on whether `n` is positive or negative. |Equivalent to
+`it += (-n)`. |`it` is dereferenceable or past-the-end.
+
+|Iterator subtraction |`it - n` |Same as for `i -= n`. |Equivalent to +
+`{  I itt = it;  return itt -= n; }` |Result is dereferenceable or
+past-the-end.
+
+|Difference |`it1 - it2` |Either `it1` is reachable from `it2` or `it2`
+is reachable from `it1`, or both. |Returns a number `n` such that
+`it1 == it2 + n` | 
+
+|Element operator |`it [n]` |`it + n` exists and is dereferenceable.
+|Equivalent to `*(it + n)` | 
+
+|Element assignment |`i[n] = t` |Same as for `it [n]`. |Equivalent to
+`*(it + n) = t` | 
+|===
+
+==== Complexity guarantees
+
+The complexity of operations on indexed random access Column/Row
+iterators is guaranteed to be amortized constant time.
+
+==== Invariants
+
+[cols=",",]
+|===
+|Symmetry of addition and subtraction |If `it + n` is well-defined, then
+`it += n; it -= n;` and `(it + n) - n` are null operations. Similarly,
+if `it - n` is well-defined, then `it -= n; it += n;` and `(it - n) + n`
+are null operations.
+
+|Relation between distance and addition |If `it1 - it2` is well-defined,
+then `it1 == it2 + (it1 - it2)`.
+
+|Reachability and distance |If `it1` is reachable from `it2`, then
+`it1 - it2 >= 0`.
+|===
+
+==== Models
+
+* `matrix::iterator1`
+* `matrix::iterator2`
+
+'''''
+
+Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

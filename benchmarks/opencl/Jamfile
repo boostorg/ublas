@@ -13,10 +13,11 @@ import ../../clblas ;
 using opencl ;
 using clblas ;
 
-project boost/ublas/benchmarks/opencl
+project
     : requirements
       <library>/boost/program_options//boost_program_options
       <toolset>gcc:<cxxflags>-Wno-ignored-attributes
+      <toolset>clang:<cxxflags>-Wno-ignored-attributes
       [ ac.check-library /clblas//clblas : <library>/clblas//clblas <library>/opencl//opencl : <build>no ]
     ;
 

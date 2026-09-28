@@ -1,0 +1,351 @@
+== Tensor
+
+[[toc]]
+
+. Tensor +
+.. link:#tensor_1[Description] +
+.. link:#tensor_2[Example] +
+.. link:#tensor_3[Definition] +
+.. link:#tensor_4[Model of] +
+.. link:#tensor_5[Type requirements] +
+.. link:#tensor_6[Public base classes] +
+.. link:#tensor_7[Template parameters] +
+.. link:#tensor_8[Member types] +
+.. link:#tensor_9[Alias templates] +
+
+.. link:#tensor_10[Member Functions] +
+... link:#tensor_11[Construction] +
+... link:#tensor_12[Assignment] +
+... link:#tensor_13[Capacity] +
+... link:#tensor_14[Element access] +
+... link:#tensor_15[Proxy Generation] +
+... link:#tensor_16[Iterators] +
+... link:#tensor_17[Modifiers] +
+... link:#tensor_18[Notes] +
+
+==== a. [#tensor_1]#Description#
+
+
+The templated class `tensor<value_t,format_t,storage_t>` is the base
+container adaptor for dense tensors. Every element 
+$(t_/ i_1, i_2, \dots, i_p)$ of a $p$-order $(n_1 \times n_2 \times \cdots
+\times n_p)$-dimensional tensor $T$ is mapped to $j$-th element of a
+one-dimensional container where $(j = \sum_ /{r=1}^p i_r \cdot w_r)$ with
+$1 \leq i_r \leq n_r $ for $1 \leq r \leq p$. For the first-order
+orientation $w_1 = 1$ and $(w_k = n_{k-1} \cdot w_{k-1})$ for $k > 1$.
+For last-order orientation $w_p = 1$ and $(w_k = n_/{k+1} \cdot w_/{k+1})$ for $k < p$.
+
+==== b. [#tensor_2]#Example#
+
+[source,cpp]
+....
+#include <boost/numeric/ublas/tensor.hpp>
+
+int main () {
+  using namespace boost::numeric::ublas;
+  tensor<double> t{4,2,3};
+  for (auto k = 0ul; k < t.size (2); ++ k)
+    for (auto j = 0ul; j < t.size (1); ++ j)
+      for (auto i = 0ul; i < t.size (0); ++ i)
+        t.at(i,j,k) = 3*i + 2*j + 5*k;
+        
+  std::cout << t << std::endl;
+}
+....
+
+==== c. [#tensor_3]#Definition#
+
+Defined in the header file `tensor/tensor.hpp`.
+
+==== d. [#tensor_4]#Model of#
+
+link:container_concept.html#tensor[Tensor]
+
+==== e. [#tensor_5]#Type requirements#
+
+None, except for those imposed by the requirements of
+link:container_concept.html#tensor[Tensor] .
+
+==== f. [#tensor_6]#Public base classes#
+
+`tensor_container<tensor<value_t,format_t,storage_t> >`
+
+==== g. [#tensor_7]#Template parameters#
+
+[cols=",,",]
+|===
+|Parameter |Description |Default
+
+|`value_t` |The type of object stored in the tensor. |
+
+|`format_t` |Storage organization. link:#tensor_1[[1]] |`first_order`
+
+|`storage_t` |The type of the Storage array. link:#tensor_2[[2]]
+|`std::vector<value_t>`
+|===
+
+==== h. [#tensor_8]#Member types#
+
+[cols=",",]
+|===
+|Member type |Description
+
+|`value_type` |Type `value_t` of the tensor elements.
+
+|`layout_type` |Format of the tensor which is either `first_order` or
+`last_order`.
+
+|`array_type` |Sequence container type that stores all tensor elements
+and is accessible with a single index.
+
+|`strides_type` |Type of the strides vector
+`basic_strides<std::size_t,layout_type>` that stores all tensor elements
+and is accessible with a single index.
+
+|`extents_type` |Type of the dimension extents vector `shape` that
+stores all tensor elements and is accessible with a single index.
+
+|`size_type` |Unsigned integer which is usually `std::size_t`.
+
+|`difference_type` |Unsigned integer which is usually `std::ptrdiff_t`.
+
+|`reference` |Reference type `storage_type::reference` which is in most
+cases `value_type&`.
+
+|`const_reference` |Constant reference type
+`storage_type::const_reference` which is in most cases
+`const value_type&`.
+
+|`pointer` |Pointer type `storage_type::pointer` which is in most cases
+`value_type*`.
+
+|`const_pointer` |Constant reference type
+`storage_type::const_reference` which is in most cases
+`const value_type*`.
+
+|`iterator` |RandomAccessIterator `storage_type::iterator`.
+
+|`const_iterator` |Constant RandomAccessIterator
+`storage_type::const_iterator`.
+
+|`reverse_iterator` |Reverse RandomAccessIterator
+`storage_type::reverse_iterator`.
+
+|`const_reverse_iterator` |Reverse RandomAccessIterator
+`storage_type::const_reverse_iterator`.
+
+|`matrix_type` |Type of the matrix
+`matrix<value_type,layout_type,array_type>` with which the tensor type
+interacts.
+
+|`vector_type` |Type of the vector
+`matrix<value_type,layout_type,array_type>` with which the tensor type
+interacts.
+|===
+
+==== i. [#tensor_9]#Alias templates#
+
+[cols=",",]
+|===
+|Alias template |Description
+
+|`template<class derived_type>  using tensor_expression_type = detail::tensor_expression<self_type,derived_type>` |Type of link:tensor/tensor_expression.html#tensor_expression[tensor_expression] where `self_type` is the `tensor` type.
+
+|`template<class derived_type>  using matrix_expression_type = matrix_expression<derived_type>` |Type of link:matrix_expression.html#matrix_expression[matrix_expression].
+
+|`template<class derived_type>  using vector_expression_type = vector_expression<derived_type>` |Type of link:vector_expression.html#vector_expression[vector_expression].
+|===
+
+==== j. [#tensor_10]#Member Functions#
+
+===== i. [#tensor_11]#Construction#
+
+[cols=",",]
+|===
+|Member function |Description
+
+|`tensor ()` |Constructs an uninitialized `tensor` that holds zero
+elements.
+
+|`tensor (std::initializer_list<size_type> list)` |Constructs an
+uninitialized `tensor` where `list` specifies the dimension
+link:tensor/extents.html[extents].
+
+|`tensor (extents_type const& s)` |Constructs an uninitialized
+`tensor` where `s` specifies the dimension
+link:tensor/extents.html[extents].
+
+|`tensor (extents_type const& e, array_type const& a)` |Constructs an
+uninitialized `tensor` where `e` specifies the dimension
+link:tensor/extents.html[extents] and `a` the data elements of the
+tensor.
+
+|`tensor (tensor<value_type,other_layout&rt; const& other)` |Constructs
+tensor by copying elements from `other` where the layout is different
+from this layout type.
+
+|`tensor (tensor const& other)` |Constructs tensor by copying elements
+from `other`.
+
+|`tensor (tensor && other)` |Constructs tensor by moving elements from
+`other`.
+
+|`tensor (matrix_type const& other)` |Constructs tensor by copying
+elements from `other` link:matrix.html[matrix]. The tensor will have the
+order 2.
+
+|`tensor (matrix_type && other)` |Constructs tensor by moving elements
+from `other` link:matrix.html[matrix]. The tensor will have the order 2.
+
+|`tensor (vector_type const& other)` |Constructs tensor by copying
+elements from `other` link:vector.html[vector]. The tensor will have the
+order 1.
+
+|`tensor (vector_type && other)` |Constructs tensor by moving elements
+from `other` link:vector.html[vector]. The tensor will have the order 1.
+
+|`tensor (tensor_expression_type<derived_type> const& expr)` |Constructs
+tensor by evaluating the link:tensor/tensor_expression.html[tensor
+expression] `expr` and copying all elements of the result.
+
+|`tensor (matrix_expression_type<derived_type> const& expr)` |Constructs
+tensor by evaluating the link:matrix_expression.html[matrix expression]
+`expr` and copying all elements of the result.
+
+|`tensor (vector_expression_type<derived_type> const& expr)` |Constructs
+tensor by evaluating the link:vector_expression.html[vector expression]
+`expr` and copying all elements of the result.
+|===
+
+===== ii. [#tensor_12]#Assignment#
+
+[cols=",",]
+|===
+|Member function |Description
+
+|`tensor& operator=(tensor_expression_type<derived_type> const& expr)`
+|Evaluates the link:tensor/tensor_expression.html[tensor expression]
+`expr` and copyies all elements of the result.
+
+|`tensor& operator=(tensor other)` |Copies or moves elements of `other`.
+
+|`tensor& operator=(const_reference v)` |Initialiates all elements of a
+tensor with `v`.
+|===
+
+===== iii. [#tensor_13]#Capacity#
+
+[cols=",",]
+|===
+|Member function |Description
+
+|`bool empty() const` |Returns true if a tensor has zero elements.
+
+|`size_type size() const` |Returns the number of elements of the tensor.
+
+|`size_type rank() const` |Returns the number of dimensions of the
+tensor.
+
+|`size_type order() const` |Returns the number of dimensions of the
+tensor.
+
+|`strides_type const& strides() const` |Returns a constant reference to
+the link:tensor/strides.html[strides] of the tensor.
+
+|`extents_type const& extents() const` |Returns a constant reference to
+the link:tensor/extents.html[extents] of the tensor.
+|===
+
+===== iv. [#tensor_14]#Element access#
+
+[cols=",",]
+|===
+|Member function |Description
+
+|`pointer data()` |Returns a `pointer` the first element of the tensor.
+
+|`const_pointer data() const` |Returns a `const_pointer` the first
+element of the tensor.
+
+|`reference operator[](size_type j)` |Returns a `reference` to the
+`j`-th element of the storage array of the tensor. Corresponds to the
+function call `tensor::data()+j`
+
+|`const_reference operator[](size_type j) const` |Returns a
+`const_reference` to the `j`-th element of the storage array of the
+tensor. Corresponds to the function call `tensor::data()+j`.
+
+|`template<class ... size_types>  reference at(size_type i, size_types ... is)`
+|Returns a `reference` to the `(i,is...)`-th element of the tensor where
+` (i,is...)` denotes a multi-index with `tensor::order()` elements. If
+`sizeof...(is)==0`, `tensor::operator[i]` is called.
+
+|`template<class ... size_types>  const_reference at(size_type i, size_types ... is)`
+|Returns a `const_reference` to the `(i,is...)`-th element of the tensor
+where ` (i,is...)` denotes a multi-index with `tensor::order()`
+elements. If `sizeof...(is)==0`, `tensor::operator[i]` is called.
+|===
+
+===== v. [#tensor_15]#Proxy Generation#
+
+[cols=",",]
+|===
+|Member function |Description
+
+|`template<std::size_t I, class ... index_types>  tensor_index operator()(indices::Index<I> p, index_types ... ps)`
+|Returns a link:tensor/tensor_index.html[tensor index] instance with
+index objects `(p,ps...)` for a tensor contraction where
+`sizeof...(ps)+1` must be equal to `tensor::order()`.
+|===
+
+===== vi. [#tensor_16]#Iterators#
+
+[cols=",",]
+|===
+|Member function |Description
+
+|`const_iterator begin() const` |Returns a const_iterator pointing to
+the first element of the tensor.
+
+|`const_iterator cbegin() const` |Returns a const_iterator pointing to
+the first element of the tensor.
+
+|`iterator begin()` |Returns an iterator pointing to the first element
+of the tensor.
+
+|`const_iterator end() const` |Returns a const_iterator pointing to the
+position after the last element of the tensor.
+
+|`const_iterator cend() const` |Returns a const_iterator pointing to the
+position after the last element of the tensor.
+
+|`iterator begin()` |Returns an iterator pointing to the position after
+the last element of the tensor.
+|===
+
+===== vii. [#tensor_17]#Modifiers#
+
+[cols=",",]
+|===
+|Member function |Description
+
+|`void reshape(extents_type const& e, value_type v = value_type{})`
+|Reshapes the tensor according to the extents `e`. If `e.product()` is
+greater than `tensor::size()`, the tensor is resized with `v`.
+|===
+
+===== viii. [#tensor_18]#Notes#
+
+[#tensor_1]#[1]# Supported parameters for the storage organization are
+`first_order` and `last_order`.
+
+[#tensor_2]#[2]# Common parameters for the storage array are
+`std::array<N,T>` and `std::vector<T>`.
+
+'''''
+
+Copyright (©) 2018 Cem Bassoy +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

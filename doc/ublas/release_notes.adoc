@@ -1,0 +1,80 @@
+== Boost Basic Linear Algebra - Release Notes
+
+link:index.html[back to uBLAS home]
+
+[[toc]]
+
+=== Release 1.70.0
+
+==== improvements
+
+* Add support for GPU-accelerated operations via
+http://boostorg.github.io/compute/[Boost.Compute]
+* Add support for a new (arbitrary-rank) tensor type and associated
+operations.
+
+=== Release 1.52.0
+
+==== improvements
+
+* https://svn.boost.org/trac/boost/ticket/4024[[4024]] improve
+performance of inplace_solve
+* https://svn.boost.org/trac/boost/ticket/6511[[6511]] Division by
+scalar should use enable_if<>
+* https://svn.boost.org/trac/boost/ticket/7297[[7297]] Make the free
+functions 'num_columns' and 'num_rows' support the uBLAS traits system
+and better work with expression types
+
+==== bug fixes
+
+* https://svn.boost.org/trac/boost/ticket/7296[[7296]] fixes and
+improvements to test utility functions
+* https://svn.boost.org/trac/boost/ticket/7363[[7363]] fixed
+coordinate_matrix::sort() for gcc 4.7 and others
+
+=== Release 1.43.0
+
+==== bug fixes
+
+* https://svn.boost.org/trac/boost/ticket/3968[[3968]] fixed
+coordinate_matrix sort problem on MSVC10
+* https://svn.boost.org/trac/boost/ticket/3539[[3539]] changed
+computation of `norm_inf` for complex types to match mathematical
+definition. +
+*Note:* This might cause a performance drop because now `std::abs(z)` is
+called for each vector element. The old implementation used
+`std::max(std::abs(real(z)),std::abs(imag(z))`. Further `norm_inf` and
+`norm_1` will now return the same values for complex vector.
+* https://svn.boost.org/trac/boost/ticket/3501[[3501]] Moved free
+functions in `concepts.hpp` into anonymous namespace.
+
+=== Release 1.41.1
+
+==== new features
+
+* Move semantics of vector/matrix container assignments have been
+implemented. They can be enabled by setting BOOST_UBLAS_MOVE_SEMANTICS.
+More details are on the link:options.html[preprocessor options page].
+* Introduce new free functions. See
+https://svn.boost.org/trac/boost/ticket/3449[[3449]], the new tests in
+libs/numeric/ublas/test and the inline documentation of the files in
+boost/numeric/ublas/operation/.
+
+==== bug fixes
+
+* https://svn.boost.org/trac/boost/ticket/3293[[3293]] Fix resizing
+problem in `identity_matrix`
+* https://svn.boost.org/trac/boost/ticket/3499[[3499]] Add
+DefaultConstructible to concept checks
+
+=== Release 1.40.0 and before
+
+* Release notes were not available in this form.
+
+'''''
+
+Copyright (©) 2000-2009 Joerg Walter, Mathias Koch, Gunter Winkler +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

@@ -1,0 +1,136 @@
+== Extents
+
+[[toc]]
+
+=== [#extents]#basic_extents<size_type>#
+
+==== Description
+
+The template class `basic_extents` specifies dimension extents of a
+link:../tensor.html#tensor[tensor] instance.
+
+==== Example
+
+[source, cpp]
+....
+#include <boost/numeric/ublas/tensor/extents.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    shape s{4,3,2};
+    for (auto i = 0u; i < s.size(); ++i) {
+        std::cout << s.at(i) << std::endl;
+    }
+}
+....
+
+==== Definition
+
+Defined in the header tensor/extents.hpp.
+
+==== Public base classes
+
+None.
+
+==== Specialization
+
+`using shape = basic_extents<std::size_t>`
+
+==== Template parameters
+
+[cols=",",]
+|===
+|Parameter |Description
+|`size_type` |Unsigned integer type.
+|===
+
+==== Member types
+
+[cols=",",]
+|===
+|Member type |Description
+
+|`value_type` |Type `size_type` of the extents.
+
+|`size_type` |Unsigned integer such as `std::size_t`.
+
+|`reference` |Reference type which is `value_type&`.
+
+|`const_reference` |Constant reference type which is
+`const value_type&`.
+
+|`pointer` |Pointer type which is `value_type*`.
+
+|`const_pointer` |Constant reference type which is `const value_type*`.
+|===
+
+==== Member Functions
+[cols=",",]
+|===
+|Member Function |Description
+
+|`basic_extents ()` |Constructs an empty instance of `basic_extents`.
+
+|`basic_extents (std::vector<value_type> const& vector)` |Constructs an instance copying the content of `vector`.
+
+|`basic_extents (std::vector<value_type> && vector)` |Constructs an instance moving the content of `vector`.
+
+|`basic_extents (std::initializer_list<value_type> list)` |Constructs an instance from `list`.
+
+|`basic_extents (const_iterator first, const_iterator last)` |Constructs an instance from the range specified by `[first`,`last)`.
+
+|`basic_extents (basic_extents const& other)` |Constructs an instance from `other` copying its elements.
+
+|`basic_extents (basic_extents && other)` |Constructs an instance from `other` by moving its elements.
+
+|`basic_extents& operator= (basic_extents other)` |Assigns the elements of `other` to this instance.
+
+|`bool is_scalar() const` |Returns true if the elements are `(1,1,[1,...,1])`.
+
+|`bool is_vector() const` |Returns true if the elements are `(n,1,[1,...,1])` or `(1,n,[1,...,1])` where `n>1`.
+
+|`bool is_matrix() const` |Returns true if the elements are `(m,n,[1,...,1])` where `m>1` and
+`n>1`.
+
+|`bool is_tensor() const` |Returns true if it is not a scalar, vector or matrix.
+
+|`const_pointer data() const` |Returns a `const_pointer` to the first element.
+
+|`pointer data()` |Returns a `pointer` to the first element.
+
+|`reference operator[](size_type i)` |Returns a `reference` to the `i`-th element.
+
+|`const_reference operator[](size_type i) const` |Returns a `const_reference` to the `i`-th element.
+
+|`reference at(size_type i)` |Returns a `reference` to the `i`-th element.
+
+|`const_reference at(size_type i) const` |Returns a `const_reference` to the `i`-th element.
+
+|`bool empty()` |Returns true if the container has no elements.
+
+|`size_type size() const` |Returns the number of elements.
+
+|`bool valid() const` |Returns true if size()>1 and all elements are greater than one.
+
+|`size_type product() const` |Returns the multiplication of all entries.
+
+|`basic_extents squeeze() const` |Returns a new instance where entries equal to one are eliminated.
+
+|`bool operator==(basic_extents const& b) const` |Returns true if all elements are equal.
+
+|`bool operator!=(basic_extents const& b) const` |Returns true if some elements are not equal.
+
+|`const_iterator begin() const` |Returns an `const_iterator pointing to the first element.`
+
+|`const_iterator end() const` |Returns a `const_iterator` pointing to an element passed the last element.
+
+|`std::vector<size_type> base() const` |Returns a const reference to the private member sequence container holding all elements.
+
+|===
+'''''
+
+Copyright (©) 2018 Cem Bassoy +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

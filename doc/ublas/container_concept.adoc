@@ -1,0 +1,395 @@
+== Container Concepts
+
+[[toc]]
+
+=== [#vector]#Vector#
+
+==== Description
+
+A Vector describes common aspects of dense, packed and sparse vectors.
+
+==== Refinement of
+
+https://www.boost.org/sgi/stl/DefaultConstructible.html[DefaultConstructible],
+link:expression_concept.html#vector_expression[Vector Expression]
+link:#vector_expression_note[[1]].
+
+==== Associated types
+
+In addition to the types defined by
+link:expression_concept.adoc#vector_expression[Vector Expression]
+
+[cols=",,",]
+|===
+|Public base |vector_container<V> |V must be derived from this public
+base type.
+
+|Storage array |V::array_type |Dense Vector ONLY. The type of underlying
+storage array used to store the elements. The array_type must model the
+link:storage_concept.adoc[*Storage*] concept.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`V` |A type that is a model of Vector
+|`v` |Objects of type `V`
+|`n, i` |Objects of a type convertible to `size_type`
+|`t` |Object of a type convertible to `value_type`
+|`p` |Object of a type convertible to `bool`
+|===
+
+==== Definitions
+
+==== Valid expressions
+
+In addition to the expressions defined in
+https://www.boost.org/sgi/stl/DefaultConstructible.html[DefaultConstructible],
+link:expression_concept.adoc#vector_expression[Vector Expression] the
+following expressions must be valid.
+
+[width="100%",cols="25%,25%,25%,25%",]
+|===
+|Name |Expression |Type requirements |Return type
+
+|Sizing constructor |`V v (n)` |  |`V`
+
+|Insert |`v.insert_element (i, t)` |`v` is mutable. |`void`
+
+|Erase |`v.erase_element (i)` |`v` is mutable. |`void`
+
+|Clear |`v.clear ()` |`v` is mutable. |`void`
+
+|Resize |`v.resize (n)` +
+`v.resize (n, p)` |`v` is mutable. |`void`
+
+|Storage |`v.data()` |`v` is mutable and Dense. |`array_type&` if `v` is
+mutable, `const array_type&` otherwise
+|===
+
+==== Expression semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in link:expression_concept.adoc#vector_expression[Vector
+Expression] .
+
+[width="100%",cols=",,,,",options="header",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition
+|Sizing constructor |`V v (n)` |`n >= 0` |Allocates a vector of `n`
+elements. |`v.size () == n`.
+
+|Element access link:#element_access_note[[2]] |`v[n]` |`0<n>v.size()`
+|returns the n-th element in v | 
+
+|Insert |`v.insert_element (i, t)` |`0 < = i < v.size ()`. |Inserts an
+element at `v (i)` with value `t`. The storage requirement of the Vector
+may be increased. |`v (i)` is equal to `t`.
+
+|Erase |`v.erase_element (i)` |`0 < = i < v.size ()` |Destroys the
+element as `v (i)` and replaces it with the default `value_type ()`. The
+storage requirement of the Vector may be decreased. |`v (i)` is equal to
+`value_type ()`.
+
+|Clear |`v.clear ()` |  |Equivalent to +
+`for (i = 0; i < v.size (); ++ i)` +
+  `v.erase_element (i);` | 
+
+|Resize |`v.resize (n) v.resize (n, p)` |  |Reallocates the vector so
+that it can hold `n` elements. +
+Erases or appends elements in order to bring the vector to the
+prescribed size. Appended elements copies of `value_type()`. +
+When `p == false` then existing elements are not preserved and elements
+will not appended as normal. Instead the vector is in the same state as
+that after an equivalent sizing constructor. |`v.size () == n`.
+
+|Storage |`v.data()` | |Returns a reference to the underlying dense
+storage. | 
+|===
+
+==== Complexity guarantees
+
+The run-time complexity of the sizing constructor is linear in the
+vector's size.
+
+The run-time complexity of insert_element and erase_element is specific
+for the Vector model and it depends on increases/decreases in storage
+requirements.
+
+The run-time complexity of resize is linear in the vector's size.
+
+==== Invariants
+
+==== Models
+
+* `vector`, `bounded_vector`, `c_vector`
+* `unit_vector`, `zero_vector`, `scalar_vector`
+* `mapped_vector;`, `compressed_vector`, `coordinate_vector`
+
+==== Notes
+
+[#vector_expression_note]#[1]# As a user you need not care about Vector
+being a refinement of the VectorExpression. Being a refinement of the
+VectorExpression is only important for the template-expression engine
+but not the user.
+
+[#element_access_note]#[2]# The `operator[]` is added purely for
+convenience and compatibility with the `std::vector`. In uBLAS however,
+generally `operator()` is used for indexing because this can be used for
+both vectors and matrices.
+
+'''''
+
+=== [#matrix]#Matrix#
+
+==== Description
+
+A Matrix describes common aspects of dense, packed and sparse matrices.
+
+==== Refinement of
+
+https://www.boost.org/sgi/stl/DefaultConstructible.html[DefaultConstructible],
+link:expression_concept.adoc#matrix_expression[Matrix Expression]
+link:#matrix_expression_note[[1]] .
+
+==== Associated types
+
+In addition to the types defined by
+link:expression_concept.adoc#matrix_expression[Matrix Expression]
+
+[cols=",,",]
+|===
+|Public base |matrix_container<M> |M must be derived from this public
+base type.
+
+|Storage array |M::array_type |Dense Matrix ONLY. The type of underlying
+storage array used to store the elements. The array_type must model the
+link:storage_concept.adoc[*Storage*] concept.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`M` |A type that is a model of Matrix
+|`m` |Objects of type `M`
+|`n1, n2, i, j` |Objects of a type convertible to `size_type`
+|`t` |Object of a type convertible to `value_type`
+|`p` |Object of a type convertible to `bool`
+|===
+
+==== Definitions
+
+==== Valid expressions
+
+In addition to the expressions defined in
+link:expression_concept.adoc#matrix_expression[Matrix Expression] the
+following expressions must be valid.
+
+[width="100%",cols="25%,25%,25%,25%",]
+|===
+|Name |Expression |Type requirements |Return type
+
+|Sizing constructor |`M m (n1, n2)` |  |`M`
+
+|Insert |`m.insert_element (i, j, t)` |`m` is mutable. |`void`
+
+|Erase |`m.erase_element (i, j)` |`m` is mutable. |`void`
+
+|Clear |`m.clear ()` |`m` is mutable. |`void`
+
+|Resize |`m.resize (n1, n2)` +
+`m.resize (n1, n2, p)` |`m` is mutable. |`void`
+
+|Storage |`m.data()` |`m` is mutable and Dense. |`array_type&` if `m` is
+mutable, `const array_type&` otherwise
+|===
+
+==== Expression semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in link:expression_concept.adoc#matrix_expression[Matrix
+Expression] .
+
+[width="100%",cols=",,,,",options="header",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition 
+
+|Sizing constructor |`M m (n1, n2)` |`n1 >= 0` and `n2 >= 0` |Allocates a matrix of `n1` rows and `n2` columns. |`m.size1 () == n1` and `m.size2 () == n2`.
+
+|Insert |`m.insert_element (i, j, t)` |`0 < = i < m.size1 ()`, + `0 < = j < m.size2 ()`. |Inserts an element at `m (i, j)` with value `t`. The storage requirement of the Matrix may be increased. `m (i, j)` is equal to `t`. |`m(i,j)` is equal to `t`. 
+
+|Erase |`m.erase_element (i, j)` |`0 <= i < m.size1 ()`and ` 0 <= j < m.size2` |Destroys the element as `m (i, j)` and replaces it with the default `value_type ()`. The storage requirement of the Matrix may be decreased. |`m (i, j)` is equal to `value_type ()`.
+
+|Clear |`m.clear ()` | |Equivalent to +
+`for (i = 0; i < m.size1 (); ++ i) +
+  for (j = 0; j < m.size2 (); ++ j) +
+    m.erase_element (i, j);` |
+
+|Resize |`m.resize (n1, n2)  m.resize (n1, n2, p)` | |Reallocate the matrix so that it can hold `n1` rows and `n2` columns. +
+Erases or appends elements in order to bring the matrix to the
+prescribed size. Appended elements are `value_type()` copies. +
+When `p == false` then existing elements are not preserved and elements
+will not appended as normal. Instead the matrix is in the same state as
+that after an equivalent sizing constructor. |`m.size1 () == n1` and `m.size2 () == n2`.
+
+|Storage |`m.data()` | |Returns a reference to the underlying dense storage. |
+
+|===
+ 
+
+==== Complexity guarantees
+
+The run-time complexity of the sizing constructor is quadratic in the
+matrix's size.
+
+The run-time complexity of insert_element and erase_element is specific
+for the Matrix model and it depends on increases/decreases in storage
+requirements.
+
+The run-time complexity of resize is quadratic in the matrix's size.
+
+==== Invariants
+
+==== Models
+
+* `matrix`, `bounded_matrix`, `c_matrix`
+* `identity_matrix` , `zero_matrix` , `scalar_matrix`
+* `triangular_matrix` , `symmetric_matrix` , `banded_matrix`
+* `mapped_matrix` , `compressed_matrix` , `coordinate_matrix`
+
+==== Notes
+
+[#matrix_expression_note]#[1]# As a user you need not care about Matrix
+being a refinement of the MatrixExpression. Being a refinement of the
+MatrixExpression is only important for the template-expression engine
+but not the user.
+
+'''''
+
+=== [#tensor]#Tensor#
+
+==== Description
+
+A Tensor describes common aspects of dense multidimensional arrays.
+
+==== Refinement of
+
+https://www.boost.org/sgi/stl/DefaultConstructible.html[DefaultConstructible],
+link:expression_concept.adoc#tensor_expression[Tensor Expression]
+link:#tensor_expression_note[[1]] .
+
+==== Associated types
+
+In addition to the types defined by
+link:expression_concept.adoc#tensor_expression[Tensor Expression]
+
+[cols=",,",]
+|===
+|Public base |`tensor_container<tensor_t>` |`tensor_t` must be derived
+from this public base type.
+
+|Storage array |`tensor_t::array_type` |Dense tensor ONLY. The type of
+underlying storage array used to store the elements. The array_type must
+model the link:storage_concept.adoc[*Storage*] concept.
+|===
+
+==== Notation
+
+[cols=",",]
+|===
+|`tensor_t` |A type that is a model of Tensor
+
+|`t` |Objects of type `tensor_t`
+
+|`n1, n2, np, m1, m2, mq ` |Dimension objects of a type convertible to
+`size_type`
+
+|`i1, i2, ip, j, k ` |Index objects of a type convertible to `size_type`
+
+|`v` |Object of a type convertible to `value_type`
+|===
+
+==== Definitions
+
+==== Valid expressions
+
+In addition to the expressions defined in
+link:expression_concept.adoc#tensor_expression[Tensor Expression] the
+following expressions must be valid.
+
+[cols=",,,",]
+|===
+|Name |Expression |Type requirements |Return type
+
+|Sizing constructor |`T t(n1, n2, ..., np)` |  |`T`
+
+|Write |`t.at(i1, i2, ..., ip)` |`t` is mutable. |`void`
+
+|Read |`t.at(i1, i2, ..., ip)` |`t` is mutable. |`v`
+
+|Clear |`t.clear ()` |`t` is mutable. |`void`
+
+|Resize |`t.resize(m1, m2, ... , mq)` |`t` is mutable. |`void`
+
+|Storage |`t.data()` |`t` is mutable and dense. |`pointer` if `t` is
+mutable, `const_pointer` otherwise
+|===
+
+==== Expression semantics
+
+Semantics of an expression is defined only where it differs from, or is
+not defined in link:expression_concept.adoc#tensor_expression[Tensor
+Expression] .
+
+[width="100%",cols=",,,,",options="header",]
+|===
+|Name |Expression |Precondition |Semantics |Postcondition
+
+|Sizing constructor |`T t(n1, n2, ..., np)` |`__n__~_r_~` > =1 for 1< = 1 < = p |Allocates a `p` -order tensor with dimension extents `__n__~_1_~, __n__~_2_~, .... __n__~_p_~`. |`t.size(r)==nr` for 1 < = r < = p.
+
+|Write |`t.at(i1,i2,...,ip)=v` |0 < = `__i__~_r_~` < `__n__~_r_~` for 1 < = r < = p. |Writes an element at multi-index position `__i__~_1_~, __i__~_2_~, ... __i__~_p_~` with value `v`. |`t(i1,i2,...,ip)` is equal to `v`.
+
+|Read |`v=t.at(i1,i2,...,ip)` |0 < = `__i__~_r_~` < `__n__~_r_~` for 1 < = r < = p. |Reads the element at multi-index position `__i__~_1_~, __i__~_2_~, ... __i__~_p_~` and returns a value `v`. |`t(i1,i2,...,ip)` is equal to `v`.
+
+|Clear |`t.clear()` | |Removes all elements from the container. |
+
+|Resize |`t.resize(m1, m2, ..., mq)` |`__m__~_r_~` > = 1 for 1 < = 1 < = q |Reallocate the matrix so that it can hold `__m__~_1_~ x __m__~_2_~ x ... __m__~_q_~` elements. + Erases or appends elements in order to bring the matrix to the prescribed size. Appended elements are `value_type()` copies. |`t.size(r) == mr` for 1 < = r < = q.
+
+|Storage |`m.data()` | |Returns a reference to the underlying dense storage.| |
+
+|===
+
+==== Complexity guarantees
+
+The run-time complexity of contructor is linear in the tensor's size
+`__n__~_1_~ x __n__~_2_~ x ... __n__~_p_~`.
+
+The run-time complexity of `write()` and `read()` is linear in the order
+of the tensor.
+
+The run-time complexity of resize is at most linear in the tensor's size
+`__m__~_1_~ x __m__~_2_~ x ... __n__~_q_~`.
+
+==== Invariants
+
+==== Models
+
+* `tensor`
+
+==== Notes
+
+[#tensor_expression_note]#[1]# As a user you need not care about Tensor
+being a refinement of the TensorExpression. Being a refinement of the
+TensorExpression is only important for the template-expression engine
+but not the user.
+
+'''''
+
+Copyright (©) 2000-2002 Joerg Walter, Mathias Koch +
+Copyright (©) 2018 Cem Bassoy +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

@@ -1,0 +1,53 @@
+== Tensor Index
+
+[[toc]]
+
+=== [#tensor index]#tensor_index<value_t, storage_t, array_t, N>#
+
+==== Description
+
+The template class `tensor_index` decorates the
+link:../tensor.html#tensor[tensor] template class with indices for
+tensor contraction.
+
+==== Example
+
+[source, cpp]
+....
+#include <boost/numeric/ublas/tensor/einstein.hpp>
+
+int main () {
+    using namespace boost::numeric::ublas;
+    shape s{4,3,2};
+    for (auto i = 0u; i < s.size(); ++i) {
+        std::cout << s.at(i) << std::endl;
+    }
+}
+....
+
+==== Definition
+
+Defined in the header tensor/tensor_einstein.hpp.
+
+==== Public base classes
+
+None.
+
+==== Template parameters
+
+[cols=",,",]
+|===
+|Parameter |Description |
+|`value_t` |The type of object stored in the tensor. |
+|`format_t` |Storage organization of the tensor. |
+|`storage_t` |The type of the storage array of the tensor. |
+|`N` |Number of indices provided. |
+|===
+
+'''''
+
+Copyright (©) 2018 Cem Bassoy +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt ).

@@ -1,0 +1,230 @@
+== Level 3 BLAS
+
+[[toc]]
+
+'''''
+
+=== Functions
+[width="100%",cols="100%",]
+|===
+
+|template<class M1, class T, class M2, class M3> M1 & link:#blas_1[boost::numeric::ublas::blas_3::tmm] (M1 &m1, const T &t,
+const M2 &m2, const M3 &m3) triangular matrix multiplication
+
+
+|template<class M1, class T, class M2, class C> M1 & link:#blas_2[boost::numeric::ublas::blas_3::tsm] (M1 &m1, const T &t,
+const M2 &m2, C) triangular solve _m2_ * _x_ = _t_ * _m1_ in place, _m2_ is a
+triangular matrix
+
+|template<class M1, class T1, class T2, class M2, class M3> M1 & link:#blas_3[boost::numeric::ublas::blas_3::gmm] (M1 &m1, const T1 &t1,
+const T2 &t2, const M2 &m2, const M3 &m3) general matrix multiplication
+
+|template<class M1, class T1, class T2, class M2> M1 & link:#blas_4[boost::numeric::ublas::blas_3::srk] (M1 &m1, const T1 &t1,
+const T2 &t2, const M2 &m2) symmetric rank k update: _m1_ = _t_ * _m1_ + _t2_ * (_m2_ * _m2^T^_)
+
+|template<class M1, class T1, class T2, class M2> M1 & link:#blas_5[boost::numeric::ublas::blas_3::hrk] (M1 &m1, const T1 &t1,
+const T2 &t2, const M2 &m2) hermitian rank k update: _m1_ = _t_ * _m1_ + _t2_ * (_m2_ * _m2^H^_)
+
+
+|template<class M1, class T1, class T2, class M2, class M3> M1 & link:#blas_6[boost::numeric::ublas::blas_3::sr2k] (M1 &m1, const T1 &t1,
+const T2 &t2, const M2 &m2, const M3 &m3) generalized symmetric rank k update: _m1_ = _t1_ * _m1_ + _t2_ *
+(_m2_ * _m3^T^_) + _t2_ * (_m3_ * _m2^T^_)
+
+|template<class M1, class T1, class T2, class M2, class M3> M1 & link:#blas_7[boost::numeric::ublas::blas_3::hr2k] (M1 &m1, const T1 &t1,
+const T2 &t2, const M2 &m2, const M3 &m3) generalized hermitian rank k update: _m1_ = _t1_ * _m1_ + _t2_ *
+(_m2_ * _m3^H^_) + (_m3_ * (_t2_ * _m2_)^H^)
+
+|template<class M, class E1, class E2> BOOST_UBLAS_INLINE M & link:products.adoc#product_3[boost::numeric::ublas::axpy_prod] (const
+matrix_expression< E1 > &e1, const matrix_expression< E2 > &e2, M &m,
+bool init=true) computes `M += A X` or `M = A X` in an optimized fashion.
+
+|template<class M, class E1, class E2> BOOST_UBLAS_INLINE M & link:products.adoc#product_4[boost::numeric::ublas::opb_prod] (const
+matrix_expression< E1 > &e1, const matrix_expression< E2 > &e2, M &m,
+bool init=true) computes `M += A X` or `M = A X` in an optimized fashion.
+|===
+
+'''''
+
+=== Function Documentation
+
+[#blas_1]#1.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!M1& tmm !(  !M1 &  !_m1_,
+! ! !const T &  !_t_,
+! ! !const M2 &  !_m2_,
+! ! !const M3 &  !_m3_
+! !)  ! !
+!===
+
+|===
+
+[cols=",",]
+|===
+|  |triangular matrix multiplication
+|===
+
+[#blas_2]#2.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!M1& tsm !(  !M1 &  !_m1_,
+! ! !const T &  !_t_,
+! ! !const M2 &  !_m2_,
+! ! !C  !
+! !)  ! !
+!===
+
+|===
+
+[cols=",",]
+|===
+|  |triangular solve _m2_ * _x_ = _t_ * _m1_ in place, _m2_ is a
+triangular matrix
+|===
+
+[#blas_3]#3.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!M1& gmm !(  !M1 &  !_m1_,
+! ! !const T1 &  !_t1_,
+! ! !const T2 &  !_t2_,
+! ! !const M2 &  !_m2_,
+! ! !const M3 &  !_m3_
+! !)  ! !
+!===
+
+|===
+
+[cols=",",]
+|===
+|  |general matrix multiplication
+|===
+
+[#blas_4]#4.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!M1& srk !(  !M1 &  !_m1_,
+! ! !const T1 &  !_t1_,
+! ! !const T2 &  !_t2_,
+! ! !const M2 &  !_m2_
+! !)  ! !
+!===
+
+|===
+
+[width="100%",cols="50%,50%",]
+|===
+|  a|
+symmetric rank k update: _m1_ = _t_ * _m1_ + _t2_ * (_m2_ * _m2^T^_)
+
+*Todo:*::
+  use opb_prod()
+
+|===
+
+[#blas_5]#5.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!M1& hrk !(  !M1 &  !_m1_,
+! ! !const T1 &  !_t1_,
+! ! !const T2 &  !_t2_,
+! ! !const M2 &  !_m2_
+! !)  ! !
+!===
+
+|===
+
+[width="100%",cols="50%,50%",]
+|===
+|  a|
+hermitian rank k update: _m1_ = _t_ * _m1_ + _t2_ * (_m2_ * _m2^H^_)
+
+*Todo:*::
+  use opb_prod()
+
+|===
+
+[#blas_6]#6.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!M1& sr2k !(  !M1 &  !_m1_,
+! ! !const T1 &  !_t1_,
+! ! !const T2 &  !_t2_,
+! ! !const M2 &  !_m2_,
+! ! !const M3 &  !_m3_
+! !)  ! !
+!===
+
+|===
+
+[width="100%",cols="50%,50%",]
+|===
+|  a|
+generalized symmetric rank k update: _m1_ = _t1_ * _m1_ + _t2_ * (_m2_ *
+_m3^T^_) + _t2_ * (_m3_ * _m2^T^_)
+
+*Todo:*::
+  use opb_prod()
+
+|===
+
+[#blas_7]#7.#
+
+[width="100%",cols="100%",]
+|===
+a|
+[cols=",,,",]
+!===
+!M1& hr2k !(  !M1 &  !_m1_,
+! ! !const T1 &  !_t1_,
+! ! !const T2 &  !_t2_,
+! ! !const M2 &  !_m2_,
+! ! !const M3 &  !_m3_
+! !)  ! !
+!===
+
+|===
+
+[width="100%",cols="50%,50%",]
+|===
+|  a|
+generalized hermitian rank k update: _m1_ = _t1_ * _m1_ + _t2_ * (_m2_ *
+_m3^H^_) + (_m3_ * (_t2_ * _m2_)^H^)
+
+*Todo:*::
+  use opb_prod()
+
+|===
+
+'''''
+
+Copyright (©) 2000-2004 Michael Stevens, Mathias Koch, Joerg Walter,
+Gunter Winkler +
+Copyright (©) 2021 Shikhar Vashistha +
+Use, modification and distribution are subject to the Boost Software
+License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt).
